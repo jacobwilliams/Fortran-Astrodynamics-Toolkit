@@ -19,6 +19,7 @@
     
     public :: heikkinen
     public :: olson
+    public :: direct
     
     contains
 !*****************************************************************************************    
@@ -88,9 +89,9 @@
     lon = atan2( y, x )
         
     end subroutine heikkinen
-!******************************************************************************** 
+!*****************************************************************************************
 
-!********************************************************************************    
+!*****************************************************************************************
     pure subroutine olson(rvec, a, b, h, long, lat)
 !*****************************************************************************************
 !****f* geodesy_module/olson
@@ -117,16 +118,16 @@
     real(wp),intent(in)  :: a                    !geoid semimajor axis [km]
     real(wp),intent(in)  :: b                    !geoid semiminor axis [km]
     real(wp),intent(out) :: h                    !geodetic altitude [km]
-    real(wp),intent(out) :: long                !longitude [rad]
-    real(wp),intent(out) :: lat                    !geodetic latitude [rad]
+    real(wp),intent(out) :: long                 !longitude [rad]
+    real(wp),intent(out) :: lat                  !geodetic latitude [rad]
     
     real(wp) :: f,x,y,z,e2,a1,a2,a3,a4,a5,a6,w,zp,&
                 w2,r2,r,s2,c2,u,v,s,ss,c,g,rg,rf,m,p,z2
     
-    x    = rvec(1)                
-    y    = rvec(2)                
-    z    = rvec(3)                
-    f    = (a-b)/a
+    x  = rvec(1)                
+    y  = rvec(2)                
+    z  = rvec(3)                
+    f  = (a-b)/a
     e2 = f * (2.0_wp - f)
     a1 = a * e2
     a2 = a1 * a1
@@ -182,7 +183,92 @@
     end if
             
     end subroutine olson    
-!********************************************************************************    
+!*****************************************************************************************
+ 
+!*****************************************************************************************
+    subroutine direct(a,f,glat1,glon1,glat2,glon2,faz,baz,s)
+!*****************************************************************************************
+!****f* geodesy_module/direct
+!
+!  NAME
+!    direct
+!
+!  DESCRIPTION
+!    Solve the “direct” geodetic problem: given the latitude and longitude of one 
+!    point and the azimuth and distance to a second point, determine the latitude 
+!    and longitude of that second point.  The solution is obtained using the 
+!    algorithm by Vincenty.
+!
+!  SEE ALSO
+!   [1] T. Vincenty, “Direct and Inverse Solutions of Geodesics on the 
+!        Ellipsoid with Application of Nested Equations”, 
+!        Survey Review XXII. 176, April 1975.
+!        http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf
+!    [2] http://www.ngs.noaa.gov/PC_PROD/Inv_Fwd/
+!
+!  AUTHOR
+!    Jacob Williams
+!
+!  SOURCE
+
+    implicit none
+
+    real(wp),intent(in)  :: a        !semimajor axis of ellipsoid [m]
+    real(wp),intent(in)  :: f        !flattening of ellipsoid [-]            
+    real(wp),intent(in)  :: glat1    !latitude of 1 [rad]
+    real(wp),intent(in)  :: glon1    !longitude of 1 [rad]
+    real(wp),intent(in)  :: faz      !forward azimuth 1->2 [rad]
+    real(wp),intent(in)  :: s        !distance from 1->2 [m]
+    real(wp),intent(out) :: glat2    !latitude of 2 [rad]
+    real(wp),intent(out) :: glon2    !longitude of 2 [rad]
+    real(wp),intent(out) :: baz      !back azimuth 2->1 [rad]
+
+    real(wp) :: r,tu,sf,cf,cu,su,sa,csa,c2a,x,c,d,y,sy,cy,cz,e
+
+    real(wp),parameter :: pi  = acos(-1.0_wp)
+    real(wp),parameter :: eps = 0.5e-13_wp
+
+    r = 1.0_wp-f
+    tu = r*sin(glat1)/cos(glat1)
+    sf = sin(faz)
+    cf = cos(faz)
+    baz = 0.0_wp
+    if (cf/=0.0_wp) baz = atan2(tu,cf)*2.0_wp
+    cu = 1.0_wp/sqrt(tu*tu+1.0_wp)
+    su = tu*cu
+    sa = cu*sf
+    c2a = -sa*sa+1.0_wp
+    x = sqrt((1.0_wp/r/r-1.0_wp)*c2a+1.0_wp)+1.0_wp
+    x = (x-2.0_wp)/x
+    c = 1.0_wp-x
+    c = (x*x/4.0_wp+1.0_wp)/c
+    d = (0.375_wp*x*x-1.0_wp)*x
+    tu = s/r/a/c
+    y = tu
+    do
+        sy = sin(y)
+        cy = cos(y)
+        cz = cos(baz+y)
+        e = cz*cz*2.0_wp-1.0_wp
+        c = y
+        x = e*cy
+        y = e+e-1.0_wp
+        y = (((sy*sy*4.0_wp-3.0_wp)*y*cz*d/6.0_wp+x)*d/4.0_wp-cz)*sy*d+tu
+        if (abs(y-c)<=eps) exit
+    end do
+    baz = cu*cy*cf-su*sy
+    c = r*sqrt(sa*sa+baz*baz)
+    d = su*cy+cu*sy*cf
+    glat2 = atan2(d,c)
+    c = cu*cy-su*sy*cf
+    x = atan2(sy*sf,c)
+    c = ((-3.0_wp*c2a+4.0_wp)*f+4.0_wp)*c2a*f/16.0_wp
+    d = ((e*cy*c+cz)*sy*c+y)*sa
+    glon2 = glon1+x-(1.0_wp-c)*d*f
+    baz = atan2(sa,baz)+pi
+
+    end subroutine direct
+!*****************************************************************************************
        
 !*****************************************************************************************    
     end module geodesy_module
