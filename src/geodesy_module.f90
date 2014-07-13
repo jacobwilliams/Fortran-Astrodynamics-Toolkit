@@ -20,6 +20,7 @@
     public :: heikkinen
     public :: olson
     public :: direct
+    public :: geodetic_to_cartesian
     
     contains
 !*****************************************************************************************    
@@ -268,6 +269,55 @@
     baz = atan2(sa,baz)+pi
 
     end subroutine direct
+!*****************************************************************************************
+
+!*****************************************************************************************
+	subroutine geodetic_to_cartesian(a,b,glat,lon,h,r)
+!*****************************************************************************************
+!****f* geodesy_module/geodetic_to_cartesian
+!
+!  NAME
+!	geodetic_to_cartesian
+!
+!  DESCRIPTION
+!	Geodetic latitude, longitude, and height to Cartesian position vector.
+!
+!  SEE ALSO
+!    [1] E. D. Kaplan, “Understanding GPS: Principles and Applications”, 
+!        Artech House, 1996.
+!
+!  AUTHOR
+!	Jacob Williams
+!
+!  SOURCE
+	
+	implicit none
+	
+	real(wp),intent(in) :: a				!geoid semimajor axis [km]
+	real(wp),intent(in) :: b				!geoid semiminor axis [km]
+	real(wp),intent(in) :: glat				!geodetic latitude [rad]
+	real(wp),intent(in) :: lon				!longitude [rad]
+	real(wp),intent(in) :: h				!geodetic altitude [km]
+	real(wp),dimension(3),intent(out) :: r	!Cartesian position vector [x,y,z]
+
+	real(wp) :: e2,slat,clat,slon,clon,tlat,ome2,d,q,aod
+
+	slat	= sin(glat)
+	clat	= cos(glat)
+	tlat	= tan(glat)
+	slon	= sin(lon)
+	clon	= cos(lon)
+	e2		= 1.0_wp - (b*b)/(a*a)
+	ome2	= 1.0_wp - e2
+	d		= sqrt( 1.0_wp + ome2*tlat*tlat )
+	q		= sqrt( 1.0_wp - e2*slat*slat   )
+	aod 	= a/d
+	
+	r(1) = aod*clon + h*clon*clat
+	r(2) = aod*slon + h*slon*clat
+	r(3) = a*ome2*slat/q + h*slat
+		
+	end subroutine geodetic_to_cartesian
 !*****************************************************************************************
        
 !*****************************************************************************************    
