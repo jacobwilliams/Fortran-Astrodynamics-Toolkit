@@ -48,8 +48,6 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-    subroutine solve_lambert_izzo(r1,r2,tof,mu,long_way,multi_revs,v1,v2,status_ok)
-!*****************************************************************************************
 !****f* lambert_module/solve_lambert_izzo
 !
 !  NAME
@@ -67,6 +65,8 @@
 !        Astrodynamics (Revised Edition)", AIAA Education Series, 1999.
 !
 !  SOURCE
+
+    subroutine solve_lambert_izzo(r1,r2,tof,mu,long_way,multi_revs,v1,v2,status_ok)
 
     implicit none
 
@@ -443,8 +443,6 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-    subroutine solve_lambert_gooding(r1,r2,tof,mu,long_way,multi_revs,v1,v2,status_ok)
-!*****************************************************************************************
 !****f* lambert_module/solve_lambert_gooding
 !
 !  NAME
@@ -463,6 +461,8 @@
 !        http://derastrodynamics.com/docs/lambert_papers_v1.zip
 !
 !  SOURCE
+
+    subroutine solve_lambert_gooding(r1,r2,tof,mu,long_way,multi_revs,v1,v2,status_ok)
 
     implicit none
 
