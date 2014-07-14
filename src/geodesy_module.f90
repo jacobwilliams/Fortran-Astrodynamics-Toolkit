@@ -21,7 +21,7 @@
     public :: olson
     public :: direct
     public :: geodetic_to_cartesian
-    public :: great_circle_distance_sphere
+    public :: great_circle_distance
     
     contains
 !*****************************************************************************************    
@@ -322,50 +322,53 @@
 !*****************************************************************************************
 
 !*****************************************************************************************    
-!****f* geodesy_module/great_circle_distance_sphere
+!****f* geodesy_module/great_circle_distance
 !
 !  NAME
-!    great_circle_distance_sphere
+!    great_circle_distance
 !
 !  DESCRIPTION
-!    Great circle distance on a spherical body.
+!    Great circle distance on a spherical body, using the Vincenty algorithm.
 !
 !  SEE ALSO
-!    http://naif.jpl.nasa.gov/pub/naif/toolkit_docs/FORTRAN/spicelib/sphsd.html
+!    [1] T. Vincenty, "Direct and Inverse Solutions of Geodesics on the 
+!        Ellipsoid with Application of Nested Equations", 
+!        Survey Review XXII. 176, April 1975.
+!        http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf
 !
 !  AUTHOR
 !    Jacob Williams, 7/13/2014
 !
 !  SOURCE
 
-    function great_circle_distance_sphere(radius,long1,lat1,long2,lat2) result(d)
+    function great_circle_distance(r,long1,lat1,long2,lat2) result(d)
 
     implicit none
 
-    real(wp)            :: d        !great circle distance from 1 to 2 [km]
-    real(wp),intent(in) :: radius   !radius of the body [km]
-    real(wp),intent(in) :: long1    !longitude of first site [rad]
-    real(wp),intent(in) :: lat1     !latitude of the first site [rad]
-    real(wp),intent(in) :: long2    !longitude of the second site [rad]
-    real(wp),intent(in) :: lat2     !latitude of the second site [rad]
+    real(wp)            :: d        ! great circle distance from 1 to 2 [km]
+    real(wp),intent(in) :: r        ! radius of the body [km]
+    real(wp),intent(in) :: long1    ! longitude of first site [rad]
+    real(wp),intent(in) :: lat1     ! latitude of the first site [rad]
+    real(wp),intent(in) :: long2    ! longitude of the second site [rad]
+    real(wp),intent(in) :: lat2     ! latitude of the second site [rad]
 
-    real(wp) :: s,c
+    real(wp) :: c1,s1,c2,s2,dlat,dlon,clon,slon
 
-    if ( radius <= 0.0_wp ) then
+    !Compute aux variables:
+    dlat  = lat1-lat2
+    dlon  = long1-long2
+    c1    = cos(lat1)
+    s1    = sin(lat1)
+    c2    = cos(lat2)
+    s2    = sin(lat2)
+    clon  = cos(dlon)
+    slon  = sin(dlon)
+        
+    d = r*atan2( sqrt((c2*slon)**2+(c1*s2-s1*c2*clon)**2), (s1*s2+c1*c2*clon) )
+                     
+    end function great_circle_distance
+!*****************************************************************************************
 
-        d = 0.0_wp
-
-    else
-
-        s = sin(lat1)*sin(lat2)
-        c = cos(long1-long2)*(cos(lat1-lat2)-s)+s
-        d = radius * acos(max(-1.0_wp,min(1.0_wp,c)))
-
-    end if
-    
-    end function great_circle_distance_sphere
-!*****************************************************************************************    
-       
 !*****************************************************************************************    
     end module geodesy_module
 !*****************************************************************************************    
