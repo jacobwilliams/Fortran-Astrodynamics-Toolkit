@@ -50,7 +50,7 @@
 !*****************************************************************************************
     subroutine solve_lambert_izzo(r1,r2,tof,mu,long_way,multi_revs,v1,v2,status_ok)
 !*****************************************************************************************
-!****f* vector_module/lambert_module
+!****f* lambert_module/solve_lambert_izzo
 !
 !  NAME
 !    solve_lambert_izzo
@@ -445,7 +445,7 @@
 !*****************************************************************************************
     subroutine solve_lambert_gooding(r1,r2,tof,mu,long_way,multi_revs,v1,v2,status_ok)
 !*****************************************************************************************
-!****f* vector_module/lambert_module
+!****f* lambert_module/solve_lambert_gooding
 !
 !  NAME
 !    solve_lambert_gooding

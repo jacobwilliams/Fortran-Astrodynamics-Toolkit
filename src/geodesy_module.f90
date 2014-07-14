@@ -26,8 +26,6 @@
 !*****************************************************************************************    
      
 !*****************************************************************************************
-    pure subroutine heikkinen(rvec, a, b, h, lon, lat)
-!*****************************************************************************************
 !****f* geodesy_module/heikkinen
 !
 !  NAME
@@ -37,16 +35,18 @@
 !    Heikkinen routine for cartesian to geodetic transformation
 !
 !  SEE ALSO
-!    [1] M. Heikkinen, “Geschlossene formeln zur berechnung raumlicher 
-!        geodatischer koordinaten aus rechtwinkligen Koordinaten”. 
+!    [1] M. Heikkinen, "Geschlossene formeln zur berechnung raumlicher 
+!        geodatischer koordinaten aus rechtwinkligen Koordinaten". 
 !        Z. Ermess., 107 (1982), 207-211 (in German).
-!    [2] E. D. Kaplan, “Understanding GPS: Principles and Applications”, 
+!    [2] E. D. Kaplan, "Understanding GPS: Principles and Applications", 
 !        Artech House, 1996.
 !
 !  AUTHOR
 !    Jacob Williams
 !
 !  SOURCE
+
+    pure subroutine heikkinen(rvec, a, b, h, lon, lat)
 
     implicit none
     
@@ -93,8 +93,6 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-    pure subroutine olson(rvec, a, b, h, long, lat)
-!*****************************************************************************************
 !****f* geodesy_module/olson
 !
 !  NAME
@@ -104,7 +102,7 @@
 !    Olson routine for cartesian to geodetic transformation.
 !
 !  SEE ALSO
-!   [1] Olson, D. K., Converting Earth-Centered, Earth-Fixed Coordinates to
+!    [1] Olson, D. K., Converting Earth-Centered, Earth-Fixed Coordinates to
 !       Geodetic Coordinates, IEEE Transactions on Aerospace and Electronic
 !       Systems, 32 (1996) 473-476.
 !
@@ -112,6 +110,8 @@
 !    Jacob Williams
 !
 !  SOURCE
+
+    pure subroutine olson(rvec, a, b, h, long, lat)
     
     implicit none
     
@@ -187,22 +187,20 @@
 !*****************************************************************************************
  
 !*****************************************************************************************
-    subroutine direct(a,f,glat1,glon1,glat2,glon2,faz,baz,s)
-!*****************************************************************************************
 !****f* geodesy_module/direct
 !
 !  NAME
 !    direct
 !
 !  DESCRIPTION
-!    Solve the “direct” geodetic problem: given the latitude and longitude of one 
+!    Solve the "direct" geodetic problem: given the latitude and longitude of one 
 !    point and the azimuth and distance to a second point, determine the latitude 
 !    and longitude of that second point.  The solution is obtained using the 
 !    algorithm by Vincenty.
 !
 !  SEE ALSO
-!   [1] T. Vincenty, “Direct and Inverse Solutions of Geodesics on the 
-!        Ellipsoid with Application of Nested Equations”, 
+!    [1] T. Vincenty, "Direct and Inverse Solutions of Geodesics on the 
+!        Ellipsoid with Application of Nested Equations", 
 !        Survey Review XXII. 176, April 1975.
 !        http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf
 !    [2] http://www.ngs.noaa.gov/PC_PROD/Inv_Fwd/
@@ -211,6 +209,8 @@
 !    Jacob Williams
 !
 !  SOURCE
+
+    subroutine direct(a,f,glat1,glon1,glat2,glon2,faz,baz,s)
 
     implicit none
 
@@ -272,24 +272,24 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-	subroutine geodetic_to_cartesian(a,b,glat,lon,h,r)
-!*****************************************************************************************
 !****f* geodesy_module/geodetic_to_cartesian
 !
 !  NAME
-!	geodetic_to_cartesian
+!    geodetic_to_cartesian
 !
 !  DESCRIPTION
-!	Geodetic latitude, longitude, and height to Cartesian position vector.
+!    Geodetic latitude, longitude, and height to Cartesian position vector.
 !
 !  SEE ALSO
-!    [1] E. D. Kaplan, “Understanding GPS: Principles and Applications”, 
+!    [1] E. D. Kaplan, "Understanding GPS: Principles and Applications", 
 !        Artech House, 1996.
 !
 !  AUTHOR
-!	Jacob Williams
+!    Jacob Williams
 !
 !  SOURCE
+
+	subroutine geodetic_to_cartesian(a,b,glat,lon,h,r)
 	
 	implicit none
 	
