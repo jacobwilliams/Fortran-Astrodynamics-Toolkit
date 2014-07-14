@@ -21,6 +21,7 @@
     public :: olson
     public :: direct
     public :: geodetic_to_cartesian
+    public :: great_circle_distance_sphere
     
     contains
 !*****************************************************************************************    
@@ -289,36 +290,81 @@
 !
 !  SOURCE
 
-	subroutine geodetic_to_cartesian(a,b,glat,lon,h,r)
-	
-	implicit none
-	
-	real(wp),intent(in) :: a				!geoid semimajor axis [km]
-	real(wp),intent(in) :: b				!geoid semiminor axis [km]
-	real(wp),intent(in) :: glat				!geodetic latitude [rad]
-	real(wp),intent(in) :: lon				!longitude [rad]
-	real(wp),intent(in) :: h				!geodetic altitude [km]
-	real(wp),dimension(3),intent(out) :: r	!Cartesian position vector [x,y,z]
+    subroutine geodetic_to_cartesian(a,b,glat,lon,h,r)
+    
+    implicit none
+    
+    real(wp),intent(in) :: a                !geoid semimajor axis [km]
+    real(wp),intent(in) :: b                !geoid semiminor axis [km]
+    real(wp),intent(in) :: glat             !geodetic latitude [rad]
+    real(wp),intent(in) :: lon              !longitude [rad]
+    real(wp),intent(in) :: h                !geodetic altitude [km]
+    real(wp),dimension(3),intent(out) :: r  !Cartesian position vector [x,y,z]
 
-	real(wp) :: e2,slat,clat,slon,clon,tlat,ome2,d,q,aod
+    real(wp) :: e2,slat,clat,slon,clon,tlat,ome2,d,q,aod
 
-	slat	= sin(glat)
-	clat	= cos(glat)
-	tlat	= tan(glat)
-	slon	= sin(lon)
-	clon	= cos(lon)
-	e2		= 1.0_wp - (b*b)/(a*a)
-	ome2	= 1.0_wp - e2
-	d		= sqrt( 1.0_wp + ome2*tlat*tlat )
-	q		= sqrt( 1.0_wp - e2*slat*slat   )
-	aod 	= a/d
-	
-	r(1) = aod*clon + h*clon*clat
-	r(2) = aod*slon + h*slon*clat
-	r(3) = a*ome2*slat/q + h*slat
-		
-	end subroutine geodetic_to_cartesian
+    slat    = sin(glat)
+    clat    = cos(glat)
+    tlat    = tan(glat)
+    slon    = sin(lon)
+    clon    = cos(lon)
+    e2      = 1.0_wp - (b*b)/(a*a)
+    ome2    = 1.0_wp - e2
+    d       = sqrt( 1.0_wp + ome2*tlat*tlat )
+    q       = sqrt( 1.0_wp - e2*slat*slat   )
+    aod     = a/d
+    
+    r(1) = aod*clon + h*clon*clat
+    r(2) = aod*slon + h*slon*clat
+    r(3) = a*ome2*slat/q + h*slat
+        
+    end subroutine geodetic_to_cartesian
 !*****************************************************************************************
+
+!*****************************************************************************************    
+!****f* geodesy_module/great_circle_distance_sphere
+!
+!  NAME
+!    great_circle_distance_sphere
+!
+!  DESCRIPTION
+!    Great circle distance on a spherical body.
+!
+!  SEE ALSO
+!    http://naif.jpl.nasa.gov/pub/naif/toolkit_docs/FORTRAN/spicelib/sphsd.html
+!
+!  AUTHOR
+!    Jacob Williams, 7/13/2014
+!
+!  SOURCE
+
+    function great_circle_distance_sphere(radius,long1,lat1,long2,lat2) result(d)
+
+    implicit none
+
+    real(wp)            :: d        !great circle distance from 1 to 2 [km]
+    real(wp),intent(in) :: radius   !radius of the body [km]
+    real(wp),intent(in) :: long1    !longitude of first site [rad]
+    real(wp),intent(in) :: lat1     !latitude of the first site [rad]
+    real(wp),intent(in) :: long2    !longitude of the second site [rad]
+    real(wp),intent(in) :: lat2     !latitude of the second site [rad]
+
+    real(wp) :: s,c
+
+    if ( radius <= 0.0_wp ) then
+
+        d = 0.0_wp
+
+    else
+
+        s = sin(lat1)*sin(lat2)
+        c = cos(long1-long2)*(cos(lat1-lat2)-s)+s
+        d = radius * acos(max(-1.0_wp,min(1.0_wp,c)))
+
+    end if
+    
+    end function great_circle_distance_sphere
+!*****************************************************************************************    
        
 !*****************************************************************************************    
     end module geodesy_module
