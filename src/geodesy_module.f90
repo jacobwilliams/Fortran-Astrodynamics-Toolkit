@@ -352,15 +352,14 @@
     real(wp),intent(in) :: long2    ! longitude of the second site [rad]
     real(wp),intent(in) :: lat2     ! latitude of the second site [rad]
 
-    real(wp) :: c1,s1,c2,s2,dlat,dlon,clon,slon
+    real(wp) :: c1,s1,c2,s2,dlon,clon,slon
 
     !Compute aux variables:
-    dlat  = lat1-lat2
-    dlon  = long1-long2
     c1    = cos(lat1)
     s1    = sin(lat1)
     c2    = cos(lat2)
     s2    = sin(lat2)
+    dlon  = long1-long2
     clon  = cos(dlon)
     slon  = sin(dlon)
         
