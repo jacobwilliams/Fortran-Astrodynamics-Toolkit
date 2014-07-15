@@ -42,9 +42,9 @@
    30 format (//5x,'2d output with m =',i4,',  n =',i4,&
         '  and  npt =',i4)
       do 40 j=1,m
-      temp=dfloat(j)*twopi/dfloat(m)
-      x(2*j-1)=dcos(temp)
-   40 x(2*j)=dsin(temp)
+      temp=dble(j)*twopi/dble(m)
+      x(2*j-1)=cos(temp)
+   40 x(2*j)=sin(temp)
       call bobyqa (n,npt,x,xl,xu,rhobeg,rhoend,iprint,maxfun,w)
    50 continue
       m=m+m
@@ -56,7 +56,11 @@
 !*****************************************************************************************
 	module bobyqa_module
 !*****************************************************************************************
-      
+    
+    private
+    
+    public :: bobyqa
+    
 	contains
 !*****************************************************************************************
 
@@ -67,8 +71,8 @@
       do 10 i=4,n,2
       do 10 j=2,i-2,2
       temp=(x(i-1)-x(j-1))**2+(x(i)-x(j))**2
-      temp=dmax1(temp,1.0d-6)
-   10 f=f+1.0d0/dsqrt(temp)
+      temp=max(temp,1.0d-6)
+   10 f=f+1.0d0/sqrt(temp)
       return
       end subroutine calfun
 
@@ -180,7 +184,7 @@
           else
               x(j)=xl(j)+rhobeg
               w(jsl)=-rhobeg
-              w(jsu)=dmax1(xu(j)-x(j),rhobeg)
+              w(jsu)=max(xu(j)-x(j),rhobeg)
           end if
       else if (w(jsu) <= rhobeg) then
           if (w(jsu) <= zero) then
@@ -189,7 +193,7 @@
               w(jsu)=zero
           else
               x(j)=xu(j)-rhobeg
-              w(jsl)=dmin1(xl(j)-x(j),-rhobeg)
+              w(jsl)=min(xl(j)-x(j),-rhobeg)
               w(jsu)=rhobeg
           end if
       end if
@@ -319,7 +323,7 @@
 !
    60 call trsbox (n,npt,xpt,xopt,gopt,hq,pq,sl,su,delta,xnew,d,&
         w,w(np),w(np+n),w(np+2*n),w(np+3*n),dsq,crvmin)
-      dnorm=dmin1(delta,dsqrt(dsq))
+      dnorm=min(delta,sqrt(dsq))
       if (dnorm < half*rho) then
           ntrits=-1
           distsq=(ten*rho)**2
@@ -331,7 +335,7 @@
 !     the last three interpolation points compare favourably with predictions
 !     of likely improvements to the model within distance half*rho of xopt.
 !
-          errbig=dmax1(diffa,diffb,diffc)
+          errbig=max(diffa,diffb,diffc)
           frhosq=0.125d0*rho*rho
           if (crvmin > zero .and. errbig > frhosq*crvmin)&
              goto 650
@@ -556,13 +560,13 @@
           distsq=zero
           do 340 j=1,n
   340     distsq=distsq+(xpt(k,j)-xopt(j))**2
-          temp=dmax1(one,(distsq/delsq)**2)
+          temp=max(one,(distsq/delsq)**2)
           if (temp*den > scaden) then
               scaden=temp*den
               knew=k
               denom=den
           end if
-          biglsq=dmax1(biglsq,temp*vlag(k)**2)
+          biglsq=max(biglsq,temp*vlag(k)**2)
   350     continue
           if (scaden <= half*biglsq) then
               if (nf > nresc) goto 190
@@ -579,7 +583,7 @@
 !       the limit on the number of calculations of f has been reached.
 !
   360 do 380 i=1,n
-      x(i)=dmin1(dmax1(xl(i),xbase(i)+xnew(i)),xu(i))
+      x(i)=min(max(xl(i),xbase(i)+xnew(i)),xu(i))
       if (xnew(i) == sl(i)) x(i)=xl(i)
       if (xnew(i) == su(i)) x(i)=xu(i)
   380 continue
@@ -619,7 +623,7 @@
       diff=f-fopt-vquad
       diffc=diffb
       diffb=diffa
-      diffa=dabs(diff)
+      diffa=abs(diff)
       if (dnorm > rho) nfsav=nf
 !
 !     pick the next value of delta after a trust region step.
@@ -633,11 +637,11 @@
           end if
           ratio=(f-fopt)/vquad
           if (ratio <= tenth) then
-              delta=dmin1(half*delta,dnorm)
+              delta=min(half*delta,dnorm)
           else if (ratio <= 0.7d0) then
-              delta=dmax1(half*delta,dnorm)
+              delta=max(half*delta,dnorm)
           else
-              delta=dmax1(half*delta,dnorm+dnorm)
+              delta=max(half*delta,dnorm+dnorm)
           end if
           if (delta <= 1.5d0*rho) delta=rho
 !
@@ -658,13 +662,13 @@
               distsq=zero
               do 450 j=1,n
   450         distsq=distsq+(xpt(k,j)-xnew(j))**2
-              temp=dmax1(one,(distsq/delsq)**2)
+              temp=max(one,(distsq/delsq)**2)
               if (temp*den > scaden) then
                   scaden=temp*den
                   knew=k
                   denom=den
               end if
-  460         biglsq=dmax1(biglsq,temp*vlag(k)**2)
+  460         biglsq=max(biglsq,temp*vlag(k)**2)
               if (scaden <= half*biglsq) then
                   knew=ksav
                   denom=densav
@@ -758,11 +762,11 @@
           do 620 k=1,npt
   620     sum=sum+bmat(k,i)*vlag(k)+xpt(k,i)*w(k)
           if (xopt(i) == sl(i)) then
-              gqsq=gqsq+dmin1(zero,gopt(i))**2
-              gisq=gisq+dmin1(zero,sum)**2
+              gqsq=gqsq+min(zero,gopt(i))**2
+              gisq=gisq+min(zero,sum)**2
           else if (xopt(i) == su(i)) then
-              gqsq=gqsq+dmax1(zero,gopt(i))**2
-              gisq=gisq+dmax1(zero,sum)**2
+              gqsq=gqsq+max(zero,gopt(i))**2
+              gisq=gisq+max(zero,sum)**2
           else
               gqsq=gqsq+gopt(i)**2
               gisq=gisq+sum*sum
@@ -794,7 +798,7 @@
 !     alternatively, find out if the interpolation points are close enough
 !       to the best point so far.
 !
-      distsq=dmax1((two*delta)**2,(ten*rho)**2)
+      distsq=max((two*delta)**2,(ten*rho)**2)
   650 knew=0
       do 670 k=1,npt
       sum=zero
@@ -813,19 +817,19 @@
 !     current rho are complete.
 !
       if (knew > 0) then
-          dist=dsqrt(distsq)
+          dist=sqrt(distsq)
           if (ntrits == -1) then
-              delta=dmin1(tenth*delta,half*dist)
+              delta=min(tenth*delta,half*dist)
               if (delta <= 1.5d0*rho) delta=rho
           end if
           ntrits=0
-          adelt=dmax1(dmin1(tenth*dist,delta),rho)
+          adelt=max(min(tenth*dist,delta),rho)
           dsq=adelt*adelt
           goto 90
       end if
       if (ntrits == -1) goto 680
       if (ratio > zero) goto 60
-      if (dmax1(delta,dnorm) > rho) goto 60
+      if (max(delta,dnorm) > rho) goto 60
 !
 !     the calculations with the current value of rho are complete. pick the
 !       next values of rho and delta.
@@ -836,11 +840,11 @@
           if (ratio <= 16.0d0) then
               rho=rhoend
           else if (ratio <= 250.0d0) then
-              rho=dsqrt(ratio)*rhoend
+              rho=sqrt(ratio)*rhoend
           else
               rho=tenth*rho
           end if
-          delta=dmax1(delta,rho)
+          delta=max(delta,rho)
           if (iprint >= 2) then
               if (iprint >= 3) print 690
   690         format (5x)
@@ -862,7 +866,7 @@
       if (ntrits == -1) goto 360
   720 if (fval(kopt) <= fsave) then
           do 730 i=1,n
-          x(i)=dmin1(dmax1(xl(i),xbase(i)+xopt(i)),xu(i))
+          x(i)=min(max(xl(i),xbase(i)+xopt(i)),xu(i))
           if (xopt(i) == sl(i)) x(i)=xl(i)
           if (xopt(i) == su(i)) x(i)=xu(i)
   730     continue
@@ -919,7 +923,7 @@
       half=0.5d0
       one=1.0d0
       zero=0.0d0
-      const=one+dsqrt(2.0d0)
+      const=one+sqrt(2.0d0)
       do 10 k=1,npt
    10 hcol(k)=zero
       do 20 j=1,npt-n-1
@@ -956,11 +960,11 @@
       temp=xpt(k,i)-xopt(i)
       dderiv=dderiv+glag(i)*temp
    60 distsq=distsq+temp*temp
-      subd=adelt/dsqrt(distsq)
+      subd=adelt/sqrt(distsq)
       slbd=-subd
       ilbd=0
       iubd=0
-      sumin=dmin1(one,subd)
+      sumin=min(one,subd)
 !
 !     revise slbd and subd if necessary because of the bounds in sl and su.
 !
@@ -972,7 +976,7 @@
               ilbd=-i
           end if
           if (subd*temp > su(i)-xopt(i)) then
-              subd=dmax1(sumin,(su(i)-xopt(i))/temp)
+              subd=max(sumin,(su(i)-xopt(i))/temp)
               iubd=i
           end if
       else if (temp < zero) then
@@ -981,7 +985,7 @@
               ilbd=i
           end if
           if (subd*temp < sl(i)-xopt(i)) then
-              subd=dmax1(sumin,(sl(i)-xopt(i))/temp)
+              subd=max(sumin,(sl(i)-xopt(i))/temp)
               iubd=-i
           end if
       end if
@@ -996,7 +1000,7 @@
           vlag=slbd*(dderiv-slbd*diff)
           isbd=ilbd
           temp=subd*(dderiv-subd*diff)
-          if (dabs(temp) > dabs(vlag)) then
+          if (abs(temp) > abs(vlag)) then
               step=subd
               vlag=temp
               isbd=iubd
@@ -1006,7 +1010,7 @@
           tempb=tempd-diff*subd
           if (tempa*tempb < zero) then
               temp=tempd*tempd/diff
-              if (dabs(temp) > dabs(vlag)) then
+              if (abs(temp) > abs(vlag)) then
                   step=tempd/diff
                   vlag=temp
                   isbd=0
@@ -1020,13 +1024,13 @@
           vlag=slbd*(one-slbd)
           isbd=ilbd
           temp=subd*(one-subd)
-          if (dabs(temp) > dabs(vlag)) then
+          if (abs(temp) > abs(vlag)) then
               step=subd
               vlag=temp
               isbd=iubd
           end if
           if (subd > half) then
-              if (dabs(vlag) < 0.25d0) then
+              if (abs(vlag) < 0.25d0) then
                   step=half
                   vlag=0.25d0
                   isbd=0
@@ -1051,7 +1055,7 @@
 !
       do 90 i=1,n
       temp=xopt(i)+stpsav*(xpt(ksav,i)-xopt(i))
-   90 xnew(i)=dmax1(sl(i),dmin1(su(i),temp))
+   90 xnew(i)=max(sl(i),min(su(i),temp))
       if (ibdsav < 0) xnew(-ibdsav)=sl(-ibdsav)
       if (ibdsav > 0) xnew(ibdsav)=su(ibdsav)
 !
@@ -1065,8 +1069,8 @@
       ggfree=zero
       do 110 i=1,n
       w(i)=zero
-      tempa=dmin1(xopt(i)-sl(i),glag(i))
-      tempb=dmax1(xopt(i)-su(i),glag(i))
+      tempa=min(xopt(i)-sl(i),glag(i))
+      tempb=max(xopt(i)-su(i),glag(i))
       if (tempa > zero .or. tempb < zero) then
           w(i)=bigstp
           ggfree=ggfree+glag(i)**2
@@ -1082,7 +1086,7 @@
   120 temp=adelt*adelt-wfixsq
       if (temp > zero) then
           wsqsav=wfixsq
-          step=dsqrt(temp/ggfree)
+          step=sqrt(temp/ggfree)
           ggfree=zero
           do 130 i=1,n
           if (w(i) == bigstp) then
@@ -1108,7 +1112,7 @@
       do 140 i=1,n
       if (w(i) == bigstp) then
           w(i)=-step*glag(i)
-          xalt(i)=dmax1(sl(i),dmin1(su(i),xopt(i)+w(i)))
+          xalt(i)=max(sl(i),min(su(i),xopt(i)+w(i)))
       else if (w(i) == zero) then
           xalt(i)=xopt(i)
       else if (glag(i) > zero) then
@@ -1134,7 +1138,7 @@
           scale=-gw/curv
           do 170 i=1,n
           temp=xopt(i)+scale*w(i)
-  170     xalt(i)=dmax1(sl(i),dmin1(su(i),temp))
+  170     xalt(i)=max(sl(i),min(su(i),temp))
           cauchy=(half*gw*scale)**2
       else
           cauchy=(gw+half*curv)**2
@@ -1227,8 +1231,8 @@
           else if (nfm > n) then
               stepa=xpt(nf-n,nfx)
               stepb=-rhobeg
-              if (sl(nfx) == zero) stepb=dmin1(two*rhobeg,su(nfx))
-              if (su(nfx) == zero) stepb=dmax1(-two*rhobeg,sl(nfx))
+              if (sl(nfx) == zero) stepb=min(two*rhobeg,su(nfx))
+              if (su(nfx) == zero) stepb=max(-two*rhobeg,sl(nfx))
               xpt(nf,nfx)=stepb
           end if
       else
@@ -1248,7 +1252,7 @@
 !     its index are required.
 !
       do 60 j=1,n
-      x(j)=dmin1(dmax1(xl(j),xbase(j)+xpt(nf,j)),xu(j))
+      x(j)=min(max(xl(j),xbase(j)+xpt(nf,j)),xu(j))
       if (xpt(nf,j) == sl(j)) x(j)=xl(j)
       if (xpt(nf,j) == su(j)) x(j)=xu(j)
    60 continue
@@ -1298,8 +1302,8 @@
               bmat(1,nfx)=-(stepa+stepb)/(stepa*stepb)
               bmat(nf,nfx)=-half/xpt(nf-n,nfx)
               bmat(nf-n,nfx)=-bmat(1,nfx)-bmat(nf,nfx)
-              zmat(1,nfx)=dsqrt(two)/(stepa*stepb)
-              zmat(nf,nfx)=dsqrt(half)/rhosq
+              zmat(1,nfx)=sqrt(two)/(stepa*stepb)
+              zmat(nf,nfx)=sqrt(half)/rhosq
               zmat(nf-n,nfx)=-zmat(1,nfx)-zmat(nf,nfx)
           end if
 !
@@ -1371,7 +1375,7 @@
       one=1.0d0
       zero=0.0d0
       np=n+1
-      sfrac=half/dfloat(np)
+      sfrac=half/dble(np)
       nptm=npt-np
 !
 !     shift the interpolation points so that xopt becomes the origin, and set
@@ -1390,7 +1394,7 @@
    10 distsq=distsq+xpt(k,j)**2
       sumpq=sumpq+pq(k)
       w(ndim+k)=distsq
-      winc=dmax1(winc,distsq)
+      winc=max(winc,distsq)
       do 20 j=1,nptm
    20 zmat(k,j)=zero
 !
@@ -1414,14 +1418,14 @@
       sl(j)=sl(j)-xopt(j)
       su(j)=su(j)-xopt(j)
       xopt(j)=zero
-      ptsaux(1,j)=dmin1(delta,su(j))
-      ptsaux(2,j)=dmax1(-delta,sl(j))
+      ptsaux(1,j)=min(delta,su(j))
+      ptsaux(2,j)=max(-delta,sl(j))
       if (ptsaux(1,j)+ptsaux(2,j) < zero) then
           temp=ptsaux(1,j)
           ptsaux(1,j)=ptsaux(2,j)
           ptsaux(2,j)=temp
       end if
-      if (dabs(ptsaux(2,j)) < half*dabs(ptsaux(1,j))) then
+      if (abs(ptsaux(2,j)) < half*abs(ptsaux(1,j))) then
           ptsaux(2,j)=half*ptsaux(1,j)
       end if
       do 50 i=1,ndim
@@ -1436,14 +1440,14 @@
       do 60 j=1,n
       jp=j+1
       jpn=jp+n
-      ptsid(jp)=dfloat(j)+sfrac
+      ptsid(jp)=dble(j)+sfrac
       if (jpn <= npt) then
-          ptsid(jpn)=dfloat(j)/dfloat(np)+sfrac
+          ptsid(jpn)=dble(j)/dble(np)+sfrac
           temp=one/(ptsaux(1,j)-ptsaux(2,j))
           bmat(jp,j)=-temp+one/ptsaux(1,j)
           bmat(jpn,j)=temp+one/ptsaux(2,j)
           bmat(1,j)=-bmat(jp,j)-bmat(jpn,j)
-          zmat(1,j)=dsqrt(2.0d0)/dabs(ptsaux(1,j)*ptsaux(2,j))
+          zmat(1,j)=sqrt(2.0d0)/abs(ptsaux(1,j)*ptsaux(2,j))
           zmat(jp,j)=zmat(1,j)*ptsaux(2,j)*temp
           zmat(jpn,j)=-zmat(1,j)*ptsaux(1,j)*temp
       else
@@ -1457,11 +1461,11 @@
 !
       if (npt >= n+np) then
           do 70 k=2*np,npt
-          iw=(dfloat(k-np)-half)/dfloat(n)
+          iw=(dble(k-np)-half)/dble(n)
           ip=k-np-iw*n
           iq=ip+iw
           if (iq > n) iq=iq-n
-          ptsid(k)=dfloat(ip)+dfloat(iq)/dfloat(np)+sfrac
+          ptsid(k)=dble(ip)+dble(iq)/dble(np)+sfrac
           temp=one/(ptsaux(1,ip)*ptsaux(1,iq))
           zmat(1,k-np)=temp
           zmat(ip+1,k-np)=-temp
@@ -1500,7 +1504,7 @@
           call update (n,npt,bmat,zmat,ndim,vlag,beta,denom,knew,w)
           if (nrem == 0) goto 350
           do 110 k=1,npt
-  110     w(ndim+k)=dabs(w(ndim+k))
+  110     w(ndim+k)=abs(w(ndim+k))
       end if
 !
 !     pick the index knew of an original interpolation point that has not
@@ -1532,7 +1536,7 @@
       else
           ip=ptsid(k)
           if (ip > 0) sum=w(npt+ip)*ptsaux(1,ip)
-          iq=dfloat(np)*ptsid(k)-dfloat(ip*np)
+          iq=dble(np)*ptsid(k)-dble(ip*np)
           if (iq > 0) then
               iw=1
               if (ip == 0) iw=2
@@ -1591,7 +1595,7 @@
               denom=den
           end if
       end if
-  250 vlmxsq=dmax1(vlmxsq,vlag(k)**2)
+  250 vlmxsq=max(vlmxsq,vlag(k)**2)
       if (denom <= 1.0d-2*vlmxsq) then
           w(ndim+knew)=-w(ndim+knew)-winc
           goto 120
@@ -1622,7 +1626,7 @@
   270 hq(ih)=hq(ih)+temp*w(i)
       pq(kpt)=zero
       ip=ptsid(kpt)
-      iq=dfloat(np)*ptsid(kpt)-dfloat(ip*np)
+      iq=dble(np)*ptsid(kpt)-dble(ip*np)
       if (ip > 0) then
           xp=ptsaux(1,ip)
           xpt(kpt,ip)=xp
@@ -1659,7 +1663,7 @@
 !     is updated to provide interpolation to the new function value.
 !
       do 290 i=1,n
-      w(i)=dmin1(dmax1(xl(i),xbase(i)+xpt(kpt,i)),xu(i))
+      w(i)=min(max(xl(i),xbase(i)+xpt(kpt,i)),xu(i))
       if (xpt(kpt,i) == sl(i)) w(i)=xl(i)
       if (xpt(kpt,i) == su(i)) w(i)=xu(i)
   290 continue
@@ -1688,7 +1692,7 @@
           pq(k)=pq(k)+temp
       else
           ip=ptsid(k)
-          iq=dfloat(np)*ptsid(k)-dfloat(ip*np)
+          iq=dble(np)*ptsid(k)-dble(ip*np)
           ihq=(iq*iq+iq)/2
           if (ip == 0) then
               hq(ihq)=hq(ihq)+temp*ptsaux(2,iq)**2
@@ -1827,7 +1831,7 @@
       end if
    60 continue
       if (resid <= zero) goto 90
-      temp=dsqrt(stepsq*resid+ds*ds)
+      temp=sqrt(stepsq*resid+ds*ds)
       if (ds < zero) then
           blen=(temp-ds)/stepsq
       else
@@ -1835,7 +1839,7 @@
       end if
       stplen=blen
       if (shs > zero) then
-          stplen=dmin1(blen,gredsq/shs)
+          stplen=min(blen,gredsq/shs)
       end if
 
 !
@@ -1865,7 +1869,7 @@
           iterc=iterc+1
           temp=shs/stepsq
           if (iact == 0 .and. temp > zero) then
-              crvmin=dmin1(crvmin,temp)
+              crvmin=min(crvmin,temp)
               if (crvmin == onemin) crvmin=temp
           end if
           ggsav=gredsq
@@ -1874,7 +1878,7 @@
           gnew(i)=gnew(i)+stplen*hs(i)
           if (xbdi(i) == zero) gredsq=gredsq+gnew(i)**2
    80     d(i)=d(i)+stplen*s(i)
-          sdec=dmax1(stplen*(ggsav-half*stplen*shs),zero)
+          sdec=max(stplen*(ggsav-half*stplen*shs),zero)
           qred=qred+sdec
       end if
 !
@@ -1927,7 +1931,7 @@
   120 iterc=iterc+1
       temp=gredsq*dredsq-dredg*dredg
       if (temp <= 1.0d-4*qred*qred) goto 190
-      temp=dsqrt(temp)
+      temp=sqrt(temp)
       do 130 i=1,n
       if (xbdi(i) == zero) then
           s(i)=(dredg*d(i)-dredsq*gnew(i))/temp
@@ -1961,7 +1965,7 @@
           ssq=d(i)**2+s(i)**2
           temp=ssq-(xopt(i)-sl(i))**2
           if (temp > zero) then
-              temp=dsqrt(temp)-s(i)
+              temp=sqrt(temp)-s(i)
               if (angbd*temp > tempa) then
                   angbd=tempa/temp
                   iact=i
@@ -1970,7 +1974,7 @@
           end if
           temp=ssq-(su(i)-xopt(i))**2
           if (temp > zero) then
-              temp=dsqrt(temp)+s(i)
+              temp=sqrt(temp)+s(i)
               if (angbd*temp > tempb) then
                   angbd=tempb/temp
                   iact=i
@@ -2003,7 +2007,7 @@
       redsav=zero
       iu=17.0d0*angbd+3.1d0
       do 170 i=1,iu
-      angt=angbd*dfloat(i)/dfloat(iu)
+      angt=angbd*dble(i)/dble(iu)
       sth=(angt+angt)/(one+angt*angt)
       temp=shs+angt*(angt*dhd-dhs-dhs)
       rednew=sth*(angt*dredg-sredg-half*sth*temp)
@@ -2022,7 +2026,7 @@
       if (isav == 0) goto 190
       if (isav < iu) then
           temp=(rdnext-rdprev)/(redmax+redmax-rdprev-rdnext)
-          angt=angbd*(dfloat(isav)+half*temp)/dfloat(iu)
+          angt=angbd*(dble(isav)+half*temp)/dble(iu)
       end if
       cth=(one-angt*angt)/(one+angt*angt)
       sth=(angt+angt)/(one+angt*angt)
@@ -2057,7 +2061,7 @@
       if (sdec > 0.01d0*qred) goto 120
   190 dsq=zero
       do 200 i=1,n
-      xnew(i)=dmax1(dmin1(xopt(i)+d(i),su(i)),sl(i))
+      xnew(i)=max(min(xopt(i)+d(i),su(i)),sl(i))
       if (xbdi(i) == onemin) xnew(i)=sl(i)
       if (xbdi(i) == one) xnew(i)=su(i)
       d(i)=xnew(i)-xopt(i)
@@ -2118,15 +2122,15 @@
       ztest=zero
       do 10 k=1,npt
       do 10 j=1,nptm
-   10 ztest=dmax1(ztest,dabs(zmat(k,j)))
+   10 ztest=max(ztest,abs(zmat(k,j)))
       ztest=1.0d-20*ztest
 !
 !     apply the rotations that put zeros in the knew-th row of zmat.
 !
       jl=1
       do 30 j=2,nptm
-      if (dabs(zmat(knew,j)) > ztest) then
-          temp=dsqrt(zmat(knew,1)**2+zmat(knew,j)**2)
+      if (abs(zmat(knew,j)) > ztest) then
+          temp=sqrt(zmat(knew,1)**2+zmat(knew,j)**2)
           tempa=zmat(knew,1)/temp
           tempb=zmat(knew,j)/temp
           do 20 i=1,npt
@@ -2149,7 +2153,7 @@
 !
 !     complete the updating of zmat.
 !
-      temp=dsqrt(denom)
+      temp=sqrt(denom)
       tempb=zmat(knew,1)/temp
       tempa=tau/temp
       do 50 i=1,npt
