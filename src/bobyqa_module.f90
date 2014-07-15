@@ -1,29 +1,68 @@
-! to do : 
-!	move program into a subroutine
-!	make calfun an input
-
-
-
+!*****************************************************************************************
+    module bobyqa_module
+!*****************************************************************************************
+!****h* FAT/bobyqa_module
 !
-!     test problem for bobyqa, the objective function being the sum of
-!     the reciprocals of all pairwise distances between the points p_i,
-!     i=1,2,...,m in two dimensions, where m=n/2 and where the components
-!     of p_i are x(2*i-1) and x(2*i). thus each vector x of n variables
-!     defines the m points p_i. the initial x gives equally spaced points
-!     on a circle. four different choices of the pairs (n,npt) are tried,
-!     namely (10,16), (10,21), (20,26) and (20,41). convergence to a local
-!     minimum that is not global occurs in both the n=10 cases. the details
-!     of the results are highly sensitive to computer rounding errors. the
-!     choice iprint=2 provides the current x and optimal f so far whenever
-!     rho is reduced. the bound constraints of the problem require every
-!     component of x to be in the interval [-1,1].
+!  NAME
+!    bobyqa_module
 !
-	program test
-	use bobyqa_module
-	
-      implicit real*8 (a-h,o-z)
-      dimension x(100),xl(100),xu(100),w(500000)
-      twopi=8.0d0*datan(1.0d0)
+!  DESCRIPTION
+!    The BOBYQA algorithm by M.J.D. Powell.
+!    Its purpose is to seek the least value of a function of 
+!      several variables, when derivatives are not available.  
+!    The name BOBYQA denotes Bound Approximation BY Quadratic
+!      Approximation, the constraints being lower and upper bounds on every
+!      variable, which can be set to huge values for unconstrained variables.
+!
+!  SEE ALSO
+!    http://www.damtp.cam.ac.uk/user/na/NA_papers/NA2009_06.pdf
+!
+!*****************************************************************************************    
+    
+    use kind_module,  only: wp
+    
+    private
+    
+    public :: bobyqa
+    public :: bobyqa_test
+    
+    abstract interface
+        subroutine func(n,x,f)
+            import :: wp
+            implicit none
+            integer,intent(in) :: n
+            real(wp),dimension(n),intent(in) :: x
+            real(wp),intent(out) :: f
+        end subroutine func
+    end interface
+    
+    procedure(func),pointer :: calfun => null()
+    
+    contains
+!*****************************************************************************************
+
+!*****************************************************************************************
+! test problem for bobyqa, the objective function being the sum of
+! the reciprocals of all pairwise distances between the points p_i,
+! i=1,2,...,m in two dimensions, where m=n/2 and where the components
+! of p_i are x(2*i-1) and x(2*i). thus each vector x of n variables
+! defines the m points p_i. the initial x gives equally spaced points
+! on a circle. four different choices of the pairs (n,npt) are tried,
+! namely (10,16), (10,21), (20,26) and (20,41). convergence to a local
+! minimum that is not global occurs in both the n=10 cases. the details
+! of the results are highly sensitive to computer rounding errors. the
+! choice iprint=2 provides the current x and optimal f so far whenever
+! rho is reduced. the bound constraints of the problem require every
+! component of x to be in the interval [-1,1].
+
+    subroutine bobyqa_test()
+
+      implicit real(wp) (a-h,o-z)
+      dimension x(100),xl(100),xu(100)
+    
+      calfun => calfun_test        !set the function
+    
+      twopi=8.0d0*atan(1.0d0)
       bdl=-1.0d0
       bdu=1.0d0
       iprint=2
@@ -31,56 +70,62 @@
       rhobeg=1.0d-1
       rhoend=1.0d-6
       m=5
-   10 n=2*m
-      do 20 i=1,n
-      xl(i)=bdl
-   20 xu(i)=bdu
-      do 50 jcase=1,2
-      npt=n+6
-      if (jcase == 2) npt=2*n+1
-      print 30, m,n,npt
-   30 format (//5x,'2d output with m =',i4,',  n =',i4,&
-        '  and  npt =',i4)
-      do 40 j=1,m
-      temp=dble(j)*twopi/dble(m)
-      x(2*j-1)=cos(temp)
-   40 x(2*j)=sin(temp)
-      call bobyqa (n,npt,x,xl,xu,rhobeg,rhoend,iprint,maxfun,w)
-   50 continue
-      m=m+m
-      if (m <= 10) goto 10
-      stop
+      do
+          n=2*m
+          do i=1,n
+            xl(i)=bdl
+            xu(i)=bdu
+          end do
+          do jcase=1,2
+              npt=n+6
+              if (jcase == 2) npt=2*n+1
+              print 30, m,n,npt
+    30        format (//5x,'2d output with m =',i4,',  n =',i4,'  and  npt =',i4)
+              do j=1,m
+                temp=dble(j)*twopi/dble(m)
+                x(2*j-1)=cos(temp)
+                x(2*j)=sin(temp)
+              end do
+              call bobyqa (n,npt,x,xl,xu,rhobeg,rhoend,iprint,maxfun)
+          end do
+          m=m+m
+          if (m > 10) exit
+      end do
       
-	end program test
-      
-!*****************************************************************************************
-	module bobyqa_module
-!*****************************************************************************************
-    
-    private
-    
-    public :: bobyqa
-    
-	contains
+    end subroutine bobyqa_test
 !*****************************************************************************************
 
-      subroutine calfun (n,x,f)
-      implicit real*8 (a-h,o-z)
-      dimension x(*)
+!*****************************************************************************************
+      subroutine calfun_test (n,x,f)
+
+      implicit none
+      integer,intent(in) :: n
+      real(wp),dimension(n),intent(in) :: x
+      real(wp),intent(out) :: f
+      
+      integer :: i,j
+      real(wp) :: temp
+
       f=0.0d0
-      do 10 i=4,n,2
-      do 10 j=2,i-2,2
-      temp=(x(i-1)-x(j-1))**2+(x(i)-x(j))**2
-      temp=max(temp,1.0d-6)
-   10 f=f+1.0d0/sqrt(temp)
+      do i=4,n,2
+        do j=2,i-2,2
+          temp=(x(i-1)-x(j-1))**2+(x(i)-x(j))**2
+          temp=max(temp,1.0d-6)
+          f=f+1.0d0/sqrt(temp)
+        end do
+      end do
       return
-      end subroutine calfun
+      end subroutine calfun_test
+!*****************************************************************************************
 
 
 !*****************************************************************************************
-      subroutine bobyqa (n,npt,x,xl,xu,rhobeg,rhoend,iprint,maxfun,w)
-      implicit real*8 (a-h,o-z)
-      dimension x(*),xl(*),xu(*),w(*)
+      subroutine bobyqa (n,npt,x,xl,xu,rhobeg,rhoend,iprint,maxfun)
+      implicit real(wp) (a-h,o-z)
+      dimension x(*),xl(*),xu(*)
+      
+      real(wp),dimension((npt+5)*(npt+n)+3*n*(n+5)/2) :: w
+
 !
 !     this subroutine seeks the least value of a function of many variables,
 !     by applying a trust region method that forms quadratic models by
@@ -213,7 +258,7 @@
       subroutine bobyqb (n,npt,x,xl,xu,rhobeg,rhoend,iprint,&
         maxfun,xbase,xpt,fval,xopt,gopt,hq,pq,bmat,zmat,ndim,&
         sl,su,xnew,xalt,d,vlag,w)
-      implicit real*8 (a-h,o-z)
+      implicit real(wp) (a-h,o-z)
       dimension x(*),xl(*),xu(*),xbase(*),xpt(npt,*),fval(*),&
         xopt(*),gopt(*),hq(*),pq(*),bmat(ndim,*),zmat(npt,*),&
         sl(*),su(*),xnew(*),xalt(*),d(*),vlag(*),w(*)
@@ -886,7 +931,7 @@
 !*****************************************************************************************
       subroutine altmov (n,npt,xpt,xopt,bmat,zmat,ndim,sl,su,kopt,&
         knew,adelt,xnew,xalt,alpha,cauchy,glag,hcol,w)
-      implicit real*8 (a-h,o-z)
+      implicit real(wp) (a-h,o-z)
       dimension xpt(npt,*),xopt(*),bmat(ndim,*),zmat(npt,*),sl(*),&
         su(*),xnew(*),xalt(*),glag(*),hcol(*),w(*)
 !
@@ -1169,7 +1214,7 @@
 !*****************************************************************************************
       subroutine prelim (n,npt,x,xl,xu,rhobeg,iprint,maxfun,xbase,&
         xpt,fval,gopt,hq,pq,bmat,zmat,ndim,sl,su,nf,kopt)
-      implicit real*8 (a-h,o-z)
+      implicit real(wp) (a-h,o-z)
       dimension x(*),xl(*),xu(*),xbase(*),xpt(npt,*),fval(*),gopt(*),&
         hq(*),pq(*),bmat(ndim,*),zmat(npt,*),sl(*),su(*)
 !
@@ -1329,7 +1374,7 @@
       subroutine rescue (n,npt,xl,xu,iprint,maxfun,xbase,xpt,&
         fval,xopt,gopt,hq,pq,bmat,zmat,ndim,sl,su,nf,delta,&
         kopt,vlag,ptsaux,ptsid,w)
-      implicit real*8 (a-h,o-z)
+      implicit real(wp) (a-h,o-z)
       dimension xl(*),xu(*),xbase(*),xpt(npt,*),fval(*),xopt(*),&
         gopt(*),hq(*),pq(*),bmat(ndim,*),zmat(npt,*),sl(*),su(*),&
         vlag(*),ptsaux(2,*),ptsid(*),w(*)
@@ -1717,7 +1762,7 @@
 !*****************************************************************************************
       subroutine trsbox (n,npt,xpt,xopt,gopt,hq,pq,sl,su,delta,&
         xnew,d,gnew,xbdi,s,hs,hred,dsq,crvmin)
-      implicit real*8 (a-h,o-z)
+      implicit real(wp) (a-h,o-z)
       dimension xpt(npt,*),xopt(*),gopt(*),hq(*),pq(*),sl(*),su(*),&
         xnew(*),d(*),gnew(*),xbdi(*),s(*),hs(*),hred(*)
 !
@@ -2102,7 +2147,7 @@
 !*****************************************************************************************
       subroutine update (n,npt,bmat,zmat,ndim,vlag,beta,denom,&
         knew,w)
-      implicit real*8 (a-h,o-z)
+      implicit real(wp) (a-h,o-z)
       dimension bmat(ndim,*),zmat(npt,*),vlag(*),w(*)
 !
 !     the arrays bmat and zmat are updated, as required by the new position
@@ -2175,5 +2220,5 @@
 !*****************************************************************************************
  
 !*****************************************************************************************
-	end module bobyqa_module
+    end module bobyqa_module
 !*****************************************************************************************
