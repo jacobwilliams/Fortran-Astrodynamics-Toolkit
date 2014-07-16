@@ -15,6 +15,7 @@
 !*****************************************************************************************    
     
     use kind_module,      only: wp
+    use numbers_module
     use vector_module,    only: cross, unit, ucross
 
     implicit none
@@ -22,17 +23,6 @@
     private
 
     !constants:
-    real(wp),parameter :: zero       = 0.0_wp
-    real(wp),parameter :: one        = 1.0_wp
-    real(wp),parameter :: two        = 2.0_wp
-    real(wp),parameter :: three      = 3.0_wp
-    real(wp),parameter :: four       = 4.0_wp
-    real(wp),parameter :: five       = 5.0_wp
-    real(wp),parameter :: six        = 6.0_wp
-    real(wp),parameter :: seven      = 7.0_wp
-    real(wp),parameter :: eight      = 8.0_wp
-    real(wp),parameter :: pi         = acos(-one)
-    real(wp),parameter :: twopi      = two*pi
     real(wp),parameter :: log2       = log(two)
     real(wp),parameter :: two_third  = two/three
     real(wp),parameter :: four_third = four/three

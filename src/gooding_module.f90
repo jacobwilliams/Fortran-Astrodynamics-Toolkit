@@ -34,24 +34,16 @@
 !*****************************************************************************************
 
     use kind_module,    only: wp
+    use numbers_module
     
     implicit none
     
     private
-            
-    real(wp),parameter :: zero   = 0.0_wp
-    real(wp),parameter :: one    = 1.0_wp
-    real(wp),parameter :: two    = 2.0_wp
-    real(wp),parameter :: three  = 3.0_wp
-    real(wp),parameter :: four   = 4.0_wp
-    real(wp),parameter :: five   = 5.0_wp
-    real(wp),parameter :: six    = 6.0_wp
-    real(wp),parameter :: half   = 0.5_wp
+    
+    !constants:
     real(wp),parameter :: ntwo   = -two
-    real(wp),parameter :: pi     = acos(-one)
-    real(wp),parameter :: twopi  = two*pi
-    real(wp),parameter :: fourpi = four*pi
     real(wp),parameter :: pineg  = -pi
+    real(wp),parameter :: half   = 0.5_wp
     real(wp),parameter :: halfpi = pi/two
     real(wp),parameter :: athird = one/three
     real(wp),parameter :: asixth = one/six
