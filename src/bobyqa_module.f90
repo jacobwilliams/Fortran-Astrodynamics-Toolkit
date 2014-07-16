@@ -121,6 +121,7 @@
 
 !*****************************************************************************************
       subroutine bobyqa (n,npt,x,xl,xu,rhobeg,rhoend,iprint,maxfun)
+      
       implicit real(wp) (a-h,o-z)
       dimension x(*),xl(*),xu(*)
       
@@ -171,11 +172,10 @@
 !     return if the value of npt is unacceptable.
 !
       np=n+1
-      if (npt < n+2 .or. npt > ((n+2)*np)/2) then
-          print 10
-   10     format (/4x,'return from bobyqa because npt is not in',&
-            ' the required interval')
-          go to 40
+      
+      if (npt < n+2 .or. npt > ((n+2)*np)/2) then          
+          write(*,'(4X,A)') 'return from bobyqa because npt is not in',&
+                            ' the required interval'
       end if
 !
 !     partition the working space array, so that different parts of it can
@@ -209,47 +209,50 @@
 !     components of x that become within distance rhobeg from their bounds.
 !
       zero=0.0d0
-      do 30 j=1,n
-      temp=xu(j)-xl(j)
-      if (temp < rhobeg+rhobeg) then
-          print 20
-   20     format (/4x,'return from bobyqa because one of the',&
-            ' differences xu(i)-xl(i)'/6x,' is less than 2*rhobeg.')
-          go to 40
-      end if
-      jsl=isl+j-1
-      jsu=jsl+n
-      w(jsl)=xl(j)-x(j)
-      w(jsu)=xu(j)-x(j)
-      if (w(jsl) >= -rhobeg) then
-          if (w(jsl) >= zero) then
-              x(j)=xl(j)
-              w(jsl)=zero
-              w(jsu)=temp
-          else
-              x(j)=xl(j)+rhobeg
-              w(jsl)=-rhobeg
-              w(jsu)=max(xu(j)-x(j),rhobeg)
-          end if
-      else if (w(jsu) <= rhobeg) then
-          if (w(jsu) <= zero) then
-              x(j)=xu(j)
-              w(jsl)=-temp
-              w(jsu)=zero
-          else
-              x(j)=xu(j)-rhobeg
-              w(jsl)=min(xl(j)-x(j),-rhobeg)
-              w(jsu)=rhobeg
-          end if
-      end if
-   30 continue
+      
+      do j=1,n
+      
+		  temp=xu(j)-xl(j)
+		  if (temp < rhobeg+rhobeg) then          
+			  write(*,'(4X,A)') 'return from bobyqa because one of the',&
+				' differences xu(i)-xl(i) is less than 2*rhobeg.'
+			  return
+		  end if
+	  
+		  jsl=isl+j-1
+		  jsu=jsl+n
+		  w(jsl)=xl(j)-x(j)
+		  w(jsu)=xu(j)-x(j)
+		  if (w(jsl) >= -rhobeg) then
+			  if (w(jsl) >= zero) then
+				  x(j)=xl(j)
+				  w(jsl)=zero
+				  w(jsu)=temp
+			  else
+				  x(j)=xl(j)+rhobeg
+				  w(jsl)=-rhobeg
+				  w(jsu)=max(xu(j)-x(j),rhobeg)
+			  end if
+		  else if (w(jsu) <= rhobeg) then
+			  if (w(jsu) <= zero) then
+				  x(j)=xu(j)
+				  w(jsl)=-temp
+				  w(jsu)=zero
+			  else
+				  x(j)=xu(j)-rhobeg
+				  w(jsl)=min(xl(j)-x(j),-rhobeg)
+				  w(jsu)=rhobeg
+			  end if
+		  end if
+      
+      end do
 !
 !     make the call of bobyqb.
 !
       call bobyqb (n,npt,x,xl,xu,rhobeg,rhoend,iprint,maxfun,w(ixb),&
         w(ixp),w(ifv),w(ixo),w(igo),w(ihq),w(ipq),w(ibmat),w(izmat),&
         ndim,w(isl),w(isu),w(ixn),w(ixa),w(id),w(ivl),w(iw))
-   40 return
+
       end subroutine bobyqa
 !*****************************************************************************************
 
