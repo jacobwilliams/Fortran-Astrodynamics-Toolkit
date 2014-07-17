@@ -20,6 +20,7 @@
 !*****************************************************************************************    
     
     use kind_module,  only: wp
+    use numbers_module
     
     private
     
@@ -36,39 +37,52 @@
         end subroutine func
     end interface
     
+    real(wp),parameter :: half = 0.5_wp
+    real(wp),parameter :: tenth = 0.1_wp
+
     procedure(func),pointer :: calfun => null()
     
     contains
 !*****************************************************************************************
 
-!*****************************************************************************************
-! test problem for bobyqa, the objective function being the sum of
-! the reciprocals of all pairwise distances between the points p_i,
-! i=1,2,...,m in two dimensions, where m=n/2 and where the components
-! of p_i are x(2*i-1) and x(2*i). thus each vector x of n variables
-! defines the m points p_i. the initial x gives equally spaced points
-! on a circle. four different choices of the pairs (n,npt) are tried,
-! namely (10,16), (10,21), (20,26) and (20,41). convergence to a local
-! minimum that is not global occurs in both the n=10 cases. the details
-! of the results are highly sensitive to computer rounding errors. the
-! choice iprint=2 provides the current x and optimal f so far whenever
-! rho is reduced. the bound constraints of the problem require every
-! component of x to be in the interval [-1,1].
+!*****************************************************************************************    
+!****f* bobyqa_module/bobyqa_test
+!
+!  NAME
+!    bobyqa_test
+!
+!  DESCRIPTION
+!    test problem for bobyqa, the objective function being the sum of
+!    the reciprocals of all pairwise distances between the points p_i,
+!    i=1,2,...,m in two dimensions, where m=n/2 and where the components
+!    of p_i are x(2*i-1) and x(2*i). thus each vector x of n variables
+!    defines the m points p_i. the initial x gives equally spaced points
+!    on a circle. four different choices of the pairs (n,npt) are tried,
+!    namely (10,16), (10,21), (20,26) and (20,41). convergence to a local
+!    minimum that is not global occurs in both the n=10 cases. the details
+!    of the results are highly sensitive to computer rounding errors. the
+!    choice iprint=2 provides the current x and optimal f so far whenever
+!    rho is reduced. the bound constraints of the problem require every
+!    component of x to be in the interval [-1,1].
+!
+!  SOURCE
 
     subroutine bobyqa_test()
 
-      implicit real(wp) (a-h,o-z)
-      dimension x(100),xl(100),xu(100)
+      implicit none
+      real(wp),dimension(100) :: x,xl,xu
+      integer :: iprint,maxfun,i,jcase,m,j,n,npt
+      real(wp) :: rhobeg,rhoend,temp
+    
+      real(wp),parameter :: bdl = -one
+      real(wp),parameter :: bdu = one
     
       calfun => calfun_test        !set the function
-    
-      twopi=8.0d0*atan(1.0d0)
-      bdl=-1.0d0
-      bdu=1.0d0
+      
       iprint=2
       maxfun=500000
-      rhobeg=1.0d-1
-      rhoend=1.0d-6
+      rhobeg=1.0e-1_wp
+      rhoend=1.0e-6_wp
       m=5
       do
           n=2*m
@@ -79,8 +93,9 @@
           do jcase=1,2
               npt=n+6
               if (jcase == 2) npt=2*n+1
-              print 30, m,n,npt
-    30        format (//5x,'2d output with m =',i4,',  n =',i4,'  and  npt =',i4)
+              write(*,'(//5X,A,I4,A,I4,A,I4)') '2d output with m =',m,&
+                                               ',  n =',n,&
+                                               '  and  npt =',npt    
               do j=1,m
                 temp=dble(j)*twopi/dble(m)
                 x(2*j-1)=cos(temp)
@@ -99,6 +114,7 @@
       subroutine calfun_test (n,x,f)
 
       implicit none
+      
       integer,intent(in) :: n
       real(wp),dimension(n),intent(in) :: x
       real(wp),intent(out) :: f
@@ -106,27 +122,25 @@
       integer :: i,j
       real(wp) :: temp
 
-      f=0.0d0
+      f=zero
       do i=4,n,2
         do j=2,i-2,2
           temp=(x(i-1)-x(j-1))**2+(x(i)-x(j))**2
-          temp=max(temp,1.0d-6)
-          f=f+1.0d0/sqrt(temp)
+          temp=max(temp,1.0e-6_wp)
+          f=f+one/sqrt(temp)
         end do
       end do
-      return
+
       end subroutine calfun_test
 !*****************************************************************************************
 
-
-!*****************************************************************************************
-      subroutine bobyqa (n,npt,x,xl,xu,rhobeg,rhoend,iprint,maxfun)
-      
-      implicit real(wp) (a-h,o-z)
-      dimension x(*),xl(*),xu(*)
-      
-      real(wp),dimension((npt+5)*(npt+n)+3*n*(n+5)/2) :: w
-
+!*****************************************************************************************    
+!****f* bobyqa_module/bobyqa
+!
+!  NAME
+!    bobyqa
+!
+!  DESCRIPTION
 !
 !     this subroutine seeks the least value of a function of many variables,
 !     by applying a trust region method that forms quadratic models by
@@ -169,6 +183,31 @@
 !     variables x(1),x(2),...,x(n), which are generated automatically in a
 !     way that satisfies the bounds given in xl and xu.
 !
+!  SEE ALSO
+!    http://www.damtp.cam.ac.uk/user/na/NA_papers/NA2009_06.pdf
+!
+!  SOURCE
+
+      subroutine bobyqa (n,npt,x,xl,xu,rhobeg,rhoend,iprint,maxfun)
+      
+      implicit none
+      
+      real(wp),dimension(:),intent(inout) :: x      
+      real(wp),dimension(:),intent(in) :: xl
+      real(wp),dimension(:),intent(in) :: xu
+      integer,intent(in) :: n
+      integer,intent(in) :: npt
+      integer,intent(in) :: iprint
+      integer,intent(in) :: maxfun
+      real(wp),intent(in) :: rhobeg
+      real(wp),intent(in) :: rhoend
+      
+      integer :: ndim,ixb,ixp,ifv,ixo,igo,ihq,ipq,j,jsl,jsu,&
+      			 ibmat,izmat,isl,isu,ixn,ixa,id,ivl,iw,np
+      real(wp) :: temp
+      real(wp),dimension((npt+5)*(npt+n)+3*n*(n+5)/2) :: w
+
+!
 !     return if the value of npt is unacceptable.
 !
       np=n+1
@@ -183,6 +222,7 @@
 !     requires the first (npt+2)*(npt+n)+3*n*(n+5)/2 elements of w plus the
 !     space that is taken by the last array in the argument list of bobyqb.
 !
+
       ndim=npt+n
       ixb=1
       ixp=ixb+n
@@ -208,42 +248,41 @@
 !     partitions of w, in order to provide useful and exact information about
 !     components of x that become within distance rhobeg from their bounds.
 !
-      zero=0.0d0
       
       do j=1,n
       
-		  temp=xu(j)-xl(j)
-		  if (temp < rhobeg+rhobeg) then          
-			  write(*,'(4X,A)') 'return from bobyqa because one of the',&
-				' differences xu(i)-xl(i) is less than 2*rhobeg.'
-			  return
-		  end if
-	  
-		  jsl=isl+j-1
-		  jsu=jsl+n
-		  w(jsl)=xl(j)-x(j)
-		  w(jsu)=xu(j)-x(j)
-		  if (w(jsl) >= -rhobeg) then
-			  if (w(jsl) >= zero) then
-				  x(j)=xl(j)
-				  w(jsl)=zero
-				  w(jsu)=temp
-			  else
-				  x(j)=xl(j)+rhobeg
-				  w(jsl)=-rhobeg
-				  w(jsu)=max(xu(j)-x(j),rhobeg)
-			  end if
-		  else if (w(jsu) <= rhobeg) then
-			  if (w(jsu) <= zero) then
-				  x(j)=xu(j)
-				  w(jsl)=-temp
-				  w(jsu)=zero
-			  else
-				  x(j)=xu(j)-rhobeg
-				  w(jsl)=min(xl(j)-x(j),-rhobeg)
-				  w(jsu)=rhobeg
-			  end if
-		  end if
+          temp=xu(j)-xl(j)
+          if (temp < rhobeg+rhobeg) then          
+              write(*,'(4X,A)') 'return from bobyqa because one of the',&
+                ' differences xu(i)-xl(i) is less than 2*rhobeg.'
+              return
+          end if
+      
+          jsl=isl+j-1
+          jsu=jsl+n
+          w(jsl)=xl(j)-x(j)
+          w(jsu)=xu(j)-x(j)
+          if (w(jsl) >= -rhobeg) then
+              if (w(jsl) >= zero) then
+                  x(j)=xl(j)
+                  w(jsl)=zero
+                  w(jsu)=temp
+              else
+                  x(j)=xl(j)+rhobeg
+                  w(jsl)=-rhobeg
+                  w(jsu)=max(xu(j)-x(j),rhobeg)
+              end if
+          else if (w(jsu) <= rhobeg) then
+              if (w(jsu) <= zero) then
+                  x(j)=xu(j)
+                  w(jsl)=-temp
+                  w(jsu)=zero
+              else
+                  x(j)=xu(j)-rhobeg
+                  w(jsl)=min(xl(j)-x(j),-rhobeg)
+                  w(jsu)=rhobeg
+              end if
+          end if
       
       end do
 !
@@ -300,12 +339,6 @@
 !
 !     set some constants.
 !
-      half=0.5d0
-      one=1.0d0
-      ten=10.0d0
-      tenth=0.1d0
-      two=2.0d0
-      zero=0.0d0
       np=n+1
       nptm=npt-np
       nh=(n*np)/2
@@ -384,7 +417,7 @@
 !     of likely improvements to the model within distance half*rho of xopt.
 !
           errbig=max(diffa,diffb,diffc)
-          frhosq=0.125d0*rho*rho
+          frhosq=0.125_wp*rho*rho
           if (crvmin > zero .and. errbig > frhosq*crvmin)&
              goto 650
           bdtol=errbig/rho
@@ -410,8 +443,8 @@
 !     derivatives of the current model, beginning with the changes to bmat
 !     that do not depend on zmat. vlag is used temporarily for working space.
 !
-   90 if (dsq <= 1.0d-3*xoptsq) then
-          fracsq=0.25d0*xoptsq
+   90 if (dsq <= 1.0e-3_wp*xoptsq) then
+          fracsq=0.25_wp*xoptsq
           sumpq=zero
           do 110 k=1,npt
           sumpq=sumpq+pq(k)
@@ -686,12 +719,12 @@
           ratio=(f-fopt)/vquad
           if (ratio <= tenth) then
               delta=min(half*delta,dnorm)
-          else if (ratio <= 0.7d0) then
+          else if (ratio <= 0.7_wp) then
               delta=max(half*delta,dnorm)
           else
               delta=max(half*delta,dnorm+dnorm)
           end if
-          if (delta <= 1.5d0*rho) delta=rho
+          if (delta <= 1.5_wp*rho) delta=rho
 !
 !     recalculate knew and denom if the new f is less than fopt.
 !
@@ -868,7 +901,7 @@
           dist=sqrt(distsq)
           if (ntrits == -1) then
               delta=min(tenth*delta,half*dist)
-              if (delta <= 1.5d0*rho) delta=rho
+              if (delta <= 1.5_wp*rho) delta=rho
           end if
           ntrits=0
           adelt=max(min(tenth*dist,delta),rho)
@@ -885,9 +918,9 @@
   680 if (rho > rhoend) then
           delta=half*rho
           ratio=rho/rhoend
-          if (ratio <= 16.0d0) then
+          if (ratio <= 16.0_wp) then
               rho=rhoend
-          else if (ratio <= 250.0d0) then
+          else if (ratio <= 250.0_wp) then
               rho=sqrt(ratio)*rhoend
           else
               rho=tenth*rho
@@ -968,10 +1001,8 @@
 !     set the first npt components of w to the leading elements of the
 !     knew-th column of the h matrix.
 !
-      half=0.5d0
-      one=1.0d0
-      zero=0.0d0
-      const=one+sqrt(2.0d0)
+      real(wp),parameter :: const = one+sqrt(two)
+
       do 10 k=1,npt
    10 hcol(k)=zero
       do 20 j=1,npt-n-1
@@ -1078,9 +1109,9 @@
               isbd=iubd
           end if
           if (subd > half) then
-              if (abs(vlag) < 0.25d0) then
+              if (abs(vlag) < 0.25_wp) then
                   step=half
-                  vlag=0.25d0
+                  vlag=0.25_wp
                   isbd=0
               end if
           end if
@@ -1239,10 +1270,6 @@
 !
 !     set some constants.
 !
-      half=0.5d0
-      one=1.0d0
-      two=2.0d0
-      zero=0.0d0
       rhosq=rhobeg*rhobeg
       recip=one/rhosq
       np=n+1
@@ -1419,9 +1446,6 @@
 !
 !     set some constants.
 !
-      half=0.5d0
-      one=1.0d0
-      zero=0.0d0
       np=n+1
       sfrac=half/dble(np)
       nptm=npt-np
@@ -1495,7 +1519,7 @@
           bmat(jp,j)=-temp+one/ptsaux(1,j)
           bmat(jpn,j)=temp+one/ptsaux(2,j)
           bmat(1,j)=-bmat(jp,j)-bmat(jpn,j)
-          zmat(1,j)=sqrt(2.0d0)/abs(ptsaux(1,j)*ptsaux(2,j))
+          zmat(1,j)=sqrt(two)/abs(ptsaux(1,j)*ptsaux(2,j))
           zmat(jp,j)=zmat(1,j)*ptsaux(2,j)*temp
           zmat(jpn,j)=-zmat(1,j)*ptsaux(1,j)*temp
       else
@@ -1644,7 +1668,7 @@
           end if
       end if
   250 vlmxsq=max(vlmxsq,vlag(k)**2)
-      if (denom <= 1.0d-2*vlmxsq) then
+      if (denom <= 1.0e-2_wp*vlmxsq) then
           w(ndim+knew)=-w(ndim+knew)-winc
           goto 120
       end if
@@ -1795,7 +1819,7 @@
 !     crvmin is set to zero if d reaches the trust region boundary. otherwise
 !       it is set to the least curvature of h that occurs in the conjugate
 !       gradient searches that are not restricted by any constraints. the
-!       value crvmin=-1.0d0 is set, however, if all of these searches are
+!       value crvmin=-one is set, however, if all of these searches are
 !       constrained.
 !
 !     a version of the truncated conjugate gradient is applied. if a line
@@ -1809,10 +1833,7 @@
 !
 !     set some constants.
 !
-      half=0.5d0
-      one=1.0d0
-      onemin=-1.0d0
-      zero=0.0d0
+      real(wp),parameter :: onemin = -one
 !
 !     the sign of gopt(i) gives the sign of the change to the i-th variable
 !     that will reduce q from its value at xopt. thus xbdi(i) shows whether
@@ -1860,7 +1881,7 @@
           gredsq=stepsq
           itermax=iterc+n-nact
       end if
-      if (gredsq*delsq <= 1.0d-4*qred*qred) go to 190
+      if (gredsq*delsq <= 1.0e-4_wp*qred*qred) go to 190
 !
 !     multiply the search direction by the second derivative matrix of q and
 !     calculate some scalars for the choice of steplength. then set blen to
@@ -1946,7 +1967,7 @@
 !
       if (stplen < blen) then
           if (iterc == itermax) goto 190
-          if (sdec <= 0.01d0*qred) goto 190
+          if (sdec <= 0.01_wp*qred) goto 190
           beta=gredsq/ggsav
           goto 30
       end if
@@ -1978,7 +1999,7 @@
 !
   120 iterc=iterc+1
       temp=gredsq*dredsq-dredg*dredg
-      if (temp <= 1.0d-4*qred*qred) goto 190
+      if (temp <= 1.0e-4_wp*qred*qred) goto 190
       temp=sqrt(temp)
       do 130 i=1,n
       if (xbdi(i) == zero) then
@@ -2053,7 +2074,7 @@
       redmax=zero
       isav=0
       redsav=zero
-      iu=17.0d0*angbd+3.1d0
+      iu=17.0_wp*angbd+3.1_wp
       do 170 i=1,iu
       angt=angbd*dble(i)/dble(iu)
       sth=(angt+angt)/(one+angt*angt)
@@ -2106,7 +2127,7 @@
 !     if sdec is sufficiently small, then return after setting xnew to
 !     xopt+d, giving careful attention to the bounds.
 !
-      if (sdec > 0.01d0*qred) goto 120
+      if (sdec > 0.01_wp*qred) goto 120
   190 dsq=zero
       do 200 i=1,n
       xnew(i)=max(min(xopt(i)+d(i),su(i)),sl(i))
@@ -2164,14 +2185,12 @@
 !
 !     set some constants.
 !
-      one=1.0d0
-      zero=0.0d0
       nptm=npt-n-1
       ztest=zero
       do 10 k=1,npt
       do 10 j=1,nptm
    10 ztest=max(ztest,abs(zmat(k,j)))
-      ztest=1.0d-20*ztest
+      ztest=1.0e-20_wp*ztest
 !
 !     apply the rotations that put zeros in the knew-th row of zmat.
 !

@@ -501,15 +501,15 @@
 
     implicit none
     
-    real(wp),intent(in)  :: gm	!grav. parameter [km^3/s^2]
-    real(wp),intent(in)  :: al	!alpha [km^2/s^2]
-    real(wp),intent(in)  :: q	!periapsis distance [km]
-    real(wp),intent(in)  :: om	!argument of periapsis relative to assumed reference direction [rad]
-    real(wp),intent(in)  :: tau	!time from periapsis [sec]
-    real(wp),intent(out) :: r	!radial distance [km]
-    real(wp),intent(out) :: u	!angle from reference direction [rad]
-    real(wp),intent(out) :: vr	!radial velocity [km/2]
-    real(wp),intent(out) :: vt	!transverse velocity >=0 [km/s]
+    real(wp),intent(in)  :: gm    !grav. parameter [km^3/s^2]
+    real(wp),intent(in)  :: al    !alpha [km^2/s^2]
+    real(wp),intent(in)  :: q     !periapsis distance [km]
+    real(wp),intent(in)  :: om    !argument of periapsis relative to assumed reference direction [rad]
+    real(wp),intent(in)  :: tau   !time from periapsis [sec]
+    real(wp),intent(out) :: r     !radial distance [km]
+    real(wp),intent(out) :: u     !angle from reference direction [rad]
+    real(wp),intent(out) :: vr    !radial velocity [km/2]
+    real(wp),intent(out) :: vt    !transverse velocity >=0 [km/s]
 
     real(wp) :: d,h,v,e1,e,ep1,alp,rtal,em,ee2,s2,c2,emv,s,c
         

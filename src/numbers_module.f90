@@ -24,10 +24,12 @@
     real(wp),parameter,public :: six        = 6.0_wp
     real(wp),parameter,public :: seven      = 7.0_wp
     real(wp),parameter,public :: eight      = 8.0_wp
-    
+    real(wp),parameter,public :: nine       = 9.0_wp
+    real(wp),parameter,public :: ten        = 10.0_wp
+   
     real(wp),parameter,public :: pi         = acos(-one)
     real(wp),parameter,public :: twopi      = two*pi    
-    real(wp),parameter,public :: fourpi 	= four*pi
+    real(wp),parameter,public :: fourpi     = four*pi
     
 !*****************************************************************************************    
     end module numbers_module
