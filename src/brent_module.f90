@@ -22,20 +22,54 @@
     
     private
     
+    !the main class:
+    type,public :: brent_class
+        procedure(func),pointer :: f => null()  !function to be minimized
+    contains
+        procedure :: set_function               !set f
+        procedure :: minimize => fmin           !call the brent algorithm
+    end type brent_class
+    
+    !interface to the function to be minimized:
     abstract interface
-        function func(x) result(f)
-            import :: wp
+        function func(me,x) result(f)
+            import :: wp,brent_class
             implicit none
+            class(brent_class),intent(inout) :: me
             real(wp),intent(in) :: x
             real(wp) :: f
         end function func
     end interface
-    
-    public :: fmin
-    
-    public :: fmin_test    !unit test
+        
+    public :: brent_example
     
     contains
+!*****************************************************************************************    
+      
+!*****************************************************************************************    
+!****f* brent_module/set_function
+!
+!  NAME
+!    set_function
+!
+!  DESCRIPTION
+!    Set the function to be minimized.
+!
+!  AUTHOR
+!    Jacob Williams, 7/19/2014
+!
+!  SOURCE
+
+    subroutine set_function(me,f)
+    
+    implicit none
+    
+    class(brent_class),intent(inout) :: me
+    procedure(func)                  :: f
+    
+    me%f => f
+    
+    end subroutine set_function
 !*****************************************************************************************    
     
 !*****************************************************************************************    
@@ -85,12 +119,14 @@
 !
 !  SOURCE
 
-    real(wp) function fmin(ax,bx,f,tol)
+    real(wp) function fmin(me,ax,bx,tol)
 
     implicit none
 
-    real(wp),intent(in) :: ax,bx,tol
-    procedure(func) :: f
+    class(brent_class),intent(inout) :: me
+    real(wp),intent(in) :: ax
+    real(wp),intent(in) :: bx
+    real(wp),intent(in) :: tol
 
     real(wp) :: a,b,d,e,xm,p,q,r,tol1,tol2,u,v,w
     real(wp) :: fu,fv,fw,fx,x
@@ -108,7 +144,7 @@
     w = v
     x = v
     e = zero
-    fx = f(x)
+    fx = me%f(x)
     fv = fx
     fw = fx
 
@@ -164,7 +200,7 @@
 
     50  if (abs(d) >= tol1) u = x + d
         if (abs(d) < tol1) u = x + sign(tol1, d)
-        fu = f(u)
+        fu = me%f(u)
 
         !  update a, b, v, w, and x
 
@@ -205,7 +241,7 @@
 !*****************************************************************************************
 
 !*****************************************************************************************    
-!****f* brent_module/fmin_test
+!****f* brent_module/brent_example
 !
 !  NAME
 !    fmin_test
@@ -218,42 +254,50 @@
 !    
 !  SOURCE
 
-    subroutine fmin_test()
+    subroutine brent_example()
     
     implicit none
     
-    real(wp) :: x,ax,bx,tol,f
-    integer :: i
+    real(wp) :: x,f
     
-    !set inputs:
-    ax = zero
-    bx = two*pi
-    tol = 1.0e-12_wp
+    real(wp),parameter :: ax = zero
+    real(wp),parameter :: bx = two*pi
+    real(wp),parameter :: tol = 1.0e-6_wp
     
-    !initialize counter for function calls:
-    i = 0
+    type,extends(brent_class) :: myfunc_type
+        integer :: i = 0    !function counter
+    end type myfunc_type   
+    type(myfunc_type) :: myfunc
     
+    call myfunc%set_function(sin_func)    !set the function
+            
     !call fmin:
     ! [the minimum is at 270 deg]
     write(*,*) 'minimum of sin(x) at: ', &
-                fmin(ax,bx,sin_func,tol)*180.0_wp/pi,' deg'
-    write(*,*) 'number of function calls: ', i
+                myfunc%minimize(ax,bx,tol)*180.0_wp/pi,' deg'
+    write(*,*) 'number of function calls: ', myfunc%i
     
     contains
-    
-        function sin_func(x) result(f)
-        
+ 
+        function sin_func(me,x) result(f)
+        ! Example function to minimize: sin(x)
+
         implicit none
         
+        class(brent_class),intent(inout) :: me
         real(wp),intent(in) :: x
         real(wp) :: f
         
-        i = i + 1  !number of function calls
         f = sin(x)
+        
+        select type (me)
+        class is (myfunc_type)
+            me%i = me%i + 1 !number of function calls
+        end select
         
         end function sin_func
     
-    end subroutine fmin_test
+    end subroutine brent_example
  !*****************************************************************************************
   
 !*****************************************************************************************    
