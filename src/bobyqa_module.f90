@@ -14,6 +14,20 @@
 !      Approximation, the constraints being lower and upper bounds on every
 !      variable, which can be set to huge values for unconstrained variables.
 !
+!  COPYRIGHT
+!    [1] Original Fortran 77 code:
+!         There are no restrictions on or charges for the use of the software. 
+!         I hope that the time and effort I have spent on developing the package 
+!         will be helpful to much research and to many applications.
+!            M.J.D. Powell (mjdp@cam.ac.uk)
+!            January 5th, 2009
+!    [2] Fortran Astrodynamics Toolkit license:
+!            See: http://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit
+!
+!  HISTORY
+!    Original Fortran 77 code from Powell.
+!    Refactoring by J. Williams - July 2014.
+!
 !  SEE ALSO
 !    http://www.damtp.cam.ac.uk/user/na/NA_papers/NA2009_06.pdf
 !
