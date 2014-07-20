@@ -7,7 +7,7 @@
 !    brent_module
 !
 !  DESCRIPTION
-!    Brent algorithms for minimization without derivatives.
+!    Brent algorithms for minimization and root solving without derivatives.
 !
 !  SEE ALSO
 !    [1] R. Brent, "Algorithms for Minimization Without Derivatives",
@@ -26,9 +26,9 @@
     type,public :: brent_class
         procedure(func),pointer :: f => null()  !function to be minimized
     contains
-        procedure :: set_function               !set f
-        procedure :: minimize => fmin           !call the fmin algorithm
-        procedure :: find_zero => zeroin        !call the zeroin algorithm
+        procedure :: set_function
+        procedure :: minimize => fmin
+        procedure :: find_zero => zeroin
     end type brent_class
     
     !interface to the function to be minimized:
@@ -41,7 +41,8 @@
             real(wp) :: f
         end function func
     end interface
-        
+    
+    !unit test routine:
     public :: brent_example
     
     contains
@@ -278,98 +279,103 @@
 ! SOURCE
 
     real(wp) function zeroin(me,ax,bx,tol)
-      
-      implicit none
-      
-      class(brent_class),intent(inout) :: me
-      real(wp),intent(in) :: ax
-      real(wp),intent(in) :: bx
-      real(wp),intent(in) :: tol
 
-      real(wp) :: a,b,c,d,e,fa,fb,fc,tol1,xm,p,q,r,s
-      
-      real(wp),parameter :: eps = epsilon(one)	!original code had d1mach(4)      
-      
-      tol1 = eps+one
+    implicit none
 
-      a=ax
-      b=bx
-      fa=me%f(a)
-      fb=me%f(b)
-      
-	!check that f(ax) and f(bx) have different signs
-      if (fa ==zero .or. fb == zero) go to 20
-      if (fa * (fb/abs(fb)) <= zero) go to 20
-      
-         write(*,'(A)') 'Error: f(ax) and f(bx) do not have different signs:'//&
-         				' zeroin is aborting'
-         return
-         
-   20 c=a
-      fc=fa
-      d=b-a
-      e=d
-   30 if (abs(fc)>=abs(fb)) go to 40
-      a=b
-      b=c
-      c=a
-      fa=fb
-      fb=fc
-      fc=fa
-      
-   40 tol1=two*eps*abs(b)+0.5_wp*tol
-      xm = 0.5_wp*(c-b)
-      if ((abs(xm)<=tol1).or.(fb==zero)) go to 150
+    class(brent_class),intent(inout) :: me
+    real(wp),intent(in) :: ax
+    real(wp),intent(in) :: bx
+    real(wp),intent(in) :: tol
 
-! see if a bisection is forced
+    real(wp) :: a,b,c,d,e,fa,fb,fc,tol1,xm,p,q,r,s
 
-      if ((abs(e)>=tol1).and.(abs(fa)>abs(fb))) go to 50
-      d=xm
-      e=d
-      go to 110
-   50 s=fb/fa
-      if (a/=c) go to 60
+    real(wp),parameter :: eps = epsilon(one)    !original code had d1mach(4) 
+    
+    tol1 = eps+one
 
-! linear interpolation
+    a=ax
+    b=bx
+    fa=me%f(a)
+    fb=me%f(b)
 
-      p=two*xm*s
-      q=one-s
-      go to 70
+    !check that f(ax) and f(bx) have different signs
+    if (fa == zero .or. fb == zero) go to 20
+    if (fa * (fb/abs(fb)) <= zero) go to 20
 
-! inverse quadratic interpolation
+    write(*,'(A)') 'Error: f(ax) and f(bx) do not have different signs:'//&
+    ' zeroin is aborting'
+    return
 
-   60 q=fa/fc
-      r=fb/fc
-      p=s*(two*xm*q*(q-r)-(b-a)*(r-one))
-      q=(q-one)*(r-one)*(s-one)
-   70 if (p<=zero) go to 80
-      q=-q
-      go to 90
-   80 p=-p
-   90 s=e
-      e=d
-      if (((two*p)>=(three*xm*q-abs(tol1*q))).or.(p>=&
-          abs(0.5_wp*s*q))) go to 100
-      d=p/q
-      go to 110
-  100 d=xm
-      e=d
-  110 a=b
-      fa=fb
-      if (abs(d)<=tol1) go to 120
-      b=b+d
-      go to 140
-  120 if (xm<=zero) go to 130
-      b=b+tol1
-      go to 140
-  130 b=b-tol1
-  140 fb=me%f(b)
-      if ((fb*(fc/abs(fc)))>zero) go to 20
-      go to 30
-      
-  150 zeroin=b
+20  c=a
+    fc=fa
+    d=b-a
+    e=d
 
-!*****************************************************************************************    
+30  if (abs(fc)<abs(fb)) then
+        a=b
+        b=c
+        c=a
+        fa=fb
+        fb=fc
+        fc=fa
+    end if
+
+40  tol1=two*eps*abs(b)+0.5_wp*tol
+    xm = 0.5_wp*(c-b)
+    if ((abs(xm)<=tol1).or.(fb==zero)) go to 150
+
+    ! see if a bisection is forced
+
+    if ((abs(e)>=tol1).and.(abs(fa)>abs(fb))) go to 50
+    d=xm
+    e=d
+    go to 110
+50  s=fb/fa
+    if (a/=c) go to 60
+
+    ! linear interpolation
+
+    p=two*xm*s
+    q=one-s
+    go to 70
+
+    ! inverse quadratic interpolation
+
+60  q=fa/fc
+    r=fb/fc
+    p=s*(two*xm*q*(q-r)-(b-a)*(r-one))
+    q=(q-one)*(r-one)*(s-one)
+70  if (p<=zero) go to 80
+    q=-q
+    go to 90
+
+80  p=-p
+90  s=e
+    e=d
+    if (((two*p)>=(three*xm*q-abs(tol1*q))).or.(p>=&
+        abs(0.5_wp*s*q))) go to 100
+    d=p/q
+    go to 110
+
+100 d=xm
+    e=d
+110 a=b
+    fa=fb
+    if (abs(d)<=tol1) go to 120
+    b=b+d
+    go to 140
+
+120 if (xm<=zero) go to 130
+    b=b+tol1
+    go to 140
+
+130 b=b-tol1
+140 fb=me%f(b)
+    if ((fb*(fc/abs(fc)))>zero) go to 20
+    go to 30
+
+150 zeroin=b
+
     end function zeroin
 !*****************************************************************************************    
 
@@ -409,6 +415,13 @@
     write(*,*) 'minimum of sin(x) at: ', &
                 myfunc%minimize(ax,bx,tol)*180.0_wp/pi,' deg'
     write(*,*) 'number of function calls: ', myfunc%i
+    
+    !call zeroin:
+    ! [the root is at pi]
+    myfunc%i = 0
+    write(*,*) 'root of sin(x) at: ', &
+                myfunc%minimize(ax+0.0001_wp,bx/two,tol)*180.0_wp/pi,' deg'
+    write(*,*) 'number of function calls: ', myfunc%i   
     
     contains
  
