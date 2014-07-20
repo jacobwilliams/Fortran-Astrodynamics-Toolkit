@@ -26,7 +26,7 @@
     integer,parameter :: nrecl = 4 
 
     !  namfil is the external name of the binary ephemeris file
-    character(len=80),parameter :: namfil='../eph/JPLEPH_2000-2100.405'
+    character(len=256) :: namfil = '../eph/JPLEPH_2000-2100.405'
 
     !  ksize must be set by the user according to the ephemeris to be read
     !  for  de200, set ksize to 1652
@@ -39,7 +39,7 @@
     !  for  de423, set ksize to 2036
     !  for  de424, set ksize to 2036
     !  for  de430, set ksize to 2036
-    integer,parameter :: ksize = 2036
+    integer :: ksize = 2036
 
     !ephhdr
     real(wp) :: cval(nmax)
@@ -70,19 +70,43 @@
     character(len=6),dimension(14,3) :: ttl = ''
     character(len=6),dimension(nmax) :: cnam = ''
     
+    logical :: initialized = .false. ! is the ephemeris initialized?
+    integer :: nrfile     = 0        ! file unit for the ephemeris file
+    integer :: nrl        = -1       ! this was formerly in state
+    integer :: ncoeffs    = 0        ! 
+    
+    character(len=*),dimension(15),parameter :: list_of_bodies = [ & 
+                                                        'mercury                ',&
+                                                        'venus                  ',&
+                                                        'earth                  ',&
+                                                        'mars                   ',&
+                                                        'jupiter                ',&
+                                                        'saturn                 ',&
+                                                        'uranus                 ',&
+                                                        'neptune                ',&
+                                                        'pluto                  ',&
+                                                        'moon                   ',&
+                                                        'sun                    ',&
+                                                        'solar-system barycenter',&
+                                                        'earth-moon barycenter  ',&
+                                                        'nutations              ',&
+                                                        'librations             ']
+           
     !public routines:
-    public :: pleph
-    public :: const
+    public :: initialize_ephemeris
+    public :: get_state
+    public :: get_constants
+    public :: close_ephemeris
     public :: test_ephemeris
 
     contains
 !*****************************************************************************************
     
 !*****************************************************************************************
-!****f* ephemeris_module/pleph
+!****f* ephemeris_module/get_state
 ! 
 !  NAME
-!    pleph
+!    get_state
 !
 !  DESCRIPTION
 !  this subroutine reads the jpl planetary ephemeris
@@ -124,7 +148,7 @@
 !
 !  SOURCE
 
-    subroutine pleph ( et, ntarg, ncent, rrd )
+    subroutine get_state ( et, ntarg, ncent, rrd )
 
     implicit none  
 
@@ -139,26 +163,19 @@
     integer :: list(12),i,j,k
     logical :: bsave
 
-    logical :: first = .true.    !a saved variable
-
-    real(wp),dimension(2),parameter :: zips = 0.0_wp
-
     ! initialize et2 for 'state' and set up component count
 
     et2(1)=et
     et2(2)=0.0_wp
+    
+    list = 0        !jw
 
-    if (first) then
-        call state(zips,list,pvst,pnut)  !initialize the ephemeris
-        first=.false.
-    end if
+    if (.not. initialized) call initialize_ephemeris()
     
     if (ntarg == ncent) then
         rrd = 0.0_wp   !jw
         return
     end if
-
-    list = 0        !jw
 
     ! check for nutation call
 
@@ -176,7 +193,7 @@
             do i=1,4
                 rrd(i)=0.0_wp
             enddo
-            write(6,'(A)') ' *****  no nutations on the ephemeris file  *****'
+            write(6,'(A)') 'Error: the ephemeris file does not contain nutations.'
             stop
         endif
     end if
@@ -194,7 +211,7 @@
             enddo
             return
         else
-            write(6,'(A)') ' *****  no librations on the ephemeris file  *****'
+            write(6,'(A)') 'Error: the ephemeris file does not contain librations.'
             stop
         endif
     end if
@@ -268,7 +285,7 @@
 
     bary=bsave
 
-    end subroutine pleph
+    end subroutine get_state
 !*****************************************************************************************
     
 !*****************************************************************************************
@@ -322,11 +339,11 @@
       data twot/0.0_wp/
       data pc(1),pc(2)/1.0_wp,0.0_wp/
       data vc(2)/1.0_wp/
-!
+
 !       entry point. get correct sub-interval number for this set
 !       of coefficients and then get normalized chebyshev time
 !       within that subinterval.
-!
+
       dna=dble(na)
       dt1=int(t(1))
       temp=dna*t(1)
@@ -347,19 +364,19 @@
         pc(2)=tc
         twot=tc+tc
       endif
-!
+
 !       be sure that at least 'ncf' polynomials have been evaluated
 !       and are stored in the array 'pc'.
-!
+
       if (np<ncf) then
         do i=np+1,ncf
             pc(i)=twot*pc(i-1)-pc(i-2)
         end do
         np=ncf
       endif
-!
+
 !       interpolate to get position for each component
-!
+
       do i=1,ncm
           pv(i,1)=0.0_wp
           do j=ncf,1,-1
@@ -367,10 +384,10 @@
           end do
       end do
       if (ifl<=1) return
-!
+
 !       if velocity interpolation is wanted, be sure enough
 !       derivative polynomials have been generated and stored.
-!
+
       vfac=(dna+dna)/t(2)
       vc(3)=twot+twot
       if (nv<ncf) then
@@ -379,9 +396,9 @@
         end do
         nv=ncf
       endif
-!
+
 !       interpolate to get velocity for each component
-!
+
       do i=1,ncm
           pv(i,2)=0.0_wp
           do j=ncf,2,-1
@@ -438,6 +455,104 @@
     end subroutine split
 !*****************************************************************************************
 
+!*****************************************************************************************
+!****f* ephemeris_module/initialize_ephemeris
+! 
+!  NAME
+!    initialize_ephemeris
+!
+!  DESCRIPTION
+!    Initialize the ephemeris.
+!    This routine may be called to load a different ephemeris file.
+!    Otherwise, it is called on the first call to get_state, and loads
+!    the file specified in the module header.
+!
+!  NOTES
+!    Based on code formerly in STATE.
+!
+!  SOURCE
+
+    subroutine initialize_ephemeris(eph_filename, eph_ksize)
+
+    implicit none
+
+    character(len=*),intent(in),optional :: eph_filename    !ephemeris file name
+    integer,intent(in),optional          :: eph_ksize        !corresponding ksize
+
+    integer :: irecsz,istat
+    integer :: i,j,k,l
+    
+    call close_ephemeris()
+
+    if (present(eph_ksize))     ksize  = eph_ksize
+    if (present(eph_filename))  namfil = eph_filename
+
+    irecsz=nrecl*ksize
+    ncoeffs=ksize/2
+
+    open(newunit=nrfile,      &
+         file=namfil,         &
+         access='DIRECT',     &
+         form='UNFORMATTED',  &
+         recl=irecsz,         &
+         iostat=istat,        &
+         status='OLD'          )
+         
+    if (istat==0) then
+
+        read(nrfile,rec=1) ttl,(cnam(k),k=1,oldmax),ss,ncon,au,emrat,&
+                          ((ipt(i,j),i=1,3),j=1,12),numde,(ipt(i,13),i=1,3), &
+                          (cnam(l),l=oldmax+1,ncon)
+
+        if (ncon <= oldmax) then
+            read(nrfile,rec=2)(cval(i),i=1,oldmax)
+        else
+            read(nrfile,rec=2)(cval(i),i=1,ncon)
+        endif
+
+        nrl = 0
+        
+        initialized = .true.
+
+    else
+        write(*,*) 'error reading ephemeris file: '//trim(namfil)
+        stop
+    end if
+
+    end subroutine initialize_ephemeris
+!*****************************************************************************************
+
+!*****************************************************************************************
+!****f* ephemeris_module/close_ephemeris
+! 
+!  NAME
+!    close_ephemeris
+!
+!  DESCRIPTION
+!    Close the ephemeris.
+!
+!  SOURCE
+
+    subroutine close_ephemeris()
+
+    implicit none
+    
+    logical :: opened
+    integer :: istat
+    
+    if (initialized) then
+    
+        inquire(unit=nrfile,opened=opened,iostat=istat)
+    
+        if (opened) close(unit=nrfile,iostat=istat)
+        
+        initialized = .false.
+    
+    end if
+    
+    end subroutine close_ephemeris
+!*****************************************************************************************
+    
 !*****************************************************************************************
 !****f* ephemeris_module/state
 ! 
@@ -532,43 +647,9 @@
       dimension et2(2),pv(6,11),pnut(4),t(2),pjd(4),buf(1500)
 
       integer,dimension(12) :: list
-      integer :: nrfile
       integer :: istat
       
-      logical :: first = .true.
-
-    !1st time in, get pointer data, etc., from eph file
-
-      if (first) then
-        
-          first=.false.
-
-          irecsz=nrecl*ksize
-          ncoeffs=ksize/2
-
-            open(newunit=nrfile,     &
-                 file=namfil,         &
-                 access='direct',     &
-                 form='unformatted', &
-                 recl=irecsz,         &
-                 status='old')
-
-          read(nrfile,rec=1) ttl,(cnam(k),k=1,oldmax),ss,ncon,au,emrat,&
-                              ((ipt(i,j),i=1,3),j=1,12),numde,(ipt(i,13),i=1,3) &
-                              ,(cnam(l),l=oldmax+1,ncon)
-
-          if (ncon <= oldmax)then
-            read(nrfile,rec=2)(cval(i),i=1,oldmax)
-          else
-            read(nrfile,rec=2)(cval(i),i=1,ncon)
-          endif
-
-          nrl=0
-
-      endif
-
-      if (et2(1) == 0.0_wp) return   ! this is when this routine
-                                     ! is called just to initialize the files
+      !the ephemeris is assumed to have been initialized
 
       s=et2(1)-0.5_wp
       call split(s,pjd(1))
@@ -655,10 +736,10 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* ephemeris_module/const
+!****f* ephemeris_module/get_constants
 ! 
 !  NAME
-!    const
+!    get_constants
 !
 !  DESCRIPTION
 !     this entry obtains the constants from the ephemeris file
@@ -672,44 +753,29 @@
 !
 !  SOURCE
 
-    subroutine const(nam,val,sss,n)
+    subroutine get_constants(nam,val,sss,n)
 
     implicit none
 
     character(len=6),dimension(:),intent(out) :: nam
-    integer,intent(out) :: n
-    real(wp),dimension(*),intent(out) :: val
+    real(wp),dimension(:),intent(out) :: val
     real(wp),dimension(3),intent(out) :: sss
-
-    save        !... JW : don't know if this is necessary ...
+    integer,intent(out) :: n
 
     integer :: i
-    real(wp) :: pvst(6,11),pnut(4)
-    integer :: list(12)
-
-    real(wp),dimension(2),parameter :: zips = 0.0_wp     
-
-    logical :: first = .true.
-
-    !call state to initialize the ephemeris and read in the constants
-
-    if (first) then
-        call state(zips,list,pvst,pnut)  !initialize the ephemeris
-        first=.false.
-    end if
     
-    n=ncon
+    if (.not. initialized) call initialize_ephemeris()
+    
+    n = ncon
 
-    do i=1,3
-        sss(i)=ss(i)
-    enddo
+    sss = ss
 
     do i=1,n
-        nam(i)=cnam(i)
-        val(i)=cval(i)
+        nam(i) = cnam(i)
+        val(i) = cval(i)
     enddo
 
-    end subroutine const
+    end subroutine get_constants
 !*****************************************************************************************
 
 !*****************************************************************************************
@@ -764,38 +830,61 @@
     character*3 :: alf3
     real(wp) :: del
     real(wp) :: jd
-    real(wp) :: r(6)
+    real(wp) :: rv(6)
     real(wp) :: ss(3)
     real(wp) :: vals(nmax)
     real(wp) :: jdepoc
-    integer :: nvs,ntarg,nctr,ncoord
+    integer :: nvs,ntarg,nctr,ncoord,i,j
 
     !get some constants from the file:
-    call const (nams, vals, ss, nvs)
-
-    jd    = 2451536.5d0        !julian date
-    ntarg = 3                !earth
-    nctr  = 11                !sun
-
-    write(*,*) 'ntarg   = ', ntarg
-    write(*,*) 'nctr    = ', nctr
+    call get_constants(nams, vals, ss, nvs)
+    
+    write(*,'(A)') ''
+    write(*,'(A)') 'Ephemeris initialized'
+    write(*,'(A,1X,F15.3,1X,A,1X,F15.3)') 'JD range: ',ss(1), 'to ', ss(2)
+    write(*,'(A)') ''
+    do i=1,nvs
+        write(*,'(A,1X,D25.16)') nams(i), vals(i)
+    end do
+    
+    jd  = 2451536.5d0       ! julian date
 
     if (jd < ss(1) .or. jd > ss(2)) then
 
+        write(*,'(A)') ''
         write(*,*) 'error: jed out of bounds.'
         write(*,*) 'jed   = ', jd
         write(*,*) 'ss(1) = ', ss(1)
         write(*,*) 'ss(2) = ', ss(2)
 
     else
+        
+        do j=1,2
+        
+            if (j==1) then
+                  ntarg = 3      !earth
+                nctr  = 11     !sun        
+            else
+                  ntarg = 10     !moon
+                nctr  = 3      !earth        
+            end if
+            
+            write(*,*) ''
+            write(*,*) 'state of "'//trim(list_of_bodies(ntarg))//&
+                        '" wrt "'//trim(list_of_bodies(nctr))//'"'
+    
+            do i=1,10
+        
+                call get_state( jd, ntarg, nctr, rv )
 
-        call  pleph ( jd, ntarg, nctr, r )
+                write(*,'(F15.2,1X,*(E25.16,1X))') jd, norm2(rv(1:3)), rv
+            
+                jd = jd + 10.0_wp
 
-        write(*,*) 'et   = ', jd
-        write(*,'(1x,a/,*(e30.16,1x/))') 'r    = ', r
-        write(*,*) 'rmag = ', norm2(r(1:3))
-        write(*,*) '' 
-
+            end do
+        
+        end do
+        
     end if
 
     end subroutine test_ephemeris
