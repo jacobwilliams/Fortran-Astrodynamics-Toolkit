@@ -43,7 +43,7 @@
     end interface
     
     !unit test routine:
-    public :: brent_example
+    public :: brent_test
     
     contains
 !*****************************************************************************************    
@@ -380,10 +380,10 @@
 !*****************************************************************************************    
 
 !*****************************************************************************************    
-!****f* brent_module/brent_example
+!****f* brent_module/brent_test
 !
 !  NAME
-!    fmin_test
+!    brent_test
 !
 !  DESCRIPTION
 !    Test of the fmin function
@@ -393,7 +393,7 @@
 !    
 !  SOURCE
 
-    subroutine brent_example()
+    subroutine brent_test()
     
     implicit none
     
@@ -407,6 +407,12 @@
         integer :: i = 0    !function counter
     end type myfunc_type   
     type(myfunc_type) :: myfunc
+    
+    write(*,*) ''
+    write(*,*) '---------------'
+    write(*,*) ' brent_test'
+    write(*,*) '---------------'
+    write(*,*) ''
     
     call myfunc%set_function(sin_func)    !set the function
             
@@ -443,7 +449,7 @@
         
         end function sin_func
     
-    end subroutine brent_example
+    end subroutine brent_test
  !*****************************************************************************************
   
 !*****************************************************************************************    

@@ -97,7 +97,8 @@
     public :: get_state
     public :: get_constants
     public :: close_ephemeris
-    public :: test_ephemeris
+    
+    public :: ephemeris_test
 
     contains
 !*****************************************************************************************
@@ -783,10 +784,10 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* ephemeris_module/test_ephemeris
+!****f* ephemeris_module/ephemeris_test
 !
 !  NAME
-!    test_ephemeris
+!    ephemeris_test
 !
 !  DESCRIPTION
 !    Ephemeris test routine.
@@ -826,7 +827,7 @@
 !
 !  SOURCE
 
-    subroutine test_ephemeris()
+    subroutine ephemeris_test()
 
     implicit none
 
@@ -837,7 +838,13 @@
     real(wp),dimension(3) :: ss
     real(wp),dimension(nmax) :: vals
     integer :: nvs,ntarg,nctr,ncoord,i,j
-
+    
+    write(*,*) ''
+    write(*,*) '---------------'
+    write(*,*) ' ephemeris_test'
+    write(*,*) '---------------'
+    write(*,*) ''
+    
     !get some constants from the file:
     call get_constants(nams,vals,ss,nvs)
     
@@ -889,7 +896,7 @@
         
     end if
 
-    end subroutine test_ephemeris
+    end subroutine ephemeris_test
 !*****************************************************************************************
 
 !*****************************************************************************************

@@ -83,14 +83,20 @@
 
     subroutine bobyqa_test()
 
-      implicit none
-      real(wp),dimension(100) :: x,xl,xu
-      integer :: iprint,maxfun,i,jcase,m,j,n,npt
-      real(wp) :: rhobeg,rhoend,temp
-    
-      real(wp),parameter :: bdl = -one
-      real(wp),parameter :: bdu = one
-    
+    implicit none
+    real(wp),dimension(100) :: x,xl,xu
+    integer :: iprint,maxfun,i,jcase,m,j,n,npt
+    real(wp) :: rhobeg,rhoend,temp
+
+    real(wp),parameter :: bdl = -one
+    real(wp),parameter :: bdu = one
+
+    write(*,*) ''
+    write(*,*) '---------------'
+    write(*,*) ' bobyqa_test'
+    write(*,*) '---------------'
+    write(*,*) ''
+        
       calfun => calfun_test        !set the function
       
       iprint=2
@@ -217,7 +223,7 @@
       real(wp),intent(in) :: rhoend
       
       integer :: ndim,ixb,ixp,ifv,ixo,igo,ihq,ipq,j,jsl,jsu,&
-      			 ibmat,izmat,isl,isu,ixn,ixa,id,ivl,iw,np
+                   ibmat,izmat,isl,isu,ixn,ixa,id,ivl,iw,np
       real(wp) :: temp
       real(wp),dimension((npt+5)*(npt+n)+3*n*(n+5)/2) :: w
 

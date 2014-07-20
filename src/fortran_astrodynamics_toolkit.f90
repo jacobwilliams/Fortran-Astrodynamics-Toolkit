@@ -24,5 +24,7 @@
     use numbers_module
     use vector_module
     
+    implicit none
+    
     end module fortran_astrodynamics_toolkit
 !*****************************************************************************************
