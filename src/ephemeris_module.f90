@@ -327,85 +327,85 @@
 !  SOURCE
 
     subroutine interp(buf,t,ncf,ncm,na,ifl,pv)
-    
-      implicit real(wp) (a-h,o-z)
 
-      save
+    implicit real(wp) (a-h,o-z)
 
-      real(wp) buf(ncf,ncm,*),t(2),pv(ncm,*),pc(18),vc(18)
+    save
 
-      data np/2/
-      data nv/3/
-      data twot/0.0_wp/
-      data pc(1),pc(2)/1.0_wp,0.0_wp/
-      data vc(2)/1.0_wp/
+    real(wp) buf(ncf,ncm,*),t(2),pv(ncm,*),pc(18),vc(18)
 
-!       entry point. get correct sub-interval number for this set
-!       of coefficients and then get normalized chebyshev time
-!       within that subinterval.
+    data np/2/
+    data nv/3/
+    data twot/0.0_wp/
+    data pc(1),pc(2)/1.0_wp,0.0_wp/
+    data vc(2)/1.0_wp/
 
-      dna=dble(na)
-      dt1=int(t(1))
-      temp=dna*t(1)
-      l=idint(temp-dt1)+1
+    ! entry point. get correct sub-interval number for this set
+    ! of coefficients and then get normalized chebyshev time
+    ! within that subinterval.
 
-!         tc is the normalized chebyshev time (-1 <= tc <= 1)
+    dna=dble(na)
+    dt1=int(t(1))
+    temp=dna*t(1)
+    l=idint(temp-dt1)+1
 
-      tc=2.0_wp*(mod(temp,1.0_wp)+dt1)-1.0_wp
+    ! tc is the normalized chebyshev time (-1 <= tc <= 1)
 
-!       check to see whether chebyshev time has changed,
-!       and compute new polynomial values if it has.
-!       (the element pc(2) is the value of t1(tc) and hence
-!       contains the value of tc on the previous call.)
+    tc=2.0_wp*(mod(temp,1.0_wp)+dt1)-1.0_wp
 
-      if (tc/=pc(2)) then
+    ! check to see whether chebyshev time has changed,
+    ! and compute new polynomial values if it has.
+    ! (the element pc(2) is the value of t1(tc) and hence
+    ! contains the value of tc on the previous call.)
+
+    if (tc/=pc(2)) then
         np=2
         nv=3
         pc(2)=tc
         twot=tc+tc
-      endif
+    endif
 
-!       be sure that at least 'ncf' polynomials have been evaluated
-!       and are stored in the array 'pc'.
+    ! be sure that at least 'ncf' polynomials have been evaluated
+    ! and are stored in the array 'pc'.
 
-      if (np<ncf) then
+    if (np<ncf) then
         do i=np+1,ncf
             pc(i)=twot*pc(i-1)-pc(i-2)
         end do
         np=ncf
-      endif
+    endif
 
-!       interpolate to get position for each component
+    ! interpolate to get position for each component
 
-      do i=1,ncm
-          pv(i,1)=0.0_wp
-          do j=ncf,1,-1
-              pv(i,1)=pv(i,1)+pc(j)*buf(j,i,l)
-          end do
-      end do
-      if (ifl<=1) return
+    do i=1,ncm
+        pv(i,1)=0.0_wp
+        do j=ncf,1,-1
+            pv(i,1)=pv(i,1)+pc(j)*buf(j,i,l)
+        end do
+    end do
+    if (ifl<=1) return
 
-!       if velocity interpolation is wanted, be sure enough
-!       derivative polynomials have been generated and stored.
+    ! if velocity interpolation is wanted, be sure enough
+    ! derivative polynomials have been generated and stored.
 
-      vfac=(dna+dna)/t(2)
-      vc(3)=twot+twot
-      if (nv<ncf) then
+    vfac=(dna+dna)/t(2)
+    vc(3)=twot+twot
+    if (nv<ncf) then
         do i=nv+1,ncf
             vc(i)=twot*vc(i-1)+pc(i-1)+pc(i-1)-vc(i-2)
         end do
         nv=ncf
-      endif
+    endif
 
-!       interpolate to get velocity for each component
+    ! interpolate to get velocity for each component
 
-      do i=1,ncm
-          pv(i,2)=0.0_wp
-          do j=ncf,2,-1
-              pv(i,2)=pv(i,2)+vc(j)*buf(j,i,l)
-          end do
-          pv(i,2)=pv(i,2)*vfac
-      end do
+    do i=1,ncm
+        pv(i,2)=0.0_wp
+        do j=ncf,2,-1
+            pv(i,2)=pv(i,2)+vc(j)*buf(j,i,l)
+        end do
+        pv(i,2)=pv(i,2)*vfac
+    end do
 
     end subroutine interp
 !*****************************************************************************************
@@ -477,7 +477,7 @@
     implicit none
 
     character(len=*),intent(in),optional :: eph_filename    !ephemeris file name
-    integer,intent(in),optional          :: eph_ksize        !corresponding ksize
+    integer,intent(in),optional          :: eph_ksize       !corresponding ksize
 
     integer :: irecsz,istat
     integer :: i,j,k,l
@@ -496,14 +496,14 @@
          form='UNFORMATTED',  &
          recl=irecsz,         &
          iostat=istat,        &
-         status='OLD'          )
+         status='OLD'         )
          
     if (istat==0) then
 
         read(nrfile,rec=1,iostat=istat) &
-                          ttl,(cnam(k),k=1,oldmax),ss,ncon,au,emrat,&
-                          ((ipt(i,j),i=1,3),j=1,12),numde,(ipt(i,13),i=1,3), &
-                          (cnam(l),l=oldmax+1,ncon)
+                 ttl,(cnam(k),k=1,oldmax),ss,ncon,au,emrat,&
+                 ((ipt(i,j),i=1,3),j=1,12),numde,(ipt(i,13),i=1,3), &
+                 (cnam(l),l=oldmax+1,ncon)
             
         if (istat==0) then
             if (ncon <= oldmax) then
@@ -511,10 +511,10 @@
             else
                 read(nrfile,rec=2,iostat=istat) (cval(i),i=1,ncon)
             endif
-        		if (istat==0) then
-            		nrl = 0
-            		initialized = .true.
-				end if
+            if (istat==0) then
+                nrl = 0
+                initialized = .true.
+            end if
         end if
         
     end if
@@ -643,99 +643,98 @@
 !
 !  SOURCE
 
-      subroutine state(et2,list,pv,pnut)
-      
-      implicit real(wp) (a-h,o-z)
+    subroutine state(et2,list,pv,pnut)
 
-      save 
-      
-      dimension et2(2),pv(6,11),pnut(4),t(2),pjd(4),buf(1500)
+    implicit real(wp) (a-h,o-z)
 
-      integer,dimension(12) :: list
-      integer :: istat
-      
-      !the ephemeris is assumed to have been initialized
+    save 
 
-      s=et2(1)-0.5_wp
-      call split(s,pjd(1))
-      call split(et2(2),pjd(3))
-      pjd(1)=pjd(1)+pjd(3)+0.5_wp
-      pjd(2)=pjd(2)+pjd(4)
-      call split(pjd(2),pjd(3))
-      pjd(1)=pjd(1)+pjd(3)
+    dimension et2(2),pv(6,11),pnut(4),t(2),pjd(4),buf(1500)
+
+    integer,dimension(12) :: list
+    integer :: istat
+
+    !the ephemeris is assumed to have been initialized
+
+    s=et2(1)-0.5_wp
+    call split(s,pjd(1))
+    call split(et2(2),pjd(3))
+    pjd(1)=pjd(1)+pjd(3)+0.5_wp
+    pjd(2)=pjd(2)+pjd(4)
+    call split(pjd(2),pjd(3))
+    pjd(1)=pjd(1)+pjd(3)
 
     ! error return for epoch out of range
 
-      if (pjd(1)+pjd(4)<ss(1) .or. pjd(1)+pjd(4)>ss(2)) then
-      
-          write(*,198) et2(1)+et2(2),ss(1),ss(2)
- 198      format(' ***  requested jed,',f12.2, ' not within ephemeris limits,',2f12.2,'  ***')
-
-          stop
-                
-      end if
+    if (pjd(1)+pjd(4)<ss(1) .or. pjd(1)+pjd(4)>ss(2)) then
+        write(*,'(A,F12.2,A,2F12.2)') 'Error: requested jed,',&
+                                        et2(1)+et2(2),&
+                                        ' not within ephemeris limits,',&
+                                        ss(1),ss(2)
+        stop      
+    end if
 
     ! calculate record # and relative time in interval
 
-      nr=idint((pjd(1)-ss(1))/ss(3))+3
-      if (pjd(1)==ss(2)) nr=nr-1
+    nr=idint((pjd(1)-ss(1))/ss(3))+3
+    if (pjd(1)==ss(2)) nr=nr-1
 
-        tmp1 = dble(nr-3)*ss(3) + ss(1)
-        tmp2 = pjd(1) - tmp1
-        t(1) = (tmp2 + pjd(4))/ss(3)
+    tmp1 = dble(nr-3)*ss(3) + ss(1)
+    tmp2 = pjd(1) - tmp1
+    t(1) = (tmp2 + pjd(4))/ss(3)
 
-! read correct record if not in core
+    ! read correct record if not in core
 
-      if (nr/=nrl) then
+    if (nr/=nrl) then
         nrl=nr
         read(nrfile,rec=nr,iostat=istat)(buf(k),k=1,ncoeffs)
         if (istat/=0) then
-              write(*,'(2f12.2,a80)') et2,'error return in state'
-              stop      
+            write(*,'(2f12.2,a80)') et2,'error return in state'
+            stop      
         end if
-      endif
+    endif
 
-      if (km) then
-         t(2)=ss(3)*86400.0_wp
-         aufac=1.0_wp
-      else
-         t(2)=ss(3)
-         aufac=1.0_wp/au
-      endif
+    if (km) then
+        t(2)=ss(3)*86400.0_wp
+        aufac=1.0_wp
+    else
+        t(2)=ss(3)
+        aufac=1.0_wp/au
+    endif
 
-! interpolate ssbary sun
+    ! interpolate ssbary sun
 
-      call interp(buf(ipt(1,11)),t,ipt(2,11),3,ipt(3,11),2,pvsun)
+    call interp(buf(ipt(1,11)),t,ipt(2,11),3,ipt(3,11),2,pvsun)
 
-      do i=1,6
-          pvsun(i)=pvsun(i)*aufac
-      enddo
+    do i=1,6
+        pvsun(i)=pvsun(i)*aufac
+    enddo
 
-! check and interpolate whichever bodies are requested
+    ! check and interpolate whichever bodies are requested
 
-      do i=1,10
-          if (list(i)==0) cycle
-          call interp(buf(ipt(1,i)),t,ipt(2,i),3,ipt(3,i),list(i),pv(1,i))
-          do j=1,6
-           if (i<=9 .and. .not.bary) then
-               pv(j,i)=pv(j,i)*aufac-pvsun(j)
-           else
-               pv(j,i)=pv(j,i)*aufac
-           endif
-          enddo
-     end do
+    do i=1,10
+        if (list(i)==0) cycle
+        call interp(buf(ipt(1,i)),t,ipt(2,i),3,ipt(3,i),list(i),pv(1,i))
+        do j=1,6
+            if (i<=9 .and. .not.bary) then
+                pv(j,i)=pv(j,i)*aufac-pvsun(j)
+            else
+                pv(j,i)=pv(j,i)*aufac
+            endif
+        enddo
+    end do
 
-! do nutations if requested (and if on file)
+    ! do nutations if requested (and if on file)
 
-      if (list(11)>0 .and. ipt(2,12)>0)&
-       call interp(buf(ipt(1,12)),t,ipt(2,12),2,ipt(3,12),&
-       list(11),pnut)
+    if (list(11)>0 .and. ipt(2,12)>0)&
+    call interp(buf(ipt(1,12)),t,ipt(2,12),2,ipt(3,12),&
+    list(11),pnut)
 
-! get librations if requested (and if on file)
+    ! get librations if requested (and if on file)
 
-      if (list(12)>0 .and. ipt(2,13)>0)&
-       call interp(buf(ipt(1,13)),t,ipt(2,13),3,ipt(3,13),&
-       list(12),pv(1,11))
+    if (list(12)>0 .and. ipt(2,13)>0)&
+    call interp(buf(ipt(1,13)),t,ipt(2,13),3,ipt(3,13),&
+    list(12),pv(1,11))
 
     end subroutine state
 !*****************************************************************************************
@@ -831,18 +830,16 @@
 
     implicit none
 
-    character*6 :: nams(nmax)
-    character*3 :: alf3
-    real(wp) :: del
-    real(wp) :: jd
-    real(wp) :: rv(6)
-    real(wp) :: ss(3)
-    real(wp) :: vals(nmax)
-    real(wp) :: jdepoc
+    character(len=6),dimension(nmax) :: nams
+    character(len=3) :: alf3
+    real(wp) :: del,jd,jdepoc
+    real(wp),dimension(6) :: rv
+    real(wp),dimension(3) :: ss
+    real(wp),dimension(nmax) :: vals
     integer :: nvs,ntarg,nctr,ncoord,i,j
 
     !get some constants from the file:
-    call get_constants(nams, vals, ss, nvs)
+    call get_constants(nams,vals,ss,nvs)
     
     write(*,'(A)') ''
     write(*,'(A)') 'Ephemeris initialized'
@@ -867,10 +864,10 @@
         do j=1,2
         
             if (j==1) then
-                  ntarg = 3      !earth
+                ntarg = 3      !earth
                 nctr  = 11     !sun        
             else
-                  ntarg = 10     !moon
+                ntarg = 10     !moon
                 nctr  = 3      !earth        
             end if
             
