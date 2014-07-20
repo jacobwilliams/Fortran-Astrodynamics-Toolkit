@@ -1,4 +1,4 @@
-!*****************************************************************************************    
+!*****************************************************************************************
     module vector_module
 !*****************************************************************************************
 !****h* FAT/vector_module
@@ -9,7 +9,7 @@
 !  DESCRIPTION
 !    Routines for the manipulation of vectors.
 !
-!*****************************************************************************************    
+!*****************************************************************************************
 
     use kind_module,    only: wp
     
@@ -20,9 +20,10 @@
     public :: cross
     public :: unit
     public :: ucross
+    public :: rodrigues_rotation
     
     contains
-!*****************************************************************************************    
+!*****************************************************************************************
     
 !*****************************************************************************************
 !****f* vector_module/cross
@@ -112,8 +113,46 @@
     u = unit(cross(v1,v2))
 
     end function ucross
-!*****************************************************************************************    
+!*****************************************************************************************
     
-!*****************************************************************************************    
+!*****************************************************************************************
+!****f* vector_module/rodrigues_rotation
+!
+!  NAME
+!    rodrigues_rotation
+!
+!  DESCRIPTION
+!    Rotate a vector in space, given an axis and angle of rotation. 
+!
+!  SEE ALSO
+!    http://en.wikipedia.org/wiki/Rodrigues%27_rotation_formula
+!
+!  AUTHOR
+!    Jacob Williams, 7/20/2014
+!
+!  SOURCE
+
+    subroutine rodrigues_rotation(v,k,theta,vrot)
+    
+    implicit none
+    
+    real(wp),dimension(3),intent(in)  :: v      !vector to rotate
+    real(wp),dimension(3),intent(in)  :: k      !rotation axis
+    real(wp),intent(in)               :: theta  !rotation angle [rad]
+    real(wp),dimension(3),intent(out) :: vrot   !result
+    
+    real(wp),dimension(3) :: khat
+    real(wp) :: ct,st
+    
+    ct = cos(theta)
+    st = sin(theta)      
+    khat = unit(k)   !rotation axis unit vector
+    
+    vrot = v*ct + cross(khat,v)*st + khat*dot_product(khat,v)*(one-ct)
+     
+    end subroutine rodrigues_rotation
+!*****************************************************************************************
+    
+!*****************************************************************************************
     end module vector_module
-!*****************************************************************************************    
+!*****************************************************************************************
