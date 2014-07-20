@@ -500,22 +500,27 @@
          
     if (istat==0) then
 
-        read(nrfile,rec=1) ttl,(cnam(k),k=1,oldmax),ss,ncon,au,emrat,&
+        read(nrfile,rec=1,iostat=istat) &
+                          ttl,(cnam(k),k=1,oldmax),ss,ncon,au,emrat,&
                           ((ipt(i,j),i=1,3),j=1,12),numde,(ipt(i,13),i=1,3), &
                           (cnam(l),l=oldmax+1,ncon)
-
-        if (ncon <= oldmax) then
-            read(nrfile,rec=2)(cval(i),i=1,oldmax)
-        else
-            read(nrfile,rec=2)(cval(i),i=1,ncon)
-        endif
-
-        nrl = 0
+            
+        if (istat==0) then
+            if (ncon <= oldmax) then
+                read(nrfile,rec=2,iostat=istat) (cval(i),i=1,oldmax)
+            else
+                read(nrfile,rec=2,iostat=istat) (cval(i),i=1,ncon)
+            endif
+        		if (istat==0) then
+            		nrl = 0
+            		initialized = .true.
+				end if
+        end if
         
-        initialized = .true.
-
-    else
-        write(*,*) 'error reading ephemeris file: '//trim(namfil)
+    end if
+    
+    if (istat/=0) then
+        write(*,*) 'Error reading ephemeris file: '//trim(namfil)
         stop
     end if
 
