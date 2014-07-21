@@ -18,6 +18,7 @@
     call bobyqa_test()        
     call brent_test()
     call ephemeris_test()
+    call vector_test()
     
     end program test
 !*****************************************************************************************
