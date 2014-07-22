@@ -23,6 +23,8 @@
     public :: ucross
     public :: axis_angle_rotation
     public :: cross_matrix
+    public :: outer_product
+    public :: box_product
     public :: axis_angle_rotation_to_rotation_matrix
     
     public :: vector_test
@@ -137,7 +139,7 @@
 !
 !  SOURCE
 
-    subroutine axis_angle_rotation(v,k,theta,vrot)
+    pure subroutine axis_angle_rotation(v,k,theta,vrot)
     
     implicit none
     
@@ -173,7 +175,7 @@
 !
 !  SOURCE
 
-    function cross_matrix(r) result(rcross)
+    pure function cross_matrix(r) result(rcross)
     
     implicit none
     
@@ -185,6 +187,65 @@
     rcross(:,3) = [r(2),-r(1),zero]
     
     end function cross_matrix
+!*****************************************************************************************
+
+!*****************************************************************************************
+!****f* vector_module/outer_product
+!
+!  NAME
+!    outer_product
+!
+!  DESCRIPTION
+!    Computes the outer product of the two vectors.
+!
+!  AUTHOR
+!    Jacob Williams, 7/21/2014
+!
+!  SOURCE
+
+    pure function outer_product(a,b) result(c)
+    
+    implicit none
+    
+    real(wp),dimension(:),intent(in) :: a
+    real(wp),dimension(:),intent(in) :: b
+    real(wp),dimension(size(a),size(b)) :: c
+    
+    integer :: i
+    
+    do i=1,size(b)    
+        c(:,i) = a*b(i)
+    end do    
+    
+    end function outer_product
+!*****************************************************************************************
+
+!*****************************************************************************************
+!****f* vector_module/box_product
+!
+!  NAME
+!    outer_product
+!
+!  DESCRIPTION
+!    Computes the box product (scalar triple product) of the three vectors.
+!
+!  AUTHOR
+!    Jacob Williams, 7/21/2014
+!
+!  SOURCE
+
+    pure function box_product(a,b,c) result(d)
+    
+    implicit none
+    
+    real(wp),dimension(:),intent(in) :: a
+    real(wp),dimension(:),intent(in) :: b
+    real(wp),dimension(:),intent(in) :: c
+    real(wp) :: d
+    
+    d = dot_product(a,cross(b,c))  
+    
+    end function box_product
 !*****************************************************************************************
 
 !*****************************************************************************************
@@ -202,7 +263,7 @@
 !
 !  SOURCE
 
-    subroutine axis_angle_rotation_to_rotation_matrix(k,theta,rotmat)
+    pure subroutine axis_angle_rotation_to_rotation_matrix(k,theta,rotmat)
     
     implicit none
     
