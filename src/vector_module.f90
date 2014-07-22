@@ -25,6 +25,7 @@
     public :: cross_matrix
     public :: outer_product
     public :: box_product
+    public :: vector_projection
     public :: axis_angle_rotation_to_rotation_matrix
     
     public :: vector_test
@@ -246,6 +247,44 @@
     d = dot_product(a,cross(b,c))  
     
     end function box_product
+!*****************************************************************************************
+
+!*****************************************************************************************
+!****f* vector_module/vector_projection
+!
+!  NAME
+!    vector_projection
+!
+!  DESCRIPTION
+!    The projection of one vector onto another vector.
+!
+!  SEE ALSO
+!    [1] http://en.wikipedia.org/wiki/Gram-Schmidt_process
+!
+!  AUTHOR
+!    Jacob Williams, 7/21/2014
+!
+!  SOURCE
+
+    pure function vector_projection(a,b) result(c)
+    
+    implicit none
+    
+    real(wp),dimension(:),intent(in)       :: a  !the original vector
+    real(wp),dimension(size(a)),intent(in) :: b  !the vector to project on to
+    real(wp),dimension(size(a))            :: c  !the projection of a onto b
+    
+    real(wp) :: amag2
+    
+    amag2 = dot_product(a,a)
+    
+    if (amag2==zero) then
+        c = zero
+    else
+        c = a * dot_product(a,b) / amag2
+    end if
+    
+    end function vector_projection
 !*****************************************************************************************
 
 !*****************************************************************************************
