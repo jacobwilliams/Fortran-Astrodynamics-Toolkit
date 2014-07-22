@@ -42,38 +42,41 @@
     integer :: ksize = 2036
 
     !ephhdr
-    real(wp) :: cval(nmax)
-    real(wp) :: ss(3)
-    real(wp) :: au,emrat
-    integer  :: ncon,numde,ipt(3,13) ! ipt(39)
+    integer,dimension(3,13)  :: ipt   = 0       ! ipt(39)
+    real(wp),dimension(nmax) :: cval  = 0.0_wp
+    real(wp),dimension(3)    :: ss    = 0.0_wp
+    real(wp)                 :: au    = 0.0_wp
+    real(wp)                 :: emrat = 0.0_wp
+    integer                  :: ncon  = 0
+    integer                  :: numde = 0
     
     !stcomx
     !
-    !    km   logical flag defining physical units of the output states.
+    !    km = logical flag defining physical units of the output states.
     !             km = .true.  : km and km/sec
     !             km = .false. : au and au/day
     !         for nutations and librations.  angle unit is always radians.
     ! 
-    !  bary   logical flag defining output center.
+    !  bary = logical flag defining output center.
     !         only the 9 planets are affected.
-    !                  bary = .true.  : center is solar-system barycenter
-    !                  bary = .false. : center is sun
+    !             bary = .true.  : center is solar-system barycenter
+    !             bary = .false. : center is sun
     ! 
-    ! pvsun   dp 6-word array containing the barycentric position and
+    ! pvsun = dp 6-word array containing the barycentric position and
     !         velocity of the sun.
     !
-    logical :: km = .true.   ! use km and km/s
-    logical :: bary = .false.
     real(wp),dimension(6) :: pvsun = 0.0_wp
+    logical               :: km    = .true.   ! use km and km/s
+    logical               :: bary  = .false.
 
     !chrhdr
-    character(len=6),dimension(14,3) :: ttl = ''
+    character(len=6),dimension(14,3) :: ttl  = ''
     character(len=6),dimension(nmax) :: cnam = ''
     
-    logical :: initialized = .false. ! is the ephemeris initialized?
-    integer :: nrfile     = 0        ! file unit for the ephemeris file
-    integer :: nrl        = -1       ! this was formerly in state
-    integer :: ncoeffs    = 0        ! 
+    logical :: initialized = .false.  ! is the ephemeris initialized?
+    integer :: nrfile      = 0        ! file unit for the ephemeris file
+    integer :: nrl         = -1       ! this was formerly in state
+    integer :: ncoeffs     = 0        ! 
     
     character(len=*),dimension(15),parameter :: list_of_bodies = [ & 
                                                         'mercury                ',&
@@ -91,7 +94,7 @@
                                                         'earth-moon barycenter  ',&
                                                         'nutations              ',&
                                                         'librations             ']
-           
+
     !public routines:
     public :: initialize_ephemeris
     public :: get_state
@@ -110,14 +113,13 @@
 !    get_state
 !
 !  DESCRIPTION
-!  this subroutine reads the jpl planetary ephemeris
-!  and gives the position and velocity of the point 'ntarg'
-!  with respect to 'ncent'.
+!    This subroutine reads the jpl planetary ephemeris
+!    and gives the position and velocity of the point 'ntarg'
+!    with respect to 'ncent'.
 ! 
 !  INPUTS
 ! 
-!    et = d.p. julian ephemeris date at which interpolation
-!         is wanted.
+!    et = d.p. julian ephemeris date at which interpolation is wanted.
 ! 
 !  ntarg = integer number of 'target' point.
 ! 
@@ -125,17 +127,17 @@
 ! 
 !         the numbering convention for 'ntarg' and 'ncent' is:
 ! 
-!             1 = mercury           8 = neptune
-!             2 = venus             9 = pluto
-!             3 = earth            10 = moon
-!             4 = mars             11 = sun
-!             5 = jupiter          12 = solar-system barycenter
-!             6 = saturn           13 = earth-moon barycenter
-!             7 = uranus           14 = nutations (longitude and obliq)
-!                                  15 = librations, if on eph file
+!             1 = mercury      8 = neptune
+!             2 = venus        9 = pluto
+!             3 = earth       10 = moon
+!             4 = mars        11 = sun
+!             5 = jupiter     12 = solar-system barycenter
+!             6 = saturn      13 = earth-moon barycenter
+!             7 = uranus      14 = nutations (longitude and obliq)
+!                             15 = librations, if on eph file
 ! 
-!          (if nutations are wanted, set ntarg = 14. for librations,
-!           set ntarg = 15. set ncent=0.)
+!          (if nutations are wanted, set ntarg = 14. 
+!           for librations, set ntarg = 15. set ncent=0.)
 !
 !  OUTPUT
 ! 
@@ -215,7 +217,7 @@
 			! force barycentric output by 'state'
 
 			bsave = bary
-			bary = .true.
+			bary  = .true.
 
 			! set up proper entries in 'list' array for state call
 
@@ -239,15 +241,13 @@
 			enddo
 
 			if (ntarg == 11 .or. ncent == 11) pv(:,11) = pvsun
-
 			if (ntarg == 12 .or. ncent == 12) pv(:,12) = 0.0_wp
-
 			if (ntarg == 13 .or. ncent == 13) pv(:,13) = pvst(:,3)
 
 			if (ntarg*ncent == 30 .and. ntarg+ncent == 13) then
 				pv(:,3) = 0.0_wp
 			else
-				if (list(3) == 2)  pv(:,3) = pvst(:,3)-pvst(:,10)/(1.0_wp+emrat)    
+				if (list(3) == 2) pv(:,3) = pvst(:,3) - pvst(:,10)/(1.0_wp+emrat)    
 				if (list(10) == 2) pv(:,10) = pv(:,3) + pvst(:,10)
 			end if
 
@@ -409,20 +409,20 @@
 
     implicit none
 
-    real(wp),intent(in) :: tt
+    real(wp),intent(in)               :: tt
     real(wp),dimension(2),intent(out) :: fr
 
     ! get integer and fractional parts
 
-    fr(1)=int(tt)
-    fr(2)=tt-fr(1)
+    fr(1) = int(tt)
+    fr(2) = tt-fr(1)
 
     if (tt>=0.0_wp .or. fr(2)==0.0_wp) return
 
     ! make adjustments for negative input number
 
-    fr(1)=fr(1)-1.0_wp
-    fr(2)=fr(2)+1.0_wp
+    fr(1) = fr(1) - 1.0_wp
+    fr(2) = fr(2) + 1.0_wp
 
     end subroutine split
 !*****************************************************************************************
@@ -524,6 +524,7 @@
         if (opened) close(unit=nrfile,iostat=istat)
         
         initialized = .false.
+        nrl = -1
     
     end if
     
@@ -615,15 +616,21 @@
 
     subroutine state(et2,list,pv,pnut)
 
-    implicit real(wp) (a-h,o-z)
+    implicit none
 
-    save 
-
-    dimension et2(2),pv(6,11),pnut(4),t(2),pjd(4),buf(1500)
-
-    integer,dimension(12) :: list
-    integer :: istat
-
+    save
+    
+    real(wp),dimension(2),intent(in)     :: et2
+    integer,dimension(12),intent(in)     :: list
+    real(wp),dimension(6,11),intent(out) :: pv
+    real(wp),dimension(4),intent(out)    :: pnut
+    
+    real(wp),dimension(2)    :: t
+    real(wp),dimension(4)    :: pjd
+    real(wp),dimension(1500) :: buf
+	real(wp) :: aufac,s,tmp1,tmp2
+	integer :: istat,i,j,k,nr
+	
     !the ephemeris is assumed to have been initialized
 
     s = et2(1)-0.5_wp
