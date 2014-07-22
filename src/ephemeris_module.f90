@@ -151,7 +151,7 @@
 !
 !  SOURCE
 
-    subroutine get_state ( et, ntarg, ncent, rrd )
+    subroutine get_state(et,ntarg,ncent,rrd)
 
     implicit none  
 
@@ -177,15 +177,14 @@
 
     if (.not. initialized) call initialize_ephemeris()
     
-    if (ntarg == ncent) then
-    
-        rrd = 0.0_wp
-    
-    else
-
-        ! check for nutation call
-
-        if (ntarg==14) then
+	rrd = 0.0_wp
+	
+    if (ntarg /= ncent) then
+        
+		select case (ntarg)
+		
+		case (14)	!nutation
+		
             if (ipt(2,12)>0) then            !ipt(35)
                 list(11) = 2
                 call state(et2,list,pvst,pnut)
@@ -198,13 +197,9 @@
                 write(6,'(A)') 'Error: the ephemeris file does not contain nutations.'
                 stop
             endif
-        end if
 
-        ! check for librations
+		case (15)	!librations
 
-        rrd = 0.0_wp
-
-        if (ntarg==15) then
             if (ipt(2,13)>0) then            !ipt(38)
                 list(12) = 2
                 call state(et2,list,pvst,pnut)
@@ -214,51 +209,54 @@
                 write(6,'(A)') 'Error: the ephemeris file does not contain librations.'
                 stop
             endif
-        end if
+   
+   		case default
 
-        ! force barycentric output by 'state'
+			! force barycentric output by 'state'
 
-        bsave = bary
-        bary = .true.
+			bsave = bary
+			bary = .true.
 
-        ! set up proper entries in 'list' array for state call
+			! set up proper entries in 'list' array for state call
 
-        do i=1,2
-            k=ntarg
-            if (i == 2)  k = ncent
-            if (k <= 10) list(k) = 2
-            if (k == 10) list(3) = 2
-            if (k == 3)  list(10) = 2
-            if (k == 13) list(3) = 2
-        enddo
+			do i=1,2
+				k=ntarg
+				if (i == 2)  k = ncent
+				if (k <= 10) list(k) = 2
+				if (k == 10) list(3) = 2
+				if (k == 3)  list(10) = 2
+				if (k == 13) list(3) = 2
+			enddo
 
-        ! make call to state
+			! make call to state
 
-        call state(et2,list,pvst,pnut)
+			call state(et2,list,pvst,pnut)
 
-        do i=1,10
-            do j = 1,6
-                pv(j,i) = pvst(j,i)
-            end do
-        enddo
+			do i=1,10
+				do j = 1,6
+					pv(j,i) = pvst(j,i)
+				end do
+			enddo
 
-        if (ntarg == 11 .or. ncent == 11) pv(:,11) = pvsun
+			if (ntarg == 11 .or. ncent == 11) pv(:,11) = pvsun
 
-        if (ntarg == 12 .or. ncent == 12) pv(:,12) = 0.0_wp
+			if (ntarg == 12 .or. ncent == 12) pv(:,12) = 0.0_wp
 
-        if (ntarg == 13 .or. ncent == 13) pv(:,13) = pvst(:,3)
+			if (ntarg == 13 .or. ncent == 13) pv(:,13) = pvst(:,3)
 
-        if (ntarg*ncent == 30 .and. ntarg+ncent == 13) then
-            pv(:,3) = 0.0_wp
-        else
-            if (list(3) == 2)  pv(:,3) = pvst(:,3)-pvst(:,10)/(1.0_wp+emrat)    
-            if (list(10) == 2) pv(:,10) = pv(:,3) + pvst(:,10)
-        end if
+			if (ntarg*ncent == 30 .and. ntarg+ncent == 13) then
+				pv(:,3) = 0.0_wp
+			else
+				if (list(3) == 2)  pv(:,3) = pvst(:,3)-pvst(:,10)/(1.0_wp+emrat)    
+				if (list(10) == 2) pv(:,10) = pv(:,3) + pvst(:,10)
+			end if
 
-        rrd = pv(:,ntarg) - pv(:,ncent)
+			rrd = pv(:,ntarg) - pv(:,ncent)
 
-        bary = bsave
+			bary = bsave
 
+		end select
+		
     end if
     
     end subroutine get_state
@@ -543,75 +541,75 @@
 !
 !  INPUTS
 !
-!         et2   dp 2-word julian ephemeris epoch at which interpolation
-!               is wanted.  any combination of et2(1)+et2(2) which falls
-!               within the time span on the file is a permissible epoch.
+!      et2 = dp 2-word julian ephemeris epoch at which interpolation
+!            is wanted.  any combination of et2(1)+et2(2) which falls
+!            within the time span on the file is a permissible epoch.
 !
-!                a. for ease in programming, the user may put the
-!                   entire epoch in et2(1) and set et2(2)=0.
+!             a. for ease in programming, the user may put the
+!                entire epoch in et2(1) and set et2(2)=0.
 !
-!                b. for maximum interpolation accuracy, set et2(1) =
-!                   the most recent midnight at or before interpolation
-!                   epoch and set et2(2) = fractional part of a day
-!                   elapsed between et2(1) and epoch.
+!             b. for maximum interpolation accuracy, set et2(1) =
+!                the most recent midnight at or before interpolation
+!                epoch and set et2(2) = fractional part of a day
+!                elapsed between et2(1) and epoch.
 !
-!                c. as an alternative, it may prove convenient to set
-!                   et2(1) = some fixed epoch, such as start of integration,
-!                   and et2(2) = elapsed interval between then and epoch.
+!             c. as an alternative, it may prove convenient to set
+!                et2(1) = some fixed epoch, such as start of integration,
+!                and et2(2) = elapsed interval between then and epoch.
 !
-!        list   12-word integer array specifying what interpolation
-!               is wanted for each of the bodies on the file.
+!     list = 12-word integer array specifying what interpolation
+!            is wanted for each of the bodies on the file.
 !
-!                         list(i)=0, no interpolation for body i
-!                                =1, position only
-!                                =2, position and velocity
+!                      list(i) = 0 : no interpolation for body i
+!                              = 1 : position only
+!                              = 2 : position and velocity
 !
-!               the designation of the astronomical bodies by i is:
+!            the designation of the astronomical bodies by i is:
 !
-!                         i = 1: mercury
-!                           = 2: venus
-!                           = 3: earth-moon barycenter
-!                           = 4: mars
-!                           = 5: jupiter
-!                           = 6: saturn
-!                           = 7: uranus
-!                           = 8: neptune
-!                           = 9: pluto
-!                           =10: geocentric moon
-!                           =11: nutations in longitude and obliquity
-!                           =12: lunar librations (if on file)
+!                      i = 1 : mercury
+!                        = 2 : venus
+!                        = 3 : earth-moon barycenter
+!                        = 4 : mars
+!                        = 5 : jupiter
+!                        = 6 : saturn
+!                        = 7 : uranus
+!                        = 8 : neptune
+!                        = 9 : pluto
+!                        =10 : geocentric moon
+!                        =11 : nutations in longitude and obliquity
+!                        =12 : lunar librations (if on file)
 !
 !  OUTPUT
 !
-!          pv   dp 6 x 11 array that will contain requested interpolated
-!               quantities (other than nutation, stored in pnut).  
-!               the body specified by list(i) will have its
-!               state in the array starting at pv(1,i).  
-!               (on any given call, only those words in 'pv' which are 
-!                affected by the  first 10 'list' entries, and by list(12)
-!                if librations are on the file, are set.  
-!                the rest of the 'pv' array is untouched.)  
-!               the order of components starting in pv(1,i) is: x,y,z,dx,dy,dz.
+!      pv = dp 6 x 11 array that will contain requested interpolated
+!           quantities (other than nutation, stored in pnut).  
+!           the body specified by list(i) will have its
+!           state in the array starting at pv(1,i).  
+!           (on any given call, only those words in 'pv' which are 
+!           affected by the  first 10 'list' entries, and by list(12)
+!           if librations are on the file, are set.  
+!           the rest of the 'pv' array is untouched.)  
+!           the order of components starting in pv(1,i) is: x,y,z,dx,dy,dz.
 !
-!               all output vectors are referenced to the earth mean
-!               equator and equinox of j2000 if the de number is 200 or
-!               greater; of b1950 if the de number is less than 200. 
+!           all output vectors are referenced to the earth mean
+!           equator and equinox of j2000 if the de number is 200 or
+!           greater; of b1950 if the de number is less than 200. 
 !
-!               the moon state is always geocentric; the other nine states 
-!               are either heliocentric or solar-system barycentric, 
-!               depending on the setting of common flags (see below).
+!           the moon state is always geocentric; the other nine states 
+!           are either heliocentric or solar-system barycentric, 
+!           depending on the setting of common flags (see below).
 !
-!               lunar librations, if on file, are put into pv(k,11) if
-!               list(12) is 1 or 2.
+!           lunar librations, if on file, are put into pv(k,11) if
+!           list(12) is 1 or 2.
 !
-!         pnut  dp 4-word array that will contain nutations and rates,
-!               depending on the setting of list(11).  the order of
-!               quantities in pnut is:
+!    pnut = dp 4-word array that will contain nutations and rates,
+!           depending on the setting of list(11).  the order of
+!           quantities in pnut is:
 ! 
-!                 d psi  (nutation in longitude)
-!                 d epsilon (nutation in obliquity)
-!                 d psi dot
-!                 d epsilon dot
+!             d psi  (nutation in longitude)
+!             d epsilon (nutation in obliquity)
+!             d psi dot
+!             d epsilon dot
 !
 !  SOURCE
 
@@ -628,13 +626,13 @@
 
     !the ephemeris is assumed to have been initialized
 
-    s=et2(1)-0.5_wp
+    s = et2(1)-0.5_wp
     call split(s,pjd(1))
     call split(et2(2),pjd(3))
-    pjd(1)=pjd(1)+pjd(3)+0.5_wp
-    pjd(2)=pjd(2)+pjd(4)
+    pjd(1) = pjd(1)+pjd(3)+0.5_wp
+    pjd(2) = pjd(2)+pjd(4)
     call split(pjd(2),pjd(3))
-    pjd(1)=pjd(1)+pjd(3)
+    pjd(1) = pjd(1)+pjd(3)
 
     ! error return for epoch out of range
 
@@ -648,8 +646,8 @@
 
     ! calculate record # and relative time in interval
 
-    nr=idint((pjd(1)-ss(1))/ss(3))+3
-    if (pjd(1)==ss(2)) nr=nr-1
+    nr = idint((pjd(1)-ss(1))/ss(3))+3
+    if (pjd(1)==ss(2)) nr = nr-1
 
     tmp1 = dble(nr-3)*ss(3) + ss(1)
     tmp2 = pjd(1) - tmp1
@@ -658,29 +656,27 @@
     ! read correct record if not in core
 
     if (nr/=nrl) then
-        nrl=nr
-        read(nrfile,rec=nr,iostat=istat)(buf(k),k=1,ncoeffs)
+        nrl = nr
+        read(nrfile,rec=nr,iostat=istat) (buf(k),k=1,ncoeffs)
         if (istat/=0) then
-            write(*,'(2f12.2,a80)') et2,'error return in state'
+            write(*,'(2F12.2,A80)') et2,'Error return in state'
             stop      
         end if
     endif
 
     if (km) then
-        t(2)=ss(3)*86400.0_wp
-        aufac=1.0_wp
+        t(2) = ss(3)*86400.0_wp
+        aufac = 1.0_wp
     else
-        t(2)=ss(3)
-        aufac=1.0_wp/au
+        t(2) = ss(3)
+        aufac = 1.0_wp/au
     endif
 
     ! interpolate ssbary sun
 
     call interp(buf(ipt(1,11)),t,ipt(2,11),3,ipt(3,11),2,pvsun)
 
-    do i=1,6
-        pvsun(i)=pvsun(i)*aufac
-    enddo
+    pvsun = pvsun * aufac
 
     ! check and interpolate whichever bodies are requested
 
@@ -689,9 +685,9 @@
         call interp(buf(ipt(1,i)),t,ipt(2,i),3,ipt(3,i),list(i),pv(1,i))
         do j=1,6
             if (i<=9 .and. .not.bary) then
-                pv(j,i)=pv(j,i)*aufac-pvsun(j)
+                pv(j,i) = pv(j,i)*aufac - pvsun(j)
             else
-                pv(j,i)=pv(j,i)*aufac
+                pv(j,i) = pv(j,i)*aufac
             endif
         enddo
     end do
@@ -699,14 +695,12 @@
     ! do nutations if requested (and if on file)
 
     if (list(11)>0 .and. ipt(2,12)>0)&
-    call interp(buf(ipt(1,12)),t,ipt(2,12),2,ipt(3,12),&
-    list(11),pnut)
+        call interp(buf(ipt(1,12)),t,ipt(2,12),2,ipt(3,12),list(11),pnut)
 
     ! get librations if requested (and if on file)
 
     if (list(12)>0 .and. ipt(2,13)>0)&
-    call interp(buf(ipt(1,13)),t,ipt(2,13),3,ipt(3,13),&
-    list(12),pv(1,11))
+        call interp(buf(ipt(1,13)),t,ipt(2,13),3,ipt(3,13),list(12),pv(1,11))
 
     end subroutine state
 !*****************************************************************************************
