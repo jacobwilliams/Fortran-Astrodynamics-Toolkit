@@ -40,7 +40,7 @@
 !    cross
 !
 !  DESCRIPTION
-!    Cross product of two vectors
+!    Cross product of two 3x1 vectors
 !
 !  AUTHOR
 !    Jacob Williams
@@ -80,15 +80,15 @@
 
     implicit none
 
-    real(wp),dimension(3),intent(in) :: r
-    real(wp),dimension(3)            :: u
+    real(wp),dimension(:),intent(in) :: r
+    real(wp),dimension(size(r))      :: u
 
     real(wp) :: rmag
 
     rmag = norm2(r)
 
-    if (rmag==0.0_wp) then
-        u = 0.0_wp
+    if (rmag==zero) then
+        u = zero
     else
         u = r / rmag
     end if
@@ -103,7 +103,7 @@
 !    ucross
 !
 !  DESCRIPTION
-!    Unit vector of the cross product of two vectors
+!    Unit vector of the cross product of two 3x1 vectors
 !
 !  AUTHOR
 !    Jacob Williams
@@ -130,7 +130,7 @@
 !    axis_angle_rotation
 !
 !  DESCRIPTION
-!    Rotate a vector in space, given an axis and angle of rotation. 
+!    Rotate a 3x1 vector in space, given an axis and angle of rotation. 
 !
 !  SEE ALSO
 !    http://en.wikipedia.org/wiki/Rodrigues%27_rotation_formula
