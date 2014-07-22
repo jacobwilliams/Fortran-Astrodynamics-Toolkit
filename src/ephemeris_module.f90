@@ -62,8 +62,8 @@
     ! pvsun   dp 6-word array containing the barycentric position and
     !         velocity of the sun.
     !
-    logical  :: km = .true.   ! use km and km/s
-    logical  :: bary = .false.
+    logical :: km = .true.   ! use km and km/s
+    logical :: bary = .false.
     real(wp),dimension(6) :: pvsun = 0.0_wp
 
     !chrhdr
@@ -114,7 +114,7 @@
 !  and gives the position and velocity of the point 'ntarg'
 !  with respect to 'ncent'.
 ! 
-!  calling sequence parameters:
+!  INPUTS
 ! 
 !    et = d.p. julian ephemeris date at which interpolation
 !         is wanted.
@@ -136,6 +136,8 @@
 ! 
 !          (if nutations are wanted, set ntarg = 14. for librations,
 !           set ntarg = 15. set ncent=0.)
+!
+!  OUTPUT
 ! 
 !   rrd = output 6-word d.p. array containing position and velocity
 !         of point 'ntarg' relative to 'ncent'. the units are au and
@@ -153,139 +155,112 @@
 
     implicit none  
 
-    real(wp),intent(in) :: et
-    integer,intent(in) :: ntarg
-    integer,intent(in) :: ncent
+    real(wp),intent(in)               :: et
+    integer,intent(in)                :: ntarg
+    integer,intent(in)                :: ncent
     real(wp),dimension(6),intent(out) :: rrd
 
-    real(wp),dimension(2) :: et2        
-    real(wp) :: pv(6,13)
-    real(wp) :: pvst(6,11),pnut(4)
-    integer :: list(12),i,j,k
-    logical :: bsave
+    real(wp),dimension(2)    :: et2        
+    real(wp),dimension(6,13) :: pv
+    real(wp),dimension(6,11) :: pvst
+    real(wp),dimension(4)    :: pnut
+    integer,dimension(12)    :: list
+    integer                  :: i,j,k
+    logical                  :: bsave
 
     ! initialize et2 for 'state' and set up component count
 
-    et2(1)=et
-    et2(2)=0.0_wp
-    
-    list = 0        !jw
+    et2(1) = et
+    et2(2) = 0.0_wp
+
+    list = 0
 
     if (.not. initialized) call initialize_ephemeris()
     
     if (ntarg == ncent) then
-        rrd = 0.0_wp   !jw
-        return
-    end if
+    
+        rrd = 0.0_wp
+    
+    else
 
-    ! check for nutation call
+        ! check for nutation call
 
-    if (ntarg==14) then
-        if (ipt(2,12)>0) then            !ipt(35)
-            list(11)=2
-            call state(et2,list,pvst,pnut)
-            do i=1,4
-                rrd(i)=pnut(i)
-            enddo
-            rrd(5) = 0.0_wp
-            rrd(6) = 0.0_wp
-            return
+        if (ntarg==14) then
+            if (ipt(2,12)>0) then            !ipt(35)
+                list(11) = 2
+                call state(et2,list,pvst,pnut)
+                rrd(1:4) = pnut(1:4)
+                rrd(5) = 0.0_wp
+                rrd(6) = 0.0_wp
+                return
+            else
+                rrd(1:4) = 0.0_wp
+                write(6,'(A)') 'Error: the ephemeris file does not contain nutations.'
+                stop
+            endif
+        end if
+
+        ! check for librations
+
+        rrd = 0.0_wp
+
+        if (ntarg==15) then
+            if (ipt(2,13)>0) then            !ipt(38)
+                list(12) = 2
+                call state(et2,list,pvst,pnut)
+                rrd = pvst(:,11)
+                return
+            else
+                write(6,'(A)') 'Error: the ephemeris file does not contain librations.'
+                stop
+            endif
+        end if
+
+        ! force barycentric output by 'state'
+
+        bsave = bary
+        bary = .true.
+
+        ! set up proper entries in 'list' array for state call
+
+        do i=1,2
+            k=ntarg
+            if (i == 2)  k = ncent
+            if (k <= 10) list(k) = 2
+            if (k == 10) list(3) = 2
+            if (k == 3)  list(10) = 2
+            if (k == 13) list(3) = 2
+        enddo
+
+        ! make call to state
+
+        call state(et2,list,pvst,pnut)
+
+        do i=1,10
+            do j = 1,6
+                pv(j,i) = pvst(j,i)
+            end do
+        enddo
+
+        if (ntarg == 11 .or. ncent == 11) pv(:,11) = pvsun
+
+        if (ntarg == 12 .or. ncent == 12) pv(:,12) = 0.0_wp
+
+        if (ntarg == 13 .or. ncent == 13) pv(:,13) = pvst(:,3)
+
+        if (ntarg*ncent == 30 .and. ntarg+ncent == 13) then
+            pv(:,3) = 0.0_wp
         else
-            do i=1,4
-                rrd(i)=0.0_wp
-            enddo
-            write(6,'(A)') 'Error: the ephemeris file does not contain nutations.'
-            stop
-        endif
+            if (list(3) == 2)  pv(:,3) = pvst(:,3)-pvst(:,10)/(1.0_wp+emrat)    
+            if (list(10) == 2) pv(:,10) = pv(:,3) + pvst(:,10)
+        end if
+
+        rrd = pv(:,ntarg) - pv(:,ncent)
+
+        bary = bsave
+
     end if
-
-    ! check for librations
-
-    rrd = 0.0_wp
-
-    if (ntarg==15) then
-        if (ipt(2,13)>0) then            !ipt(38)
-            list(12)=2
-            call state(et2,list,pvst,pnut)
-            do i=1,6
-                rrd(i)=pvst(i,11)
-            enddo
-            return
-        else
-            write(6,'(A)') 'Error: the ephemeris file does not contain librations.'
-            stop
-        endif
-    end if
-
-    ! force barycentric output by 'state'
-
-    bsave=bary
-    bary=.true.
-
-    ! set up proper entries in 'list' array for state call
-
-    do i=1,2
-        k=ntarg
-        if (i == 2) k=ncent
-        if (k <= 10) list(k)=2
-        if (k == 10) list(3)=2
-        if (k == 3)  list(10)=2
-        if (k == 13) list(3)=2
-    enddo
-
-    ! make call to state
-
-    call state(et2,list,pvst,pnut)
-
-    do i=1,10
-        do j = 1,6
-            pv(j,i) = pvst(j,i)
-        enddo
-    enddo
-
-    if (ntarg == 11 .or. ncent == 11) then
-        do i=1,6
-            pv(i,11)=pvsun(i)
-        enddo
-    endif
-
-    if (ntarg == 12 .or. ncent == 12) then
-        do i=1,6
-            pv(i,12)=0.0_wp
-        enddo
-    endif
-
-    if (ntarg == 13 .or. ncent == 13) then
-        do i=1,6
-            pv(i,13) = pvst(i,3)
-        enddo
-    endif
-
-    if (ntarg*ncent == 30 .and. ntarg+ncent == 13) then
-        do i=1,6
-            pv(i,3)=0.0_wp
-        enddo
-        go to 99
-    endif
-
-    if (list(3) == 2) then
-        do i=1,6
-            pv(i,3)=pvst(i,3)-pvst(i,10)/(1.0_wp+emrat)
-        enddo
-    endif
-
-    if (list(10) == 2) then
-        do i=1,6
-            pv(i,10) = pv(i,3)+pvst(i,10)
-        enddo
-    endif
-
-99  do i=1,6
-        rrd(i)=pv(i,ntarg)-pv(i,ncent)
-    enddo
-
-    bary=bsave
-
+    
     end subroutine get_state
 !*****************************************************************************************
     
@@ -299,30 +274,28 @@
 !   this subroutine differentiates and interpolates a
 !   set of chebyshev coefficients to give position and velocity
 !
-!   calling sequence parameters:
+!  INPUTS
 !
-!     input:
+!       buf = 1st location of array of d.p. chebyshev coefficients of position
 !
-!       buf   1st location of array of d.p. chebyshev coefficients of position
-!
-!         t   t(1) is dp fractional time in interval covered by
+!         t = t(1) is dp fractional time in interval covered by
 !             coefficients at which interpolation is wanted
 !             (0 <= t(1) <= 1).  t(2) is dp length of whole
 !             interval in input time units.
 !
-!       ncf   # of coefficients per component
+!       ncf = # of coefficients per component
 !
-!       ncm   # of components per set of coefficients
+!       ncm = # of components per set of coefficients
 !
-!        na   # of sets of coefficients in full array
+!        na = # of sets of coefficients in full array
 !             (i.e., # of sub-intervals in full interval)
 !
-!        ifl  integer flag: =1 for positions only
+!       ifl = integer flag: =1 for positions only
 !                           =2 for pos and vel
 !
-!     output:
+!  OUTPUT
 !
-!       pv   interpolated quantities requested.  dimension
+!        pv = interpolated quantities requested.  dimension
 !             expected is pv(ncm,ifl), dp.
 !
 !  SOURCE
@@ -421,10 +394,10 @@
 !    this subroutine breaks a d.p. number into a d.p. integer
 !    and a d.p. fractional part.
 !
-!    calling sequence parameters:
-!
+!  INPUTS
 !    tt = d.p. input number
 !
+!  OUTPUT
 !    fr = d.p. 2-word output array.
 !         fr(1) contains integer part
 !         fr(2) contains fractional part
@@ -566,11 +539,9 @@
 !    state
 !
 !  DESCRIPTION
-!    this subroutine reads and interpolates the jpl planetary ephemeris file
+!    This subroutine reads and interpolates the jpl planetary ephemeris file
 !
-!     calling sequence parameters:
-!
-!     input:
+!  INPUTS
 !
 !         et2   dp 2-word julian ephemeris epoch at which interpolation
 !               is wanted.  any combination of et2(1)+et2(2) which falls
@@ -610,7 +581,7 @@
 !                           =11: nutations in longitude and obliquity
 !                           =12: lunar librations (if on file)
 !
-!     output:
+!  OUTPUT
 !
 !          pv   dp 6 x 11 array that will contain requested interpolated
 !               quantities (other than nutation, stored in pnut).  
@@ -747,9 +718,9 @@
 !    get_constants
 !
 !  DESCRIPTION
-!     this entry obtains the constants from the ephemeris file
+!    Obtain the constants from the ephemeris file.
 !
-!     calling seqeunce parameters (all output):
+!  OUTPUT
 !
 !       nam = character*6 array of constant names
 !       val = d.p. array of values of constants
