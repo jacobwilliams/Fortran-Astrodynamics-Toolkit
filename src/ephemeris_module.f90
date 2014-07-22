@@ -319,7 +319,7 @@
     dna=dble(na)
     dt1=int(t(1))
     temp=dna*t(1)
-    l=idint(temp-dt1)+1
+    l=int(temp-dt1)+1
 
     ! tc is the normalized chebyshev time (-1 <= tc <= 1)
 
@@ -646,7 +646,7 @@
 
     ! calculate record # and relative time in interval
 
-    nr = idint((pjd(1)-ss(1))/ss(3))+3
+    nr = int((pjd(1)-ss(1))/ss(3))+3
     if (pjd(1)==ss(2)) nr = nr-1
 
     tmp1 = dble(nr-3)*ss(3) + ss(1)
