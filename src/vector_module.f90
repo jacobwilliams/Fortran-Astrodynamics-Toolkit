@@ -20,6 +20,7 @@
     
     public :: cross
     public :: unit
+    public :: uhat_dot
     public :: ucross
     public :: axis_angle_rotation
     public :: cross_matrix
@@ -94,6 +95,43 @@
     end if
 
     end function unit
+!*****************************************************************************************
+
+!*****************************************************************************************
+!****f* vector_module/uhat_dot
+!
+!  NAME
+!    unit
+!
+!  DESCRIPTION
+!    Time Derivative of a Unit Vector
+!
+!  AUTHOR
+!    Jacob Williams
+!
+!  SOURCE
+
+    pure function uhat_dot(u,udot) result(uhatd)
+
+    implicit none
+
+    real(wp),dimension(3),intent(in) :: u      ! vector [u]
+    real(wp),dimension(3),intent(in) :: udot   ! derivative of vector [du/dt]
+    real(wp),dimension(3)            :: uhatd  ! derivative of unit vector [d(uhat)/dt]
+
+    real(wp)              :: umag  !vector magnitude 
+    real(wp),dimension(3) :: uhat  !unit vector
+
+    umag = norm2(u)
+
+    if (umag == zero) then  !singularity
+        uhatd = zero
+    else
+        uhat = u / umag
+        uhatd = ( udot - dot_product(uhat,udot)*uhat ) / umag
+    end if
+
+    end function uhat_dot 
 !*****************************************************************************************
     
 !*****************************************************************************************
