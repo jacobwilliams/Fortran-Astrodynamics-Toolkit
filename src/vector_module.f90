@@ -104,7 +104,7 @@
 !    unit
 !
 !  DESCRIPTION
-!    Time Derivative of a Unit Vector
+!    Time derivative of a unit vector.
 !
 !  AUTHOR
 !    Jacob Williams
