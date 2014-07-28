@@ -290,7 +290,7 @@
     real(wp) :: a,b,c,d,e,fa,fb,fc,tol1,xm,p,q,r,s
 
     real(wp),parameter :: eps = epsilon(one)    !original code had d1mach(4) 
-    
+        
     tol1 = eps+one
 
     a=ax
@@ -397,7 +397,7 @@
     
     implicit none
     
-    real(wp) :: x,f
+    real(wp) :: x,f,r
     
     real(wp),parameter :: ax = zero
     real(wp),parameter :: bx = two*pi
@@ -407,7 +407,7 @@
         integer :: i = 0    !function counter
     end type myfunc_type   
     type(myfunc_type) :: myfunc
-    
+        
     write(*,*) ''
     write(*,*) '---------------'
     write(*,*) ' brent_test'
@@ -418,15 +418,16 @@
             
     !call fmin:
     ! [the minimum is at 270 deg]
-    write(*,*) 'minimum of sin(x) at: ', &
-                myfunc%minimize(ax,bx,tol)*180.0_wp/pi,' deg'
+    myfunc%i = 0
+    r = myfunc%minimize(ax,bx,tol)
+    write(*,*) 'minimum of sin(x) at: ', r*180.0_wp/pi,' deg'
     write(*,*) 'number of function calls: ', myfunc%i
     
     !call zeroin:
     ! [the root is at pi]
     myfunc%i = 0
-    write(*,*) 'root of sin(x) at: ', &
-                myfunc%minimize(ax+0.0001_wp,bx/two,tol)*180.0_wp/pi,' deg'
+    r = myfunc%find_zero(ax+0.0001_wp,bx/two+0.0002,tol)
+    write(*,*) 'root of sin(x) at: ', r*180.0_wp/pi,' deg'
     write(*,*) 'number of function calls: ', myfunc%i   
     
     contains
