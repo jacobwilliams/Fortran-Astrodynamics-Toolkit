@@ -11,7 +11,7 @@
 !
 !  SEE ALSO
 !    [1] R. Brent, "Algorithms for Minimization Without Derivatives",
-!        Prentice-Hall, Inc.m 1973.
+!        Prentice-Hall, Inc., 1973.
 !
 !*****************************************************************************************    
     
