@@ -23,8 +23,8 @@
     use minpack_module
     use numbers_module
     use vector_module
-    
-    implicit none
-    
+    use rk_module
+    use complex_step_module
+           
     end module fortran_astrodynamics_toolkit
 !*****************************************************************************************
