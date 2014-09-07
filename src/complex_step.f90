@@ -126,6 +126,8 @@
     !write(*,*) 'error :',real(test_deriv(x),wp) - dfdx
     !write(*,*) ''
     
+    write(*,'(*(A30))') 'h', 'forward diff err', 'complex step err'
+    
     do i=1,50
         h = 10.0_wp**(-i)
         call complex_step_derivative(test_func,x,h,dfdx)
