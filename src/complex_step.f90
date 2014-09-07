@@ -108,7 +108,13 @@
     integer     :: i
     complex(wp) :: x
     real(wp)    :: dfdx,h,err,dfdx2,err2
-    
+
+    write(*,*) ''
+    write(*,*) '---------------'
+    write(*,*) ' complex_step_test'
+    write(*,*) '---------------'
+    write(*,*) ''
+       
     x = cmplx(2.0_wp,0.0_wp,wp)
     h = 1.0e-10_wp
     
