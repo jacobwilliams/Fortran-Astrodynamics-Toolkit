@@ -23,6 +23,7 @@
         private
         integer :: n = 0                               !user specified number of variables
         procedure(deriv_func),pointer :: f => null()   !user-specified derivative function
+        procedure(report_func),pointer :: report => null() !user-specified report function
         contains
         procedure,non_overridable,public :: integrate  !main integration routine
         procedure(step_func),deferred :: step          !the step routine for the rk method
@@ -45,6 +46,14 @@
             real(wp),dimension(me%n),intent(in)  :: x    
             real(wp),dimension(me%n),intent(out) :: xdot    
         end subroutine deriv_func
+    
+        subroutine report_func(me,t,x)  !report function
+        import :: rk_class,wp
+        implicit none
+            class(rk_class),intent(inout)        :: me
+            real(wp),intent(in)                  :: t    
+            real(wp),dimension(me%n),intent(in)  :: x    
+        end subroutine report_func
         
         subroutine step_func(me,t,x,h,xf)   !rk step function
         import :: rk_class,wp
@@ -87,9 +96,11 @@
     
     real(wp) :: t,dt,t2
     real(wp),dimension(me%n) :: x
-    logical :: last
+    logical :: last,export
     
-    !call me%report(t0,x0)  !first point
+    export = associated(me%report)
+    
+    if (export) call me%report(t0,x0)  !first point
    
     if (h==zero) then
         xf = x0
@@ -105,14 +116,14 @@
             if (last) dt = tf-t                     !
             call me%step(t,x,dt,xf)
             if (last) exit
-            !call me%report(t,xf)   !intermediate point
+            if (export) call me%report(t2,xf)   !intermediate point
             x = xf
             t = t2
         end do
         
     end if
     
-    !call me%report(t,xf)   !last point
+    if (export) call me%report(t2,xf)   !last point
     
     end subroutine integrate
 !*****************************************************************************************
@@ -176,16 +187,17 @@
     !spacecraft propagation type:
     ! extend the rk class to include data used in the deriv routine
     type,extends(rk4_class) :: spacecraft
-        real(wp) :: mu = zero   !central body gravitational parameter (km3/s2)
-        integer :: fevals = 0   !number of function evaluations
+        real(wp) :: mu = zero      !central body gravitational parameter (km3/s2)
+        integer :: fevals = 0      !number of function evaluations
+        logical :: first = .true.  !first point is being exported
     end type spacecraft
     
     integer,parameter :: n=6    !number of state variables
     type(spacecraft) :: s
     real(wp) :: t0,tf,x0(n),dt,xf(n),x02(n)
     
-    !constructor:
-    s = spacecraft(n=n,f=twobody,mu=398600.436233_wp)   !main body is Earth
+    !constructor (main body is Earth):
+    s = spacecraft(n=n,f=twobody,mu=398600.436233_wp,report=twobody_report)
     
     !initial conditions:
     x0 = [10000.0_wp,10000.0_wp,10000.0_wp,&   !initial state [r,v] (km,km/s)
@@ -195,13 +207,15 @@
     tf = 1000.0_wp  !final time (sec)
     
     s%fevals = 0
+    s%first = .true.
     call s%integrate(t0,x0,dt,tf,xf)    !forward
+    write(*,*) ''
     write(*,'(A/,*(F15.6/))') 'Final state:',xf
     
     s%fevals = 0
+    s%report => null()    !disable reporting
     call s%integrate(tf,xf,-dt,t0,x02)  !backwards
     
-    write(*,*) ''
     write(*,'(A/,*(E20.12/))') 'Error:',x02-x0
     write(*,'(A,I5)') 'Function evaluations:', s%fevals
     write(*,*) ''
@@ -210,12 +224,13 @@
 !*****************************************************************************************
     contains
     
+    !*********************************************************
         subroutine twobody(me,t,x,xdot)
         ! derivative routine for two-body orbit propagation
         
         implicit none
         
-        class(rk_class),intent(inout)         :: me
+        class(rk_class),intent(inout)        :: me
         real(wp),intent(in)                  :: t    
         real(wp),dimension(me%n),intent(in)  :: x    
         real(wp),dimension(me%n),intent(out) :: xdot    
@@ -239,6 +254,32 @@
         end select
         
         end subroutine twobody
+    !*********************************************************
+        
+    !*********************************************************
+        subroutine twobody_report(me,t,x)
+        !report function - write time,state to console
+
+        implicit none
+        
+        class(rk_class),intent(inout)        :: me
+        real(wp),intent(in)                  :: t
+        real(wp),dimension(me%n),intent(in)  :: x
+        
+        select type (me)
+        class is (spacecraft)
+            if (me%first) then  !print header
+                write(*,*) ''
+                write(*,'(*(A15,1X))')  'time (sec)','x (km)','y (km)','z (km)',&
+                                        'vx (km/s)','vy (km/s)','vz (km/s)'
+                me%first = .false.
+            end if
+        end select
+
+        write(*,'(*(F15.6,1X))') t,x    
+                    
+        end subroutine twobody_report
+    !*********************************************************
         
     end subroutine rk_test
 !*****************************************************************************************
