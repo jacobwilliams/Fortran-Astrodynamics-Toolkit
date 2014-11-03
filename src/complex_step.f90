@@ -91,6 +91,60 @@
 !*****************************************************************************************
        
 !*****************************************************************************************
+!****f* complex_step_module/central_diff
+! 
+!  NAME
+!    central_diff
+!
+!  DESCRIPTION
+!    Compute the first derivative using a 2-point central difference [-h,h].
+!
+!  SOURCE
+
+    subroutine central_diff(f,x,h,dfdx)
+    
+    implicit none
+    
+    procedure(func)        :: f
+    complex(wp),intent(in) :: x
+    real(wp),intent(in)    :: h
+    real(wp),intent(out)   :: dfdx
+    
+    dfdx = (f(x+h) - f(x-h)) / (2.0_wp*h)
+    
+    end subroutine central_diff
+!*****************************************************************************************
+
+!*****************************************************************************************
+!****f* complex_step_module/central_diff_4
+! 
+!  NAME
+!    central_diff_4
+!
+!  DESCRIPTION
+!    Compute the first derivative using a 4-point central difference [-2h,-h,h,2h].
+!
+!  SOURCE
+
+    subroutine central_diff_4(f,x,h,dfdx)
+    
+    implicit none
+    
+    procedure(func)        :: f
+    complex(wp),intent(in) :: x
+    real(wp),intent(in)    :: h
+    real(wp),intent(out)   :: dfdx
+    
+    real(wp) :: h2
+    
+    h2 = 2.0_wp * h
+    
+    dfdx = (f(x-h2) - 8.0_wp*f(x-h) + 8.0_wp*f(x+h) - f(x+h2)) / (12.0_wp*h)
+    
+    end subroutine central_diff_4
+!*****************************************************************************************
+
+!*****************************************************************************************
 !****f* complex_step_module/complex_step_test
 ! 
 !  NAME
@@ -107,7 +161,7 @@
     
     integer     :: i
     complex(wp) :: x
-    real(wp)    :: dfdx,h,err,dfdx2,err2
+    real(wp)    :: h,dfdx,dfdx2,dfdx3,dfdx4,err,err2,err3,err4
 
     write(*,*) ''
     write(*,*) '---------------'
@@ -126,15 +180,19 @@
     !write(*,*) 'error :',real(test_deriv(x),wp) - dfdx
     !write(*,*) ''
     
-    write(*,'(*(A30))') 'h', 'forward diff err', 'complex step err'
+    write(*,'(*(A30))') 'h', 'forward diff err', 'central diff err', 'central diff 4 err', 'complex step err'
     
-    do i=1,50
-        h = 10.0_wp**(-i)
+    do i=1,200
+        h = 10.0_wp**(-i/10.0_wp)
         call complex_step_derivative(test_func,x,h,dfdx)
         call forward_diff(test_func,x,h,dfdx2)
+        call central_diff(test_func,x,h,dfdx3)
+        call central_diff_4(test_func,x,h,dfdx4)
         err  = real(test_deriv(x),wp) - dfdx
         err2 = real(test_deriv(x),wp) - dfdx2
-        write(*,'(*(E30.16))') h, err2, err
+        err3 = real(test_deriv(x),wp) - dfdx3
+        err4 = real(test_deriv(x),wp) - dfdx4
+        write(*,'(*(E30.16,1H,))') h, err2, err3, err4, err
     end do
     
     contains
