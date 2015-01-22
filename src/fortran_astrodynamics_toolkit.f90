@@ -25,6 +25,11 @@
     use vector_module
     use rk_module
     use complex_step_module
-           
+    use time_module
+    
+    implicit none
+    
+    public
+               
     end module fortran_astrodynamics_toolkit
 !*****************************************************************************************

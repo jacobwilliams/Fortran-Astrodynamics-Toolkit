@@ -12,7 +12,7 @@
     program test
     
     use fortran_astrodynamics_toolkit
-    
+        
     implicit none
         
     call bobyqa_test()        
@@ -22,6 +22,7 @@
     call lambert_test()
     call rk_test()
     call complex_step_test()
+    call time_module_test()
     
     end program test
 !*****************************************************************************************
