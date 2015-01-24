@@ -18,10 +18,10 @@ echo ""
 echo "build test program..."
 echo ""
 
-./FoBiS.py build -s ./src -compiler gnu -o ./bin/test
+./FoBiS.py build -s ./src -compiler gnu  -cflags "-c -O2" -o ./bin/test
 
 echo ""
 echo "build documentation..."
 echo ""
 
-robodoc --src ./src --doc ./doc --multidoc --html --ignore_case_when_linking --syntaxcolors --source_line_numbers --index --tabsize 4 --documenttitle Fortran-Astrodynamics-Toolkit --sections
+robodoc --rc ./robodoc.rc  --src ./src --doc ./doc --multidoc --html --ignore_case_when_linking --syntaxcolors --source_line_numbers --index --tabsize 4 --documenttitle Fortran-Astrodynamics-Toolkit --sections
