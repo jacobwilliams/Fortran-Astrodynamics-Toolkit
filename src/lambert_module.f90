@@ -1035,7 +1035,7 @@
     multi_revs = 1
     
     !reseed the random number generator:
-    dum = rand(100)
+    call random_seed()
    
     do icases=1,n_cases
         
@@ -1122,7 +1122,7 @@
 	do imeth=1,2    ![izzo, gooding]
 	
 		!reseed the random number generator:
-		dum = rand(100)
+		call random_seed()
     	
     	call cpu_time(tstart)
     
@@ -1177,7 +1177,7 @@
         real(wp),intent(in) :: a
         real(wp),intent(in) :: b
 
-        x = rand(0)
+        call random_number(x)
         x = a + (b-a)*x
         
         end function get_random_number
