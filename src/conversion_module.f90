@@ -14,12 +14,14 @@
 !            Guide for the use of the International System of Units".
 !            http://www.nist.gov/pml/pubs/sp811/
 !
-!*****************************************************************************************
+!  SOURCE
 
     use kind_module,       only: wp
-    use numbers_module,    only: one
+    use numbers_module,    only: one,pi
  
     implicit none
+    
+    public
   
     real(wp),parameter :: lbm2kg  = 0.45359237_wp         !these are exact
     real(wp),parameter :: lbf2N   = 4.4482216152605_wp    !
@@ -33,8 +35,15 @@
     real(wp),parameter :: m2ft    = one/ft2m       ! approximately 3.280839895013123
     real(wp),parameter :: km2mile = one/mile2km    ! approximately 0.621371192237334
     real(wp),parameter :: km2nmi  = one/nmi2km     ! approximately 0.5399568034557235
-    real(wp),parameter :: kg2slug = one/slug2kg    ! approximately 0.06852176585679176
+    real(wp),parameter :: kg2slug = ft2m/lbf2N     ! approximately 0.06852176585679176
+
+    !angles:
+    real(wp),parameter :: deg2rad = pi / 180.0_wp
+    real(wp),parameter :: rad2deg = 180.0_wp / pi
  
-!*****************************************************************************************
+    !metric:
+    real(wp),parameter :: km2m = 1000.0_wp
+    real(wp),parameter :: m2km = one / km2m
+    
     end module conversion_module
 !*****************************************************************************************

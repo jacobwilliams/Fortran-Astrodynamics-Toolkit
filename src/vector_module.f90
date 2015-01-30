@@ -28,6 +28,7 @@
     public :: box_product
     public :: vector_projection
     public :: axis_angle_rotation_to_rotation_matrix
+    public :: spherical_to_cartesian
     
     public :: vector_test
     
@@ -364,6 +365,36 @@
     rotmat = I + w*st + matmul(w,w)*(one-ct)
        
     end subroutine axis_angle_rotation_to_rotation_matrix
+!*****************************************************************************************
+
+!*****************************************************************************************
+!****f* vector_module/spherical_to_cartesian
+!
+!  NAME
+!    spherical_to_cartesian
+!
+!  DESCRIPTION
+!    Convert spherical (r,alpha,beta) to Cartesian (x,y,z).
+!
+!  AUTHOR
+!    Jacob Williams : 9/24/2014
+!
+!  SOURCE
+
+    function spherical_to_cartesian(r,alpha,beta) result(rvec)
+    
+    implicit none
+    
+    real(wp),intent(in) :: r        ! magnitude
+    real(wp),intent(in) :: alpha    ! right ascension [rad]
+    real(wp),intent(in) :: beta     ! declination [rad]
+    real(wp),dimension(3) :: rvec   ! [x,y,z] vector
+
+    rvec(1) = r * cos(alpha) * cos(beta)
+    rvec(2) = r * sin(alpha) * cos(beta)
+    rvec(3) = r * sin(beta)
+
+    end function spherical_to_cartesian
 !*****************************************************************************************
 
 !*****************************************************************************************

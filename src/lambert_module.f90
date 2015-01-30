@@ -1000,6 +1000,7 @@
     subroutine lambert_test()
 
     use gooding_module,    only: pv3els
+    use random_module,     only: get_random_number
     
     implicit none
     
@@ -1166,22 +1167,6 @@
        	
     end do
         
-    contains
-
-        function get_random_number(a,b) result(x)
-        ! Returns a uniform random number x, such that: a <= x < b.
-    
-        implicit none
-    
-        real(wp)            :: x
-        real(wp),intent(in) :: a
-        real(wp),intent(in) :: b
-
-        call random_number(x)
-        x = a + (b-a)*x
-        
-        end function get_random_number
-    
 !*****************************************************************************************
     end subroutine lambert_test
 !*****************************************************************************************

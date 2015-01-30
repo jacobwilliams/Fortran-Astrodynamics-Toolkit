@@ -18,6 +18,9 @@ echo ""
 echo "build test program..."
 echo ""
 
+# "-c -O2"
+# "-cflags "-c -O2 -Wall -Wtabs"
+
 ./FoBiS.py build -s ./src -compiler gnu  -cflags "-c -O2" -o ./bin/test
 
 echo ""

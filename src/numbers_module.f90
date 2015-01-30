@@ -9,7 +9,7 @@
 !  DESCRIPTION
 !    Defines some numeric parameters.
 !
-!*****************************************************************************************    
+!  SOURCE
     
     use kind_module,  only: wp
     
@@ -31,6 +31,5 @@
     real(wp),parameter,public :: twopi      = two*pi    
     real(wp),parameter,public :: fourpi     = four*pi
     
-!*****************************************************************************************    
     end module numbers_module
 !*****************************************************************************************    
