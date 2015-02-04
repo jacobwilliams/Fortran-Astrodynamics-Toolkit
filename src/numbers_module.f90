@@ -1,6 +1,4 @@
 !*****************************************************************************************
-    module numbers_module
-!*****************************************************************************************
 !****h* FAT/numbers_module
 !
 !  NAME
@@ -10,6 +8,8 @@
 !    Defines some numeric parameters.
 !
 !  SOURCE
+
+    module numbers_module
     
     use kind_module,  only: wp
     

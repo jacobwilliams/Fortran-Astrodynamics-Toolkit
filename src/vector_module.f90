@@ -18,6 +18,10 @@
     
     private
     
+    integer,parameter,public :: x_axis = 1
+    integer,parameter,public :: y_axis = 2
+    integer,parameter,public :: z_axis = 3
+    
     public :: cross
     public :: unit
     public :: uhat_dot
@@ -29,7 +33,9 @@
     public :: vector_projection
     public :: axis_angle_rotation_to_rotation_matrix
     public :: spherical_to_cartesian
+    public :: rotation_matrix
     
+    !test routine:
     public :: vector_test
     
     contains
@@ -381,7 +387,7 @@
 !
 !  SOURCE
 
-    function spherical_to_cartesian(r,alpha,beta) result(rvec)
+    pure function spherical_to_cartesian(r,alpha,beta) result(rvec)
     
     implicit none
     
@@ -397,6 +403,53 @@
     end function spherical_to_cartesian
 !*****************************************************************************************
 
+!*****************************************************************************************
+!****f* vector_module/rotation_matrix
+!
+!  NAME
+!    rotation_matrix
+!
+!  DESCRIPTION
+!    The 3x3 rotation matrix for a rotation about the x, y, or z-axis.
+!
+!  EXAMPLE
+!    real(wp),dimension(3,3) :: rotmat
+!    real(wp),dimension(3) :: vec,vec2
+!    real(wp) :: ang
+!    ang = pi / 4.0_wp
+!    vec = [1.414_wp, 0.0_wp, 0.0_wp]
+!    rotmat = rotation_matrix(z_axis,ang)
+!    vec2 = matmul(rotmat,vec)
+!
+!  AUTHOR
+!    Jacob Williams, 2/3/2015
+!
+!  SOURCE
+
+    pure function rotation_matrix(axis,angle) result(rotmat)
+
+    implicit none
+    
+    real(wp),dimension(3,3) :: rotmat   !the rotation matrix
+    integer,intent(in)      :: axis     !x_axis, y_axis, or z_axis
+    real(wp),intent(in)     :: angle    !angle in radians
+    
+    real(wp) :: c,s
+    
+    !precompute these:
+    c = cos(angle)
+    s = sin(angle)
+    
+    select case (axis)
+    case(x_axis); rotmat = reshape([one, zero, zero, zero, c, -s, zero, s, c],[3,3])
+    case(y_axis); rotmat = reshape([c, zero, s, zero, one, zero, -s, zero, c],[3,3])
+    case(z_axis); rotmat = reshape([c, -s, zero, s, c, zero, zero, zero, one],[3,3])
+    case default; rotmat = zero
+    end select
+    
+    end function rotation_matrix
+!*****************************************************************************************
+    
 !*****************************************************************************************
 !****f* vector_module/vector_test
 !
@@ -457,6 +510,14 @@
         write(*,*) 'Error:', norm2(v3-v2)
         
     end do
+    
+    !z-axis rotation test:
+    theta = pi / 4.0_wp
+    v = [one/cos(theta), 0.0_wp, 0.0_wp]
+    rotmat = rotation_matrix(z_axis,theta)
+    v2 = matmul(rotmat,v)
+    write(*,*) v2    !should be [1, -1, 0]
+
     
     end subroutine vector_test
  !*****************************************************************************************
