@@ -17,12 +17,44 @@
     
     private
     
+    !parameters:
+    real(wp),parameter :: jd_j2000 = 2451545.0_wp  !julian date of J2000 epoch
+    
+    !public routines:
     public :: julian_day
     public :: julian_date
+    public :: et_to_jd
     
+    !test routine:
     public :: time_module_test
 
     contains
+!*****************************************************************************************
+
+!*****************************************************************************************
+!****f* time_module/et_to_jd
+!
+!  NAME    
+!    et_to_jd
+!
+!  DESCRIPTION
+!    Convert ephemeris time (seconds from J2000 epoch) to Julian date.
+!
+!  AUTHOR
+!    Jacob Williams : 2/3/2015
+!
+!  SOURCE
+
+    pure function et_to_jd(et) result(jd)
+    
+    implicit none
+    
+    real(wp),intent(in) :: et   !ephemeris time [sec from J2000 epoch]
+    real(wp)            :: jd   !Julian date [days]
+        
+    jd = jd_j2000 + et*sec2day
+    
+    end function et_to_jd
 !*****************************************************************************************
 
 !*****************************************************************************************
@@ -46,9 +78,9 @@
     
     implicit none
     
-    integer,intent(in) :: y        ! year (YYYY)
-    integer,intent(in) :: m        ! month (MM)
-    integer,intent(in) :: d        ! day (DD)
+    integer,intent(in) :: y   ! year (YYYY)
+    integer,intent(in) :: m   ! month (MM)
+    integer,intent(in) :: d   ! day (DD)
     
     julian_day = d-32075+1461*(y+4800+(m-14)/12)/4+367*&
                  (m-2-(m-14)/12*12)/12-3*((y+4900+(m-14)/12)/100)/4
