@@ -47,6 +47,8 @@
 
     pure function et_to_jd(et) result(jd)
     
+    use conversion_module, only: sec2day
+    
     implicit none
     
     real(wp),intent(in) :: et   !ephemeris time [sec from J2000 epoch]
