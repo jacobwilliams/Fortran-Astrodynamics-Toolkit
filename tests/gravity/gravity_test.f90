@@ -45,7 +45,9 @@
     !get an initial cartesian state vector:
     ! [circular, 45 deg inclination, radius of 6778 km]
     call els3pv(mu_earth,[mu_earth/orbit_sma,orbit_sma,orbit_inc,zero,zero,zero],x0)
-    
+	
+    write(*,'(A/,*(E30.16/))') 'Initial state:',x0
+   
     !initial conditions:
     t0 = zero         !initial time (sec)
     dt = 100.0_wp     !time step (sec)
@@ -55,7 +57,7 @@
     s%first = .true.
     call s%integrate(t0,x0,dt,tf,xf)
     write(*,*) ''
-    write(*,'(A/,*(F15.6/))') 'Final state:',xf
+    write(*,'(A/,*(E30.16/))') 'Final state:',xf
     
     !cleanup:
     call s%grav%destroy()

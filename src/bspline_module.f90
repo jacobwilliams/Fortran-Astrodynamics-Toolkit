@@ -847,7 +847,7 @@
       double precision a,aa,ae,anib,ans,area,b,bc,c,ce,ee,ef,eps,err,&
        est,gl,glr,gr,hh,sq2,tol,vl,vr,work,w1, w2, w3, w4, xt, x1,&
        x2, x3, x4, x, h
-      double precision g8, fun
+      double precision,external :: fun
       dimension xt(*), bc(*), work(*)
       dimension aa(60), hh(60), lr(60), vl(60), gr(60)
       data x1, x2, x3, x4/&
@@ -859,14 +859,6 @@
       data icall  /  0  /
       data sq2/1.41421356d0/
       data nlmn/1/,kmx/5000/,kml/6/
-      g8(x,h)=h*((w1*(fun(x-x1*h)*dbvalu(xt,bc,n,kk,id,x-x1*h,inbv,work)&
-                  + fun(x+x1*h)*dbvalu(xt,bc,n,kk,id,x+x1*h,inbv,work))&
-                +w2*(fun(x-x2*h)*dbvalu(xt,bc,n,kk,id,x-x2*h,inbv,work)+&
-                    fun(x+x2*h)*dbvalu(xt,bc,n,kk,id,x+x2*h,inbv,work)))&
-               +(w3*(fun(x-x3*h)*dbvalu(xt,bc,n,kk,id,x-x3*h,inbv,work)+&
-                     fun(x+x3*h)*dbvalu(xt,bc,n,kk,id,x+x3*h,inbv,work))&
-                +w4*(fun(x-x4*h)*dbvalu(xt,bc,n,kk,id,x-x4*h,inbv,work)+&
-                   fun(x+x4*h)*dbvalu(xt,bc,n,kk,id,x+x4*h,inbv,work))))
 !
 !     initialize
 !
@@ -901,7 +893,7 @@
       aa(1) = a
       lr(1) = 1
       l = 1
-      est = g8(aa(l)+2.0d0*hh(l),2.0d0*hh(l))
+      est = g8(aa(l)+2.0d0*hh(l),2.0d0*hh(l),fun)
       k = 8
       area = dabs(est)
       ef = 0.5d0
@@ -909,8 +901,8 @@
 !
 !     compute refined estimates, estimate the error, etc.
 !
-   20 gl = g8(aa(l)+hh(l),hh(l))
-      gr(l) = g8(aa(l)+3.0d0*hh(l),hh(l))
+   20 gl = g8(aa(l)+hh(l),hh(l),fun)
+      gr(l) = g8(aa(l)+3.0d0*hh(l),hh(l),fun)
       k = k + 16
       area = area + (dabs(gl)+dabs(gr(l))-dabs(est))
       glr = gl + gr(l)
@@ -970,6 +962,29 @@
   140 icall = 0
       if (err<0.0d0) err = ce
       return
+	  
+	  contains
+	  
+	  function g8(x,h,fun)  !replaced statement function in original code
+	  
+	  implicit none
+	  
+	  double precision,intent(in) :: x
+	  double precision,intent(in) :: h
+	  double precision :: g8
+	  double precision,external :: fun
+	  
+		  g8 = h*((w1*(fun(x-x1*h)*dbvalu(xt,bc,n,kk,id,x-x1*h,inbv,work)&
+					  + fun(x+x1*h)*dbvalu(xt,bc,n,kk,id,x+x1*h,inbv,work))&
+					+w2*(fun(x-x2*h)*dbvalu(xt,bc,n,kk,id,x-x2*h,inbv,work)+&
+						fun(x+x2*h)*dbvalu(xt,bc,n,kk,id,x+x2*h,inbv,work)))&
+				   +(w3*(fun(x-x3*h)*dbvalu(xt,bc,n,kk,id,x-x3*h,inbv,work)+&
+						 fun(x+x3*h)*dbvalu(xt,bc,n,kk,id,x+x3*h,inbv,work))&
+					+w4*(fun(x-x4*h)*dbvalu(xt,bc,n,kk,id,x-x4*h,inbv,work)+&
+					   fun(x+x4*h)*dbvalu(xt,bc,n,kk,id,x+x4*h,inbv,work))))
+
+	  end function g8
+	  
       end subroutine dbsgq8
       
       subroutine dbspdr(t,a,n,k,nderiv,ad)
@@ -2203,7 +2218,7 @@
       double precision a,aa,ae,anib,ans,area,b,be,c,cc,ee,ef,eps,err,&
        est,gl,glr,gr,hh,sq2,tol,vl,vr,w1, w2, w3, w4, xi, x1,&
        x2, x3, x4, x, h
-      double precision g8, fun
+      double precision,external :: fun
       dimension xi(*), c(ldc,*)
       dimension aa(60), hh(60), lr(60), vl(60), gr(60)
       data x1, x2, x3, x4/&
@@ -2215,14 +2230,6 @@
       data icall  /  0  /
       data sq2/1.41421356d0/
       data nlmn/1/,kmx/5000/,kml/6/
-      g8(x,h)=h*((w1*(fun(x-x1*h)*dppval(ldc,c,xi,lxi,kk,id,x-x1*h,inppv&
-                 ) +fun(x+x1*h)*dppval(ldc,c,xi,lxi,kk,id,x+x1*h,inppv))&
-                +w2*(fun(x-x2*h)*dppval(ldc,c,xi,lxi,kk,id,x-x2*h,inppv)&
-                  +fun(x+x2*h)*dppval(ldc,c,xi,lxi,kk,id,x+x2*h,inppv)))&
-              +(w3*(fun(x-x3*h)*dppval(ldc,c,xi,lxi,kk,id,x-x3*h,inppv)&
-                   +fun(x+x3*h)*dppval(ldc,c,xi,lxi,kk,id,x+x3*h,inppv))&
-               +w4*(fun(x-x4*h)*dppval(ldc,c,xi,lxi,kk,id,x-x4*h,inppv)&
-                +fun(x+x4*h)*dppval(ldc,c,xi,lxi,kk,id,x+x4*h,inppv))))
 !
 !     initialize
 !
@@ -2257,7 +2264,7 @@
       aa(1) = a
       lr(1) = 1
       l = 1
-      est = g8(aa(l)+2.0d0*hh(l),2.0d0*hh(l))
+      est = g8(aa(l)+2.0d0*hh(l),2.0d0*hh(l),fun)
       k = 8
       area = dabs(est)
       ef = 0.5d0
@@ -2265,8 +2272,8 @@
 !
 !     compute refined estimates, estimate the error, etc.
 !
-   20 gl = g8(aa(l)+hh(l),hh(l))
-      gr(l) = g8(aa(l)+3.0d0*hh(l),hh(l))
+   20 gl = g8(aa(l)+hh(l),hh(l),fun)
+      gr(l) = g8(aa(l)+3.0d0*hh(l),hh(l),fun)
       k = k + 16
       area = area + (dabs(gl)+dabs(gr(l))-dabs(est))
       glr = gl + gr(l)
@@ -2326,6 +2333,29 @@
   140 icall = 0
       if (err<0.0d0) err = be
       return
+	  
+	  contains
+	  
+	  function g8(x,h,fun)  !replaces the statement function in the original code
+	  
+	  implicit none
+	  
+	  double precision,intent(in) :: x
+	  double precision,intent(in) :: h
+	  double precision :: g8
+	  double precision,external :: fun
+	  
+	  g8 = h*((w1*(fun(x-x1*h)*dppval(ldc,c,xi,lxi,kk,id,x-x1*h,inppv&
+                 ) +fun(x+x1*h)*dppval(ldc,c,xi,lxi,kk,id,x+x1*h,inppv))&
+                +w2*(fun(x-x2*h)*dppval(ldc,c,xi,lxi,kk,id,x-x2*h,inppv)&
+                  +fun(x+x2*h)*dppval(ldc,c,xi,lxi,kk,id,x+x2*h,inppv)))&
+              +(w3*(fun(x-x3*h)*dppval(ldc,c,xi,lxi,kk,id,x-x3*h,inppv)&
+                   +fun(x+x3*h)*dppval(ldc,c,xi,lxi,kk,id,x+x3*h,inppv))&
+               +w4*(fun(x-x4*h)*dppval(ldc,c,xi,lxi,kk,id,x-x4*h,inppv)&
+                +fun(x+x4*h)*dppval(ldc,c,xi,lxi,kk,id,x+x4*h,inppv))))
+
+	  end function g8
+	  
       end subroutine dppgq8
       
       subroutine dppqad(ldc,c,xi,lxi,k,x1,x2,pquad)
