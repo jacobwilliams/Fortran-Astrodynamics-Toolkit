@@ -32,7 +32,7 @@
     !
 
     public :: iau_rotation_matrix  !base routine
-    public :: j2000_to_iau_earth   
+    public :: icrf_to_iau_earth   
     
     !test routines:
     public :: iau_test
@@ -48,7 +48,8 @@
 !
 !  DESCRIPTION
 !    Returns the rotation matrix for a coordinate transformation from 
-!    the J2000 frame to the IAU rotating frame associated with a body.
+!    the International Celestial Reference Frame (ICRF) frame to the 
+!    IAU rotating frame associated with a body.
 !    The IAU orientation models use three Euler angles to describe 
 !    the pole and prime meridian location (ra, dec, and w). 
 !
@@ -80,20 +81,20 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* iau_orientation_module/j2000_to_iau_earth
+!****f* iau_orientation_module/icrf_to_iau_earth
 !
 !  NAME
-!    j2000_to_iau_earth
+!    icrf_to_iau_earth
 !
 !  DESCRIPTION
-!    Rotation matrix from J2000 to IAU_EARTH.
+!    Rotation matrix from ICRF to IAU_EARTH.
 !
 !  AUTHOR
 !    Jacob Williams, 2/3/2015
 !
 !  SOURCE
 
-    pure function j2000_to_iau_earth(et) result(rotmat)
+    pure function icrf_to_iau_earth(et) result(rotmat)
     
     implicit none
  
@@ -111,7 +112,7 @@
     
     rotmat = iau_rotation_matrix(w,dec,ra)
     
-    end function j2000_to_iau_earth
+    end function icrf_to_iau_earth
 !*****************************************************************************************
 
 !*****************************************************************************************
@@ -144,7 +145,7 @@
     write(*,*) ''
     
     et     = 1000.0_wp               !epoch [sec from J2000]
-    rotmat = j2000_to_iau_earth(et)  !rotation matrix from J2000 to IAU_EARTH
+    rotmat = icrf_to_iau_earth(et)   !rotation matrix from J2000 to IAU_EARTH
     
     write(*,*) 'et    =',et
     write(*,*) 'rotmat='
