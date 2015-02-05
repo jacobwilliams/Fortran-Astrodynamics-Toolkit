@@ -20,11 +20,11 @@
        
     !main integration class:
     type,abstract,public :: rk_class
-        private
         integer :: n = 0                               !user specified number of variables
         procedure(deriv_func),pointer :: f => null()   !user-specified derivative function
         procedure(report_func),pointer :: report => null() !user-specified report function
         contains
+        procedure :: initialize  !initialize the class (set n,f, and report)
         procedure,non_overridable,public :: integrate  !main integration routine
         procedure(step_func),deferred :: step          !the step routine for the rk method
     end type rk_class
@@ -75,7 +75,34 @@
     
     contains
 !*****************************************************************************************
+
+!*****************************************************************************************
+!****f* rk_module/initialize
+! 
+!  NAME
+!    initialize
+!
+!  DESCRIPTION
+!    Initialize the rk_class.
+!
+!  SOURCE
+
+    subroutine initialize(me,n,f,report) 
     
+    implicit none
+    
+    class(rk_class),intent(inout)   :: me    
+    integer,intent(in)              :: n
+    procedure(deriv_func)           :: f
+    procedure(report_func),optional :: report
+    
+    me%n = n
+    me%f => f
+    if (present(report)) me%report => report
+    
+    end subroutine initialize
+!*****************************************************************************************
+  
 !*****************************************************************************************
 !****f* rk_module/integrate
 ! 
