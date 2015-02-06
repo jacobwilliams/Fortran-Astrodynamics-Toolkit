@@ -5,9 +5,24 @@ Fortran-Astrodynamics-Toolkit
 
 A modern Fortran library for astrodynamics.
 
-This is a work in progress. The goal is to include modern Fortran implementations of all the standard orbital mechanics algorithms such as:
+Overview
+---------------
+
+The goal is to produce a comprehensive library, written in modern Fortran (Fortran 2003/2008), of all the standard orbital mechanics algorithms such as:
 
  * Lambert solvers
  * Kepler propagators
  * ODE solvers (Runge-Kutta, Nystrom, Adams)
  * Orbital element conversions
+ * Force models (point mass gravity, geopotential, solar radiation pressure, drag)
+ * Reference frames
+ * Targeting and optimization
+ * Engine models
+
+This is a work in progress, and is currently in a very preliminary state.  
+
+See also
+---------------
+ * [SPICE](http://naif.jpl.nasa.gov/naif/toolkit.html)
+ * [NOVAS](http://aa.usno.navy.mil/software/novas/novas_info.php)
+ * [SOFA](http://www.iausofa.org)
