@@ -23,6 +23,8 @@
     call rk_test()
     call complex_step_test()
     call time_module_test()
+    call geopotential_module_test()   
+    call iau_test()
     
     end program test
 !*****************************************************************************************
