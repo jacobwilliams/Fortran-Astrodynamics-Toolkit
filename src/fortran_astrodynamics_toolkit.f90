@@ -1,6 +1,4 @@
 !*****************************************************************************************
-    module fortran_astrodynamics_toolkit
-!*****************************************************************************************
 !****h* FAT/fortran_astrodynamics_toolkit
 !
 !  NAME
@@ -10,6 +8,8 @@
 !    The main module that uses all the other modules.
 !
 !  SOURCE
+
+    module fortran_astrodynamics_toolkit
 
     use bobyqa_module
     use brent_module

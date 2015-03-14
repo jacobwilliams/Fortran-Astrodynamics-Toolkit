@@ -24,6 +24,8 @@
     public :: julian_day
     public :: julian_date
     public :: et_to_jd
+    public :: jd_to_mjd
+    public :: mjd_to_jd
     
     !test routine:
     public :: time_module_test
@@ -57,6 +59,64 @@
     jd = jd_j2000 + et*sec2day
     
     end function et_to_jd
+!*****************************************************************************************
+
+!*****************************************************************************************
+!****f* time_module/jd_to_mjd
+!
+!  NAME    
+!    jd_to_mjd
+!
+!  DESCRIPTION
+!    Converts Julian date to Modified Julian date.
+!
+!  SEE ALSO
+!    http://tycho.usno.navy.mil/mjd.html
+!
+!  AUTHOR
+!    Jacob Williams : 3/15/2015
+!
+!  SOURCE
+
+    pure function jd_to_mjd(jd) result(mjd)
+
+    implicit none
+
+    real(wp)            :: mjd  !modified julian date
+    real(wp),intent(in) :: jd   !julian date
+
+    mjd = jd - 2400000.5_wp
+
+    end function jd_to_mjd
+!*****************************************************************************************
+
+!*****************************************************************************************
+!****f* time_module/mjd_to_jd
+!
+!  NAME    
+!    mjd_to_jd
+!
+!  DESCRIPTION
+!    Converts Modified Julian date to Julian date.
+!
+!  SEE ALSO
+!    http://tycho.usno.navy.mil/mjd.html
+!
+!  AUTHOR
+!    Jacob Williams : 3/15/2015
+!
+!  SOURCE
+
+    pure function mjd_to_jd(mjd) result(jd)
+
+    implicit none
+
+    real(wp)            :: jd   !julian date
+    real(wp),intent(in) :: mjd  !modified julian date
+
+    jd = mjd + 2400000.5_wp
+
+    end function mjd_to_jd
 !*****************************************************************************************
 
 !*****************************************************************************************
@@ -106,7 +166,7 @@
 !
 !  SOURCE
 
-    function julian_date(y,m,d,hour,minute,second)
+    pure function julian_date(y,m,d,hour,minute,second)
    
     implicit none
     

@@ -34,6 +34,7 @@
     public :: axis_angle_rotation_to_rotation_matrix
     public :: spherical_to_cartesian
     public :: rotation_matrix
+    public :: angle_between_vectors
     
     !test routine:
     public :: vector_test
@@ -449,6 +450,37 @@
     
     end function rotation_matrix
 !*****************************************************************************************
+
+!*****************************************************************************************
+!****f* vector_module/angle_between_vectors
+!
+!  NAME
+!    angle_between_vectors
+!
+!  DESCRIPTION
+!    The angle between two vectors (in radians).
+!
+!  AUTHOR
+!    Jacob Williams, 3/13/2015
+!
+!  SOURCE
+
+    pure function angle_between_vectors(v1,v2) result(ang)
+
+    implicit none
+
+    real(wp)                         :: ang  ![rad]
+    real(wp),dimension(3),intent(in) :: v1
+    real(wp),dimension(3),intent(in) :: v2
+
+    real(wp) :: d,c
+
+    d   = dot_product(v1,v2)
+    c   = norm2(cross(v1,v2))
+    ang = atan2(c,d)
+
+    end function angle_between_vectors
+!*****************************************************************************************
     
 !*****************************************************************************************
 !****f* vector_module/vector_test
@@ -520,7 +552,7 @@
 
     
     end subroutine vector_test
- !*****************************************************************************************
+ !****************************************************************************************
    
 !*****************************************************************************************
     end module vector_module
