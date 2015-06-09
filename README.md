@@ -35,6 +35,8 @@ mkdir ~/Fortran-Astrodynamics-Toolkit/eph
 mv ./JPLEPH ~/Fortran-Astrodynamics-Toolkit/eph/JPLEPH.405
 ```
 
+To use the geopotential_module, you need a geopotential model file (for example ```GGM03C.GEO``` from ftp://ftp.csr.utexas.edu/pub/grace/GGM03/GGM03_Archive.zip). This should be placed in the ```grav``` directory.
+
 See also
 ---------------
  * [SPICE](http://naif.jpl.nasa.gov/naif/toolkit.html)
