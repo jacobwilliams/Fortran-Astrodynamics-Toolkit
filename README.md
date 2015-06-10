@@ -34,6 +34,7 @@ cat header.405 ascp*.405 | ./asc2eph
 mkdir ~/Fortran-Astrodynamics-Toolkit/eph
 mv ./JPLEPH ~/Fortran-Astrodynamics-Toolkit/eph/JPLEPH.405
 ```
+Note that some of the examples require the file to be named ```JPLEPH_2000-2100.405```.
 
 To use the geopotential_module, you need a geopotential model file (for example ```GGM03C.GEO``` from ftp://ftp.csr.utexas.edu/pub/grace/GGM03/GGM03_Archive.zip). This should be placed in the ```grav``` directory.
 
