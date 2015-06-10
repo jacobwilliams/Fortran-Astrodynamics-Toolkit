@@ -7,7 +7,7 @@
 !  DESCRIPTION
 !    Earth-Mars porkchop routines.
 !
-!    f2py3 -c porkchop.f90 -L../../lib/ -lfat -I../../mod -m porkchop only: generate_porkchop
+!    f2py -c porkchop.f90 -L../../lib/ -lfat -I../../lib/ -m porkchop only: generate_porkchop
 !
 !    Note: to run requires the JPLEPH_2000-2100.405 ephemeris file.
 !

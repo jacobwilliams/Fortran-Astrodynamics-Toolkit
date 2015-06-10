@@ -157,21 +157,20 @@ if __name__ == "__main__":
 		draw_flight_time_line(t0[:,np.size(t0,1)-1],tf[:,np.size(t0,1)-1],'r')
 
 	#########################
-	#compile pork.f90 using f2pi:
-	#
-	# f2py3 -c pork.f90 -L../../lib/ -lfat -I../../mod -m porkchop only: generate_porkchop
-	#	
 	def generate_pork_chop_data():
-		"""call the f2py fortran routine and get the pork chop plot data"""
+		"""
+			Call the f2py fortran routine and get the pork chop plot data.
+			See porkchop.f90 for details. 
+		"""
 		
 		import porkchop
 		
 		#time ranges:
-		initial_t0		= 0		# departure epoch
-		delta_t0   		= 1		#
+		initial_t0		= 0			# departure epoch
+		delta_t0   		= 1			#
 		final_t0		= 100		#	
 		initial_dt		= 100		# time of flight 
-		delta_dt		= 1		#
+		delta_dt		= 1			#
 		final_dt		= 400		#
 		
 		#initial epoch:
