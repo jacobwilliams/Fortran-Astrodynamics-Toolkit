@@ -24,11 +24,12 @@ This is a work in progress, and is currently in a very preliminary state.
 Third-Party Requirements
 ---------------
 
-To use the ephemeris_module, a copy of one of the JPL binary ephemeris files must be present in the ```eph``` directory.  This can be built from the instructions at: ftp://ssd.jpl.nasa.gov/pub/eph/planets/fortran/userguide.txt.  For example:
+To use the ephemeris_module, a copy of one of the JPL binary ephemeris files must be present in the ```eph``` directory.  This can be built from the instructions at: ftp://ssd.jpl.nasa.gov/pub/eph/planets/fortran/userguide.txt.  For example (on MacOS X):
 ```bash
 wget ftp://ssd.jpl.nasa.gov/pub/eph/planets/fortran/*
 wget ftp://ssd.jpl.nasa.gov/pub/eph/planets/ascii/de405/*
-#edit asc2eph.f file to set NRECL = 4
+#edit asc2eph.f file to set NRECL = 4:
+sed -i '_original' '/^C.*PARAMETER ( NRECL = 4 )/s/^C//' asc2eph.f
 gfortran asc2eph.f -o asc2eph
 cat header.405 ascp*.405 | ./asc2eph
 mkdir ~/Fortran-Astrodynamics-Toolkit/eph
