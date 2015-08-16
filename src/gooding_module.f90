@@ -1,37 +1,29 @@
 !*****************************************************************************************
+!> author: Jacob Williams
+!
+!  Gooding's Kepler and universal elements conversion routines.
+!
+!# Notes
+!  The Gooding universal elements are:
+!
+!   * `alpha` - mu/a [km^2/s^2]
+!   * `rp`    - periapsis radius [km]
+!   * `inc`   - inclination [rad]
+!   * `raan`  - right ascension of the ascending node [rad]
+!   * `w`     - argument of periapsis [rad] 
+!   * `tau`   - time since last periapsis passage [sec]
+!
+!# References
+!  1. A. W. Odell, R. H. Gooding, "Procedures for solving Kepler's equation"
+!     Celestial Mechanics 38 (1986), 307-334.
+!  2. R. H. Gooding, "On universal elements, and conversion procedures
+!     to and from position and velocity"
+!     Celestial Mechanics 44 (1988), 283-298.
+!  3. R. H. Gooding, A. W. Odell. "The hyperbolic Kepler equation 
+!     (and the elliptic equation revisited)"
+!     Celestial Mechanics 44 (1988), 267-282.
+
     module gooding_module
-!*****************************************************************************************
-!****h* FAT/gooding_module
-!
-!  NAME
-!    gooding_module
-!
-!  DESCRIPTION
-!    Gooding's Kepler and universal elements conversion routines.
-!
-!  NOTES
-!    The Gooding universal elements are:
-!     alpha - mu/a [km^2/s^2]
-!     rp    - periapsis radius [km]
-!     inc   - inclination [rad]
-!     raan  - right ascension of the ascending node [rad]
-!     w     - argument of periapsis [rad] 
-!     tau   - time since last periapsis passage [sec]
-!
-!  SEE ALSO
-!    [1] A. W. Odell, R. H. Gooding, "Procedures for solving Kepler's equation"
-!            Celestial Mechanics 38 (1986), 307-334.
-!    [2] R. H. Gooding, "On universal elements, and conversion procedures
-!            to and from position and velocity"
-!            Celestial Mechanics 44 (1988), 283-298.
-!    [3] R. H. Gooding, A. W. Odell. "The hyperbolic Kepler equation 
-!            (and the elliptic equation revisited)"
-!            Celestial Mechanics 44 (1988), 267-282.
-!
-!  AUTHOR
-!    Jacob Williams
-!
-!*****************************************************************************************
 
     use kind_module,    only: wp
     use numbers_module
@@ -56,27 +48,18 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* gooding_module/propagate
+!> author: Jacob Williams
 !
-!  NAME
-!    propagate
-!
-!  DESCRIPTION
-!    Basic two-body propagator using the Gooding universal element routines.
-!    
-!  AUTHOR
-!    Jacob Williams
-!
-!  SOURCE
+!  Basic two-body propagator using the Gooding universal element routines.
 
     pure subroutine propagate(mu, rv0, dt, rvf)
 
     implicit none
     
-    real(wp),intent(in)               :: mu    ! grav. parameter [km^3/s^2]
-    real(wp),dimension(6),intent(in)  :: rv0   ! initial state [km, km/s]
-    real(wp),intent(in)               :: dt    ! time step [sec]
-    real(wp),dimension(6),intent(out) :: rvf   ! final state [km, km/s]
+    real(wp),intent(in)               :: mu    !! grav. parameter [km^3/s^2]
+    real(wp),dimension(6),intent(in)  :: rv0   !! initial state [km, km/s]
+    real(wp),intent(in)               :: dt    !! time step [sec]
+    real(wp),dimension(6),intent(out) :: rvf   !! final state [km, km/s]
 
     real(wp),dimension(6) :: e
     
@@ -91,24 +74,18 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* gooding_module/ekepl
-!
-!  NAME
-!    ekepl
-!
-!  DESCRIPTION
-!    Kepler's equation, em = ekepl - (1 - e1)*sin(ekepl),
-!    with e1 in range 1 to 0 inclusive, solved accurately
-!    (based on ekepl3, but entering e1, not e)
-!
-!  SOURCE
+!> 
+!  Kepler's equation, `em = ekepl - (1 - e1)*sin(ekepl)`,
+!  with `e1` in range 1 to 0 inclusive, solved accurately
+!  (based on ekepl3, but entering `e1`, not `e`)
 
     pure function ekepl(em, e1)
 
     implicit none
     
     real(wp) :: ekepl
-    real(wp),intent(in) :: em,e1
+    real(wp),intent(in) :: em
+    real(wp),intent(in) :: e1
     
     real(wp) :: emr,ee,e,w,fdd,fddd,f,fd,dee
     integer :: iter
@@ -164,24 +141,19 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* gooding_module/ekepl1
-!
-!  NAME
-!    EKEPL1
-!
-!  DESCRIPTION
-!    Solve kepler's equation, em = ekepl - e*sin(ekepl),
-!    with legendre-based starter and halley iterator
-!    (function has also been used under the name eafkep)
-!
-!  SOURCE
+!>
+!  Solve kepler's equation, `em = ekepl - e*sin(ekepl)`,
+!  with legendre-based starter and halley iterator
+!  (function has also been used under the name eafkep)
 
     pure function ekepl1(em, e)
 
     implicit none
     
     real(wp) :: ekepl1
-    real(wp),intent(in) :: em,e
+    real(wp),intent(in) :: em
+    real(wp),intent(in) :: e
+    
     real(wp) :: c,s,psi,xi,eta,fd,fdd,f
     
     real(wp),parameter :: testsq = 1.0e-8_wp
@@ -208,16 +180,9 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* gooding_module/ekepl2
-!
-!  NAME
-!    ekepl2
-!
-!  DESCRIPTION
-!    Kepler's equation, em = ekepl - e*sin(ekepl) with
-!    e in range 0 to 1 inclusive, solved accurately
-!
-!  SOURCE
+!>
+!  Kepler's equation, `em = ekepl - e*sin(ekepl)` with
+!  e in range 0 to 1 inclusive, solved accurately
 
     pure function ekepl2(em, e)
 
@@ -290,18 +255,12 @@
 !*****************************************************************************************
     
 !*****************************************************************************************
-!****f* gooding_module/emkepl
+!>
+!  Accurate computation of `ee - e*sin(ee)`
+!  when (e, ee) is close to (1, 0)
 !
-!  NAME
-!    emkepl
-!
-!  DESCRIPTION
-!    Accurate computation of ee - e*sin(ee)
-!    when (e, ee) is close to (1, 0)
-!    nb - must not be used for large ee (absolute)
-!    as then rounding worse not better
-!
-!  SOURCE
+!@note must not be used for large ee (absolute)
+!      as then rounding worse not better
 
     pure function emkepl(e, ee)
 
@@ -334,15 +293,8 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* gooding_module/emkep
-!
-!  NAME
-!    emkep
-!
-!  DESCRIPTION
-!    Similar to emkepl, except input is 1-e.
-!
-!  SOURCE
+!>
+!  Similar to emkepl, except input is `1-e`.
 
     pure function emkep(e1,ee)
 
@@ -375,16 +327,9 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* gooding_module/shkepl
-!
-!  NAME
-!    shkepl
-!
-!  DESCRIPTION
-!    Equation el = shkepl + (g1 - 1)*asinh(shkepl),
-!    with g1 in range 0 to 1 inclusive, solved accurately.
-!
-!  SOURCE
+!>
+!  Equation `el = shkepl + (g1 - 1)*asinh(shkepl)`,
+!  with g1 in range 0 to 1 inclusive, solved accurately.
 
     pure function shkepl (el, g1)
 
@@ -442,16 +387,9 @@
 !*****************************************************************************************
     
 !*****************************************************************************************
-!****f* gooding_module/shmkep
-!
-!  NAME
-!    SHMKEP
-!
-!  DESCRIPTION
-!    Accurate computation of s - (1 - g1)*asinh(s)
-!    when (g1, s) is close to (0, 0)
-!
-!  SOURCE
+!>
+!  Accurate computation of `s - (1 - g1)*asinh(s)`
+!  when (g1, s) is close to (0, 0)
 
     pure function shmkep (g1, s)
 
@@ -486,30 +424,23 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* gooding_module/els2pv
-!
-!  NAME
-!    ELS2PV
-!
-!  DESCRIPTION
-!    Algorithm for two-dimensional conversion
-!    from orbital elements to position and velocity.
-!
-!  SOURCE
+!>
+!  Algorithm for two-dimensional conversion
+!  from orbital elements to position and velocity.
 
     pure subroutine els2pv (gm, al, q, om, tau, r, u, vr, vt)
 
     implicit none
     
-    real(wp),intent(in)  :: gm    !grav. parameter [km^3/s^2]
-    real(wp),intent(in)  :: al    !alpha [km^2/s^2]
-    real(wp),intent(in)  :: q     !periapsis distance [km]
-    real(wp),intent(in)  :: om    !argument of periapsis relative to assumed reference direction [rad]
-    real(wp),intent(in)  :: tau   !time from periapsis [sec]
-    real(wp),intent(out) :: r     !radial distance [km]
-    real(wp),intent(out) :: u     !angle from reference direction [rad]
-    real(wp),intent(out) :: vr    !radial velocity [km/2]
-    real(wp),intent(out) :: vt    !transverse velocity >=0 [km/s]
+    real(wp),intent(in)  :: gm    !! grav. parameter [km^3/s^2]
+    real(wp),intent(in)  :: al    !! alpha [km^2/s^2]
+    real(wp),intent(in)  :: q     !! periapsis distance [km]
+    real(wp),intent(in)  :: om    !! argument of periapsis relative to assumed reference direction [rad]
+    real(wp),intent(in)  :: tau   !! time from periapsis [sec]
+    real(wp),intent(out) :: r     !! radial distance [km]
+    real(wp),intent(out) :: u     !! angle from reference direction [rad]
+    real(wp),intent(out) :: vr    !! radial velocity [km/2]
+    real(wp),intent(out) :: vt    !! transverse velocity >=0 [km/s]
 
     real(wp) :: d,h,v,e1,e,ep1,alp,rtal,em,ee2,s2,c2,emv,s,c
         
@@ -572,24 +503,17 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* gooding_module/els3pv
-!
-!  NAME
-!    ELS3PV
-!
-!  DESCRIPTION
-!    Algorithm for three-dimensional conversion
-!    from orbital elements to position and velocity
-!
-!  SOURCE
+!>
+!  Algorithm for three-dimensional conversion
+!  from orbital elements to position and velocity
 
     pure subroutine els3pv (gm, e, pv)
 
     implicit none
     
-    real(wp),intent(in)               :: gm   ! grav. parameter [km^3/sec^2]
-    real(wp),dimension(6),intent(in)  :: e    ! [al, q, ei, bom, om, tau]
-    real(wp),dimension(6),intent(out) :: pv   ! [x, y, z, xdot, ydot, zdot]
+    real(wp),intent(in)               :: gm   !! grav. parameter [km^3/sec^2]
+    real(wp),dimension(6),intent(in)  :: e    !! [al, q, ei, bom, om, tau]
+    real(wp),dimension(6),intent(out) :: pv   !! [x, y, z, xdot, ydot, zdot]
     
     real(wp) :: x,y,z,xdot,ydot,zdot,al,q,ei,bom,om,tau
     real(wp) :: r,u,vr,vt,c,s,x1,x2,y1,y2
@@ -641,30 +565,23 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* gooding_module/pv2els
-!
-!  NAME
-!    PV2ELS
-!
-!  DESCRIPTION
-!    Algorithm for two-dimensional conversion
-!    from position and velocity to orbital elements.
-!
-!  SOURCE
+!>
+!  Algorithm for two-dimensional conversion
+!  from position and velocity to orbital elements.
 
     pure subroutine pv2els (gm, r, u, vr, vt, al, q, om, tau)
 
     implicit none
 
-    real(wp),intent(in)  :: gm    !grav. parameter [km^3/s^2]
-    real(wp),intent(in)  :: r     !radial distance [km]
-    real(wp),intent(in)  :: u     !angle from assumed reference direction [rad]
-    real(wp),intent(in)  :: vr    !radial velocity [km/2]
-    real(wp),intent(in)  :: vt    !transverse velocity >=0 [km/s]
-    real(wp),intent(out) :: al    !alpha: gm/a [km^2/s^2]
-    real(wp),intent(out) :: q     !periapsis distance [km]
-    real(wp),intent(out) :: om    !argument of periapsis relative to reference direction [rad]
-    real(wp),intent(out) :: tau   !time from periapsis [sec]
+    real(wp),intent(in)  :: gm    !! grav. parameter [km^3/s^2]
+    real(wp),intent(in)  :: r     !! radial distance [km]
+    real(wp),intent(in)  :: u     !! angle from assumed reference direction [rad]
+    real(wp),intent(in)  :: vr    !! radial velocity [km/2]
+    real(wp),intent(in)  :: vt    !! transverse velocity >=0 [km/s]
+    real(wp),intent(out) :: al    !! alpha: gm/a [km^2/s^2]
+    real(wp),intent(out) :: q     !! periapsis distance [km]
+    real(wp),intent(out) :: om    !! argument of periapsis relative to reference direction [rad]
+    real(wp),intent(out) :: tau   !! time from periapsis [sec]
     
     real(wp) :: esq1,es,eses,ec,ecec,esq,e,v,e1
     real(wp) :: eh,em,ecesq,en,adj,vsq,rtal,d,h,p,alp
@@ -754,24 +671,17 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* gooding_module/pv3els
-!
-!  NAME
-!    PV3ELS
-!
-!  DESCRIPTION
-!    Algorithm for three-dimensional conversion
-!    from position and velocity to orbital elements.
-!
-!  SOURCE
+!>
+!  Algorithm for three-dimensional conversion
+!  from position and velocity to orbital elements.
 
     pure subroutine pv3els (gm, pv, e)
 
     implicit none
     
-    real(wp),intent(in) :: gm
-    real(wp),dimension(6),intent(in)  :: pv   ![x, y, z, xdot, ydot, zdot]
-    real(wp),dimension(6),intent(out) :: e    ![al, q, ei, bom, om, tau]
+    real(wp),intent(in)               :: gm   !! grav. parameter [km^3/s^2]
+    real(wp),dimension(6),intent(in)  :: pv   !! [x, y, z, xdot, ydot, zdot]
+    real(wp),dimension(6),intent(out) :: e    !! [al, q, ei, bom, om, tau]
     
     real(wp) :: x,y,z,xdot,ydot,zdot,al,q,ei,bom,om,tau,xsqysq,&
                 rsq,r,vr,hx,hy,hz,hsq,u,vt,bx,by,bz,w,h
@@ -846,24 +756,19 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* gooding_module/dcbsol
-!
-!  NAME
-!    dcbsol
-!
-!  DESCRIPTION
-!    Solution to a*x**3 + 3*b*x - 2c = 0, where
-!    a and b**3 + a*c**2 are both non-negative
-!    (zero generated, in lieu of infinity, if a = b = 0)
-!
-!  SOURCE
+!>
+!  Solution to `a*x**3 + 3*b*x - 2c = 0`, where
+!  `a` and `b**3 + a*c**2` are both non-negative
+!  (zero generated, in lieu of infinity, if `a = b = 0`)
 
     pure function dcbsol (a, b, c) result(x)
 
     implicit none
     
     real(wp)               :: x
-    real(wp),intent(in)    :: a,b,c
+    real(wp),intent(in)    :: a
+    real(wp),intent(in)    :: b
+    real(wp),intent(in)    :: c
     
     real(wp) :: bsq,d
 
@@ -880,16 +785,9 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* gooding_module/dcubrt
-!
-!  NAME
-!    dcubrt
-!
-!  DESCRIPTION
-!    Cube root computed accurately, by incorporating
-!    one Newton-Raphson iteration.
-!
-!  SOURCE
+!>
+!  Cube root computed accurately, by incorporating
+!  one Newton-Raphson iteration.
 
     pure function dcubrt(x) result(c)
 

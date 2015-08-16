@@ -1,19 +1,10 @@
 !*****************************************************************************************
+!> author: Jacob Williams
+! 
+!  This module contains the Izzo and Gooding algorithms for solving Lambert's problem.
+
     module lambert_module
-!*****************************************************************************************
-!****h* FAT/lambert_module
-!
-!  NAME
-!    lambert_module
-!
-!  DESCRIPTION
-!    This module contains the Izzo and Gooding algorithms for solving Lambert's problem.
-!
-!  AUTHOR
-!    Jacob Williams
-!
-!*****************************************************************************************    
-    
+
     use kind_module,      only: wp
     use numbers_module
     use vector_module,    only: cross, unit, ucross
@@ -40,37 +31,30 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* lambert_module/solve_lambert_izzo
+!>
+!  Solve Lambert's problem using Izzo's method.
 !
-!  NAME
-!    solve_lambert_izzo
+!# References
 !
-!  DESCRIPTION
-!    Solve Lambert's problem using Izzo's method.
-!
-!  SEE ALSO
-!    [1] D. Izzo, "Revisiting Lambert's Problem"
-!        http://arxiv-web3.library.cornell.edu/abs/1403.2705
-!        [v2] Tue, 24 Jun 2014 13:08:37 GMT (606kb,D)
-!    [2] https://github.com/esa/pykep
-!    [3] R. A. Battin, "An Introduction to the Mathematics and Methods of 
-!        Astrodynamics (Revised Edition)", AIAA Education Series, 1999.
-!
-!  SOURCE
+!  1. D. Izzo, [Revisiting Lambert's Problem](http://arxiv-web3.library.cornell.edu/abs/1403.2705)
+!     [v2] Tue, 24 Jun 2014 13:08:37 GMT (606kb,D)
+!  2. [PyKEP](https://github.com/esa/pykep)
+!  3. R. A. Battin, "An Introduction to the Mathematics and Methods of 
+!     Astrodynamics (Revised Edition)", AIAA Education Series, 1999.
 
     subroutine solve_lambert_izzo(r1,r2,tof,mu,long_way,multi_revs,v1,v2,status_ok)
 
     implicit none
 
-    real(wp),dimension(3),intent(in)                :: r1            ! first cartesian position [km]
-    real(wp),dimension(3),intent(in)                :: r2            ! second cartesian position [km]
-    real(wp),intent(in)                             :: tof           ! time of flight [sec]
-    real(wp),intent(in)                             :: mu            ! gravity parameter [km^3/s^2]
-    logical,intent(in)                              :: long_way      ! when true, do "long way" (>pi) transfers
-    integer,intent(in)                              :: multi_revs    ! maximum number of multi-rev solutions to compute
-    real(wp),dimension(:,:),allocatable,intent(out) :: v1            ! vector containing 3d arrays with the cartesian components of the velocities at r1
-    real(wp),dimension(:,:),allocatable,intent(out) :: v2            ! vector containing 3d arrays with the cartesian components of the velocities at r2
-    logical,intent(out)                             :: status_ok     ! true if everything is OK
+    real(wp),dimension(3),intent(in)                :: r1            !! first cartesian position [km]
+    real(wp),dimension(3),intent(in)                :: r2            !! second cartesian position [km]
+    real(wp),intent(in)                             :: tof           !! time of flight [sec]
+    real(wp),intent(in)                             :: mu            !! gravity parameter [km^3/s^2]
+    logical,intent(in)                              :: long_way      !! when true, do "long way" (>pi) transfers
+    integer,intent(in)                              :: multi_revs    !! maximum number of multi-rev solutions to compute
+    real(wp),dimension(:,:),allocatable,intent(out) :: v1            !! vector containing 3d arrays with the cartesian components of the velocities at r1
+    real(wp),dimension(:,:),allocatable,intent(out) :: v2            !! vector containing 3d arrays with the cartesian components of the velocities at r2
+    logical,intent(out)                             :: status_ok     !! true if everything is OK
 
     !local variables:
     real(wp),dimension(:),allocatable :: x
@@ -81,10 +65,10 @@
     integer :: n_solutions,it,m_nmax,i,iter
 
     !tolerances are from [2]
-    integer,parameter   :: max_halley_iters = 12         !for halley iterations
-    real(wp),parameter  :: halley_tol       = 1e-13_wp   !
-    real(wp),parameter  :: htol_singlerev   = 1e-5_wp    !for householder iterations
-    real(wp),parameter  :: htol_multirev    = 1e-8_wp    !
+    integer,parameter   :: max_halley_iters = 12         !! for halley iterations
+    real(wp),parameter  :: halley_tol       = 1e-13_wp   !! for halley iterations
+    real(wp),parameter  :: htol_singlerev   = 1e-5_wp    !! for householder iterations
+    real(wp),parameter  :: htol_multirev    = 1e-8_wp    !! for householder iterations
 
     !======= Begin Algorithm 1 in [1] =======
    
@@ -245,15 +229,14 @@
 
     !*************************************************************************************
         function householder(t,x,n,eps) result(it)
-    !*************************************************************************************
-    !    Householder root solver for x.
-    !*************************************************************************************
+        
+        !! Householder root solver for x.
 
         implicit none
 
         integer                 :: it
         real(wp),intent(in)     :: t
-        real(wp),intent(inout)  :: x    !input is initial guess
+        real(wp),intent(inout)  :: x    !! input is initial guess
         integer,intent(in)      :: n
         real(wp),intent(in)     :: eps
 
@@ -277,15 +260,13 @@
 
         end do
 
-    !*************************************************************************************
         end function householder
     !*************************************************************************************
 
     !*************************************************************************************
         subroutine dtdx(dt,d2t,d3t,x,t)
-    !*************************************************************************************
-    !    Compute 1st-3rd derivatives for the Householder iterations.
-    !*************************************************************************************
+        
+        !! Compute 1st-3rd derivatives for the Householder iterations.
 
         implicit none
 
@@ -310,15 +291,13 @@
         d2t      = umx2_inv * (three*t + five*x*dt + two*(one-lambda2)*lambda3/y3)
         d3t      = umx2_inv * (seven*x*d2t + eight*dt - six*(one-lambda2)*lambda5*x/y5)
 
-    !*************************************************************************************
         end subroutine dtdx
     !*************************************************************************************
 
     !*************************************************************************************
         subroutine compute_tof(x,n,tof)
-    !*************************************************************************************
-    !    Compute time of flight from x
-    !*************************************************************************************
+
+        !!  Compute time of flight from x
 
         implicit none
 
@@ -391,16 +370,14 @@
 
         end if
 
-    !*************************************************************************************
         end subroutine compute_tof
     !*************************************************************************************
 
     !*************************************************************************************
         pure function hypergeo(x) result(f)
-    !*************************************************************************************
-    !    Evaluate the Gaussian (or ordinary) hypergeometric function: F(3,1,5/2,x)
-    !    See Ref. [3], p. 34.
-    !*************************************************************************************
+
+        !!  Evaluate the Gaussian (or ordinary) hypergeometric function: F(3,1,5/2,x)
+        !!  See Ref. [3], p. 34.
 
         implicit none
 
@@ -426,47 +403,39 @@
 
         end do
 
-    !*************************************************************************************
         end function hypergeo
     !*************************************************************************************
 
-!*****************************************************************************************
     end subroutine solve_lambert_izzo
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* lambert_module/solve_lambert_gooding
+!>
+!  Solve Lambert's problem using Gooding's method.
 !
-!  NAME
-!    solve_lambert_gooding
+!# References
 !
-!  DESCRIPTION
-!    Solve Lambert's problem using Gooding's method.
-!
-!  SEE ALSO
-!    [1] R. H, Gooding. "A procedure for the solution of Lambert's orbital 
-!        boundary-value problem" Celestial Mechanics and Dynamical Astronomy,
-!        vol. 48, no. 2, 1990, p. 145-165.
-!        http://adsabs.harvard.edu/abs/1990CeMDA..48..145G
-!    [2] A. Klumpp, "Performance Comparision of Lambert and Kepler Algorithms",
-!        JPL Interoffice Memorandum, 314.1-0426-ARK, Jan 2, 1991.
-!        http://derastrodynamics.com/docs/lambert_papers_v1.zip
-!
-!  SOURCE
+!  1. R. H, Gooding. "[A procedure for the solution of Lambert's orbital 
+!     boundary-value problem](http://adsabs.harvard.edu/abs/1990CeMDA..48..145G)" 
+!     Celestial Mechanics and Dynamical Astronomy,
+!     vol. 48, no. 2, 1990, p. 145-165.
+!  2. A. Klumpp, "Performance Comparision of Lambert and Kepler Algorithms",
+!     JPL Interoffice Memorandum, 314.1-0426-ARK, Jan 2, 1991.
+!     [Zip](http://derastrodynamics.com/docs/lambert_papers_v1.zip)
 
     subroutine solve_lambert_gooding(r1,r2,tof,mu,long_way,multi_revs,v1,v2,status_ok)
 
     implicit none
 
-    real(wp),dimension(3),intent(in)                :: r1         ! first cartesian position [km]
-    real(wp),dimension(3),intent(in)                :: r2         ! second cartesian position [km]
-    real(wp),intent(in)                             :: tof        ! time of flight [sec]
-    real(wp),intent(in)                             :: mu         ! gravity parameter [km^3/s^2]
-    logical,intent(in)                              :: long_way   ! when true, do "long way" (>pi) transfers
-    integer,intent(in)                              :: multi_revs ! maximum number of multi-rev solutions to compute
-    real(wp),dimension(:,:),allocatable,intent(out) :: v1         ! vector containing 3d arrays with the cartesian components of the velocities at r1
-    real(wp),dimension(:,:),allocatable,intent(out) :: v2         ! vector containing 3d arrays with the cartesian components of the velocities at r2
-    logical,intent(out)                             :: status_ok  ! true if everything is OK
+    real(wp),dimension(3),intent(in)                :: r1         !! first cartesian position [km]
+    real(wp),dimension(3),intent(in)                :: r2         !! second cartesian position [km]
+    real(wp),intent(in)                             :: tof        !! time of flight [sec]
+    real(wp),intent(in)                             :: mu         !! gravity parameter [km^3/s^2]
+    logical,intent(in)                              :: long_way   !! when true, do "long way" (>pi) transfers
+    integer,intent(in)                              :: multi_revs !! maximum number of multi-rev solutions to compute
+    real(wp),dimension(:,:),allocatable,intent(out) :: v1         !! vector containing 3d arrays with the cartesian components of the velocities at r1
+    real(wp),dimension(:,:),allocatable,intent(out) :: v2         !! vector containing 3d arrays with the cartesian components of the velocities at r2
+    logical,intent(out)                             :: status_ok  !! true if everything is OK
 
     integer                 :: i,j,k,n,n_solutions
     real(wp)                :: num_revs,pa,ta,r1mag,r2mag,dr,r1r2
@@ -512,10 +481,10 @@
         num_revs = real(i,wp)    !number of complete revs for this case
         
         !transfer angle and normal vector:
-        if (long_way) then !>pi
+        if (long_way) then ! greater than pi
             ta    =  num_revs * twopi + (twopi - pa)
             rho   = -r1xr2_hat    
-        else !<pi
+        else ! less than pi
             ta    = num_revs * twopi + pa    
             rho   = r1xr2_hat
         end if
@@ -585,10 +554,9 @@
     
     !*************************************************************************************
         subroutine vlamb(gm,r1,r2,th,tdelt,n,vri,vti,vrf,vtf)
-    !*************************************************************************************
-    !    Gooding support routine
-    !    Note: this contains the modification from [2]
-    !*************************************************************************************
+
+        !!  Gooding support routine
+        !!  Note: this contains the modification from [2]
     
         implicit none
     
@@ -664,15 +632,13 @@
 
         end do
 
-    !*************************************************************************************
         end subroutine vlamb
     !*************************************************************************************
 
     !*************************************************************************************
         subroutine tlamb(m,q,qsqfm1,x,n,t,dt,d2t,d3t)
-    !*************************************************************************************
-    !    Gooding support routine
-    !*************************************************************************************
+
+        !!  Gooding support routine
 
           implicit none
       
@@ -813,15 +779,13 @@
             t = t/xsq
           end if
 
-    !*************************************************************************************
         end subroutine tlamb
     !*************************************************************************************
 
     !*************************************************************************************
         pure function d8rt(x)
-    !*************************************************************************************
-    !    8th root function, used by xlamb
-    !*************************************************************************************
+
+        !!  8th root function, used by xlamb
 
         implicit none
     
@@ -830,15 +794,13 @@
     
         d8rt = sqrt(sqrt(sqrt(x)))
     
-    !*************************************************************************************
         end function d8rt
     !*************************************************************************************
 
     !*************************************************************************************
         subroutine xlamb(m,q,qsqfm1,tin,n,x,xpl)
-    !*************************************************************************************
-    !    Gooding support routine
-    !*************************************************************************************
+
+        !!  Gooding support routine
 
         implicit none
 
@@ -978,25 +940,17 @@
         
         goto 5
       
-    !*************************************************************************************
         end subroutine xlamb
     !*************************************************************************************
     
-!*****************************************************************************************
     end subroutine solve_lambert_gooding
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* lambert_module/lambert_test
+!> author: Jacob Williams
 !
-!  NAME
-!    lambert_test
-!
-!  DESCRIPTION
-!    Compare the two Lambert routines.
-!
-!  SOURCE
-!
+!  Compare the two Lambert routines.
+
     subroutine lambert_test()
 
     use gooding_module,    only: pv3els
@@ -1167,10 +1121,8 @@
        	
     end do
         
-!*****************************************************************************************
     end subroutine lambert_test
 !*****************************************************************************************
 
-!*****************************************************************************************
     end module lambert_module
 !*****************************************************************************************

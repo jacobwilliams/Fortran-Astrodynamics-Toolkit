@@ -1,18 +1,11 @@
 !*****************************************************************************************
+!>
+!  For reading the JPL planetary and lunar ephemerides.
+!
+!# See also
+!  1. ftp://ssd.jpl.nasa.gov/pub/eph/planets/fortran/
+
     module ephemeris_module
-!*****************************************************************************************
-!****h* FAT/ephemeris_module
-!
-!  NAME
-!    ephemeris_module
-!
-!  DESCRIPTION
-!    For reading the JPL planetary and lunar ephemerides.
-!
-!  SEE ALSO
-!    [1] ftp://ssd.jpl.nasa.gov/pub/eph/planets/fortran/
-!
-!*****************************************************************************************
 
     use kind_module,    only: wp
 
@@ -21,28 +14,25 @@
     integer,parameter,public :: nmax = 1000
     integer,parameter :: oldmax = 400
 
-    !  nrecl=1 if "recl" in the open statement is the record length in s.p. words
-    !  nrecl=4 if "recl" in the open statement is the record length in bytes
-    integer,parameter :: nrecl = 4 
+    integer,parameter :: nrecl = 4  !! nrecl=1 if "recl" in the open statement is the record length in s.p. words
+                                    !! nrecl=4 if "recl" in the open statement is the record length in bytes
 
-    !  namfil is the external name of the binary ephemeris file
-    character(len=256) :: namfil = '../eph/JPLEPH_2000-2100.405'
+    character(len=256) :: namfil = '../eph/JPLEPH_2000-2100.405' !! external name of the binary ephemeris file
 
-    !  ksize must be set by the user according to the ephemeris to be read
-    !  for  de200, set ksize to 1652
-    !  for  de405, set ksize to 2036
-    !  for  de406, set ksize to 1456
-    !  for  de414, set ksize to 2036
-    !  for  de418, set ksize to 2036
-    !  for  de421, set ksize to 2036
-    !  for  de422, set ksize to 2036
-    !  for  de423, set ksize to 2036
-    !  for  de424, set ksize to 2036
-    !  for  de430, set ksize to 2036
-    integer :: ksize = 2036
+    integer :: ksize = 2036  !! ksize must be set by the user according to the ephemeris to be read
+                             !! for  de200, set ksize to 1652
+                             !! for  de405, set ksize to 2036
+                             !! for  de406, set ksize to 1456
+                             !! for  de414, set ksize to 2036
+                             !! for  de418, set ksize to 2036
+                             !! for  de421, set ksize to 2036
+                             !! for  de422, set ksize to 2036
+                             !! for  de423, set ksize to 2036
+                             !! for  de424, set ksize to 2036
+                             !! for  de430, set ksize to 2036
 
     !ephhdr
-    integer,dimension(3,13)  :: ipt   = 0       ! ipt(39)
+    integer,dimension(3,13)  :: ipt   = 0       !! ipt(39)
     real(wp),dimension(nmax) :: cval  = 0.0_wp
     real(wp),dimension(3)    :: ss    = 0.0_wp
     real(wp)                 :: au    = 0.0_wp
@@ -51,31 +41,24 @@
     integer                  :: numde = 0
     
     !stcomx
-    !
-    !    km = logical flag defining physical units of the output states.
-    !             km = .true.  : km and km/sec
-    !             km = .false. : au and au/day
-    !         for nutations and librations.  angle unit is always radians.
-    ! 
-    !  bary = logical flag defining output center.
-    !         only the 9 planets are affected.
-    !             bary = .true.  : center is solar-system barycenter
-    !             bary = .false. : center is sun
-    ! 
-    ! pvsun = dp 6-word array containing the barycentric position and
-    !         velocity of the sun.
-    !
-    real(wp),dimension(6) :: pvsun = 0.0_wp
-    logical               :: km    = .true.   ! use km and km/s
-    logical               :: bary  = .false.
+    real(wp),dimension(6) :: pvsun = 0.0_wp   !! dp 6-word array containing the barycentric position and
+                                              !! velocity of the sun.
+    logical               :: km    = .true.   !! logical flag defining physical units of the output states.
+                                              !!   km = .true.  : km and km/sec
+                                              !!   km = .false. : au and au/day
+                                              !! for nutations and librations.  angle unit is always radians.
+    logical               :: bary  = .false.  !! logical flag defining output center.
+                                              !! only the 9 planets are affected.
+                                              !!   bary = .true.  : center is solar-system barycenter
+                                              !!   bary = .false. : center is sun
 
     !chrhdr
     character(len=6),dimension(14,3) :: ttl  = ''
     character(len=6),dimension(nmax) :: cnam = ''
     
-    logical :: initialized = .false.  ! is the ephemeris initialized?
-    integer :: nrfile      = 0        ! file unit for the ephemeris file
-    integer :: nrl         = -1       ! this was formerly in state
+    logical :: initialized = .false.  !! is the ephemeris initialized?
+    integer :: nrfile      = 0        !! file unit for the ephemeris file
+    integer :: nrl         = -1       !! this was formerly in state
     integer :: ncoeffs     = 0        ! 
     
     character(len=*),dimension(15),parameter :: list_of_bodies = [ & 
@@ -107,60 +90,42 @@
 !*****************************************************************************************
     
 !*****************************************************************************************
-!****f* ephemeris_module/get_state
+!>
+!  This subroutine reads the JPL planetary ephemeris
+!  and gives the position and velocity of the point 'ntarg'
+!  with respect to 'ncent'.
 ! 
-!  NAME
-!    get_state
+!# Notes
 !
-!  DESCRIPTION
-!    This subroutine reads the jpl planetary ephemeris
-!    and gives the position and velocity of the point 'ntarg'
-!    with respect to 'ncent'.
+!  The numbering convention for 'ntarg' and 'ncent' is:
 ! 
-!  INPUTS
-! 
-!    et = d.p. julian ephemeris date at which interpolation is wanted.
-! 
-!  ntarg = integer number of 'target' point.
-! 
-!  ncent = integer number of center point.
-! 
-!         the numbering convention for 'ntarg' and 'ncent' is:
-! 
-!             1 = mercury      8 = neptune
-!             2 = venus        9 = pluto
-!             3 = earth       10 = moon
-!             4 = mars        11 = sun
-!             5 = jupiter     12 = solar-system barycenter
-!             6 = saturn      13 = earth-moon barycenter
-!             7 = uranus      14 = nutations (longitude and obliq)
-!                             15 = librations, if on eph file
-! 
-!          (if nutations are wanted, set ntarg = 14. 
-!           for librations, set ntarg = 15. set ncent=0.)
-!
-!  OUTPUT
-! 
-!   rrd = output 6-word d.p. array containing position and velocity
-!         of point 'ntarg' relative to 'ncent'. the units are au and
-!         au/day. for librations the units are radians and radians
-!         per day. in the case of nutations the first four words of
-!         rrd will be set to nutations and rates, having units of
-!         radians and radians/day.
-! 
-!         the option is available to have the units in km and km/sec.
-!         for this, set km=.true. in the stcomx common block.
-!
-!  SOURCE
+!    1 = mercury      8 = neptune
+!    2 = venus        9 = pluto
+!    3 = earth       10 = moon
+!    4 = mars        11 = sun
+!    5 = jupiter     12 = solar-system barycenter
+!    6 = saturn      13 = earth-moon barycenter
+!    7 = uranus      14 = nutations (longitude and obliq)
+!                    15 = librations, if on eph file
+!   
+!  (if nutations are wanted, set ntarg = 14. 
+!  for librations, set ntarg = 15. set ncent=0.)
 
     subroutine get_state(et,ntarg,ncent,rrd)
 
     implicit none  
 
-    real(wp),intent(in)               :: et
-    integer,intent(in)                :: ntarg
-    integer,intent(in)                :: ncent
-    real(wp),dimension(6),intent(out) :: rrd
+    real(wp),intent(in)               :: et    !! d.p. julian ephemeris date at which interpolation is wanted.
+    integer,intent(in)                :: ntarg !! integer number of 'target' point.
+    integer,intent(in)                :: ncent !! integer number of center point.
+    real(wp),dimension(6),intent(out) :: rrd   !! output 6-word d.p. array containing position and velocity
+                                               !! of point 'ntarg' relative to 'ncent'. the units are au and
+                                               !! au/day. for librations the units are radians and radians
+                                               !! per day. in the case of nutations the first four words of
+                                               !! rrd will be set to nutations and rates, having units of
+                                               !! radians and radians/day.
+                                               !! the option is available to have the units in km and km/sec.
+                                               !! for this, set km=.true.
 
     real(wp),dimension(2)    :: et2        
     real(wp),dimension(6,13) :: pv
@@ -263,52 +228,37 @@
 !*****************************************************************************************
     
 !*****************************************************************************************
-!****f* ephemeris_module/interp
-! 
-!  NAME
-!    interp
-!
-!  DESCRIPTION
-!   this subroutine differentiates and interpolates a
-!   set of chebyshev coefficients to give position and velocity
-!
-!  INPUTS
-!
-!       buf = 1st location of array of d.p. chebyshev coefficients of position
-!
-!         t = t(1) is dp fractional time in interval covered by
-!             coefficients at which interpolation is wanted
-!             (0 <= t(1) <= 1).  t(2) is dp length of whole
-!             interval in input time units.
-!
-!       ncf = # of coefficients per component
-!
-!       ncm = # of components per set of coefficients
-!
-!        na = # of sets of coefficients in full array
-!             (i.e., # of sub-intervals in full interval)
-!
-!       ifl = integer flag: =1 for positions only
-!                           =2 for pos and vel
-!
-!  OUTPUT
-!
-!        pv = interpolated quantities requested.  dimension
-!             expected is pv(ncm,ifl), dp.
-!
-!  SOURCE
+!>
+!  this subroutine differentiates and interpolates a
+!  set of chebyshev coefficients to give position and velocity.
 
     subroutine interp(buf,t,ncf,ncm,na,ifl,pv)
 
-    implicit real(wp) (a-h,o-z)
+    implicit none
+    
+    real(wp),dimension(ncf,ncm,*) :: buf  !! 1st location of array of d.p. chebyshev coefficients of position
+    integer,intent(in)            :: ncf  !! # of coefficients per component
+    integer,intent(in)            :: ncm  !! # of components per set of coefficients
+    integer,intent(in)            :: na   !! # of sets of coefficients in full array
+                                          !! (i.e., # of sub-intervals in full interval)
+    integer,intent(in)            :: ifl  !! integer flag
+                                          !! = 1 for positions only
+                                          !! = 2 for pos and vel
+    real(wp),dimension(ncm,*)     :: pv   !! interpolated quantities requested.  dimension
+                                          !! expected is pv(ncm,ifl), dp.
 
     save
 
-    real(wp) buf(ncf,ncm,*),t(2),pv(ncm,*),pc(18),vc(18)
+    real(wp),dimension(2)  :: t
+    real(wp),dimension(18) :: pc
+    real(wp),dimension(18) :: vc
+    real(wp) :: dna,dt1,temp,vfac,tc
+    integer :: l,i,j
 
-    data np/2/
-    data nv/3/
-    data twot/0.0_wp/
+    integer  :: np = 2
+    integer  :: nv = 3
+    real(wp) :: twot = 0.0_wp
+    
     data pc(1),pc(2)/1.0_wp,0.0_wp/
     data vc(2)/1.0_wp/
 
@@ -383,34 +333,20 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* ephemeris_module/split
-! 
-!  NAME
-!    split
-!
-!  DESCRIPTION
-!    this subroutine breaks a d.p. number into a d.p. integer
-!    and a d.p. fractional part.
-!
-!  INPUTS
-!    tt = d.p. input number
-!
-!  OUTPUT
-!    fr = d.p. 2-word output array.
-!         fr(1) contains integer part
-!         fr(2) contains fractional part
-!
-!         for negative input numbers, fr(1) contains the next
-!         more negative integer; fr(2) contains a positive fraction.
-!
-!  SOURCE
+!>
+!  this subroutine breaks a d.p. number into a d.p. integer
+!  and a d.p. fractional part.
 
     subroutine split(tt,fr)
 
     implicit none
 
-    real(wp),intent(in)               :: tt
-    real(wp),dimension(2),intent(out) :: fr
+    real(wp),intent(in)               :: tt  !! d.p. input number
+    real(wp),dimension(2),intent(out) :: fr  !! d.p. 2-word output array.
+                                             !! fr(1) contains integer part
+                                             !! fr(2) contains fractional part
+                                             !! for negative input numbers, fr(1) contains the next
+                                             !! more negative integer; fr(2) contains a positive fraction.
 
     ! get integer and fractional parts
 
@@ -428,28 +364,21 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* ephemeris_module/initialize_ephemeris
-! 
-!  NAME
-!    initialize_ephemeris
+!>
+!  Initialize the ephemeris.
+!  This routine may be called to load a different ephemeris file.
+!  Otherwise, it is called on the first call to get_state, and loads
+!  the file specified in the module header.
 !
-!  DESCRIPTION
-!    Initialize the ephemeris.
-!    This routine may be called to load a different ephemeris file.
-!    Otherwise, it is called on the first call to get_state, and loads
-!    the file specified in the module header.
-!
-!  NOTES
-!    Based on code formerly in STATE.
-!
-!  SOURCE
+!# Note
+!  * Based on code formerly in [[state]].
 
     subroutine initialize_ephemeris(eph_filename, eph_ksize)
 
     implicit none
 
-    character(len=*),intent(in),optional :: eph_filename    !ephemeris file name
-    integer,intent(in),optional          :: eph_ksize       !corresponding ksize
+    character(len=*),intent(in),optional :: eph_filename    !! ephemeris file name
+    integer,intent(in),optional          :: eph_ksize       !! corresponding ksize
 
     integer :: irecsz,istat
     integer :: i,j,k,l
@@ -500,15 +429,8 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* ephemeris_module/close_ephemeris
-! 
-!  NAME
-!    close_ephemeris
-!
-!  DESCRIPTION
-!    Close the ephemeris.
-!
-!  SOURCE
+!>
+!  Close the ephemeris.
 
     subroutine close_ephemeris()
 
@@ -532,13 +454,8 @@
 !*****************************************************************************************
     
 !*****************************************************************************************
-!****f* ephemeris_module/state
-! 
-!  NAME
-!    state
-!
-!  DESCRIPTION
-!    This subroutine reads and interpolates the jpl planetary ephemeris file
+!>
+!  This subroutine reads and interpolates the JPL planetary ephemeris file.
 !
 !  INPUTS
 !
@@ -713,31 +630,17 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* ephemeris_module/get_constants
-! 
-!  NAME
-!    get_constants
-!
-!  DESCRIPTION
-!    Obtain the constants from the ephemeris file.
-!
-!  OUTPUT
-!
-!       nam = character*6 array of constant names
-!       val = d.p. array of values of constants
-!       sss = d.p. jd start, jd stop, step of ephemeris
-!         n = integer number of entries in 'nam' and 'val' arrays
-!
-!  SOURCE
+!>
+!  Obtain the constants from the ephemeris file.
 
     subroutine get_constants(nam,val,sss,n)
 
     implicit none
 
-    character(len=6),dimension(:),intent(out) :: nam
-    real(wp),dimension(:),intent(out) :: val
-    real(wp),dimension(3),intent(out) :: sss
-    integer,intent(out) :: n
+    character(len=6),dimension(:),intent(out) :: nam  !! character*6 array of constant names
+    real(wp),dimension(:),intent(out) :: val !! d.p. array of values of constants
+    real(wp),dimension(3),intent(out) :: sss !! d.p. jd start, jd stop, step of ephemeris
+    integer,intent(out) :: n  !! integer number of entries in 'nam' and 'val' arrays
 
     integer :: i
     
@@ -756,17 +659,12 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* ephemeris_module/ephemeris_test
+!>
+!  Ephemeris test routine.
 !
-!  NAME
-!    ephemeris_test
+!# Notes 
 !
-!  DESCRIPTION
-!    Ephemeris test routine.
-!
-!  NOTES 
-!
-!    Disclaimer in original source [1]:
+!  Disclaimer in original source [1]:
 !
 !     this software and any related materials were created by the
 !     california institute of technology (caltech) under a u.s.
@@ -793,11 +691,10 @@
 !
 !                version : march 25, 2013
 !
-!  SEE ALSO
-!    [1] testeph.f in the original package: 
-!        ftp://ssd.jpl.nasa.gov/pub/eph/planets/fortran/
+!# See also
 !
-!  SOURCE
+!  1. testeph.f in the original package: 
+!     ftp://ssd.jpl.nasa.gov/pub/eph/planets/fortran/
 
     subroutine ephemeris_test()
 

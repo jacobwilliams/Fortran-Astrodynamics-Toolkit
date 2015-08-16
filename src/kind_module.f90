@@ -1,13 +1,7 @@
 !*****************************************************************************************
-!****h* FAT/kind_module
+!> author: Jacob Williams
 !
-!  NAME
-!    kind_module
-!
-!  DESCRIPTION
-!    Define the numeric kinds.
-!
-!  SOURCE
+!  Define the numeric kinds.
 
     module kind_module
 
@@ -17,9 +11,9 @@
     
     private
     
-    !integer,parameter,public :: wp = real32     !single precision reals
-    integer,parameter,public :: wp = real64      !double precision reals
-    !integer,parameter,public :: wp = real128    !quad precision reals
+    !integer,parameter,public :: wp = real32     !! single precision reals
+    integer,parameter,public :: wp = real64      !! double precision reals
+    !integer,parameter,public :: wp = real128    !! quad precision reals
     
     end module kind_module
 !*****************************************************************************************    

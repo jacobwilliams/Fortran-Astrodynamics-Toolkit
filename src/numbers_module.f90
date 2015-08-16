@@ -1,13 +1,7 @@
 !*****************************************************************************************
-!****h* FAT/numbers_module
+!> author: Jacob Williams
 !
-!  NAME
-!    numbers_module
-!
-!  DESCRIPTION
-!    Defines some numeric parameters.
-!
-!  SOURCE
+!  Defines some numeric parameters.
 
     module numbers_module
     

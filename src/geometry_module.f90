@@ -1,18 +1,10 @@
 !*****************************************************************************************
+!> author: Jacob Williams
+!  date: 2012
+!
+!  Geometry routines.
+
     module geometry_module
-!*****************************************************************************************
-!****h* FAT/geometry_module
-!
-!  NAME
-!    geometry_module
-!
-!  DESCRIPTION
-!    Geometry routines.
-!
-!  AUTHOR
-!    J. Williams, 8/2012
-!
-!*****************************************************************************************    
     
     use kind_module,      only: wp
     use vector_module,    only: cross
@@ -34,43 +26,39 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* geometry_module/locpt
+!>
+!  given a polygonal line connecting the vertices (x(i),y(i))
+!  (i = 1,...,n) taken in this order. it is assumed that the
+!  polygonal path is a loop, where (x(n),y(n)) = (x(1),y(1))
+!  or there is an arc from (x(n),y(n)) to (x(1),y(1)).
 !
-!  NAME
-!    locpt
+!  (x0,y0) is an arbitrary point and l and m are variables.
+!  l and m are assigned the following values:
 !
-!  DESCRIPTION
-!     given a polygonal line connecting the vertices (x(i),y(i))
-!     (i = 1,...,n) taken in this order. it is assumed that the
-!     polygonal path is a loop, where (x(n),y(n)) = (x(1),y(1))
-!     or there is an arc from (x(n),y(n)) to (x(1),y(1)).
+!     l = -1   if (x0,y0) is outside the polygonal path
+!     l =  0   if (x0,y0) lies on the polygonal path
+!     l =  1   if (x0,y0) is inside the polygonal path
 !
-!     (x0,y0) is an arbitrary point and l and m are variables.
-!     l and m are assigned the following values:
+!  m = 0 if (x0,y0) is on or outside the path. if (x0,y0)
+!  is inside the path then m is the winding number of the
+!  path around the point (x0,y0).
 !
-!        l = -1   if (x0,y0) is outside the polygonal path
-!        l =  0   if (x0,y0) lies on the polygonal path
-!        l =  1   if (x0,y0) is inside the polygonal path
-!
-!     m = 0 if (x0,y0) is on or outside the path. if (x0,y0)
-!     is inside the path then m is the winding number of the
-!     path around the point (x0,y0).
-!
-!  HISTORY
-!    Original version from the NSWC Library
-!    Modified by J. Williams : 08/04/2012 : refactored to modern Fortran
-!
-!  SOURCE
+!# History
+!  * Original version from the NSWC Library
+!  * Modified by J. Williams : 08/04/2012 : refactored to modern Fortran
 
     pure subroutine locpt (x0, y0, x, y, n, l, m)
 
     implicit none
     
     !arguments:
-    real(wp),intent(in)                 :: x0,y0
-    real(wp),dimension(n),intent(in)    :: x,y
-    integer,intent(in)                  :: n
-    integer,intent(out)                 :: l,m
+    real(wp),intent(in)              :: x0
+    real(wp),intent(in)              :: y0
+    real(wp),dimension(n),intent(in) :: x
+    real(wp),dimension(n),intent(in) :: y
+    integer,intent(in)               :: n
+    integer,intent(out)              :: l
+    integer,intent(out)              :: m
 
     !constants:
     real(wp),parameter :: eps = epsilon(1.0_wp)
@@ -155,28 +143,21 @@
 !*****************************************************************************************
     
 !*****************************************************************************************
-!****f* geometry_module/distance_from_point_to_line
-! 
-!  NAME
-!    distance_from_point_to_line
-! 
-!  DESCRIPTION
-!    Compute the distance between the point X and the line defined 
-!    by the two points X1 and X2.
+!> author: Jacob Williams
+!  date:8/2012
 !
-!  REFERENCE
-!    [1] http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html
+!  Compute the distance between the point X and the line defined 
+!  by the two points X1 and X2.
 !
-!  AUTHOR
-!    J. Williams, 8/2012
-!
-!  SOURCE
+!# References
+!  1. http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html
 
     pure function distance_from_point_to_line (x1, x2, x) result(d)
 
     implicit none
     
-    real(wp),dimension(3),intent(in) :: x1, x2
+    real(wp),dimension(3),intent(in) :: x1
+    real(wp),dimension(3),intent(in) :: x2
     real(wp),dimension(3),intent(in) :: x
     real(wp)                         :: d
     
@@ -200,27 +181,22 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* geometry_module/distance_from_point_to_line_segment
+!> author: Jacob Williams
+!  date:8/2012
 !
-!  NAME
-!    distance_from_point_to_line_segment
+!  Compute the distance between a line segment and a point.
 !
-!  DESCRIPTION
-!    Compute the distance between a line segment and a point.
+!# References
+!  1. http://forums.codeguru.com/showthread.php?194400-Distance-between-point-and-line-segment
 !
-!  REFERENCE
-!    [1] http://forums.codeguru.com/showthread.php?194400-Distance-between-point-and-line-segment
-!
-!  AUTHOR
-!    J. Williams, 8/2012
-!
-!  SOURCE
+!@note x,x1,x2 should all be the same length
 
     pure function distance_from_point_to_line_segment(x1, x2, x) result(d)
 
     implicit none
 
-    real(wp),dimension(:),intent(in) :: x1, x2    !note: x,x1,x2 should all be the same length
+    real(wp),dimension(:),intent(in) :: x1
+    real(wp),dimension(:),intent(in) :: x2
     real(wp),dimension(:),intent(in) :: x
     real(wp)                         :: d
     
@@ -255,28 +231,22 @@
 !*****************************************************************************************
     
 !*****************************************************************************************
-!****f* geometry_module/distance_from_point_to_path
+!> author: Jacob Williams
+!  date:8/2012
 !
-!  NAME
-!    distance_from_point_to_path
-!
-!  DESCRIPTION
-!    Compute the distance between a point and a polygonal path.
-!    Given a point (x0,y0), and a path (x(n),y(n)), the distance
-!      to the path is the distance to the closest line segment (x(i),y(i)).
-!
-!  AUTHOR
-!    J. Williams, 8/2012
-!
-!  SOURCE
+!  Compute the distance between a point and a polygonal path.
+!  Given a point (x0,y0), and a path (x(n),y(n)), the distance
+!  to the path is the distance to the closest line segment (x(i),y(i)).
 
     function distance_from_point_to_path(x0, y0, x, y, n) result(d)
 
     implicit none
     
     !arguments:
-    real(wp),intent(in)                 :: x0,y0
-    real(wp),dimension(n),intent(in)    :: x,y
+    real(wp),intent(in)                 :: x0
+    real(wp),intent(in)                 :: y0
+    real(wp),dimension(n),intent(in)    :: x
+    real(wp),dimension(n),intent(in)    :: y
     integer,intent(in)                  :: n
     real(wp)                            :: d
     
@@ -332,15 +302,12 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* geometry_module/geometry_unit_test
+!> author: Jacob Williams
+!  date:8/2012
 !
-!  NAME
-!    geometry_unit_test
-!
-!  DESCRIPTION
-!    Unit test routine
+!  Unit test routine
 ! 
-!  OUTPUT
+!# Output
 !
 !    x0,y0=  0.59999999999999998       0.59999999999999998     
 !    l=           1
@@ -356,11 +323,6 @@
 !    l=           0
 !    m=           0
 !    dist to path=   0.0000000000000000     
-!
-!  AUTHOR
-!    J. Williams, 8/2012
-!
-!  SOURCE
 
     subroutine geometry_unit_test()
     

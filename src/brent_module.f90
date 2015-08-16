@@ -1,19 +1,14 @@
 !*****************************************************************************************
+!> author: Jacob Williams
+!
+!  Brent algorithms for minimization and root solving without derivatives.
+!
+!# See also
+!
+!  1. R. Brent, "Algorithms for Minimization Without Derivatives",
+!     Prentice-Hall, Inc., 1973.
+    
     module brent_module
-!*****************************************************************************************
-!****h* FAT/brent_module
-!
-!  NAME
-!    brent_module
-!
-!  DESCRIPTION
-!    Brent algorithms for minimization and root solving without derivatives.
-!
-!  SEE ALSO
-!    [1] R. Brent, "Algorithms for Minimization Without Derivatives",
-!        Prentice-Hall, Inc., 1973.
-!
-!*****************************************************************************************    
     
     use kind_module,  only: wp
     use numbers_module
@@ -22,18 +17,18 @@
     
     private
     
-    !the main class:
     type,public :: brent_class
-        procedure(func),pointer :: f => null()  !function to be minimized
+        !! the main class
+        procedure(func),pointer :: f => null()  !! function to be minimized
     contains
         procedure :: set_function
         procedure :: minimize => fmin
         procedure :: find_zero => zeroin
     end type brent_class
     
-    !interface to the function to be minimized:
     abstract interface
-        function func(me,x) result(f)
+        function func(me,x) result(f)    !! Interface to the function to be minimized.
+                                         !! It should evaluate f(x) for any x in the interval (ax,bx)
             import :: wp,brent_class
             implicit none
             class(brent_class),intent(inout) :: me
@@ -48,19 +43,11 @@
     contains
 !*****************************************************************************************    
       
-!*****************************************************************************************    
-!****f* brent_module/set_function
+!*****************************************************************************************
+!> author: Jacob Williams
+!  date: 7/19/2014
 !
-!  NAME
-!    set_function
-!
-!  DESCRIPTION
-!    Set the function to be minimized.
-!
-!  AUTHOR
-!    Jacob Williams, 7/19/2014
-!
-!  SOURCE
+!  Set the function to be minimized.
 
     subroutine set_function(me,f)
     
@@ -74,67 +61,50 @@
     end subroutine set_function
 !*****************************************************************************************    
     
-!*****************************************************************************************    
-!****f* brent_module/fmin
+!*****************************************************************************************
+!>
+!  An approximation x to the point where f attains a minimum on
+!  the interval (ax,bx) is determined.
 !
-!  NAME
-!    fmin
+!  the method used is a combination of golden section search and
+!  successive parabolic interpolation. convergence is never much slower
+!  than that for a fibonacci search. if f has a continuous second
+!  derivative which is positive at the minimum (which is not at ax or
+!  bx), then convergence is superlinear, and usually of the order of
+!  about 1.324.
 !
-!  DESCRIPTION
-!    An approximation x to the point where f attains a minimum on
-!    the interval (ax,bx) is determined.
+!  the function f is never evaluated at two points closer together
+!  than eps*abs(fmin) + (tol/3), where eps is approximately the square
+!  root of the relative machine precision. if f is a unimodal
+!  function and the computed values of f are always unimodal when
+!  separated by at least eps*abs(x) + (tol/3), then fmin approximates
+!  the abcissa of the global minimum of f on the interval ax,bx with
+!  an error less than 3*eps*abs(fmin) + tol. if f is not unimodal,
+!  then fmin may approximate a local, but perhaps non-global, minimum to
+!  the same accuracy.
 !
-!    the method used is a combination of golden section search and
-!    successive parabolic interpolation. convergence is never much slower
-!    than that for a fibonacci search. if f has a continuous second
-!    derivative which is positive at the minimum (which is not at ax or
-!    bx), then convergence is superlinear, and usually of the order of
-!    about 1.324.
+!  this function subprogram is a slightly modified version of the
+!  algol 60 procedure localmin given in richard brent, algorithms for
+!  minimization without derivatives, prentice - hall, inc. (1973).
 !
-!    the function f is never evaluated at two points closer together
-!    than eps*abs(fmin) + (tol/3), where eps is approximately the square
-!    root of the relative machine precision. if f is a unimodal
-!    function and the computed values of f are always unimodal when
-!    separated by at least eps*abs(x) + (tol/3), then fmin approximates
-!    the abcissa of the global minimum of f on the interval ax,bx with
-!    an error less than 3*eps*abs(fmin) + tol. if f is not unimodal,
-!    then fmin may approximate a local, but perhaps non-global, minimum to
-!    the same accuracy.
-!
-!    this function subprogram is a slightly modified version of the
-!    algol 60 procedure localmin given in richard brent, algorithms for
-!    minimization without derivatives, prentice - hall, inc. (1973).
-!
-!  INPUTS
-!
-!    ax    left endpoint of initial interval
-!    bx    right endpoint of initial interval
-!    f     function subprogram which evaluates f(x) for any x in the interval (ax,bx)
-!    tol   desired length of the interval of uncertainty of the final result ( >= zero)
-!
-!  OUTPUT
-!
-!    fmin abcissa approximating the point where f attains a minimum
-!
-!  SEE ALSO
-!    [1] http://www.netlib.no/netlib/fmm/fmin.f
-!
-!  SOURCE
+!# See also
+!  [1] http://www.netlib.no/netlib/fmm/fmin.f
 
-    real(wp) function fmin(me,ax,bx,tol)
+    function fmin(me,ax,bx,tol) result(xmin)
 
     implicit none
 
     class(brent_class),intent(inout) :: me
-    real(wp),intent(in) :: ax
-    real(wp),intent(in) :: bx
-    real(wp),intent(in) :: tol
-
+    real(wp),intent(in) :: ax   !! left endpoint of initial interval
+    real(wp),intent(in) :: bx   !! right endpoint of initial interval
+    real(wp),intent(in) :: tol  !! desired length of the interval of uncertainty of the final result (>=0)
+    real(wp)            :: xmin !! abcissa approximating the point where f attains a minimum
+    
     real(wp) :: a,b,d,e,xm,p,q,r,tol1,tol2,u,v,w
     real(wp) :: fu,fv,fw,fx,x
     real(wp) :: abs,sqrt,sign
 
-    real(wp),parameter :: c = (three-sqrt(five))/two    !squared inverse of golden ratio
+    real(wp),parameter :: c = (three-sqrt(five))/two    !! squared inverse of golden ratio
     real(wp),parameter :: half = 0.5_wp
     real(wp),parameter :: eps = sqrt(epsilon(one))
 
@@ -237,59 +207,42 @@
 
     end do    !  end of main loop
 
-    fmin = x
+    xmin = x
 
     end function fmin
 !*****************************************************************************************
 
-!*****************************************************************************************    
-!****f* brent_module/zeroin
+!*****************************************************************************************
+!>
+!  A zero of the function f(x) is computed in the interval ax,bx.
 !
-!  NAME
-!    zeroin
+!  it is assumed that f(ax) and f(bx) have opposite signs
+!  this is checked, and an error message is printed if this is not
+!  satisfied. zeroin returns a zero x in the given interval
+!  ax,bx to within a tolerance 4*macheps*abs(x)+tol, where macheps is
+!  the relative machine precision defined as the smallest representable
+!  number such that 1.+macheps > 1.
 !
-!  DESCRIPTION
-!    a zero of the function f(x) is computed in the interval ax,bx.
+!  this function subprogram is a slightly modified translation of
+!  the algol 60 procedure zero given in richard brent, algorithms for
+!  minimization without derivatives, prentice-hall, inc. (1973).
 !
-! INPUTS
-!
-!    ax : left endpoint of initial interval
-!    bx : right endpoint of initial interval
-!    f : function subprogram which evaluates f(x) for any x in the interval ax,bx
-!    tol : desired length of the interval of uncertainty of the final result (>=0.)
-!
-!  OUTPUT
-!    zeroin : abscissa approximating a zero of f in the interval ax,bx
-!
-!  NOTES
-!    it is assumed that f(ax) and f(bx) have opposite signs
-!    this is checked, and an error message is printed if this is not
-!    satisfied. zeroin returns a zero x in the given interval
-!    ax,bx to within a tolerance 4*macheps*abs(x)+tol, where macheps is
-!    the relative machine precision defined as the smallest representable
-!    number such that 1.+macheps > 1.
-!
-!    this function subprogram is a slightly modified translation of
-!    the algol 60 procedure zero given in richard brent, algorithms for
-!    minimization without derivatives, prentice-hall, inc. (1973).
-!
-!  SEE ALSO
-!    [1] http://www.netlib.org/go/zeroin.f
-!
-! SOURCE
+!# See also
+!  [1] http://www.netlib.org/go/zeroin.f
 
-    real(wp) function zeroin(me,ax,bx,tol)
+    function zeroin(me,ax,bx,tol) result(xzero)
 
     implicit none
 
     class(brent_class),intent(inout) :: me
-    real(wp),intent(in) :: ax
-    real(wp),intent(in) :: bx
-    real(wp),intent(in) :: tol
-
+    real(wp),intent(in) :: ax    !! left endpoint of initial interval
+    real(wp),intent(in) :: bx    !! right endpoint of initial interval
+    real(wp),intent(in) :: tol   !! desired length of the interval of uncertainty of the final result (>=0)
+    real(wp)            :: xzero !! abscissa approximating a zero of f in the interval ax,bx
+    
     real(wp) :: a,b,c,d,e,fa,fb,fc,tol1,xm,p,q,r,s
 
-    real(wp),parameter :: eps = epsilon(one)    !original code had d1mach(4) 
+    real(wp),parameter :: eps = epsilon(one)    !! original code had d1mach(4) 
         
     tol1 = eps+one
 
@@ -303,7 +256,7 @@
     if (fa * (fb/abs(fb)) <= zero) go to 20
 
     write(*,'(A)') 'Error: f(ax) and f(bx) do not have different signs:'//&
-    ' zeroin is aborting'
+                   ' zeroin is aborting'
     return
 
 20  c=a
@@ -374,24 +327,16 @@
     if ((fb*(fc/abs(fc)))>zero) go to 20
     go to 30
 
-150 zeroin=b
+150 xzero = b
 
     end function zeroin
 !*****************************************************************************************    
 
-!*****************************************************************************************    
-!****f* brent_module/brent_test
+!*****************************************************************************************
+!> author: Jacob Williams
+!  date: 7/16/2014
 !
-!  NAME
-!    brent_test
-!
-!  DESCRIPTION
-!    Test of the fmin function
-!
-!  AUTHOR
-!    Jacob Williams, 7/16/2014
-!    
-!  SOURCE
+!  Test of the fmin and zeroin functions.
 
     subroutine brent_test()
     
@@ -404,7 +349,7 @@
     real(wp),parameter :: tol = 1.0e-6_wp
     
     type,extends(brent_class) :: myfunc_type
-        integer :: i = 0    !function counter
+        integer :: i = 0    !! function counter
     end type myfunc_type   
     type(myfunc_type) :: myfunc
         
@@ -433,7 +378,7 @@
     contains
  
         function sin_func(me,x) result(f)
-        ! Example function to minimize: sin(x)
+        !! Example function to minimize: sin(x)
 
         implicit none
         

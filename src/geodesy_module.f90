@@ -1,15 +1,9 @@
 !*****************************************************************************************    
+!> author: Jacob Williams
+!
+!  Geodesy routines.
+
     module geodesy_module
-!*****************************************************************************************
-!****h* FAT/geodesy_module
-!
-!  NAME
-!    geodesy_module
-!
-!  DESCRIPTION
-!    Geodesy routines.
-!
-!*****************************************************************************************    
     
     use kind_module,    only: wp
     
@@ -26,37 +20,28 @@
     contains
 !*****************************************************************************************    
      
-!*****************************************************************************************
-!****f* geodesy_module/heikkinen
+!*****************************************************************************************    
+!> author: Jacob Williams
 !
-!  NAME
-!    heikkinen
+!  Heikkinen routine for cartesian to geodetic transformation
 !
-!  DESCRIPTION
-!    Heikkinen routine for cartesian to geodetic transformation
-!
-!  SEE ALSO
-!    [1] M. Heikkinen, "Geschlossene formeln zur berechnung raumlicher 
-!        geodatischer koordinaten aus rechtwinkligen Koordinaten". 
-!        Z. Ermess., 107 (1982), 207-211 (in German).
-!    [2] E. D. Kaplan, "Understanding GPS: Principles and Applications", 
-!        Artech House, 1996.
-!
-!  AUTHOR
-!    Jacob Williams
-!
-!  SOURCE
+!# References
+!  1. M. Heikkinen, "Geschlossene formeln zur berechnung raumlicher 
+!     geodatischer koordinaten aus rechtwinkligen Koordinaten". 
+!     Z. Ermess., 107 (1982), 207-211 (in German).
+!  2. E. D. Kaplan, "Understanding GPS: Principles and Applications", 
+!     Artech House, 1996.
 
     pure subroutine heikkinen(rvec, a, b, h, lon, lat)
 
     implicit none
     
-    real(wp),dimension(3),intent(in) :: rvec     !position vector [km]
-    real(wp),intent(in)  :: a                    !geoid semimajor axis [km]
-    real(wp),intent(in)  :: b                    !geoid semiminor axis [km]
-    real(wp),intent(out) :: h                    !geodetic altitude [km]
-    real(wp),intent(out) :: lon                  !longitude [rad]
-    real(wp),intent(out) :: lat                  !geodetic latitude [rad]
+    real(wp),dimension(3),intent(in) :: rvec  !! position vector [km]
+    real(wp),intent(in)  :: a                 !! geoid semimajor axis [km]
+    real(wp),intent(in)  :: b                 !! geoid semiminor axis [km]
+    real(wp),intent(out) :: h                 !! geodetic altitude [km]
+    real(wp),intent(out) :: lon               !! longitude [rad]
+    real(wp),intent(out) :: lat               !! geodetic latitude [rad]
 
     real(wp) :: f,e_2,ep,r,e2,ff,g,c,s,pp,q,r0,u,v,z0,x,y,z,z2,r2,tmp,a2,b2
             
@@ -93,35 +78,26 @@
     end subroutine heikkinen
 !*****************************************************************************************
 
-!*****************************************************************************************
-!****f* geodesy_module/olson
+!*****************************************************************************************    
+!> author: Jacob Williams
 !
-!  NAME
-!    olson
+!  Olson routine for cartesian to geodetic transformation.
 !
-!  DESCRIPTION
-!    Olson routine for cartesian to geodetic transformation.
-!
-!  SEE ALSO
-!    [1] Olson, D. K., Converting Earth-Centered, Earth-Fixed Coordinates to
-!       Geodetic Coordinates, IEEE Transactions on Aerospace and Electronic
-!       Systems, 32 (1996) 473-476.
-!
-!  AUTHOR
-!    Jacob Williams
-!
-!  SOURCE
+!# References
+!  1. Olson, D. K., Converting Earth-Centered, Earth-Fixed Coordinates to
+!     Geodetic Coordinates, IEEE Transactions on Aerospace and Electronic
+!     Systems, 32 (1996) 473-476.
 
     pure subroutine olson(rvec, a, b, h, long, lat)
     
     implicit none
     
-    real(wp),dimension(3),intent(in) :: rvec     !position vector [km]
-    real(wp),intent(in)  :: a                    !geoid semimajor axis [km]
-    real(wp),intent(in)  :: b                    !geoid semiminor axis [km]
-    real(wp),intent(out) :: h                    !geodetic altitude [km]
-    real(wp),intent(out) :: long                 !longitude [rad]
-    real(wp),intent(out) :: lat                  !geodetic latitude [rad]
+    real(wp),dimension(3),intent(in) :: rvec!!position vector [km]
+    real(wp),intent(in)  :: a               !!geoid semimajor axis [km]
+    real(wp),intent(in)  :: b               !!geoid semiminor axis [km]
+    real(wp),intent(out) :: h               !!geodetic altitude [km]
+    real(wp),intent(out) :: long            !!longitude [rad]
+    real(wp),intent(out) :: lat             !!geodetic latitude [rad]
     
     real(wp) :: f,x,y,z,e2,a1,a2,a3,a4,a5,a6,w,zp,&
                 w2,r2,r,s2,c2,u,v,s,ss,c,g,rg,rf,m,p,z2
@@ -187,29 +163,20 @@
     end subroutine olson    
 !*****************************************************************************************
  
-!*****************************************************************************************
-!****f* geodesy_module/direct
+!*****************************************************************************************    
+!> author: Jacob Williams
 !
-!  NAME
-!    direct
+!  Solve the "direct" geodetic problem: given the latitude and longitude of one 
+!  point and the azimuth and distance to a second point, determine the latitude 
+!  and longitude of that second point.  The solution is obtained using the 
+!  algorithm by Vincenty.
 !
-!  DESCRIPTION
-!    Solve the "direct" geodetic problem: given the latitude and longitude of one 
-!    point and the azimuth and distance to a second point, determine the latitude 
-!    and longitude of that second point.  The solution is obtained using the 
-!    algorithm by Vincenty.
-!
-!  SEE ALSO
-!    [1] T. Vincenty, "Direct and Inverse Solutions of Geodesics on the 
-!        Ellipsoid with Application of Nested Equations", 
-!        Survey Review XXII. 176, April 1975.
-!        http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf
-!    [2] http://www.ngs.noaa.gov/PC_PROD/Inv_Fwd/
-!
-!  AUTHOR
-!    Jacob Williams
-!
-!  SOURCE
+!# References
+!  1. T. Vincenty, "Direct and Inverse Solutions of Geodesics on the 
+!     Ellipsoid with Application of Nested Equations", 
+!     Survey Review XXII. 176, April 1975.
+!     http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf
+!  2. http://www.ngs.noaa.gov/PC_PROD/Inv_Fwd/
 
     subroutine direct(a,f,glat1,glon1,glat2,glon2,faz,baz,s)
 
@@ -272,23 +239,14 @@
     end subroutine direct
 !*****************************************************************************************
 
-!*****************************************************************************************
-!****f* geodesy_module/geodetic_to_cartesian
+!*****************************************************************************************    
+!> author: Jacob Williams
 !
-!  NAME
-!    geodetic_to_cartesian
+!  Geodetic latitude, longitude, and height to Cartesian position vector.
 !
-!  DESCRIPTION
-!    Geodetic latitude, longitude, and height to Cartesian position vector.
-!
-!  SEE ALSO
-!    [1] E. D. Kaplan, "Understanding GPS: Principles and Applications", 
-!        Artech House, 1996.
-!
-!  AUTHOR
-!    Jacob Williams
-!
-!  SOURCE
+!# References
+!  1. E. D. Kaplan, "Understanding GPS: Principles and Applications", 
+!     Artech House, 1996.
 
     subroutine geodetic_to_cartesian(a,b,glat,lon,h,r)
     
@@ -322,24 +280,16 @@
 !*****************************************************************************************
 
 !*****************************************************************************************    
-!****f* geodesy_module/great_circle_distance
+!> author: Jacob Williams
+!  date: 7/13/2014
 !
-!  NAME
-!    great_circle_distance
+!  Great circle distance on a spherical body, using the Vincenty algorithm.
 !
-!  DESCRIPTION
-!    Great circle distance on a spherical body, using the Vincenty algorithm.
-!
-!  SEE ALSO
-!    [1] T. Vincenty, "Direct and Inverse Solutions of Geodesics on the 
-!        Ellipsoid with Application of Nested Equations", 
-!        Survey Review XXII. 176, April 1975.
-!        http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf
-!
-!  AUTHOR
-!    Jacob Williams, 7/13/2014
-!
-!  SOURCE
+!# References
+!  1. T. Vincenty, "Direct and Inverse Solutions of Geodesics on the 
+!     Ellipsoid with Application of Nested Equations", 
+!     Survey Review XXII. 176, April 1975.
+!     http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf
 
     function great_circle_distance(r,long1,lat1,long2,lat2) result(d)
 

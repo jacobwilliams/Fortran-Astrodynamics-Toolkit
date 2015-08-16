@@ -1,27 +1,21 @@
 !*****************************************************************************************
-    module geopotential_module
-!*****************************************************************************************
-!****h* FAT/geopotential_module
+!> author: Jacob Williams
 !
-!  NAME
-!    geopotential_module
+!  Gravity models for computing gravitational acceleration due to geopotential.
 !
-!  DESCRIPTION
-!    Gravity models for computing gravitational acceleration due to geopotential.
-!    The routines return the acceleration in the body-fixed frame.
+!  Each routine returns the acceleration in the body-fixed frame.
 !
-!  EXAMPLE
+!# Example
+!```Fortran
 !    type(geopotential_model_mueller),target :: g
 !    call g%initialize(gravfile,n,m,status_ok)   
 !    call g%get_acc(rvec,n,m,acc)
+!```
 !
-!  NOTES
-!    Need to update to make sure they all work when N /= M
-!
-!  AUTHOR
-!    Jacob Williams
-!
-!*****************************************************************************************
+!@note Need to update to make sure they all work when N /= M
+
+    module geopotential_module
+    
     use kind_module,    only: wp
     use numbers_module
    
@@ -29,18 +23,17 @@
     
     private
     
-    !
-    ! The base abstract class for the various geopotential models
-    !
     type,abstract,public :: geopotential_model
     
-        character(len=:),allocatable :: name      !model name
-        character(len=:),allocatable :: filename  !model file name
+        !! The base abstract class for the various geopotential models
+    
+        character(len=:),allocatable :: name      !! model name
+        character(len=:),allocatable :: filename  !! model file name
         
-        integer  :: nmax = 0     ! degree of the model
-        integer  :: mmax = 0     ! order of the model
-        real(wp) :: re   = zero  ! body radius [km]
-        real(wp) :: mu   = zero  ! body grav. parameter [km3/s2]
+        integer  :: nmax = 0     !! degree of the model
+        integer  :: mmax = 0     !! order of the model
+        real(wp) :: re   = zero  !! body radius [km]
+        real(wp) :: mu   = zero  !! body grav. parameter [km3/s2]
         
         contains
         
@@ -51,51 +44,38 @@
         
     end type geopotential_model
     
-    !
-    ! The models where the C,S coefficients are stored in vectors
-    !
     type,extends(geopotential_model),abstract,public :: geopotential_model_vector_coeff
+        !! The models where the C,S coefficients are stored in vectors
         real(wp),dimension(:),allocatable :: c 
         real(wp),dimension(:),allocatable :: s    
     end type geopotential_model_vector_coeff
         
-    !
-    ! The models where the C,S coefficients are stored in matrices
-    !
     type,extends(geopotential_model),abstract,public :: geopotential_model_matrix_coeff
+        !! The models where the C,S coefficients are stored in matrices
         real(wp),dimension(:,:),allocatable :: cnm
         real(wp),dimension(:,:),allocatable :: snm
     end type geopotential_model_matrix_coeff
         
-    !
-    !  Mueller method
-    !
     type,extends(geopotential_model_vector_coeff),public :: geopotential_model_mueller
+        !! Mueller method
     contains
         procedure,public :: get_acc => compute_gravity_acceleration_mueller
     end type geopotential_model_mueller
 
-    !
-    !  Lear method
-    !
     type,extends(geopotential_model_matrix_coeff),public :: geopotential_model_lear
+        !! Lear method
     contains
         procedure,public :: get_acc => compute_gravity_acceleration_lear
     end type geopotential_model_lear
     
-    !
-    !  Pines method
-    !
     type,extends(geopotential_model_matrix_coeff),public :: geopotential_model_pines
+        !! Pines method
     contains
         procedure,public :: get_acc => compute_gravity_acceleration_pines
     end type geopotential_model_pines
     
-    !
-    ! Interface to the acceleration function for the different methods:
-    !
     abstract interface
-        subroutine acc_function(me,r,n,m,a)
+        subroutine acc_function(me,r,n,m,a)  !! Interface to the acceleration function for the different methods
             import
             implicit none
             class(geopotential_model),intent(inout)  :: me
@@ -112,15 +92,8 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* geopotential_module/destroy_geopotential_model
-!
-!  NAME
-!    destroy_geopotential_model
-!
-!  DESCRIPTION
-!    Destroy a gravity model.
-!
-!  SOURCE
+!>
+!  Destroy a gravity model.
 
     subroutine destroy_geopotential_model(me)
     
@@ -154,15 +127,8 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* geopotential_module/compute_gravity_acceleration_mueller
-!
-!  NAME
-!    compute_gravity_acceleration_mueller
-!
-!  DESCRIPTION
-!    Wrapper for Mueller method.
-!
-!  SOURCE
+!>
+!  Wrapper for Mueller method.
 
     subroutine compute_gravity_acceleration_mueller(me,r,n,m,a)
     
@@ -180,15 +146,8 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* geopotential_module/compute_gravity_acceleration_pines
-!
-!  NAME
-!    compute_gravity_acceleration_pines
-!
-!  DESCRIPTION
-!    Wrapper for Pines method.
-!
-!  SOURCE
+!>
+!  Wrapper for Pines method.
 
     subroutine compute_gravity_acceleration_pines(me,r,n,m,a)
     
@@ -206,15 +165,8 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* geopotential_module/compute_gravity_acceleration_lear
-!
-!  NAME
-!    compute_gravity_acceleration_lear
-!
-!  DESCRIPTION
-!    Wrapper for Lear method.
-!
-!  SOURCE
+!>
+!  Wrapper for Lear method.
 
     subroutine compute_gravity_acceleration_lear(me,r,n,m,a)
     
@@ -232,19 +184,11 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* geopotential_module/read_geopotential_file
+!> author: Jacob Williams
+!  date: 9/20/2014
 !
-!  NAME
-!    read_geopotential_file
-!
-!  DESCRIPTION
-!    Read the gravity coefficient file.
-!    Example file: ftp://ftp.csr.utexas.edu/pub/grav/EGM96.GEO.Z
-!
-!  AUTHOR
-!    Jacob Williams : 9/20/2014
-!
-!  SOURCE
+!  Read the gravity coefficient file.
+!  Example file: ftp://ftp.csr.utexas.edu/pub/grav/EGM96.GEO.Z
 
     subroutine read_geopotential_file(me,filename,nmax,mmax,status_ok)
 
@@ -408,19 +352,11 @@
 !*****************************************************************************************
     
 !*****************************************************************************************
-!****f* geopotential_module/get_format_statement
+!> author: Jacob Williams
+!  date: 1/24/2015
 !
-!  NAME
-!    get_format_statement
-!
-!  DESCRIPTION
-!    Returns the format statement from a line 
-!     in a .GEO gravity coefficient file.
-!
-!  AUTHOR
-!    Jacob Williams : 1/24/2015
-!
-!  SOURCE
+!  Returns the format statement from a line 
+!  in a .GEO gravity coefficient file.
 
     subroutine get_format_statement(str,fmt)
     
@@ -447,27 +383,19 @@
 !*****************************************************************************************
    
 !*****************************************************************************************
-!****f* geopotential_module/number_of_coefficients
+!> author: Jacob Williams
+!  date: 9/20/2014
 !
-!  NAME
-!    number_of_coefficients
-!
-!  DESCRIPTION
-!    Number of (c,s) coefficients for n x m geopotential model
-!    Starting with n=2,m=0.
-!
-!  AUTHOR
-!    Jacob Williams : 9/20/2014
-!
-!  SOURCE
+!  Number of (c,s) coefficients for n x m geopotential model
+!  Starting with n=2,m=0.
 
     pure function number_of_coefficients(n,m) result(np)
     
     implicit none
     
-    integer            :: np  !number of coefficients
-    integer,intent(in) :: n   !degree
-    integer,intent(in) :: m   !order
+    integer            :: np  !! number of coefficients
+    integer,intent(in) :: n   !! degree
+    integer,intent(in) :: m   !! order
     
     integer :: i  !counter
     
@@ -481,21 +409,17 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* geopotential_module/FL
+!> author: Jacob Williams
+!  date: 9/20/2014
 !
-!  NAME
-!    FL
+!  The FL factorial function from [1].
 !
-!  DESCRIPTION
-!    The FL factorial function from [1].
+!# References
+!  1. W. M. Lear, "The Programs TRAJ1 and TRAJ2", 
+!     JSC Mission Planning and Analysis Division,
+!     JSC-22512, 87-FM-4, April 1987
 !
-!  SEE ALSO
-!    [1] W. M. Lear, "The Programs TRAJ1 and TRAJ2", 
-!        JSC Mission Planning and Analysis Division,
-!        JSC-22512, 87-FM-4, April 1987
-!
-!  HISTORY
-!    Jacob Williams : 9/20/2014 : coded from [1] with some modifications.
+!@note Coded from [1] with some modifications.
 !
 !  SOURCE
 
@@ -519,24 +443,18 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* geopotential_module/convert
+!> author: Jacob Williams
+!  date: 9/20/2014
 !
-!  NAME
-!    convert
+!  Based on the CONVERT subroutine from [1].
+!  Unnormalizes the C,S coefficients.
 !
-!  DESCRIPTION
-!    Based on the CONVERT subroutine from [1].
-!    Unnormalizes the C,S coefficients.
+!# References
+!  1. W. M. Lear, "The Programs TRAJ1 and TRAJ2", 
+!     JSC Mission Planning and Analysis Division,
+!     JSC-22512, 87-FM-4, April 1987
 !
-!  SEE ALSO
-!    [1] W. M. Lear, "The Programs TRAJ1 and TRAJ2", 
-!        JSC Mission Planning and Analysis Division,
-!        JSC-22512, 87-FM-4, April 1987
-!
-!  HISTORY
-!    Jacob Williams : 9/20/2014 : coded from [1]. some modifications.
-!
-!  SOURCE
+!@note Coded from [1] with some modifications.
 
     subroutine convert(nmodel,cnm,snm)
     
@@ -563,36 +481,30 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* geopotential_module/gravpot
+!> author: Jacob Williams
+!  date: 1/25/2014
 !
-!  NAME
-!    gravpot
+!  Spencer's implementation of the Pines algorithms from [1]
 !
-!  DESCRIPTION
-!    Spencer's implementation of the Pines algorithms from [1]
+!# References
+!  1. J.L. Spencer, "Pines' nonsingular gravitational potential
+!     derivation, description, and implementation", 
+!     NASA-CR-147478, MDC-W0013, Feb 9, 1976.
+!     http://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19760011100.pdf
 !
-!  SEE ALSO
-!    [1] J.L. Spencer, "Pines' nonsingular gravitational potential
-!        derivation, description, and implementation", 
-!        NASA-CR-147478, MDC-W0013, Feb 9, 1976.
-!        http://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19760011100.pdf
-!
-!  HISTORY
-!    Jacob Williams, 1/25/2014 : updated and fixed bugs in the original code.
-!
-!  SOURCE
+!@note Updated and fixed bugs in the original code.
 
     subroutine gravpot(r,nmax,re,mu,c,s,fg)
         
     implicit none
     
-    real(wp),dimension(3),intent(in)           :: r     !position vector
-    integer,intent(in)                         :: nmax  !degree/order
-    real(wp),intent(in)                        :: re    !body radius
-    real(wp),intent(in)                        :: mu    !grav constant
-    real(wp),dimension(nmax,0:nmax),intent(in) :: c     !coefficients
-    real(wp),dimension(nmax,0:nmax),intent(in) :: s     !    
-    real(wp),dimension(3),intent(out)          :: fg    !grav acceleration
+    real(wp),dimension(3),intent(in)           :: r     !! position vector
+    integer,intent(in)                         :: nmax  !! degree/order
+    real(wp),intent(in)                        :: re    !! body radius
+    real(wp),intent(in)                        :: mu    !! grav constant
+    real(wp),dimension(nmax,0:nmax),intent(in) :: c     !! C coefficients
+    real(wp),dimension(nmax,0:nmax),intent(in) :: s     !! S coefficients   
+    real(wp),dimension(3),intent(out)          :: fg    !! grav acceleration
     
     !local variables:
     real(wp),dimension(nmax+1) :: creal, cimag, rho
@@ -708,36 +620,33 @@
 !*****************************************************************************************
      
 !*****************************************************************************************
-!****f* geopotential_module/geopot
+!>
+!  Compute the gravitational acceleration vector using the Mueller method.
 !
-!  NAME
-!    geopot
+!# References
+!  1. Alan C. Mueller, "A Fast Recursive Algorithm for Calculating the 
+!     Forces due to the Geopotential (Program GEOPOT)", 
+!     JSC Internal Note 75-FM-42, June 9, 1975.
 !
-!  DESCRIPTION
-!    Compute the gravitational acceleration vector using the Mueller method.
-!
-!    !!!!! WARNING: this one crashes if nmax/=mmax !!!!!
-!
-!  SEE ALSO
-!    [1] Alan C. Mueller, "A Fast Recursive Algorithm for Calculating the 
-!            Forces due to the Geopotential (Program GEOPOT)", 
-!            JSC Internal Note 75-FM-42, June 9, 1975.
-!
-!  SOURCE
+!@warning WARNING: this one crashes if nmax/=mmax
     
     subroutine geopot(x,y,z,nmax,mmax,re,ksq,c,s,fx,fy,fz)
         
     implicit none
     
     !subroutine arguments:
-    real(wp),intent(in)              :: x,y,z        ! position vector
-    integer,intent(in)               :: nmax         ! degree of model
-    integer,intent(in)               :: mmax         ! order+1 of model
-    real(wp),intent(in)              :: re           ! body radius
-    real(wp),intent(in)              :: ksq          ! body GM
-    real(wp),dimension(:),intent(in) :: c            ! C,S coefficients
-    real(wp),dimension(:),intent(in) :: s            !
-    real(wp),intent(out)             :: fx,fy,fz     ! gravitational acceleration
+    real(wp),intent(in)              :: x      !! position vector x-component
+    real(wp),intent(in)              :: y      !! position vector y-component
+    real(wp),intent(in)              :: z      !! position vector z-component
+    integer,intent(in)               :: nmax   !! degree of model
+    integer,intent(in)               :: mmax   !! order+1 of model
+    real(wp),intent(in)              :: re     !! body radius
+    real(wp),intent(in)              :: ksq    !! body GM
+    real(wp),dimension(:),intent(in) :: c      !! C coefficients
+    real(wp),dimension(:),intent(in) :: s      !! S coefficients
+    real(wp),intent(out)             :: fx     !! gravitational acceleration x-component
+    real(wp),intent(out)             :: fy     !! gravitational acceleration y-component
+    real(wp),intent(out)             :: fz     !! gravitational acceleration z-component
     
     !local variables:
     real(wp) :: r,ri,reor,reorn,ksqor2,xor,yor,zor,rdedx,rdedy,rdedz,&
@@ -858,37 +767,29 @@
 !*****************************************************************************************
     
 !*****************************************************************************************
-!****f* geopotential_module/grav
+!> author: Jacob Williams
+!  date: 9/20/2014
 !
-!  NAME
-!    grav
+!  Based on the GRAV subroutine from [1].
 !
-!  DESCRIPTION
-!    Based on the GRAV subroutine from [1].
-!
-!  SEE ALSO
-!    [1] W. M. Lear, "The Programs TRAJ1 and TRAJ2", 
-!        JSC Internal Note 87-FM-4, April 1987.
-!    [2] W. M. Lear, "The Gravitational Acceleration Equations", 
-!        JSC Internal Note 86-FM-15, April 1986.
-!
-!  AUTHOR
-!    Jacob Williams : 9/20/2014 : updated
-!
-!  SOURCE
+!# References
+!  1. W. M. Lear, "The Programs TRAJ1 and TRAJ2", 
+!     JSC Internal Note 87-FM-4, April 1987.
+!  2. W. M. Lear, "The Gravitational Acceleration Equations", 
+!     JSC Internal Note 86-FM-15, April 1986.
 
     subroutine grav(mu,rgr,rbar,nmodel,mmodel,cnm,snm,agr)
     
     implicit none
     
-    real(wp),dimension(3),intent(in)                :: rgr      ! position vector [body-fixed coordinates]
-    real(wp),intent(in)                             :: mu       ! gravitational constant
-    real(wp),intent(in)                             :: rbar     ! gravitational scaling radius (generally the equatorial radius)
-    integer,intent(in)                              :: nmodel   ! the degree of the gravity model (>=2)
-    integer,intent(in)                              :: mmodel   ! the order of the gravity model (>=0, <=nmodel)
-    real(wp),dimension(nmodel,0:nmodel),intent(in)  :: cnm      ! gravity coefficients
-    real(wp),dimension(nmodel,0:nmodel),intent(in)  :: snm      !
-    real(wp),dimension(3),intent(out)               :: agr      ! gravitational acceleration vector [body-fixed coordinates]
+    real(wp),dimension(3),intent(in)                :: rgr      !! position vector [body-fixed coordinates]
+    real(wp),intent(in)                             :: mu       !! gravitational constant
+    real(wp),intent(in)                             :: rbar     !! gravitational scaling radius (generally the equatorial radius)
+    integer,intent(in)                              :: nmodel   !! the degree of the gravity model (>=2)
+    integer,intent(in)                              :: mmodel   !! the order of the gravity model (>=0, <=nmodel)
+    real(wp),dimension(nmodel,0:nmodel),intent(in)  :: cnm      !! C gravity coefficients
+    real(wp),dimension(nmodel,0:nmodel),intent(in)  :: snm      !! S gravity coefficients
+    real(wp),dimension(3),intent(out)               :: agr      !! gravitational acceleration vector [body-fixed coordinates]
     
     !local variables:
     real(wp),dimension(nmodel,nmodel) :: pnm,ppnm
@@ -1008,18 +909,10 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* geopotential_module/geopotential_module_test
+!> author: Jacob Williams
+!  date: 9/20/2014
 !
-!  NAME
-!    geopotential_module_test
-!
-!  DESCRIPTION
-!    Unit test routine for geopotential_module
-!
-!  AUTHOR
-!    Jacob Williams : 9/20/2014
-!
-!  SOURCE
+!  Unit test routine for geopotential_module
 
     subroutine geopotential_module_test()
     
@@ -1029,8 +922,7 @@
     
     implicit none
 
-    !the coefficient file:    
-    character(len=*),parameter :: gravfile = '../grav/GGM03C.GEO'
+    character(len=*),parameter :: gravfile = '../grav/GGM03C.GEO'  !! the coefficient file
     
     class(geopotential_model),pointer :: g
     type(geopotential_model_mueller),target :: g_mueller
@@ -1044,15 +936,14 @@
     character(len=20) :: name
     real :: tstart, tstop
     
-    !test case:
     real(wp),dimension(3),parameter :: r = [0.1275627320e+05_wp, &
                                             0.1275627320e+05_wp, &
-                                            0.1275627320e+05_wp ]   !km
+                                            0.1275627320e+05_wp ]   !! test case [km]
     
-    integer,parameter :: n=5    !degree
-    integer,parameter :: m=5    !order
+    integer,parameter :: n=5    !! degree
+    integer,parameter :: m=5    !! order
     
-    integer,parameter :: n_repeat = 1000000  !number of time to repeat speed test
+    integer,parameter :: n_repeat = 1000000  !! number of time to repeat speed test
        
     write(*,*) ''
     write(*,*) '---------------'

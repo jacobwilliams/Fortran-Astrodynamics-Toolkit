@@ -1,15 +1,9 @@
 !*****************************************************************************************
+!> author: Jacob Williams
+!
+!  Random number generation.
+
     module random_module
-!*****************************************************************************************
-!****h* FAT/random_module
-!
-!  NAME
-!    random_module
-!
-!  DESCRIPTION
-!    Random number generation.
-!
-!*****************************************************************************************    
     
     use kind_module,      only: wp
     
@@ -24,15 +18,9 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* random_module/get_random_number
+!> author: Jacob Williams
 !
-!  NAME
-!    get_random_number
-!
-!  DESCRIPTION
-!    Returns a uniform random number x, such that: a <= x < b.
-!
-!  SOURCE
+!  Returns a uniform random number `x`, such that: `a <= x < b`.
 
     function get_random_number(a,b) result(x)
 

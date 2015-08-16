@@ -1,15 +1,9 @@
 !*****************************************************************************************
+!> author: Jacob Williams
+!
+!  Routines for the manipulation of vectors.
+
     module vector_module
-!*****************************************************************************************
-!****h* FAT/vector_module
-!
-!  NAME
-!    vector_module
-!
-!  DESCRIPTION
-!    Routines for the manipulation of vectors.
-!
-!*****************************************************************************************
 
     use kind_module,    only: wp
     use numbers_module, only: one,zero,pi
@@ -43,18 +37,9 @@
 !*****************************************************************************************
     
 !*****************************************************************************************
-!****f* vector_module/cross
+!> author: Jacob Williams
 !
-!  NAME
-!    cross
-!
-!  DESCRIPTION
-!    Cross product of two 3x1 vectors
-!
-!  AUTHOR
-!    Jacob Williams
-!
-!  SOURCE
+!  Cross product of two 3x1 vectors
 
     pure function cross(r,v) result(rxv)
 
@@ -72,18 +57,9 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* vector_module/unit
+!> author: Jacob Williams
 !
-!  NAME
-!    unit
-!
-!  DESCRIPTION
-!    Unit vector
-!
-!  AUTHOR
-!    Jacob Williams
-!
-!  SOURCE
+!  Unit vector
 
     pure function unit(r) result(u)
 
@@ -106,29 +82,20 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* vector_module/uhat_dot
+!> author: Jacob Williams
 !
-!  NAME
-!    unit
-!
-!  DESCRIPTION
-!    Time derivative of a unit vector.
-!
-!  AUTHOR
-!    Jacob Williams
-!
-!  SOURCE
+!  Time derivative of a unit vector.
 
     pure function uhat_dot(u,udot) result(uhatd)
 
     implicit none
 
-    real(wp),dimension(3),intent(in) :: u      ! vector [u]
-    real(wp),dimension(3),intent(in) :: udot   ! derivative of vector [du/dt]
-    real(wp),dimension(3)            :: uhatd  ! derivative of unit vector [d(uhat)/dt]
+    real(wp),dimension(3),intent(in) :: u      !! vector [`u`]
+    real(wp),dimension(3),intent(in) :: udot   !! derivative of vector [`du/dt`]
+    real(wp),dimension(3)            :: uhatd  !! derivative of unit vector [`d(uhat)/dt`]
 
-    real(wp)              :: umag  !vector magnitude 
-    real(wp),dimension(3) :: uhat  !unit vector
+    real(wp)              :: umag  !! vector magnitude 
+    real(wp),dimension(3) :: uhat  !! unit vector
 
     umag = norm2(u)
 
@@ -143,18 +110,9 @@
 !*****************************************************************************************
     
 !*****************************************************************************************
-!****f* vector_module/ucross
+!> author: Jacob Williams
 !
-!  NAME
-!    ucross
-!
-!  DESCRIPTION
-!    Unit vector of the cross product of two 3x1 vectors
-!
-!  AUTHOR
-!    Jacob Williams
-!
-!  SOURCE
+!  Unit vector of the cross product of two 3x1 vectors
 
     pure function ucross(v1,v2) result(u)
 
@@ -170,30 +128,22 @@
 !*****************************************************************************************
     
 !*****************************************************************************************
-!****f* vector_module/axis_angle_rotation
+!> author: Jacob Williams
+!  date: 7/20/2014
 !
-!  NAME
-!    axis_angle_rotation
+!  Rotate a 3x1 vector in space, given an axis and angle of rotation. 
 !
-!  DESCRIPTION
-!    Rotate a 3x1 vector in space, given an axis and angle of rotation. 
-!
-!  SEE ALSO
-!    http://en.wikipedia.org/wiki/Rodrigues%27_rotation_formula
-!
-!  AUTHOR
-!    Jacob Williams, 7/20/2014
-!
-!  SOURCE
+!# Reference
+!   * [Wikipedia](http://en.wikipedia.org/wiki/Rodrigues%27_rotation_formula)
 
     pure subroutine axis_angle_rotation(v,k,theta,vrot)
     
     implicit none
     
-    real(wp),dimension(3),intent(in)  :: v      !vector to rotate
-    real(wp),dimension(3),intent(in)  :: k      !rotation axis
-    real(wp),intent(in)               :: theta  !rotation angle [rad]
-    real(wp),dimension(3),intent(out) :: vrot   !result
+    real(wp),dimension(3),intent(in)  :: v      !! vector to rotate
+    real(wp),dimension(3),intent(in)  :: k      !! rotation axis
+    real(wp),intent(in)               :: theta  !! rotation angle [rad]
+    real(wp),dimension(3),intent(out) :: vrot   !! result
     
     real(wp),dimension(3) :: khat
     real(wp) :: ct,st
@@ -208,19 +158,11 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* vector_module/cross_matrix
+!> author: Jacob Williams
+!  date: 7/20/2014
 !
-!  NAME
-!    cross_matrix
-!
-!  DESCRIPTION
-!    Computes the cross product matrix, where:
-!      cross(a,b) == matmul(cross_matrix(a),b)
-!
-!  AUTHOR
-!    Jacob Williams, 7/20/2014
-!
-!  SOURCE
+!  Computes the cross product matrix, where:
+!  ``cross(a,b) == matmul(cross_matrix(a),b)``
 
     pure function cross_matrix(r) result(rcross)
     
@@ -237,25 +179,17 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* vector_module/outer_product
+!> author: Jacob Williams
+!  date: 7/21/2014
 !
-!  NAME
-!    outer_product
-!
-!  DESCRIPTION
-!    Computes the outer product of the two vectors.
-!
-!  AUTHOR
-!    Jacob Williams, 7/21/2014
-!
-!  SOURCE
+!  Computes the outer product of the two vectors.
 
     pure function outer_product(a,b) result(c)
     
     implicit none
     
-    real(wp),dimension(:),intent(in) :: a
-    real(wp),dimension(:),intent(in) :: b
+    real(wp),dimension(:),intent(in)    :: a
+    real(wp),dimension(:),intent(in)    :: b
     real(wp),dimension(size(a),size(b)) :: c
     
     integer :: i
@@ -268,18 +202,10 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* vector_module/box_product
+!> author: Jacob Williams
+!  date: 7/21/2014
 !
-!  NAME
-!    outer_product
-!
-!  DESCRIPTION
-!    Computes the box product (scalar triple product) of the three vectors.
-!
-!  AUTHOR
-!    Jacob Williams, 7/21/2014
-!
-!  SOURCE
+!  Computes the box product (scalar triple product) of the three vectors.
 
     pure function box_product(a,b,c) result(d)
     
@@ -296,29 +222,21 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* vector_module/vector_projection
+!> author: Jacob Williams
+!  date: 7/21/2014
 !
-!  NAME
-!    vector_projection
+!  The projection of one vector onto another vector.
 !
-!  DESCRIPTION
-!    The projection of one vector onto another vector.
-!
-!  SEE ALSO
-!    [1] http://en.wikipedia.org/wiki/Gram-Schmidt_process
-!
-!  AUTHOR
-!    Jacob Williams, 7/21/2014
-!
-!  SOURCE
+!# Reference
+!   * [Wikipedia](http://en.wikipedia.org/wiki/Gram-Schmidt_process)
 
     pure function vector_projection(a,b) result(c)
     
     implicit none
     
-    real(wp),dimension(:),intent(in)       :: a  !the original vector
-    real(wp),dimension(size(a)),intent(in) :: b  !the vector to project on to
-    real(wp),dimension(size(a))            :: c  !the projection of a onto b
+    real(wp),dimension(:),intent(in)       :: a  !! the original vector
+    real(wp),dimension(size(a)),intent(in) :: b  !! the vector to project on to
+    real(wp),dimension(size(a))            :: c  !! the projection of a onto b
     
     real(wp) :: amag2
     
@@ -334,31 +252,22 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* vector_module/axis_angle_rotation_to_rotation_matrix
+!> author: Jacob Williams
+!  date: 7/20/2014
 !
-!  NAME
-!    axis_angle_rotation_to_rotation_matrix
-!
-!  DESCRIPTION
-!    Computes the rotation matrix that corresponds to a 
-!      rotation about the axis k by an angle theta.
-!
-!  AUTHOR
-!    Jacob Williams, 7/20/2014
-!
-!  SOURCE
+!  Computes the rotation matrix that corresponds to a 
+!  rotation about the axis `k` by an angle `theta`.
 
     pure subroutine axis_angle_rotation_to_rotation_matrix(k,theta,rotmat)
     
     implicit none
     
-    real(wp),dimension(3),intent(in)    :: k        !rotation axis
-    real(wp),intent(in)                 :: theta    !rotation angle [rad]
-    real(wp),dimension(3,3),intent(out) :: rotmat   !rotation matrix
+    real(wp),dimension(3),intent(in)    :: k        !! rotation axis
+    real(wp),intent(in)                 :: theta    !! rotation angle [rad]
+    real(wp),dimension(3,3),intent(out) :: rotmat   !! rotation matrix
     
-    !3x3 identity matrix:
     real(wp),dimension(3,3),parameter :: I = &
-            reshape([one,zero,zero,zero,one,zero,zero,zero,one],[3,3])
+            reshape([one,zero,zero,zero,one,zero,zero,zero,one],[3,3]) !! 3x3 identity matrix
 
     real(wp),dimension(3,3) :: w
     real(wp),dimension(3) :: khat
@@ -375,27 +284,19 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* vector_module/spherical_to_cartesian
+!> author: Jacob Williams
+!  date: 9/24/2014
 !
-!  NAME
-!    spherical_to_cartesian
-!
-!  DESCRIPTION
-!    Convert spherical (r,alpha,beta) to Cartesian (x,y,z).
-!
-!  AUTHOR
-!    Jacob Williams : 9/24/2014
-!
-!  SOURCE
+!  Convert spherical (r,alpha,beta) to Cartesian (x,y,z).
 
     pure function spherical_to_cartesian(r,alpha,beta) result(rvec)
     
     implicit none
     
-    real(wp),intent(in) :: r        ! magnitude
-    real(wp),intent(in) :: alpha    ! right ascension [rad]
-    real(wp),intent(in) :: beta     ! declination [rad]
-    real(wp),dimension(3) :: rvec   ! [x,y,z] vector
+    real(wp),intent(in)   :: r        !! magnitude
+    real(wp),intent(in)   :: alpha    !! right ascension [rad]
+    real(wp),intent(in)   :: beta     !! declination [rad]
+    real(wp),dimension(3) :: rvec     !! [x,y,z] vector
 
     rvec(1) = r * cos(alpha) * cos(beta)
     rvec(2) = r * sin(alpha) * cos(beta)
@@ -405,15 +306,13 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* vector_module/rotation_matrix
+!> author: Jacob Williams
+!  date: 2/3/2015
 !
-!  NAME
-!    rotation_matrix
-!
-!  DESCRIPTION
-!    The 3x3 rotation matrix for a rotation about the x, y, or z-axis.
+!  The 3x3 rotation matrix for a rotation about the x, y, or z-axis.
 !
 !  EXAMPLE
+!```Fortran
 !    real(wp),dimension(3,3) :: rotmat
 !    real(wp),dimension(3) :: vec,vec2
 !    real(wp) :: ang
@@ -421,19 +320,15 @@
 !    vec = [1.414_wp, 0.0_wp, 0.0_wp]
 !    rotmat = rotation_matrix(z_axis,ang)
 !    vec2 = matmul(rotmat,vec)
-!
-!  AUTHOR
-!    Jacob Williams, 2/3/2015
-!
-!  SOURCE
+!```
 
     pure function rotation_matrix(axis,angle) result(rotmat)
 
     implicit none
     
-    real(wp),dimension(3,3) :: rotmat   !the rotation matrix
-    integer,intent(in)      :: axis     !x_axis, y_axis, or z_axis
-    real(wp),intent(in)     :: angle    !angle in radians
+    real(wp),dimension(3,3) :: rotmat   !! the rotation matrix
+    integer,intent(in)      :: axis     !! x_axis, y_axis, or z_axis
+    real(wp),intent(in)     :: angle    !! angle in radians
     
     real(wp) :: c,s
     
@@ -452,24 +347,16 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* vector_module/angle_between_vectors
+!> author: Jacob Williams
+!  date: 3/13/2015
 !
-!  NAME
-!    angle_between_vectors
-!
-!  DESCRIPTION
-!    The angle between two vectors (in radians).
-!
-!  AUTHOR
-!    Jacob Williams, 3/13/2015
-!
-!  SOURCE
+!  The angle between two vectors (in radians).
 
     pure function angle_between_vectors(v1,v2) result(ang)
 
     implicit none
 
-    real(wp)                         :: ang  ![rad]
+    real(wp)                         :: ang  !! [rad]
     real(wp),dimension(3),intent(in) :: v1
     real(wp),dimension(3),intent(in) :: v2
 
@@ -483,18 +370,10 @@
 !*****************************************************************************************
     
 !*****************************************************************************************
-!****f* vector_module/vector_test
+!> author: Jacob Williams
+!  date: 7/20/2014
 !
-!  NAME
-!    vector_test
-!
-!  DESCRIPTION
-!    Unit test routine for the vector module.
-!
-!  AUTHOR
-!    Jacob Williams, 7/20/2014
-!
-!  SOURCE
+!  Unit test routine for the [[vector_module]].
 
     subroutine vector_test()
     

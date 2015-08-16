@@ -1,15 +1,9 @@
 !*****************************************************************************************
+!> author: Jacob Williams
+!
+!  General math routines
+
     module math_module
-!*****************************************************************************************
-!****h* FAT/math_module
-!
-!  NAME
-!    math_module
-!
-!  DESCRIPTION
-!    General math routines
-!
-!*****************************************************************************************
 
     use kind_module,    only: wp
     
@@ -23,18 +17,9 @@
 !*****************************************************************************************
     
 !*****************************************************************************************
-!****f* math_module/cube_root
+!> author: Jacob Williams
 !
-!  NAME
-!    cube_root
-!
-!  DESCRIPTION
-!    Cube root of a number (real solution only).
-!
-!  AUTHOR
-!    Jacob Williams
-!
-!  SOURCE
+!  Cube root of a number (real solution only).
 
     pure elemental function cube_root(x) result(y)
     

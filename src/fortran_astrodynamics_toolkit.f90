@@ -1,13 +1,8 @@
 !*****************************************************************************************
-!****h* FAT/fortran_astrodynamics_toolkit
+!> author: Jacob Williams
+!  license: BSD
 !
-!  NAME
-!    fortran_astrodynamics_toolkit
-!
-!  DESCRIPTION
-!    The main module that uses all the other modules.
-!
-!  SOURCE
+!  The main module that uses all the other modules.
 
     module fortran_astrodynamics_toolkit
 

@@ -1,23 +1,19 @@
 !*****************************************************************************************
+!> author: Jacob Williams
+!
+!  IAU orientation models for the Earth and planets.
+!
+!# See also
+!  1. NAIF SPICE pck.html documentation
+!  2. "Report of the IAU Working Group on Cartographic Coordinates 
+!     and Rotational Elements: 2009", Celestial Mechanics and 
+!     Dynamical Astronomy, February 2011, Vol 109, Issue 2, p 101-135.
+!
+!@warning Not Finished.
+!
+!@todo Use a class to provide access to the different models
+
     module iau_orientation_module
-!*****************************************************************************************
-!****h* FAT/iau_orientation_module
-!
-!  NAME
-!    iau_orientation_module
-!
-!  DESCRIPTION
-!    IAU orientation models for the Earth and planets.
-!
-!    !!!! NOT FINISHED !!!!
-!
-!  SEE ALSO
-!    [1] NAIF SPICE pck.html documentation
-!    [2] "Report of the IAU Working Group on Cartographic Coordinates 
-!        and Rotational Elements: 2009", Celestial Mechanics and 
-!        Dynamical Astronomy, February 2011, Vol 109, Issue 2, p 101-135.
-!
-!*****************************************************************************************    
     
     use kind_module
     use numbers_module
@@ -27,10 +23,6 @@
     
     private
     
-    !
-    !  TO DO: use a class to provide access to the different models...
-    !
-
     public :: iau_rotation_matrix  !base routine
     public :: icrf_to_iau_earth   
     
@@ -41,22 +33,14 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* iau_orientation_module/iau_rotation_matrix
+!> author: Jacob Williams
+!  date: 2/3/2015
 !
-!  NAME
-!    iau_rotation_matrix
-!
-!  DESCRIPTION
-!    Returns the rotation matrix for a coordinate transformation from 
-!    the International Celestial Reference Frame (ICRF) frame to the 
-!    IAU rotating frame associated with a body.
-!    The IAU orientation models use three Euler angles to describe 
-!    the pole and prime meridian location (ra, dec, and w). 
-!
-!  AUTHOR
-!    Jacob Williams, 2/3/2015
-!
-!  SOURCE
+!  Returns the rotation matrix for a coordinate transformation from 
+!  the International Celestial Reference Frame (ICRF) frame to the 
+!  IAU rotating frame associated with a body.
+!  The IAU orientation models use three Euler angles to describe 
+!  the pole and prime meridian location (ra, dec, and w). 
 
     pure function iau_rotation_matrix(w,dec,ra) result(rotmat)
     
@@ -64,10 +48,10 @@
     
     implicit none
     
-    real(wp),intent(in)     :: w         !right ascension of the pole [rad]
-    real(wp),intent(in)     :: dec       !declination of the pole [rad]
-    real(wp),intent(in)     :: ra        !prime meridian location [rad]
-    real(wp),dimension(3,3) :: rotmat    !the rotation matrix
+    real(wp),intent(in)     :: w         !! right ascension of the pole [rad]
+    real(wp),intent(in)     :: dec       !! declination of the pole [rad]
+    real(wp),intent(in)     :: ra        !! prime meridian location [rad]
+    real(wp),dimension(3,3) :: rotmat    !! the rotation matrix
     
     real(wp),parameter :: pi2 = pi / two
     
@@ -81,25 +65,17 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* iau_orientation_module/icrf_to_iau_earth
+!> author: Jacob Williams
+!  date: 2/3/2015
 !
-!  NAME
-!    icrf_to_iau_earth
-!
-!  DESCRIPTION
-!    Rotation matrix from ICRF to IAU_EARTH.
-!
-!  AUTHOR
-!    Jacob Williams, 2/3/2015
-!
-!  SOURCE
+!  Rotation matrix from ICRF to IAU_EARTH.
 
     pure function icrf_to_iau_earth(et) result(rotmat)
     
     implicit none
  
-    real(wp),intent(in)     :: et        !ephemeris time [sec]
-    real(wp),dimension(3,3) :: rotmat    !the rotation matrix
+    real(wp),intent(in)     :: et        !! ephemeris time [sec]
+    real(wp),dimension(3,3) :: rotmat    !! the rotation matrix
     
     real(wp) :: w,dec,ra,d,t
     
@@ -116,18 +92,10 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* iau_orientation_module/iau_test
+!> author: Jacob Williams
+!  date: 2/3/2015
 !
-!  NAME
-!    iau_test
-!
-!  DESCRIPTION
-!    Unit test routine for iau_module.
-!
-!  AUTHOR
-!    Jacob Williams, 2/3/2015
-!
-!  SOURCE
+!  Unit test routine for iau_module.
 
     subroutine iau_test()
     

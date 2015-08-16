@@ -1,15 +1,9 @@
 !*****************************************************************************************
+!> author: Jacob Williams
+!
+!  Time conversion routines.
+    
     module time_module
-!*****************************************************************************************
-!****h* FAT/time_module
-!
-!  NAME
-!    time_module
-!
-!  DESCRIPTION
-!    Time conversion routines.
-!
-!*****************************************************************************************    
     
     use kind_module
 
@@ -18,7 +12,7 @@
     private
     
     !parameters:
-    real(wp),parameter :: jd_j2000 = 2451545.0_wp  !julian date of J2000 epoch
+    real(wp),parameter :: jd_j2000 = 2451545.0_wp  !! julian date of J2000 epoch
     
     !public routines:
     public :: julian_day
@@ -34,18 +28,10 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* time_module/et_to_jd
+!> author: Jacob Williams
+!  date: 2/3/2015
 !
-!  NAME    
-!    et_to_jd
-!
-!  DESCRIPTION
-!    Convert ephemeris time (seconds from J2000 epoch) to Julian date.
-!
-!  AUTHOR
-!    Jacob Williams : 2/3/2015
-!
-!  SOURCE
+!  Convert ephemeris time (seconds from J2000 epoch) to Julian date.
 
     pure function et_to_jd(et) result(jd)
     
@@ -53,8 +39,8 @@
     
     implicit none
     
-    real(wp),intent(in) :: et   !ephemeris time [sec from J2000 epoch]
-    real(wp)            :: jd   !Julian date [days]
+    real(wp),intent(in) :: et   !! ephemeris time [sec from J2000 epoch]
+    real(wp)            :: jd   !! Julian date [days]
         
     jd = jd_j2000 + et*sec2day
     
@@ -62,28 +48,20 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* time_module/jd_to_mjd
+!> author: Jacob Williams
+!  date: 3/15/2015
 !
-!  NAME    
-!    jd_to_mjd
+!  Converts Julian date to Modified Julian date.
 !
-!  DESCRIPTION
-!    Converts Julian date to Modified Julian date.
-!
-!  SEE ALSO
-!    http://tycho.usno.navy.mil/mjd.html
-!
-!  AUTHOR
-!    Jacob Williams : 3/15/2015
-!
-!  SOURCE
+!# Reference
+!   * [USNO](http://tycho.usno.navy.mil/mjd.html)
 
     pure function jd_to_mjd(jd) result(mjd)
 
     implicit none
 
-    real(wp)            :: mjd  !modified julian date
-    real(wp),intent(in) :: jd   !julian date
+    real(wp)            :: mjd  !! modified julian date
+    real(wp),intent(in) :: jd   !! julian date
 
     mjd = jd - 2400000.5_wp
 
@@ -91,28 +69,20 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* time_module/mjd_to_jd
+!> author: Jacob Williams
+!  date: 3/15/2015
 !
-!  NAME    
-!    mjd_to_jd
+!  Converts Modified Julian date to Julian date.
 !
-!  DESCRIPTION
-!    Converts Modified Julian date to Julian date.
-!
-!  SEE ALSO
-!    http://tycho.usno.navy.mil/mjd.html
-!
-!  AUTHOR
-!    Jacob Williams : 3/15/2015
-!
-!  SOURCE
+!# Reference
+!   * [USNO](http://tycho.usno.navy.mil/mjd.html)
 
     pure function mjd_to_jd(mjd) result(jd)
 
     implicit none
 
-    real(wp)            :: jd   !julian date
-    real(wp),intent(in) :: mjd  !modified julian date
+    real(wp)            :: jd   !! julian date
+    real(wp),intent(in) :: mjd  !! modified julian date
 
     jd = mjd + 2400000.5_wp
 
@@ -120,29 +90,24 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* time_module/julian_day
+!> author: Jacob Williams
 !
-!  NAME    
-!    julian_day
+!  Returns the Julian day number (i.e., the Julian date at Greenwich noon) 
+!  on the specified YEAR, MONTH, and DAY.
 !
-!  DESCRIPTION
-!    Returns the Julian day number (i.e., the Julian date at Greenwich noon) 
-!        on the specified YEAR, MONTH, and DAY.
-!    Valid for any Gregorian calendar date producing a 
-!        Julian date greater than zero.
+!  Valid for any Gregorian calendar date producing a 
+!  Julian date greater than zero.
 !
-!  NOTES
-!    http://aa.usno.navy.mil/faq/docs/JD_Formula.php
-!
-!  SOURCE
+!# Reference
+!   * [USNO](http://aa.usno.navy.mil/faq/docs/JD_Formula.php)
 
     pure integer function julian_day(y,m,d)
     
     implicit none
     
-    integer,intent(in) :: y   ! year (YYYY)
-    integer,intent(in) :: m   ! month (MM)
-    integer,intent(in) :: d   ! day (DD)
+    integer,intent(in) :: y   !! year (YYYY)
+    integer,intent(in) :: m   !! month (MM)
+    integer,intent(in) :: d   !! day (DD)
     
     julian_day = d-32075+1461*(y+4800+(m-14)/12)/4+367*&
                  (m-2-(m-14)/12*12)/12-3*((y+4900+(m-14)/12)/100)/4
@@ -151,27 +116,28 @@
 !*****************************************************************************************
     
 !*****************************************************************************************
-!****f* time_module/julian_date
+!> author: Jacob Williams
+!  date: 1/21/2015
 !
-!  NAME
-!    julian_date
+!  Returns the Julian date for the specified YEAR, MONTH, DAY, HR, MIN, SEC.
 !
-!  DESCRIPTION
-!    Returns the Julian date for the specified YEAR, MONTH, DAY, HR, MIN, SEC.
-!    Valid for any Gregorian calendar date producing a 
-!        Julian date greater than zero.
+!  Valid for any Gregorian calendar date producing a 
+!  Julian date greater than zero.
 !
 !  AUTHOR
 !    Jacob Williams : 1/21/2015
-!
-!  SOURCE
 
     pure function julian_date(y,m,d,hour,minute,second)
    
     implicit none
     
-    real(wp) :: julian_date
-    integer,intent(in) :: y,m,d,hour,minute,second
+    real(wp)           :: julian_date
+    integer,intent(in) :: y
+    integer,intent(in) :: m
+    integer,intent(in) :: d
+    integer,intent(in) :: hour
+    integer,intent(in) :: minute
+    integer,intent(in) :: second
     
     integer :: julian_day_number
     
@@ -186,18 +152,10 @@
 !*****************************************************************************************
     
 !*****************************************************************************************
-!****f* time_module/time_module_test
+!> author: Jacob Williams
+!  date: 1/21/2015
 !
-!  NAME
-!    time_module_test
-!
-!  DESCRIPTION
-!    Test routine for the Julian date routines.
-!
-!  AUTHOR
-!    Jacob Williams : 1/21/2015
-!
-!  SOURCE
+!  Test routine for the Julian date routines.
 
     subroutine time_module_test()
 

@@ -1,21 +1,15 @@
 !*****************************************************************************************
+!> author: Jacob Williams
+! 
+!  Complex-step differentiation routines.
+!
+!# See also
+!  1. J.R.R.A. Martins, P. Sturdza, J.J. Alonso, 
+!     "The Complex-Step Derivative Approximation",
+!     ACM Transactions on Mathematical Software, 
+!     Vol. 29, No. 3, September 2003, Pages 245262.
+
     module complex_step_module
-!*****************************************************************************************
-!****h* FAT/complex_step_module
-!
-!  NAME
-!    complex_step_module
-!
-!  DESCRIPTION
-!    Complex-step differentiation routines.
-!
-!  SEE ALSO
-!    [1] J.R.R.A. Martins, P. Sturdza, J.J. Alonso, 
-!        "The Complex-Step Derivative Approximation",
-!        ACM Transactions on Mathematical Software, 
-!        Vol. 29, No. 3, September 2003, Pages 245–262.
-!
-!*****************************************************************************************
     
     use kind_module,    only: wp
     
@@ -39,16 +33,9 @@
 !*****************************************************************************************
     
 !*****************************************************************************************
-!****f* complex_step_module/complex_step_derivative
-! 
-!  NAME
-!    complex_step_derivative
-!
-!  DESCRIPTION
-!    Compute the first derivative using the complex-step method.
-!    This is Equation 6 from Reference [1].
-!
-!  SOURCE
+!>  
+!  Compute the first derivative using the complex-step method.
+!  This is Equation 6 from Reference [1].
 
     subroutine complex_step_derivative(f,x,h,dfdx)
     
@@ -65,16 +52,9 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* complex_step_module/forward_diff
-! 
-!  NAME
-!    forward_diff
-!
-!  DESCRIPTION
-!    Compute the first derivative using a forward difference.
-!    This is Equation 1 from Reference [1].
-!
-!  SOURCE
+!>  
+!  Compute the first derivative using a forward difference.
+!  This is Equation 1 from Reference [1].
 
     subroutine forward_diff(f,x,h,dfdx)
     
@@ -91,15 +71,8 @@
 !*****************************************************************************************
        
 !*****************************************************************************************
-!****f* complex_step_module/central_diff
-! 
-!  NAME
-!    central_diff
-!
-!  DESCRIPTION
-!    Compute the first derivative using a 2-point central difference [-h,h].
-!
-!  SOURCE
+!>  
+!  Compute the first derivative using a 2-point central difference [-h,h].
 
     subroutine central_diff(f,x,h,dfdx)
     
@@ -116,15 +89,8 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* complex_step_module/central_diff_4
-! 
-!  NAME
-!    central_diff_4
-!
-!  DESCRIPTION
-!    Compute the first derivative using a 4-point central difference [-2h,-h,h,2h].
-!
-!  SOURCE
+!>  
+!  Compute the first derivative using a 4-point central difference [-2h,-h,h,2h].
 
     subroutine central_diff_4(f,x,h,dfdx)
     
@@ -145,15 +111,8 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* complex_step_module/complex_step_test
-! 
-!  NAME
-!    complex_step_test
-!
-!  DESCRIPTION
-!    Unit test for the complex_step module.
-!
-!  SOURCE
+!>  
+!  Unit test for the complex_step module.
 
     subroutine complex_step_test()
     
@@ -195,9 +154,7 @@
         write(*,'(*(E30.16,1H,))') h, err2, err3, err4, err
     end do
     
-    contains
-    
-!   contains: test_func, test_deriv
+    contains    
 !*****************************************************************************************
 
     !****************************************

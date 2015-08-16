@@ -1,15 +1,9 @@
 !*****************************************************************************************
+!> author: Jacob Williams
+!
+!  Runge-Kutta integration.
+
     module rk_module
-!*****************************************************************************************
-!****h* FAT/rk_module
-!
-!  NAME
-!    rk_module
-!
-!  DESCRIPTION
-!    Runge-Kutta integration.
-!
-!*****************************************************************************************
     
     use kind_module,       only: wp
     use numbers_module,    only: zero
@@ -18,15 +12,18 @@
     
     private
        
-    !main integration class:
     type,abstract,public :: rk_class
-        integer :: n = 0                               !user specified number of variables
-        procedure(deriv_func),pointer :: f => null()   !user-specified derivative function
-        procedure(report_func),pointer :: report => null() !user-specified report function
+    
+        !! main integration class:
+        
+        integer :: n = 0                               !! user specified number of variables
+        procedure(deriv_func),pointer :: f => null()   !! user-specified derivative function
+        procedure(report_func),pointer :: report => null() !! user-specified report function
         contains
-        procedure :: initialize  !initialize the class (set n,f, and report)
-        procedure,non_overridable,public :: integrate  !main integration routine
-        procedure(step_func),deferred :: step          !the step routine for the rk method
+        procedure :: initialize                        !! initialize the class (set n,f, and report)
+        procedure,non_overridable,public :: integrate  !! main integration routine
+        procedure(step_func),deferred :: step          !! the step routine for the rk method
+        
     end type rk_class
     
     !extend the abstract class to create an RK4 method:
@@ -42,7 +39,7 @@
     
     interface
     
-        subroutine deriv_func(me,t,x,xdot)  !derivative function
+        subroutine deriv_func(me,t,x,xdot)  !! derivative function
         import :: rk_class,wp
         implicit none
             class(rk_class),intent(inout)        :: me
@@ -51,7 +48,7 @@
             real(wp),dimension(me%n),intent(out) :: xdot    
         end subroutine deriv_func
     
-        subroutine report_func(me,t,x)  !report function
+        subroutine report_func(me,t,x)  !! report function
         import :: rk_class,wp
         implicit none
             class(rk_class),intent(inout)        :: me
@@ -59,7 +56,7 @@
             real(wp),dimension(me%n),intent(in)  :: x    
         end subroutine report_func
         
-        subroutine step_func(me,t,x,h,xf)   !rk step function
+        subroutine step_func(me,t,x,h,xf)   !! rk step function
         import :: rk_class,wp
         implicit none
             class(rk_class),intent(inout)        :: me
@@ -77,15 +74,8 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* rk_module/initialize
-! 
-!  NAME
-!    initialize
-!
-!  DESCRIPTION
-!    Initialize the rk_class.
-!
-!  SOURCE
+!>
+!  Initialize the [[rk_class]].
 
     subroutine initialize(me,n,f,report) 
     
@@ -104,26 +94,19 @@
 !*****************************************************************************************
   
 !*****************************************************************************************
-!****f* rk_module/integrate
-! 
-!  NAME
-!    integrate
-!
-!  DESCRIPTION
-!    Main integration routine for the rk_class.
-!
-!  SOURCE
+!>
+!  Main integration routine for the rk_class.
 
     subroutine integrate(me,t0,x0,h,tf,xf) 
     
     implicit none
     
     class(rk_class),intent(inout)        :: me    
-    real(wp),intent(in)                  :: t0    !initial time
-    real(wp),dimension(me%n),intent(in)  :: x0    !initial state
-    real(wp),intent(in)                  :: h     !time step
-    real(wp),intent(in)                  :: tf    !final time
-    real(wp),dimension(me%n),intent(out) :: xf    !final state
+    real(wp),intent(in)                  :: t0    !! initial time
+    real(wp),dimension(me%n),intent(in)  :: x0    !! initial state
+    real(wp),intent(in)                  :: h     !! time step
+    real(wp),intent(in)                  :: tf    !! final time
+    real(wp),dimension(me%n),intent(out) :: xf    !! final state
     
     real(wp) :: t,dt,t2
     real(wp),dimension(me%n) :: x
@@ -160,25 +143,18 @@
 !*****************************************************************************************
     
 !*****************************************************************************************
-!****f* rk_module/rk4
-! 
-!  NAME
-!    rk4
-!
-!  DESCRIPTION
-!    Take one Runge Kutta 4 integration step: t -> t+h (x -> xf)
-!
-!  SOURCE
+!>
+!  Take one Runge Kutta 4 integration step: `t -> t+h (x -> xf)`
 
     subroutine rk4(me,t,x,h,xf) 
      
     implicit none
     
     class(rk4_class),intent(inout)       :: me
-    real(wp),intent(in)                  :: t   !initial time
-    real(wp),dimension(me%n),intent(in)  :: x   !initial state
-    real(wp),intent(in)                  :: h   !time step
-    real(wp),dimension(me%n),intent(out) :: xf  !state at time t+h
+    real(wp),intent(in)                  :: t   !! initial time
+    real(wp),dimension(me%n),intent(in)  :: x   !! initial state
+    real(wp),intent(in)                  :: h   !! time step
+    real(wp),dimension(me%n),intent(out) :: xf  !! state at time `t+h`
     
     !local variables:
     real(wp),dimension(me%n) :: f1,f2,f3,f4
@@ -201,30 +177,23 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* rk_module/rk8_10
-! 
-!  NAME
-!    rk8_10
+!>
+!  Take one Runge Kutta 8 integration step: `t -> t+h (x -> xf)`
+!  This is Formula (8-10) from Reference [1].
 !
-!  DESCRIPTION
-!    Take one Runge Kutta 8 integration step: t -> t+h (x -> xf)
-!    This is Formula (8-10) from Reference [1].
-!
-!  SEE ALSO
-!    [1] E. B. Shanks, "Higher Order Approximations of Runge-Kutta Type",
-!        NASA Technical Note, NASA TN D-2920, Sept. 1965.
-!
-!  SOURCE
+!# Reference
+!  1. E. B. Shanks, "Higher Order Approximations of Runge-Kutta Type",
+!     NASA Technical Note, NASA TN D-2920, Sept. 1965.
 
 	subroutine rk8_10(me,t,x,h,xf)
 
 	implicit none
 	
     class(rk8_10_class),intent(inout)    :: me
-    real(wp),intent(in)                  :: t   !initial time
-    real(wp),dimension(me%n),intent(in)  :: x   !initial state
-    real(wp),intent(in)                  :: h   !time step
-    real(wp),dimension(me%n),intent(out) :: xf  !state at time t+h
+    real(wp),intent(in)                  :: t   !! initial time
+    real(wp),dimension(me%n),intent(in)  :: x   !! initial state
+    real(wp),intent(in)                  :: h   !! time step
+    real(wp),dimension(me%n),intent(out) :: xf  !! state at time `t+h`
     
 	!local variables:
 	real(wp),dimension(me%n) :: f0,f1,f2,f3,f4,f5,f6,f7,f8,f9
@@ -305,29 +274,21 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!****f* rk_module/rk_test
-! 
-!  NAME
-!    rk_test
-!
-!  DESCRIPTION
-!    Unit test of the rk_module.
-!    Integrate a two-body orbit around the Earth.
-!
-!  SOURCE
+!>
+!  Unit test of the [[rk_module]].
+!  Integrate a two-body orbit around the Earth.
 
     subroutine rk_test()
-    ! unit test for the integration routines
     
-    !spacecraft propagation type:
-    ! extend the rk class to include data used in the deriv routine
     type,extends(rk4_class) :: spacecraft
-        real(wp) :: mu = zero      !central body gravitational parameter (km3/s2)
-        integer :: fevals = 0      !number of function evaluations
-        logical :: first = .true.  !first point is being exported
+        !! spacecraft propagation type.
+        !! extends the [[rk4_class]] to include data used in the deriv routine
+        real(wp) :: mu = zero      !! central body gravitational parameter (km3/s2)
+        integer :: fevals = 0      !! number of function evaluations
+        logical :: first = .true.  !! first point is being exported
     end type spacecraft
     
-    integer,parameter :: n=6    !number of state variables
+    integer,parameter :: n=6    !! number of state variables
     type(spacecraft) :: s
     real(wp) :: t0,tf,x0(n),dt,xf(n),x02(n)
     
@@ -361,13 +322,13 @@
     write(*,'(A,I5)') 'Function evaluations:', s%fevals
     write(*,*) ''
     
-!    contains: twobody
-!*****************************************************************************************
     contains
+!*****************************************************************************************
     
     !*********************************************************
         subroutine twobody(me,t,x,xdot)
-        ! derivative routine for two-body orbit propagation
+        
+        !! derivative routine for two-body orbit propagation
         
         implicit none
         
@@ -399,7 +360,8 @@
         
     !*********************************************************
         subroutine twobody_report(me,t,x)
-        !report function - write time,state to console
+        
+        !! report function - write time,state to console
 
         implicit none
         
