@@ -11,9 +11,7 @@
 
     module fortran_astrodynamics_toolkit
 
-    use bobyqa_module
     use brent_module
-    use bspline_module
     use complex_step_module
     use conversion_module
     use ephemeris_module
