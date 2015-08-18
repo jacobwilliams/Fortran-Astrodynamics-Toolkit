@@ -92,12 +92,12 @@
     
     implicit none
     
-    real(wp),dimension(3),intent(in) :: rvec!!position vector [km]
-    real(wp),intent(in)  :: a               !!geoid semimajor axis [km]
-    real(wp),intent(in)  :: b               !!geoid semiminor axis [km]
-    real(wp),intent(out) :: h               !!geodetic altitude [km]
-    real(wp),intent(out) :: long            !!longitude [rad]
-    real(wp),intent(out) :: lat             !!geodetic latitude [rad]
+    real(wp),dimension(3),intent(in) :: rvec !!position vector [km]
+    real(wp),intent(in)  :: a                !!geoid semimajor axis [km]
+    real(wp),intent(in)  :: b                !!geoid semiminor axis [km]
+    real(wp),intent(out) :: h                !!geodetic altitude [km]
+    real(wp),intent(out) :: long             !!longitude [rad]
+    real(wp),intent(out) :: lat              !!geodetic latitude [rad]
     
     real(wp) :: f,x,y,z,e2,a1,a2,a3,a4,a5,a6,w,zp,&
                 w2,r2,r,s2,c2,u,v,s,ss,c,g,rg,rf,m,p,z2
@@ -182,15 +182,15 @@
 
     implicit none
 
-    real(wp),intent(in)  :: a        !semimajor axis of ellipsoid [m]
-    real(wp),intent(in)  :: f        !flattening of ellipsoid [-]            
-    real(wp),intent(in)  :: glat1    !latitude of 1 [rad]
-    real(wp),intent(in)  :: glon1    !longitude of 1 [rad]
-    real(wp),intent(in)  :: faz      !forward azimuth 1->2 [rad]
-    real(wp),intent(in)  :: s        !distance from 1->2 [m]
-    real(wp),intent(out) :: glat2    !latitude of 2 [rad]
-    real(wp),intent(out) :: glon2    !longitude of 2 [rad]
-    real(wp),intent(out) :: baz      !back azimuth 2->1 [rad]
+    real(wp),intent(in)  :: a        !! semimajor axis of ellipsoid [m]
+    real(wp),intent(in)  :: f        !! flattening of ellipsoid [-]            
+    real(wp),intent(in)  :: glat1    !! latitude of 1 [rad]
+    real(wp),intent(in)  :: glon1    !! longitude of 1 [rad]
+    real(wp),intent(in)  :: faz      !! forward azimuth 1->2 [rad]
+    real(wp),intent(in)  :: s        !! distance from 1->2 [m]
+    real(wp),intent(out) :: glat2    !! latitude of 2 [rad]
+    real(wp),intent(out) :: glon2    !! longitude of 2 [rad]
+    real(wp),intent(out) :: baz      !! back azimuth 2->1 [rad]
 
     real(wp) :: r,tu,sf,cf,cu,su,sa,csa,c2a,x,c,d,y,sy,cy,cz,e
 
@@ -252,12 +252,12 @@
     
     implicit none
     
-    real(wp),intent(in) :: a                !geoid semimajor axis [km]
-    real(wp),intent(in) :: b                !geoid semiminor axis [km]
-    real(wp),intent(in) :: glat             !geodetic latitude [rad]
-    real(wp),intent(in) :: lon              !longitude [rad]
-    real(wp),intent(in) :: h                !geodetic altitude [km]
-    real(wp),dimension(3),intent(out) :: r  !Cartesian position vector [x,y,z]
+    real(wp),intent(in) :: a                !! geoid semimajor axis [km]
+    real(wp),intent(in) :: b                !! geoid semiminor axis [km]
+    real(wp),intent(in) :: glat             !! geodetic latitude [rad]
+    real(wp),intent(in) :: lon              !! longitude [rad]
+    real(wp),intent(in) :: h                !! geodetic altitude [km]
+    real(wp),dimension(3),intent(out) :: r  !! Cartesian position vector [x,y,z]
 
     real(wp) :: e2,slat,clat,slon,clon,tlat,ome2,d,q,aod
 
@@ -295,12 +295,12 @@
 
     implicit none
 
-    real(wp)            :: d        ! great circle distance from 1 to 2 [km]
-    real(wp),intent(in) :: r        ! radius of the body [km]
-    real(wp),intent(in) :: long1    ! longitude of first site [rad]
-    real(wp),intent(in) :: lat1     ! latitude of the first site [rad]
-    real(wp),intent(in) :: long2    ! longitude of the second site [rad]
-    real(wp),intent(in) :: lat2     ! latitude of the second site [rad]
+    real(wp)            :: d        !! great circle distance from 1 to 2 [km]
+    real(wp),intent(in) :: r        !! radius of the body [km]
+    real(wp),intent(in) :: long1    !! longitude of first site [rad]
+    real(wp),intent(in) :: lat1     !! latitude of the first site [rad]
+    real(wp),intent(in) :: long2    !! longitude of the second site [rad]
+    real(wp),intent(in) :: lat2     !! latitude of the second site [rad]
 
     real(wp) :: c1,s1,c2,s2,dlon,clon,slon
 
