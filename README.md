@@ -11,13 +11,27 @@ Overview
 The goal is to produce a comprehensive library, written in modern Fortran (Fortran 2003/2008), of all the standard orbital mechanics algorithms such as:
 
  * Lambert solvers
+  - [x] Gooding
+  - [x] Izzo
  * Kepler propagators
- * ODE solvers (Runge-Kutta, Nystrom, Adams)
- * Orbital element conversions
- * Force models (point mass gravity, geopotential, solar radiation pressure, drag)
+  - [x] Gooding
+  - [ ] Goodyear
+  - [ ] Shepperd
+ * ODE solvers
+  - [x] Runge-Kutta
+  - [ ] Nystrom
+  - [ ] Adams
+ * Force models
+  - [ ] point mass gravity
+  - [x] geopotential
+  - [ ] solar radiation pressure
+  - [ ] drag
  * Reference frames
- * Targeting and optimization
- * Engine models
+  - [x] IAU_EARTH
+ * Other
+  - [ ] Orbital element conversions
+  - [ ] Targeting and optimization
+  - [ ] Spacecraft engine models
 
 This is a work in progress, and is currently in a very preliminary state.  
 
