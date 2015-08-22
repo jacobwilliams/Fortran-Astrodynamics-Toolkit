@@ -24,7 +24,7 @@ This is a work in progress, and is currently in a very preliminary state.
 Third-Party Requirements
 ---------------
 
-To use the ephemeris_module, a copy of one of the JPL binary ephemeris files must be present in the ```eph``` directory.  This can be built from the instructions at: ftp://ssd.jpl.nasa.gov/pub/eph/planets/fortran/userguide.txt.  For example (on MacOS X):
+To use the ephemeris_module, a copy of one of the JPL binary ephemeris files must be present in the ```eph``` directory.  This can be built from the instructions at: ftp://ssd.jpl.nasa.gov/pub/eph/planets/fortran/userguide.txt.  For example (on Linux):
 ```bash
 wget ftp://ssd.jpl.nasa.gov/pub/eph/planets/fortran/*
 wget ftp://ssd.jpl.nasa.gov/pub/eph/planets/ascii/de405/*
@@ -32,12 +32,19 @@ wget ftp://ssd.jpl.nasa.gov/pub/eph/planets/ascii/de405/*
 sed -i '_original' '/^C.*PARAMETER ( NRECL = 4 )/s/^C//' asc2eph.f
 gfortran asc2eph.f -o asc2eph
 cat header.405 ascp*.405 | ./asc2eph
-mkdir ~/Fortran-Astrodynamics-Toolkit/eph
-mv ./JPLEPH ~/Fortran-Astrodynamics-Toolkit/eph/JPLEPH.405
+mkdir Fortran-Astrodynamics-Toolkit/eph
+mv JPLEPH Fortran-Astrodynamics-Toolkit/eph/JPLEPH.405
 ```
 Note that some of the examples require the file to be named ```JPLEPH_2000-2100.405```.
 
-To use the geopotential_module, you need a geopotential model file (for example ```GGM03C.GEO``` from ftp://ftp.csr.utexas.edu/pub/grace/GGM03/GGM03_Archive.zip). This should be placed in the ```grav``` directory.
+To use the geopotential_module, you need a geopotential model file (for example ```GGM03C.GEO``` from ftp://ftp.csr.utexas.edu/pub/grace/GGM03/GGM03_Archive.zip). This should be placed in the ```grav``` directory.  For example:
+```bash
+wget ftp://ftp.csr.utexas.edu/pub/grace/GGM03/GGM03_Archive.zip
+unzip GGM03_Archive.zip
+mkdir Fortran-Astrodynamics-Toolkit/grav
+cp GGM03_Archive/GGM03C.GEO Fortran-Astrodynamics-Toolkit/grav
+```
+
 
 See also
 ---------------
