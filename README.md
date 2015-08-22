@@ -3,12 +3,9 @@ Fortran-Astrodynamics-Toolkit
 
 ![Image](https://raw.githubusercontent.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/master/tests/pork_chop/pork_chop.png)
 
-A modern Fortran library for astrodynamics.
+## Overview
 
-Overview
----------------
-
-The goal is to produce a comprehensive library, written in modern Fortran (Fortran 2003/2008), of all the standard orbital mechanics algorithms such as:
+The goal is to produce a comprehensive library, written in modern Fortran (Fortran 2003/2008), of all the standard orbital mechanics algorithms.  This is a work in progress, and is currently in a preliminary state.  Currently-implemented and proposed capabilities include:
 
  * Lambert solvers
   - [x] Gooding
@@ -29,14 +26,11 @@ The goal is to produce a comprehensive library, written in modern Fortran (Fortr
  * Reference frames
   - [x] IAU_EARTH
  * Other
-  - [ ] Orbital element conversions
-  - [ ] Targeting and optimization
-  - [ ] Spacecraft engine models
+  - [ ] orbital element conversions
+  - [ ] targeting and optimization
+  - [ ] spacecraft engine models
 
-This is a work in progress, and is currently in a very preliminary state.  
-
-Third-Party Requirements
----------------
+## Third-Party Requirements
 
 To use the ephemeris_module, a copy of one of the JPL binary ephemeris files must be present in the ```eph``` directory.  This can be built from the instructions at: ftp://ssd.jpl.nasa.gov/pub/eph/planets/fortran/userguide.txt.  For example (on Linux):
 ```bash
@@ -59,9 +53,8 @@ mkdir Fortran-Astrodynamics-Toolkit/grav
 cp GGM03_Archive/GGM03C.GEO Fortran-Astrodynamics-Toolkit/grav
 ```
 
+## See also
 
-See also
----------------
  * [SPICE](http://naif.jpl.nasa.gov/naif/toolkit.html)
  * [NOVAS](http://aa.usno.navy.mil/software/novas/novas_info.php)
  * [SOFA](http://www.iausofa.org)
