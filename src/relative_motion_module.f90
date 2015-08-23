@@ -1,7 +1,27 @@
 !*****************************************************************************************
 !> author: Jacob Williams
 !
-!  Routines for relative motion.
+!  This module contains various routines related to relative motion.
+!
+!## Axis systems
+!
+!  Three different axis systems are used here.  They are:
+!
+!  * The **IJK** frame
+!
+!  * The **LVLH** frame, defined by:
+!
+!     * z-axis : \( -\hat{\mathbf{r}} \)
+!     * y-axis : \( -\hat{\mathbf{h}} \)
+!     * x-axis : completes the right handed system
+!       (for a perfectly-circular orbit, the x-axis is \( \hat{\mathbf{v}} \))
+!
+!  * The **RSW** frame, defined by:
+!
+!     * x-axis : \( \hat{\mathbf{r}} \)
+!     * z-axis : \( \hat{\mathbf{h}} \)
+!     * y-axis : completes the right handed system
+!       (for a perfectly-circular orbit, the y-axis is \( \hat{\mathbf{v}} \))
 
     module relative_motion_module
 
@@ -12,10 +32,52 @@
     
     private
     
-    public :: cw_equations
-    public :: from_ijk_to_lvlh, from_lvlh_to_ijk
-    public :: from_ijk_to_rsw, from_rsv_to_ijk
+    abstract interface
+        subroutine report_func(t,rv)  !! for reporting the points in the [[cw_propagator]].
+        import :: wp
+        implicit none
+        real(wp),intent(in)              :: t   !! time [sec]
+        real(wp),dimension(6),intent(in) :: rv  !! state [km,km/s]
+        end subroutine report_func
+    end interface
     
+    interface from_ijk_to_lvlh  !! Conversion from IJK to LVLH
+        procedure :: from_ijk_to_lvlh_mat  !! just returns matrices
+        procedure :: from_ijk_to_lvlh_rv   !! transforms the r,v vectors
+    end interface from_ijk_to_lvlh
+    public :: from_ijk_to_lvlh
+    
+    interface from_lvlh_to_ijk  !! Conversion from LVLH to IJK
+        procedure :: from_lvlh_to_ijk_mat  !! just returns matrices
+        procedure :: from_lvlh_to_ijk_rv   !! transforms the r,v vectors
+    end interface from_lvlh_to_ijk
+    public :: from_lvlh_to_ijk
+
+    interface from_ijk_to_rsw !! Conversion from IJK to RSW
+        procedure :: from_ijk_to_rsw_mat  !! just returns matrices
+        procedure :: from_ijk_to_rsw_rv   !! transforms the r,v vectors
+    end interface from_ijk_to_rsw
+    public :: from_ijk_to_rsw
+    
+    interface from_rsw_to_ijk  !! Conversion from RSW to IJK
+        procedure :: from_rsw_to_ijk_mat  !! just returns matrices
+        procedure :: from_rsw_to_ijk_rv   !! transforms the r,v vectors
+    end interface from_rsw_to_ijk
+    public :: from_rsw_to_ijk
+
+    interface from_lvlh_to_rsw  !! Conversion from LVLH to RSW
+        procedure :: from_lvlh_to_rsw_rv   !! transforms the r,v vectors
+    end interface from_lvlh_to_rsw
+    public :: from_lvlh_to_rsw
+    
+    interface from_rsw_to_lvlh !! Conversion from RSW to LVLH
+        procedure :: from_rsw_to_lvlh_rv   !! transforms the r,v vectors
+    end interface from_rsw_to_lvlh
+    public :: from_rsw_to_lvlh
+
+    public :: cw_equations
+    public :: cw_propagator
+        
     public :: relative_motion_test  !test routine
     
     contains
@@ -25,14 +87,9 @@
 !> author: Jacob Williams
 !  date: 6/14/2015
 !
-!  Clohessy-Wiltshire equations for relative motion (RSW frame).
+!  Clohessy-Wiltshire equations for relative motion.
 !
-!  The frame is centered at the target spacecraft and is defined by:
-!
-!   * x-axis : unit(r)
-!   * z-axis : unit(h)
-!   * y-axis : completes the right handed system
-!     (for a perfectly-circular orbit, the y-axis is unit(v))
+!  These apply to an RSW frame centered at the target spacecraft.
 !
 !# References
 !   * [The Clohessy Wiltshire Model](http://courses.ae.utexas.edu/ase366k/cw_equations.pdf)
@@ -41,10 +98,10 @@
 
     implicit none
 
-    real(wp),dimension(6),intent(in) :: x0    !! initial state of chaser (at t0) [km, km/s]
+    real(wp),dimension(6),intent(in) :: x0    !! initial state [r,v] of chaser (at t0) [km, km/s]
     real(wp),intent(in)              :: dt    !! elapsed time from t0 [sec]
     real(wp),intent(in)              :: n     !! mean motion of target orbit (`sqrt(mu/a**3)`) [1/sec]
-    real(wp),dimension(6)            :: x     !! final state of chaser [km, km/s]
+    real(wp),dimension(6)            :: x     !! final state [r,v] of chaser [km, km/s]
    
     real(wp) :: nt,cnt,snt
     
@@ -76,21 +133,69 @@
 
 !*****************************************************************************************
 !> author: Jacob Williams
+!  date: 8/23/2015
+!
+!  Clohessy-Wiltshire propagation routine.
+!
+!# See also
+!   * [[rk_module]]
+
+    subroutine cw_propagator(t0,x0,h,n,tf,xf,report)
+    
+    implicit none
+    
+    real(wp),intent(in)               :: t0      !! initialize time [sec]
+    real(wp),dimension(6),intent(in)  :: x0      !! initial state in RST coordinates [km,km/s]
+    real(wp),intent(in)               :: h       !! abs(time step) [sec]
+    real(wp),intent(in)               :: n       !! mean motion of target orbit (`sqrt(mu/a**3)`) [1/sec]
+    real(wp),intent(in)               :: tf      !! final time [sec]
+    real(wp),dimension(6),intent(out) :: xf      !! final state in RST coordinates [km,km/s]
+    procedure(report_func),optional   :: report  !! to report each point
+    
+    real(wp) :: t,dt,t2
+    real(wp),dimension(6) :: x
+    logical :: last,export
+    
+    export = present(report)
+    
+    if (export) call report(t0,x0)  !first point
+   
+    if (h==zero) then
+        xf = x0
+    else
+    
+        t = t0
+        x = x0
+        dt = h
+        do
+            t2 = t + dt
+            last = ((dt>=zero .and. t2>=tf) .or. &  !adjust last time step
+                    (dt<zero .and. t2<=tf))         !
+            if (last) dt = tf-t                     !    
+            xf = cw_equations(x,dt,n)  ! propagate
+            if (last) exit
+            if (export) call report(t2,xf)   !intermediate point
+            x = xf
+            t = t2
+        end do
+        
+    end if
+    
+    if (export) call report(t2,xf)   !last point
+        
+    end subroutine cw_propagator
+!*****************************************************************************************
+
+!*****************************************************************************************
+!> author: Jacob Williams
 !  date: 4/19/2014
 !
 !  Compute the transformation matrices to convert IJK to LVLH.
 !
-!  The LVLH frame is defined by:
-!
-!   * z-axis : -unit(r)
-!   * y-axis : -unit(cross(r,v))
-!   * x-axis completes the right handed system
-!     (for a perfectly-circular orbit, the x-axis is unit(v))
-!
 !# See also
 !   * [LVLH Transformations](http://degenerateconic.com/wp-content/uploads/2015/03/lvlh.pdf)
 
-    subroutine from_ijk_to_lvlh(r,v,a,c,cdot) 
+    subroutine from_ijk_to_lvlh_mat(r,v,a,c,cdot)
 
     use vector_module, only: unit, cross, uhat_dot
 
@@ -107,7 +212,7 @@
     real(wp),dimension(3) :: ey_hat,ey_hat_dot
     real(wp),dimension(3) :: ez_hat,ez_hat_dot
     real(wp),dimension(3) :: h,h_hat,h_dot
-
+    
     h      = cross(r,v)
     h_hat  = unit(h)
     ez_hat = -unit(r)
@@ -136,9 +241,53 @@
         cdot(3,:) = ez_hat_dot
     
     end if
+    
+    end subroutine from_ijk_to_lvlh_mat      
+!*****************************************************************************************   
 
-    end subroutine from_ijk_to_lvlh      
-!*****************************************************************************************    
+!*****************************************************************************************
+!> author: Jacob Williams
+!  date: 8/23/2014
+!
+!  Transform a position (and optionally velocity) vector from IJK to LVLH.
+
+    subroutine from_ijk_to_lvlh_rv(rt_ijk,vt_ijk,r_ijk,v_ijk,dr_lvlh,dv_lvlh) 
+
+    implicit none
+        
+    real(wp),dimension(3),intent(in)           :: rt_ijk  !! Target IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)           :: vt_ijk  !! Target IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)           :: r_ijk   !! Chaser IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)           :: v_ijk   !! Chaser IJK absolute position vector [km]
+    real(wp),dimension(3),intent(out)          :: dr_lvlh !! Chaser LVLH position vector relative to target [km]
+    real(wp),dimension(3),intent(out),optional :: dv_lvlh !! Chaser LVLH position vector relative to target [km]
+    
+    real(wp),dimension(3,3) :: c   
+    real(wp),dimension(3,3) :: cdot
+    real(wp),dimension(3) :: dr_ijk, dv_ijk
+            
+    !IJK state of chaser relative to target:
+    dr_ijk = r_ijk - rt_ijk    ! [target + delta = chaser]
+        
+    if (present(dv_lvlh)) then
+    
+        dv_ijk = v_ijk - vt_ijk ! [target + delta = chaser]
+        
+        call from_ijk_to_lvlh(rt_ijk,vt_ijk,c=c,cdot=cdot)
+        
+        dr_lvlh = matmul( c, dr_ijk )
+        dv_lvlh = matmul( cdot, dr_ijk ) + matmul( c, dv_ijk )
+
+    else
+    
+        call from_ijk_to_lvlh(r_ijk,v_ijk,c=c)   
+         
+        dr_lvlh = matmul( c, dr_ijk )
+        
+    end if
+       
+    end subroutine from_ijk_to_lvlh_rv
+!*****************************************************************************************
     
 !*****************************************************************************************
 !> author: Jacob Williams
@@ -149,7 +298,7 @@
 !# See also
 !   * [LVLH Transformations](http://degenerateconic.com/wp-content/uploads/2015/03/lvlh.pdf)
 
-    subroutine from_lvlh_to_ijk(r,v,a,c,cdot)
+    subroutine from_lvlh_to_ijk_mat(r,v,a,c,cdot)
 
     use vector_module, only: unit, cross
  
@@ -167,24 +316,56 @@
     c = transpose(c)
     
     if (present(cdot)) cdot = transpose(cdot)
-
-    end subroutine from_lvlh_to_ijk
+    
+    end subroutine from_lvlh_to_ijk_mat
 !***************************************************************************************** 
+
+!*****************************************************************************************
+!> author: Jacob Williams
+!  date: 8/23/2014
+!
+!  Transform a position (and optionally velocity) vector from LVLH to IJK.
+
+    subroutine from_lvlh_to_ijk_rv(rt_ijk,vt_ijk,dr_lvlh,dv_lvlh,r_ijk,v_ijk) 
+
+    implicit none
+    
+    real(wp),dimension(3),intent(in)            :: rt_ijk   !! Target IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)            :: vt_ijk   !! Target IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)            :: dr_lvlh  !! Chaser LVLH position vector relative to target [km]
+    real(wp),dimension(3),intent(in)            :: dv_lvlh  !! Chaser LVLH position vector relative to target [km]
+    real(wp),dimension(3),intent(out)           :: r_ijk    !! Chaser IJK absolute position vector [km]
+    real(wp),dimension(3),intent(out),optional  :: v_ijk    !! Chaser IJK absolute position vector [km]
+    
+    real(wp),dimension(3,3) :: c   
+    real(wp),dimension(3,3) :: cdot
+        
+    if (present(v_ijk)) then
+    
+        call from_lvlh_to_ijk(rt_ijk,vt_ijk,c=c,cdot=cdot)
+        
+        !chaser = target + delta:
+        r_ijk = rt_ijk + matmul( c, dr_lvlh )
+        v_ijk = vt_ijk + matmul( cdot, dr_lvlh ) + matmul( c, dv_lvlh )
+    
+    else
+    
+        call from_lvlh_to_ijk(rt_ijk,vt_ijk,c=c)   
+         
+        r_ijk = matmul( c, dr_lvlh )
+        
+    end if
+   
+    end subroutine from_lvlh_to_ijk_rv
+!*****************************************************************************************
 
 !*****************************************************************************************
 !> author: Jacob Williams
 !  date: 4/19/2014
 !
 !  Compute the transformation matrices to convert IJK to RSW.
-!
-!  The RSW frame is defined by:
-!
-!   * x-axis : unit(r)
-!   * z-axis : unit(h)
-!   * y-axis : completes the right handed system
-!     (for a perfectly-circular orbit, the y-axis is unit(v))
 
-    subroutine from_ijk_to_rsw(r,v,a,c,cdot) 
+    subroutine from_ijk_to_rsw_mat(r,v,a,c,cdot) 
 
     use vector_module, only: unit, cross, uhat_dot
 
@@ -233,16 +414,59 @@
     
     end if
  
-    end subroutine from_ijk_to_rsw
-!*****************************************************************************************  
+    end subroutine from_ijk_to_rsw_mat
+!*****************************************************************************************
+
+!*****************************************************************************************
+!> author: Jacob Williams
+!  date: 8/23/2014
+!
+!  Transform a position (and optionally velocity) vector from IJK to RSW.
+
+    subroutine from_ijk_to_rsw_rv(rt_ijk,vt_ijk,r_ijk,v_ijk,dr_rsw,dv_rsw) 
+
+    implicit none
+    
+    real(wp),dimension(3),intent(in)           :: rt_ijk   !! Target IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)           :: vt_ijk   !! Target IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)           :: r_ijk    !! Chaser IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)           :: v_ijk    !! Chaser IJK absolute position vector [km]
+    real(wp),dimension(3),intent(out)          :: dr_rsw   !! Chaser RSW position vector relative to target [km]
+    real(wp),dimension(3),intent(out),optional :: dv_rsw   !! Chaser RSW position vector relative to target [km]
+    
+    real(wp),dimension(3,3) :: c   
+    real(wp),dimension(3,3) :: cdot
+    real(wp),dimension(3) :: dr_ijk, dv_ijk
+    
+    dr_ijk = r_ijk - rt_ijk  ! delta = chaser - target
+    
+    if (present(dv_rsw)) then
+    
+        dv_ijk = v_ijk - vt_ijk  ! delta = chaser - target
+        
+        call from_ijk_to_rsw(rt_ijk,vt_ijk,c=c,cdot=cdot)
+        
+        dr_rsw = matmul( c, dr_ijk )
+        dv_rsw = matmul( cdot, dr_ijk ) + matmul( c, dv_ijk )
+    
+    else
+    
+        call from_ijk_to_rsw(rt_ijk,vt_ijk,c=c)   
+         
+        dr_rsw = matmul( c, dr_ijk )
+        
+    end if
+    
+    end subroutine from_ijk_to_rsw_rv
+!*****************************************************************************************
 
 !*****************************************************************************************
 !> author: Jacob Williams
 !  date: 4/19/2014
 !
-!  Compute the transformation matrices to convert LVLH to RSW.
+!  Compute the transformation matrices to convert RSW to IJK.
 
-    subroutine from_rsv_to_ijk(r,v,a,c,cdot)
+    subroutine from_rsw_to_ijk_mat(r,v,a,c,cdot)
 
     use vector_module, only: unit, cross
  
@@ -261,8 +485,102 @@
     
     if (present(cdot)) cdot = transpose(cdot)
 
-    end subroutine from_rsv_to_ijk
-!***************************************************************************************** 
+    end subroutine from_rsw_to_ijk_mat
+!*****************************************************************************************
+
+!*****************************************************************************************
+!> author: Jacob Williams
+!  date: 8/23/2014
+!
+!  Transform a position (and optionally velocity) vector from RSW to IJK.
+
+    subroutine from_rsw_to_ijk_rv(rt_ijk,vt_ijk,dr_rsw,dv_rsw,r_ijk,v_ijk) 
+
+    implicit none
+    
+    real(wp),dimension(3),intent(in)            :: rt_ijk   !! Target IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)            :: vt_ijk   !! Target IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)            :: dr_rsw   !! Chaser RSW position vector [km]
+    real(wp),dimension(3),intent(in)            :: dv_rsw   !! Chaser RSW velocity vector [km/s]
+    real(wp),dimension(3),intent(out)           :: r_ijk    !! Chaser IJK absolute position vector [km]
+    real(wp),dimension(3),intent(out),optional  :: v_ijk    !! Chaser IJK absolute velocity vector [km/s]
+    
+    real(wp),dimension(3,3) :: c   
+    real(wp),dimension(3,3) :: cdot
+    
+    if (present(v_ijk)) then
+    
+        call from_rsw_to_ijk(rt_ijk,vt_ijk,c=c,cdot=cdot)
+        
+        r_ijk = rt_ijk + matmul( c, dr_rsw )
+        v_ijk = vt_ijk + matmul( cdot, dr_rsw ) + matmul( c, dv_rsw )
+    
+    else
+    
+        call from_rsw_to_ijk(rt_ijk,vt_ijk,c=c)   
+         
+        r_ijk = rt_ijk + matmul( c, dr_rsw )
+        
+    end if
+    
+    end subroutine from_rsw_to_ijk_rv
+!*****************************************************************************************
+
+!*****************************************************************************************
+!> author: Jacob Williams
+!  date: 8/23/2014
+!
+!  Transform a position (and optionally velocity) vector from RSW to LVLH.
+
+    subroutine from_rsw_to_lvlh_rv(dr_rsw,dv_rsw,dr_lvlh,dv_lvlh) 
+
+    implicit none
+    
+    real(wp),dimension(3),intent(in)           :: dr_rsw  !! Chaser RSW position vector relative to target [km]
+    real(wp),dimension(3),intent(in)           :: dv_rsw  !! Chaser RSW velocity vector relative to target [km/s]
+    real(wp),dimension(3),intent(out)          :: dr_lvlh !! Chaser LVLH position vector relative to target [km]
+    real(wp),dimension(3),intent(out),optional :: dv_lvlh !! Chaser LVLH position vector relative to target [km]
+     
+    dr_lvlh(1) =  dr_rsw(2)
+    dr_lvlh(2) = -dr_rsw(3)
+    dr_lvlh(3) = -dr_rsw(1)
+    
+    if (present(dv_lvlh)) then
+        dv_lvlh(1) =  dv_rsw(2)
+        dv_lvlh(2) = -dv_rsw(3)
+        dv_lvlh(3) = -dv_rsw(1)
+    end if
+    
+    end subroutine from_rsw_to_lvlh_rv
+!*****************************************************************************************
+
+!*****************************************************************************************
+!> author: Jacob Williams
+!  date: 8/23/2014
+!
+!  Transform a position (and optionally velocity) vector from LVLH to RSW.
+
+    subroutine from_lvlh_to_rsw_rv(dr_lvlh,dv_lvlh,dr_rsw,dv_rsw)
+    
+    implicit none
+    
+    real(wp),dimension(3),intent(in)           :: dr_lvlh !! Chaser LVLH position vector relative to target [km]
+    real(wp),dimension(3),intent(in)           :: dv_lvlh !! Chaser LVLH position vector relative to target [km]
+    real(wp),dimension(3),intent(out)          :: dr_rsw  !! Chaser RSW position vector relative to target [km]
+    real(wp),dimension(3),intent(out),optional :: dv_rsw  !! Chaser RSW velocity vector relative to target [km/s]
+    
+    dr_rsw(2) =  dr_lvlh(1)
+    dr_rsw(3) = -dr_lvlh(2)
+    dr_rsw(1) = -dr_lvlh(3)
+    
+    if (present(dv_rsw)) then
+        dv_rsw(2) =  dv_lvlh(1)
+        dv_rsw(3) = -dv_lvlh(2)
+        dv_rsw(1) = -dv_lvlh(3)
+    end if
+
+    end subroutine from_lvlh_to_rsw_rv
+!*****************************************************************************************
 
 !*****************************************************************************************  
 !> author: Jacob Williams
