@@ -1,14 +1,7 @@
 !*****************************************************************************************
-!****h* FAT/gravity_test
-!
-!  NAME
-!    gravity_test
-!
-!  DESCRIPTION
-!    Test of Fortran Astrodynamics Toolkit - integrate a trajectory near the Earth,
-!    using the GGM03C geopotential model.
-!
-!  SOURCE
+!>
+!  Test of Fortran Astrodynamics Toolkit - integrate a trajectory near the Earth,
+!  using the GGM03C geopotential model.
 
     program gravity_test
     
@@ -36,6 +29,10 @@
     type(spacecraft) :: s
     real(wp) :: t0,tf,x0(n),dt,xf(n),x02(n)
     logical :: status_ok
+    integer :: iunit,istat
+    
+    !open output file:
+    open(newunit=iunit,file='gravity_test.txt',status='REPLACE',iostat=istat)
     
     !constructor (main body is Earth):
     call s%initialize(n=n,f=deriv,report=twobody_report)
@@ -46,7 +43,7 @@
     ! [circular, 45 deg inclination, radius of 6778 km]
     call els3pv(mu_earth,[mu_earth/orbit_sma,orbit_sma,orbit_inc,zero,zero,zero],x0)
 	
-    write(*,'(A/,*(E30.16/))') 'Initial state:',x0
+    write(iunit,'(A/,*(E30.16/))') 'Initial state:',x0
    
     !initial conditions:
     t0 = zero         !initial time (sec)
@@ -56,23 +53,25 @@
     !integrate:
     s%first = .true.
     call s%integrate(t0,x0,dt,tf,xf)
-    write(*,*) ''
-    write(*,'(A/,*(E30.16/))') 'Final state:',xf
+    write(iunit,*) ''
+    write(iunit,'(A/,*(E30.16/))') 'Final state:',xf
     
     !cleanup:
     call s%grav%destroy()
+    close(iunit,iostat=istat)
         
 !*****************************************************************************************
     contains
     
     !*********************************************************
         subroutine deriv(me,et,x,xdot)
-        ! derivative routine
+        
+        !! derivative routine
         
         implicit none
         
         class(rk_class),intent(inout)         :: me
-        real(wp),intent(in)                   :: et    !this is ephemeris time
+        real(wp),intent(in)                   :: et    !! this is ephemeris time
         real(wp),dimension(me%n),intent(in)   :: x    
         real(wp),dimension(me%n),intent(out)  :: xdot    
     
@@ -108,7 +107,8 @@
     
     !*********************************************************
         subroutine twobody_report(me,t,x)
-        !report function - write time,state to console
+        
+        !! report function - write time,state to console
 
         implicit none
         
@@ -119,14 +119,14 @@
         select type (me)
         class is (spacecraft)
             if (me%first) then  !print header
-                write(*,*) ''
-                write(*,'(*(A15,1X))')  't (sec)','x (km)','y (km)','z (km)',&
+                write(iunit,*) ''
+                write(iunit,'(*(A15,1X))')  't (sec)','x (km)','y (km)','z (km)',&
                                         'vx (km/s)','vy (km/s)','vz (km/s)'
                 me%first = .false.
             end if
         end select
 
-        write(*,'(*(F15.6,1X))') t,x    
+        write(iunit,'(*(F15.6,1X))') t,x    
                     
         end subroutine twobody_report
     !*********************************************************

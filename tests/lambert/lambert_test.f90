@@ -1,36 +1,26 @@
 !*****************************************************************************************
-!****h* FAT/test
+!>
+!  Just an example using the lambert module.
 !
-!  NAME
-!    test
-!
-!  DESCRIPTION
-!	Just an example using the lambert module.
-!
-!	gfortran test.f90 ../../lib/libfat.a -I../../mod -O3 -o test
-!
-!  SOURCE
+!  ```gfortran test.f90 ../../lib/libfat.a -I../../mod -O3 -o test```
 
-    program test
+    program lambert_test_1
     
     use fortran_astrodynamics_toolkit
     
     implicit none
 	
-    real(wp),dimension(3)               :: r1         ! first cartesian position [km]
-    real(wp),dimension(3)               :: r2         ! second cartesian position [km]
-    real(wp)                            :: tof        ! time of flight [sec]
-    real(wp)                            :: mu         ! gravity parameter [km^3/s^2]
-    logical                             :: long_way   ! when true, do "long way" (>pi) transfers
-    integer                             :: multi_revs ! maximum number of multi-rev solutions to compute
-    real(wp),dimension(:,:),allocatable	:: v1         ! vector containing 3d arrays with the cartesian components of the velocities at r1
-    real(wp),dimension(:,:),allocatable	:: v2         ! vector containing 3d arrays with the cartesian components of the velocities at r2
-    logical                            	:: status_ok  ! true if everything is OK
-	integer 							:: i
-	
-	real(wp),parameter :: day2sec = one * 24.0_wp * 3600.0_wp
-	real(wp),parameter :: sec2day = one / day2sec
- 	
+    real(wp),dimension(3)               :: r1         !! first cartesian position [km]
+    real(wp),dimension(3)               :: r2         !! second cartesian position [km]
+    real(wp)                            :: tof        !! time of flight [sec]
+    real(wp)                            :: mu         !! gravity parameter [km^3/s^2]
+    logical                             :: long_way   !! when true, do "long way" (>pi) transfers
+    integer                             :: multi_revs !! maximum number of multi-rev solutions to compute
+    real(wp),dimension(:,:),allocatable	:: v1         !! vector containing 3d arrays with the cartesian components of the velocities at r1
+    real(wp),dimension(:,:),allocatable	:: v2         !! vector containing 3d arrays with the cartesian components of the velocities at r2
+    logical                            	:: status_ok  !! true if everything is OK
+	integer 							:: i          !! counter
+	 	
 	r1 = [20.0d3, 20.0d3, zero]
 	r2 = [-20.0d3, 10.0d3, zero]	
 	tof = 1.0d0 * day2sec
@@ -82,5 +72,5 @@
 					
 		end subroutine propagate_trajectory
 		
-    end program test
+    end program lambert_test_1
 !*****************************************************************************************

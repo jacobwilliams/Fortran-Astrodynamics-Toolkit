@@ -20,6 +20,7 @@
     use math_module
     use minpack_module
     use numbers_module
+    use relative_motion_module
     use rk_module
     use time_module
     use vector_module

@@ -1,20 +1,12 @@
 !*****************************************************************************************
-!****h* FAT/porkchop
+!> author: Jacob Williams
+!  date: 11/11/2014
 !
-!  NAME
-!    porkchop
+!  Earth-Mars porkchop routines.
 !
-!  DESCRIPTION
-!    Earth-Mars porkchop routines.
+!  ```f2py -c porkchop.f90 -L../../lib/ -lfat -I../../lib/ -m porkchop only: generate_porkchop```
 !
-!    f2py -c porkchop.f90 -L../../lib/ -lfat -I../../lib/ -m porkchop only: generate_porkchop
-!
-!    Note: to run requires the JPLEPH_2000-2100.405 ephemeris file.
-!
-!  AUTHOR
-!    Jacob Williams, 11/11/2014
-!
-!  SOURCE
+!@note To run requires the ```JPLEPH_2000-2100.405``` ephemeris file.
 
     module porkchop
     
@@ -30,17 +22,10 @@
 !*****************************************************************************************
     
     !************************************************************
-    !****f* FAT/generate_porkchop
-    !
-    !  NAME    
-    !    generate_porkchop
-    !
-    !  DESCRIPTION
-    !    Generate the data for an Earth-Mars porkchop plot.
-    !    This routine is meant to be called from Python.
-    !
-    !  SOURCE
-     
+    !>
+    !  Generate the data for an Earth-Mars porkchop plot.
+    !  This routine is meant to be called from Python.
+
         subroutine generate_porkchop(   n_t0,n_dt,&
                                         y,m,d,&
                                         initial_t0,&
@@ -61,49 +46,50 @@
                                               !   n_dt = size([(i,i=dt0_days,dtf_days,dt_step_days)])
                                               ! [these are so we can call routine from Python]
         integer,intent(in) :: y,m,d           ! yyyy,mm,dd of base epoch
-        integer,intent(in) :: initial_t0      ! initial departure epoch [days from base epoch]
-        integer,intent(in) :: delta_t0        ! departure epoch step size [days]
-        integer,intent(in) :: final_t0        ! final departure epoch [days from base epoch]
-        integer,intent(in) :: initial_dt      ! initial time of flight [days]
-        integer,intent(in) :: delta_dt        ! time of flight step [days]
-        integer,intent(in) :: final_dt        ! final time of flight [days]
-        real(8),dimension(n_t0,n_dt),intent(out) :: t0_out,tf_out    ! departure and arrival [python day number counts]
-        real(8),dimension(n_t0,n_dt),intent(out) :: c30_lt_pi_out    ! initial c3 (<pi solution) [km/s]
-        real(8),dimension(n_t0,n_dt),intent(out) :: c30_gt_pi_out    ! initial c3 (>pi solution) [km/s]
-        real(8),dimension(n_t0,n_dt),intent(out) :: c3f_lt_pi_out    ! final c3 (<pi solution) [km/s]
-        real(8),dimension(n_t0,n_dt),intent(out) :: c3f_gt_pi_out    ! final c3 (>pi solution) [km/s]       
+        integer,intent(in) :: initial_t0      !! initial departure epoch [days from base epoch]
+        integer,intent(in) :: delta_t0        !! departure epoch step size [days]
+        integer,intent(in) :: final_t0        !! final departure epoch [days from base epoch]
+        integer,intent(in) :: initial_dt      !! initial time of flight [days]
+        integer,intent(in) :: delta_dt        !! time of flight step [days]
+        integer,intent(in) :: final_dt        !! final time of flight [days]
+        real(8),dimension(n_t0,n_dt),intent(out) :: t0_out,tf_out    !! departure and arrival [python day number counts]
+        real(8),dimension(n_t0,n_dt),intent(out) :: c30_lt_pi_out    !! initial c3 (<pi solution) [km/s]
+        real(8),dimension(n_t0,n_dt),intent(out) :: c30_gt_pi_out    !! initial c3 (>pi solution) [km/s]
+        real(8),dimension(n_t0,n_dt),intent(out) :: c3f_lt_pi_out    !! final c3 (<pi solution) [km/s]
+        real(8),dimension(n_t0,n_dt),intent(out) :: c3f_gt_pi_out    !! final c3 (>pi solution) [km/s]       
  
         !parameters:
-        real(wp),parameter :: day2sec       = one * 24.0d0 * 3600.0d0  !conversion factors
-        real(wp),parameter :: sec2day       = one / day2sec            !
-        real(wp),parameter :: mu            = 132712440018.0d0         ! Sun gravity parameter [km^3/s^2]
-        real(wp),parameter :: j2000_datenum = 730120.5d0               ! J2000 epoch - python date number (matplotlib.dates.date2num)
-        real(wp),parameter :: j2000_jd      = 2451545.0d0              ! J2000 epoch - julian date   
-        character(len=*),parameter :: ephemeris_file = '../../eph/JPLEPH_2000-2100.405'    ! ephemeris file
+        real(wp),parameter :: day2sec       = one * 24.0d0 * 3600.0d0  !! conversion factor
+        real(wp),parameter :: sec2day       = one / day2sec            !! conversion factor
+        real(wp),parameter :: mu            = 132712440018.0d0         !! Sun gravity parameter [km^3/s^2]
+        real(wp),parameter :: j2000_datenum = 730120.5d0               !! J2000 epoch - python date number (matplotlib.dates.date2num)
+        real(wp),parameter :: j2000_jd      = 2451545.0d0              !! J2000 epoch - julian date   
+        character(len=*),parameter :: ephemeris_file = '../../eph/JPLEPH_2000-2100.405'    !! ephemeris file
    
         !local variables:
-        real(8),dimension(3) :: r1                   ! first cartesian position [km]
-        real(8),dimension(3) :: r2                   ! second cartesian position [km]
-        real(8) :: tof                               ! time of flight [sec]
-        logical :: long_way                          ! when true, do "long way" (>pi) transfers
-        real(8),dimension(:,:),allocatable :: v1     ! vector containing 3d arrays with the cartesian components of the velocities at r1
-        real(8),dimension(:,:),allocatable :: v2     ! vector containing 3d arrays with the cartesian components of the velocities at r2
-        logical :: status_ok                         ! true if everything is OK
-        real(8),dimension(6) :: rv_earth_departure   ! earth position vector at departure [km]
-        real(8),dimension(6) :: rv_mars_arrival      ! mars position vector at arrival [km]    
-        real(8) :: jd0                               ! initial julian date epoch [days]
-        real(8) :: jd_departure                      ! julian date of earth departure [days]
-        real(8) :: jd_arrival                        ! julian date of mars arrival [days]
-        real(8) :: dt                                ! time of flight [days]
-        real(8) :: dv0                               ! earth departure delta-v [km/s]
-        real(8) :: dvf                               ! mars arrival delta-v [km/s]
-        real(8) :: c30_lt_pi                         ! earth departure C3 (<pi transfer) [km^2/s^2]
-        real(8) :: c3f_lt_pi                         ! mars arrival C3 (<pi transfer) [km^2/s^2]
-        real(8) :: c30_gt_pi                         ! earth departure C3 (>pi transfer) [km^2/s^2]
-        real(8) :: c3f_gt_pi                         ! mars arrival C3 (>pi transfer) [km^2/s^2]
-        integer :: i,j                               ! counters
-        integer :: n                                 ! lambert multi-rev input
-        real(8) :: dep                               ! temp variable
+        real(8),dimension(3) :: r1                   !! first cartesian position [km]
+        real(8),dimension(3) :: r2                   !! second cartesian position [km]
+        real(8) :: tof                               !! time of flight [sec]
+        logical :: long_way                          !! when true, do "long way" (>pi) transfers
+        real(8),dimension(:,:),allocatable :: v1     !! vector containing 3d arrays with the cartesian components of the velocities at r1
+        real(8),dimension(:,:),allocatable :: v2     !! vector containing 3d arrays with the cartesian components of the velocities at r2
+        logical :: status_ok                         !! true if everything is OK
+        real(8),dimension(6) :: rv_earth_departure   !! earth position vector at departure [km]
+        real(8),dimension(6) :: rv_mars_arrival      !! mars position vector at arrival [km]    
+        real(8) :: jd0                               !! initial julian date epoch [days]
+        real(8) :: jd_departure                      !! julian date of earth departure [days]
+        real(8) :: jd_arrival                        !! julian date of mars arrival [days]
+        real(8) :: dt                                !! time of flight [days]
+        real(8) :: dv0                               !! earth departure delta-v [km/s]
+        real(8) :: dvf                               !! mars arrival delta-v [km/s]
+        real(8) :: c30_lt_pi                         !! earth departure C3 (<pi transfer) [km^2/s^2]
+        real(8) :: c3f_lt_pi                         !! mars arrival C3 (<pi transfer) [km^2/s^2]
+        real(8) :: c30_gt_pi                         !! earth departure C3 (>pi transfer) [km^2/s^2]
+        real(8) :: c3f_gt_pi                         !! mars arrival C3 (>pi transfer) [km^2/s^2]
+        integer :: i                                 !! counter
+        integer :: j                                 !! counter
+        integer :: n                                 !! lambert multi-rev input
+        real(8) :: dep                               !! temp variable
         integer :: t0_days,delta_t_days,tf_days      ! departure time ranges [days]    
         integer :: dt0_days,dt_step_days,dtf_days    ! flight time ranges [days]    
         integer :: ii,jj                             ! counters
@@ -187,29 +173,23 @@
     !************************************************************
         
     !************************************************************
-    !****f* FAT/jd
+    !>
+    !  Returns JD, the Julian date at Greenwich noon on the 
+    !  specified YEAR, MONTH, and DAY.
     !
-    !  NAME    
-    !    jd
+    !  Valid for any Gregorian calendar date producing a 
+    !  Julian date greater than zero.
     !
-    !  DESCRIPTION
-    !    Returns JD, the Julian date at Greenwich noon on the 
-    !      specified YEAR, MONTH, and DAY.
-    !    Valid for any Gregorian calendar date producing a 
-    !      Julian date greater than zero.
-    !
-    !  NOTES
-    !    http://aa.usno.navy.mil/faq/docs/JD_Formula.php
-    !
-    !  SOURCE
+    !# See also
+    !   * http://aa.usno.navy.mil/faq/docs/JD_Formula.php
     
         pure integer function jd(y,m,d)
         
         implicit none
         
-        integer,intent(in) :: y   ! year (YYYY)
-        integer,intent(in) :: m   ! month (MM)
-        integer,intent(in) :: d   ! day (DD)
+        integer,intent(in) :: y   !! year (YYYY)
+        integer,intent(in) :: m   !! month (MM)
+        integer,intent(in) :: d   !! day (DD)
         
         jd = d-32075+1461*(y+4800+(m-14)/12)/4+367*&
              (m-2-(m-14)/12*12)/12-3*((y+4900+(m-14)/12)/100)/4

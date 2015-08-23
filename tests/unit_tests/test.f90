@@ -1,13 +1,7 @@
 !*****************************************************************************************
-!****h* FAT/test
+!> author: Jacob Williams
 !
-!  NAME
-!    test
-!
-!  DESCRIPTION
-!    Unit test program for the Fortran Astrodynamics Toolkit
-!
-!  SOURCE
+!  Unit test program for the Fortran Astrodynamics Toolkit
 
     program test
     
@@ -24,6 +18,7 @@
     call time_module_test()
     call geopotential_module_test()   
     call iau_test()
+    call relative_motion_test()
     
     end program test
 !*****************************************************************************************
