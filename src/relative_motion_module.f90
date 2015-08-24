@@ -352,7 +352,7 @@
     
         call from_lvlh_to_ijk(rt_ijk,vt_ijk,c=c)   
          
-        r_ijk = matmul( c, dr_lvlh )
+        r_ijk = rt_ijk + matmul( c, dr_lvlh )
         
     end if
    
