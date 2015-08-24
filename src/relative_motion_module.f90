@@ -11,17 +11,17 @@
 !
 !  * The **LVLH** frame, defined by:
 !
-!     * z-axis : \( -\hat{\mathbf{r}} \)
-!     * y-axis : \( -\hat{\mathbf{h}} \)
 !     * x-axis : completes the right handed system
 !       (for a perfectly-circular orbit, the x-axis is \( \hat{\mathbf{v}} \))
+!     * y-axis : \( -\hat{\mathbf{h}} \)
+!     * z-axis : \( -\hat{\mathbf{r}} \)
 !
 !  * The **RSW** frame, defined by:
 !
 !     * x-axis : \( \hat{\mathbf{r}} \)
-!     * z-axis : \( \hat{\mathbf{h}} \)
 !     * y-axis : completes the right handed system
 !       (for a perfectly-circular orbit, the y-axis is \( \hat{\mathbf{v}} \))
+!     * z-axis : \( \hat{\mathbf{h}} \)
 
     module relative_motion_module
 
