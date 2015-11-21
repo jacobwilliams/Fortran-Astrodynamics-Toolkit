@@ -25,7 +25,10 @@ The goal is to produce a comprehensive library, written in modern Fortran (Fortr
   - [ ] drag
  * Reference frames
   - [x] IAU_EARTH
- * Other
+ * Alternate equations of motion
+  - [x] Circular restricted three-body problem
+  - [x] Clohessy-Wiltshire
+ * Misc
   - [ ] orbital element conversions
   - [ ] targeting and optimization
   - [ ] spacecraft engine models
