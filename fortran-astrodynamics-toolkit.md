@@ -14,8 +14,7 @@ display: private
 display: protected
 display: none
 source: true
-exclude: brent_module.f90
-         rk_module.f90
+graph: true
 
 Brief description
 ---------------

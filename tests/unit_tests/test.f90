@@ -19,6 +19,7 @@
     call geopotential_module_test()   
     call iau_test()
     call relative_motion_test()
+    call crtbp_test()
     
     end program test
 !*****************************************************************************************
