@@ -166,7 +166,7 @@
     
         t = t0
         x = x0
-        dt = h
+        dt = sign(h,tf-t0)  !time step  (correct sign)
         do
             t2 = t + dt
             last = ((dt>=zero .and. t2>=tf) .or. &  !adjust last time step
@@ -181,7 +181,7 @@
         
     end if
     
-    if (export) call report(t2,xf)   !last point
+    if (export) call report(tf,xf)   !last point
         
     end subroutine cw_propagator
 !*****************************************************************************************

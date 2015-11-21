@@ -104,7 +104,7 @@
     class(rk_class),intent(inout)        :: me    
     real(wp),intent(in)                  :: t0    !! initial time
     real(wp),dimension(me%n),intent(in)  :: x0    !! initial state
-    real(wp),intent(in)                  :: h     !! time step
+    real(wp),intent(in)                  :: h     !! abs(time step)
     real(wp),intent(in)                  :: tf    !! final time
     real(wp),dimension(me%n),intent(out) :: xf    !! final state
     
@@ -122,12 +122,12 @@
     
         t = t0
         x = x0
-        dt = h
+        dt = sign(h,tf-t0)  !time step (correct sign)
         do
             t2 = t + dt
             last = ((dt>=zero .and. t2>=tf) .or. &  !adjust last time step
                     (dt<zero .and. t2<=tf))         !
-            if (last) dt = tf-t                     !
+            if (last) dt = tf-t                     !    
             call me%step(t,x,dt,xf)
             if (last) exit
             if (export) call me%report(t2,xf)   !intermediate point
@@ -137,7 +137,7 @@
         
     end if
     
-    if (export) call me%report(t2,xf)   !last point
+    if (export) call me%report(tf,xf)   !last point
     
     end subroutine integrate
 !*****************************************************************************************
