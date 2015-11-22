@@ -138,7 +138,7 @@
 
 !*******************************************************************************
 !>
-!  Compute the CRTBP Jacobi constant.
+!  Compute the CRTBP Jacobi constant, given the state.
 
     pure function compute_jacobi_constant(mu,x) result(c)
 
@@ -149,8 +149,8 @@
     real(wp)                         :: c    !! Jacobi constant
 
     !local variables:
-    real,dimension(3) :: r,v,r1,r2,rb1,rb2
-    real(wp) :: omm
+    real,dimension(3) :: r,v,rb1,rb2
+    real(wp) :: omm,r1,r2
 
     !extract variables from x vector:
     r = x(1:3)    ! position
@@ -160,14 +160,18 @@
     omm = one - mu
     rb1 = [-mu,zero,zero]   ! location of body 1
     rb2 = [omm,zero,zero]   ! location of body 2
-    r1  = r - rb1           ! body1 -> sc vector
-    r2  = r - rb2           ! body2 -> sc vector
+    r1  = norm2(r - rb1)    ! body1 -> sc distance
+    r2  = norm2(r - rb2)    ! body2 -> sc distance
 
     !compute Jacobi integral:
     ! [ See: http://cosweb1.fau.edu/~jmirelesjames/hw4Notes.pdf ]
-    c = r(1)**2 + r(2)**2 + &
-        two*omm/norm2(r1) + two*mu/norm2(r2) - &
-        (v(1)**2 + v(2)**2 + v(3)**2)
+    if (r1==zero .or. r2==zero) then
+        c = huge(one)   ! a large value
+    else
+        c = r(1)**2 + r(2)**2 + &
+            two*omm/r1 + two*mu/r2 - &
+            (v(1)**2 + v(2)**2 + v(3)**2)
+    end if
 
     end function compute_jacobi_constant
 !*******************************************************************************

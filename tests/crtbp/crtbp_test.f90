@@ -30,19 +30,27 @@
                                               1.55464233412773_wp, &
                                               0.0_wp               ]
 
-   ! real(wp),dimension(n),parameter :: x0 = [ 0.5_wp, &
-   !                                           1.0_wp, &
-   !                                           0.0_wp,              &
-   !                                           0.5_wp,              &
-   !                                           0.5_wp,              &
-   !                                           0.0_wp               ]
-
     real(wp),dimension(:),allocatable :: x_crtbp,y_crtbp,z_crtbp
     real(wp)              :: mu    !! CRTPB parameter
+    real(wp)              :: c     !! CRTPB Jacobi constant
     type(rk8_10_class)    :: prop  !! integrator
     real(wp),dimension(n) :: xf    !! final state
     type(pyplot)          :: plt   !! for making the plot
     real(wp),dimension(6) :: x0_km
+    real(wp),dimension(6) :: x_zvc
+    integer :: i,j,nx,ny
+    real(wp) :: x,y
+    real(wp),dimension(:),allocatable   :: x_vec
+    real(wp),dimension(:),allocatable   :: y_vec
+    real(wp),dimension(:,:),allocatable :: c_mat
+
+    !for zero-velocity countours:
+    real(wp),parameter  :: xmin  = -2.0_wp
+    real(wp),parameter  :: xmax  = 2.0_wp
+    real(wp),parameter  :: xstep = 0.01_wp
+    real(wp),parameter  :: ymin  = -2.0_wp
+    real(wp),parameter  :: ymax  = 2.0_wp
+    real(wp),parameter  :: ystep = 0.01_wp
 
     call unnormalize_variables(mu_earth,mu_moon,384400.0_wp,x_crtbp=x0,x=x0_km)
 
@@ -51,18 +59,61 @@
     write(*,'(*(F30.16,1X))') x0_km
     write(*,*) ''
 
-    !compute the CRTBP parameter:
+    !compute the CRTBP parameter & Jacobi constant:
     mu = compute_crtpb_parameter(mu_earth,mu_moon)
+    c  = compute_jacobi_constant(mu,x0)
 
+    !*************************************************
+    !compute the zero velocity surface for the c
+
+    !Just get the number of elements by counting...
+    i=0
+    nx=0
+    do
+        i=i+1
+        x = xmin + (i-1)*xstep
+        if (x>xmax) exit
+        nx = nx + 1
+    end do
+    j=0
+    ny=0
+    do
+        j=j+1
+        y = ymin + (j-1)*ystep
+        if (y>ymax) exit
+        ny = ny + 1
+    end do
+
+    !size the arrays:
+    allocate(x_vec(nx))
+    allocate(y_vec(ny))
+    allocate(c_mat(nx,ny))
+
+    !compute the jacobi constant for each combo:
+    do i = 1, nx
+        x = xmin + (i-1)*xstep
+        x_vec(i) = x
+        do j = 1, ny
+            y = ymin + (j-1)*ystep
+            if (i==1) y_vec(j) = y
+            x_zvc(1:3) = [x,y,zero]
+            x_zvc(4:6) = zero
+            c_mat(i,j) = compute_jacobi_constant(mu,x_zvc)
+        end do
+    end do
+
+    !*************************************************
     !integrate:
     call prop%initialize(n,func,report)
     call prop%integrate(t0,x0,dt,tf,xf)
 
     !plot the trajectory (2D):
     call plt%initialize(grid=.true.,xlabel='x [km]',ylabel='y [km]',&
-                            title='CRTBP',legend=.false.,figsize=[10,5],axis_equal=.true.)
+                            title='CRTBP',legend=.false.,figsize=[10,10],use_numpy=.true.,axis_equal=.true.)
     call plt%add_plot(x_crtbp,y_crtbp,label='trajectory',linestyle='b-',linewidth=2)
-    call plt%savefig('crtbp_test.png')
+    call plt%add_contour(x_vec, y_vec, c_mat, label='zero velocity curve', &
+                            linestyle='-', linewidth=2, levels=[c], color='r')
+    call plt%savefig('crtbp_test.png','crtbp_test.py')
     call plt%destroy()
 
     contains
