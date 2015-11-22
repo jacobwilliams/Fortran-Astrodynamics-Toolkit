@@ -14,6 +14,7 @@
     private
     
     public :: compute_crtpb_parameter
+    public :: compute_jacobi_constant
     public :: crtbp_derivs
     public :: normalize_state, unnormalize_state
     public :: crtbp_test
@@ -107,7 +108,6 @@
 
     x_unnormalized(1:3) = x_normalized(1:3) * du       !unscale distance
     x_unnormalized(4:6) = x_normalized(4:6) * (du/tu)  !unscale velocity
-	
    
     end subroutine unnormalize_state
 !*******************************************************************************

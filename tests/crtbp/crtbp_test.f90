@@ -84,7 +84,7 @@
     real(wp),intent(in)                 :: t
     real(wp),dimension(me%n),intent(in) :: x
     
-    !write(*,'(*(F30.16,1X))') t, x
+    !write(*,'(*(F30.16,1X))') t, x, compute_jacobi_constant(mu,x)
     
     if (allocated(x_crtbp)) then
         x_crtbp  = [x_crtbp, x(1)]
