@@ -180,7 +180,7 @@
 !*******************************************************************************
 !>
 !  Compute the coordinates of the libration points (L1,L2,L3,L4,L5).
-!  L1-L3 are computed using Newton's method. L4-L5 are known analitically.
+!  L1-L3 are computed using Newton's method. L4-L5 are known analytically.
 
     subroutine compute_libration_points(mu,r1,r2,r3,r4,r5)
 
