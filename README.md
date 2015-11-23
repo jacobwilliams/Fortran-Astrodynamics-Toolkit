@@ -25,6 +25,8 @@ The goal is to produce a comprehensive library, written in modern Fortran (Fortr
   - [ ] drag
  * Reference frames
   - [x] IAU_EARTH
+ * Celestial Body Ephemerides
+  - [x] JPLEPH
  * Alternate equations of motion
   - [x] Circular restricted three-body problem
   - [x] Clohessy-Wiltshire
