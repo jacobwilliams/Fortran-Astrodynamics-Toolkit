@@ -17,6 +17,7 @@
     public :: compute_jacobi_constant
     public :: crtbp_derivs
     public :: normalize_variables, unnormalize_variables
+    public :: compute_libration_points
     public :: crtbp_test
 
     contains
@@ -174,6 +175,100 @@
     end if
 
     end function compute_jacobi_constant
+!*******************************************************************************
+
+!*******************************************************************************
+!>
+!  Compute the coordinates of the libration points (L1,L2,L3,L4,L5).
+!  L1-L3 are computed using Newton's method. L4-L5 are known analitically.
+
+    subroutine compute_libration_points(mu,r1,r2,r3,r4,r5)
+
+    use math_module, only: cube_root
+
+    implicit none
+
+    real(wp),intent(in)                        :: mu  !! CRTBP parameter
+    real(wp),intent(out),optional              :: r1  !! L1 x coordinate
+    real(wp),intent(out),optional              :: r2  !! L2 x coordinate
+    real(wp),intent(out),optional              :: r3  !! L3 x coordinate
+    real(wp),dimension(2),intent(out),optional :: r4  !! L4 [x,y] coordinates
+    real(wp),dimension(2),intent(out),optional :: r5  !! L5 [x,y] coordinates
+
+    integer  :: i  !! counter
+    real(wp) :: f  !! quintic function value (to be driven to zero)
+    real(wp) :: fp !! derivative of quintic function
+    real(wp) :: x  !! indep. variable in the quintic functions
+
+    integer,parameter  :: maxiter = 100         !! maximum number of iterations for newton's method
+    real(wp),parameter :: tol     = 1.0e-12_wp  !! convergence tolerance for newton's method
+
+    !L1, L2, and L3 are solved using iterative Newton method:
+
+    if (present(r1)) then
+        x = cube_root(mu / (3.0_wp - 3.0_wp * mu)) !initial guess
+        do i = 1,maxiter
+           f = x**5 - &
+               (3.0_wp - mu) * x**4 + &
+               (3.0_wp - 2.0_wp * mu) * x**3 - &
+               mu * x**2 + &
+               2.0_wp * mu * x - &
+               mu
+           if (abs(f) <= tol) exit
+           fp = 5.0_wp * x**4 - &
+                (12.0_wp - 4.0_wp * mu) * x**3 + &
+                (9.0_wp - 6.0_wp * mu) * x**2 - &
+                2.0_wp * mu * x + &
+                2 * mu
+           x = x - f / fp
+        end do
+        r1 = 1.0_wp - x
+    end if
+
+    if (present(r2)) then
+        x = cube_root(mu / (3.0_wp - 3.0_wp * mu)) !initial guess
+        do i = 1,maxiter
+           f = x**5 + &
+               (3.0_wp - mu) * x**4 + &
+               (3.0_wp - 2.0_wp * mu) * x**3 - &
+               mu * x**2 - &
+               2.0_wp * mu * x - &
+               mu
+           if (abs(f) <= tol) exit
+           fp = 5.0_wp * x**4 - &
+                4.0_wp * x**3 * (mu - 3.0_wp) - &
+                3.0_wp * x**2 * (2.0_wp * mu - 3.0_wp) - &
+                2.0_wp * x * mu - &
+                2.0_wp * mu
+           x = x - f / fp
+        end do
+        r2 = 1.0_wp + x
+    end if
+
+    if (present(r3)) then
+        x = -(7.0_wp / 12.0_wp) * mu !initial guess
+        do i = 1,maxiter
+           f = x**5 + &
+               (7.0_wp + mu) * x**4 + &
+               (19.0_wp + 6.0_wp * mu) * x**3 + &
+               (24.0_wp + 13.0_wp * mu) * x**2 + &
+               2.0_wp * (6.0_wp + 7.0_wp * mu) * x + &
+               7.0_wp * mu
+           if (abs(f) <= tol) exit
+           fp = 5.0_wp * x**4 + 4.0_wp * x**3 * (7.0_wp + mu) + &
+                3.0_wp * x**2 * (19.0_wp + 6.0_wp * mu) + &
+                2.0_wp * x * (24.0_wp + 13.0_wp * mu) + &
+                2.0_wp * (6.0_wp + 7.0_wp * mu)
+           x = x - f / fp
+        end do
+        r3 = -(x + 1.0_wp)
+    end if
+
+    !L4 and L5 are analytic:
+    if (present(r4)) r4 = [0.5_wp - mu,  sqrt(3.0_wp)/2.0_wp]
+    if (present(r5)) r5 = [0.5_wp - mu, -sqrt(3.0_wp)/2.0_wp]
+
+    end subroutine compute_libration_points
 !*******************************************************************************
 
 !*******************************************************************************

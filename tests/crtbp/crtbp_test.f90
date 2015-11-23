@@ -43,6 +43,8 @@
     real(wp),dimension(:),allocatable   :: x_vec
     real(wp),dimension(:),allocatable   :: y_vec
     real(wp),dimension(:,:),allocatable :: c_mat
+    real(wp) :: x_L1,x_L2,x_L3
+    real(wp),dimension(2) :: xy_L4,xy_L5
 
     !for zero-velocity countours:
     real(wp),parameter  :: xmin  = -2.0_wp
@@ -103,17 +105,39 @@
     end do
 
     !*************************************************
+    !compute the libration point locations:
+
+    call compute_libration_points(mu,x_L1,x_L2,x_L3,xy_L4,xy_L5)
+
+    write(*,*) ''
+    write(*,*) 'mu:  ', mu
+    write(*,*) 'x_L1:', x_L1
+    write(*,*) 'x_L2:', x_L2
+    write(*,*) 'x_L3:', x_L3
+    write(*,*) ''
+
+    !*************************************************
     !integrate:
     call prop%initialize(n,func,report)
     call prop%integrate(t0,x0,dt,tf,xf)
 
-    !plot the trajectory (2D):
+    !plot the 2D trajectory, zero-velocity curves, and libration point locations:
     call plt%initialize(grid=.true.,xlabel='x [km]',ylabel='y [km]',&
-                            title='CRTBP',legend=.false.,figsize=[10,10],use_numpy=.true.,axis_equal=.true.)
+                            title='CRTBP Example',legend=.false.,figsize=[10,10],&
+                            use_numpy=.true.,axis_equal=.true.)
+
+    !trajectory:
     call plt%add_plot(x_crtbp,y_crtbp,label='trajectory',linestyle='b-',linewidth=2)
+    !libration point locations:
+    call plt%add_plot([x_L1],[zero],        label='L1',linestyle='rx',markersize=3,linewidth=3)
+    call plt%add_plot([x_L2],[zero],        label='L2',linestyle='rx',markersize=3,linewidth=3)
+    call plt%add_plot([x_L3],[zero],        label='L3',linestyle='rx',markersize=3,linewidth=3)
+    call plt%add_plot([xy_L4(1)],[xy_L4(2)],label='L4',linestyle='rx',markersize=3,linewidth=3)
+    call plt%add_plot([xy_L5(1)],[xy_L5(2)],label='L5',linestyle='rx',markersize=3,linewidth=3)
+    !zero-velocity curve (for this jacobi constant):
     call plt%add_contour(x_vec, y_vec, c_mat, label='zero velocity curve', &
                             linestyle='-', linewidth=2, levels=[c], color='r')
-    call plt%savefig('crtbp_test.png','crtbp_test.py')
+    call plt%savefig('crtbp_test.png')
     call plt%destroy()
 
     contains
