@@ -33,6 +33,12 @@ The goal is to produce a comprehensive library, written in modern Fortran (Fortr
   - [ ] targeting and optimization
   - [ ] spacecraft engine models
 
+## Examples
+
+Note that the example plots require the [pyplot-fortran](https://github.com/jacobwilliams/pyplot-fortran) module.
+
+<a href="url"><img src="https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/blob/master/tests/crtbp/crtbp_test.png" align="center" height="300"></a><a href="url"><img src="https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/blob/master/tests/gravity/trajectory.png" align="center" height="400"></a>
+
 ## Third-Party Requirements
 
 To use the ephemeris_module, a copy of one of the JPL binary ephemeris files must be present in the ```eph``` directory.  This can be built from the instructions at: ftp://ssd.jpl.nasa.gov/pub/eph/planets/fortran/userguide.txt.  For example (on Linux):
