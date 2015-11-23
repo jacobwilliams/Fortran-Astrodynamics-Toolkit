@@ -37,7 +37,8 @@ The goal is to produce a comprehensive library, written in modern Fortran (Fortr
 
 Note that the example plots require the [pyplot-fortran](https://github.com/jacobwilliams/pyplot-fortran) module.
 
-<a href="url"><img src="https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/blob/master/tests/crtbp/crtbp_test.png" align="center" height="300"></a><a href="url"><img src="https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/blob/master/tests/gravity/trajectory.png" align="center" height="400"></a>
+<a href="https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/tree/master/tests/crtbp"><img src="https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/blob/master/tests/crtbp/crtbp_test.png" align="center" height="300"></a>
+<a href="https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/tree/master/tests/gravity"><img src="https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/blob/master/tests/gravity/trajectory.png" align="center" height="400"></a>
 
 ## Third-Party Requirements
 
