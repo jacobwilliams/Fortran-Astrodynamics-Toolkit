@@ -16,6 +16,7 @@
     public :: compute_crtpb_parameter
     public :: compute_jacobi_constant
     public :: crtbp_derivs
+    public :: crtbp_derivs_with_stm
     public :: normalize_variables, unnormalize_variables
     public :: compute_libration_points
     public :: crtbp_test
@@ -216,10 +217,10 @@
                mu
            if (abs(f) <= tol) exit
            fp = 5.0_wp * x**4 - &
-                (12.0_wp - 4.0_wp * mu) * x**3 + &
-                (9.0_wp - 6.0_wp * mu) * x**2 - &
-                2.0_wp * mu * x + &
-                2 * mu
+                4.0_wp * x**3 * (3.0_wp - mu) + &
+                3.0_wp * x**2 * (3.0_wp - 2.0_wp * mu) - &
+                2.0_wp * x * mu - &
+                2.0_wp * mu
            x = x - f / fp
         end do
         r1 = 1.0_wp - x
@@ -235,9 +236,9 @@
                2.0_wp * mu * x - &
                mu
            if (abs(f) <= tol) exit
-           fp = 5.0_wp * x**4 - &
-                4.0_wp * x**3 * (mu - 3.0_wp) - &
-                3.0_wp * x**2 * (2.0_wp * mu - 3.0_wp) - &
+           fp = 5.0_wp * x**4 + &
+                4.0_wp * x**3 * (3.0_wp - mu) + &
+                3.0_wp * x**2 * (3.0_wp - 2.0_wp * mu) - &
                 2.0_wp * x * mu - &
                 2.0_wp * mu
            x = x - f / fp
@@ -255,7 +256,8 @@
                2.0_wp * (6.0_wp + 7.0_wp * mu) * x + &
                7.0_wp * mu
            if (abs(f) <= tol) exit
-           fp = 5.0_wp * x**4 + 4.0_wp * x**3 * (7.0_wp + mu) + &
+           fp = 5.0_wp * x**4 + &
+                4.0_wp * x**3 * (7.0_wp + mu) + &
                 3.0_wp * x**2 * (19.0_wp + 6.0_wp * mu) + &
                 2.0_wp * x * (24.0_wp + 13.0_wp * mu) + &
                 2.0_wp * (6.0_wp + 7.0_wp * mu)
@@ -273,7 +275,7 @@
 
 !*******************************************************************************
 !>
-!  CRTBP derivatives.
+!  CRTBP derivatives: state only.
 
     subroutine crtbp_derivs(mu,x,dx)
 
@@ -318,6 +320,83 @@
 
 !*******************************************************************************
 !>
+!  CRTBP derivatives: state + state transition matrix.
+
+    subroutine crtbp_derivs_with_stm(mu,x,dx)
+
+    implicit none
+
+    real(wp),intent(in)                :: mu   !! CRTBP parameter (See [[compute_crtpb_parameter]])
+    real(wp),dimension(42),intent(in)  :: x    !! normalized state and STM \([\mathbf{r},\mathbf{v},\mathbf{\Phi}]\)
+    real(wp),dimension(42),intent(out) :: dx   !! normalized state and STM derivative \([\dot{\mathbf{r}},\dot{\mathbf{v}},\dot{\mathbf{\Phi}}]\)
+
+    !local variables:
+    real,dimension(3) :: rb1,rb2,r,v,g
+    real(wp),dimension(6,6) :: A, phi, phi_dot
+    real(wp) :: r1,r2,r13,r23,r15,r25,omm,tmu,tomm,c1,c2
+    real(wp) :: Uxx,Uxy,Uxz,Uyx,Uyy,Uyz,Uzx,Uzy,Uzz
+
+    !extract variables from x vector:
+    r = x(1:3) ! position
+    v = x(4:6) ! velocity
+
+    !other parameters:
+    omm  = one - mu
+    rb1  = [-mu,zero,zero] ! location of body 1
+    rb2  = [omm,zero,zero] ! location of body 2
+    r1   = norm2(r - rb1)  ! body1 -> sc distance
+    r2   = norm2(r - rb2)  ! body2 -> sc distance
+    r13  = r1**3
+    r23  = r2**3
+    r15  = r1**5
+    r25  = r2**5
+    c1   = omm/r13
+    c2   = mu/r23
+    tmu  = three*mu
+    tomm = three*omm
+
+    !normalized gravity from both bodies:
+    g(1) = -c1*(r(1) + mu) - c2*(r(1)-one+mu)
+    g(2) = -c1*r(2)        - c2*r(2)
+    g(3) = -c1*r(3)        - c2*r(3)
+
+    !STM terms:
+    Uxx = one - c1 - c2 + tomm*(r(1)+mu)**2/r15 + tmu*(r(1)-one+mu)**2/r25
+    Uyy = one - c1 - c2 + tomm*r(2)**2/r15 + tmu*r(2)**2/r25
+    Uzz =       c1 - c2 + tomm*r(3)**2/r15 + tmu*r(3)**2/r25
+    Uxy = tomm*(r(1)+mu)*r(2)/r15 + tmu*(r(1)-one+mu)*r(2)/r25
+    Uxz = tomm*(r(1)+mu)*r(3)/r15 + tmu*(r(1)-one+mu)*r(3)/r25
+    Uyz = tomm* r(2)*r(3)/r15 + tmu*r(2)*r(3)/r25
+    Uyx = Uxy
+    Uzx = Uxz
+    Uzy = Uyz
+
+    !columns of A matrix:
+    A(:,1) = [zero,zero,zero,Uxx,Uyx,Uzx]
+    A(:,2) = [zero,zero,zero,Uxy,Uyy,Uzy]
+    A(:,3) = [zero,zero,zero,Uxz,Uyz,Uzz]
+    A(:,4) = [one,zero,zero,zero,-two,zero]
+    A(:,5) = [zero,one,zero,two,zero,zero]
+    A(:,6) = [zero,zero,one,zero,zero,zero]
+
+    !unpack phi into matrix:
+    phi = reshape(x(7:42), shape=[6,6])
+
+    !derivative of phi matrix:
+    phi_dot = matmul(A,phi)
+
+    !derivative of x vector:
+    dx(1:3)  = v                           ! r_dot
+    dx(4)    =  two*v(2) + r(1) + g(1)     ! v_dot
+    dx(5)    = -two*v(1) + r(2) + g(2)     !
+    dx(6)    =                    g(3)     !
+    dx(7:42) = pack (phi_dot, mask=.true.) ! phi_dot
+
+    end subroutine crtbp_derivs_with_stm
+!*******************************************************************************
+
+!*******************************************************************************
+!>
 !  Unit tests for CRTBP routines.
 
     subroutine crtbp_test()
@@ -337,9 +416,20 @@
                                               1.55464233412773_wp, &
                                               0.0_wp               ]
 
-    real(wp)              :: mu  !! CRTPB parameter
-    real(wp)              :: c   !! Jacobi constant
-    real(wp),dimension(6) :: xd  !! derivative vector
+	integer                 :: i	   !! counter
+    real(wp)                :: mu      !! CRTPB parameter
+    real(wp)                :: c       !! Jacobi constant
+    real(wp),dimension(6)   :: xd      !! derivative vector: state
+    real(wp),dimension(42)  :: x_phi   !! initial state + phi (identity)
+    real(wp),dimension(42)  :: x_phi_d !! derivative vector: state + phi
+    real(wp),dimension(6,6) :: eye     !! 6x6 identity matrix
+
+	!create an identity matrix for stm initial condition:
+	eye = zero
+	do i = 1, 6
+		eye(i,i) = one
+	end do
+	x_phi = [x, pack(eye,mask=.true.)]
 
     write(*,*) ''
     write(*,*) '---------------'
@@ -350,11 +440,14 @@
     mu = compute_crtpb_parameter(mu_earth,mu_moon)
     c = compute_jacobi_constant(mu,x)
     call crtbp_derivs(mu,x,xd)
+    call crtbp_derivs_with_stm(mu,x_phi,x_phi_d)
 
     write(*,'(A,1X,*(F30.16,1X))') 'Earth-Moon mu:   ', mu
-    write(*,'(A,1X,*(F12.6,1X))' ) 'Sample point x:  ', x
-    write(*,'(A,1X,*(F12.6,1X))' ) 'Sample point c:  ', c
-    write(*,'(A,1X,*(F12.6,1X))' ) 'Sample point xd: ', xd
+    write(*,'(A,1X,*(F12.6,1X))' ) 'x:          ', x
+    write(*,'(A,1X,*(F12.6,1X))' ) 'c:          ', c
+    write(*,'(A,1X,*(F12.6,1X))' ) 'xd:         ', xd
+    write(*,'(A,1X,*(F12.6,1X))' ) 'x+phi:      ', x_phi
+    write(*,'(A,1X,*(F12.6,1X))' ) 'xd+phi_dot: ', x_phi_d
     write(*,*) ''
 
     end subroutine crtbp_test
