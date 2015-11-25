@@ -10,9 +10,8 @@ predocmark: <
 docmark_alt:
 docmark: !
 display: public
-display: private
-display: protected
-display: none
+         protected
+         private
 source: true
 graph: true
 
@@ -21,7 +20,7 @@ Brief description
 
 A modern Fortran library for astrodynamics.
 
-The goal is to produce a comprehensive library, written in modern Fortran (Fortran 2003/2008), 
+The goal is to produce a comprehensive library, written in modern Fortran (Fortran 2003/2008),
 of all the standard orbital mechanics algorithms such as:
 
  * Lambert solvers
@@ -34,7 +33,6 @@ of all the standard orbital mechanics algorithms such as:
  * Engine models
 
 This is a work in progress, and is currently in a very preliminary state.  
-
 
 License
 ---------------
