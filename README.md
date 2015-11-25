@@ -14,9 +14,8 @@ The goal is to produce a comprehensive library, written in modern Fortran (Fortr
   - [x] Gooding
   - [ ] Goodyear
   - [ ] Shepperd
- * ODE solvers
+ * ODE solvers (with event-finding)
   - [x] Runge-Kutta
-    * [x] (with event-finding)
   - [ ] Nystrom
   - [ ] Adams
  * Force models
