@@ -1,4 +1,4 @@
-Fortran-Astrodynamics-Toolkit
+Fortran Astrodynamics Toolkit
 =============================
 
 ![Image](https://raw.githubusercontent.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/master/tests/pork_chop/pork_chop.png)
@@ -16,13 +16,15 @@ The goal is to produce a comprehensive library, written in modern Fortran (Fortr
   - [ ] Shepperd
  * ODE solvers
   - [x] Runge-Kutta
+    * [x] (with event-finding)
   - [ ] Nystrom
   - [ ] Adams
  * Force models
-  - [ ] point mass gravity
-  - [x] geopotential
+  - [ ] point mass gravity field
+  - [x] geopotential gravity
   - [ ] solar radiation pressure
-  - [ ] drag
+  - [ ] atmospheric drag
+  - [ ] relativistic effects
  * Reference frames
   - [x] IAU_EARTH
  * Celestial Body Ephemerides
