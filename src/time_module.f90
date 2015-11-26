@@ -2,25 +2,25 @@
 !> author: Jacob Williams
 !
 !  Time conversion routines.
-    
+
     module time_module
-    
+
     use kind_module
 
     implicit none
-    
+
     private
-    
+
     !parameters:
     real(wp),parameter :: jd_j2000 = 2451545.0_wp  !! julian date of J2000 epoch
-    
+
     !public routines:
     public :: julian_day
     public :: julian_date
     public :: et_to_jd
     public :: jd_to_mjd
     public :: mjd_to_jd
-    
+
     !test routine:
     public :: time_module_test
 
@@ -34,16 +34,16 @@
 !  Convert ephemeris time (seconds from J2000 epoch) to Julian date.
 
     pure function et_to_jd(et) result(jd)
-    
+
     use conversion_module, only: sec2day
-    
+
     implicit none
-    
+
     real(wp),intent(in) :: et   !! ephemeris time [sec from J2000 epoch]
     real(wp)            :: jd   !! Julian date [days]
-        
+
     jd = jd_j2000 + et*sec2day
-    
+
     end function et_to_jd
 !*****************************************************************************************
 
@@ -92,45 +92,45 @@
 !*****************************************************************************************
 !> author: Jacob Williams
 !
-!  Returns the Julian day number (i.e., the Julian date at Greenwich noon) 
+!  Returns the Julian day number (i.e., the Julian date at Greenwich noon)
 !  on the specified YEAR, MONTH, and DAY.
 !
-!  Valid for any Gregorian calendar date producing a 
+!  Valid for any Gregorian calendar date producing a
 !  Julian date greater than zero.
 !
 !# Reference
 !   * [USNO](http://aa.usno.navy.mil/faq/docs/JD_Formula.php)
 
     pure integer function julian_day(y,m,d)
-    
+
     implicit none
-    
+
     integer,intent(in) :: y   !! year (YYYY)
     integer,intent(in) :: m   !! month (MM)
     integer,intent(in) :: d   !! day (DD)
-    
+
     julian_day = d-32075+1461*(y+4800+(m-14)/12)/4+367*&
                  (m-2-(m-14)/12*12)/12-3*((y+4900+(m-14)/12)/100)/4
-    
+
     end function julian_day
 !*****************************************************************************************
-    
+
 !*****************************************************************************************
 !> author: Jacob Williams
 !  date: 1/21/2015
 !
 !  Returns the Julian date for the specified YEAR, MONTH, DAY, HR, MIN, SEC.
 !
-!  Valid for any Gregorian calendar date producing a 
+!  Valid for any Gregorian calendar date producing a
 !  Julian date greater than zero.
 !
 !  AUTHOR
 !    Jacob Williams : 1/21/2015
 
     pure function julian_date(y,m,d,hour,minute,second)
-   
+
     implicit none
-    
+
     real(wp)           :: julian_date
     integer,intent(in) :: y
     integer,intent(in) :: m
@@ -138,19 +138,19 @@
     integer,intent(in) :: hour
     integer,intent(in) :: minute
     integer,intent(in) :: second
-    
+
     integer :: julian_day_number
-    
+
     julian_day_number = julian_day(y,m,d)
-    
+
     julian_date = real(julian_day_number,wp) + &
                     (hour-12.0_wp)/24.0_wp + &
                     minute/1440.0_wp + &
                     second/86400.0_wp
-                                
+
     end function julian_date
 !*****************************************************************************************
-    
+
 !*****************************************************************************************
 !> author: Jacob Williams
 !  date: 1/21/2015
@@ -160,7 +160,7 @@
     subroutine time_module_test()
 
     implicit none
-    
+
     write(*,*) ''
     write(*,*) '---------------'
     write(*,*) ' time_module_test'
@@ -172,7 +172,7 @@
 
     end subroutine time_module_test
 !*****************************************************************************************
-       
+
 !*****************************************************************************************
     end module time_module
 !*****************************************************************************************

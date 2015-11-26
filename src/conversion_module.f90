@@ -5,7 +5,7 @@
 !
 !# See also
 !
-!  1. A. Thompson and B. N. Taylor, "NIST Special Publication 811: 
+!  1. A. Thompson and B. N. Taylor, "NIST Special Publication 811:
 !     Guide for the use of the International System of Units".
 !     http://www.nist.gov/pml/pubs/sp811/
 
@@ -13,11 +13,11 @@
 
     use kind_module,       only: wp
     use numbers_module,    only: one,pi
- 
+
     implicit none
-    
+
     public
-  
+
     !metric/imperial:
     real(wp),parameter :: lbm2kg  = 0.45359237_wp         !! exact
     real(wp),parameter :: lbf2N   = 4.4482216152605_wp    !! exact
@@ -35,23 +35,23 @@
     !angles:
     real(wp),parameter :: deg2rad = pi/180.0_wp
     real(wp),parameter :: rad2deg = 180.0_wp/pi
- 
+
     !metric:
     real(wp),parameter :: km2m = 1000.0_wp
     real(wp),parameter :: m2km = one/km2m
-    
+
     !time:
     real(wp),parameter :: min2sec      = 60.0_wp
     real(wp),parameter :: hr2min       = 60.0_wp
     real(wp),parameter :: day2hr       = 24.0_wp
-    real(wp),parameter :: century2day  = 36525.0_wp        !! julian century        
+    real(wp),parameter :: century2day  = 36525.0_wp        !! julian century
     real(wp),parameter :: hr2sec       = hr2min*min2sec
     real(wp),parameter :: day2min      = day2hr*hr2min
     real(wp),parameter :: day2sec      = day2min*min2sec
-    real(wp),parameter :: century2sec  = century2day*day2sec  
+    real(wp),parameter :: century2sec  = century2day*day2sec
     real(wp),parameter :: hr2day       = one/day2hr
     real(wp),parameter :: sec2day      = one/day2sec
-    real(wp),parameter :: sec2century  = one/century2sec    
-    
+    real(wp),parameter :: sec2century  = one/century2sec
+
     end module conversion_module
 !*****************************************************************************************

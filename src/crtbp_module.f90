@@ -416,7 +416,7 @@
                                               1.55464233412773_wp, &
                                               0.0_wp               ]
 
-	integer                 :: i	   !! counter
+    integer                 :: i       !! counter
     real(wp)                :: mu      !! CRTPB parameter
     real(wp)                :: c       !! Jacobi constant
     real(wp),dimension(6)   :: xd      !! derivative vector: state
@@ -424,12 +424,12 @@
     real(wp),dimension(42)  :: x_phi_d !! derivative vector: state + phi
     real(wp),dimension(6,6) :: eye     !! 6x6 identity matrix
 
-	!create an identity matrix for stm initial condition:
-	eye = zero
-	do i = 1, 6
-		eye(i,i) = one
-	end do
-	x_phi = [x, pack(eye,mask=.true.)]
+    !create an identity matrix for stm initial condition:
+    eye = zero
+    do i = 1, 6
+        eye(i,i) = one
+    end do
+    x_phi = [x, pack(eye,mask=.true.)]
 
     write(*,*) ''
     write(*,*) '---------------'

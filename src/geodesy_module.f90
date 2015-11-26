@@ -4,38 +4,38 @@
 !  Geodesy routines.
 
     module geodesy_module
-    
+
     use kind_module,    only: wp
-    
+
     implicit none
-    
+
     private
-    
+
     public :: heikkinen
     public :: olson
     public :: direct
     public :: geodetic_to_cartesian
     public :: great_circle_distance
-    
+
     contains
-!*****************************************************************************************    
-     
-!*****************************************************************************************    
+!*****************************************************************************************
+
+!*****************************************************************************************
 !> author: Jacob Williams
 !
 !  Heikkinen routine for cartesian to geodetic transformation
 !
 !# References
-!  1. M. Heikkinen, "Geschlossene formeln zur berechnung raumlicher 
-!     geodatischer koordinaten aus rechtwinkligen Koordinaten". 
+!  1. M. Heikkinen, "Geschlossene formeln zur berechnung raumlicher
+!     geodatischer koordinaten aus rechtwinkligen Koordinaten".
 !     Z. Ermess., 107 (1982), 207-211 (in German).
-!  2. E. D. Kaplan, "Understanding GPS: Principles and Applications", 
+!  2. E. D. Kaplan, "Understanding GPS: Principles and Applications",
 !     Artech House, 1996.
 
     pure subroutine heikkinen(rvec, a, b, h, lon, lat)
 
     implicit none
-    
+
     real(wp),dimension(3),intent(in) :: rvec  !! position vector [km]
     real(wp),intent(in)  :: a                 !! geoid semimajor axis [km]
     real(wp),intent(in)  :: b                 !! geoid semiminor axis [km]
@@ -44,10 +44,10 @@
     real(wp),intent(out) :: lat               !! geodetic latitude [rad]
 
     real(wp) :: f,e_2,ep,r,e2,ff,g,c,s,pp,q,r0,u,v,z0,x,y,z,z2,r2,tmp,a2,b2
-            
+
     x   = rvec(1)
     y   = rvec(2)
-    z   = rvec(3)       
+    z   = rvec(3)
     a2  = a*a
     b2  = b*b
     f   = (a-b)/a
@@ -70,15 +70,15 @@
     u   = sqrt( (r - e_2*r0)**2 + z2 )
     v   = sqrt( (r - e_2*r0)**2 + (1.0_wp - e_2)*z2 )
     z0  = b**2 * z / (a*v)
-    
+
     h   = u*(1.0_wp - b2/(a*v) )
     lat = atan2( (z + ep**2*z0), r )
     lon = atan2( y, x )
-        
+
     end subroutine heikkinen
 !*****************************************************************************************
 
-!*****************************************************************************************    
+!*****************************************************************************************
 !> author: Jacob Williams
 !
 !  Olson routine for cartesian to geodetic transformation.
@@ -89,22 +89,22 @@
 !     Systems, 32 (1996) 473-476.
 
     pure subroutine olson(rvec, a, b, h, long, lat)
-    
+
     implicit none
-    
+
     real(wp),dimension(3),intent(in) :: rvec !!position vector [km]
     real(wp),intent(in)  :: a                !!geoid semimajor axis [km]
     real(wp),intent(in)  :: b                !!geoid semiminor axis [km]
     real(wp),intent(out) :: h                !!geodetic altitude [km]
     real(wp),intent(out) :: long             !!longitude [rad]
     real(wp),intent(out) :: lat              !!geodetic latitude [rad]
-    
+
     real(wp) :: f,x,y,z,e2,a1,a2,a3,a4,a5,a6,w,zp,&
                 w2,r2,r,s2,c2,u,v,s,ss,c,g,rg,rf,m,p,z2
-    
-    x  = rvec(1)                
-    y  = rvec(2)                
-    z  = rvec(3)                
+
+    x  = rvec(1)
+    y  = rvec(2)
+    z  = rvec(3)
     f  = (a-b)/a
     e2 = f * (2.0_wp - f)
     a1 = a * e2
@@ -112,27 +112,27 @@
     a3 = a1 * e2 / 2.0_wp
     a4 = 2.5_wp * a2
     a5 = a1 + a3
-    a6 = 1.0_wp - e2 
+    a6 = 1.0_wp - e2
     zp = abs(z)
     w2 = x*x + y*y
     w  = sqrt(w2)
     z2 = z * z
     r2 = z2 + w2
     r  = sqrt(r2)
-    
+
     if (r < 100.0_wp) then
-    
+
         lat = 0.0_wp
         long = 0.0_wp
         h = -1.0e7_wp
-    
+
     else
-    
+
         s2 = z2 / r2
         c2 = w2 / r2
         u  = a2 / r
         v  = a3 - a4 / r
-    
+
         if (c2 > 0.3_wp) then
             s = (zp / r) * (1.0_wp + c2 * (a1 + u + s2 * v) / r)
             lat = asin(s)
@@ -144,7 +144,7 @@
             ss = 1.0_wp - c * c
             s = sqrt(ss)
         end if
-    
+
         g   = 1.0_wp - e2 * ss
         rg  = a / sqrt(g)
         rf  = a6 * rg
@@ -156,24 +156,24 @@
         lat = lat + p
         if (z < 0.0_wp) lat = -lat
         h = f + m * p / 2.0_wp
-        long = atan2( y, x )   
-    
+        long = atan2( y, x )
+
     end if
-            
-    end subroutine olson    
+
+    end subroutine olson
 !*****************************************************************************************
- 
-!*****************************************************************************************    
+
+!*****************************************************************************************
 !> author: Jacob Williams
 !
-!  Solve the "direct" geodetic problem: given the latitude and longitude of one 
-!  point and the azimuth and distance to a second point, determine the latitude 
-!  and longitude of that second point.  The solution is obtained using the 
+!  Solve the "direct" geodetic problem: given the latitude and longitude of one
+!  point and the azimuth and distance to a second point, determine the latitude
+!  and longitude of that second point.  The solution is obtained using the
 !  algorithm by Vincenty.
 !
 !# References
-!  1. T. Vincenty, "Direct and Inverse Solutions of Geodesics on the 
-!     Ellipsoid with Application of Nested Equations", 
+!  1. T. Vincenty, "Direct and Inverse Solutions of Geodesics on the
+!     Ellipsoid with Application of Nested Equations",
 !     Survey Review XXII. 176, April 1975.
 !     http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf
 !  2. http://www.ngs.noaa.gov/PC_PROD/Inv_Fwd/
@@ -183,7 +183,7 @@
     implicit none
 
     real(wp),intent(in)  :: a        !! semimajor axis of ellipsoid [m]
-    real(wp),intent(in)  :: f        !! flattening of ellipsoid [-]            
+    real(wp),intent(in)  :: f        !! flattening of ellipsoid [-]
     real(wp),intent(in)  :: glat1    !! latitude of 1 [rad]
     real(wp),intent(in)  :: glon1    !! longitude of 1 [rad]
     real(wp),intent(in)  :: faz      !! forward azimuth 1->2 [rad]
@@ -239,19 +239,19 @@
     end subroutine direct
 !*****************************************************************************************
 
-!*****************************************************************************************    
+!*****************************************************************************************
 !> author: Jacob Williams
 !
 !  Geodetic latitude, longitude, and height to Cartesian position vector.
 !
 !# References
-!  1. E. D. Kaplan, "Understanding GPS: Principles and Applications", 
+!  1. E. D. Kaplan, "Understanding GPS: Principles and Applications",
 !     Artech House, 1996.
 
     subroutine geodetic_to_cartesian(a,b,glat,lon,h,r)
-    
+
     implicit none
-    
+
     real(wp),intent(in) :: a                !! geoid semimajor axis [km]
     real(wp),intent(in) :: b                !! geoid semiminor axis [km]
     real(wp),intent(in) :: glat             !! geodetic latitude [rad]
@@ -271,23 +271,23 @@
     d       = sqrt( 1.0_wp + ome2*tlat*tlat )
     q       = sqrt( 1.0_wp - e2*slat*slat   )
     aod     = a/d
-    
+
     r(1) = aod*clon + h*clon*clat
     r(2) = aod*slon + h*slon*clat
     r(3) = a*ome2*slat/q + h*slat
-        
+
     end subroutine geodetic_to_cartesian
 !*****************************************************************************************
 
-!*****************************************************************************************    
+!*****************************************************************************************
 !> author: Jacob Williams
 !  date: 7/13/2014
 !
 !  Great circle distance on a spherical body, using the Vincenty algorithm.
 !
 !# References
-!  1. T. Vincenty, "Direct and Inverse Solutions of Geodesics on the 
-!     Ellipsoid with Application of Nested Equations", 
+!  1. T. Vincenty, "Direct and Inverse Solutions of Geodesics on the
+!     Ellipsoid with Application of Nested Equations",
 !     Survey Review XXII. 176, April 1975.
 !     http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf
 
@@ -312,12 +312,12 @@
     dlon  = long1-long2
     clon  = cos(dlon)
     slon  = sin(dlon)
-        
+
     d = r*atan2( sqrt((c2*slon)**2+(c1*s2-s1*c2*clon)**2), (s1*s2+c1*c2*clon) )
-                     
+
     end function great_circle_distance
 !*****************************************************************************************
 
-!*****************************************************************************************    
+!*****************************************************************************************
     end module geodesy_module
-!*****************************************************************************************    
+!*****************************************************************************************

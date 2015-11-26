@@ -7,15 +7,15 @@
 
     use kind_module,    only: wp
     use numbers_module, only: one,zero,pi
-    
+
     implicit none
-    
+
     private
-    
+
     integer,parameter,public :: x_axis = 1
     integer,parameter,public :: y_axis = 2
     integer,parameter,public :: z_axis = 3
-    
+
     public :: cross
     public :: unit
     public :: uhat_dot
@@ -29,13 +29,13 @@
     public :: spherical_to_cartesian
     public :: rotation_matrix
     public :: angle_between_vectors
-    
+
     !test routine:
     public :: vector_test
-    
+
     contains
 !*****************************************************************************************
-    
+
 !*****************************************************************************************
 !> author: Jacob Williams
 !
@@ -94,7 +94,7 @@
     real(wp),dimension(3),intent(in) :: udot   !! derivative of vector [`du/dt`]
     real(wp),dimension(3)            :: uhatd  !! derivative of unit vector [`d(uhat)/dt`]
 
-    real(wp)              :: umag  !! vector magnitude 
+    real(wp)              :: umag  !! vector magnitude
     real(wp),dimension(3) :: uhat  !! unit vector
 
     umag = norm2(u)
@@ -106,9 +106,9 @@
         uhatd = ( udot - dot_product(uhat,udot)*uhat ) / umag
     end if
 
-    end function uhat_dot 
+    end function uhat_dot
 !*****************************************************************************************
-    
+
 !*****************************************************************************************
 !> author: Jacob Williams
 !
@@ -126,34 +126,34 @@
 
     end function ucross
 !*****************************************************************************************
-    
+
 !*****************************************************************************************
 !> author: Jacob Williams
 !  date: 7/20/2014
 !
-!  Rotate a 3x1 vector in space, given an axis and angle of rotation. 
+!  Rotate a 3x1 vector in space, given an axis and angle of rotation.
 !
 !# Reference
 !   * [Wikipedia](http://en.wikipedia.org/wiki/Rodrigues%27_rotation_formula)
 
     pure subroutine axis_angle_rotation(v,k,theta,vrot)
-    
+
     implicit none
-    
+
     real(wp),dimension(3),intent(in)  :: v      !! vector to rotate
     real(wp),dimension(3),intent(in)  :: k      !! rotation axis
     real(wp),intent(in)               :: theta  !! rotation angle [rad]
     real(wp),dimension(3),intent(out) :: vrot   !! result
-    
+
     real(wp),dimension(3) :: khat
     real(wp) :: ct,st
-    
+
     ct = cos(theta)
-    st = sin(theta)      
+    st = sin(theta)
     khat = unit(k)   !rotation axis unit vector
-    
+
     vrot = v*ct + cross(khat,v)*st + khat*dot_product(khat,v)*(one-ct)
-     
+
     end subroutine axis_angle_rotation
 !*****************************************************************************************
 
@@ -165,16 +165,16 @@
 !  ``cross(a,b) == matmul(cross_matrix(a),b)``
 
     pure function cross_matrix(r) result(rcross)
-    
+
     implicit none
-    
-    real(wp),dimension(3),intent(in) :: r 
+
+    real(wp),dimension(3),intent(in) :: r
     real(wp),dimension(3,3)          :: rcross
-    
+
     rcross(:,1) = [zero,r(3),-r(2)]
     rcross(:,2) = [-r(3),zero,r(1)]
     rcross(:,3) = [r(2),-r(1),zero]
-    
+
     end function cross_matrix
 !*****************************************************************************************
 
@@ -185,19 +185,19 @@
 !  Computes the outer product of the two vectors.
 
     pure function outer_product(a,b) result(c)
-    
+
     implicit none
-    
+
     real(wp),dimension(:),intent(in)    :: a
     real(wp),dimension(:),intent(in)    :: b
     real(wp),dimension(size(a),size(b)) :: c
-    
+
     integer :: i
-    
-    do i=1,size(b)    
+
+    do i=1,size(b)
         c(:,i) = a*b(i)
-    end do    
-    
+    end do
+
     end function outer_product
 !*****************************************************************************************
 
@@ -208,16 +208,16 @@
 !  Computes the box product (scalar triple product) of the three vectors.
 
     pure function box_product(a,b,c) result(d)
-    
+
     implicit none
-    
+
     real(wp),dimension(:),intent(in) :: a
     real(wp),dimension(:),intent(in) :: b
     real(wp),dimension(:),intent(in) :: c
     real(wp) :: d
-    
-    d = dot_product(a,cross(b,c))  
-    
+
+    d = dot_product(a,cross(b,c))
+
     end function box_product
 !*****************************************************************************************
 
@@ -231,23 +231,23 @@
 !   * [Wikipedia](http://en.wikipedia.org/wiki/Gram-Schmidt_process)
 
     pure function vector_projection(a,b) result(c)
-    
+
     implicit none
-    
+
     real(wp),dimension(:),intent(in)       :: a  !! the original vector
     real(wp),dimension(size(a)),intent(in) :: b  !! the vector to project on to
     real(wp),dimension(size(a))            :: c  !! the projection of a onto b
-    
+
     real(wp) :: amag2
-    
+
     amag2 = dot_product(a,a)
-    
+
     if (amag2==zero) then
         c = zero
     else
         c = a * dot_product(a,b) / amag2
     end if
-    
+
     end function vector_projection
 !*****************************************************************************************
 
@@ -255,17 +255,17 @@
 !> author: Jacob Williams
 !  date: 7/20/2014
 !
-!  Computes the rotation matrix that corresponds to a 
+!  Computes the rotation matrix that corresponds to a
 !  rotation about the axis `k` by an angle `theta`.
 
     pure subroutine axis_angle_rotation_to_rotation_matrix(k,theta,rotmat)
-    
+
     implicit none
-    
+
     real(wp),dimension(3),intent(in)    :: k        !! rotation axis
     real(wp),intent(in)                 :: theta    !! rotation angle [rad]
     real(wp),dimension(3,3),intent(out) :: rotmat   !! rotation matrix
-    
+
     real(wp),dimension(3,3),parameter :: I = &
             reshape([one,zero,zero,zero,one,zero,zero,zero,one],[3,3]) !! 3x3 identity matrix
 
@@ -274,12 +274,12 @@
     real(wp) :: ct,st
 
     ct = cos(theta)
-    st = sin(theta)  
+    st = sin(theta)
     khat = unit(k)
     w  = cross_matrix(khat)
-    
+
     rotmat = I + w*st + matmul(w,w)*(one-ct)
-       
+
     end subroutine axis_angle_rotation_to_rotation_matrix
 !*****************************************************************************************
 
@@ -290,9 +290,9 @@
 !  Convert spherical (r,alpha,beta) to Cartesian (x,y,z).
 
     pure function spherical_to_cartesian(r,alpha,beta) result(rvec)
-    
+
     implicit none
-    
+
     real(wp),intent(in)   :: r        !! magnitude
     real(wp),intent(in)   :: alpha    !! right ascension [rad]
     real(wp),intent(in)   :: beta     !! declination [rad]
@@ -325,24 +325,24 @@
     pure function rotation_matrix(axis,angle) result(rotmat)
 
     implicit none
-    
+
     real(wp),dimension(3,3) :: rotmat   !! the rotation matrix
     integer,intent(in)      :: axis     !! x_axis, y_axis, or z_axis
     real(wp),intent(in)     :: angle    !! angle in radians
-    
+
     real(wp) :: c,s
-    
+
     !precompute these:
     c = cos(angle)
     s = sin(angle)
-    
+
     select case (axis)
     case(x_axis); rotmat = reshape([one, zero, zero, zero, c, -s, zero, s, c],[3,3])
     case(y_axis); rotmat = reshape([c, zero, s, zero, one, zero, -s, zero, c],[3,3])
     case(z_axis); rotmat = reshape([c, -s, zero, s, c, zero, zero, zero, one],[3,3])
     case default; rotmat = zero
     end select
-    
+
     end function rotation_matrix
 !*****************************************************************************************
 
@@ -368,7 +368,7 @@
 
     end function angle_between_vectors
 !*****************************************************************************************
-    
+
 !*****************************************************************************************
 !> author: Jacob Williams
 !  date: 7/20/2014
@@ -376,9 +376,9 @@
 !  Unit test routine for the [[vector_module]].
 
     subroutine vector_test()
-    
+
     implicit none
-    
+
     integer :: i
     real(wp) :: theta
     real(wp),dimension(3) :: v,k,v2,v3
@@ -389,39 +389,39 @@
     write(*,*) ' vector_test'
     write(*,*) '---------------'
     write(*,*) ''
-    
+
     v = [1.2_wp, 3.0_wp, -5.0_wp]
     k = [-0.1_wp, 16.2_wp, 2.1_wp]
     theta = 0.123_wp
-    
+
     call axis_angle_rotation(v,k,theta,v2)
-    
+
     call axis_angle_rotation_to_rotation_matrix(k,theta,rotmat)
     v3 = matmul(rotmat,v)
-    
+
     write(*,*) 'Single test:'
     write(*,*) ''
     write(*,*) '  v1   :', v
     write(*,*) '  v2   :', v2
-    write(*,*) '  v3   :', v3    
+    write(*,*) '  v3   :', v3
     write(*,*) '  Error:', v3-v2
-    
+
     write(*,*) ''
     write(*,*) '0-360 test:'
     write(*,*) ''
     do i=0,360,10
-    
+
         theta = i * 180.0_wp/pi
-        
+
         call axis_angle_rotation(v,k,theta,v2)
-    
+
         call axis_angle_rotation_to_rotation_matrix(k,theta,rotmat)
         v3 = matmul(rotmat,v)
-            
+
         write(*,*) 'Error:', norm2(v3-v2)
-        
+
     end do
-    
+
     !z-axis rotation test:
     theta = pi / 4.0_wp
     v = [one/cos(theta), 0.0_wp, 0.0_wp]
@@ -429,10 +429,10 @@
     v2 = matmul(rotmat,v)
     write(*,*) v2    !should be [1, -1, 0]
 
-    
+
     end subroutine vector_test
  !****************************************************************************************
-   
+
 !*****************************************************************************************
     end module vector_module
 !*****************************************************************************************

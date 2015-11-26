@@ -10,7 +10,7 @@
 !   * `rp`    - periapsis radius [km]
 !   * `inc`   - inclination [rad]
 !   * `raan`  - right ascension of the ascending node [rad]
-!   * `w`     - argument of periapsis [rad] 
+!   * `w`     - argument of periapsis [rad]
 !   * `tau`   - time since last periapsis passage [sec]
 !
 !# References
@@ -19,7 +19,7 @@
 !  2. R. H. Gooding, "On universal elements, and conversion procedures
 !     to and from position and velocity"
 !     Celestial Mechanics 44 (1988), 283-298.
-!  3. R. H. Gooding, A. W. Odell. "The hyperbolic Kepler equation 
+!  3. R. H. Gooding, A. W. Odell. "The hyperbolic Kepler equation
 !     (and the elliptic equation revisited)"
 !     Celestial Mechanics 44 (1988), 267-282.
 
@@ -27,11 +27,11 @@
 
     use kind_module,    only: wp
     use numbers_module
-    
+
     implicit none
-    
+
     private
-    
+
     !constants:
     real(wp),parameter :: ntwo   = -two
     real(wp),parameter :: pineg  = -pi
@@ -39,11 +39,11 @@
     real(wp),parameter :: halfpi = pi/two
     real(wp),parameter :: athird = one/three
     real(wp),parameter :: asixth = one/six
-    
+
     public :: els3pv,pv3els
     public :: ekepl,ekepl1,ekepl2,emkepl,emkep,shkepl,shmkep
     public :: propagate
-           
+
     contains
 !*****************************************************************************************
 
@@ -55,17 +55,17 @@
     pure subroutine propagate(mu, rv0, dt, rvf)
 
     implicit none
-    
+
     real(wp),intent(in)               :: mu    !! grav. parameter [km^3/s^2]
     real(wp),dimension(6),intent(in)  :: rv0   !! initial state [km, km/s]
     real(wp),intent(in)               :: dt    !! time step [sec]
     real(wp),dimension(6),intent(out) :: rvf   !! final state [km, km/s]
 
     real(wp),dimension(6) :: e
-    
-    !convert to elements, increment time, 
+
+    !convert to elements, increment time,
     ! then convert back to cartesian:
-    
+
     call pv3els(mu, rv0, e)
     e(6) = e(6) + dt
     call els3pv(mu, e, rvf)
@@ -74,7 +74,7 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-!> 
+!>
 !  Kepler's equation, `em = ekepl - (1 - e1)*sin(ekepl)`,
 !  with `e1` in range 1 to 0 inclusive, solved accurately
 !  (based on ekepl3, but entering `e1`, not `e`)
@@ -82,11 +82,11 @@
     pure function ekepl(em, e1)
 
     implicit none
-    
+
     real(wp) :: ekepl
     real(wp),intent(in) :: em
     real(wp),intent(in) :: e1
-    
+
     real(wp) :: emr,ee,e,w,fdd,fddd,f,fd,dee
     integer :: iter
 
@@ -97,20 +97,20 @@
     if (emr<pineg) emr = emr + twopi
     if (emr>pi) emr = emr - twopi
     ee = emr
-    
+
     if (ee/=zero) then
-    
+
         if (ee<zero) ee = -ee
-        
+
         !(emr is range-reduced em & ee is absolute value of emr)
         !starter by first solving cubic equation
         e = one - e1
          w = dcbsol(e,two*e1, three*ee)
-         
+
         !effectively interpolate in emr (absolute value)
         ee = (ee*ee + (pi - ee)*w)/pi
         if (emr<zero) ee = -ee
-        
+
         !do two iterations of halley, each followed by newton
         do iter=1,2
             fdd = e*sin(ee)
@@ -149,21 +149,21 @@
     pure function ekepl1(em, e)
 
     implicit none
-    
+
     real(wp) :: ekepl1
     real(wp),intent(in) :: em
     real(wp),intent(in) :: e
-    
+
     real(wp) :: c,s,psi,xi,eta,fd,fdd,f
-    
+
     real(wp),parameter :: testsq = 1.0e-8_wp
-        
+
     c = e*cos(em)
     s = e*sin(em)
     psi = s/sqrt(one - c - c + e*e)
-    
+
     do
-    
+
         xi = cos(psi)
          eta = sin(psi)
          fd = (one - c*xi) + s*eta
@@ -171,9 +171,9 @@
          f = psi - fdd
          psi = psi - f*fd/(fd*fd - half*f*fdd)
          if (f*f < testsq) exit
-     
+
      end do
-     
+
      ekepl1 = em + psi
 
     end function ekepl1
@@ -187,29 +187,29 @@
     pure function ekepl2(em, e)
 
     implicit none
-    
+
     real(wp)            :: ekepl2
     real(wp),intent(in) :: em
     real(wp),intent(in) :: e
-    
+
     real(wp) :: emr, ee, w, e1, fdd, fddd, f, fd, dee
     logical :: l
     integer :: iter
-       
+
     real(wp),parameter :: sw = 0.1_wp
     real(wp),parameter :: a  = (pi-one)**2/(pi+two/three)
     real(wp),parameter :: b  = two*(pi-asixth)**2/(pi+two/three)
-     
+
     !range-reduce em to line in range -pi to pi
     emr = mod(em,twopi)
     if (emr<pineg) emr = emr + twopi
     if (emr>pi) emr = emr - twopi
     ee = emr
-    
+
     if (ee/=zero) then
-    
+
         if (ee<zero) ee = -ee
-        
+
         !(emr is range-reduced em & ee is absolute value of emr)
         !started for e = 1 by cube root of bilinear function
         if (ee<asixth) then
@@ -219,10 +219,10 @@
              ee = pi - a*w/(b - w)
          end if
          if (emr<zero) ee = -ee
-         
+
         !interpolate for e
         ee = emr + (ee - emr)*e
-        
+
         !do two iterations of halley, each followed by newton
         e1 = one - e
         l = (e1 + ee*ee/six) >= sw
@@ -245,7 +245,7 @@
             !if replacing as above, then also replace the last line by
             !ee = ee - (f - dee*(fd - w))/fd
         end do
-    
+
     end if
 
     !range-expand
@@ -253,7 +253,7 @@
 
     end function ekepl2
 !*****************************************************************************************
-    
+
 !*****************************************************************************************
 !>
 !  Accurate computation of `ee - e*sin(ee)`
@@ -271,14 +271,14 @@
     real(wp),intent(in) :: ee
 
     real(wp) :: x, ee2, term, d, x0
-    
+
     x    = (one - e)*sin(ee)
     ee2  = -ee*ee
     term = ee
     d    = zero
-    
+
     do
-    
+
         d = d + two
         term = term*ee2/(d*(d + one))
         x0 = x
@@ -286,7 +286,7 @@
         if (x==x0) exit
 
     end do
-         
+
     emkepl = x
 
     end function emkepl
@@ -310,9 +310,9 @@
     ee2  = -ee*ee
     term = ee
     d    = zero
-    
+
     do
-    
+
         d = d + two
         term = term*ee2/(d*(d + one))
         x0 = x
@@ -320,9 +320,9 @@
         if (x==x0) exit
 
     end do
-    
+
     emkep = x
-    
+
     end function emkep
 !*****************************************************************************************
 
@@ -334,20 +334,20 @@
     pure function shkepl (el, g1)
 
     implicit none
-    
+
     real(wp)            :: shkepl
     real(wp),intent(in) :: el
     real(wp),intent(in) :: g1
-    
+
     real(wp) :: s,g,cl,al,w,s0,s1,s2,s3,fdd,fddd,f,fd,ds,stemp
     integer  :: iter
-       
+
     real(wp),parameter :: sw=half
-    
+
     s = el
-    
+
     if (el/=zero) then
-    
+
         !started based on lagrange's theorem
         g = one - g1
         cl = sqrt(one + el**2)
@@ -355,7 +355,7 @@
         w = g**2*al/cl**3
         s = one - g/cl
         s = el + g*al/dcubrt(s**3 + w*el*(1.5_wp - g/0.75_wp))
-        
+
         !two iterations (at most) of halley-then-newton process
         do iter=1,2
             s0 = s*s
@@ -378,14 +378,14 @@
             fd = fd + ds*(fdd + half*ds*fddd)
              s = stemp - f/fd
         end do
- 
+
     end if
-    
+
     shkepl = s
 
      end function shkepl
 !*****************************************************************************************
-    
+
 !*****************************************************************************************
 !>
 !  Accurate computation of `s - (1 - g1)*asinh(s)`
@@ -407,17 +407,17 @@
     x = s*(g1 + g*tsq)
     term = two*g*t
     twoi1 = one
-    
+
     do
-    
+
         twoi1 = twoi1 + two
         term = term*tsq
         x0 = x
         x = x - term/twoi1
         if (x==x0) exit
- 
+
      end do
-     
+
      shmkep = x
 
      end function shmkep
@@ -431,7 +431,7 @@
     pure subroutine els2pv (gm, al, q, om, tau, r, u, vr, vt)
 
     implicit none
-    
+
     real(wp),intent(in)  :: gm    !! grav. parameter [km^3/s^2]
     real(wp),intent(in)  :: al    !! alpha [km^2/s^2]
     real(wp),intent(in)  :: q     !! periapsis distance [km]
@@ -443,20 +443,20 @@
     real(wp),intent(out) :: vt    !! transverse velocity >=0 [km/s]
 
     real(wp) :: d,h,v,e1,e,ep1,alp,rtal,em,ee2,s2,c2,emv,s,c
-        
+
     if (al==zero) then
-    
+
         !(parabola - gm cannot be zero)
-        
+
         d = dcbsol(half/gm, q, 1.5_wp*gm*tau)
         r = q + half*d*d/gm
         h = sqrt(two*gm*q)
         v = two*atan2(d,h)
-        
+
     else
-    
+
         !(ellipse or hyperbola)
-        
+
         e1 = al*q
         e = gm - e1
         ep1 = gm + e
@@ -464,11 +464,11 @@
         alp = abs(al)
         rtal = sqrt(alp)
         !(last 6 items could be saved if repeating gm, al & q)
-        
+
         em = tau*alp*rtal
         if (al>zero) then
-        
-            !(ellipse - gm cannot be zero)            
+
+            !(ellipse - gm cannot be zero)
             ! make sure e1 argument to ekepl is between [0,1]
             ee2 = half*ekepl(em/gm, max(zero,min(one,e1/gm)))
             s2 = sin(ee2)
@@ -478,9 +478,9 @@
             v = two*atan2(ep1*s2, h*rtal*c2)
             emv = em/gm - v
             v = v + fourpi*sign(real(int(abs(emv/fourpi) + half),wp), emv)
-            
+
         else
-        
+
             !(hyperbola)
             s = shkepl(em/e, -e1/e)
             s2 = s*s
@@ -489,11 +489,11 @@
             r = q - e*s2/al
             d = e*s/rtal
             v = atan2(s*h*rtal, -gm*s2 - e1)
-            
+
         end if
-        
+
     end if
-    
+
     !(all orbits)
     u = om + v
     vr = d/r
@@ -510,29 +510,29 @@
     pure subroutine els3pv (gm, e, pv)
 
     implicit none
-    
+
     real(wp),intent(in)               :: gm   !! grav. parameter [km^3/sec^2]
     real(wp),dimension(6),intent(in)  :: e    !! [al, q, ei, bom, om, tau]
     real(wp),dimension(6),intent(out) :: pv   !! [x, y, z, xdot, ydot, zdot]
-    
+
     real(wp) :: x,y,z,xdot,ydot,zdot,al,q,ei,bom,om,tau
     real(wp) :: r,u,vr,vt,c,s,x1,x2,y1,y2
-    
+
     if (all(e==zero)) then
-    
+
         pv = zero
-        
+
     else
-    
+
         al  = e(1)
         q   = e(2)
         ei  = e(3)
         bom = e(4)
         om  = e(5)
         tau = e(6)
-    
+
         call els2pv (gm, al, q, om, tau, r, u, vr, vt)
-    
+
         c = cos(u)
         s = sin(u)
         x1 = r*c
@@ -546,12 +546,12 @@
         zdot = y2*s
         y2 = y2*c
         c = cos(bom)
-        s = sin(bom)    
+        s = sin(bom)
         x = x1*c - y1*s
         y = x1*s + y1*c
         xdot = x2*c - y2*s
         ydot = x2*s + y2*c
-    
+
         pv(1) = x
         pv(2) = y
         pv(3) = z
@@ -560,7 +560,7 @@
         pv(6) = zdot
 
     end if
-    
+
     end subroutine els3pv
 !*****************************************************************************************
 
@@ -582,10 +582,10 @@
     real(wp),intent(out) :: q     !! periapsis distance [km]
     real(wp),intent(out) :: om    !! argument of periapsis relative to reference direction [rad]
     real(wp),intent(out) :: tau   !! time from periapsis [sec]
-    
+
     real(wp) :: esq1,es,eses,ec,ecec,esq,e,v,e1
     real(wp) :: eh,em,ecesq,en,adj,vsq,rtal,d,h,p,alp
-    
+
     real(wp),parameter   :: sw = 0.25_wp
     logical,parameter    :: l = .false.
 
@@ -652,14 +652,14 @@
             tau = em/en
             v = atan2(es*h*rtal, ecesq)
     end if
-    
+
     !(all orbits)
     om = u - v
-    
+
     !
     !  note: the following is never executed... set l=true and test...
     !
-    
+
     if (l .and. al>zero) then
         !(for ellipse, adjust revolutions if required (using l))
         adj = twopi*sign(real(int(abs(om/twopi) + half),wp), om)
@@ -678,27 +678,27 @@
     pure subroutine pv3els (gm, pv, e)
 
     implicit none
-    
+
     real(wp),intent(in)               :: gm   !! grav. parameter [km^3/s^2]
     real(wp),dimension(6),intent(in)  :: pv   !! [x, y, z, xdot, ydot, zdot]
     real(wp),dimension(6),intent(out) :: e    !! [al, q, ei, bom, om, tau]
-    
+
     real(wp) :: x,y,z,xdot,ydot,zdot,al,q,ei,bom,om,tau,xsqysq,&
                 rsq,r,vr,hx,hy,hz,hsq,u,vt,bx,by,bz,w,h
-    
+
     if (all(pv==zero)) then
-    
+
         e = zero
-        
+
     else
-    
+
         x    = pv(1)
         y    = pv(2)
         z    = pv(3)
         xdot = pv(4)
         ydot = pv(5)
         zdot = pv(6)
-        
+
         xsqysq = x*x + y*y
         rsq = xsqysq + z*z
         r = sqrt(rsq)
@@ -742,16 +742,16 @@
             vt = h/(r*rsq)
         end if
         call pv2els (gm, r, u, vr, vt, al, q, om, tau)
-    
+
         e(1) = al
         e(2) = q
         e(3) = ei
         e(4) = bom
         e(5) = om
         e(6) = tau
-    
+
     end if
-    
+
     end subroutine pv3els
 !*****************************************************************************************
 
@@ -764,12 +764,12 @@
     pure function dcbsol (a, b, c) result(x)
 
     implicit none
-    
+
     real(wp)               :: x
     real(wp),intent(in)    :: a
     real(wp),intent(in)    :: b
     real(wp),intent(in)    :: c
-    
+
     real(wp) :: bsq,d
 
     if (a==zero .and. b==zero .or. c==zero) then
@@ -792,10 +792,10 @@
     pure function dcubrt(x) result(c)
 
     implicit none
-    
+
     real(wp)            :: c
     real(wp),intent(in) :: x
-    
+
     real(wp) :: y
 
     if (x==zero) then
@@ -806,7 +806,7 @@
         c = c - athird*(c - y/c**2)
         c = sign(c,x)
     end if
-        
+
     end function dcubrt
 !*****************************************************************************************
 

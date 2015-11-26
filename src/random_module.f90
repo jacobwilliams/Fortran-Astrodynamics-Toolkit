@@ -4,16 +4,16 @@
 !  Random number generation.
 
     module random_module
-    
+
     use kind_module,      only: wp
-    
+
     implicit none
-    
+
     private
-    
+
     !public routines:
     public :: get_random_number
-    
+
     contains
 !*****************************************************************************************
 
@@ -31,9 +31,9 @@
     real(wp),intent(in) :: b
 
     call random_number(x)
-    
+
     x = a + (b-a)*x
-    
+
     end function get_random_number
 !*****************************************************************************************
 

@@ -1,6 +1,6 @@
 !*****************************************************************************************
 !> author: Jacob Williams
-! 
+!
 !  This module contains the Izzo and Gooding algorithms for solving Lambert's problem.
 
     module lambert_module
@@ -19,13 +19,13 @@
     real(wp),parameter :: four_third = four/three
     real(wp),parameter :: five_half  = five/two
     real(wp),parameter :: three_half = three/two
-    
+
     !public routines:
     public :: solve_lambert_izzo
     public :: solve_lambert_gooding
-    
+
     public :: lambert_test
-    
+
     contains
 
 !*****************************************************************************************
@@ -39,7 +39,7 @@
 !  1. D. Izzo, [Revisiting Lambert's Problem](http://arxiv-web3.library.cornell.edu/abs/1403.2705)
 !     [v2] Tue, 24 Jun 2014 13:08:37 GMT (606kb,D)
 !  2. [PyKEP](https://github.com/esa/pykep)
-!  3. R. A. Battin, "An Introduction to the Mathematics and Methods of 
+!  3. R. A. Battin, "An Introduction to the Mathematics and Methods of
 !     Astrodynamics (Revised Edition)", AIAA Education Series, 1999.
 
     subroutine solve_lambert_izzo(r1,r2,tof,mu,long_way,multi_revs,v1,v2,status_ok)
@@ -71,17 +71,17 @@
     real(wp),parameter  :: htol_multirev    = 1e-8_wp    !! for householder iterations
 
     !======= Begin Algorithm 1 in [1] =======
-   
+
     r1mag = norm2(r1)
     r2mag = norm2(r2)
-    
+
     !check for valid inputs:
     if (tof<=zero .or. mu<=zero .or. r1mag==zero .or. r2mag==zero) then
         write(*,*) 'Error in solve_lambert_izzo: invalid input'
         status_ok = .false.
         return
     end if
-    
+
     status_ok = .true.
 
     c       = r2 - r1
@@ -93,13 +93,13 @@
     h_hat   = ucross(r1_hat,r2_hat)
     lambda2 = one - cmag/s
     lambda  = sqrt(lambda2)
-    
+
     if ( all(h_hat == zero) ) then
         write(*,*) 'Warning: pi transfer in solve_lambert_izzo'
         !arbitrarily choose the transfer plane:
         h_hat = [zero,zero,one]
     end if
-    
+
     it1 = ucross(h_hat,r1_hat)
     it2 = ucross(h_hat,r2_hat)
     if (long_way) then
@@ -107,7 +107,7 @@
         it1 = -it1
         it2 = -it2
     end if
-        
+
     lambda3 = lambda*lambda2
     lambda5 = lambda2*lambda3
     t1 = two_third * (one - lambda3)
@@ -117,7 +117,7 @@
 
     ! maximum number of revolutions for which a solution exists:
     m_nmax = floor(t/pi)
-    
+
     t00 = acos(lambda) + lambda*sqrt(one-lambda2)
     t0 = t00 + m_nmax*pi
 
@@ -162,7 +162,7 @@
     allocate(x(n_solutions))
 
     ! Find the x value for each solution:
-    
+
     ! initial guess for 0 rev solution:
 
     if (t>=t00) then
@@ -176,7 +176,7 @@
     else
 
         x(1) = (t/t00) ** ( log2 / log(t1/t00) ) - one      !from [2]
-        
+
     end if
 
     ! 0 rev solution:
@@ -221,7 +221,7 @@
         v2(:,i) = vr2*r2_hat + vt2*it2   !
 
     end do
-    
+
     deallocate(x)
 
     contains
@@ -229,7 +229,7 @@
 
     !*************************************************************************************
         function householder(t,x,n,eps) result(it)
-        
+
         !! Householder root solver for x.
 
         implicit none
@@ -253,7 +253,7 @@
             dt2   = dt*dt
             term  = delta*(dt2-delta*d2t/two)/&
                     (dt*(dt2-delta*d2t)+d3t*delta*delta/six)
-            xnew  = x - term    ! Ref. [1], p. 12.                                                        
+            xnew  = x - term    ! Ref. [1], p. 12.
             x     = xnew
 
             if (abs(term)<=eps) exit
@@ -265,7 +265,7 @@
 
     !*************************************************************************************
         subroutine dtdx(dt,d2t,d3t,x,t)
-        
+
         !! Compute 1st-3rd derivatives for the Householder iterations.
 
         implicit none
@@ -415,8 +415,8 @@
 !
 !# References
 !
-!  1. R. H, Gooding. "[A procedure for the solution of Lambert's orbital 
-!     boundary-value problem](http://adsabs.harvard.edu/abs/1990CeMDA..48..145G)" 
+!  1. R. H, Gooding. "[A procedure for the solution of Lambert's orbital
+!     boundary-value problem](http://adsabs.harvard.edu/abs/1990CeMDA..48..145G)"
 !     Celestial Mechanics and Dynamical Astronomy,
 !     vol. 48, no. 2, 1990, p. 145-165.
 !  2. A. Klumpp, "Performance Comparision of Lambert and Kepler Algorithms",
@@ -442,76 +442,76 @@
     real(wp),dimension(3,2) :: vt1,vt2
     real(wp),dimension(3)   :: r1hat,r2hat,r1xr2,rho,r1xr2_hat,etai,etaf
     real(wp),dimension(2)   :: vri,vti,vrf,vtf
-    
+
     !temp arrays to hold all the solutions:
     ! they will be packed into the output arrays
     logical,dimension(2*multi_revs+1) :: solution_exists
     real(wp),dimension(3,1+2*multi_revs) :: all_vt1, all_vt2
-        
+
     r1mag = norm2(r1)
     r2mag = norm2(r2)
-    
+
     if ( r1mag==0.0_wp .or. r2mag==0.0_wp .or. mu<=0.0_wp .or. tof<=0.0_wp ) then
         write(*,*) 'Error in solve_lambert_gooding: invalid input'
         status_ok = .false.
         return
     end if
-    
+
     !initialize:
     solution_exists = .false.
     status_ok = .true.
-    
+
     dr       = r1mag - r2mag
-    r1r2     = r1mag*r2mag    
+    r1r2     = r1mag*r2mag
     r1hat    = r1/r1mag
     r2hat    = r2/r2mag
     r1xr2    = cross(r1,r2)
-    if (all(r1xr2==0.0_wp)) then    !the vectors are parallel, 
+    if (all(r1xr2==0.0_wp)) then    !the vectors are parallel,
                                     ! so the transfer plane is undefined
         write(*,*) 'Warning: pi transfer in solve_lambert_gooding'
         r1xr2 = [0.0_wp,0.0_wp,1.0_wp]    !degenerate conic...choose the x-y plane
-    end if        
+    end if
     r1xr2_hat = unit(r1xr2)
-    
+
     !a trick to make sure argument is between [-1 and 1]:
     pa = acos(max(-1.0_wp,min(1.0_wp,dot_product(r1hat,r2hat))))
-                
+
     do i=0,multi_revs
-    
+
         num_revs = real(i,wp)    !number of complete revs for this case
-        
+
         !transfer angle and normal vector:
         if (long_way) then ! greater than pi
             ta    =  num_revs * twopi + (twopi - pa)
-            rho   = -r1xr2_hat    
+            rho   = -r1xr2_hat
         else ! less than pi
-            ta    = num_revs * twopi + pa    
+            ta    = num_revs * twopi + pa
             rho   = r1xr2_hat
         end if
-        
+
         etai = cross(rho,r1hat)
         etaf = cross(rho,r2hat)
-    
+
         !Gooding routine:
         call vlamb(mu,r1mag,r2mag,ta,tof,n,vri,vti,vrf,vtf)
-                        
-        select case (n)    !number of solutions        
-                    
+
+        select case (n)    !number of solutions
+
         case(1)
-            
+
             vt1(:,1) = vri(1)*r1hat + vti(1)*etai
             vt2(:,1) = vrf(1)*r2hat + vtf(1)*etaf
 
         case(2)
-        
+
             vt1(:,1) = vri(1)*r1hat + vti(1)*etai
             vt2(:,1) = vrf(1)*r2hat + vtf(1)*etaf
-                        
+
             vt1(:,2) = vri(2)*r1hat + vti(2)*etai
             vt2(:,2) = vrf(2)*r2hat + vtf(2)*etaf
-            
+
         end select
-                
+
         if (i==0 .and. n==1) then    !there can be only one solution
             all_vt1(:,1) = vt1(:,1)
             all_vt2(:,1) = vt2(:,1)
@@ -524,42 +524,42 @@
                 solution_exists(2*i)   = .true.
             case(2)
                 all_vt1(:,2*i)         = vt1(:,1)
-                all_vt2(:,2*i)         = vt2(:,1)                
+                all_vt2(:,2*i)         = vt2(:,1)
                 solution_exists(2*i)   = .true.
                 all_vt1(:,2*i+1)       = vt1(:,2)
-                all_vt2(:,2*i+1)       = vt2(:,2)    
+                all_vt2(:,2*i+1)       = vt2(:,2)
                 solution_exists(2*i+1) = .true.
             end select
         end if
-    
+
     end do
-    
+
     !return all the solutions:
     n_solutions = count(solution_exists)
-    
+
     allocate(v1(3,n_solutions))
     allocate(v2(3,n_solutions))
-    
+
     k=0
-    do i=1,size(solution_exists)    
+    do i=1,size(solution_exists)
         if (solution_exists(i)) then
             k=k+1
             v1(:,k) = all_vt1(:,i)
             v2(:,k) = all_vt2(:,i)
         end if
     end do
-    
+
     contains
 !*****************************************************************************************
-    
+
     !*************************************************************************************
         subroutine vlamb(gm,r1,r2,th,tdelt,n,vri,vti,vrf,vtf)
 
         !!  Gooding support routine
         !!  Note: this contains the modification from [2]
-    
+
         implicit none
-    
+
         real(wp),intent(in) :: gm
         real(wp),intent(in) :: r1
         real(wp),intent(in) :: r2
@@ -574,19 +574,19 @@
         integer :: m,i
         real(wp) :: thr2,r1r2th,csq,c,s,gms,qsqfm1,q,rho,sig,t,x1,x2,x,unused,&
                     qzminx,qzplx,zplqx,vt2,vr1,vt1,vr2
-    
+
         !the following yields m = 0 when th = 2 pi exactly
         ! neither this nor the original code works for th < 0.0
         thr2 = th
         m = 0
         do while (thr2 > twopi)
-            thr2 = thr2 - twopi 
-            m = m + 1            
+            thr2 = thr2 - twopi
+            m = m + 1
         end do
         thr2   = thr2 / 2.0_wp
-        
+
         !note: dr and r1r2 are computed in the calling routine
-    
+
         r1r2th = 4.0_wp*r1r2*sin(thr2)**2
         csq    = dr*dr + r1r2th
         c      = sqrt(csq)
@@ -594,7 +594,7 @@
         gms    = sqrt(gm*s/2.0_wp)
         qsqfm1 = c/s
         q      = sqrt(r1r2)*cos(thr2)/s
-    
+
         if (c/=0.0_wp) then
             rho = dr/c
             sig = r1r2th/csq
@@ -602,7 +602,7 @@
             rho = 0.0_wp
             sig = 1.0_wp
         end if
-    
+
         t = 4.0_wp*gms*tdelt/s**2
 
         call xlamb(m,q,qsqfm1,t,n,x1,x2)
@@ -641,7 +641,7 @@
         !!  Gooding support routine
 
           implicit none
-      
+
           real(wp),intent(in)  :: q
           real(wp),intent(in)  :: qsqfm1
           real(wp),intent(in)  :: x
@@ -650,14 +650,14 @@
           real(wp),intent(out) :: dt
           real(wp),intent(out) :: d2t
           real(wp),intent(out) :: d3t
-            
+
           integer   :: m,i
           real(wp)  :: qsq,xsq,u,y,z,&
                         qx,a,b,aa,bb,g,f,fg1,term,fg1sq,twoi1,&
                         told,qz,qz2,u0i,u1i,u2i,u3i,tq,tqsum,&
                         ttmold,p,tterm,tqterm
           logical   :: lm1, l1, l2, l3
-      
+
           real(wp), parameter :: sw  = 0.4_wp
 
           lm1 = n==-1
@@ -749,7 +749,7 @@
             if (q>=0.5_wp) tqsum = (1.0_wp/(1.0_wp + q) + q)*qsqfm1
             ttmold = term/3.0_wp
             t = ttmold*tqsum
-        
+
             do
                 i = i + 1
                 p = i
@@ -788,12 +788,12 @@
         !!  8th root function, used by xlamb
 
         implicit none
-    
+
         real(wp) :: d8rt
         real(wp),intent(in) :: x
-    
+
         d8rt = sqrt(sqrt(sqrt(x)))
-    
+
         end function d8rt
     !*************************************************************************************
 
@@ -825,7 +825,7 @@
         real(wp),parameter :: c42 = 0.24_wp
 
         thr2 = atan2(qsqfm1, 2.0_wp*q)/pi
-      
+
         if (m==0) then
 
             !single-rev starter from t (at x = 0) & bilinear (usually)
@@ -868,19 +868,19 @@
                 n = -1
                 return
             end if
-            
+
             tdiffm = tin - tmin
             if (tdiffm<0.0_wp) then
 
                 n = 0
-                return    
+                return
                 !(exit if no solution with this m)
 
             else if (tdiffm==0.0_wp) then
 
                 x = xm
                 n = 1
-                return    
+                return
                 !(exit if unique solution already from x(tmin))
 
             else
@@ -902,11 +902,11 @@
             end if
 
         end if
-    
+
     !(now have a starter, so proceed by halley)
 
     5    continue
-    
+
             do i=1,3
                 call tlamb(m,q,qsqfm1,x,2,t,dt,d2t,d3t)
                 t = tin - t
@@ -914,7 +914,7 @@
             end do
             if (n/=3) return
             !(exit if only one solution, normally when m = 0)
-        
+
             n = 2
             xpl = x
             !(second multi-rev starter)
@@ -937,12 +937,12 @@
                     if (n==1) x = xpl
                 end if
             end if
-        
+
         goto 5
-      
+
         end subroutine xlamb
     !*************************************************************************************
-    
+
     end subroutine solve_lambert_gooding
 !*****************************************************************************************
 
@@ -955,20 +955,20 @@
 
     use gooding_module,    only: pv3els
     use random_module,     only: get_random_number
-    
+
     implicit none
-    
+
     real(wp),parameter :: tol = 1.0e-11_wp
-    
+
     real(wp),dimension(:,:),allocatable :: izzo_v1,izzo_v2
     real(wp),dimension(:,:),allocatable :: gooding_v1,gooding_v2
     real(wp),dimension(6)   :: rv1,rv2,pv,e
     integer                 :: imeth,icases,i,multi_revs,iway,n_cases
     real(wp)                :: tof,err1,err2
-    logical                 :: long_way,status_ok    
+    logical                 :: long_way,status_ok
     character(len=10)       :: str
     real                    :: dum, tstart, tend
-    
+
     real(wp),dimension(6),parameter :: rv1_base = &
                                         [1e6_wp,1e6_wp,1e6_wp,10.0_wp,10.0_wp,10.0_wp]
     real(wp),dimension(6),parameter :: rv2_base = &
@@ -981,19 +981,19 @@
     write(*,*) ' lambert_test'
     write(*,*) '---------------'
     write(*,*) ''
- 
+
     write(*,*) ''
     write(*,*) '   Test 1'
     write(*,*) ''
-    
+
     n_cases = 10
     multi_revs = 1
-    
+
     !reseed the random number generator:
     call random_seed()
-   
+
     do icases=1,n_cases
-        
+
         do i=1,6
             rv1(i) = get_random_number(-rv1_base(i),rv1_base(i))
         end do
@@ -1001,20 +1001,20 @@
             rv2(i) = get_random_number(-rv2_base(i),rv2_base(i))
         end do
         tof = get_random_number(1000.0_wp, tof_base)
-        
+
         do iway=1,2    !short and long way
-               
+
             long_way = (iway==1)
-            
+
             do imeth=1,2    ![izzo, gooding]
-                        
+
                 !if (icases==1 .and. imeth==1 .and. iway==1) &
                 !        write(*,'(*(A30,1X))') &
                 !        'case',&
                 !        'x1','y1','z1','vx1','vy1','vz1',&
                 !        'x2','y2','z2','vx2','vy2','vz2','tof'
                 !if (imeth==1) write(*,'(I30,1X,*(F30.6,1X))') icases, rv1, rv2, tof
-        
+
                 select case (imeth)
                 case(1)
                     call solve_lambert_izzo(   rv1(1:3),rv2(1:3),tof,mu,long_way,&
@@ -1024,23 +1024,23 @@
                     call solve_lambert_gooding(rv1(1:3),rv2(1:3),tof,mu,long_way,&
                                                 multi_revs,gooding_v1,gooding_v2,&
                                                 status_ok)
-                                                                                                
+
                 end select
-                
+
             end do
-            
+
             !results:
             if (size(izzo_v1,2)==size(gooding_v1,2)) then
-        
+
                 do i = 1, size(izzo_v1,2)
-                
+
                     !orb. elements of transfer orbit:
                     pv = [rv1(1:3),gooding_v1(:,i)]
                     call pv3els(mu, pv, e)
-            
+
                     err1 = norm2( izzo_v1(:,i) - gooding_v1(:,i) )
                     err2 = norm2( izzo_v2(:,i) - gooding_v2(:,i) )
-            
+
                     if (err1>tol) then
                         str = '*****ERROR*****'
                     else
@@ -1048,53 +1048,53 @@
                     end if
                     write(*,'(I5,1X,E25.16,1X,E25.16,1X,E25.16,1X,A)')&
                                  icases, e(1:2), err1, str
-                    
+
                     if (err2>tol) then
                         str = '*****ERROR*****'
                     else
                         str = ''
-                    end if                    
+                    end if
                     write(*,'(I5,1X,E25.16,1X,E25.16,1X,E25.16,1X,A)')&
                                  icases, e(1:2), err2, str
-                
+
                 end do
-            
+
             else
                 write(*,*) icases, 'Error: arrays sizes are not the same'
                 stop
             end if
-    
+
         end do
-        
+
     end do
-    
+
     write(*,*) ''
     write(*,*) '   Test 2: Speed test'
     write(*,*) ''
-    
+
     n_cases = 100000
-	
-	do imeth=1,2    ![izzo, gooding]
-	
-		!reseed the random number generator:
-		call random_seed()
-    	
-    	call cpu_time(tstart)
-    
-		do icases=1,n_cases
-				
-			do i=1,6
-				rv1(i) = get_random_number(-rv1_base(i),rv1_base(i))
-			end do
-			do i=1,6
-				rv2(i) = get_random_number(-rv2_base(i),rv2_base(i))
-			end do
-			tof = get_random_number(1000.0_wp, tof_base)
-		
-			do iway=1,2    !short and long way
-		
-				long_way = (iway==1)			
-                    
+
+    do imeth=1,2    ![izzo, gooding]
+
+        !reseed the random number generator:
+        call random_seed()
+
+        call cpu_time(tstart)
+
+        do icases=1,n_cases
+
+            do i=1,6
+                rv1(i) = get_random_number(-rv1_base(i),rv1_base(i))
+            end do
+            do i=1,6
+                rv2(i) = get_random_number(-rv2_base(i),rv2_base(i))
+            end do
+            tof = get_random_number(1000.0_wp, tof_base)
+
+            do iway=1,2    !short and long way
+
+                long_way = (iway==1)
+
                 select case (imeth)
                 case(1)
                     call solve_lambert_izzo(   rv1(1:3),rv2(1:3),tof,mu,long_way,&
@@ -1104,23 +1104,23 @@
                     call solve_lambert_gooding(rv1(1:3),rv2(1:3),tof,mu,long_way,&
                                                 multi_revs,gooding_v1,gooding_v2,&
                                                 status_ok)
-                                                                                                
+
                 end select
-                
+
             end do
-    
+
         end do
-        
-     	call cpu_time(tend)
-		select case (imeth)
-		case(1)
-       		write(*,*) 'run time for Izzo   : ', tend-tstart, ' sec.  ', n_cases/(tend-tstart),' cases/sec'
-       	case(2)
-       		write(*,*) 'run time for Gooding: ', tend-tstart, ' sec.  ', n_cases/(tend-tstart),' cases/sec'
-       	end select
-       	
+
+         call cpu_time(tend)
+        select case (imeth)
+        case(1)
+               write(*,*) 'run time for Izzo   : ', tend-tstart, ' sec.  ', n_cases/(tend-tstart),' cases/sec'
+           case(2)
+               write(*,*) 'run time for Gooding: ', tend-tstart, ' sec.  ', n_cases/(tend-tstart),' cases/sec'
+           end select
+
     end do
-        
+
     end subroutine lambert_test
 !*****************************************************************************************
 
