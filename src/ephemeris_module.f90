@@ -9,6 +9,8 @@
 
     use kind_module,    only: wp
 
+    implicit none
+
     private
 
     integer,parameter,public :: nmax = 1000
@@ -39,7 +41,7 @@
     real(wp)                 :: emrat = 0.0_wp
     integer                  :: ncon  = 0
     integer                  :: numde = 0
-    
+
     !stcomx
     real(wp),dimension(6) :: pvsun = 0.0_wp   !! dp 6-word array containing the barycentric position and
                                               !! velocity of the sun.
@@ -55,13 +57,13 @@
     !chrhdr
     character(len=6),dimension(14,3) :: ttl  = ''
     character(len=6),dimension(nmax) :: cnam = ''
-    
+
     logical :: initialized = .false.  !! is the ephemeris initialized?
     integer :: nrfile      = 0        !! file unit for the ephemeris file
     integer :: nrl         = -1       !! this was formerly in state
-    integer :: ncoeffs     = 0        ! 
-    
-    character(len=*),dimension(15),parameter :: list_of_bodies = [ & 
+    integer :: ncoeffs     = 0        !
+
+    character(len=*),dimension(15),parameter :: list_of_bodies = [ &
                                                         'mercury                ',&
                                                         'venus                  ',&
                                                         'earth                  ',&
@@ -83,22 +85,22 @@
     public :: get_state
     public :: get_constants
     public :: close_ephemeris
-    
+
     public :: ephemeris_test
 
     contains
 !*****************************************************************************************
-    
+
 !*****************************************************************************************
 !>
 !  This subroutine reads the JPL planetary ephemeris
 !  and gives the position and velocity of the point 'ntarg'
 !  with respect to 'ncent'.
-! 
+!
 !# Notes
 !
 !  The numbering convention for 'ntarg' and 'ncent' is:
-! 
+!
 !    1 = mercury      8 = neptune
 !    2 = venus        9 = pluto
 !    3 = earth       10 = moon
@@ -107,13 +109,13 @@
 !    6 = saturn      13 = earth-moon barycenter
 !    7 = uranus      14 = nutations (longitude and obliq)
 !                    15 = librations, if on eph file
-!   
-!  (if nutations are wanted, set ntarg = 14. 
+!
+!  (if nutations are wanted, set ntarg = 14.
 !  for librations, set ntarg = 15. set ncent=0.)
 
     subroutine get_state(et,ntarg,ncent,rrd)
 
-    implicit none  
+    implicit none
 
     real(wp),intent(in)               :: et    !! d.p. julian ephemeris date at which interpolation is wanted.
     integer,intent(in)                :: ntarg !! integer number of 'target' point.
@@ -127,7 +129,7 @@
                                                !! the option is available to have the units in km and km/sec.
                                                !! for this, set km=.true.
 
-    real(wp),dimension(2)    :: et2        
+    real(wp),dimension(2)    :: et2
     real(wp),dimension(6,13) :: pv
     real(wp),dimension(6,11) :: pvst
     real(wp),dimension(4)    :: pnut
@@ -143,15 +145,15 @@
     list = 0
 
     if (.not. initialized) call initialize_ephemeris()
-    
-	rrd = 0.0_wp
-	
+
+    rrd = 0.0_wp
+
     if (ntarg /= ncent) then
-        
-		select case (ntarg)
-		
-		case (14)	!nutation
-		
+
+        select case (ntarg)
+
+        case (14)    !nutation
+
             if (ipt(2,12)>0) then            !ipt(35)
                 list(11) = 2
                 call state(et2,list,pvst,pnut)
@@ -165,7 +167,7 @@
                 stop
             endif
 
-		case (15)	!librations
+        case (15)    !librations
 
             if (ipt(2,13)>0) then            !ipt(38)
                 list(12) = 2
@@ -176,57 +178,57 @@
                 write(6,'(A)') 'Error: the ephemeris file does not contain librations.'
                 stop
             endif
-   
-   		case default
 
-			! force barycentric output by 'state'
+           case default
 
-			bsave = bary
-			bary  = .true.
+            ! force barycentric output by 'state'
 
-			! set up proper entries in 'list' array for state call
+            bsave = bary
+            bary  = .true.
 
-			do i=1,2
-				k=ntarg
-				if (i == 2)  k = ncent
-				if (k <= 10) list(k) = 2
-				if (k == 10) list(3) = 2
-				if (k == 3)  list(10) = 2
-				if (k == 13) list(3) = 2
-			enddo
+            ! set up proper entries in 'list' array for state call
 
-			! make call to state
+            do i=1,2
+                k=ntarg
+                if (i == 2)  k = ncent
+                if (k <= 10) list(k) = 2
+                if (k == 10) list(3) = 2
+                if (k == 3)  list(10) = 2
+                if (k == 13) list(3) = 2
+            enddo
 
-			call state(et2,list,pvst,pnut)
+            ! make call to state
 
-			do i=1,10
-				do j = 1,6
-					pv(j,i) = pvst(j,i)
-				end do
-			enddo
+            call state(et2,list,pvst,pnut)
 
-			if (ntarg == 11 .or. ncent == 11) pv(:,11) = pvsun
-			if (ntarg == 12 .or. ncent == 12) pv(:,12) = 0.0_wp
-			if (ntarg == 13 .or. ncent == 13) pv(:,13) = pvst(:,3)
+            do i=1,10
+                do j = 1,6
+                    pv(j,i) = pvst(j,i)
+                end do
+            enddo
 
-			if (ntarg*ncent == 30 .and. ntarg+ncent == 13) then
-				pv(:,3) = 0.0_wp
-			else
-				if (list(3) == 2) pv(:,3) = pvst(:,3) - pvst(:,10)/(1.0_wp+emrat)    
-				if (list(10) == 2) pv(:,10) = pv(:,3) + pvst(:,10)
-			end if
+            if (ntarg == 11 .or. ncent == 11) pv(:,11) = pvsun
+            if (ntarg == 12 .or. ncent == 12) pv(:,12) = 0.0_wp
+            if (ntarg == 13 .or. ncent == 13) pv(:,13) = pvst(:,3)
 
-			rrd = pv(:,ntarg) - pv(:,ncent)
+            if (ntarg*ncent == 30 .and. ntarg+ncent == 13) then
+                pv(:,3) = 0.0_wp
+            else
+                if (list(3) == 2) pv(:,3) = pvst(:,3) - pvst(:,10)/(1.0_wp+emrat)
+                if (list(10) == 2) pv(:,10) = pv(:,3) + pvst(:,10)
+            end if
 
-			bary = bsave
+            rrd = pv(:,ntarg) - pv(:,ncent)
 
-		end select
-		
+            bary = bsave
+
+        end select
+
     end if
-    
+
     end subroutine get_state
 !*****************************************************************************************
-    
+
 !*****************************************************************************************
 !>
 !  this subroutine differentiates and interpolates a
@@ -235,10 +237,10 @@
     subroutine interp(buf,t,ncf,ncm,na,ifl,pv)
 
     implicit none
-    
-    real(wp),dimension(ncf,ncm,*) :: buf  !! 1st location of array of d.p. chebyshev coefficients of position
+
     integer,intent(in)            :: ncf  !! # of coefficients per component
     integer,intent(in)            :: ncm  !! # of components per set of coefficients
+    real(wp),dimension(ncf,ncm,*) :: buf  !! 1st location of array of d.p. chebyshev coefficients of position
     integer,intent(in)            :: na   !! # of sets of coefficients in full array
                                           !! (i.e., # of sub-intervals in full interval)
     integer,intent(in)            :: ifl  !! integer flag
@@ -258,7 +260,7 @@
     integer  :: np = 2
     integer  :: nv = 3
     real(wp) :: twot = 0.0_wp
-    
+
     data pc(1),pc(2)/1.0_wp,0.0_wp/
     data vc(2)/1.0_wp/
 
@@ -382,7 +384,7 @@
 
     integer :: irecsz,istat
     integer :: i,j,k,l
-    
+
     call close_ephemeris()
 
     if (present(eph_ksize))     ksize  = eph_ksize
@@ -398,14 +400,14 @@
          recl=irecsz,         &
          iostat=istat,        &
          status='OLD'         )
-         
+
     if (istat==0) then
 
         read(nrfile,rec=1,iostat=istat) &
                  ttl,(cnam(k),k=1,oldmax),ss,ncon,au,emrat,&
                  ((ipt(i,j),i=1,3),j=1,12),numde,(ipt(i,13),i=1,3), &
                  (cnam(l),l=oldmax+1,ncon)
-            
+
         if (istat==0) then
             if (ncon <= oldmax) then
                 read(nrfile,rec=2,iostat=istat) (cval(i),i=1,oldmax)
@@ -417,9 +419,9 @@
                 initialized = .true.
             end if
         end if
-        
+
     end if
-    
+
     if (istat/=0) then
         write(*,*) 'Error reading ephemeris file: '//trim(namfil)
         stop
@@ -435,24 +437,24 @@
     subroutine close_ephemeris()
 
     implicit none
-    
+
     logical :: opened
     integer :: istat
-    
+
     if (initialized) then
-    
+
         inquire(unit=nrfile,opened=opened,iostat=istat)
-    
+
         if (opened) close(unit=nrfile,iostat=istat)
-        
+
         initialized = .false.
         nrl = -1
-    
+
     end if
-    
+
     end subroutine close_ephemeris
 !*****************************************************************************************
-    
+
 !*****************************************************************************************
 !>
 !  This subroutine reads and interpolates the JPL planetary ephemeris file.
@@ -500,21 +502,21 @@
 !  OUTPUT
 !
 !      pv = dp 6 x 11 array that will contain requested interpolated
-!           quantities (other than nutation, stored in pnut).  
+!           quantities (other than nutation, stored in pnut).
 !           the body specified by list(i) will have its
-!           state in the array starting at pv(1,i).  
-!           (on any given call, only those words in 'pv' which are 
+!           state in the array starting at pv(1,i).
+!           (on any given call, only those words in 'pv' which are
 !           affected by the  first 10 'list' entries, and by list(12)
-!           if librations are on the file, are set.  
-!           the rest of the 'pv' array is untouched.)  
+!           if librations are on the file, are set.
+!           the rest of the 'pv' array is untouched.)
 !           the order of components starting in pv(1,i) is: x,y,z,dx,dy,dz.
 !
 !           all output vectors are referenced to the earth mean
 !           equator and equinox of j2000 if the de number is 200 or
-!           greater; of b1950 if the de number is less than 200. 
+!           greater; of b1950 if the de number is less than 200.
 !
-!           the moon state is always geocentric; the other nine states 
-!           are either heliocentric or solar-system barycentric, 
+!           the moon state is always geocentric; the other nine states
+!           are either heliocentric or solar-system barycentric,
 !           depending on the setting of common flags (see below).
 !
 !           lunar librations, if on file, are put into pv(k,11) if
@@ -523,7 +525,7 @@
 !    pnut = dp 4-word array that will contain nutations and rates,
 !           depending on the setting of list(11).  the order of
 !           quantities in pnut is:
-! 
+!
 !             d psi  (nutation in longitude)
 !             d epsilon (nutation in obliquity)
 !             d psi dot
@@ -536,18 +538,18 @@
     implicit none
 
     save
-    
+
     real(wp),dimension(2),intent(in)     :: et2
     integer,dimension(12),intent(in)     :: list
     real(wp),dimension(6,11),intent(out) :: pv
     real(wp),dimension(4),intent(out)    :: pnut
-    
+
     real(wp),dimension(2)    :: t
     real(wp),dimension(4)    :: pjd
     real(wp),dimension(1500) :: buf
-	real(wp) :: aufac,s,tmp1,tmp2
-	integer :: istat,i,j,k,nr
-	
+    real(wp) :: aufac,s,tmp1,tmp2
+    integer :: istat,i,j,k,nr
+
     !the ephemeris is assumed to have been initialized
 
     s = et2(1)-0.5_wp
@@ -565,7 +567,7 @@
                                         et2(1)+et2(2),&
                                         ' not within ephemeris limits,',&
                                         ss(1),ss(2)
-        stop      
+        stop
     end if
 
     ! calculate record # and relative time in interval
@@ -584,7 +586,7 @@
         read(nrfile,rec=nr,iostat=istat) (buf(k),k=1,ncoeffs)
         if (istat/=0) then
             write(*,'(2F12.2,A80)') et2,'Error return in state'
-            stop      
+            stop
         end if
     endif
 
@@ -643,9 +645,9 @@
     integer,intent(out) :: n  !! integer number of entries in 'nam' and 'val' arrays
 
     integer :: i
-    
+
     if (.not. initialized) call initialize_ephemeris()
-    
+
     n = ncon
 
     sss = ss
@@ -662,7 +664,7 @@
 !>
 !  Ephemeris test routine.
 !
-!# Notes 
+!# Notes
 !
 !  Disclaimer in original source [1]:
 !
@@ -693,7 +695,7 @@
 !
 !# See also
 !
-!  1. testeph.f in the original package: 
+!  1. testeph.f in the original package:
 !     ftp://ssd.jpl.nasa.gov/pub/eph/planets/fortran/
 
     subroutine ephemeris_test()
@@ -707,16 +709,16 @@
     real(wp),dimension(3) :: ss
     real(wp),dimension(nmax) :: vals
     integer :: nvs,ntarg,nctr,ncoord,i,j
-    
+
     write(*,*) ''
     write(*,*) '---------------'
     write(*,*) ' ephemeris_test'
     write(*,*) '---------------'
     write(*,*) ''
-    
+
     !get some constants from the file:
     call get_constants(nams,vals,ss,nvs)
-    
+
     write(*,'(A)') ''
     write(*,'(A)') 'Ephemeris initialized'
     write(*,'(A,1X,F15.3,1X,A,1X,F15.3)') 'JD range: ',ss(1), 'to ', ss(2)
@@ -724,7 +726,7 @@
     do i=1,nvs
         write(*,'(A,1X,D25.16)') nams(i), vals(i)
     end do
-    
+
     jd  = 2451536.5d0       ! julian date
 
     if (jd < ss(1) .or. jd > ss(2)) then
@@ -736,33 +738,33 @@
         write(*,*) 'ss(2) = ', ss(2)
 
     else
-        
+
         do j=1,2
-        
+
             if (j==1) then
                 ntarg = 3      !earth
-                nctr  = 11     !sun        
+                nctr  = 11     !sun
             else
                 ntarg = 10     !moon
-                nctr  = 3      !earth        
+                nctr  = 3      !earth
             end if
-            
+
             write(*,*) ''
             write(*,*) 'state of "'//trim(list_of_bodies(ntarg))//&
                         '" wrt "'//trim(list_of_bodies(nctr))//'"'
-    
+
             do i=1,10
-        
+
                 call get_state( jd, ntarg, nctr, rv )
 
                 write(*,'(F15.2,1X,*(E25.16,1X))') jd, norm2(rv(1:3)), rv
-            
+
                 jd = jd + 10.0_wp
 
             end do
-        
+
         end do
-        
+
     end if
 
     end subroutine ephemeris_test
