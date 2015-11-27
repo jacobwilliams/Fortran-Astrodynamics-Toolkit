@@ -31,6 +31,7 @@ The goal is to produce a comprehensive library, written in modern Fortran (Fortr
  * Alternate equations of motion
   - [x] Circular restricted three-body problem
   - [x] Clohessy-Wiltshire
+  - [ ] Modified equinoctial elements
  * Misc
   - [ ] orbital element conversions
   - [ ] targeting and optimization
