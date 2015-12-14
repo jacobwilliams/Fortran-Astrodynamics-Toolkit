@@ -74,6 +74,12 @@
         procedure,public :: get_acc => compute_gravity_acceleration_pines
     end type geopotential_model_pines
 
+    type,extends(geopotential_model_matrix_coeff),public :: geopotential_model_kuga_carrara
+        !! Kuga/Carrara method
+    contains
+        procedure,public :: get_acc => compute_gravity_acceleration_kuga_carrara
+    end type geopotential_model_kuga_carrara
+
     abstract interface
         subroutine acc_function(me,r,n,m,a)  !! Interface to the acceleration function for the different methods
             import
@@ -181,6 +187,27 @@
     call grav(me%mu,r,me%re,n,m,me%cnm,me%snm,a)
 
     end subroutine compute_gravity_acceleration_lear
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Wrapper for Kuga/Carrara method.
+!
+!@note Only computes n x n field (m input is ignored).
+
+    subroutine compute_gravity_acceleration_kuga_carrara(me,r,n,m,a)
+
+    implicit none
+
+    class(geopotential_model_kuga_carrara),intent(inout) :: me
+    real(wp),dimension(3),intent(in)         :: r
+    integer,intent(in)                       :: n
+    integer,intent(in)                       :: m
+    real(wp),dimension(3),intent(out)        :: a
+
+    call kuga_carrara_geopotential(me%nmax,n,me%re,me%mu,me%cnm,me%snm,r,a)
+
+    end subroutine compute_gravity_acceleration_kuga_carrara
 !*****************************************************************************************
 
 !*****************************************************************************************
@@ -342,7 +369,12 @@
 
             !for this one, the coefficients are stored in matrices
 
-            call convert(me%nmax,me%cnm,me%snm)
+            select type (me)
+            class is (geopotential_model_kuga_carrara)
+                !this model uses the normalized coefficients
+            class default
+                call convert(me%nmax,me%cnm,me%snm)
+            end select
 
         end select
 
@@ -909,6 +941,156 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
+!>
+!  Compute geopotential acceleration using the Kuga/Carrara algorithm.
+!  Based on *Leg_ForCol_Ac* from [1].
+!
+!@note This one does not work at the poles ($\phi = \pm 90^{\circ}$)
+!
+!# References
+!  1. Kuga, H.K. & Carrara, V.
+!    [Fortran- and C-codes for higher order and degree geopotential computation](www.dem.inpe.br/~hkk/software/high_geopot.html)
+
+    subroutine kuga_carrara_geopotential(nmax, nm, re, gm, c, s, x, ac)
+
+    implicit none
+
+    integer,intent(in)                       :: nmax !! max. order and degree loaded
+    integer,intent(in)                       :: nm   !! desired order and degree (nm <= nmax)
+    real(wp),intent(in)                      :: re   !! body equatorial radius [km]
+    real(wp),intent(in)                      :: gm   !! gravitational constant [km3/s2]
+    real(wp),dimension(nmax,0:nm),intent(in) :: c    !! c coefficients (Normalized)
+    real(wp),dimension(nmax,0:nm),intent(in) :: s    !! s coefficients (Normalized)
+    real(wp),dimension(3),intent(in)         :: x    !! body-fixed cartesian position vector [km]
+    real(wp),dimension(3),intent(out)        :: ac   !! body-fixed cartesian acceleration vector [km/s2]
+
+    integer :: n, m
+    real(wp),dimension(0:nm) :: pn, qn
+    real(wp) :: r, q, t, u2, u, um, tf, al, sl, cl, gmr
+    real(wp) :: pnm, dpnm, anm, bnm, fnm, cmm, smm
+    real(wp) :: am, an, pnn, pnm1m, pnm2m, sm, cm, sml, cml
+    real(wp) :: qc, qs, xc, xs, xcf, xsf, xcr, xsr, vl, vf, vr
+
+    real(wp),parameter :: sqrt3 = sqrt(3.0_wp)
+
+    ! auxiliary variables
+    r   = norm2(x)
+    q   = re / r
+    t   = x(3) / r             ! sin (lat)
+    u   = sqrt(1.0_wp - t*t)
+    tf  = t/u                  ! tan (lat)
+    al  = atan2(x(2), x(1))
+    sl  = sin (al)             ! sin (long)
+    cl  = cos (al)             ! cos (long)
+    gmr = gm / r
+
+    ! initialize
+    vl = 0.0_wp
+    vf = 0.0_wp
+    vr = 0.0_wp
+
+    ! store sectoral
+    pn(0) = 1.0_wp
+    pn(1) = sqrt3 * u ! sqrt(3) * cos (lat)
+    qn(0) = 1.0_wp
+    qn(1) = q
+    do m = 2, nm
+        am = real(m,wp)
+        pn(m) = u * sqrt(1.0_wp+0.5_wp/am) * pn(m-1)
+        qn(m) = q * qn(m-1)
+    end do
+
+    ! initialize sin and cos recursions
+    sm = 0.0_wp
+    cm = 1.0_wp
+
+    ! outer loop
+    do m = 0,nm
+
+        ! init
+        am = real(m,wp)
+
+        ! for m = n (sectoral)
+        pnm   = pn(m)
+        dpnm  = -am * pnm * tf
+        pnm1m = pnm
+        pnm2m = 0.0_wp
+
+        ! initialize Horner's scheme
+        if (m<2) then
+            cmm = 0.0_wp
+            smm = 0.0_wp
+        else
+            cmm = c(m,m)
+            smm = s(m,m)
+        end if
+
+        qc  = qn(m) * cmm
+        qs  = qn(m) * smm
+        xc  = qc * pnm
+        xs  = qs * pnm
+        xcf = qc * dpnm
+        xsf = qs * dpnm
+        xcr = (am+1.0_wp) * qc * pnm
+        xsr = (am+1.0_wp) * qs * pnm
+
+        ! inner loop
+        do n = m+1,nm
+
+            an  = real(n,wp)
+            anm = sqrt(((an+an-1.0_wp)*(an+an+1.0_wp))/((an-am)*(an+am)))
+            bnm = sqrt(((an+an+1.0_wp)*(an+am-1.0_wp)*(an-am-1.0_wp))/((an-am)*(an+am)*(an+an-3.0_wp)))
+            fnm = sqrt(((an*an-am*am)*(an+an+1.0_wp))/(an+an-1.0_wp))
+
+            ! recursion p and dp
+            pnm  = anm * t * pnm1m - bnm * pnm2m
+            dpnm = -an * pnm * tf + fnm * pnm1m / u   ! signal opposite to paper
+
+            ! store
+            pnm2m = pnm1m
+            pnm1m = pnm
+
+            ! inner sum
+            if (n >= 2) then
+                qc  = qn(n) * c(n,m)
+                qs  = qn(n) * s(n,m)
+                xc  = xc + qc * pnm
+                xs  = xs + qs * pnm
+                xcf = xcf + qc * dpnm
+                xsf = xsf + qs * dpnm
+                xcr = xcr + (an+1.0_wp) * qc * pnm
+                xsr = xsr + (an+1.0_wp) * qs * pnm
+            end if
+
+        end do
+
+        ! outer sum
+        vl = vl + am*(xc*sm - xs*cm)
+        vf = vf + (xcf*cm + xsf*sm)
+        vr = vr + (xcr*cm + xsr*sm)
+
+        ! sin and cos recursions for next m
+        cml = cl*cm - sm*sl
+        sml = cl*sm + cm*sl
+        cm  = cml ! save for next m
+        sm  = sml ! save for next m
+
+    end do
+
+    ! gradient
+    vl = -gmr * vl
+    vf =  gmr * vf
+    vr = -(gmr/r) * (1.0_wp+vr)
+
+    ! body x, y, z accelerations
+    ac(1) = u*cl*vr - t*cl*vf/r - sl*vl/(u*r)
+    ac(2) = u*sl*vr - t*sl*vf/r + cl*vl/(u*r)
+    ac(3) = t*vr + u*vf/r
+
+    end subroutine kuga_carrara_geopotential
+!*****************************************************************************************
+
+!*****************************************************************************************
 !> author: Jacob Williams
 !  date: 9/20/2014
 !
@@ -925,23 +1107,24 @@
     character(len=*),parameter :: gravfile = '../grav/GGM03C.GEO'  !! the coefficient file
 
     class(geopotential_model),pointer :: g
-    type(geopotential_model_mueller),target :: g_mueller
-    type(geopotential_model_lear)   ,target :: g_lear
-    type(geopotential_model_pines)  ,target :: g_pines
+    type(geopotential_model_mueller)     ,target :: g_mueller
+    type(geopotential_model_lear)        ,target :: g_lear
+    type(geopotential_model_pines)       ,target :: g_pines
+    type(geopotential_model_kuga_carrara),target :: g_kuga_carrara
 
-    real(wp),dimension(3) :: a1,a2,a3,rvec
+    real(wp),dimension(3) :: a1,a2,a3,a4,rvec
     logical :: status_ok
     integer :: lat,lon,i,j,nmax,mmax
-    real(wp) :: h,err1,err2,rlon,rlat,tmp
+    real(wp) :: h,err1,err2,err3,rlon,rlat,tmp
     character(len=20) :: name
     real :: tstart, tstop
 
     real(wp),dimension(3),parameter :: r = [0.1275627320e+05_wp, &
-                                            0.1275627320e+05_wp, &
-                                            0.1275627320e+05_wp ]   !! test case [km]
+                                           0.1275627320e+05_wp, &
+                                           0.1275627320e+05_wp ]   !! test case [km]
 
-    integer,parameter :: n=5    !! degree
-    integer,parameter :: m=5    !! order
+    integer,parameter :: n=9    !! degree
+    integer,parameter :: m=9    !! order
 
     integer,parameter :: n_repeat = 1000000  !! number of time to repeat speed test
 
@@ -965,7 +1148,7 @@
     write(*,*) ''
 
     write(*,*) ''
-    write(*,*) '*** test case for the three methods ***'
+    write(*,*) '*** test case for the four methods ***'
     write(*,*) ''
 
     write(*,*) ''
@@ -984,14 +1167,20 @@
     if (.not. status_ok) stop 'Error'
     call g_pines%get_acc(r,n,m,a3)
 
+    call g_kuga_carrara%initialize(gravfile,n,m,status_ok)
+    if (.not. status_ok) stop 'Error'
+    call g_kuga_carrara%get_acc(r,n,m,a4)
+
     write(*,*) ''
-    write(*,'(A,*(E30.16,1X))') 'mueller =',a1
-    write(*,'(A,*(E30.16,1X))') 'lear    =',a2
-    write(*,'(A,*(E30.16,1X))') 'pines   =',a3
+    write(*,'(A,*(E30.16,1X))') 'mueller      =',a1
+    write(*,'(A,*(E30.16,1X))') 'lear         =',a2
+    write(*,'(A,*(E30.16,1X))') 'pines        =',a3
+    write(*,'(A,*(E30.16,1X))') 'kuga_carrara =',a4
     write(*,*) ''
-    write(*,'(A,*(E30.16,1X))') 'mueller-lear difference  =',norm2(a1-a2)
-    write(*,'(A,*(E30.16,1X))') 'mueller-pines difference =',norm2(a1-a3)
-    write(*,'(A,*(E30.16,1X))') 'lear-pines difference    =',norm2(a2-a3)
+    write(*,'(A,*(E30.16,1X))') 'mueller-lear difference      =',norm2(a1-a2)
+    write(*,'(A,*(E30.16,1X))') 'mueller-pines difference     =',norm2(a1-a3)
+    write(*,'(A,*(E30.16,1X))') 'lear-pines difference        =',norm2(a2-a3)
+    write(*,'(A,*(E30.16,1X))') 'lear-kuga_carrara difference =',norm2(a2-a4)
     write(*,*) ''
 
     write(*,*) ''
@@ -1005,14 +1194,16 @@
 
             rvec = spherical_to_cartesian(h,lon*deg2rad,lat*deg2rad)
 
-            call g_mueller%get_acc(rvec,n,m,a1)     ! mueller
-            call g_lear%get_acc(rvec,n,m,a2)        ! lear
-            call g_pines%get_acc(rvec,n,m,a3)       ! pines
+            call g_mueller%get_acc(rvec,n,m,a1)       ! mueller
+            call g_lear%get_acc(rvec,n,m,a2)          ! lear
+            call g_pines%get_acc(rvec,n,m,a3)         ! pines
+            call g_kuga_carrara%get_acc(rvec,n,m,a4)  ! kuga/carrara
 
             err1 = norm2( a2 - a1 )
             err2 = norm2( a3 - a2 )
-            if (err2>1.0e-15_wp .or. err1>1.0e-15_wp) then
-                write(*,*) lat,lon,norm2(a1),norm2(a2),norm2(a2),err1,err2
+            err3 = norm2( a4 - a1 )
+            if (err2>1.0e-15_wp .or. err1>1.0e-15_wp .or. err3>1.0e-15_wp) then
+                write(*,*) lat,lon,norm2(a1),norm2(a2),norm2(a2),norm2(a3),err1,err2,err3
                 status_ok = .false.
             end if
             if (abs(lat)==90) exit    !only do poles once
@@ -1022,6 +1213,7 @@
     call g_mueller%destroy()
     call g_lear%destroy()
     call g_pines%destroy()
+    call g_kuga_carrara%destroy()
     if (status_ok) write(*,*) 'All tests passed.'
 
     write(*,*) ''
@@ -1031,7 +1223,7 @@
     nmax = 10
     mmax = 10
 
-    do i=1,3
+    do i=1,4
 
         select case(i)
         case(1)
@@ -1043,6 +1235,9 @@
         case(3)
             g => g_pines
             name = 'Pines'
+        case(4)
+            g => g_kuga_carrara
+            name = 'Kuga/Carrara'
         end select
         call g%initialize(gravfile,nmax,mmax,status_ok)
         if (.not. status_ok) stop 'Error'
