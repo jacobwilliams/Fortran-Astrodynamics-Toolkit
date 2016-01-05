@@ -4,11 +4,11 @@
 !  Unit test program for the Fortran Astrodynamics Toolkit
 
     program test
-    
+
     use fortran_astrodynamics_toolkit
-        
+
     implicit none
-        
+
     call brent_test()
     call ephemeris_test()
     call vector_test()
@@ -16,10 +16,11 @@
     call rk_test()
     call complex_step_test()
     call time_module_test()
-    call geopotential_module_test()   
+    call geopotential_module_test()
     call iau_test()
     call relative_motion_test()
     call crtbp_test()
-    
+    call bplane_test()
+
     end program test
 !*****************************************************************************************

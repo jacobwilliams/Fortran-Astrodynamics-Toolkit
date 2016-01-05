@@ -6,9 +6,11 @@
 
     module fortran_astrodynamics_toolkit
 
+    use bplane_module
     use brent_module
     use complex_step_module
     use conversion_module
+    use crtbp_module
     use ephemeris_module
     use geodesy_module
     use geometry_module
@@ -24,7 +26,6 @@
     use rk_module
     use time_module
     use vector_module
-    use crtbp_module
 
     implicit none
 

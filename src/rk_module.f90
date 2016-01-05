@@ -186,11 +186,12 @@
     real(wp),intent(out)                 :: gf      !! g value at tf
 
     !local variables:
-    real(wp) :: t,dt,t2,ga,gb,dt_root
+    real(wp) :: t,dt,t2,ga,gb,dt_root,dum
     real(wp),dimension(me%n) :: x,g_xf
     logical :: last,export
     procedure(report_func),pointer :: report
     type(brent_class) :: solver
+    integer :: iflag
 
     if (.not. associated(me%f)) error stop 'Error in integrate_to_event: f is not associated.'
     if (.not. associated(me%g)) error stop 'Error in integrate_to_event: g is not associated.'
@@ -225,7 +226,7 @@
             if (ga*gb<=zero) then !there is a root somewhere on [t,t+dt]
                 !find the root:
                 call solver%set_function(solver_func)
-                dt_root = solver%find_zero(zero,dt,tol)
+                call solver%find_zero(zero,dt,tol,dt_root,dum,iflag,ga,gb)
                 t2 = t + dt_root
                 gf = solver_func(solver,dt_root)
                 tf = t2

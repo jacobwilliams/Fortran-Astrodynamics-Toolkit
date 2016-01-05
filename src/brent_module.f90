@@ -214,122 +214,160 @@
 
 !*****************************************************************************************
 !>
-!  A zero of the function f(x) is computed in the interval ax,bx.
+!  Find a zero of the function \( f(x) \) in the given interval
+!  \( [a_x,b_x] \) to within a tolerance \( 4 \epsilon |x| + tol \),
+!  where \( \epsilon \) is the relative machine precision defined as
+!  the smallest representable number such that \( 1.0 + \epsilon > 1.0 \).
 !
-!  it is assumed that f(ax) and f(bx) have opposite signs
-!  this is checked, and an error message is printed if this is not
-!  satisfied. zeroin returns a zero x in the given interval
-!  ax,bx to within a tolerance 4*macheps*abs(x)+tol, where macheps is
-!  the relative machine precision defined as the smallest representable
-!  number such that 1.+macheps > 1.
+!  It is assumed that \( f(a_x) \) and \( f(b_x) \) have opposite signs.
 !
-!  this function subprogram is a slightly modified translation of
-!  the algol 60 procedure zero given in richard brent, algorithms for
-!  minimization without derivatives, prentice-hall, inc. (1973).
+!#References
+!  * R. P. Brent, "[An algorithm with guaranteed convergence for
+!    finding a zero of a function](http://maths-people.anu.edu.au/~brent/pd/rpb005.pdf)",
+!    The Computer Journal, Vol 14, No. 4., 1971.
+!  * R. P. Brent, "[Algorithms for minimization without derivatives](http://maths-people.anu.edu.au/~brent/pub/pub011.html)",
+!    Prentice-Hall, Inc., 1973.
 !
 !# See also
-!  [1] http://www.netlib.org/go/zeroin.f
+!  1. [zeroin.f](http://www.netlib.org/go/zeroin.f) from Netlib
 
-    function zeroin(me,ax,bx,tol) result(xzero)
+    subroutine zeroin(me,ax,bx,tol,xzero,fzero,iflag,fax,fbx)
+
+    use iso_fortran_env, only: error_unit
 
     implicit none
 
     class(brent_class),intent(inout) :: me
-    real(wp),intent(in) :: ax    !! left endpoint of initial interval
-    real(wp),intent(in) :: bx    !! right endpoint of initial interval
-    real(wp),intent(in) :: tol   !! desired length of the interval of uncertainty of the final result (>=0)
-    real(wp)            :: xzero !! abscissa approximating a zero of f in the interval ax,bx
+    real(wp),intent(in)              :: ax      !! left endpoint of initial interval
+    real(wp),intent(in)              :: bx      !! right endpoint of initial interval
+    real(wp),intent(in)              :: tol     !! desired length of the interval of uncertainty of the final result (>=0)
+    real(wp),intent(out)             :: xzero   !! abscissa approximating a zero of `f` in the interval `ax`,`bx`
+    real(wp),intent(out)             :: fzero   !! value of `f` at the root (`f(xzero)`)
+    integer,intent(out)              :: iflag   !! status flag (`-1`=error, `0`=root found)
+    real(wp),intent(in),optional     :: fax     !! if `f(ax)` is already known, it can be input here
+    real(wp),intent(in),optional     :: fbx     !! if `f(ax)` is already known, it can be input here
 
+    real(wp),parameter :: eps   = epsilon(one)  !! original code had d1mach(4)
     real(wp) :: a,b,c,d,e,fa,fb,fc,tol1,xm,p,q,r,s
-
-    real(wp),parameter :: eps = epsilon(one)    !! original code had d1mach(4)
 
     tol1 = eps+one
 
     a=ax
     b=bx
-    fa=me%f(a)
-    fb=me%f(b)
 
-    !check that f(ax) and f(bx) have different signs
-    if (fa == zero .or. fb == zero) go to 20
-    if (fa * (fb/abs(fb)) <= zero) go to 20
-
-    write(*,'(A)') 'Error: f(ax) and f(bx) do not have different signs:'//&
-                   ' zeroin is aborting'
-    return
-
-20  c=a
-    fc=fa
-    d=b-a
-    e=d
-
-30  if (abs(fc)<abs(fb)) then
-        a=b
-        b=c
-        c=a
-        fa=fb
-        fb=fc
-        fc=fa
+    if (present(fax)) then
+        fa = fax
+    else
+        fa=me%f(a)
+    end if
+    if (present(fbx)) then
+        fb = fbx
+    else
+        fb=me%f(b)
     end if
 
-40  tol1=two*eps*abs(b)+0.5_wp*tol
-    xm = 0.5_wp*(c-b)
-    if ((abs(xm)<=tol1).or.(fb==zero)) go to 150
+    !check trivial cases first:
+    if (fa==zero) then
 
-    ! see if a bisection is forced
+        iflag = 0
+        xzero = a
+        fzero = fa
 
-    if ((abs(e)>=tol1).and.(abs(fa)>abs(fb))) go to 50
-    d=xm
-    e=d
-    go to 110
-50  s=fb/fa
-    if (a/=c) go to 60
+    elseif (fb==zero) then
 
-    ! linear interpolation
+        iflag = 0
+        xzero = b
+        fzero = fb
 
-    p=two*xm*s
-    q=one-s
-    go to 70
+    elseif (fa*(fb/abs(fb))<zero) then  ! check that f(ax) and f(bx) have different signs
 
-    ! inverse quadratic interpolation
+        c=a
+        fc=fa
+        d=b-a
+        e=d
 
-60  q=fa/fc
-    r=fb/fc
-    p=s*(two*xm*q*(q-r)-(b-a)*(r-one))
-    q=(q-one)*(r-one)*(s-one)
-70  if (p<=zero) go to 80
-    q=-q
-    go to 90
+        do
 
-80  p=-p
-90  s=e
-    e=d
-    if (((two*p)>=(three*xm*q-abs(tol1*q))).or.(p>=&
-        abs(0.5_wp*s*q))) go to 100
-    d=p/q
-    go to 110
+            if (abs(fc)<abs(fb)) then
+                a=b
+                b=c
+                c=a
+                fa=fb
+                fb=fc
+                fc=fa
+            end if
 
-100 d=xm
-    e=d
-110 a=b
-    fa=fb
-    if (abs(d)<=tol1) go to 120
-    b=b+d
-    go to 140
+            tol1=two*eps*abs(b)+0.5_wp*tol
+            xm = 0.5_wp*(c-b)
+            if ((abs(xm)<=tol1).or.(fb==zero)) exit
 
-120 if (xm<=zero) go to 130
-    b=b+tol1
-    go to 140
+            ! see if a bisection is forced
+            if ((abs(e)>=tol1).and.(abs(fa)>abs(fb))) then
+                s=fb/fa
+                if (a/=c) then
+                    ! inverse quadratic interpolation
+                    q=fa/fc
+                    r=fb/fc
+                    p=s*(two*xm*q*(q-r)-(b-a)*(r-one))
+                    q=(q-one)*(r-one)*(s-one)
+                else
+                    ! linear interpolation
+                    p=two*xm*s
+                    q=one-s
+                end if
+                if (p<=zero) then
+                    p=-p
+                else
+                    q=-q
+                end if
+                s=e
+                e=d
+                if (((two*p)>=(three*xm*q-abs(tol1*q))) .or. &
+                    (p>=abs(0.5_wp*s*q))) then
+                    d=xm
+                    e=d
+                else
+                    d=p/q
+                end if
+            else
+                d=xm
+                e=d
+            end if
 
-130 b=b-tol1
-140 fb=me%f(b)
-    if ((fb*(fc/abs(fc)))>zero) go to 20
-    go to 30
+            a=b
+            fa=fb
+            if (abs(d)<=tol1) then
+                if (xm<=zero) then
+                    b=b-tol1
+                else
+                    b=b+tol1
+                end if
+            else
+                b=b+d
+            end if
+            fb=me%f(b)
+            if ((fb*(fc/abs(fc)))>zero) then
+                c=a
+                fc=fa
+                d=b-a
+                e=d
+            end if
 
-150 xzero = b
+        end do
 
-    end function zeroin
+        iflag = 0
+        xzero = b
+        fzero = fb
+
+    else
+
+        iflag = -1
+        write(error_unit,'(A)')&
+            'Error in zeroin: f(ax) and f(bx) do not have different signs.'
+
+    end if
+
+    end subroutine zeroin
 !*****************************************************************************************
 
 !*****************************************************************************************
@@ -342,7 +380,8 @@
 
     implicit none
 
-    real(wp) :: x,f,r
+    real(wp) :: x,f,r,fzero
+    integer :: iflag
 
     real(wp),parameter :: ax = zero
     real(wp),parameter :: bx = two*pi
@@ -371,7 +410,7 @@
     !call zeroin:
     ! [the root is at pi]
     myfunc%i = 0
-    r = myfunc%find_zero(ax+0.0001_wp,bx/two+0.0002,tol)
+    call myfunc%find_zero(ax+0.0001_wp,bx/two+0.0002,tol,r,fzero,iflag)
     write(*,*) 'root of sin(x) at: ', r*180.0_wp/pi,' deg'
     write(*,*) 'number of function calls: ', myfunc%i
 
