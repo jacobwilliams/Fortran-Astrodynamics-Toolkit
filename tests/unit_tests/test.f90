@@ -21,6 +21,7 @@
     call relative_motion_test()
     call crtbp_test()
     call bplane_test()
+    call direct_inverse_test()
 
     end program test
 !*****************************************************************************************
