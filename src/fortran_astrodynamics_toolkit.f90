@@ -21,6 +21,7 @@
     use lambert_module
     use math_module
     use minpack_module
+    use modified_equinoctial_module
     use numbers_module
     use relative_motion_module
     use rk_module

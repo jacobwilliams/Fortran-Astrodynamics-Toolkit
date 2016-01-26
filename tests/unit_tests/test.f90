@@ -22,6 +22,7 @@
     call crtbp_test()
     call bplane_test()
     call direct_inverse_test()
+    call modified_equinoctial_test()
 
     end program test
 !*****************************************************************************************
