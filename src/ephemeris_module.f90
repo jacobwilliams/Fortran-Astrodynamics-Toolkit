@@ -858,7 +858,7 @@
                             '" wrt "'//trim(list_of_bodies(nctr))//'"'
 
                 do i=1,10
-                    call eph405%get_state( jd, ntarg, nctr, rv, status_ok)
+                    call eph405%get_state( jd, ntarg, nctr, rv, status_ok_405)
                     write(*,'(F15.2,1X,*(E25.16,1X))') jd, norm2(rv(1:3)), rv
                     jd = jd + 10.0_wp
                 end do
@@ -889,8 +889,8 @@
                         '" wrt "'//trim(list_of_bodies(nctr))//'"'
 
             do i=1,10
-                call eph405%get_state( jd, ntarg, nctr, rv1, status_ok)
-                call eph421%get_state( jd, ntarg, nctr, rv2, status_ok)
+                call eph405%get_state( jd, ntarg, nctr, rv1, status_ok_405)
+                call eph421%get_state( jd, ntarg, nctr, rv2, status_ok_421)
                 diffrv = rv2 - rv1
                 write(*,'(F15.2,1X,*(E25.16,1X))') jd, norm2(diffrv(1:3)), norm2(diffrv(4:6))
                 jd = jd + 10.0_wp
