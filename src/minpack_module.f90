@@ -78,18 +78,23 @@
     implicit none
 
     abstract interface
-        subroutine fcn_hybrd(n,x,fvec,iflag)  !! function for [[hybrd]]
+        subroutine fcn_hybrd(n,x,fvec,iflag)
+            !! function for [[hybrd]].
+            !! calculate the functions at `x` and
+            !! return this vector in `fvec`.
             import :: wp
+            implicit none
             integer,intent(in)                :: n
             real(wp),dimension(n),intent(in)  :: x
             real(wp),dimension(n),intent(out) :: fvec
             integer,intent(inout)             :: iflag  !! the value of `iflag` should not be changed by fcn unless
                                                         !! the user wants to terminate execution of [[hybrd]].
                                                         !! in this case set `iflag` to a negative integer.
-
         end subroutine fcn_hybrd
-        subroutine fcn_hybrj(n,x,fvec,fjac,ldfjac,iflag)  !! function for [[hybrj]]
+        subroutine fcn_hybrj(n,x,fvec,fjac,ldfjac,iflag)
+            !! function for [[hybrj]]
             import :: wp
+            implicit none
             integer,intent(in)                       :: n
             real(wp),dimension(n),intent(in)         :: x
             integer,intent(in)                       :: ldfjac
@@ -901,123 +906,81 @@
 
 !*****************************************************************************************
 !>
-!     the purpose of hybrd1 is to find a zero of a system of
-!     n nonlinear functions in n variables by a modification
-!     of the powell hybrid method. this is done by using the
-!     more general nonlinear equation solver hybrd. the user
-!     must provide a subroutine which calculates the functions.
-!     the jacobian is then calculated by a forward-difference
-!     approximation.
-!
-!     the subroutine statement is
-!
-!       subroutine hybrd1(fcn,n,x,fvec,tol,info)
-!
-!     where
-!
-!       fcn is the name of the user-supplied subroutine which
-!         calculates the functions. fcn must be declared
-!         in an external statement in the user calling
-!         program, and should be written as follows.
-!
-!         subroutine fcn(n,x,fvec,iflag)
-!         integer n,iflag
-!         real(wp) x(n),fvec(n)
-!         ----------
-!         calculate the functions at x and
-!         return this vector in fvec.
-!         ---------
-!         return
-!         end
-!
-!         the value of iflag should not be changed by fcn unless
-!         the user wants to terminate execution of hybrd1.
-!         in this case set iflag to a negative integer.
-!
-!       n is a positive integer input variable set to the number
-!         of functions and variables.
-!
-!       x is an array of length n. on input x must contain
-!         an initial estimate of the solution vector. on output x
-!         contains the final estimate of the solution vector.
-!
-!       fvec is an output array of length n which contains
-!         the functions evaluated at the output x.
-!
-!       tol is a nonnegative input variable. termination occurs
-!         when the algorithm estimates that the relative error
-!         between x and the solution is at most tol.
-!
-!       info is an integer output variable. if the user has
-!         terminated execution, info is set to the (negative)
-!         value of iflag. see description of fcn. otherwise,
-!         info is set as follows.
-!
-!         info = 0   improper input parameters.
-!
-!         info = 1   algorithm estimates that the relative error
-!                    between x and the solution is at most tol.
-!
-!         info = 2   number of calls to fcn has reached or exceeded
-!                    200*(n+1).
-!
-!         info = 3   tol is too small. no further improvement in
-!                    the approximate solution x is possible.
-!
-!         info = 4   iteration is not making good progress.
+!  the purpose of `hybrd1` is to find a zero of a system of
+!  `n` nonlinear functions in `n` variables by a modification
+!  of the powell hybrid method. this is done by using the
+!  more general nonlinear equation solver [[hybrd]]. the user
+!  must provide a subroutine which calculates the functions.
+!  the jacobian is then calculated by a forward-difference
+!  approximation.
 
     subroutine hybrd1(fcn,n,x,fvec,tol,info)
 
     implicit none
 
-    integer n , info
-    real(wp) tol
-    real(wp) x(n) , fvec(n)
-    procedure(fcn_hybrd) :: fcn
+    procedure(fcn_hybrd)                :: fcn      !! user-supplied subroutine which calculates the functions
+    integer,intent(in)                  :: n        !! a positive integer input variable set to the number
+                                                    !! of functions and variables.
+    integer,intent(out)                 :: info     !! an integer output variable. if the user has
+                                                    !! terminated execution, info is set to the (negative)
+                                                    !! value of `iflag`. see description of `fcn`. otherwise,
+                                                    !! `info` is set as follows:
+                                                    !!  ***info = 0*** improper input parameters.
+                                                    !!  ***info = 1*** algorithm estimates that the relative error
+                                                    !!  between `x` and the solution is at most `tol`.
+                                                    !!  ***info = 2*** number of calls to `fcn` has reached or exceeded
+                                                    !!  `200*(n+1)`.
+                                                    !!  ***info = 3*** `tol` is too small. no further improvement in
+                                                    !!  the approximate solution `x` is possible.
+                                                    !!  ***info = 4*** iteration is not making good progress.
+    real(wp),intent(in)                 :: tol      !! a nonnegative input variable. termination occurs
+                                                    !! when the algorithm estimates that the relative error
+                                                    !! between `x` and the solution is at most `tol`.
+    real(wp),dimension(n),intent(inout) :: x        !! an array of length `n`. on input `x` must contain
+                                                    !! an initial estimate of the solution vector. on output `x`
+                                                    !! contains the final estimate of the solution vector.
+    real(wp),dimension(n),intent(out)   :: fvec     !! an output array of length `n` which contains
+                                                    !! the functions evaluated at the output `x`.
 
-    !formerly inputs:
-    integer :: lwa
-    real(wp),dimension(:),allocatable :: wa
+    integer :: lwa                           !! length of `wa` work array
+    real(wp),dimension(:),allocatable :: wa  !! work array
+    integer :: index , j , lr , maxfev , ml , mode , mu , nfev , nprint
+    real(wp) :: epsfcn , xtol
+    real(wp),dimension(n) :: diag
 
-      integer index , j , lr , maxfev , ml , mode , mu , nfev , nprint
-      real(wp) epsfcn , xtol
-      real(wp),dimension(n) :: diag
+    real(wp),parameter :: factor = 100.0_wp
 
-      real(wp),parameter :: factor = 100.0_wp
+    info = 0
 
-      info = 0
+    ! check the input parameters for errors.
+    if ( n>0 .and. tol>=zero ) then
 
-       ! check the input parameters for errors.
+        !set up inputs:
+        lwa     = (n*(3*n+13))/2    ! the work array was formerly an input
+        allocate(wa(lwa))           !
+        wa      = 0.0_wp            !
+        maxfev  = 200*(n+1)
+        xtol    = tol
+        ml      = n - 1
+        mu      = n - 1
+        epsfcn  = zero
+        mode    = 2
+        diag    = one
+        nprint  = 0
+        lr      = (n*(n+1))/2
+        index   = 6*n + lr
 
-       if ( n>0 .and. tol>=zero ) then
+        ! call hybrd:
+        call hybrd(fcn,n,x,fvec,xtol,maxfev,ml,mu,epsfcn,diag,mode,&
+                   factor,nprint,info,nfev,wa(index+1),n,wa(6*n+1),lr,&
+                   wa(n+1),wa(2*n+1),wa(3*n+1),wa(4*n+1),wa(5*n+1))
+        if ( info==5 ) info = 4
 
-         !allocate work array (formerly, this was an input)
-         lwa = (n*(3*n+13))/2
-         allocate(wa(lwa))
-         wa = 0.0_wp
+        deallocate(wa)
 
-         ! call hybrd.
+    endif
 
-         maxfev = 200*(n+1)
-         xtol = tol
-         ml = n - 1
-         mu = n - 1
-         epsfcn = zero
-         mode = 2
-         diag = one
-         nprint = 0
-         lr = (n*(n+1))/2
-         index = 6*n + lr
-         call hybrd(fcn,n,x,fvec,xtol,maxfev,ml,mu,epsfcn,diag,mode,    &
-                    factor,nprint,info,nfev,wa(index+1),n,wa(6*n+1),lr, &
-                    wa(n+1),wa(2*n+1),wa(3*n+1),wa(4*n+1),wa(5*n+1))
-         if ( info==5 ) info = 4
-
-         deallocate(wa)
-
-      endif
-
-      end subroutine hybrd1
+    end subroutine hybrd1
 !*****************************************************************************************
 
 !*****************************************************************************************
