@@ -1,19 +1,79 @@
 !*****************************************************************************************
 !>
-!  Minpack includes software for solving nonlinear equations and
-!  nonlinear least squares problems.
+!  Minpack routines for solving a set of nonlinear equations.
+!  The two main routines here are [[hybrj]] (user-provided Jacobian) and
+!  [[hybrd]] (estimates the Jacobian using finite differences).
 !
-!  Five algorithmic paths each include
-!  a core subroutine and an easy-to-use driver.  The algorithms proceed
-!  either from an analytic specification of the Jacobian matrix or
-!  directly from the problem functions.  The paths include facilities for
-!  systems of equations with a banded Jacobian matrix, for least squares
-!  problems with a large amount of data, and for checking the consistency
-!  of the Jacobian matrix with the functions.
+!### License
+!
+!  *** Original Minpack License ***
+!
+!     Minpack Copyright Notice (1999) University of Chicago.  All rights reserved
+!
+!     Redistribution and use in source and binary forms, with or
+!     without modification, are permitted provided that the
+!     following conditions are met:
+!
+!     1. Redistributions of source code must retain the above
+!     copyright notice, this list of conditions and the following
+!     disclaimer.
+!
+!     2. Redistributions in binary form must reproduce the above
+!     copyright notice, this list of conditions and the following
+!     disclaimer in the documentation and/or other materials
+!     provided with the distribution.
+!
+!     3. The end-user documentation included with the
+!     redistribution, if any, must include the following
+!     acknowledgment:
+!
+!        "This product includes software developed by the
+!        University of Chicago, as Operator of Argonne National
+!        Laboratory.
+!
+!     Alternately, this acknowledgment may appear in the software
+!     itself, if and wherever such third-party acknowledgments
+!     normally appear.
+!
+!     4. WARRANTY DISCLAIMER. THE SOFTWARE IS SUPPLIED "AS IS"
+!     WITHOUT WARRANTY OF ANY KIND. THE COPYRIGHT HOLDER, THE
+!     UNITED STATES, THE UNITED STATES DEPARTMENT OF ENERGY, AND
+!     THEIR EMPLOYEES: (1) DISCLAIM ANY WARRANTIES, EXPRESS OR
+!     IMPLIED, INCLUDING BUT NOT LIMITED TO ANY IMPLIED WARRANTIES
+!     OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE
+!     OR NON-INFRINGEMENT, (2) DO NOT ASSUME ANY LEGAL LIABILITY
+!     OR RESPONSIBILITY FOR THE ACCURACY, COMPLETENESS, OR
+!     USEFULNESS OF THE SOFTWARE, (3) DO NOT REPRESENT THAT USE OF
+!     THE SOFTWARE WOULD NOT INFRINGE PRIVATELY OWNED RIGHTS, (4)
+!     DO NOT WARRANT THAT THE SOFTWARE WILL FUNCTION
+!     UNINTERRUPTED, THAT IT IS ERROR-FREE OR THAT ANY ERRORS WILL
+!     BE CORRECTED.
+!
+!     5. LIMITATION OF LIABILITY. IN NO EVENT WILL THE COPYRIGHT
+!     HOLDER, THE UNITED STATES, THE UNITED STATES DEPARTMENT OF
+!     ENERGY, OR THEIR EMPLOYEES: BE LIABLE FOR ANY INDIRECT,
+!     INCIDENTAL, CONSEQUENTIAL, SPECIAL OR PUNITIVE DAMAGES OF
+!     ANY KIND OR NATURE, INCLUDING BUT NOT LIMITED TO LOSS OF
+!     PROFITS OR LOSS OF DATA, FOR ANY REASON WHATSOEVER, WHETHER
+!     SUCH LIABILITY IS ASSERTED ON THE BASIS OF CONTRACT, TORT
+!     (INCLUDING NEGLIGENCE OR STRICT LIABILITY), OR OTHERWISE,
+!     EVEN IF ANY OF SAID PARTIES HAS BEEN WARNED OF THE
+!     POSSIBILITY OF SUCH LOSS OR DAMAGES.
+!
+!  *** Modifications ***
+!
+!  Modifications for the Fortran Astrodynamics Toolkit are covered
+!  under the [following license](https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/blob/master/LICENSE).
+!
+!### History
+!  * Argonne National Laboratory. minpack project. march 1980.
+!    burton s. garbow, kenneth e. hillstrom, jorge j. more, john l. nazareth
+!  * Jacob Williams, Jan 2016, extensive refactoring into modern Fortran.
 
     module minpack_module
 
     use kind_module,    only: wp
+    use numbers_module
 
     implicit none
 
@@ -23,7 +83,10 @@
             integer,intent(in)                :: n
             real(wp),dimension(n),intent(in)  :: x
             real(wp),dimension(n),intent(out) :: fvec
-            integer,intent(inout)             :: iflag
+            integer,intent(inout)             :: iflag  !! the value of `iflag` should not be changed by fcn unless
+                                                        !! the user wants to terminate execution of [[hybrd]].
+                                                        !! in this case set `iflag` to a negative integer.
+
         end subroutine fcn_hybrd
         subroutine fcn_hybrj(n,x,fvec,fjac,ldfjac,iflag)  !! function for [[hybrj]]
             import :: wp
@@ -36,19 +99,14 @@
         end subroutine fcn_hybrj
     end interface
 
-    public :: hybrd, hybrj
+    public :: hybrd,hybrd1
+    public :: hybrj,hybrj1
 
     contains
 !*****************************************************************************************
 
-      subroutine dogleg(n,r,lr,diag,qtb,delta,x,wa1,wa2)
-      integer n,lr
-      real(wp) delta
-      real(wp) r(lr),diag(n),qtb(n),x(n),wa1(n),wa2(n)
-!     **********
-!
-!     subroutine dogleg
-!
+!*****************************************************************************************
+!>
 !     given an m by n matrix a, an n by n nonsingular diagonal
 !     matrix d, an m-vector b, and a positive number delta, the
 !     problem is to determine the convex combination x of the
@@ -91,152 +149,146 @@
 !         scaled gradient direction.
 !
 !       wa1 and wa2 are work arrays of length n.
-!
-!     subprograms called
-!
-!       minpack-supplied ... dpmpar,enorm
-!
-!       fortran-supplied ... dabs,dmax1,dmin1,dsqrt
-!
-!     argonne national laboratory. minpack project. march 1980.
-!     burton s. garbow, kenneth e. hillstrom, jorge j. more
-!
-!     **********
-      integer i,j,jj,jp1,k,l
-      real(wp) alpha,bnorm,epsmch,gnorm,one,qnorm,sgnorm,sum,&
-                       temp,zero
-      data one,zero /1.0d0,0.0d0/
-!
-!     epsmch is the machine precision.
-!
-      epsmch = dpmpar(1)
+
+    subroutine dogleg(n,r,lr,diag,qtb,delta,x,wa1,wa2)
+
+    implicit none
+
+    integer n , lr
+    real(wp) delta
+    real(wp) r(lr) , diag(n) , qtb(n) , x(n) , wa1(n) , wa2(n)
+
+      integer i , j , jj , jp1 , k , l
+      real(wp) alpha , bnorm , epsmch , gnorm , qnorm , sgnorm , sum , temp
+
+      epsmch = dpmpar(1)  ! the machine precision
 !
 !     first, calculate the gauss-newton direction.
 !
-      jj = (n*(n + 1))/2 + 1
-      do 50 k = 1, n
+      jj = (n*(n+1))/2 + 1
+      do k = 1 , n
          j = n - k + 1
          jp1 = j + 1
          jj = jj - k
          l = jj + 1
          sum = zero
-         if (n < jp1) go to 20
-         do 10 i = jp1, n
-            sum = sum + r(l)*x(i)
-            l = l + 1
-   10       continue
-   20    continue
+         if ( n>=jp1 ) then
+            do i = jp1 , n
+               sum = sum + r(l)*x(i)
+               l = l + 1
+            enddo
+         endif
          temp = r(jj)
-         if (temp /= zero) go to 40
-         l = j
-         do 30 i = 1, j
-            temp = dmax1(temp,dabs(r(l)))
-            l = l + n - i
-   30       continue
-         temp = epsmch*temp
-         if (temp == zero) temp = epsmch
-   40    continue
-         x(j) = (qtb(j) - sum)/temp
-   50    continue
+         if ( temp==zero ) then
+            l = j
+            do i = 1 , j
+               temp = max(temp,abs(r(l)))
+               l = l + n - i
+            enddo
+            temp = epsmch*temp
+            if ( temp==zero ) temp = epsmch
+         endif
+         x(j) = (qtb(j)-sum)/temp
+      enddo
 !
 !     test whether the gauss-newton direction is acceptable.
 !
-      do 60 j = 1, n
+      do j = 1 , n
          wa1(j) = zero
          wa2(j) = diag(j)*x(j)
-   60    continue
+      enddo
       qnorm = enorm(n,wa2)
-      if (qnorm <= delta) go to 140
+      if ( qnorm>delta ) then
 !
 !     the gauss-newton direction is not acceptable.
 !     next, calculate the scaled gradient direction.
 !
-      l = 1
-      do 80 j = 1, n
-         temp = qtb(j)
-         do 70 i = j, n
-            wa1(i) = wa1(i) + r(l)*temp
-            l = l + 1
-   70       continue
-         wa1(j) = wa1(j)/diag(j)
-   80    continue
+         l = 1
+         do j = 1 , n
+            temp = qtb(j)
+            do i = j , n
+               wa1(i) = wa1(i) + r(l)*temp
+               l = l + 1
+            enddo
+            wa1(j) = wa1(j)/diag(j)
+         enddo
 !
 !     calculate the norm of the scaled gradient and test for
 !     the special case in which the scaled gradient is zero.
 !
-      gnorm = enorm(n,wa1)
-      sgnorm = zero
-      alpha = delta/qnorm
-      if (gnorm == zero) go to 120
+         gnorm = enorm(n,wa1)
+         sgnorm = zero
+         alpha = delta/qnorm
+         if ( gnorm/=zero ) then
 !
 !     calculate the point along the scaled gradient
 !     at which the quadratic is minimized.
 !
-      do 90 j = 1, n
-         wa1(j) = (wa1(j)/gnorm)/diag(j)
-   90    continue
-      l = 1
-      do 110 j = 1, n
-         sum = zero
-         do 100 i = j, n
-            sum = sum + r(l)*wa1(i)
-            l = l + 1
-  100       continue
-         wa2(j) = sum
-  110    continue
-      temp = enorm(n,wa2)
-      sgnorm = (gnorm/temp)/temp
+            do j = 1 , n
+               wa1(j) = (wa1(j)/gnorm)/diag(j)
+            enddo
+            l = 1
+            do j = 1 , n
+               sum = zero
+               do i = j , n
+                  sum = sum + r(l)*wa1(i)
+                  l = l + 1
+               enddo
+               wa2(j) = sum
+            enddo
+            temp = enorm(n,wa2)
+            sgnorm = (gnorm/temp)/temp
 !
 !     test whether the scaled gradient direction is acceptable.
 !
-      alpha = zero
-      if (sgnorm >= delta) go to 120
+            alpha = zero
+            if ( sgnorm<delta ) then
 !
 !     the scaled gradient direction is not acceptable.
 !     finally, calculate the point along the dogleg
 !     at which the quadratic is minimized.
 !
-      bnorm = enorm(n,qtb)
-      temp = (bnorm/gnorm)*(bnorm/qnorm)*(sgnorm/delta)
-      temp = temp - (delta/qnorm)*(sgnorm/delta)**2&
-             + dsqrt((temp-(delta/qnorm))**2&
-                     +(one-(delta/qnorm)**2)*(one-(sgnorm/delta)**2))
-      alpha = ((delta/qnorm)*(one - (sgnorm/delta)**2))/temp
-  120 continue
+               bnorm = enorm(n,qtb)
+               temp = (bnorm/gnorm)*(bnorm/qnorm)*(sgnorm/delta)
+               temp = temp - (delta/qnorm)*(sgnorm/delta)**2 + &
+                      sqrt((temp-(delta/qnorm))**2+&
+                      (one-(delta/qnorm)**2)*(one-(sgnorm/delta)**2))
+               alpha = ((delta/qnorm)*(one-(sgnorm/delta)**2))/temp
+            endif
+         endif
 !
 !     form appropriate convex combination of the gauss-newton
 !     direction and the scaled gradient direction.
 !
-      temp = (one - alpha)*dmin1(sgnorm,delta)
-      do 130 j = 1, n
-         x(j) = temp*wa1(j) + alpha*x(j)
-  130    continue
-  140 continue
-      return
+         temp = (one-alpha)*min(sgnorm,delta)
+         do j = 1 , n
+            x(j) = temp*wa1(j) + alpha*x(j)
+         enddo
+      endif
 
-      end subroutine dogleg
+    end subroutine dogleg
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Replacement for the original Minpack routine.
 
     real(wp) function dpmpar(i)
-    !!  Replacement for the original Minpack routine.
     implicit none
 
     integer,intent(in) :: i
 
     real(wp),dimension(3),parameter :: dmach = [epsilon(1.0_wp),&
-                                                tiny(1.0_wp),&
-                                                huge(1.0_wp)]
+                                                  tiny(1.0_wp),&
+                                                  huge(1.0_wp)]
 
     dpmpar = dmach(i)
 
     end function dpmpar
+!*****************************************************************************************
 
-      real(wp) function enorm(n,x)
-      integer n
-      real(wp) x(n)
-!     **********
-!
-!     function enorm
-!
+!*****************************************************************************************
+!>
 !     given an n-vector x, this function calculates the
 !     euclidean norm of x.
 !
@@ -251,29 +303,19 @@
 !     restrictions on these constants are that rdwarf**2 not
 !     underflow and rgiant**2 not overflow. the constants
 !     given here are suitable for every known computer.
-!
-!     the function statement is
-!
-!       real(wp) function enorm(n,x)
-!
-!     where
-!
-!       n is a positive integer input variable.
-!
-!       x is an input array of length n.
-!
-!     subprograms called
-!
-!       fortran-supplied ... dabs,dsqrt
-!
-!     argonne national laboratory. minpack project. march 1980.
-!     burton s. garbow, kenneth e. hillstrom, jorge j. more
-!
-!     **********
+
+    real(wp) function enorm(n,x)
+
+    implicit none
+
+    integer,intent(in) :: n                 !! size of `x`
+    real(wp),dimension(n),intent(in) :: x   !! input array
+
       integer i
-      real(wp) agiant,floatn,one,rdwarf,rgiant,s1,s2,s3,xabs,&
-                       x1max,x3max,zero
-      data one,zero,rdwarf,rgiant /1.0d0,0.0d0,3.834d-20,1.304d19/
+      real(wp) agiant , floatn , s1 , s2 , s3 , xabs , x1max , x3max
+      real(wp),parameter :: rdwarf = 3.834e-20_wp
+      real(wp),parameter :: rgiant = 1.304e19_wp
+
       s1 = zero
       s2 = zero
       s3 = zero
@@ -281,71 +323,50 @@
       x3max = zero
       floatn = n
       agiant = rgiant/floatn
-      do 90 i = 1, n
-         xabs = dabs(x(i))
-         if (xabs > rdwarf .and. xabs < agiant) go to 70
-            if (xabs <= rdwarf) go to 30
-!
-!              sum for large components.
-!
-               if (xabs <= x1max) go to 10
-                  s1 = one + s1*(x1max/xabs)**2
-                  x1max = xabs
-                  go to 20
-   10          continue
-                  s1 = s1 + (xabs/x1max)**2
-   20          continue
-               go to 60
-   30       continue
-!
-!              sum for small components.
-!
-               if (xabs <= x3max) go to 40
-                  s3 = one + s3*(x3max/xabs)**2
-                  x3max = xabs
-                  go to 50
-   40          continue
-                  if (xabs /= zero) s3 = s3 + (xabs/x3max)**2
-   50          continue
-   60       continue
-            go to 80
-   70    continue
+      do i = 1 , n
+         xabs = abs(x(i))
+         if ( xabs>rdwarf .and. xabs<agiant ) then
 !
 !           sum for intermediate components.
 !
             s2 = s2 + xabs**2
-   80    continue
-   90    continue
+         elseif ( xabs<=rdwarf ) then
+!
+!              sum for small components.
+!
+            if ( xabs<=x3max ) then
+               if ( xabs/=zero ) s3 = s3 + (xabs/x3max)**2
+            else
+               s3 = one + s3*(x3max/xabs)**2
+               x3max = xabs
+            endif
+!
+!              sum for large components.
+!
+         elseif ( xabs<=x1max ) then
+            s1 = s1 + (xabs/x1max)**2
+         else
+            s1 = one + s1*(x1max/xabs)**2
+            x1max = xabs
+         endif
+      enddo
 !
 !     calculation of norm.
 !
-      if (s1 == zero) go to 100
-         enorm = x1max*dsqrt(s1+(s2/x1max)/x1max)
-         go to 130
-  100 continue
-         if (s2 == zero) go to 110
-            if (s2 >= x3max)&
-               enorm = dsqrt(s2*(one+(x3max/s2)*(x3max*s3)))
-            if (s2 < x3max)&
-               enorm = dsqrt(x3max*((s2/x3max)+(x3max*s3)))
-            go to 120
-  110    continue
-            enorm = x3max*dsqrt(s3)
-  120    continue
-  130 continue
+      if ( s1/=zero ) then
+         enorm = x1max*sqrt(s1+(s2/x1max)/x1max)
+      elseif ( s2==zero ) then
+         enorm = x3max*sqrt(s3)
+      else
+         if ( s2>=x3max ) enorm = sqrt(s2*(one+(x3max/s2)*(x3max*s3)))
+         if ( s2<x3max ) enorm = sqrt(x3max*((s2/x3max)+(x3max*s3)))
+      endif
 
-      end function enorm
+    end function enorm
+!*****************************************************************************************
 
-      subroutine fdjac1(fcn,n,x,fvec,fjac,ldfjac,iflag,ml,mu,epsfcn,&
-                        wa1,wa2)
-      integer n,ldfjac,iflag,ml,mu
-      real(wp) epsfcn
-      real(wp) x(n),fvec(n),fjac(ldfjac,n),wa1(n),wa2(n)
-      procedure(fcn_hybrd) :: fcn
-!     **********
-!
-!     subroutine fdjac1
-!
+!*****************************************************************************************
+!>
 !     this subroutine computes a forward-difference approximation
 !     to the n by n jacobian matrix associated with a specified
 !     problem of n functions in n variables. if the jacobian has
@@ -354,8 +375,7 @@
 !
 !     the subroutine statement is
 !
-!       subroutine fdjac1(fcn,n,x,fvec,fjac,ldfjac,iflag,ml,mu,epsfcn,
-!                         wa1,wa2)
+!       subroutine fdjac1(fcn,n,x,fvec,fjac,ldfjac,iflag,ml,mu,epsfcn,wa1,wa2)
 !
 !     where
 !
@@ -416,539 +436,471 @@
 !       wa1 and wa2 are work arrays of length n. if ml + mu + 1 is at
 !         least n, then the jacobian is considered dense, and wa2 is
 !         not referenced.
+
+    subroutine fdjac1(fcn,n,x,fvec,fjac,ldfjac,iflag,ml,mu,epsfcn,wa1,wa2)
+
+    implicit none
+
+    integer n , ldfjac , iflag , ml , mu
+    real(wp) epsfcn
+    real(wp) x(n) , fvec(n) , fjac(ldfjac,n) , wa1(n) , wa2(n)
+    procedure(fcn_hybrd) :: fcn
+
+      integer i , j , k , msum
+      real(wp) eps , epsmch , h , temp
+
+      epsmch = dpmpar(1) ! the machine precision
 !
-!     subprograms called
-!
-!       minpack-supplied ... dpmpar
-!
-!       fortran-supplied ... dabs,dmax1,dsqrt
-!
-!     argonne national laboratory. minpack project. march 1980.
-!     burton s. garbow, kenneth e. hillstrom, jorge j. more
-!
-!     **********
-      integer i,j,k,msum
-      real(wp) eps,epsmch,h,temp,zero
-      data zero /0.0d0/
-!
-!     epsmch is the machine precision.
-!
-      epsmch = dpmpar(1)
-!
-      eps = dsqrt(dmax1(epsfcn,epsmch))
+      eps = sqrt(max(epsfcn,epsmch))
       msum = ml + mu + 1
-      if (msum < n) go to 40
-!
-!        computation of dense approximate jacobian.
-!
-         do 20 j = 1, n
-            temp = x(j)
-            h = eps*dabs(temp)
-            if (h == zero) h = eps
-            x(j) = temp + h
-            call fcn(n,x,wa1,iflag)
-            if (iflag < 0) go to 30
-            x(j) = temp
-            do 10 i = 1, n
-               fjac(i,j) = (wa1(i) - fvec(i))/h
-   10          continue
-   20       continue
-   30    continue
-         go to 110
-   40 continue
+      if ( msum<n ) then
 !
 !        computation of banded approximate jacobian.
 !
-         do 90 k = 1, msum
-            do 60 j = k, n, msum
+         do k = 1 , msum
+            do j = k , n , msum
                wa2(j) = x(j)
-               h = eps*dabs(wa2(j))
-               if (h == zero) h = eps
+               h = eps*abs(wa2(j))
+               if ( h==zero ) h = eps
                x(j) = wa2(j) + h
-   60          continue
+            enddo
             call fcn(n,x,wa1,iflag)
-            if (iflag < 0) go to 100
-            do 80 j = k, n, msum
+            if ( iflag<0 ) return
+            do j = k , n , msum
                x(j) = wa2(j)
-               h = eps*dabs(wa2(j))
-               if (h == zero) h = eps
-               do 70 i = 1, n
+               h = eps*abs(wa2(j))
+               if ( h==zero ) h = eps
+               do i = 1 , n
                   fjac(i,j) = zero
-                  if (i >= j - mu .and. i <= j + ml)&
-                     fjac(i,j) = (wa1(i) - fvec(i))/h
-   70             continue
-   80          continue
-   90       continue
-  100    continue
-  110 continue
+                  if ( i>=j-mu .and. i<=j+ml ) fjac(i,j) = (wa1(i)-fvec(i))/h
+               enddo
+            enddo
+         enddo
+      else
+!
+!        computation of dense approximate jacobian.
+!
+         do j = 1 , n
+            temp = x(j)
+            h = eps*abs(temp)
+            if ( h==zero ) h = eps
+            x(j) = temp + h
+            call fcn(n,x,wa1,iflag)
+            if ( iflag<0 ) return
+            x(j) = temp
+            do i = 1 , n
+               fjac(i,j) = (wa1(i)-fvec(i))/h
+            enddo
+         enddo
+      endif
 
-      end subroutine fdjac1
+    end subroutine fdjac1
+!*****************************************************************************************
 
-      subroutine hybrd(fcn,n,x,fvec,xtol,maxfev,ml,mu,epsfcn,diag,&
-                       mode,factor,nprint,info,nfev,fjac,ldfjac,r,lr,&
-                       qtf,wa1,wa2,wa3,wa4)
-      integer n,maxfev,ml,mu,mode,nprint,info,nfev,ldfjac,lr
-      real(wp) xtol,epsfcn,factor
-      real(wp) x(n),fvec(n),diag(n),fjac(ldfjac,n),r(lr),&
-                       qtf(n),wa1(n),wa2(n),wa3(n),wa4(n)
-      procedure(fcn_hybrd) :: fcn
-!     **********
-!
-!     subroutine hybrd
-!
-!     the purpose of hybrd is to find a zero of a system of
-!     n nonlinear functions in n variables by a modification
-!     of the powell hybrid method. the user must provide a
-!     subroutine which calculates the functions. the jacobian is
-!     then calculated by a forward-difference approximation.
-!
-!     the subroutine statement is
-!
-!       subroutine hybrd(fcn,n,x,fvec,xtol,maxfev,ml,mu,epsfcn,
-!                        diag,mode,factor,nprint,info,nfev,fjac,
-!                        ldfjac,r,lr,qtf,wa1,wa2,wa3,wa4)
-!
-!     where
-!
-!       fcn is the name of the user-supplied subroutine which
-!         calculates the functions. fcn must be declared
-!         in an external statement in the user calling
-!         program, and should be written as follows.
-!
-!         subroutine fcn(n,x,fvec,iflag)
-!         integer n,iflag
-!         real(wp) x(n),fvec(n)
-!         ----------
-!         calculate the functions at x and
-!         return this vector in fvec.
-!         ---------
-!         return
-!         end
-!
-!         the value of iflag should not be changed by fcn unless
-!         the user wants to terminate execution of hybrd.
-!         in this case set iflag to a negative integer.
-!
-!       n is a positive integer input variable set to the number
-!         of functions and variables.
-!
-!       x is an array of length n. on input x must contain
-!         an initial estimate of the solution vector. on output x
-!         contains the final estimate of the solution vector.
-!
-!       fvec is an output array of length n which contains
-!         the functions evaluated at the output x.
-!
-!       xtol is a nonnegative input variable. termination
-!         occurs when the relative error between two consecutive
-!         iterates is at most xtol.
-!
-!       maxfev is a positive integer input variable. termination
-!         occurs when the number of calls to fcn is at least maxfev
-!         by the end of an iteration.
-!
-!       ml is a nonnegative integer input variable which specifies
-!         the number of subdiagonals within the band of the
-!         jacobian matrix. if the jacobian is not banded, set
-!         ml to at least n - 1.
-!
-!       mu is a nonnegative integer input variable which specifies
-!         the number of superdiagonals within the band of the
-!         jacobian matrix. if the jacobian is not banded, set
-!         mu to at least n - 1.
-!
-!       epsfcn is an input variable used in determining a suitable
-!         step length for the forward-difference approximation. this
-!         approximation assumes that the relative errors in the
-!         functions are of the order of epsfcn. if epsfcn is less
-!         than the machine precision, it is assumed that the relative
-!         errors in the functions are of the order of the machine
-!         precision.
-!
-!       diag is an array of length n. if mode = 1 (see
-!         below), diag is internally set. if mode = 2, diag
-!         must contain positive entries that serve as
-!         multiplicative scale factors for the variables.
-!
-!       mode is an integer input variable. if mode = 1, the
-!         variables will be scaled internally. if mode = 2,
-!         the scaling is specified by the input diag. other
-!         values of mode are equivalent to mode = 1.
-!
-!       factor is a positive input variable used in determining the
-!         initial step bound. this bound is set to the product of
-!         factor and the euclidean norm of diag*x if nonzero, or else
-!         to factor itself. in most cases factor should lie in the
-!         interval (.1,100.). 100. is a generally recommended value.
-!
-!       nprint is an integer input variable that enables controlled
-!         printing of iterates if it is positive. in this case,
-!         fcn is called with iflag = 0 at the beginning of the first
-!         iteration and every nprint iterations thereafter and
-!         immediately prior to return, with x and fvec available
-!         for printing. if nprint is not positive, no special calls
-!         of fcn with iflag = 0 are made.
-!
-!       info is an integer output variable. if the user has
-!         terminated execution, info is set to the (negative)
-!         value of iflag. see description of fcn. otherwise,
-!         info is set as follows.
-!
-!         info = 0   improper input parameters.
-!
-!         info = 1   relative error between two consecutive iterates
-!                    is at most xtol.
-!
-!         info = 2   number of calls to fcn has reached or exceeded
-!                    maxfev.
-!
-!         info = 3   xtol is too small. no further improvement in
-!                    the approximate solution x is possible.
-!
-!         info = 4   iteration is not making good progress, as
-!                    measured by the improvement from the last
-!                    five jacobian evaluations.
-!
-!         info = 5   iteration is not making good progress, as
-!                    measured by the improvement from the last
-!                    ten iterations.
-!
-!       nfev is an integer output variable set to the number of
-!         calls to fcn.
-!
-!       fjac is an output n by n array which contains the
-!         orthogonal matrix q produced by the qr factorization
-!         of the final approximate jacobian.
-!
-!       ldfjac is a positive integer input variable not less than n
-!         which specifies the leading dimension of the array fjac.
-!
-!       r is an output array of length lr which contains the
-!         upper triangular matrix produced by the qr factorization
-!         of the final approximate jacobian, stored rowwise.
-!
-!       lr is a positive integer input variable not less than
-!         (n*(n+1))/2.
-!
-!       qtf is an output array of length n which contains
-!         the vector (q transpose)*fvec.
-!
-!       wa1, wa2, wa3, and wa4 are work arrays of length n.
-!
-!     subprograms called
-!
-!       user-supplied ...... fcn
-!
-!       minpack-supplied ... dogleg,dpmpar,enorm,fdjac1,
-!                            qform,qrfac,r1mpyq,r1updt
-!
-!       fortran-supplied ... dabs,dmax1,dmin1,min0,mod
-!
-!     argonne national laboratory. minpack project. march 1980.
-!     burton s. garbow, kenneth e. hillstrom, jorge j. more
-!
-!     **********
-      integer i,iflag,iter,j,jm1,l,msum,ncfail,ncsuc,nslow1,nslow2
-      integer iwa(1)
-      logical jeval,sing
-      real(wp) actred,delta,epsmch,fnorm,fnorm1,one,pnorm,&
-                       prered,p1,p5,p001,p0001,ratio,sum,temp,xnorm,&
-                       zero
-      data one,p1,p5,p001,p0001,zero&
-           /1.0d0,1.0d-1,5.0d-1,1.0d-3,1.0d-4,0.0d0/
-!
-!     epsmch is the machine precision.
-!
-      epsmch = dpmpar(1)
-!
-      info = 0
-      iflag = 0
-      nfev = 0
-!
-!     check the input parameters for errors.
-!
-      if (n <= 0 .or. xtol < zero .or. maxfev <= 0&
-          .or. ml < 0 .or. mu < 0 .or. factor <= zero&
-          .or. ldfjac < n .or. lr < (n*(n + 1))/2) go to 300
-      if (mode /= 2) go to 20
-      do 10 j = 1, n
-         if (diag(j) <= zero) go to 300
-   10    continue
-   20 continue
-!
-!     evaluate the function at the starting point
-!     and calculate its norm.
-!
-      iflag = 1
-      call fcn(n,x,fvec,iflag)
-      nfev = 1
-      if (iflag < 0) go to 300
-      fnorm = enorm(n,fvec)
-!
-!     determine the number of calls to fcn needed to compute
-!     the jacobian matrix.
-!
-      msum = min0(ml+mu+1,n)
-!
-!     initialize iteration counter and monitors.
-!
-      iter = 1
-      ncsuc = 0
-      ncfail = 0
-      nslow1 = 0
-      nslow2 = 0
-!
-!     beginning of the outer loop.
-!
-   30 continue
-         jeval = .true.
-!
-!        calculate the jacobian matrix.
-!
-         iflag = 2
-         call fdjac1(fcn,n,x,fvec,fjac,ldfjac,iflag,ml,mu,epsfcn,wa1,&
-                     wa2)
-         nfev = nfev + msum
-         if (iflag < 0) go to 300
-!
-!        compute the qr factorization of the jacobian.
-!
-         call qrfac(n,n,fjac,ldfjac,.false.,iwa,1,wa1,wa2,wa3)
-!
-!        on the first iteration and if mode is 1, scale according
-!        to the norms of the columns of the initial jacobian.
-!
-         if (iter /= 1) go to 70
-         if (mode == 2) go to 50
-         do 40 j = 1, n
-            diag(j) = wa2(j)
-            if (wa2(j) == zero) diag(j) = one
-   40       continue
-   50    continue
-!
-!        on the first iteration, calculate the norm of the scaled x
-!        and initialize the step bound delta.
-!
-         do 60 j = 1, n
-            wa3(j) = diag(j)*x(j)
-   60       continue
-         xnorm = enorm(n,wa3)
-         delta = factor*xnorm
-         if (delta == zero) delta = factor
-   70    continue
-!
-!        form (q transpose)*fvec and store in qtf.
-!
-         do 80 i = 1, n
-            qtf(i) = fvec(i)
-   80       continue
-         do 120 j = 1, n
-            if (fjac(j,j) == zero) go to 110
-            sum = zero
-            do 90 i = j, n
-               sum = sum + fjac(i,j)*qtf(i)
-   90          continue
-            temp = -sum/fjac(j,j)
-            do 100 i = j, n
-               qtf(i) = qtf(i) + fjac(i,j)*temp
-  100          continue
-  110       continue
-  120       continue
-!
-!        copy the triangular factor of the qr factorization into r.
-!
-         sing = .false.
-         do 150 j = 1, n
-            l = j
-            jm1 = j - 1
-            if (jm1 < 1) go to 140
-            do 130 i = 1, jm1
-               r(l) = fjac(i,j)
-               l = l + n - i
-  130          continue
-  140       continue
-            r(l) = wa1(j)
-            if (wa1(j) == zero) sing = .true.
-  150       continue
-!
-!        accumulate the orthogonal factor in fjac.
-!
-         call qform(n,n,fjac,ldfjac,wa1)
-!
-!        rescale if necessary.
-!
-         if (mode == 2) go to 170
-         do 160 j = 1, n
-            diag(j) = dmax1(diag(j),wa2(j))
-  160       continue
-  170    continue
-!
-!        beginning of the inner loop.
-!
-  180    continue
-!
-!           if requested, call fcn to enable printing of iterates.
-!
-            if (nprint <= 0) go to 190
-            iflag = 0
-            if (mod(iter-1,nprint) == 0) call fcn(n,x,fvec,iflag)
-            if (iflag < 0) go to 300
-  190       continue
-!
-!           determine the direction p.
-!
-            call dogleg(n,r,lr,diag,qtf,delta,wa1,wa2,wa3)
-!
-!           store the direction p and x + p. calculate the norm of p.
-!
-            do 200 j = 1, n
-               wa1(j) = -wa1(j)
-               wa2(j) = x(j) + wa1(j)
-               wa3(j) = diag(j)*wa1(j)
-  200          continue
-            pnorm = enorm(n,wa3)
-!
-!           on the first iteration, adjust the initial step bound.
-!
-            if (iter == 1) delta = dmin1(delta,pnorm)
-!
-!           evaluate the function at x + p and calculate its norm.
-!
-            iflag = 1
-            call fcn(n,wa2,wa4,iflag)
-            nfev = nfev + 1
-            if (iflag < 0) go to 300
-            fnorm1 = enorm(n,wa4)
-!
-!           compute the scaled actual reduction.
-!
-            actred = -one
-            if (fnorm1 < fnorm) actred = one - (fnorm1/fnorm)**2
-!
-!           compute the scaled predicted reduction.
-!
-            l = 1
-            do 220 i = 1, n
-               sum = zero
-               do 210 j = i, n
-                  sum = sum + r(l)*wa1(j)
-                  l = l + 1
-  210             continue
-               wa3(i) = qtf(i) + sum
-  220          continue
-            temp = enorm(n,wa3)
-            prered = zero
-            if (temp < fnorm) prered = one - (temp/fnorm)**2
-!
-!           compute the ratio of the actual to the predicted
-!           reduction.
-!
-            ratio = zero
-            if (prered > zero) ratio = actred/prered
-!
-!           update the step bound.
-!
-            if (ratio >= p1) go to 230
-               ncsuc = 0
-               ncfail = ncfail + 1
-               delta = p5*delta
-               go to 240
-  230       continue
-               ncfail = 0
-               ncsuc = ncsuc + 1
-               if (ratio >= p5 .or. ncsuc > 1)&
-                  delta = dmax1(delta,pnorm/p5)
-               if (dabs(ratio-one) <= p1) delta = pnorm/p5
-  240       continue
-!
-!           test for successful iteration.
-!
-            if (ratio < p0001) go to 260
-!
-!           successful iteration. update x, fvec, and their norms.
-!
-            do 250 j = 1, n
-               x(j) = wa2(j)
-               wa2(j) = diag(j)*x(j)
-               fvec(j) = wa4(j)
-  250          continue
-            xnorm = enorm(n,wa2)
-            fnorm = fnorm1
-            iter = iter + 1
-  260       continue
-!
-!           determine the progress of the iteration.
-!
-            nslow1 = nslow1 + 1
-            if (actred >= p001) nslow1 = 0
-            if (jeval) nslow2 = nslow2 + 1
-            if (actred >= p1) nslow2 = 0
-!
-!           test for convergence.
-!
-            if (delta <= xtol*xnorm .or. fnorm == zero) info = 1
-            if (info /= 0) go to 300
-!
-!           tests for termination and stringent tolerances.
-!
-            if (nfev >= maxfev) info = 2
-            if (p1*dmax1(p1*delta,pnorm) <= epsmch*xnorm) info = 3
-            if (nslow2 == 5) info = 4
-            if (nslow1 == 10) info = 5
-            if (info /= 0) go to 300
-!
-!           criterion for recalculating jacobian approximation
-!           by forward differences.
-!
-            if (ncfail == 2) go to 290
-!
-!           calculate the rank one modification to the jacobian
-!           and update qtf if necessary.
-!
-            do 280 j = 1, n
-               sum = zero
-               do 270 i = 1, n
-                  sum = sum + fjac(i,j)*wa4(i)
-  270             continue
-               wa2(j) = (sum - wa3(j))/pnorm
-               wa1(j) = diag(j)*((diag(j)*wa1(j))/pnorm)
-               if (ratio >= p0001) qtf(j) = sum
-  280          continue
-!
-!           compute the qr factorization of the updated jacobian.
-!
-            call r1updt(n,n,r,lr,wa1,wa2,wa3,sing)
-            call r1mpyq(n,n,fjac,ldfjac,wa2,wa3)
-            call r1mpyq(1,n,qtf,1,wa2,wa3)
-!
-!           end of the inner loop.
-!
-            jeval = .false.
-            go to 180
-  290    continue
-!
-!        end of the outer loop.
-!
-         go to 30
-  300 continue
-!
-!     termination, either normal or user imposed.
-!
-      if (iflag < 0) info = iflag
-      iflag = 0
-      if (nprint > 0) call fcn(n,x,fvec,iflag)
+!*****************************************************************************************
+!>
+!  The purpose of hybrd is to find a zero of a system of
+!  n nonlinear functions in n variables by a modification
+!  of the powell hybrid method. the user must provide a
+!  subroutine which calculates the functions. the jacobian is
+!  then calculated by a forward-difference approximation.
+!
+!### Characteristics of the algorithm.
+!  HYBRD is a modification of the Powell hybrid method.  Two of its
+!  main characteristics involve the choice of the correction as a
+!  convex combination of the Newton and scaled gradient directions
+!  and the updating of the Jacobian by the rank-1 method of Broy-
+!  den.  The choice of the correction guarantees (under reasonable
+!  conditions) global convergence for starting points far from the
+!  solution and a fast rate of convergence.  The Jacobian is
+!  approximated by forward differences at the starting point, but
+!  forward differences are not used again until the rank-1 method
+!  fails to produce satisfactory progress.
+!
+!### References
+!  * M. J. D. Powell, A Hybrid Method for Nonlinear Equations.
+!    Numerical Methods for Nonlinear Algebraic Equations,
+!    P. Rabinowitz, editor. Gordon and Breach, 1970.
 
-      end subroutine hybrd
+    subroutine hybrd(fcn,n,x,fvec,xtol,maxfev,ml,mu,epsfcn,diag,mode, &
+                     factor,nprint,info,nfev,fjac,ldfjac,r,lr,qtf,wa1,&
+                     wa2,wa3,wa4)
 
-      subroutine hybrd1(fcn,n,x,fvec,tol,info)
-      integer n,info
-      real(wp) tol
-      real(wp) x(n),fvec(n)
-      procedure(fcn_hybrd) :: fcn
-!     **********
-!
-!     subroutine hybrd1
-!
+    implicit none
+
+    procedure(fcn_hybrd) :: fcn             !! user-supplied subroutine which calculates the functions
+    integer,intent(in) :: n                 !! a positive integer input variable set to the number
+                                            !! of functions and variables.
+    integer,intent(in) :: maxfev            !! a positive integer input variable. termination
+                                            !! occurs when the number of calls to `fcn` is at least `maxfev`
+                                            !! by the end of an iteration.
+    integer,intent(in) :: ml                !! a nonnegative integer input variable which specifies
+                                            !! the number of subdiagonals within the band of the
+                                            !! jacobian matrix. if the jacobian is not banded, set
+                                            !! `ml` to at least `n - 1`.
+    integer,intent(in) :: mu                !! a nonnegative integer input variable which specifies
+                                            !! the number of superdiagonals within the band of the
+                                            !! jacobian matrix. if the jacobian is not banded, set
+                                            !! `mu` to at least` n - 1`.
+    integer,intent(in) :: mode              !! if `mode = 1`, the
+                                            !! variables will be scaled internally. if `mode = 2`,
+                                            !! the scaling is specified by the input `diag`. other
+                                            !! values of `mode` are equivalent to `mode = 1`.
+    integer,intent(in)  :: nprint           !! an integer input variable that enables controlled
+                                            !! printing of iterates if it is positive. in this case,
+                                            !! `fcn` is called with `iflag = 0` at the beginning of the first
+                                            !! iteration and every `nprint` iterations thereafter and
+                                            !! immediately prior to return, with `x` and `fvec` available
+                                            !! for printing. if `nprint` is not positive, no special calls
+                                            !! of `fcn` with `iflag = 0` are made.
+    integer,intent(out) :: info             !! an integer output variable. if the user has
+                                            !! terminated execution, `info` is set to the (negative)
+                                            !! value of `iflag`. see description of `fcn`. otherwise,
+                                            !! `info` is set as follows:
+                                            !!  * ***info = 0*** improper input parameters.
+                                            !!  * ***info = 1*** relative error between two consecutive iterates
+                                            !!    is at most `xtol`.
+                                            !!  * ***info = 2*** number of calls to `fcn` has reached or exceeded
+                                            !!    `maxfev`.
+                                            !!  * ***info = 3*** `xtol` is too small. no further improvement in
+                                            !!    the approximate solution `x` is possible.
+                                            !!  * ***info = 4*** iteration is not making good progress, as
+                                            !!    measured by the improvement from the last
+                                            !!    five jacobian evaluations.
+                                            !!  * ***info = 5*** iteration is not making good progress, as
+                                            !!    measured by the improvement from the last
+                                            !!    ten iterations.
+    integer,intent(out) :: nfev             !! output variable set to the number of calls to `fcn`.
+    integer,intent(in):: ldfjac             !! a positive integer input variable not less than `n`
+                                            !! which specifies the leading dimension of the array `fjac`.
+    integer,intent(in) :: lr                !! a positive integer input variable not less than `(n*(n+1))/2`.
+    real(wp),intent(in) :: xtol             !! a nonnegative input variable. termination
+                                            !! occurs when the relative error between two consecutive
+                                            !! iterates is at most `xtol`.
+    real(wp),intent(in) :: epsfcn           !! an input variable used in determining a suitable
+                                            !! step length for the forward-difference approximation. this
+                                            !! approximation assumes that the relative errors in the
+                                            !! functions are of the order of `epsfcn`. if `epsfcn` is less
+                                            !! than the machine precision, it is assumed that the relative
+                                            !! errors in the functions are of the order of the machine
+                                            !! precision.
+    real(wp),intent(in) :: factor           !! a positive input variable used in determining the
+                                            !! initial step bound. this bound is set to the product of
+                                            !! `factor` and the euclidean norm of `diag*x` if nonzero, or else
+                                            !! to `factor` itself. in most cases factor should lie in the
+                                            !! interval (.1,100.). 100. is a generally recommended value.
+    real(wp),intent(inout) :: x(n)          !! array of length n. on input `x` must contain
+                                            !! an initial estimate of the solution vector. on output `x`
+                                            !! contains the final estimate of the solution vector.
+    real(wp),intent(out) :: fvec(n)         !! an output array of length `n` which contains
+                                            !! the functions evaluated at the output `x`.
+    real(wp),intent(inout) :: diag(n)       !! an array of length `n`. if `mode = 1` (see
+                                            !! below), `diag` is internally set. if `mode = 2`, `diag`
+                                            !! must contain positive entries that serve as
+                                            !! multiplicative scale factors for the variables.
+    real(wp),intent(out) :: fjac(ldfjac,n)  !! array which contains the
+                                            !! orthogonal matrix `q` produced by the QR factorization
+                                            !! of the final approximate jacobian.
+    real(wp),intent(out) :: r(lr)           !! an output array which contains the
+                                            !! upper triangular matrix produced by the QR factorization
+                                            !! of the final approximate jacobian, stored rowwise.
+    real(wp),intent(out) :: qtf(n)          !! an output array of length `n` which contains
+                                            !! the vector `(q transpose)*fvec`.
+    real(wp),intent(inout) :: wa1(n)  !! work array
+    real(wp),intent(inout) :: wa2(n)  !! work array
+    real(wp),intent(inout) :: wa3(n)  !! work array
+    real(wp),intent(inout) :: wa4(n)  !! work array
+
+    integer :: i , iflag , iter , j , jm1 , l , msum , ncfail , ncsuc , nslow1 , nslow2
+    integer :: iwa(1)
+    logical :: jeval , sing
+    real(wp) :: actred , delta , epsmch , fnorm , fnorm1 , &
+                  pnorm , prered , ratio ,&
+                  sum , temp , xnorm
+
+    real(wp),parameter :: p1    = 1.0e-1_wp
+    real(wp),parameter :: p5    = 5.0e-1_wp
+    real(wp),parameter :: p001  = 1.0e-3_wp
+    real(wp),parameter :: p0001 = 1.0e-4_wp
+
+    epsmch = dpmpar(1)  ! the machine precision
+
+    info = 0
+    iflag = 0
+    nfev = 0
+    !
+    !     check the input parameters for errors.
+    !
+    if ( n<=0 .or. xtol<zero .or. maxfev<=0 .or. ml<0 .or. mu<0 .or.  &
+         factor<=zero .or. ldfjac<n .or. lr<(n*(n+1))/2 ) goto 300
+    if ( mode==2 ) then
+       do j = 1 , n
+          if ( diag(j)<=zero ) goto 300
+       enddo
+    endif
+    !
+    !     evaluate the function at the starting point
+    !     and calculate its norm.
+    !
+    iflag = 1
+    call fcn(n,x,fvec,iflag)
+    nfev = 1
+    if ( iflag<0 ) goto 300
+    fnorm = enorm(n,fvec)
+    !
+    !     determine the number of calls to fcn needed to compute
+    !     the jacobian matrix.
+    !
+    msum = min0(ml+mu+1,n)
+    !
+    !     initialize iteration counter and monitors.
+    !
+    iter = 1
+    ncsuc = 0
+    ncfail = 0
+    nslow1 = 0
+    nslow2 = 0
+    !
+    !     beginning of the outer loop.
+    !
+    100  jeval = .true.
+    !
+    !        calculate the jacobian matrix.
+    !
+    iflag = 2
+    call fdjac1(fcn,n,x,fvec,fjac,ldfjac,iflag,ml,mu,epsfcn,wa1,wa2)
+    nfev = nfev + msum
+    if ( iflag<0 ) goto 300
+    !
+    !        compute the qr factorization of the jacobian.
+    !
+    call qrfac(n,n,fjac,ldfjac,.false.,iwa,1,wa1,wa2,wa3)
+    !
+    !        on the first iteration and if mode is 1, scale according
+    !        to the norms of the columns of the initial jacobian.
+    !
+    if ( iter==1 ) then
+       if ( mode/=2 ) then
+          do j = 1 , n
+             diag(j) = wa2(j)
+             if ( wa2(j)==zero ) diag(j) = one
+          enddo
+       endif
+    !
+    !        on the first iteration, calculate the norm of the scaled x
+    !        and initialize the step bound delta.
+    !
+       do j = 1 , n
+          wa3(j) = diag(j)*x(j)
+       enddo
+       xnorm = enorm(n,wa3)
+       delta = factor*xnorm
+       if ( delta==zero ) delta = factor
+    endif
+    !
+    !        form (q transpose)*fvec and store in qtf.
+    !
+    do i = 1 , n
+       qtf(i) = fvec(i)
+    enddo
+    do j = 1 , n
+       if ( fjac(j,j)/=zero ) then
+          sum = zero
+          do i = j , n
+             sum = sum + fjac(i,j)*qtf(i)
+          enddo
+          temp = -sum/fjac(j,j)
+          do i = j , n
+             qtf(i) = qtf(i) + fjac(i,j)*temp
+          enddo
+       endif
+    enddo
+    !
+    !        copy the triangular factor of the qr factorization into r.
+    !
+    sing = .false.
+    do j = 1 , n
+       l = j
+       jm1 = j - 1
+       if ( jm1>=1 ) then
+          do i = 1 , jm1
+             r(l) = fjac(i,j)
+             l = l + n - i
+          enddo
+       endif
+       r(l) = wa1(j)
+       if ( wa1(j)==zero ) sing = .true.
+    enddo
+    !
+    !        accumulate the orthogonal factor in fjac.
+    !
+    call qform(n,n,fjac,ldfjac,wa1)
+    !
+    !        rescale if necessary.
+    !
+    if ( mode/=2 ) then
+       do j = 1 , n
+          diag(j) = dmax1(diag(j),wa2(j))
+       enddo
+    endif
+    !
+    !        beginning of the inner loop.
+    !
+    !
+    !           if requested, call fcn to enable printing of iterates.
+    !
+    200  if ( nprint>0 ) then
+       iflag = 0
+       if ( mod(iter-1,nprint)==0 ) call fcn(n,x,fvec,iflag)
+       if ( iflag<0 ) goto 300
+    endif
+    !
+    !           determine the direction p.
+    !
+    call dogleg(n,r,lr,diag,qtf,delta,wa1,wa2,wa3)
+    !
+    !           store the direction p and x + p. calculate the norm of p.
+    !
+    do j = 1 , n
+       wa1(j) = -wa1(j)
+       wa2(j) = x(j) + wa1(j)
+       wa3(j) = diag(j)*wa1(j)
+    enddo
+    pnorm = enorm(n,wa3)
+    !
+    !           on the first iteration, adjust the initial step bound.
+    !
+    if ( iter==1 ) delta = dmin1(delta,pnorm)
+    !
+    !           evaluate the function at x + p and calculate its norm.
+    !
+    iflag = 1
+    call fcn(n,wa2,wa4,iflag)
+    nfev = nfev + 1
+    if ( iflag>=0 ) then
+       fnorm1 = enorm(n,wa4)
+    !
+    !           compute the scaled actual reduction.
+    !
+       actred = -one
+       if ( fnorm1<fnorm ) actred = one - (fnorm1/fnorm)**2
+    !
+    !           compute the scaled predicted reduction.
+    !
+       l = 1
+       do i = 1 , n
+          sum = zero
+          do j = i , n
+             sum = sum + r(l)*wa1(j)
+             l = l + 1
+          enddo
+          wa3(i) = qtf(i) + sum
+       enddo
+       temp = enorm(n,wa3)
+       prered = zero
+       if ( temp<fnorm ) prered = one - (temp/fnorm)**2
+    !
+    !           compute the ratio of the actual to the predicted
+    !           reduction.
+    !
+       ratio = zero
+       if ( prered>zero ) ratio = actred/prered
+    !
+    !           update the step bound.
+    !
+       if ( ratio>=p1 ) then
+          ncfail = 0
+          ncsuc = ncsuc + 1
+          if ( ratio>=p5 .or. ncsuc>1 ) delta = dmax1(delta,pnorm/p5)
+          if ( dabs(ratio-one)<=p1 ) delta = pnorm/p5
+       else
+          ncsuc = 0
+          ncfail = ncfail + 1
+          delta = p5*delta
+       endif
+    !
+    !           test for successful iteration.
+    !
+       if ( ratio>=p0001 ) then
+    !
+    !           successful iteration. update x, fvec, and their norms.
+    !
+          do j = 1 , n
+             x(j) = wa2(j)
+             wa2(j) = diag(j)*x(j)
+             fvec(j) = wa4(j)
+          enddo
+          xnorm = enorm(n,wa2)
+          fnorm = fnorm1
+          iter = iter + 1
+       endif
+    !
+    !           determine the progress of the iteration.
+    !
+       nslow1 = nslow1 + 1
+       if ( actred>=p001 ) nslow1 = 0
+       if ( jeval ) nslow2 = nslow2 + 1
+       if ( actred>=p1 ) nslow2 = 0
+    !
+    !           test for convergence.
+    !
+       if ( delta<=xtol*xnorm .or. fnorm==zero ) info = 1
+       if ( info==0 ) then
+    !
+    !           tests for termination and stringent tolerances.
+    !
+          if ( nfev>=maxfev ) info = 2
+          if ( p1*dmax1(p1*delta,pnorm)<=epsmch*xnorm ) info = 3
+          if ( nslow2==5 ) info = 4
+          if ( nslow1==10 ) info = 5
+          if ( info==0 ) then
+    !
+    !           criterion for recalculating jacobian approximation
+    !           by forward differences.
+    !
+             if ( ncfail==2 ) goto 100
+    !
+    !           calculate the rank one modification to the jacobian
+    !           and update qtf if necessary.
+    !
+             do j = 1 , n
+                sum = zero
+                do i = 1 , n
+                   sum = sum + fjac(i,j)*wa4(i)
+                enddo
+                wa2(j) = (sum-wa3(j))/pnorm
+                wa1(j) = diag(j)*((diag(j)*wa1(j))/pnorm)
+                if ( ratio>=p0001 ) qtf(j) = sum
+             enddo
+    !
+    !           compute the qr factorization of the updated jacobian.
+    !
+             call r1updt(n,n,r,lr,wa1,wa2,wa3,sing)
+             call r1mpyq(n,n,fjac,ldfjac,wa2,wa3)
+             call r1mpyq(1,n,qtf,1,wa2,wa3)
+    !
+    !           end of the inner loop.
+    !
+             jeval = .false.
+    !
+    !        end of the outer loop.
+    !
+             goto 200
+          endif
+       endif
+    endif
+    !
+    !     termination, either normal or user imposed.
+    !
+    300  if ( iflag<0 ) info = iflag
+    iflag = 0
+    if ( nprint>0 ) call fcn(n,x,fvec,iflag)
+
+    end subroutine hybrd
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
 !     the purpose of hybrd1 is to find a zero of a system of
 !     n nonlinear functions in n variables by a modification
 !     of the powell hybrid method. this is done by using the
@@ -959,7 +911,7 @@
 !
 !     the subroutine statement is
 !
-!       subroutine hybrd1(fcn,n,x,fvec,tol,info,wa,lwa)
+!       subroutine hybrd1(fcn,n,x,fvec,tol,info)
 !
 !     where
 !
@@ -1013,92 +965,67 @@
 !                    the approximate solution x is possible.
 !
 !         info = 4   iteration is not making good progress.
-!
-!       wa is a work array of length lwa.
-!
-!       lwa is a positive integer input variable not less than
-!         (n*(3*n+13))/2.
-!
-!     subprograms called
-!
-!       user-supplied ...... fcn
-!
-!       minpack-supplied ... hybrd
-!
-!     argonne national laboratory. minpack project. march 1980.
-!     burton s. garbow, kenneth e. hillstrom, jorge j. more
-!
-!     **********
-      integer index,j,lr,maxfev,ml,mode,mu,nfev,nprint
-      real(wp) epsfcn,factor,one,xtol,zero
-      data factor,one,zero /1.0d2,1.0d0,0.0d0/
 
-        !formerly inputs:
-    	integer :: lwa
-    	real(wp),dimension(:),allocatable :: wa
+    subroutine hybrd1(fcn,n,x,fvec,tol,info)
 
+    implicit none
+
+    integer n , info
+    real(wp) tol
+    real(wp) x(n) , fvec(n)
+    procedure(fcn_hybrd) :: fcn
+
+    !formerly inputs:
+    integer :: lwa
+    real(wp),dimension(:),allocatable :: wa
+
+      integer index , j , lr , maxfev , ml , mode , mu , nfev , nprint
+      real(wp) epsfcn , xtol
+      real(wp),dimension(n) :: diag
+
+      real(wp),parameter :: factor = 100.0_wp
+
+      info = 0
+
+       ! check the input parameters for errors.
+
+       if ( n>0 .and. tol>=zero ) then
 
          !allocate work array (formerly, this was an input)
          lwa = (n*(3*n+13))/2
          allocate(wa(lwa))
          wa = 0.0_wp
 
+         ! call hybrd.
 
+         maxfev = 200*(n+1)
+         xtol = tol
+         ml = n - 1
+         mu = n - 1
+         epsfcn = zero
+         mode = 2
+         diag = one
+         nprint = 0
+         lr = (n*(n+1))/2
+         index = 6*n + lr
+         call hybrd(fcn,n,x,fvec,xtol,maxfev,ml,mu,epsfcn,diag,mode,    &
+                    factor,nprint,info,nfev,wa(index+1),n,wa(6*n+1),lr, &
+                    wa(n+1),wa(2*n+1),wa(3*n+1),wa(4*n+1),wa(5*n+1))
+         if ( info==5 ) info = 4
 
+         deallocate(wa)
 
-      info = 0
-!
-!     check the input parameters for errors.
-!
-      if (n <= 0 .or. tol < zero .or. lwa < (n*(3*n + 13))/2)&
-         go to 20
-!
-!     call hybrd.
-!
-      maxfev = 200*(n + 1)
-      xtol = tol
-      ml = n - 1
-      mu = n - 1
-      epsfcn = zero
-      mode = 2
-      do 10 j = 1, n
-         wa(j) = one
-   10    continue
-      nprint = 0
-      lr = (n*(n + 1))/2
-      index = 6*n + lr
-      call hybrd(fcn,n,x,fvec,xtol,maxfev,ml,mu,epsfcn,wa(1),mode,&
-                 factor,nprint,info,nfev,wa(index+1),n,wa(6*n+1),lr,&
-                 wa(n+1),wa(2*n+1),wa(3*n+1),wa(4*n+1),wa(5*n+1))
-      if (info == 5) info = 4
-   20 continue
+      endif
 
       end subroutine hybrd1
+!*****************************************************************************************
 
-      subroutine hybrj(fcn,n,x,fvec,fjac,ldfjac,xtol,maxfev,diag,mode,&
-                       factor,nprint,info,nfev,njev,r,lr,qtf,wa1,wa2,&
-                       wa3,wa4)
-      integer n,ldfjac,maxfev,mode,nprint,info,nfev,njev,lr
-      real(wp) xtol,factor
-      real(wp) x(n),fvec(n),fjac(ldfjac,n),diag(n),r(lr),&
-                       qtf(n),wa1(n),wa2(n),wa3(n),wa4(n)
-      procedure(fcn_hybrj) :: fcn
-!     **********
-!
-!     subroutine hybrj
-!
-!     the purpose of hybrj is to find a zero of a system of
-!     n nonlinear functions in n variables by a modification
-!     of the powell hybrid method. the user must provide a
-!     subroutine which calculates the functions and the jacobian.
-!
-!     the subroutine statement is
-!
-!       subroutine hybrj(fcn,n,x,fvec,fjac,ldfjac,xtol,maxfev,diag,
-!                        mode,factor,nprint,info,nfev,njev,r,lr,qtf,
-!                        wa1,wa2,wa3,wa4)
-!
-!     where
+!*****************************************************************************************
+!>
+!  the purpose of hybrj is to find a zero of a system of
+!  n nonlinear functions in n variables by a modification
+!  of the powell hybrid method. the user must provide a
+!  subroutine which calculates the functions and the jacobian.
 !
 !       fcn is the name of the user-supplied subroutine which
 !         calculates the functions and the jacobian. fcn must
@@ -1213,31 +1140,48 @@
 !
 !       wa1, wa2, wa3, and wa4 are work arrays of length n.
 !
-!     subprograms called
+!### Characteristics of the algorithm
+!  HYBRJ is a modification of the Powell hybrid method.  Two of its
+!  main characteristics involve the choice of the correction as a
+!  convex combination of the Newton and scaled gradient directions
+!  and the updating of the Jacobian by the rank-1 method of Broy-
+!  den.  The choice of the correction guarantees (under reasonable
+!  conditions) global convergence for starting points far from the
+!  solution and a fast rate of convergence.  The Jacobian is calcu-
+!  lated at the starting point, but it is not recalculated until
+!  the rank-1 method fails to produce satisfactory progress.
 !
-!       user-supplied ...... fcn
-!
-!       minpack-supplied ... dogleg,dpmpar,enorm,
-!                            qform,qrfac,r1mpyq,r1updt
-!
-!       fortran-supplied ... dabs,dmax1,dmin1,mod
-!
-!     argonne national laboratory. minpack project. march 1980.
-!     burton s. garbow, kenneth e. hillstrom, jorge j. more
-!
-!     **********
-      integer i,iflag,iter,j,jm1,l,ncfail,ncsuc,nslow1,nslow2
+!### References.
+!  * M. J. D. Powell, A Hybrid Method for Nonlinear Equations.
+!   Numerical Methods for Nonlinear Algebraic Equations,
+!   P. Rabinowitz, editor. Gordon and Breach, 1970.
+
+    subroutine hybrj(fcn,n,x,fvec,fjac,ldfjac,xtol,maxfev,diag,mode,  &
+                   & factor,nprint,info,nfev,njev,r,lr,qtf,wa1,wa2,   &
+                   & wa3,wa4)
+
+    implicit none
+
+    procedure(fcn_hybrj) :: fcn
+    integer n , ldfjac , maxfev , mode , nprint , info , nfev , njev , lr
+    real(wp) xtol , factor
+    real(wp) x(n) , fvec(n) , fjac(ldfjac,n) , diag(n) , &
+             r(lr) , qtf(n) , wa1(n) , wa2(n) , wa3(n) , &
+             wa4(n)
+
+      integer i , iflag , iter , j , jm1 , l , ncfail , ncsuc , nslow1 , nslow2
       integer iwa(1)
-      logical jeval,sing
-      real(wp) actred,delta,epsmch,fnorm,fnorm1,one,pnorm,&
-                       prered,p1,p5,p001,p0001,ratio,sum,temp,xnorm,&
-                       zero
-      data one,p1,p5,p001,p0001,zero&
-           /1.0d0,1.0d-1,5.0d-1,1.0d-3,1.0d-4,0.0d0/
-!
-!     epsmch is the machine precision.
-!
-      epsmch = dpmpar(1)
+      logical jeval , sing
+      real(wp) actred , delta , epsmch , fnorm , fnorm1 , one , &
+               pnorm , prered , ratio ,&
+               sum , temp , xnorm , zero
+
+      real(wp),parameter :: p1    = 1.0e-1_wp
+      real(wp),parameter :: p5    = 5.0e-1_wp
+      real(wp),parameter :: p001  = 1.0e-3_wp
+      real(wp),parameter :: p0001 = 1.0e-4_wp
+
+      epsmch = dpmpar(1)  ! the machine precision
 !
       info = 0
       iflag = 0
@@ -1246,14 +1190,13 @@
 !
 !     check the input parameters for errors.
 !
-      if (n <= 0 .or. ldfjac < n .or. xtol < zero&
-          .or. maxfev <= 0 .or. factor <= zero&
-          .or. lr < (n*(n + 1))/2) go to 300
-      if (mode /= 2) go to 20
-      do 10 j = 1, n
-         if (diag(j) <= zero) go to 300
-   10    continue
-   20 continue
+      if ( n<=0 .or. ldfjac<n .or. xtol<zero .or. maxfev<=0 .or. &
+           factor<=zero .or. lr<(n*(n+1))/2 ) goto 300
+      if ( mode==2 ) then
+         do j = 1 , n
+            if ( diag(j)<=zero ) goto 300
+         enddo
+      endif
 !
 !     evaluate the function at the starting point
 !     and calculate its norm.
@@ -1261,7 +1204,7 @@
       iflag = 1
       call fcn(n,x,fvec,fjac,ldfjac,iflag)
       nfev = 1
-      if (iflag < 0) go to 300
+      if ( iflag<0 ) goto 300
       fnorm = enorm(n,fvec)
 !
 !     initialize iteration counter and monitors.
@@ -1274,254 +1217,244 @@
 !
 !     beginning of the outer loop.
 !
-   30 continue
-         jeval = .true.
+ 100  jeval = .true.
 !
 !        calculate the jacobian matrix.
 !
-         iflag = 2
-         call fcn(n,x,fvec,fjac,ldfjac,iflag)
-         njev = njev + 1
-         if (iflag < 0) go to 300
+      iflag = 2
+      call fcn(n,x,fvec,fjac,ldfjac,iflag)
+      njev = njev + 1
+      if ( iflag<0 ) goto 300
 !
 !        compute the qr factorization of the jacobian.
 !
-         call qrfac(n,n,fjac,ldfjac,.false.,iwa,1,wa1,wa2,wa3)
+      call qrfac(n,n,fjac,ldfjac,.false.,iwa,1,wa1,wa2,wa3)
 !
 !        on the first iteration and if mode is 1, scale according
 !        to the norms of the columns of the initial jacobian.
 !
-         if (iter /= 1) go to 70
-         if (mode == 2) go to 50
-         do 40 j = 1, n
-            diag(j) = wa2(j)
-            if (wa2(j) == zero) diag(j) = one
-   40       continue
-   50    continue
+      if ( iter==1 ) then
+         if ( mode/=2 ) then
+            do j = 1 , n
+               diag(j) = wa2(j)
+               if ( wa2(j)==zero ) diag(j) = one
+            enddo
+         endif
 !
 !        on the first iteration, calculate the norm of the scaled x
 !        and initialize the step bound delta.
 !
-         do 60 j = 1, n
+         do j = 1 , n
             wa3(j) = diag(j)*x(j)
-   60       continue
+         enddo
          xnorm = enorm(n,wa3)
          delta = factor*xnorm
-         if (delta == zero) delta = factor
-   70    continue
+         if ( delta==zero ) delta = factor
+      endif
 !
 !        form (q transpose)*fvec and store in qtf.
 !
-         do 80 i = 1, n
-            qtf(i) = fvec(i)
-   80       continue
-         do 120 j = 1, n
-            if (fjac(j,j) == zero) go to 110
+      do i = 1 , n
+         qtf(i) = fvec(i)
+      enddo
+      do j = 1 , n
+         if ( fjac(j,j)/=zero ) then
             sum = zero
-            do 90 i = j, n
+            do i = j , n
                sum = sum + fjac(i,j)*qtf(i)
-   90          continue
+            enddo
             temp = -sum/fjac(j,j)
-            do 100 i = j, n
+            do i = j , n
                qtf(i) = qtf(i) + fjac(i,j)*temp
-  100          continue
-  110       continue
-  120       continue
+            enddo
+         endif
+      enddo
 !
 !        copy the triangular factor of the qr factorization into r.
 !
-         sing = .false.
-         do 150 j = 1, n
-            l = j
-            jm1 = j - 1
-            if (jm1 < 1) go to 140
-            do 130 i = 1, jm1
+      sing = .false.
+      do j = 1 , n
+         l = j
+         jm1 = j - 1
+         if ( jm1>=1 ) then
+            do i = 1 , jm1
                r(l) = fjac(i,j)
                l = l + n - i
-  130          continue
-  140       continue
-            r(l) = wa1(j)
-            if (wa1(j) == zero) sing = .true.
-  150       continue
+            enddo
+         endif
+         r(l) = wa1(j)
+         if ( wa1(j)==zero ) sing = .true.
+      enddo
 !
 !        accumulate the orthogonal factor in fjac.
 !
-         call qform(n,n,fjac,ldfjac,wa1)
+      call qform(n,n,fjac,ldfjac,wa1)
 !
 !        rescale if necessary.
 !
-         if (mode == 2) go to 170
-         do 160 j = 1, n
-            diag(j) = dmax1(diag(j),wa2(j))
-  160       continue
-  170    continue
+      if ( mode/=2 ) then
+         do j = 1 , n
+            diag(j) = max(diag(j),wa2(j))
+         enddo
+      endif
 !
 !        beginning of the inner loop.
 !
-  180    continue
 !
 !           if requested, call fcn to enable printing of iterates.
 !
-            if (nprint <= 0) go to 190
-            iflag = 0
-            if (mod(iter-1,nprint) == 0)&
-               call fcn(n,x,fvec,fjac,ldfjac,iflag)
-            if (iflag < 0) go to 300
-  190       continue
+ 200  if ( nprint>0 ) then
+         iflag = 0
+         if ( mod(iter-1,nprint)==0 )                                   &
+            & call fcn(n,x,fvec,fjac,ldfjac,iflag)
+         if ( iflag<0 ) goto 300
+      endif
 !
 !           determine the direction p.
 !
-            call dogleg(n,r,lr,diag,qtf,delta,wa1,wa2,wa3)
+      call dogleg(n,r,lr,diag,qtf,delta,wa1,wa2,wa3)
 !
 !           store the direction p and x + p. calculate the norm of p.
 !
-            do 200 j = 1, n
-               wa1(j) = -wa1(j)
-               wa2(j) = x(j) + wa1(j)
-               wa3(j) = diag(j)*wa1(j)
-  200          continue
-            pnorm = enorm(n,wa3)
+      do j = 1 , n
+         wa1(j) = -wa1(j)
+         wa2(j) = x(j) + wa1(j)
+         wa3(j) = diag(j)*wa1(j)
+      enddo
+      pnorm = enorm(n,wa3)
 !
 !           on the first iteration, adjust the initial step bound.
 !
-            if (iter == 1) delta = dmin1(delta,pnorm)
+      if ( iter==1 ) delta = min(delta,pnorm)
 !
 !           evaluate the function at x + p and calculate its norm.
 !
-            iflag = 1
-            call fcn(n,wa2,wa4,fjac,ldfjac,iflag)
-            nfev = nfev + 1
-            if (iflag < 0) go to 300
-            fnorm1 = enorm(n,wa4)
+      iflag = 1
+      call fcn(n,wa2,wa4,fjac,ldfjac,iflag)
+      nfev = nfev + 1
+      if ( iflag>=0 ) then
+         fnorm1 = enorm(n,wa4)
 !
 !           compute the scaled actual reduction.
 !
-            actred = -one
-            if (fnorm1 < fnorm) actred = one - (fnorm1/fnorm)**2
+         actred = -one
+         if ( fnorm1<fnorm ) actred = one - (fnorm1/fnorm)**2
 !
 !           compute the scaled predicted reduction.
 !
-            l = 1
-            do 220 i = 1, n
-               sum = zero
-               do 210 j = i, n
-                  sum = sum + r(l)*wa1(j)
-                  l = l + 1
-  210             continue
-               wa3(i) = qtf(i) + sum
-  220          continue
-            temp = enorm(n,wa3)
-            prered = zero
-            if (temp < fnorm) prered = one - (temp/fnorm)**2
+         l = 1
+         do i = 1 , n
+            sum = zero
+            do j = i , n
+               sum = sum + r(l)*wa1(j)
+               l = l + 1
+            enddo
+            wa3(i) = qtf(i) + sum
+         enddo
+         temp = enorm(n,wa3)
+         prered = zero
+         if ( temp<fnorm ) prered = one - (temp/fnorm)**2
 !
 !           compute the ratio of the actual to the predicted
 !           reduction.
 !
-            ratio = zero
-            if (prered > zero) ratio = actred/prered
+         ratio = zero
+         if ( prered>zero ) ratio = actred/prered
 !
 !           update the step bound.
 !
-            if (ratio >= p1) go to 230
-               ncsuc = 0
-               ncfail = ncfail + 1
-               delta = p5*delta
-               go to 240
-  230       continue
-               ncfail = 0
-               ncsuc = ncsuc + 1
-               if (ratio >= p5 .or. ncsuc > 1)&
-                  delta = dmax1(delta,pnorm/p5)
-               if (dabs(ratio-one) <= p1) delta = pnorm/p5
-  240       continue
+         if ( ratio>=p1 ) then
+            ncfail = 0
+            ncsuc = ncsuc + 1
+            if ( ratio>=p5 .or. ncsuc>1 ) delta = max(delta,pnorm/p5)
+            if ( abs(ratio-one)<=p1 ) delta = pnorm/p5
+         else
+            ncsuc = 0
+            ncfail = ncfail + 1
+            delta = p5*delta
+         endif
 !
 !           test for successful iteration.
 !
-            if (ratio < p0001) go to 260
+         if ( ratio>=p0001 ) then
 !
 !           successful iteration. update x, fvec, and their norms.
 !
-            do 250 j = 1, n
+            do j = 1 , n
                x(j) = wa2(j)
                wa2(j) = diag(j)*x(j)
                fvec(j) = wa4(j)
-  250          continue
+            enddo
             xnorm = enorm(n,wa2)
             fnorm = fnorm1
             iter = iter + 1
-  260       continue
+         endif
 !
 !           determine the progress of the iteration.
 !
-            nslow1 = nslow1 + 1
-            if (actred >= p001) nslow1 = 0
-            if (jeval) nslow2 = nslow2 + 1
-            if (actred >= p1) nslow2 = 0
+         nslow1 = nslow1 + 1
+         if ( actred>=p001 ) nslow1 = 0
+         if ( jeval ) nslow2 = nslow2 + 1
+         if ( actred>=p1 ) nslow2 = 0
 !
 !           test for convergence.
 !
-            if (delta <= xtol*xnorm .or. fnorm == zero) info = 1
-            if (info /= 0) go to 300
+         if ( delta<=xtol*xnorm .or. fnorm==zero ) info = 1
+         if ( info==0 ) then
 !
 !           tests for termination and stringent tolerances.
 !
-            if (nfev >= maxfev) info = 2
-            if (p1*dmax1(p1*delta,pnorm) <= epsmch*xnorm) info = 3
-            if (nslow2 == 5) info = 4
-            if (nslow1 == 10) info = 5
-            if (info /= 0) go to 300
+            if ( nfev>=maxfev ) info = 2
+            if ( p1*max(p1*delta,pnorm)<=epsmch*xnorm ) info = 3
+            if ( nslow2==5 ) info = 4
+            if ( nslow1==10 ) info = 5
+            if ( info==0 ) then
 !
 !           criterion for recalculating jacobian.
 !
-            if (ncfail == 2) go to 290
+               if ( ncfail==2 ) goto 100
 !
 !           calculate the rank one modification to the jacobian
 !           and update qtf if necessary.
 !
-            do 280 j = 1, n
-               sum = zero
-               do 270 i = 1, n
-                  sum = sum + fjac(i,j)*wa4(i)
-  270             continue
-               wa2(j) = (sum - wa3(j))/pnorm
-               wa1(j) = diag(j)*((diag(j)*wa1(j))/pnorm)
-               if (ratio >= p0001) qtf(j) = sum
-  280          continue
+               do j = 1 , n
+                  sum = zero
+                  do i = 1 , n
+                     sum = sum + fjac(i,j)*wa4(i)
+                  enddo
+                  wa2(j) = (sum-wa3(j))/pnorm
+                  wa1(j) = diag(j)*((diag(j)*wa1(j))/pnorm)
+                  if ( ratio>=p0001 ) qtf(j) = sum
+               enddo
 !
 !           compute the qr factorization of the updated jacobian.
 !
-            call r1updt(n,n,r,lr,wa1,wa2,wa3,sing)
-            call r1mpyq(n,n,fjac,ldfjac,wa2,wa3)
-            call r1mpyq(1,n,qtf,1,wa2,wa3)
+               call r1updt(n,n,r,lr,wa1,wa2,wa3,sing)
+               call r1mpyq(n,n,fjac,ldfjac,wa2,wa3)
+               call r1mpyq(1,n,qtf,1,wa2,wa3)
 !
 !           end of the inner loop.
 !
-            jeval = .false.
-            go to 180
-  290    continue
+               jeval = .false.
 !
 !        end of the outer loop.
 !
-         go to 30
-  300 continue
+               goto 200
+            endif
+         endif
+      endif
 !
 !     termination, either normal or user imposed.
 !
-      if (iflag < 0) info = iflag
+ 300  if ( iflag<0 ) info = iflag
       iflag = 0
-      if (nprint > 0) call fcn(n,x,fvec,fjac,ldfjac,iflag)
+      if ( nprint>0 ) call fcn(n,x,fvec,fjac,ldfjac,iflag)
 
       end subroutine hybrj
+!*****************************************************************************************
 
-      subroutine hybrj1(fcn,n,x,fvec,fjac,ldfjac,tol,info,wa,lwa)
-      integer n,ldfjac,info,lwa
-      real(wp) tol
-      real(wp) x(n),fvec(n),fjac(ldfjac,n),wa(lwa)
-      procedure(fcn_hybrj) :: fcn
-!     **********
-!
-!     subroutine hybrj1
-!
+!*****************************************************************************************
+!>
 !     the purpose of hybrj1 is to find a zero of a system of
 !     n nonlinear functions in n variables by a modification
 !     of the powell hybrid method. this is done by using the
@@ -1599,52 +1532,49 @@
 !
 !       lwa is a positive integer input variable not less than
 !         (n*(n+13))/2.
-!
-!     subprograms called
-!
-!       user-supplied ...... fcn
-!
-!       minpack-supplied ... hybrj
-!
-!     argonne national laboratory. minpack project. march 1980.
-!     burton s. garbow, kenneth e. hillstrom, jorge j. more
-!
-!     **********
-      integer j,lr,maxfev,mode,nfev,njev,nprint
-      real(wp) factor,one,xtol,zero
-      data factor,one,zero /1.0d2,1.0d0,0.0d0/
+
+    subroutine hybrj1(fcn,n,x,fvec,fjac,ldfjac,tol,info,wa,lwa)
+
+    implicit none
+
+    procedure(fcn_hybrj) :: fcn
+    integer n , ldfjac , info , lwa
+    real(wp) tol
+    real(wp) x(n) , fvec(n) , fjac(ldfjac,n) , wa(lwa)
+
+      integer j , lr , maxfev , mode , nfev , njev , nprint
+      real(wp) xtol
+
+      real(wp),parameter :: factor = 100.0_wp
+
       info = 0
-!
-!     check the input parameters for errors.
-!
-      if (n <= 0 .or. ldfjac < n .or. tol < zero&
-          .or. lwa < (n*(n + 13))/2) go to 20
-!
-!     call hybrj.
-!
-      maxfev = 100*(n + 1)
-      xtol = tol
-      mode = 2
-      do 10 j = 1, n
-         wa(j) = one
-   10    continue
-      nprint = 0
-      lr = (n*(n + 1))/2
-      call hybrj(fcn,n,x,fvec,fjac,ldfjac,xtol,maxfev,wa(1),mode,&
-                 factor,nprint,info,nfev,njev,wa(6*n+1),lr,wa(n+1),&
-                 wa(2*n+1),wa(3*n+1),wa(4*n+1),wa(5*n+1))
-      if (info == 5) info = 4
-   20 continue
+
+      ! check the input parameters for errors.
+
+      if ( n>0 .and. ldfjac>=n .and. tol>=zero .and. lwa>=(n*(n+13))/2 ) then
+
+         ! call hybrj.
+
+         maxfev = 100*(n+1)
+         xtol = tol
+         mode = 2
+         do j = 1 , n
+            wa(j) = one
+         enddo
+         nprint = 0
+         lr = (n*(n+1))/2
+         call hybrj(fcn,n,x,fvec,fjac,ldfjac,xtol,maxfev,wa(1),mode,    &
+                    factor,nprint,info,nfev,njev,wa(6*n+1),lr,wa(n+1),  &
+                    wa(2*n+1),wa(3*n+1),wa(4*n+1),wa(5*n+1))
+         if ( info==5 ) info = 4
+
+      endif
 
       end subroutine hybrj1
+!*****************************************************************************************
 
-      subroutine qform(m,n,q,ldq,wa)
-      integer m,n,ldq
-      real(wp) q(ldq,m),wa(m)
-!     **********
-!
-!     subroutine qform
-!
+!*****************************************************************************************
+!>
 !     this subroutine proceeds from the computed qr factorization of
 !     an m by n matrix a to accumulate the m by m orthogonal matrix
 !     q from its factored form.
@@ -1669,77 +1599,69 @@
 !         which specifies the leading dimension of the array q.
 !
 !       wa is a work array of length m.
-!
-!     subprograms called
-!
-!       fortran-supplied ... min0
-!
-!     argonne national laboratory. minpack project. march 1980.
-!     burton s. garbow, kenneth e. hillstrom, jorge j. more
-!
-!     **********
-      integer i,j,jm1,k,l,minmn,np1
-      real(wp) one,sum,temp,zero
-      data one,zero /1.0d0,0.0d0/
+
+    subroutine qform(m,n,q,ldq,wa)
+
+    implicit none
+
+    integer m , n , ldq
+    real(wp) q(ldq,m) , wa(m)
+
+      integer i , j , jm1 , k , l , minmn , np1
+      real(wp) sum , temp
 !
 !     zero out upper triangle of q in the first min(m,n) columns.
 !
-      minmn = min0(m,n)
-      if (minmn < 2) go to 30
-      do 20 j = 2, minmn
-         jm1 = j - 1
-         do 10 i = 1, jm1
-            q(i,j) = zero
-   10       continue
-   20    continue
-   30 continue
+      minmn = min(m,n)
+      if ( minmn>=2 ) then
+         do j = 2 , minmn
+            jm1 = j - 1
+            do i = 1 , jm1
+               q(i,j) = zero
+            enddo
+         enddo
+      endif
 !
 !     initialize remaining columns to those of the identity matrix.
 !
       np1 = n + 1
-      if (m < np1) go to 60
-      do 50 j = np1, m
-         do 40 i = 1, m
-            q(i,j) = zero
-   40       continue
-         q(j,j) = one
-   50    continue
-   60 continue
+      if ( m>=np1 ) then
+         do j = np1 , m
+            do i = 1 , m
+               q(i,j) = zero
+            enddo
+            q(j,j) = one
+         enddo
+      endif
 !
 !     accumulate q from its factored form.
 !
-      do 120 l = 1, minmn
+      do l = 1 , minmn
          k = minmn - l + 1
-         do 70 i = k, m
+         do i = k , m
             wa(i) = q(i,k)
             q(i,k) = zero
-   70       continue
+         enddo
          q(k,k) = one
-         if (wa(k) == zero) go to 110
-         do 100 j = k, m
-            sum = zero
-            do 80 i = k, m
-               sum = sum + q(i,j)*wa(i)
-   80          continue
-            temp = sum/wa(k)
-            do 90 i = k, m
-               q(i,j) = q(i,j) - temp*wa(i)
-   90          continue
-  100       continue
-  110    continue
-  120    continue
+         if ( wa(k)/=zero ) then
+            do j = k , m
+               sum = zero
+               do i = k , m
+                  sum = sum + q(i,j)*wa(i)
+               enddo
+               temp = sum/wa(k)
+               do i = k , m
+                  q(i,j) = q(i,j) - temp*wa(i)
+               enddo
+            enddo
+         endif
+      enddo
 
       end subroutine qform
+!*****************************************************************************************
 
-      subroutine qrfac(m,n,a,lda,pivot,ipvt,lipvt,rdiag,acnorm,wa)
-      integer m,n,lda,lipvt
-      integer ipvt(lipvt)
-      logical pivot
-      real(wp) a(lda,n),rdiag(n),acnorm(n),wa(n)
-!     **********
-!
-!     subroutine qrfac
-!
+!*****************************************************************************************
+!>
 !     this subroutine uses householder transformations with column
 !     pivoting (optional) to compute a qr factorization of the
 !     m by n matrix a. that is, qrfac determines an orthogonal
@@ -1800,105 +1722,102 @@
 !
 !       wa is a work array of length n. if pivot is false, then wa
 !         can coincide with rdiag.
-!
-!     subprograms called
-!
-!       minpack-supplied ... dpmpar,enorm
-!
-!       fortran-supplied ... dmax1,dsqrt,min0
-!
-!     argonne national laboratory. minpack project. march 1980.
-!     burton s. garbow, kenneth e. hillstrom, jorge j. more
-!
-!     **********
-      integer i,j,jp1,k,kmax,minmn
-      real(wp) ajnorm,epsmch,one,p05,sum,temp,zero
-      data one,p05,zero /1.0d0,5.0d-2,0.0d0/
-!
-!     epsmch is the machine precision.
-!
-      epsmch = dpmpar(1)
+
+    subroutine qrfac(m,n,a,lda,pivot,ipvt,lipvt,rdiag,acnorm,wa)
+
+    implicit none
+
+    integer m , n , lda , lipvt
+    integer ipvt(lipvt)
+    logical pivot
+    real(wp) a(lda,n) , rdiag(n) , acnorm(n) , wa(n)
+
+      integer i , j , jp1 , k , kmax , minmn
+      real(wp) ajnorm , epsmch , sum , temp
+
+      real(wp),parameter :: p05 = 5.0e-2_wp
+
+      epsmch = dpmpar(1)  ! the machine precision
 !
 !     compute the initial column norms and initialize several arrays.
 !
-      do 10 j = 1, n
+      do j = 1 , n
          acnorm(j) = enorm(m,a(1,j))
          rdiag(j) = acnorm(j)
          wa(j) = rdiag(j)
-         if (pivot) ipvt(j) = j
-   10    continue
+         if ( pivot ) ipvt(j) = j
+      enddo
 !
 !     reduce a to r with householder transformations.
 !
-      minmn = min0(m,n)
-      do 110 j = 1, minmn
-         if (.not.pivot) go to 40
+      minmn = min(m,n)
+      do j = 1 , minmn
+         if ( pivot ) then
 !
 !        bring the column of largest norm into the pivot position.
 !
-         kmax = j
-         do 20 k = j, n
-            if (rdiag(k) > rdiag(kmax)) kmax = k
-   20       continue
-         if (kmax == j) go to 40
-         do 30 i = 1, m
-            temp = a(i,j)
-            a(i,j) = a(i,kmax)
-            a(i,kmax) = temp
-   30       continue
-         rdiag(kmax) = rdiag(j)
-         wa(kmax) = wa(j)
-         k = ipvt(j)
-         ipvt(j) = ipvt(kmax)
-         ipvt(kmax) = k
-   40    continue
+            kmax = j
+            do k = j , n
+               if ( rdiag(k)>rdiag(kmax) ) kmax = k
+            enddo
+            if ( kmax/=j ) then
+               do i = 1 , m
+                  temp = a(i,j)
+                  a(i,j) = a(i,kmax)
+                  a(i,kmax) = temp
+               enddo
+               rdiag(kmax) = rdiag(j)
+               wa(kmax) = wa(j)
+               k = ipvt(j)
+               ipvt(j) = ipvt(kmax)
+               ipvt(kmax) = k
+            endif
+         endif
 !
 !        compute the householder transformation to reduce the
 !        j-th column of a to a multiple of the j-th unit vector.
 !
          ajnorm = enorm(m-j+1,a(j,j))
-         if (ajnorm == zero) go to 100
-         if (a(j,j) < zero) ajnorm = -ajnorm
-         do 50 i = j, m
-            a(i,j) = a(i,j)/ajnorm
-   50       continue
-         a(j,j) = a(j,j) + one
+         if ( ajnorm/=zero ) then
+            if ( a(j,j)<zero ) ajnorm = -ajnorm
+            do i = j , m
+               a(i,j) = a(i,j)/ajnorm
+            enddo
+            a(j,j) = a(j,j) + one
 !
 !        apply the transformation to the remaining columns
 !        and update the norms.
 !
-         jp1 = j + 1
-         if (n < jp1) go to 100
-         do 90 k = jp1, n
-            sum = zero
-            do 60 i = j, m
-               sum = sum + a(i,j)*a(i,k)
-   60          continue
-            temp = sum/a(j,j)
-            do 70 i = j, m
-               a(i,k) = a(i,k) - temp*a(i,j)
-   70          continue
-            if (.not.pivot .or. rdiag(k) == zero) go to 80
-            temp = a(j,k)/rdiag(k)
-            rdiag(k) = rdiag(k)*dsqrt(dmax1(zero,one-temp**2))
-            if (p05*(rdiag(k)/wa(k))**2 > epsmch) go to 80
-            rdiag(k) = enorm(m-j,a(jp1,k))
-            wa(k) = rdiag(k)
-   80       continue
-   90       continue
-  100    continue
+            jp1 = j + 1
+            if ( n>=jp1 ) then
+               do k = jp1 , n
+                  sum = zero
+                  do i = j , m
+                     sum = sum + a(i,j)*a(i,k)
+                  enddo
+                  temp = sum/a(j,j)
+                  do i = j , m
+                     a(i,k) = a(i,k) - temp*a(i,j)
+                  enddo
+                  if ( .not.(.not.pivot .or. rdiag(k)==zero) ) then
+                     temp = a(j,k)/rdiag(k)
+                     rdiag(k) = rdiag(k)*sqrt(max(zero,one-temp**2))
+                     if ( p05*(rdiag(k)/wa(k))**2<=epsmch ) then
+                        rdiag(k) = enorm(m-j,a(jp1,k))
+                        wa(k) = rdiag(k)
+                     endif
+                  endif
+               enddo
+            endif
+         endif
          rdiag(j) = -ajnorm
-  110    continue
+      enddo
 
       end subroutine qrfac
+!*****************************************************************************************
 
-      subroutine r1mpyq(m,n,a,lda,v,w)
-      integer m,n,lda
-      real(wp) a(lda,n),v(n),w(n)
-!     **********
-!
-!     subroutine r1mpyq
-!
+!*****************************************************************************************
+!>
 !     given an m by n matrix a, this subroutine computes a*q where
 !     q is the product of 2*(n - 1) transformations
 !
@@ -1935,61 +1854,54 @@
 !       w is an input array of length n. w(i) must contain the
 !         information necessary to recover the givens rotation gw(i)
 !         described above.
-!
-!     subroutines called
-!
-!       fortran-supplied ... dabs,dsqrt
-!
-!     argonne national laboratory. minpack project. march 1980.
-!     burton s. garbow, kenneth e. hillstrom, jorge j. more
-!
-!     **********
-      integer i,j,nmj,nm1
-      real(wp) cos,one,sin,temp
-      data one /1.0d0/
+
+    subroutine r1mpyq(m,n,a,lda,v,w)
+
+    implicit none
+
+    integer m , n , lda
+    real(wp) a(lda,n) , v(n) , w(n)
+
+      integer i , j , nmj , nm1
+      real(wp) cos , sin , temp
 !
 !     apply the first set of givens rotations to a.
 !
       nm1 = n - 1
-      if (nm1 < 1) go to 50
-      do 20 nmj = 1, nm1
-         j = n - nmj
-         if (dabs(v(j)) > one) cos = one/v(j)
-         if (dabs(v(j)) > one) sin = dsqrt(one-cos**2)
-         if (dabs(v(j)) <= one) sin = v(j)
-         if (dabs(v(j)) <= one) cos = dsqrt(one-sin**2)
-         do 10 i = 1, m
-            temp = cos*a(i,j) - sin*a(i,n)
-            a(i,n) = sin*a(i,j) + cos*a(i,n)
-            a(i,j) = temp
-   10       continue
-   20    continue
+      if ( nm1>=1 ) then
+         do nmj = 1 , nm1
+            j = n - nmj
+            if ( abs(v(j))>one ) cos = one/v(j)
+            if ( abs(v(j))>one ) sin = sqrt(one-cos**2)
+            if ( abs(v(j))<=one ) sin = v(j)
+            if ( abs(v(j))<=one ) cos = sqrt(one-sin**2)
+            do i = 1 , m
+               temp = cos*a(i,j) - sin*a(i,n)
+               a(i,n) = sin*a(i,j) + cos*a(i,n)
+               a(i,j) = temp
+            enddo
+         enddo
 !
 !     apply the second set of givens rotations to a.
 !
-      do 40 j = 1, nm1
-         if (dabs(w(j)) > one) cos = one/w(j)
-         if (dabs(w(j)) > one) sin = dsqrt(one-cos**2)
-         if (dabs(w(j)) <= one) sin = w(j)
-         if (dabs(w(j)) <= one) cos = dsqrt(one-sin**2)
-         do 30 i = 1, m
-            temp = cos*a(i,j) + sin*a(i,n)
-            a(i,n) = -sin*a(i,j) + cos*a(i,n)
-            a(i,j) = temp
-   30       continue
-   40    continue
-   50 continue
+         do j = 1 , nm1
+            if ( abs(w(j))>one ) cos = one/w(j)
+            if ( abs(w(j))>one ) sin = sqrt(one-cos**2)
+            if ( abs(w(j))<=one ) sin = w(j)
+            if ( abs(w(j))<=one ) cos = sqrt(one-sin**2)
+            do i = 1 , m
+               temp = cos*a(i,j) + sin*a(i,n)
+               a(i,n) = -sin*a(i,j) + cos*a(i,n)
+               a(i,j) = temp
+            enddo
+         enddo
+      endif
 
       end subroutine r1mpyq
+!*****************************************************************************************
 
-      subroutine r1updt(m,n,s,ls,u,v,w,sing)
-      integer m,n,ls
-      logical sing
-      real(wp) s(ls),u(m),v(n),w(m)
-!     **********
-!
-!     subroutine r1updt
-!
+!*****************************************************************************************
+!>
 !     given an m by n lower trapezoidal matrix s, an m-vector u,
 !     and an n-vector v, the problem is to determine an
 !     orthogonal matrix q such that
@@ -2042,22 +1954,21 @@
 !       sing is a logical output variable. sing is set true if any
 !         of the diagonal elements of the output s are zero. otherwise
 !         sing is set false.
-!
-!     subprograms called
-!
-!       minpack-supplied ... dpmpar
-!
-!       fortran-supplied ... dabs,dsqrt
-!
-!     argonne national laboratory. minpack project. march 1980.
-!     burton s. garbow, kenneth e. hillstrom, jorge j. more,
-!     john l. nazareth
-!
-!     **********
-      integer i,j,jj,l,nmj,nm1
-      real(wp) cos,cotan,giant,one,p5,p25,sin,tan,tau,temp,&
-                       zero
-      data one,p5,p25,zero /1.0d0,5.0d-1,2.5d-1,0.0d0/
+
+    subroutine r1updt(m,n,s,ls,u,v,w,sing)
+
+    implicit none
+
+    integer m , n , ls
+    logical sing
+    real(wp) s(ls) , u(m) , v(n) , w(m)
+
+      integer i , j , jj , l , nmj , nm1
+      real(wp) cos , cotan , giant , sin ,     &
+                     & tan , tau , temp
+
+      real(wp),parameter :: p5  = 5.0e-1_wp
+      real(wp),parameter :: p25 = 2.5e-1_wp
 !
 !     giant is the largest magnitude.
 !
@@ -2065,178 +1976,126 @@
 !
 !     initialize the diagonal element pointer.
 !
-      jj = (n*(2*m - n + 1))/2 - (m - n)
+      jj = (n*(2*m-n+1))/2 - (m-n)
 !
 !     move the nontrivial part of the last column of s into w.
 !
       l = jj
-      do 10 i = n, m
+      do i = n , m
          w(i) = s(l)
          l = l + 1
-   10    continue
+      enddo
 !
 !     rotate the vector v into a multiple of the n-th unit vector
 !     in such a way that a spike is introduced into w.
 !
       nm1 = n - 1
-      if (nm1 < 1) go to 70
-      do 60 nmj = 1, nm1
-         j = n - nmj
-         jj = jj - (m - j + 1)
-         w(j) = zero
-         if (v(j) == zero) go to 50
+      if ( nm1>=1 ) then
+         do nmj = 1 , nm1
+            j = n - nmj
+            jj = jj - (m-j+1)
+            w(j) = zero
+            if ( v(j)/=zero ) then
 !
 !        determine a givens rotation which eliminates the
 !        j-th element of v.
 !
-         if (dabs(v(n)) >= dabs(v(j))) go to 20
-            cotan = v(n)/v(j)
-            sin = p5/dsqrt(p25+p25*cotan**2)
-            cos = sin*cotan
-            tau = one
-            if (dabs(cos)*giant > one) tau = one/cos
-            go to 30
-   20    continue
-            tan = v(j)/v(n)
-            cos = p5/dsqrt(p25+p25*tan**2)
-            sin = cos*tan
-            tau = sin
-   30    continue
+               if ( abs(v(n))>=abs(v(j)) ) then
+                  tan = v(j)/v(n)
+                  cos = p5/sqrt(p25+p25*tan**2)
+                  sin = cos*tan
+                  tau = sin
+               else
+                  cotan = v(n)/v(j)
+                  sin = p5/sqrt(p25+p25*cotan**2)
+                  cos = sin*cotan
+                  tau = one
+                  if ( abs(cos)*giant>one ) tau = one/cos
+               endif
 !
 !        apply the transformation to v and store the information
 !        necessary to recover the givens rotation.
 !
-         v(n) = sin*v(j) + cos*v(n)
-         v(j) = tau
+               v(n) = sin*v(j) + cos*v(n)
+               v(j) = tau
 !
 !        apply the transformation to s and extend the spike in w.
 !
-         l = jj
-         do 40 i = j, m
-            temp = cos*s(l) - sin*w(i)
-            w(i) = sin*s(l) + cos*w(i)
-            s(l) = temp
-            l = l + 1
-   40       continue
-   50    continue
-   60    continue
-   70 continue
+               l = jj
+               do i = j , m
+                  temp = cos*s(l) - sin*w(i)
+                  w(i) = sin*s(l) + cos*w(i)
+                  s(l) = temp
+                  l = l + 1
+               enddo
+            endif
+         enddo
+      endif
 !
 !     add the spike from the rank 1 update to w.
 !
-      do 80 i = 1, m
+      do i = 1 , m
          w(i) = w(i) + v(n)*u(i)
-   80    continue
+      enddo
 !
 !     eliminate the spike.
 !
       sing = .false.
-      if (nm1 < 1) go to 140
-      do 130 j = 1, nm1
-         if (w(j) == zero) go to 120
+      if ( nm1>=1 ) then
+         do j = 1 , nm1
+            if ( w(j)/=zero ) then
 !
 !        determine a givens rotation which eliminates the
 !        j-th element of the spike.
 !
-         if (dabs(s(jj)) >= dabs(w(j))) go to 90
-            cotan = s(jj)/w(j)
-            sin = p5/dsqrt(p25+p25*cotan**2)
-            cos = sin*cotan
-            tau = one
-            if (dabs(cos)*giant > one) tau = one/cos
-            go to 100
-   90    continue
-            tan = w(j)/s(jj)
-            cos = p5/dsqrt(p25+p25*tan**2)
-            sin = cos*tan
-            tau = sin
-  100    continue
+               if ( abs(s(jj))>=abs(w(j)) ) then
+                  tan = w(j)/s(jj)
+                  cos = p5/sqrt(p25+p25*tan**2)
+                  sin = cos*tan
+                  tau = sin
+               else
+                  cotan = s(jj)/w(j)
+                  sin = p5/sqrt(p25+p25*cotan**2)
+                  cos = sin*cotan
+                  tau = one
+                  if ( abs(cos)*giant>one ) tau = one/cos
+               endif
 !
 !        apply the transformation to s and reduce the spike in w.
 !
-         l = jj
-         do 110 i = j, m
-            temp = cos*s(l) + sin*w(i)
-            w(i) = -sin*s(l) + cos*w(i)
-            s(l) = temp
-            l = l + 1
-  110       continue
+               l = jj
+               do i = j , m
+                  temp = cos*s(l) + sin*w(i)
+                  w(i) = -sin*s(l) + cos*w(i)
+                  s(l) = temp
+                  l = l + 1
+               enddo
 !
 !        store the information necessary to recover the
 !        givens rotation.
 !
-         w(j) = tau
-  120    continue
+               w(j) = tau
+            endif
 !
 !        test for zero diagonal elements in the output s.
 !
-         if (s(jj) == zero) sing = .true.
-         jj = jj + (m - j + 1)
-  130    continue
-  140 continue
+            if ( s(jj)==zero ) sing = .true.
+            jj = jj + (m-j+1)
+         enddo
+      endif
 !
 !     move w back into the last column of the output s.
 !
       l = jj
-      do 150 i = n, m
+      do i = n , m
          s(l) = w(i)
          l = l + 1
-  150    continue
-      if (s(jj) == zero) sing = .true.
+      enddo
+      if ( s(jj)==zero ) sing = .true.
 
       end subroutine r1updt
+!*****************************************************************************************
 
+!*****************************************************************************************
     end module minpack_module
-
-
-!    Minpack Copyright Notice (1999) University of Chicago.  All rights reserved
-!
-!    Redistribution and use in source and binary forms, with or
-!    without modification, are permitted provided that the
-!    following conditions are met:
-!
-!    1. Redistributions of source code must retain the above
-!    copyright notice, this list of conditions and the following
-!    disclaimer.
-!
-!    2. Redistributions in binary form must reproduce the above
-!    copyright notice, this list of conditions and the following
-!    disclaimer in the documentation and/or other materials
-!    provided with the distribution.
-!
-!    3. The end-user documentation included with the
-!    redistribution, if any, must include the following
-!    acknowledgment:
-!
-!       "This product includes software developed by the
-!       University of Chicago, as Operator of Argonne National
-!       Laboratory.
-!
-!    Alternately, this acknowledgment may appear in the software
-!    itself, if and wherever such third-party acknowledgments
-!    normally appear.
-!
-!    4. WARRANTY DISCLAIMER. THE SOFTWARE IS SUPPLIED "AS IS"
-!    WITHOUT WARRANTY OF ANY KIND. THE COPYRIGHT HOLDER, THE
-!    UNITED STATES, THE UNITED STATES DEPARTMENT OF ENERGY, AND
-!    THEIR EMPLOYEES: (1) DISCLAIM ANY WARRANTIES, EXPRESS OR
-!    IMPLIED, INCLUDING BUT NOT LIMITED TO ANY IMPLIED WARRANTIES
-!    OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE
-!    OR NON-INFRINGEMENT, (2) DO NOT ASSUME ANY LEGAL LIABILITY
-!    OR RESPONSIBILITY FOR THE ACCURACY, COMPLETENESS, OR
-!    USEFULNESS OF THE SOFTWARE, (3) DO NOT REPRESENT THAT USE OF
-!    THE SOFTWARE WOULD NOT INFRINGE PRIVATELY OWNED RIGHTS, (4)
-!    DO NOT WARRANT THAT THE SOFTWARE WILL FUNCTION
-!    UNINTERRUPTED, THAT IT IS ERROR-FREE OR THAT ANY ERRORS WILL
-!    BE CORRECTED.
-!
-!    5. LIMITATION OF LIABILITY. IN NO EVENT WILL THE COPYRIGHT
-!    HOLDER, THE UNITED STATES, THE UNITED STATES DEPARTMENT OF
-!    ENERGY, OR THEIR EMPLOYEES: BE LIABLE FOR ANY INDIRECT,
-!    INCIDENTAL, CONSEQUENTIAL, SPECIAL OR PUNITIVE DAMAGES OF
-!    ANY KIND OR NATURE, INCLUDING BUT NOT LIMITED TO LOSS OF
-!    PROFITS OR LOSS OF DATA, FOR ANY REASON WHATSOEVER, WHETHER
-!    SUCH LIABILITY IS ASSERTED ON THE BASIS OF CONTRACT, TORT
-!    (INCLUDING NEGLIGENCE OR STRICT LIABILITY), OR OTHERWISE,
-!    EVEN IF ANY OF SAID PARTIES HAS BEEN WARNED OF THE
-!    POSSIBILITY OF SUCH LOSS OR DAMAGES.
+!*****************************************************************************************
