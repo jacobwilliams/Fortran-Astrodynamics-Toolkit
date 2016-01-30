@@ -1172,9 +1172,9 @@
       integer i , iflag , iter , j , jm1 , l , ncfail , ncsuc , nslow1 , nslow2
       integer iwa(1)
       logical jeval , sing
-      real(wp) actred , delta , epsmch , fnorm , fnorm1 , one , &
+      real(wp) actred , delta , epsmch , fnorm , fnorm1 , &
                pnorm , prered , ratio ,&
-               sum , temp , xnorm , zero
+               sum , temp , xnorm
 
       real(wp),parameter :: p1    = 1.0e-1_wp
       real(wp),parameter :: p5    = 5.0e-1_wp
