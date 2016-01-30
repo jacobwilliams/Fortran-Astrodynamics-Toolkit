@@ -27,6 +27,7 @@
         procedure,non_overridable,public :: integrate          !! main integration routine
         procedure,non_overridable,public :: integrate_to_event !! integration with event finding
         procedure(step_func),deferred    :: step               !! the step routine for the rk method
+        procedure,public                 :: destroy            !! destructor
 
     end type rk_class
 
@@ -102,12 +103,27 @@
     procedure(report_func),optional :: report  !! for reporting the steps
     procedure(event_func),optional  :: g       !! for stopping at an event
 
+    call me%destroy()
+
     me%n = n
     me%f => f
     if (present(report)) me%report => report
     if (present(g))      me%g      => g
 
     end subroutine initialize
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Destructor for [[rk_class]].
+
+    subroutine destroy(me)
+
+    implicit none
+
+    class(rk_class),intent(out)   :: me
+
+    end subroutine destroy
 !*****************************************************************************************
 
 !*****************************************************************************************
@@ -188,7 +204,7 @@
     !local variables:
     real(wp) :: t,dt,t2,ga,gb,dt_root,dum
     real(wp),dimension(me%n) :: x,g_xf
-    logical :: last,export
+    logical :: first,last,export
     procedure(report_func),pointer :: report
     type(brent_class) :: solver
     integer :: iflag
@@ -208,11 +224,14 @@
         call me%g(t0,x0,gf)
     else
 
+        first = .true.
         t = t0
         x = x0
         call me%g(t0,x0,ga)     !evalute event function
         dt = sign(h,tmax-t0)    !time step (correct sign)
+
         do
+
             t2 = t + dt
             last = ((dt>=zero .and. t2>=tmax) .or. &  !adjust last time step
                     (dt<zero .and. t2<=tmax))         !
@@ -223,7 +242,27 @@
             call me%step(t,x,dt,xf)
             call me%g(t2,xf,gb)     !evalute event function
 
-            if (ga*gb<=zero) then !there is a root somewhere on [t,t+dt]
+            if (first .and. abs(ga)<=tol) then
+
+                !we ignore a root at t0 after the first step
+                if (abs(gb)<=tol) then !check this one since it could have landed on a root
+                    gf = gb
+                    tf = t2
+                    exit
+                else
+                    if (last) then  !exiting without having found a root
+                        tf = t2
+                        gf = gb
+                        exit
+                    end if
+                    if (export) call me%report(t2,xf)   !intermediate point
+                    x = xf
+                    t = t2
+                    ga = gb
+                end if
+
+            elseif (ga*gb<=zero) then !there is a root somewhere on [t,t+dt]
+
                 !find the root:
                 call solver%set_function(solver_func)
                 call solver%find_zero(zero,dt,tol,dt_root,dum,iflag,ga,gb)
@@ -232,7 +271,9 @@
                 tf = t2
                 xf = g_xf !computed in the solver function
                 exit
-            else
+
+            else  !no root yet, continue
+
                 if (last) then  !exiting without having found a root
                     tf = t2
                     gf = gb
@@ -241,8 +282,12 @@
                 if (export) call me%report(t2,xf)   !intermediate point
                 x = xf
                 t = t2
-                gb = ga
+                ga = gb
+
             end if
+
+            if (first) first = .false.
+
         end do
 
     end if

@@ -32,7 +32,7 @@
             integer,intent(in)                       :: ldfjac
             real(wp),dimension(n),intent(out)        :: fvec
             real(wp),dimension(ldfjac,n),intent(out) :: fjac
-            integer,intent(in)                       :: iflag
+            integer,intent(inout)                    :: iflag
         end subroutine fcn_hybrj
     end interface
 
@@ -940,10 +940,10 @@
 
       end subroutine hybrd
 
-      subroutine hybrd1(fcn,n,x,fvec,tol,info,wa,lwa)
-      integer n,info,lwa
+      subroutine hybrd1(fcn,n,x,fvec,tol,info)
+      integer n,info
       real(wp) tol
-      real(wp) x(n),fvec(n),wa(lwa)
+      real(wp) x(n),fvec(n)
       procedure(fcn_hybrd) :: fcn
 !     **********
 !
@@ -1032,6 +1032,20 @@
       integer index,j,lr,maxfev,ml,mode,mu,nfev,nprint
       real(wp) epsfcn,factor,one,xtol,zero
       data factor,one,zero /1.0d2,1.0d0,0.0d0/
+
+        !formerly inputs:
+    	integer :: lwa
+    	real(wp),dimension(:),allocatable :: wa
+
+
+         !allocate work array (formerly, this was an input)
+         lwa = (n*(3*n+13))/2
+         allocate(wa(lwa))
+         wa = 0.0_wp
+
+
+
+
       info = 0
 !
 !     check the input parameters for errors.
