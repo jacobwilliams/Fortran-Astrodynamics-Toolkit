@@ -25,6 +25,7 @@
     use numbers_module
     use relative_motion_module
     use rk_module
+    use string_module
     use time_module
     use vector_module
 

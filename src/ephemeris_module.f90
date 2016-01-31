@@ -55,11 +55,16 @@
 
     integer,parameter :: wp = real64  !! using double precision reals since that is how the ephemeris is stored.
 
-    integer,parameter,public :: nmax   = 1000
-    integer,parameter        :: oldmax = 400
+    integer,parameter,public :: nmax   = 1000   !! Current maximum number of ephemeris constants
+                                                !! used in the integration and listed
+                                                !! in the `header.xxx` file for the ephemeris.
+    integer,parameter        :: oldmax = 400    !! For earlier versions of the code, the maximum
+                                                !! number of ephemeris constants used in the
+                                                !! integration and listed in the `header.xxx`
+                                                !! file for the ephemeris.
 
-    integer,parameter :: nrecl = 4  !! nrecl=1 if "recl" in the open statement is the record length in s.p. words
-                                    !! nrecl=4 if "recl" in the open statement is the record length in bytes
+    integer,parameter :: nrecl = 4  !! `nrecl=1` if `recl` in the open statement is the record length in s.p. words
+                                    !! `nrecl=4` if `recl` in the open statement is the record length in bytes
 
     type,public :: jpl_ephemeris
 
