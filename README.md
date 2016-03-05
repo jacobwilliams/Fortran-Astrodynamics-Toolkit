@@ -26,6 +26,7 @@ The goal is to produce a comprehensive library, written in modern Fortran (Fortr
   - [ ] relativistic effects
  * Reference frames
   - [x] IAU_EARTH
+  - [x] IAU_MOON
  * Celestial Body Ephemerides
   - [x] JPLEPH
  * Alternate equations of motion
