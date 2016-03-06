@@ -307,6 +307,41 @@
 
 !*****************************************************************************************
 !> author: Jacob Williams
+!  date: 3/6/2016
+!
+!  Convert Cartesian (x,y,z) to spherical (r,alpha,beta).
+
+    pure subroutine cartesian_to_spherical(rvec,r,alpha,beta)
+
+    implicit none
+
+    real(wp),dimension(3),intent(in) :: rvec     !! [x,y,z] vector
+    real(wp),intent(out)             :: r        !! magnitude
+    real(wp),intent(out)             :: alpha    !! right ascension [rad]
+    real(wp),intent(out)             :: beta     !! declination [rad]
+
+    real(wp) :: r1
+
+    r1 = rvec(1)*rvec(1)+rvec(2)*rvec(2)
+    r  = sqrt(r1+rvec(3)*rvec(3))
+
+    if (r/=zero) then
+        beta = atan2(rvec(3),sqrt(r1))
+        if (r1/=zero) then
+            alpha = atan2(rvec(2),rvec(1))
+        else
+            alpha = zero
+        end if
+    else
+        alpha = zero
+        beta = zero
+    end if
+
+    end subroutine cartesian_to_spherical
+!*****************************************************************************************
+
+!*****************************************************************************************
+!> author: Jacob Williams
 !  date: 2/3/2015
 !
 !  The 3x3 rotation matrix for a rotation about the x, y, or z-axis.

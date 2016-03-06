@@ -7,12 +7,17 @@
 
     use vector_module, only: unit,cross,ucross
     use kind_module, only: wp
+    use numbers_module
 
     implicit none
 
     private
 
     public :: bplane
+    public :: hyperbolic_turning_angle
+    public :: vinf_to_energy
+
+    !unit tests:
     public :: bplane_test
 
     contains
@@ -56,7 +61,7 @@
     h         = cross(r,v)
     hhat      = unit(h)
 
-    if (all(hhat==0.0_wp)) then
+    if (all(hhat==zero)) then
         write(*,*) 'error: degenerate state.'
         status_ok = .false.
         return
@@ -66,28 +71,28 @@
     rmag      = norm2(r)
     vmag      = norm2(v)
     vmag2     = vmag*vmag
-    vinf2     = vmag2 - 2.0_wp*mu/rmag
-    vinf      = sqrt(vinf2)                           ! magnitude of v-infinity vector
-    evec      = cross(v,h)/mu - r/rmag                ! eccentricity vector
-    e         = norm2(evec)                           ! eccentricity
+    vinf2     = vmag2 - two*mu/rmag
+    vinf      = sqrt(vinf2)                     ! magnitude of v-infinity vector
+    evec      = cross(v,h)/mu - r/rmag          ! eccentricity vector
+    e         = norm2(evec)                     ! eccentricity
 
-    if (e<=1.0_wp) then
+    if (e<=one) then
         write(*,*) 'error: state is not hyperbolic.'
         status_ok = .false.
         return
     end if
 
-    ehat      = evec/e                                ! eccentricity unit vector
-    a         = 1.0_wp / (2.0_wp/rmag - vmag2/mu)     ! semi-major axis
-    hehat     = cross(hhat,ehat)                      ! h x e unit vector
-    sd2       = 1.0_wp/e                              ! sin(delta/2)
-    cd2       = sqrt(1.0_wp-sd2*sd2)                  ! cos(delta/2)
-    Shat      = cd2*hehat + sd2*ehat                  ! incoming vinf unit vector
-    !Shat     = cd2*he_hat - sd2*e_hat                ! outgoing vinf unit vector
-    That      = ucross(Shat,[0.0_wp, 0.0_wp, 1.0_wp]) ! here we define Tvec relative to the Z-axis of
-                                                      ! the frame in which the state is defined
+    ehat      = evec/e                          ! eccentricity unit vector
+    a         = one / (two/rmag - vmag2/mu)     ! semi-major axis
+    hehat     = cross(hhat,ehat)                ! h x e unit vector
+    sd2       = one/e                           ! sin(delta/2)
+    cd2       = sqrt(one-sd2*sd2)               ! cos(delta/2)
+    Shat      = cd2*hehat + sd2*ehat            ! incoming vinf unit vector
+    !Shat     = cd2*he_hat - sd2*e_hat          ! outgoing vinf unit vector
+    That      = ucross(Shat,[zero, zero, one])  ! here we define Tvec relative to the Z-axis of
+                                                ! the frame in which the state is defined
 
-    if (all(That==0.0_wp)) then
+    if (all(That==zero)) then
         write(*,*) 'error: vinf vector is parallel to z-axis.'
         status_ok = .false.
         return
@@ -99,13 +104,49 @@
     st        = dot_product(Bhat,Rhat)       ! sin(theta)
 
     !outputs:
-    Bmag      = abs(a)*sqrt( e*e - 1.0_wp )  ! magnitude of B vector
+    Bmag      = abs(a)*sqrt( e*e - one )     ! magnitude of B vector
     theta     = atan2(st,ct)                 ! aim point orientation
     vinfvec   = vinf * Shat                  ! incoming vinf vector
     BdotT     = bmag*ct                      ! B dot T
     BdotR     = bmag*st                      ! B dot R
 
     end subroutine bplane
+!*****************************************************************************************
+
+!*****************************************************************************************
+!> author: Jacob Williams
+!  date: 3/6/2016
+!
+!  Compute the hyperbolic turning angle from the eccentricity.
+
+    pure function hyperbolic_turning_angle(e) result(delta)
+
+    implicit none
+
+    real(wp),intent(in) :: e       !! eccentricity [--]
+    real(wp)            :: delta   !! turning angle [rad]
+
+    delta = two*asin(one/e)
+
+    end function hyperbolic_turning_angle
+!*****************************************************************************************
+
+!*****************************************************************************************
+!> author: Jacob Williams
+!  date: 3/6/2016
+!
+!  Convert V-infinity magnitude to energy.
+
+    pure function vinf_to_energy(vinfmag) result(energy)
+
+    implicit none
+
+    real(wp),intent(in) :: vinfmag  !! \(v^{\infty} \) vector magnitude [km/s]
+    real(wp)            :: energy   !! two-body orbital energy [km^2/s^2]
+
+    energy = (vinfmag**2)/two
+
+    end function vinf_to_energy
 !*****************************************************************************************
 
 !*****************************************************************************************

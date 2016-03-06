@@ -195,7 +195,7 @@
     do i=1,3
         write(*,*) rotmat(i,:)
     end do
-    
+
     ! ---icrf_to_iau_earth---
     ! et    =   1000.0000000000000
     ! rotmat=
