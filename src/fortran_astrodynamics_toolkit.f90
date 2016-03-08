@@ -11,11 +11,13 @@
     use complex_step_module
     use conversion_module
     use crtbp_module
+    use drag_module
     use ephemeris_module
     use geodesy_module
     use geometry_module
-    use gooding_module
     use geopotential_module
+    use gooding_module
+    use gravity_module
     use iau_orientation_module
     use kind_module
     use lambert_module
@@ -23,6 +25,7 @@
     use minpack_module
     use modified_equinoctial_module
     use numbers_module
+    use random_module
     use relative_motion_module
     use rk_module
     use string_module
