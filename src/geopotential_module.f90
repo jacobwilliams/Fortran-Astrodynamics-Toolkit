@@ -372,9 +372,10 @@
             select type (me)
             class is (geopotential_model_kuga_carrara)
                 !this model uses the normalized coefficients
-            class default
-                call convert(me%nmax,me%cnm,me%snm)
+                return
             end select
+
+            call convert(me%nmax,me%cnm,me%snm)
 
         end select
 

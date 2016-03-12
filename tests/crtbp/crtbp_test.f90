@@ -7,7 +7,7 @@
     program crtbp_propagation_test
 
     use fortran_astrodynamics_toolkit
-    use pyplot_module
+    use pyplot_module, only: pyplot
 
     implicit none
 
