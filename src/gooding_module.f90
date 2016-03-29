@@ -164,7 +164,7 @@
 
     do
 
-        xi = cos(psi)
+         xi = cos(psi)
          eta = sin(psi)
          fd = (one - c*xi) + s*eta
          fdd = c*eta + s*xi
@@ -213,12 +213,12 @@
         !(emr is range-reduced em & ee is absolute value of emr)
         !started for e = 1 by cube root of bilinear function
         if (ee<asixth) then
-             ee = (six*ee)**athird
-         else
-             w = pi - ee
-             ee = pi - a*w/(b - w)
-         end if
-         if (emr<zero) ee = -ee
+            ee = (six*ee)**athird
+        else
+            w = pi - ee
+            ee = pi - a*w/(b - w)
+        end if
+        if (emr<zero) ee = -ee
 
         !interpolate for e
         ee = emr + (ee - emr)*e

@@ -27,7 +27,9 @@
     public :: vector_projection
     public :: axis_angle_rotation_to_rotation_matrix
     public :: spherical_to_cartesian
+    public :: cartesian_to_spherical
     public :: rotation_matrix
+    public :: rotation_matrix_dot
     public :: angle_between_vectors
 
     !test routine:
@@ -379,6 +381,43 @@
     end select
 
     end function rotation_matrix
+!*****************************************************************************************
+
+!*****************************************************************************************
+!> author: Jacob Williams
+!  date: 3/19/2016
+!
+!  Time derivative of the 3x3 rotation matrix
+!  for a rotation about the x, y, or z-axis.
+
+    pure function rotation_matrix_dot(axis,angle,angledot) result(rotmatdot)
+
+    implicit none
+
+    real(wp),dimension(3,3) :: rotmatdot   !! the rotation matrix derivative \( d \mathbf{C} / d t \)
+    integer,intent(in)      :: axis        !! x_axis, y_axis, or z_axis
+    real(wp),intent(in)     :: angle       !! angle in radians
+    real(wp),intent(in)     :: angledot    !! time derivative of angle in radians/sec
+
+    real(wp) :: c,s
+
+    !precompute these:
+    c = cos(angle)
+    s = sin(angle)
+
+    !first compute d[C]/da (time derivate w.r.t. the angle):
+    select case (axis)
+    case(x_axis); rotmatdot = reshape([zero, zero, zero, zero, -s, -c, zero, c, -s],[3,3])
+    case(y_axis); rotmatdot = reshape([-s, zero, c, zero, zero, zero, -c, zero, -s],[3,3])
+    case(z_axis); rotmatdot = reshape([-s, -c, zero, c, -s, zero, zero, zero, zero],[3,3])
+    case default
+        rotmatdot = zero
+        return
+    end select
+
+    rotmatdot = rotmatdot * angledot    ! d[C]/dt = d[C]/da * da/dt
+
+    end function rotation_matrix_dot
 !*****************************************************************************************
 
 !*****************************************************************************************

@@ -286,7 +286,7 @@
     real(wp),dimension(6),intent(out) :: dx   !! normalized state derivative \([\dot{\mathbf{r}},\dot{\mathbf{v}}]\)
 
     !local variables:
-    real,dimension(3) :: r1,r2,rb1,rb2,r,v,g
+    real(wp),dimension(3) :: r1,r2,rb1,rb2,r,v,g
     real(wp) :: r13,r23,omm,c1,c2
 
     !extract variables from x vector:

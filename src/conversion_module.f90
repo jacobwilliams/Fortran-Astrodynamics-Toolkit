@@ -45,13 +45,18 @@
     real(wp),parameter :: hr2min       = 60.0_wp
     real(wp),parameter :: day2hr       = 24.0_wp
     real(wp),parameter :: century2day  = 36525.0_wp        !! julian century
+    real(wp),parameter :: deg2arcmin   = 60.0_wp
+    real(wp),parameter :: deg2arcsec   = 3600.0_wp
     real(wp),parameter :: hr2sec       = hr2min*min2sec
     real(wp),parameter :: day2min      = day2hr*hr2min
     real(wp),parameter :: day2sec      = day2min*min2sec
     real(wp),parameter :: century2sec  = century2day*day2sec
+    real(wp),parameter :: day2century  = one/century2day
     real(wp),parameter :: hr2day       = one/day2hr
     real(wp),parameter :: sec2day      = one/day2sec
     real(wp),parameter :: sec2century  = one/century2sec
+    real(wp),parameter :: arcmin2deg   = one/deg2arcmin
+    real(wp),parameter :: arcsec2deg   = one/deg2arcsec
 
     end module conversion_module
 !*****************************************************************************************

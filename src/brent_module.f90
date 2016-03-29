@@ -380,7 +380,7 @@
 
     implicit none
 
-    real(wp) :: x,f,r,fzero
+    real(wp) :: r,fzero
     integer :: iflag
 
     real(wp),parameter :: ax = zero

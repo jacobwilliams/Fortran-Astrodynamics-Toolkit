@@ -354,8 +354,8 @@
         a2  = a*a
         b2  = b*b
         num = cl2 * a2**2 + sl2 * b2**2
-    	den = cl2 * a2    + sl2 * b2
-    	r   = sqrt(num/den)
+        den = cl2 * a2    + sl2 * b2
+        r   = sqrt(num/den)
     end if
 
     end function geocentric_radius

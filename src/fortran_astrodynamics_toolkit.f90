@@ -3,11 +3,16 @@
 !  license: BSD
 !
 !  The main module that uses all the other modules.
+!  Allows for a single `use fortran_astrodynamics_toolkit`
+!  to access the entire library.
 
     module fortran_astrodynamics_toolkit
 
+    use analytical_ephemeris_module
+    use base_class_module
     use bplane_module
     use brent_module
+    use celestial_body_module
     use complex_step_module
     use conversion_module
     use crtbp_module
@@ -19,6 +24,7 @@
     use gooding_module
     use gravity_module
     use iau_orientation_module
+    use jpl_ephemeris_module
     use kind_module
     use lambert_module
     use math_module
@@ -30,6 +36,7 @@
     use rk_module
     use string_module
     use time_module
+    use transformation_module
     use vector_module
 
     implicit none

@@ -18,6 +18,7 @@
     public :: julian_day
     public :: julian_date
     public :: et_to_jd
+    public :: jd_to_et
     public :: jd_to_mjd
     public :: mjd_to_jd
 
@@ -45,6 +46,26 @@
     jd = jd_j2000 + et*sec2day
 
     end function et_to_jd
+!*****************************************************************************************
+
+!*****************************************************************************************
+!> author: Jacob Williams
+!  date: 3/19/2016
+!
+!  Convert Julian date to ephemeris time (seconds from J2000 epoch).
+
+    pure function jd_to_et(jd) result(et)
+
+    use conversion_module, only: day2sec
+
+    implicit none
+
+    real(wp),intent(in) :: jd   !! Julian date [days]
+    real(wp)            :: et   !! ephemeris time [sec from J2000 epoch]
+
+    et = (jd - jd_j2000) * day2sec
+
+    end function jd_to_et
 !*****************************************************************************************
 
 !*****************************************************************************************
