@@ -34,6 +34,7 @@
     use random_module
     use relative_motion_module
     use rk_module
+    use rk_module_variable_step
     use string_module
     use time_module
     use transformation_module
