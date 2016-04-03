@@ -499,7 +499,7 @@
         if (h==zero) then
             ! compute an appropriate initial step size:
             ! WARNING: this may not be working in all cases .....
-            etol = me%rtol * me%stepsize_method%norm(xf) + me%atol
+            etol = me%rtol * me%stepsize_method%norm(x0) + me%atol
             call me%f(t0,x0,xp0)  ! get initial dx/dt
             call me%hstart(t0,tf,x0,xp0,etol,dt)
             !write(*,*) 'inital step size: ',dt
