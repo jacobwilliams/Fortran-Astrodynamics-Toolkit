@@ -2,11 +2,12 @@
 !> author: Jacob Williams
 !  date: April 1, 2016
 !
-!  Hight-order variable step size Runge-Kutta integration methods.
+!  High-order variable step size Runge-Kutta integration methods.
 !
-!  Currently have three methods:
+!  Currently have four methods:
 !   * Fehlberg 7(8)
 !   * Fehlberg 8(9)
+!   * Verner 8(9)
 !   * Feagin 8(10)
 !
 !@warning This is a work in progress.
@@ -68,6 +69,9 @@
 
         integer :: p = 0 !! order of the method
 
+        integer :: hinit_method = 1 !! if automatically computing the inital step size, which
+                                    !! method to use. 1 = `hstart`, 2 = `hinit`.
+
         integer :: num_rejected_steps = 0 !! number of rejected steps
 
         contains
@@ -81,6 +85,7 @@
         procedure(step_func),deferred    :: step               !! the step routine for the rk method
         procedure(order_func),deferred   :: order              !! returns `p`, the order of the method
         procedure :: hstart  !! for automatically computing the initial step size [this is from DDEABM]
+        procedure :: hinit   !! for automatically computing the initial step size [this is from DOP853]
 
     end type rk_variable_step_class
 
@@ -96,6 +101,12 @@
         procedure :: step  => rkf89
         procedure :: order => rkf89_order
     end type rkf89_class
+    type,extends(rk_variable_step_class),public :: rkv89_class
+        !! Runga-Kutta Verner 8(9) method.
+        contains
+        procedure :: step  => rkv89
+        procedure :: order => rkv89_order
+    end type rkv89_class
     type,extends(rk_variable_step_class),public :: rkf108_class
         !! Runga-Kutta Feagin 8(10) method.
         contains
@@ -210,10 +221,15 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
+!>
+!  Constructor for a [[stepsize_class]].
+!
+!@warning The `norm` and `compute_h_factor` options aren't public in the module.
+!         Need to fix this.
+
     pure subroutine stepsize_class_constructor(me,hmin,hmax,hfactor_reject,&
                         hfactor_accept,norm,accept_mode,compute_h_factor,max_attempts)
 
-    !! constructor for a [[stepsize_class]].
 
     implicit none
 
@@ -404,7 +420,7 @@
 !>
 !  Initialize the [[rk_variable_step_class]].
 
-    subroutine initialize(me,n,f,rtol,atol,stepsize_method,report,g)
+    subroutine initialize(me,n,f,rtol,atol,stepsize_method,hinit_method,report,g)
 
     implicit none
 
@@ -414,6 +430,8 @@
     real(wp),dimension(:),intent(in)            :: rtol            !! relative tolerance (if size=1, then same tol used for all equations)
     real(wp),dimension(:),intent(in)            :: atol            !! absolute tolerance (if size=1, then same tol used for all equations)
     class(stepsize_class),intent(in)            :: stepsize_method !! method for varying the step size
+    integer,intent(in),optional                 :: hinit_method    !! which method to use for automatic initial step size computation.
+                                                                   !! 1 = use `hstart`, 2 = use `hinit`.
     procedure(report_func),optional             :: report          !! for reporting the steps
     procedure(event_func),optional              :: g               !! for stopping at an event
 
@@ -501,7 +519,14 @@
             ! WARNING: this may not be working in all cases .....
             etol = me%rtol * me%stepsize_method%norm(x0) + me%atol
             call me%f(t0,x0,xp0)  ! get initial dx/dt
-            call me%hstart(t0,tf,x0,xp0,etol,dt)
+            select case (me%hinit_method)
+            case(1)
+                call me%hstart(t0,tf,x0,xp0,etol,dt)
+            case(2)
+                dt = me%hinit(t0,x0,sign(one,tf-t0),xp0,me%stepsize_method%hmax,me%atol,me%rtol)
+            case default
+                error stop 'invalid hinit_method selection'
+            end select
             !write(*,*) 'inital step size: ',dt
         else
             ! user-specified initial step size:
@@ -1011,6 +1036,169 @@
 
 !*****************************************************************************************
 !>
+!  Runge Kutta Verner 8(9)
+!
+!### Reference
+!  * J. H. Verner, "Explicit Runge–Kutta Methods with Estimates of the
+!    Local Truncation Error", SIAM Journal on Numerical Analysis,
+!   15(4), 772–790, 1978.
+
+    subroutine rkv89(me,t,x,h,xf,terr)
+
+    implicit none
+
+    class(rkv89_class),intent(inout)     :: me
+    real(wp),intent(in)                  :: t     !! initial time
+    real(wp),dimension(me%n),intent(in)  :: x     !! initial state
+    real(wp),intent(in)                  :: h     !! time step
+    real(wp),dimension(me%n),intent(out) :: xf    !! state at time `t+h`
+    real(wp),dimension(me%n),intent(out) :: terr  !! truncation error estimate
+
+    real(wp),parameter :: s6 = sqrt(6.0_wp)
+
+    real(wp),parameter :: a2  = 1.0_wp/12.0_wp
+    real(wp),parameter :: a3  = 1.0_wp/9.0_wp
+    real(wp),parameter :: a4  = 1.0_wp/6.0_wp
+    real(wp),parameter :: a5  = 2.0_wp*(1.0_wp+s6)/15.0_wp
+    real(wp),parameter :: a6  = (6.0_wp+s6)/15.0_wp
+    real(wp),parameter :: a7  = (6.0_wp-s6)/15.0_wp
+    real(wp),parameter :: a8  = 2.0_wp/3.0_wp
+    real(wp),parameter :: a9  = 1.0_wp/2.0_wp
+    real(wp),parameter :: a10 = 1.0_wp/3.0_wp
+    real(wp),parameter :: a11 = 1.0_wp/4.0_wp
+    real(wp),parameter :: a12 = 4.0_wp/3.0_wp
+    real(wp),parameter :: a13 = 5.0_wp/6.0_wp
+    real(wp),parameter :: a15 = 1.0_wp/6.0_wp
+
+    real(wp),parameter :: b31   = 1.0_wp/27.0_wp
+    real(wp),parameter :: b32   = 2.0_wp/27.0_wp
+    real(wp),parameter :: b41   = 1.0_wp/24.0_wp
+    real(wp),parameter :: b43   = 3.0_wp/24.0_wp
+    real(wp),parameter :: b51   = (4.0_wp+94.0_wp*s6)/375.0_wp
+    real(wp),parameter :: b53   = -(282.0_wp+252.0_wp*s6)/375.0_wp
+    real(wp),parameter :: b54   = (328.0_wp+208.0_wp*s6)/375.0_wp
+    real(wp),parameter :: b61   = (9.0_wp-s6)/150.0_wp
+    real(wp),parameter :: b64   = (312.0_wp+32.0_wp*s6)/1425.0_wp
+    real(wp),parameter :: b65   = (69.0_wp+29.0_wp*s6)/570.0_wp
+    real(wp),parameter :: b71   = (927.0_wp-347.0_wp*s6)/1250.0_wp
+    real(wp),parameter :: b74   = (-16248.0_wp+7328.0_wp*s6)/9375.0_wp
+    real(wp),parameter :: b75   = (-489.0_wp+179.0_wp*s6)/3750.0_wp
+    real(wp),parameter :: b76   = (14268.0_wp-5798.0_wp*s6)/9375.0_wp
+    real(wp),parameter :: b81   = 4.0_wp/54.0_wp
+    real(wp),parameter :: b86   = (16.0_wp-s6)/54.0_wp
+    real(wp),parameter :: b87   = (16.0_wp+s6)/54.0_wp
+    real(wp),parameter :: b91   = 38.0_wp/512.0_wp
+    real(wp),parameter :: b96   = (118.0_wp-23.0_wp*s6)/512.0_wp
+    real(wp),parameter :: b97   = (118.0_wp+23.0_wp*s6)/512.0_wp
+    real(wp),parameter :: b98   = -18.0_wp/512.0_wp
+    real(wp),parameter :: b101  = 11.0_wp/144.0_wp
+    real(wp),parameter :: b106  = (266.0_wp-s6)/864.0_wp
+    real(wp),parameter :: b107  = (266.0_wp+s6)/864.0_wp
+    real(wp),parameter :: b108  = -1.0_wp/16.0_wp
+    real(wp),parameter :: b109  = -8.0_wp/27.0_wp
+    real(wp),parameter :: b111  = (5034.0_wp-271.0_wp*s6)/61440.0_wp
+    real(wp),parameter :: b117  = (7859.0_wp-1626.0_wp*s6)/10240.0_wp
+    real(wp),parameter :: b118  = (-2232.0_wp+813.0_wp*s6)/20480.0_wp
+    real(wp),parameter :: b119  = (-594.0_wp+271.0_wp*s6)/960.0_wp
+    real(wp),parameter :: b1110 = (657.0_wp-813.0_wp*s6)/5120.0_wp
+    real(wp),parameter :: b121  = (5996.0_wp-3794.0_wp*s6)/405.0_wp
+    real(wp),parameter :: b126  = (-4342.0_wp-338.0_wp*s6)/9.0_wp
+    real(wp),parameter :: b127  = (154922.0_wp-40458.0_wp*s6)/135.0_wp
+    real(wp),parameter :: b128  = (-4176.0_wp+3794.0_wp*s6)/45.0_wp
+    real(wp),parameter :: b129  = (-340864.0_wp+242816.0_wp*s6)/405.0_wp
+    real(wp),parameter :: b1210 = (26304.0_wp-15176.0_wp*s6)/45.0_wp
+    real(wp),parameter :: b1211 = -26624.0_wp/81.0_wp
+    real(wp),parameter :: b131  = (3793.0_wp+2168.0_wp*s6)/103680.0_wp
+    real(wp),parameter :: b136  = (4042.0_wp+2263.0_wp*s6)/13824.0_wp
+    real(wp),parameter :: b137  = (-231278.0_wp+40717.0_wp*s6)/69120.0_wp
+    real(wp),parameter :: b138  = (7947.0_wp-2168.0_wp*s6)/11520.0_wp
+    real(wp),parameter :: b139  = (1048.0_wp-542.0_wp*s6)/405.0_wp
+    real(wp),parameter :: b1310 = (-1383.0_wp+542.0_wp*s6)/720.0_wp
+    real(wp),parameter :: b1311 = 2624.0_wp/1053.0_wp
+    real(wp),parameter :: b1312 = 3.0_wp/1664.0_wp
+    real(wp),parameter :: b141  = -137.0_wp/1296.0_wp
+    real(wp),parameter :: b146  = (5642.0_wp-337.0_wp*s6)/864.0_wp
+    real(wp),parameter :: b147  = (5642.0_wp+337.0_wp*s6)/864.0_wp
+    real(wp),parameter :: b148  = -299.0_wp/48.0_wp
+    real(wp),parameter :: b149  = 184.0_wp/81.0_wp
+    real(wp),parameter :: b1410 = -44.0_wp/9.0_wp
+    real(wp),parameter :: b1411 = -5120.0_wp/1053.0_wp
+    real(wp),parameter :: b1412 = -11.0_wp/468.0_wp
+    real(wp),parameter :: b1413 = 16.0_wp/9.0_wp
+    real(wp),parameter :: b151  = (33617.0_wp-2168.0_wp*s6)/518400.0_wp
+    real(wp),parameter :: b156  = (-3846.0_wp+31.0_wp*s6)/13824.0_wp
+    real(wp),parameter :: b157  = (155338.0_wp-52807.0_wp*s6)/345600.0_wp
+    real(wp),parameter :: b158  = (-12537.0_wp+2168.0_wp*s6)/57600.0_wp
+    real(wp),parameter :: b159  = (92.0_wp+542.0_wp*s6)/2025.0_wp
+    real(wp),parameter :: b1510 = (-1797.0_wp-542.0_wp*s6)/3600.0_wp
+    real(wp),parameter :: b1511 = 320.0_wp/567.0_wp
+    real(wp),parameter :: b1512 = -1.0_wp/1920.0_wp
+    real(wp),parameter :: b1513 = 4.0_wp/105.0_wp
+    real(wp),parameter :: b161  = (-36487.0_wp-30352.0_wp*s6)/279600.0_wp
+    real(wp),parameter :: b166  = (-29666.0_wp-4499.0_wp*s6)/7456.0_wp
+    real(wp),parameter :: b167  = (2779182.0_wp-615973.0_wp*s6)/186400.0_wp
+    real(wp),parameter :: b168  = (-94329.0_wp+91056.0_wp*s6)/93200.0_wp
+    real(wp),parameter :: b169  = (-232192.0_wp+121408.0_wp*s6)/17475.0_wp
+    real(wp),parameter :: b1610 = (101226.0_wp-22764.0_wp*s6)/5825.0_wp
+    real(wp),parameter :: b1611 = -169984.0_wp/9087.0_wp
+    real(wp),parameter :: b1612 = -87.0_wp/30290.0_wp
+    real(wp),parameter :: b1613 = 492.0_wp/1165.0_wp
+    real(wp),parameter :: b1615 = 1260.0_wp/233.0_wp
+
+    real(wp),parameter :: c1  = 103.0_wp/1680.0_wp
+    real(wp),parameter :: c8  = -27.0_wp/140.0_wp
+    real(wp),parameter :: c9  = 76.0_wp/105.0_wp
+    real(wp),parameter :: c10 = -201.0_wp/280.0_wp
+    real(wp),parameter :: c11 = 1024.0_wp/1365.0_wp
+    real(wp),parameter :: c12 = 3.0_wp/7280.0_wp
+    real(wp),parameter :: c13 = 12.0_wp/35.0_wp
+    real(wp),parameter :: c14 = 9.0_wp/280.0_wp
+
+    real(wp),parameter :: e1  = -1911.0_wp/109200.0_wp
+    real(wp),parameter :: e8  = 34398.0_wp/109200.0_wp
+    real(wp),parameter :: e9  = -61152.0_wp/109200.0_wp
+    real(wp),parameter :: e10 = 114660.0_wp/109200.0_wp
+    real(wp),parameter :: e11 = -114688.0_wp/109200.0_wp
+    real(wp),parameter :: e12 = -63.0_wp/109200.0_wp
+    real(wp),parameter :: e13 = -13104.0_wp/109200.0_wp
+    real(wp),parameter :: e14 = -3510.0_wp/109200.0_wp
+    real(wp),parameter :: e15 = 39312.0_wp/109200.0_wp
+    real(wp),parameter :: e16 = 6058.0_wp/109200.0_wp
+
+    real(wp),dimension(me%n) :: k1,k2,k3,k4,k5,k6,k7,k8,k9,&
+                                k10,k11,k12,k13,k14,k15,k16
+
+    call me%f(t,x,k1)
+    call me%f(t+a2*h,x+h*(a2*k1),k2)
+    call me%f(t+a3*h,x+h*(b31*k1+b32*k2),k3)
+    call me%f(t+a4*h,x+h*(b41*k1+b43*k3),k4)
+    call me%f(t+a5*h,x+h*(b51*k1+b53*k3+b54*k4),k5)
+    call me%f(t+a6*h,x+h*(b61*k1+b64*k4+b65*k5),k6)
+    call me%f(t+a7*h,x+h*(b71*k1+b74*k4+b75*k5+b76*k6),k7)
+    call me%f(t+a8*h,x+h*(b81*k1+b86*k6+b87*k7),k8)
+    call me%f(t+a9*h,x+h*(b91*k1+b96*k6+b97*k7+b98*k8),k9)
+    call me%f(t+a10*h,x+h*(b101*k1+b106*k6+b107*k7+b108*k8+b109*k9),k10)
+    call me%f(t+a11*h,x+h*(b111*k1+b117*k7+b118*k8+b119*k9+b1110*k10),k11)
+    call me%f(t+a12*h,x+h*(b121*k1+b126*k6+b127*k7+b128*k8+b129*k9+&
+                b1210*k10+b1211*k11),k12)
+    call me%f(t+a13*h,x+h*(b131*k1+b136*k6+b137*k7+b138*k8+b139*k9+&
+                b1310*k10+b1311*k11+b1312*k12),k13)
+    call me%f(t+h,x+h*(b141*k1+b146*k6+b147*k7+b148*k8+b149*k9+b1410*k10+&
+                b1411*k11+b1412*k12+b1413*k13),k14)
+    call me%f(t+a15*h,x+h*(b151*k1+b156*k6+b157*k7+b158*k8+b159*k9+b1510*k10+&
+                b1511*k11+b1512*k12+b1513*k13),k15)
+	call me%f(t+h,x+h*(b161*k1+b166*k6+b167*k7+b168*k8+b169*k9+b1610*k10+&
+                b1611*k11+b1612*k12+b1613*k13+b1615*k15),k16)
+
+    xf = x+h*(c1*k1+c8*k8+c9*k9+c10*k10+c11*k11+c12*k12+c13*k13+c14*k14)
+
+    terr = e1*k1+e8*k8+e9*k9+e10*k10+e11*k11+e12*k12+e13*k13+e14*k14+e15*k15+e16*k16
+
+    end subroutine rkv89
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
 !  Feagin's RK8(10) method.
 !
 !### Reference
@@ -1219,6 +1407,22 @@
     p = 8
 
     end function rkf89_order
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Returns the order of the rkv89 method.
+
+    pure function rkv89_order(me) result(p)
+
+    implicit none
+
+    class(rkv89_class),intent(in) :: me
+    integer                       :: p    !! order of the method
+
+    p = 8
+
+    end function rkv89_order
 !*****************************************************************************************
 
 !*****************************************************************************************
@@ -1473,6 +1677,77 @@
 
 !*****************************************************************************************
 !>
+!  computation of an initial step size guess
+!
+!@note This routine is from dop853. It was modified for this module.
+
+    function hinit(me,x,y,posneg,f0,hmax,atol,rtol)
+
+    implicit none
+
+    class(rk_variable_step_class),intent(inout) :: me
+    real(wp),intent(in)               :: x
+    real(wp),dimension(:),intent(in)  :: y       !! dimension(n)
+    real(wp),intent(in)               :: posneg  !! posneg = sign(1.0_wp,xend-x)
+    real(wp),dimension(:),intent(in)  :: f0      !! dimension(n)
+    real(wp),intent(in)               :: hmax
+    real(wp),dimension(:),intent(in)  :: atol
+    real(wp),dimension(:),intent(in)  :: rtol
+
+    real(wp) :: der12,der2,dnf,dny,h,h1,hinit,sk
+    integer :: i
+    integer :: iord  !! order of the method
+    real(wp),dimension(me%n) :: f1,y1
+
+    iord = me%p
+
+    ! compute a first guess for explicit euler as
+    !   h = 0.01 * norm (y0) / norm (f0)
+    ! the increment for explicit euler is small
+    ! compared to the solution
+    dnf = zero
+    dny = zero
+    do i = 1 , me%n
+        sk = atol(i) + rtol(i)*abs(y(i))
+        dnf = dnf + (f0(i)/sk)**2
+        dny = dny + (y(i)/sk)**2
+    end do
+    if ( dnf<=1.0e-10_wp .or. dny<=1.0e-10_wp ) then
+        h = 1.0e-6_wp
+    else
+        h = sqrt(dny/dnf)*0.01_wp
+    end if
+    h = min(h,hmax)
+    h = sign(h,posneg)
+    ! perform an explicit euler step
+    do i = 1 , me%n
+        y1(i) = y(i) + h*f0(i)
+    end do
+    call me%f(x+h,y1,f1)
+    ! estimate the second derivative of the solution
+    der2 = zero
+    do i = 1 , me%n
+        sk = atol(i) + rtol(i)*abs(y(i))
+        der2 = der2 + ((f1(i)-f0(i))/sk)**2
+    end do
+    der2 = sqrt(der2)/h
+    ! step size is computed such that
+    !  h**iord * max ( norm (f0), norm (der2)) = 0.01
+    der12 = max(abs(der2),sqrt(dnf))
+    if ( der12<=1.0e-15_wp ) then
+        h1 = max(1.0e-6_wp,abs(h)*1.0e-3_wp)
+    else
+        h1 = (0.01_wp/der12)**(1.0_wp/iord)
+    end if
+
+    h = min(100.0_wp*abs(h),h1,hmax)
+    hinit = sign(h,posneg)
+
+    end function hinit
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
 !  Unit tests for step size adjustment routines.
 
     subroutine step_size_test()
@@ -1525,7 +1800,8 @@
     implicit none
 
     !type,extends(rkf78_class) :: spacecraft
-    type,extends(rkf89_class) :: spacecraft
+    !type,extends(rkf89_class) :: spacecraft
+    type,extends(rkv89_class) :: spacecraft
     !type,extends(rkf108_class) :: spacecraft
         !! spacecraft propagation type.
         real(wp) :: mu     = zero     !! central body gravitational parameter (km3/s2)
