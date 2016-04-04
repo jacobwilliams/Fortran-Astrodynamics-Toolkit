@@ -457,6 +457,8 @@
         error stop 'invalid size for atol array.'
     end if
 
+    if (present(hinit_method)) me%hinit_method = hinit_method
+
     if (present(report)) me%report => report
     if (present(g))      me%g      => g
 
