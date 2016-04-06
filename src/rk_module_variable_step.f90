@@ -304,6 +304,13 @@
             accept = (err<=tol)
         end select
 
+        !...notes:
+        ! see: L. Shampine "Some Practical Runge-Kutta Formulas",
+        !      Mathematics of Computation, 46(173), Jan 1986.
+        ! different conditions for satisfying error conditions:
+        !  ||err|| <= tol   -- Error per setp (EPS)
+        !  ||err|| <= h*tol -- Error per unit step (EPUS)
+
         !compute the actual hfactor based on the limits:
         if (accept) then
             hfactor = min(me%hfactor_accept, hfactor)
@@ -401,6 +408,10 @@
     pure function compute_h_factor_v5(me,h,tol,err,p) result(hfactor)
 
     !! Algorithm 17.13 method
+    !!
+    !! See: L.F. Shampine, H. A. Watts, "Global Error Estimation for Ordinary Differential Equations",
+    !!      ACM Transactions on Mathematical Software (TOMS),
+    !!      Volume 2 Issue 2, June 1976
 
     implicit none
 
@@ -779,10 +790,10 @@
     real(wp),parameter :: b50  = 1.0_wp/20.0_wp
     real(wp),parameter :: b53  = 1.0_wp/4.0_wp
     real(wp),parameter :: b54  = 1.0_wp/5.0_wp
-    real(wp),parameter :: b60 = -25.0_wp/108.0_wp
-    real(wp),parameter :: b63 = 125.0_wp/108.0_wp
-    real(wp),parameter :: b64 = -65.0_wp/27.0_wp
-    real(wp),parameter :: b65 = 125.0_wp/54.0_wp
+    real(wp),parameter :: b60  = -25.0_wp/108.0_wp
+    real(wp),parameter :: b63  = 125.0_wp/108.0_wp
+    real(wp),parameter :: b64  = -65.0_wp/27.0_wp
+    real(wp),parameter :: b65  = 125.0_wp/54.0_wp
     real(wp),parameter :: b70  = 31.0_wp/300.0_wp
     real(wp),parameter :: b74  = 61.0_wp/225.0_wp
     real(wp),parameter :: b75  = -2.0_wp/9.0_wp
@@ -1167,34 +1178,34 @@
     real(wp),parameter :: e15 = 39312.0_wp/109200.0_wp
     real(wp),parameter :: e16 = 6058.0_wp/109200.0_wp
 
-    real(wp),dimension(me%n) :: k1,k2,k3,k4,k5,k6,k7,k8,k9,&
-                                k10,k11,k12,k13,k14,k15,k16
+    real(wp),dimension(me%n) :: f1,f2,f3,f4,f5,f6,f7,f8,f9,&
+                                f10,f11,f12,f13,f14,f15,f16
 
-    call me%f(t,x,k1)
-    call me%f(t+a2*h,x+h*(a2*k1),k2)
-    call me%f(t+a3*h,x+h*(b31*k1+b32*k2),k3)
-    call me%f(t+a4*h,x+h*(b41*k1+b43*k3),k4)
-    call me%f(t+a5*h,x+h*(b51*k1+b53*k3+b54*k4),k5)
-    call me%f(t+a6*h,x+h*(b61*k1+b64*k4+b65*k5),k6)
-    call me%f(t+a7*h,x+h*(b71*k1+b74*k4+b75*k5+b76*k6),k7)
-    call me%f(t+a8*h,x+h*(b81*k1+b86*k6+b87*k7),k8)
-    call me%f(t+a9*h,x+h*(b91*k1+b96*k6+b97*k7+b98*k8),k9)
-    call me%f(t+a10*h,x+h*(b101*k1+b106*k6+b107*k7+b108*k8+b109*k9),k10)
-    call me%f(t+a11*h,x+h*(b111*k1+b117*k7+b118*k8+b119*k9+b1110*k10),k11)
-    call me%f(t+a12*h,x+h*(b121*k1+b126*k6+b127*k7+b128*k8+b129*k9+&
-                b1210*k10+b1211*k11),k12)
-    call me%f(t+a13*h,x+h*(b131*k1+b136*k6+b137*k7+b138*k8+b139*k9+&
-                b1310*k10+b1311*k11+b1312*k12),k13)
-    call me%f(t+h,x+h*(b141*k1+b146*k6+b147*k7+b148*k8+b149*k9+b1410*k10+&
-                b1411*k11+b1412*k12+b1413*k13),k14)
-    call me%f(t+a15*h,x+h*(b151*k1+b156*k6+b157*k7+b158*k8+b159*k9+b1510*k10+&
-                b1511*k11+b1512*k12+b1513*k13),k15)
-    call me%f(t+h,x+h*(b161*k1+b166*k6+b167*k7+b168*k8+b169*k9+b1610*k10+&
-                b1611*k11+b1612*k12+b1613*k13+b1615*k15),k16)
+    call me%f(t,x,f1)
+    call me%f(t+a2*h,x+h*(a2*f1),f2)
+    call me%f(t+a3*h,x+h*(b31*f1+b32*f2),f3)
+    call me%f(t+a4*h,x+h*(b41*f1+b43*f3),f4)
+    call me%f(t+a5*h,x+h*(b51*f1+b53*f3+b54*f4),f5)
+    call me%f(t+a6*h,x+h*(b61*f1+b64*f4+b65*f5),f6)
+    call me%f(t+a7*h,x+h*(b71*f1+b74*f4+b75*f5+b76*f6),f7)
+    call me%f(t+a8*h,x+h*(b81*f1+b86*f6+b87*f7),f8)
+    call me%f(t+a9*h,x+h*(b91*f1+b96*f6+b97*f7+b98*f8),f9)
+    call me%f(t+a10*h,x+h*(b101*f1+b106*f6+b107*f7+b108*f8+b109*f9),f10)
+    call me%f(t+a11*h,x+h*(b111*f1+b117*f7+b118*f8+b119*f9+b1110*f10),f11)
+    call me%f(t+a12*h,x+h*(b121*f1+b126*f6+b127*f7+b128*f8+b129*f9+&
+                b1210*f10+b1211*f11),f12)
+    call me%f(t+a13*h,x+h*(b131*f1+b136*f6+b137*f7+b138*f8+b139*f9+&
+                b1310*f10+b1311*f11+b1312*f12),f13)
+    call me%f(t+h,x+h*(b141*f1+b146*f6+b147*f7+b148*f8+b149*f9+b1410*f10+&
+                b1411*f11+b1412*f12+b1413*f13),f14)
+    call me%f(t+a15*h,x+h*(b151*f1+b156*f6+b157*f7+b158*f8+b159*f9+b1510*f10+&
+                b1511*f11+b1512*f12+b1513*f13),f15)
+    call me%f(t+h,x+h*(b161*f1+b166*f6+b167*f7+b168*f8+b169*f9+b1610*f10+&
+                b1611*f11+b1612*f12+b1613*f13+b1615*f15),f16)
 
-    xf = x+h*(c1*k1+c8*k8+c9*k9+c10*k10+c11*k11+c12*k12+c13*k13+c14*k14)
+    xf = x+h*(c1*f1+c8*f8+c9*f9+c10*f10+c11*f11+c12*f12+c13*f13+c14*f14)
 
-    terr = e1*k1+e8*k8+e9*k9+e10*k10+e11*k11+e12*k12+e13*k13+e14*k14+e15*k15+e16*k16
+    terr = e1*f1+e8*f8+e9*f9+e10*f10+e11*f11+e12*f12+e13*f13+e14*f14+e15*f15+e16*f16
 
     end subroutine rkv89
 !*****************************************************************************************
