@@ -145,7 +145,7 @@
     write(*,*) 'vf=',xf(4:6)
 
     !plot the 2D trajectory, zero-velocity curves, and libration point locations:
-    call plt%initialize(grid=.true.,xlabel='x [km]',ylabel='y [km]',&
+    call plt%initialize(grid=.true.,xlabel='x',ylabel='y',&
                             title='DRO Initial Guess',legend=.false.,figsize=[10,10],&
                             use_numpy=.true.,axis_equal=.true.)
 
@@ -174,7 +174,7 @@
     call prop%initialize(n,func,g=x_axis_crossing)
 
     !initialize the plot:
-    call plt%initialize(grid=.true.,xlabel='x [km]',ylabel='y [km]',&
+    call plt%initialize(grid=.true.,xlabel='x',ylabel='y',&
                             title='Earth-Moon Distant Retrograde Orbits',&
                             legend=.false.,figsize=[10,10],&
                             use_numpy=.true.,axis_equal=.true.)
