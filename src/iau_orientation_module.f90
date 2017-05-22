@@ -65,6 +65,12 @@
     end function iau_rotation_matrix
 !*****************************************************************************************
 
+!
+! TO DO:
+!... also need to add computation of rotmatdot
+! see: ftp://naif.jpl.nasa.gov/pub/naif/toolkit_docs/FORTRAN/spicelib/tisbod.html
+!
+
 !*****************************************************************************************
 !> author: Jacob Williams
 !  date: 2/3/2015

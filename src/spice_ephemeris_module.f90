@@ -40,6 +40,11 @@
         subroutine trcoff()
             implicit none
         end subroutine trcoff
+        function failed()
+            !! see: ftp://naif.jpl.nasa.gov/pub/naif/toolkit_docs/FORTRAN/spicelib/failed.html
+            implicit none
+            logical :: failed
+        end function failed
         subroutine furnsh(file)
             !! see: ftp://naif.jpl.nasa.gov/pub/naif/toolkit_docs/FORTRAN/spicelib/furnsh.html
             implicit none
@@ -148,6 +153,8 @@
     real(wp) :: lt  !! light time output from spkgeo
 
     call spkgeo ( targ%id, et, 'J2000', obs%id, rv, lt )
+
+    status_ok = .not. failed()
 
     end subroutine get_rv_from_spice_ephemeris
 !*****************************************************************************************

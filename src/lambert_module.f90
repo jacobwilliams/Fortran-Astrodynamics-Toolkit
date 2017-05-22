@@ -20,14 +20,23 @@
     real(wp),parameter :: five_half  = five/two
     real(wp),parameter :: three_half = three/two
 
+    abstract interface
+        function func(t) result(f)  !! interface to the [[zeroin]] input function
+        import :: wp
+        implicit none
+        real(wp),intent(in)  :: t  !! Independant variable for the function.
+        real(wp)             :: f  !! The function evaluated at `t`.
+        end function func
+    end interface
+
     !public routines:
     public :: solve_lambert_izzo
     public :: solve_lambert_gooding
+    public :: solve_lambert_arorarussell
 
     public :: lambert_test
 
     contains
-
 !*****************************************************************************************
 
 !*****************************************************************************************
@@ -947,9 +956,1161 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
+!>
+!  Solve Lambert's problem using the Arora/Russell method.
+!
+!### Reference
+! * Arora and Russell, "A fast and robust multiple revolution lambert algorithm
+!   using a cosine transformation", AAS Hilton Head 2013, AAS 13-728.
+!   [see also the journal article]
+! * `Lambert_AroraRussell.cpp` from [EMTG](https://sourceforge.net/projects/emtg/).
+
+    subroutine solve_lambert_arorarussell(r1,r2,tofin,mu,lu,nrev,long_way,&
+                                            shortperiod,tolerance,&
+                                            max_iterations,v1,v2)
+
+    implicit none
+
+    real(wp),dimension(3),intent(in)  :: r1
+    real(wp),dimension(3),intent(in)  :: r2
+    real(wp),intent(in)               :: tofin
+    real(wp),intent(in)               :: mu
+    real(wp),intent(in)               :: lu  !! scale factor in km
+    integer,intent(in)                :: nrev
+    logical,intent(in)                :: long_way
+    logical,intent(in)                :: shortperiod
+    real(wp),intent(in)               :: tolerance
+    integer,intent(in)                :: max_iterations
+    real(wp),dimension(3),intent(out) :: v1
+    real(wp),dimension(3),intent(out) :: v2
+
+    !integer,parameter  :: max_iterations_bisection = 50            ! original !!!!!
+    !real(wp),parameter :: bisection_error_tolerance = 1e-8_wp
+    integer,parameter  :: max_iterations_bisection = 100            !jw test!!!!!
+    real(wp),parameter :: bisection_error_tolerance = 1e-14_wp      !!!!!!!!!!!!!  ... better match for izzo and gooding ...
+    real(wp),parameter :: sq2 = sqrt(two)
+
+    logical,parameter :: use_zeroin = .false.   !!!! jw test
+
+    ! precomputed values for for dele_bi0 for first 20 revs
+    ! (deltae_b point where tau crosses zero from arora eqn 55)
+    real(wp),dimension(0:19),parameter :: dele_bi0 = [ &
+        2.848574_wp, 2.969742_wp, 3.019580_wp, 3.046927_wp,&
+        3.064234_wp, 3.076182_wp, 3.084929_wp, 3.091610_wp,&
+        3.096880_wp, 3.101145_wp, 3.104666_wp, 3.107623_wp,&
+        3.110142_wp, 3.112312_wp, 3.114203_wp, 3.115864_wp,&
+        3.117335_wp, 3.118646_wp, 3.119824_wp, 3.120886_wp ]
+
+    real(wp) :: cos_transfer_angle,error
+    real(wp) :: k,k_n,k_m,deltak,r1mag,r2mag,tu,r1mag_n,r2mag_n,tof,mu_n
+    real(wp) :: theta,s,eps,d,tau,r_buff,t_parabolic,m_k,w_k
+    real(wp) :: k_i, z, alpha, f_0, f_1, f_i, f_star
+    real(wp) :: tof20,tof100,m_i,w_ki,x_star,w,t0,t1,sgn_tau
+    real(wp) :: var2,var1,dele_biguess,var3,sgn_var3,k_biguess
+    real(wp) :: m_kbiguess,w_kbiguess,t_biguess,k_bi,t_bi,m_bi,w_bi
+    real(wp) :: w_km1,w_kmp5,w_k0,w_kp5,w_k1,tof_km1,tof_kmp5,tof_k0,tof_kp5,tof_k1
+    real(wp) :: m_ki,tof_ki,w_km1p41,w_km1p38,w_k1dsq2
+    real(wp) :: tof_km1p41,tof_km1p38,tof_k1dsq2
+    real(wp) :: c_1,c_2,c_3,c_4,f_n,gamma_1,gamma_2,gamma_3
+    real(wp) :: k_initialguess,m
+    real(wp) :: dw, ddw
+    real(wp) :: v,vv,v3,v4,v5,v6,v7
+    real(wp) :: tofc,c,sqrtctau,dtofc,ddtofc
+    real(wp) :: low_k,high_k,middle_k,tof_low_k,tof_high_k,tof_middle_k,l_low_k,l_high_k
+    real(wp) :: l_middle_k
+    real(wp) :: f,g,gdot
+    real(wp) :: lu3,luptu
+    real(wp) :: r1mag_n_plus_r2mag_n,r1mag_n_times_r2mag_n,omkt
+    integer :: sgn_l_middle_k,sgn_l_low_k
+    integer :: iterations,iterations_bisection,iflag
+    real(wp),dimension(3) :: r1_n,r2_n,v1_n,v2_n
+
+    lu3     = lu*lu*lu
+    k       = -one                  ! iteration variable, initialized to -1. it gets overwritten soon but this prevents an annoying compiler warning.
+    k_n     = -sq2                  ! lower bound for iteration variable k (will be overwritten based on transfer type)
+    k_m     = huge(one)             ! upper bound for iteration variable k (will be overwritten based on transfer type)
+    deltak  = huge(one)             ! error in current solution for k
+    r1mag   = norm2(r1)             ! magnitude of initial position
+    r2mag   = norm2(r2)             ! magnitude of initial position
+    tu      = sqrt((one / mu)*lu3)  ! time unit set so that mu = 1
+    luptu   = lu / tu
+
+    ! normalize r1, r2, and mu
+    r1_n    = r1 / lu
+    r2_n    = r2 / lu
+    r1mag_n = r1mag / lu
+    r2mag_n = r2mag / lu
+    tof     = tofin / tu
+    mu_n    = mu*(tu*tu) / lu3
+
+    r1mag_n_plus_r2mag_n  = r1mag_n + r2mag_n
+    r1mag_n_times_r2mag_n = r1mag_n * r2mag_n
+
+    ! define transfer angle based on long_way flag
+    cos_transfer_angle = dot_product(r1_n, r2_n) / r1mag_n_times_r2mag_n !cosine of the transfer angle
+    theta = safe_acos(cos_transfer_angle) !transfer angle
+    if (long_way) then  !long_way == 1
+        theta = twopi - theta
+    else
+        theta = theta
+    end if
+
+    ! calculate s and tau
+    s = sqrt(r1mag_n_plus_r2mag_n**3 / mu_n) !semi-perimeter
+    iterations = 0 !iterations counter
+    eps = 2.0e-2_wp !to prevent singularity at k = sqrt(2)
+
+    !d = theta <= pi ? one : -one
+    if (theta<=pi) then
+        d = one
+    else
+        d = -one
+    end if
+
+    tau = d * sqrt(r1mag_n_times_r2mag_n*(one + cos_transfer_angle)) / &
+                   r1mag_n_plus_r2mag_n !lambert geometry parameter
+    r_buff = 0.2_wp  !user-defined parameter to determine when to skip k_bi root solve
+
+    !step 1: generate appropriate initial guess
+    !declare some variables that will be used in the initial guess
+
+    !step 1.1 compare the desired time of flight to the parabolic time of flight
+    t_parabolic = s * sqrt(one - sq2*tau) * (tau + sq2) / three
+
+    if (tof <= t_parabolic) then !a hyperbolic trajectory is desired
+
+        tof20  = s * sqrt(one - 20.0_wp * tau)  * (tau + 0.04940968903_wp * (one - 20.0_wp * tau))
+        tof100 = s * sqrt(one - 100.0_wp * tau) * (tau + 0.00999209404_wp * (one - 100.0_wp * tau))
+        if (d > zero) then
+            k_n    = sq2
+            k_m    = one / tau
+            k_i    = (k_n + k_m) / two
+            z      = one / sq2
+            alpha  = 0.5_wp
+            f_0    = t_parabolic
+            f_1    = zero
+            m_i    = two - k_i * k_i
+            w_ki   = compute_w(k_i, m_i, nrev)
+            f_i    = s * sqrt(one - k_i*tau) * (tau + (one - k_i*tau) * w_ki)
+            f_star = tof
+            x_star = pow((z * (f_0 - f_star)*(f_1 - f_i)) / &
+                     ((f_i - f_star)*(f_1 - f_0)*z + (f_0 - f_i)*(f_1 - f_star)), &
+                     one / alpha)
+            k = k_n + (k_m - k_n) * x_star
+        else if (tof > tof20) then !arora's "h1" region
+            k_n    = sq2
+            k_m    = 20.0_wp
+            k_i    = (two * k_n + k_m) / three
+            z      = one / three
+            alpha  = one
+            f_0    = t_parabolic
+            f_1    = tof20
+            m_i    = two - k_i * k_i
+            w      = compute_w(k_i, m_i, nrev)
+            f_i    = s * sqrt(one - k_i*tau) * (tau + (one - k_i*tau) * w)
+            f_star = tof
+            x_star = pow((z * (f_0 - f_star)*(f_1 - f_i)) / &
+                     ((f_i - f_star)*(f_1 - f_0)*z + (f_0 - f_i)*(f_1 - f_star)), &
+                     one / alpha)
+            k = k_n + (k_m - k_n) * x_star
+        else !arora's "h2" region
+            k_n = 20.0_wp
+            k_m = huge(1.0_wp)
+            t0  = tof20
+            t1  = tof100
+            k = ((t1*(t0 - tof)*10.0_wp - &
+                  t0*sqrt(20.0_wp)*(t1 - tof)) / (tof*(t0 - t1))) * &
+                  ((t1*(t0 - tof)*10.0_wp - &
+                  t0*sqrt(20.0_wp)*(t1 - tof)) / (tof*(t0 - t1)))
+        end if
+
+    else if (nrev >= 1) then !a multi-revolution elliptical orbit is desired
+
+        m_k = two - k*k
+        w_k = compute_w(k, m_k, nrev)
+        error = tof - compute_tof(k, s, tau, w_k)
+
+        ! calculate estimate for k_bi (k_biguess)
+        !sgn_tau = tau >= 0 ? one : -one
+        sgn_tau = sign(one,tau)
+
+        var2 = dele_bi0(nrev - 1) ! dummy variable 2
+        var1 = eight*abs(tau) / (var2*(sq2 - two*abs(tau))) ! dummy variable 1
+        dele_biguess = var2*(one - sgn_tau) + var2*sgn_tau*pow((one / (one + var1)), 0.25_wp)
+        var3 = pi - dele_biguess
+        !sgn_var3 = var3 >= 0 ? one : -one
+        sgn_var3 = sign(one,var3)
+
+        k_biguess = sgn_var3*sqrt(cos(dele_biguess) + one)
+
+        ! calculate t_biguess
+        m_kbiguess = two - k_biguess*k_biguess ! m based on k_biguess
+        w_kbiguess = compute_w(k_biguess, m_kbiguess, nrev)
+        t_biguess  = s*sqrt(one - k_biguess*tau)*(tau + (one - k_biguess*tau)*w_kbiguess)
+
+        ! root solve to find k_bi and t_bi
+        if ( (abs(tof - t_biguess) > (r_buff*tof)) .and. (tof > t_biguess)) then
+            !do not need to root solve
+            k_bi = k_biguess
+            t_bi = t_biguess
+        else ! find k_bi using newton raphson
+            k_bi = compute_kb(k_biguess, tau, s, nrev, &
+                              tolerance, max_iterations, sq2, eps)  ! solve via newton raphson
+            m_bi = two - k_bi*k_bi
+            w_bi = compute_w(k_bi, m_bi, nrev)
+            t_bi = s*sqrt(one - k_bi*tau)*(tau + (one - k_bi*tau)*w_bi)
+        end if
+
+        if (tof < t_bi) then
+            !return - no solution for this nrev
+            write(*,*) 'no solution for this nrev'
+            return
+        end if
+
+        w_km1    = 5.71238898_wp + two * pi*nrev
+        w_kmp5   = 1.95494660_wp + 2.71408094_wp*nrev
+        w_k0     = sq2 / four*(pi + two * pi*nrev)
+        w_kp5    = 0.75913433_wp + 2.71408094_wp*nrev
+        w_k1     = 0.57079632_wp + two * pi*nrev
+        tof_km1  = compute_tof(-one,    s, tau, w_km1)   ! (k,s,tau,w)
+        tof_kmp5 = compute_tof(-0.5_wp, s, tau, w_kmp5)  ! (k,s,tau,w)
+        tof_k0   = compute_tof(zero,    s, tau, w_k0)    ! (k,s,tau,w)
+        tof_kp5  = compute_tof(0.5_wp,  s, tau, w_kp5)   ! (k,s,tau,w)
+        tof_k1   = compute_tof(one,     s, tau, w_k1)    ! (k,s,tau,w)
+
+        ! generate initial guess for k (k_star) for long period and short
+        ! period solutions for a given nrev
+        if (k_bi >= zero) then
+
+            if (.not. shortperiod) then ! long period solution
+
+                if ((tof >= tof_k1) .and. (k_bi >= one)) then ! use first row of table 5
+
+                    ! compute intial guess for k
+                    k_n    = k_bi
+                    k_m    = sq2
+                    k_i    = (k_bi + sq2)*0.5_wp
+                    z      = 0.25_wp
+                    alpha  = two
+                    f_0    = one / t_bi
+                    f_1    = zero
+                    m_ki   = two - k_i*k_i
+                    w_ki   = compute_w(k_i, m_ki, nrev)
+                    tof_ki = compute_tof(k_i, s, tau, w_ki)
+                    f_i    = one / tof_ki
+                    f_star = one / tof
+                    x_star = pow((z * (f_0 - f_star)*(f_1 - f_i)) / &
+                                ((f_i - f_star)*(f_1 - f_0)*z + (f_0 - f_i)*(f_1 - f_star)), &
+                                one / alpha)
+                    k = k_n + (k_m - k_n) * x_star
+
+                else if ((tof >= tof_k1) .and. (k_bi <= one)) then ! use second row of table 5
+
+                    ! compute intial guess for k
+                    k_n    = one
+                    k_m    = sq2
+                    k_i    = (one + two*sq2) / three
+                    z      = 4.0_wp / 9.0_wp
+                    alpha  = two
+                    f_0    = one / tof_k1
+                    f_1    = zero
+                    m_ki   = two - k_i*k_i
+                    w_ki   = compute_w(k_i, m_ki, nrev)
+                    tof_ki = compute_tof(k_i, s, tau, w_ki)
+                    f_i    = one / tof_ki
+                    f_star = one / tof
+                    x_star = pow((z * (f_0 - f_star)*(f_1 - f_i)) / &
+                                ((f_i - f_star)*(f_1 - f_0)*z + (f_0 - f_i)*(f_1 - f_star)), &
+                                one / alpha)
+                    k = k_n + (k_m - k_n) * x_star
+
+                else !((tof < tof_k1) .and. (k_bi <= one)) ! use third row of table 5
+
+                    ! compute intial guess for k
+                    k_n    = k_bi
+                    k_m    = one
+                    k_i    = (one + k_bi)*0.5_wp
+                    z      = 0.25_wp
+                    alpha  = two
+                    f_0    = t_bi
+                    f_1    = tof_k1
+                    m_ki   = two - k_i*k_i
+                    w_ki   = compute_w(k_i, m_ki, nrev)
+                    tof_ki = compute_tof(k_i, s, tau, w_ki)
+                    f_i    = tof_ki
+                    f_star = tof
+                    x_star = pow((z * (f_0 - f_star)*(f_1 - f_i)) / &
+                                ((f_i - f_star)*(f_1 - f_0)*z + &
+                                (f_0 - f_i)*(f_1 - f_star)), &
+                                one / alpha)
+                    k = k_n + (k_m - k_n) * x_star
+
+                end if
+
+            else ! long period solution
+
+                if (tof < tof_k0) then ! use fourth row of table 5
+
+                    ! compute intial guess for k
+                    k_n    = zero
+                    k_m    = k_bi
+                    k_i    = k_bi*0.5_wp
+                    z      = 0.5_wp ** ( 6.0_wp / 5.0_wp)
+                    alpha  = 6.0_wp / 5.0_wp
+                    f_0    = tof_k0
+                    f_1    = t_bi
+                    m_ki   = two - k_i*k_i
+                    w_ki   = compute_w(k_i, m_ki, nrev)
+                    tof_ki = compute_tof(k_i, s, tau, w_ki)
+                    f_i    = tof_ki
+                    f_star = tof
+                    x_star = pow((z * (f_0 - f_star)*(f_1 - f_i)) / &
+                                ((f_i - f_star)*(f_1 - f_0)*z + (f_0 - f_i)*(f_1 - f_star)), &
+                                one / alpha)
+                    k = k_n + (k_m - k_n) * x_star
+
+                else if ((tof > tof_k0) .and. (tof < tof_km1)) then ! use fifth row of table 5
+
+                    ! compute intial guess for k
+                    k_n    = -one
+                    k_m    = zero
+                    k_i    = -0.5_wp
+                    z      = 0.5_wp
+                    alpha  = one
+                    f_0    = tof_km1
+                    f_1    = tof_k0
+                    f_i    = tof_kmp5
+                    f_star = tof
+                    x_star = pow((z * (f_0 - f_star)*(f_1 - f_i)) / &
+                                ((f_i - f_star)*(f_1 - f_0)*z + (f_0 - f_i)*(f_1 - f_star)), &
+                                one / alpha)
+                    k = k_n + (k_m - k_n) * x_star
+
+                else !(tof > tof_km1) ! use sixth row of table 5
+
+                    ! compute intial guess for k
+                    k_n    = -one
+                    k_m    = -one*sq2
+                    k_i    = (-one - two * sq2) / three
+                    z      = 4.0_wp / 9.0_wp
+                    alpha  = two
+                    f_0    = one / tof_km1
+                    f_1    = zero
+                    m_ki   = two - k_i*k_i
+                    w_ki   = compute_w(k_i, m_ki, nrev)
+                    tof_ki = compute_tof(k_i, s, tau, w_ki)
+                    f_i    = one / tof_ki
+                    f_star = one / tof
+                    x_star = pow((z * (f_0 - f_star)*(f_1 - f_i)) / &
+                            ((f_i - f_star)*(f_1 - f_0)*z + (f_0 - f_i)*(f_1 - f_star)), &
+                            one / alpha)
+                    k = k_n + (k_m - k_n) * x_star
+
+                end if
+
+            end if
+
+        else ! k_bi < 0
+
+            if (shortperiod) then ! short period solution
+
+                if ((tof >= tof_km1) .and. (k_bi <= -one)) then ! use first row of table 6
+
+                    ! compute intial guess for k
+                    k_n    = k_bi
+                    k_m    = -one*sq2
+                    k_i    = (k_bi - sq2)*0.5_wp
+                    z      = 0.25_wp
+                    alpha  = two
+                    f_0    = one / t_bi
+                    f_1    = zero
+                    m_ki   = two - k_i*k_i
+                    w_ki   = compute_w(k_i, m_ki, nrev)
+                    tof_ki = compute_tof(k_i, s, tau, w_ki)
+                    f_i    = one / tof_ki
+                    f_star = one / tof
+                    x_star = pow((z * (f_0 - f_star)*(f_1 - f_i)) / &
+                            ((f_i - f_star)*(f_1 - f_0)*z + (f_0 - f_i)*(f_1 - f_star)), &
+                            one / alpha)
+                    k = k_n + (k_m - k_n) * x_star
+
+                else if ((tof >= tof_km1) .and. (k_bi >= -one)) then ! use second row of table 6
+
+                    ! compute intial guess for k
+                    k_n    = -one
+                    k_m    = -sq2
+                    k_i    = (-one - two*sq2) / three
+                    z      = 4.0_wp / 9.0_wp
+                    alpha  = two
+                    f_0    = one / tof_km1
+                    f_1    = zero
+                    m_ki   = two - k_i*k_i
+                    w_ki   = compute_w(k_i, m_ki, nrev)
+                    tof_ki = compute_tof(k_i, s, tau, w_ki)
+                    f_i    = one / tof_ki
+                    f_star = one / tof
+                    x_star = pow((z * (f_0 - f_star)*(f_1 - f_i)) / &
+                            ((f_i - f_star)*(f_1 - f_0)*z + (f_0 - f_i)*(f_1 - f_star)), &
+                            one / alpha)
+                    k = k_n + (k_m - k_n) * x_star
+
+                else ! ((tof <= tof_km1) .and. (k_bi >= -one)) ! use third row of table 6
+
+                    ! compute intial guess for k
+                    k_n    = k_bi
+                    k_m    = -one
+                    k_i    = (-one + k_bi)*0.5_wp
+                    z      = 0.25_wp
+                    alpha  = two
+                    f_0    = t_bi
+                    f_1    = tof_km1
+                    m_ki   = two - k_i*k_i
+                    w_ki   = compute_w(k_i, m_ki, nrev)
+                    tof_ki = compute_tof(k_i, s, tau, w_ki)
+                    f_i    = tof_ki
+                    f_star = tof
+                    x_star = pow((z * (f_0 - f_star)*(f_1 - f_i)) / &
+                            ((f_i - f_star)*(f_1 - f_0)*z + (f_0 - f_i)*(f_1 - f_star)), &
+                            one / alpha)
+                    k = k_n + (k_m - k_n) * x_star
+
+                end if
+
+            else ! long period solution
+
+                if (tof <= tof_k0) then ! use fourth row of table 6
+
+                    ! compute intial guess for k
+                    k_n    = k_bi
+                    k_m    = zero
+                    k_i    = k_bi*0.5_wp
+                    z      = 0.25_wp
+                    alpha  = two
+                    f_0    = t_bi
+                    f_1    = tof_k0
+                    m_ki   = two - k_i*k_i
+                    w_ki   = compute_w(k_i, m_ki, nrev)
+                    tof_ki = compute_tof(k_i, s, tau, w_ki)
+                    f_i    = tof_ki
+                    f_star = tof
+                    x_star = pow((z * (f_0 - f_star)*(f_1 - f_i)) / &
+                            ((f_i - f_star)*(f_1 - f_0)*z + (f_0 - f_i)*(f_1 - f_star)), &
+                            one / alpha)
+                    k = k_n + (k_m - k_n) * x_star
+
+                else if ((tof > tof_k0) .and. (tof < tof_k1)) then ! use fifth row of table 6
+
+                    ! compute intial guess for k
+                    k_n    = zero
+                    k_m    = one
+                    k_i    = 0.5_wp
+                    z      = 0.5_wp ** (6.0_wp / 5.0_wp)
+                    alpha  = 6.0_wp / 5.0_wp
+                    f_0    = tof_k0
+                    f_1    = tof_k1
+                    f_i    = tof_kp5
+                    f_star = tof
+                    x_star = pow((z * (f_0 - f_star)*(f_1 - f_i)) / &
+                            ((f_i - f_star)*(f_1 - f_0)*z + (f_0 - f_i)*(f_1 - f_star)), &
+                            one / alpha)
+                    k = k_n + (k_m - k_n) * x_star
+
+                else !(tof > tof_k1) ! use sixth row of table 6
+
+                    ! compute intial guess for k
+                    k_n    = one
+                    k_m    = sq2
+                    k_i    = (one + two*sq2) / three
+                    z      = 4.0_wp / 9.0_wp
+                    alpha  = two
+                    f_0    = one / tof_k1
+                    f_1    = zero
+                    m_ki   = two - k_i*k_i
+                    w_ki   = compute_w(k_i, m_ki, nrev)
+                    tof_ki = compute_tof(k_i, s, tau, w_ki)
+                    f_i    = one / tof_ki
+                    f_star = one / tof
+                    x_star = pow((z * (f_0 - f_star)*(f_1 - f_i)) / &
+                            ((f_i - f_star)*(f_1 - f_0)*z + (f_0 - f_i)*(f_1 - f_star)), &
+                            one / alpha)
+                    k = k_n + (k_m - k_n) * x_star
+
+                end if
+
+            end if
+
+        end if
+
+    else if (nrev < 1) then ! a single-revolution elliptical orbit is desired
+
+        !determine elliptical region by comparing actual tof (i.e., tstar) with tof(k) function value
+        w_km1      = 5.712388981_wp    ! w calculated at k=-1
+        w_km1p41   = 4839.684497246_wp ! w calculated at k=-1.41
+        w_km1p38   = 212.087279879_wp  ! w calculated at k=-1.38
+        w_kmp5     = 1.954946607_wp    ! w calculated at k=-0.5
+        w_k1dsq2   = 0.6686397730_wp   ! w calculate at k=a/sqrt(2)
+        tof_km1p41 = s*sqrt(one + 1.41_wp*tau)*(tau + (one + 1.41_wp*tau)*w_km1p41)
+        tof_km1p38 = s*sqrt(one + 1.38_wp*tau)*(tau + (one + 1.38_wp*tau)*w_km1p38)
+        tof_km1    = s*sqrt(one + tau)*(tau + (one + tau)*w_km1)
+        tof_k0     = s*(sq2 / 4.0_wp * pi + tau)
+        tof_k1dsq2 = s*sqrt(one - one / sq2*tau)*(tau + (one - one / sq2*tau)*w_k1dsq2)
+        tof_kmp5   = s*sqrt(one + 0.5_wp*tau)*(tau + (one + 0.5_wp*tau)*w_kmp5)
+
+        if (tof >= tof_km1p38) then ! use region e4 for guess
+
+            k_n     = -1.38_wp
+            k_m     = -sq2
+            k_i     = -1.41_wp
+            c_1     = 49267.0_wp / 27059.0_wp
+            c_2     = 67286.0_wp / 17897.0_wp
+            c_3     = 2813.0_wp / 287443.0_wp
+            c_4     = 4439.0_wp / 3156.0_wp
+            alpha   = 243.0_wp
+            f_n     = 1.0_wp / tof_km1p38
+            f_i     = 1.0_wp / tof_km1p41
+            f_star  = 1.0_wp / tof
+            gamma_1 = f_i*(f_star - f_n)
+            gamma_2 = f_star*(f_n - f_i)
+            gamma_3 = f_n*(f_star - f_i)
+            k = -c_4*pow(((gamma_1*c_1 - c_3*gamma_3)*c_2 + c_3*c_1*gamma_2) / &
+                (gamma_3*c_1 - gamma_1*c_3 - gamma_2*c_2), (one / alpha))
+
+        else if ((tof_km1p38 >= tof) .and. (tof >= tof_km1)) then ! use region e3 for guess
+
+            k_n     = -one
+            k_m     = -one*sq2
+            k_i     = -1.38_wp
+            c_1     = 540649.0_wp / 3125.0_wp
+            c_2     = 256.0_wp
+            c_3     = one
+            c_4     = one
+            alpha   = 16.0_wp
+            f_n     = 1.0_wp / tof_km1
+            f_i     = 1.0_wp / tof_km1p38
+            f_star  = 1.0_wp / tof
+            gamma_1 = f_i*(f_star - f_n)
+            gamma_2 = f_star*(f_n - f_i)
+            gamma_3 = f_n*(f_star - f_i)
+            k = -c_4*pow(((gamma_1*c_1 - c_3*gamma_3)*c_2 + c_3*c_1*gamma_2) / &
+                (gamma_3*c_1 - gamma_1*c_3 - gamma_2*c_2), &
+                (one / alpha))
+
+        else if ((tof_km1 >= tof) .and. (tof >= tof_k0)) then ! use region e2 for guess
+
+            k_n    = zero
+            k_m    = -one
+            k_i    = -0.5_wp
+            z      = 0.5_wp
+            alpha  = one
+            f_0    = tof_k0
+            f_1    = tof_km1
+            f_i    = tof_kmp5
+            f_star = tof
+            x_star = (z * (f_0 - f_star)*(f_1 - f_i)) / &
+                    ((f_i - f_star)*(f_1 - f_0)*z + &
+                    (f_0 - f_i)*(f_1 - f_star))
+            k = k_n + (k_m - k_n) * x_star
+
+        else ! use region e1 for guess
+
+            k_n    = zero
+            k_m    = sq2
+            k_i    = 1.0_wp / sq2
+            z      = 0.5_wp
+            alpha  = one
+            f_0    = tof_k0
+            f_1    = t_parabolic
+            f_i    = tof_k1dsq2
+            f_star = tof
+            x_star = (z * (f_0 - f_star)*(f_1 - f_i)) / &
+                    ((f_i - f_star)*(f_1 - f_0)*z + &
+                    (f_0 - f_i)*(f_1 - f_star))
+            k = k_n + (k_m - k_n) * x_star
+
+        end if
+
+    end if
+
+    !step 2: iterate to find k
+    k_initialguess = k
+    do while (abs(deltak) > tolerance .and. iterations < max_iterations)
+
+        !step 2.1 increment the iterations counter
+        iterations = iterations + 1
+
+        !step 2.2 compute w, dw, ddw
+        m = two - k*k
+        !double sgnk = k >= 0 ? one : -one  ! JW : unnecessary
+        w = compute_w(k, m, nrev)
+
+        !dw and ddw
+        if ((k < sq2 - eps) .or. (k > sq2 + eps)) then
+            dw = (-two + three * w * k) / m
+            ddw = (five * dw * k + three * w) / m
+        else
+            v = k - sq2
+            vv = v*v
+            v3 = v*vv
+            v4 = v3*v
+            v5 = v4*v
+            v6 = v5*v
+            v7 = v6*v
+            dw = -one / five &
+                + sq2 * v * (four / 35.0_wp) - vv * (6.0_wp / 63.0_wp) &
+                + sq2 * v3 * (eight / 231.0_wp) - v4 * (10.0_wp / 429.0_wp) &
+                + sq2 * v5 * (48.0_wp / 6435.0_wp) - v6 * (56.0_wp / 12155.0_wp) &
+                + sq2 * v7 * (64.0_wp / 46189.0_wp)
+            ddw = sq2 * (four / 35.0_wp) - v * (12.0_wp / 63.0_wp) &
+                + sq2 * vv * (24.0_wp / 231.0_wp) - v3 * (40.0_wp / 429.0_wp) &
+                + sq2 * v4 * (240.0_wp / 6435.0_wp) - v5 * (336.0_wp / 12155.0_wp) &
+                + sq2 * v6 * (448.0_wp / 46189.0_wp)
+        end if
+
+        omkt = one - k*tau
+
+        !step 2.3 compute tofc, dtofc, ddtofc
+        tofc = s * sqrt(omkt) * (tau + (omkt) * w)
+        if (abs(tof - tofc) < tolerance) exit
+
+        c = (one - k * tau) / tau
+        sqrtctau = sqrt(omkt)
+        dtofc = -tofc / (two * c) + s * tau * sqrtctau * (dw * c - w)
+        ddtofc = -tofc / (four * c*c) + s * tau * sqrtctau * (w / c + c*ddw - three*dw)
+
+        !step 2.4 compute deltak
+        deltak = -(tofc - tof) / (dtofc - (tofc - tof) * ddtofc / (two * dtofc))
+
+        !step 2.5 update k from deltak
+        k = k + deltak
+
+        ! step 2.6 bound k
+        ! ensure k is not less than -sqrt(2)
+        if (k < -sq2) k = -sq2 + 1e-12_wp
+
+        ! ensure k doesn't bleed into to elliptic area when hyperbolic
+        if ((tof < t_parabolic) .and. (k < sq2)) k = sq2 + 1e-12_wp
+
+        ! ensure k doesn't bleed into to hyperbolic area when elliptic
+        if ((tof > t_parabolic) .and. (k > sq2)) k = sq2 - 1e-12_wp
+
+        ! ensure tof doesn't become indeterminate when d=1
+        if ((tof < t_parabolic) .and. (d > zero) .and. &
+           ((one - tau*k) < zero)) k = one / tau - 1e-5_wp
+
+    end do
+
+    m_k = two - k*k
+    w_k = compute_w(k, m_k, nrev)
+    error = tof - compute_tof(k, s, tau, w_k)
+
+    ! step 3: if error is too large from halley's method, try bisection method
+    if (abs(error) > 1.0e-4_wp) then
+
+        iterations_bisection = 0
+
+        ! set initial low and high bounds for bisection method based on k_n and k_m
+        low_k = k_n + 1.0e-14_wp
+        high_k = k_m - 1.0e-14_wp
+
+        ! calculate initial low value of tof(k) and l(k)
+        m = two - low_k*low_k
+        w = compute_w(low_k, m, nrev)
+        tof_low_k = s * sqrt(one - low_k*tau) * (tau + (one - low_k*tau) * w)
+        l_low_k = tof_low_k - tof
+
+        ! calculate initial high value of tof(k) and l(k)
+        m = two - high_k*high_k
+        w = compute_w(high_k, m, nrev)
+        tof_high_k = s * sqrt(one - high_k*tau) * (tau + (one - high_k*tau) * w)
+        l_high_k = tof_high_k - tof
+
+        if (use_zeroin) then !!!!!!!! test: use ZEROIN for the rootfinder rather than bisection
+
+            call zeroin(l_func,low_k,high_k,l_low_k,l_high_k,&
+                        bisection_error_tolerance,k,l_middle_k,iflag)
+            error = abs(l_middle_k)
+
+        else !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ORIGINAL bisection
+
+            ! iterate using bisection method until within tolerance or maximum number iterations
+            do while (iterations_bisection < max_iterations_bisection)
+                middle_k = (low_k + high_k)/two
+                m = two - middle_k*middle_k
+                w = compute_w(middle_k, m, nrev)
+                tof_middle_k = s * sqrt(one - middle_k*tau) * (tau + (one - middle_k*tau) * w)
+                l_middle_k = tof_middle_k - tof  !! function for root solve: l(k) = tof(k) - t*
+
+                if (abs(l_middle_k) < bisection_error_tolerance) exit
+
+                !sgn_l_middle_k = l_middle_k >= 0 ? 1 : -1
+                !sgn_l_low_k = l_low_k >= 0 ? 1 : -1
+                sgn_l_middle_k = sign(one,l_middle_k)
+                sgn_l_low_k    = sign(one,l_low_k)
+                if (sgn_l_middle_k == sgn_l_low_k) then
+                    low_k = middle_k
+                    tof_low_k = tof_middle_k
+                    l_low_k = l_middle_k
+                else
+                    high_k = middle_k
+                    tof_high_k = tof_middle_k
+                    l_high_k = l_middle_k
+                end if
+                iterations_bisection = iterations_bisection + 1
+            end do
+
+            k = middle_k
+            error = abs(l_middle_k)
+            iterations = iterations + iterations_bisection
+
+        end if
+
+    end if ! end bisection method error catch
+
+    ! step 3: calculate f & g (typos in arora-russell 2013 aas paper, fixed in journal paper)
+    omkt = one - k*tau
+    f    = one - omkt*r1mag_n_plus_r2mag_n/r1mag_n
+    g    = s*tau*sqrt(omkt*mu_n)
+    gdot = one - omkt*r1mag_n_plus_r2mag_n/r2mag_n
+
+    ! step 4: calculate v1 and v2
+    v1_n = (r2_n - f * r1_n ) / g
+    v2_n = (gdot*r2_n - r1_n) / g
+
+    !step 5: transform to input length and time units (final output)
+    v1 = v1_n * luptu
+    v2 = v2_n * luptu
+
+    contains
+
+    !***************************************************************************
+        function l_func(k) result(lk)
+
+        !! function for root solve: `l(k) = tof(k) - t*`
+        !! interface to the [[zeroin]] input function
+
+        implicit none
+
+        real(wp),intent(in)  :: k
+        real(wp)             :: lk
+
+        real(wp) :: tof_k,omkt
+
+        omkt = one - k*tau
+
+        m     = two - k*k
+        w     = compute_w(k, m, nrev)
+        tof_k = s * sqrt(omkt) * (tau + omkt * w)
+        lk    = tof_k - tof
+
+        end function l_func
+    !***************************************************************************
+
+    !***************************************************************************
+        pure elemental real(wp) function acoshar(b)
+
+            !! fast computation of acosh
+
+            implicit none
+
+            real(wp),intent(in) :: b
+
+            acoshar = log(b + sqrt(b*b - one))
+
+        end function acoshar
+    !***************************************************************************
+
+    !***************************************************************************
+        pure function compute_kb(k_bguess,tau,s,nrev,tolerance,max_iterations,sq2,eps) result(k)
+
+            !! newton's method to find k_bi given tau, s, nrev, and initial guess for k_bi
+
+            implicit none
+
+            real(wp),intent(in) :: k_bguess
+            real(wp),intent(in) :: tau
+            real(wp),intent(in) :: s
+            integer,intent(in)  :: nrev
+            real(wp),intent(in) :: tolerance
+            integer,intent(in)  :: max_iterations  !note: was double in original (typo?)
+            real(wp),intent(in) :: sq2
+            real(wp),intent(in) :: eps
+            real(wp)            :: k
+
+            integer :: iterations
+            real(wp) :: deltak,m,w,dw,ddw,tofc,c,sqrtctau,dtofc,ddtofc,omkt !,sgnk
+
+            ! initialize
+            iterations = 0
+            deltak = 1.0e+10_wp
+            k = k_bguess
+
+            ! perform iteration loop
+            do while (iterations < max_iterations)
+
+                !step 1.1 increment the iterations counter
+                iterations = iterations + 1
+
+                ! step 1.2 bound k
+                ! ensure k is not less than -sqrt(2)
+                if (k < -sq2) k = -sq2 + 0.00001_wp
+                if (k > sq2)  k = sq2 - 0.00001_wp
+
+                !step 1.3 compute w, dw, ddw
+                m = two - k*k
+                !sgnk = k >= 0 ? one : -one  ! JW : unnecessary
+
+                w   = compute_w(k, m, nrev)
+                dw  = (-two + three * w * k) / m
+                ddw = (five * dw * k + three * w) / m
+
+                !step 2.3 compute tofc, dtofc, ddtofc
+                omkt = one - k*tau
+                tofc = s * sqrt(omkt) * (tau + omkt * w)
+                c = (one - k * tau) / tau
+                sqrtctau = sqrt(omkt)
+                dtofc = -tofc / (two * c) + s * tau * sqrtctau * (dw * c - w)
+
+                ! check for convergence
+                if (abs(dtofc) < tolerance) exit
+
+                ddtofc = -tofc / (four * c*c) + s * tau * sqrtctau * (w / c + c*ddw - three*dw)
+
+                !step 2.4 compute deltak
+                deltak = -one*dtofc / ddtofc
+
+                !step 2.5 update k from deltak
+                k = k + deltak
+
+            end do
+
+        end function compute_kb
+    !***************************************************************************
+
+    !***************************************************************************
+        pure function compute_tof(k,s,tau,w) result(tofc)
+
+            !! calculate tof function for a given k, tau,
+
+            implicit none
+
+            real(wp),intent(in) :: k
+            real(wp),intent(in) :: s
+            real(wp),intent(in) :: tau
+            real(wp),intent(in) :: w
+            real(wp)            :: tofc
+
+            real(wp) :: omkt
+
+            omkt = one - k*tau
+            tofc = s*sqrt(omkt)*(tau + omkt*w)
+
+        end function compute_tof
+    !***************************************************************************
+
+    !***************************************************************************
+        pure elemental real(wp) function acosar(x)
+
+            !! fast, rough computation of acos()
+
+            implicit none
+
+            real(wp),intent(in) :: x
+
+            real(wp) :: coeff,fx,sgnx
+
+            fx = abs(x)
+            !sgnx = x >= zero ? one : -one
+            if (x >= zero) then
+                sgnx = one
+            else
+                sgnx = -one
+            end if
+
+            if (fx <= 0.6_wp) then
+                coeff = (0.000014773722_wp + (1.1782782_wp - 0.52020038_wp * fx) * fx) / &
+                        (1.1793469_wp + (-0.53277664_wp - 0.14454764_wp * fx) * fx)
+            else if (fx <= 0.97_wp) then
+                coeff = (0.011101554_wp + (8.9810074_wp + (-14.816468_wp + 5.9249913_wp * fx) * fx) * fx) / &
+                        (9.2299851_wp + (-16.001036_wp + 6.8381053_wp * fx) * fx)
+            else if (fx <= 0.99_wp) then
+                coeff = (-35.750586_wp + (107.24325_wp - 70.780244_wp * fx) * fx) / &
+                        (27.105764_wp - 26.638535_wp * fx)
+            else
+                coeff = safe_asin(fx)
+            end if
+
+            acosar = pi/two - sgnx * coeff
+
+        end function acosar
+    !***************************************************************************
+
+    !***************************************************************************
+        pure function compute_w(k,m,nrev) result(w)
+            !! function to compute the parameter w
+
+            implicit none
+
+            real(wp),intent(in) :: k
+            real(wp),intent(in) :: m
+            integer,intent(in)  :: nrev
+            real(wp)            :: w
+
+            real(wp),parameter :: sq2 = sqrt(two)
+            real(wp),parameter :: eps = 2.0e-2_wp
+
+            real(wp) :: sgnk,v,v2,v3,v4,v5,v6,v7,v8
+
+            !sgnk = k < zero ? -one : one
+            sgnk = sign(one,k)
+
+            if (-sq2 <= k .and. k < sq2 - eps) then !elliptical orbit case
+                w = ((one - sgnk) * pi + sgnk*acos(one - m) + two * pi*nrev) / sqrt(m*m*m) - k / m
+            else if (k < sq2 .and. nrev > 0) then
+                w = ((one - sgnk) * pi + sgnk*acos(one - m) + two * pi*nrev) / sqrt(m*m*m) - k / m
+            else if (k > sq2 + eps) then !hyperbolic orbits
+                w = -one*acoshar(one - m) / sqrt(-m*m*m) - k / m
+            else if (sq2 - eps <= k .and. k <= sq2 + eps) then !nrev = 0 case
+                v = k - sq2
+                v2 = v*v
+                v3 = v*v2
+                v4 = v3*v
+                v5 = v4*v
+                v6 = v5*v
+                v7 = v6*v
+                v8 = v7*v
+                w = sq2 / three - v / five &
+                    + sq2 * v2 * (two / 35.0_wp) - v3 * (two / 63.0_wp) &
+                    + sq2 * v4 * (two / 231.0_wp) - v5 * (two / 429.0_wp) &
+                    + sq2 * v6 * (eight / 6435.0_wp) - v7 * (eight / 12155.0_wp) &
+                    + sq2 * v8 * (eight / 46189.0_wp)
+            else
+                !write(*,*) 'error on w compute *************************', k    !!! this needs to set status_ok = .false.
+                w = huge(1.0_wp)
+            end if
+
+        end function compute_w
+    !***************************************************************************
+
+    !***************************************************************************
+        pure elemental real(wp) function safe_acos(x)
+
+            !! return x > one ? zero : (x < -one ? pi : acos(x))
+
+            implicit none
+
+            real(wp),intent(in) :: x
+
+            if (x>one) then
+                safe_acos = zero
+            else
+                if (x<-one) then
+                    safe_acos = pi
+                else
+                    safe_acos = acos(x)
+                end if
+            end if
+
+        end function safe_acos
+    !***************************************************************************
+
+    !***************************************************************************
+        pure elemental real(wp) function safe_asin(x)
+
+            !! safe_asin = x > one ? -piover2 : (x < -one ? piover2 : asin(x))
+
+            implicit none
+
+            real(wp),intent(in) :: x
+
+            real(wp),parameter :: piover2 = pi/two
+
+            if (x > one) then
+                safe_asin = -piover2
+            else
+                if (x < -one) then
+                    safe_asin = piover2
+                else
+                    safe_asin = asin(x)
+                end if
+            end if
+
+        end function safe_asin
+    !***************************************************************************
+
+    !***************************************************************************
+        pure elemental real(wp) function pow(x,y)
+
+            !! return x**y
+
+            implicit none
+
+            real(wp),intent(in) :: x
+            real(wp),intent(in) :: y
+
+            pow = x ** y
+
+        end function pow
+    !***************************************************************************
+
+    !*****************************************************************************************
+    !>
+    !  Find a zero of the function \( f(x) \) in the given interval
+    !  \( [a_x,b_x] \) to within a tolerance \( 4 \epsilon |x| + tol \),
+    !  where \( \epsilon \) is the relative machine precision defined as
+    !  the smallest representable number such that \( 1.0 + \epsilon > 1.0 \).
+    !
+    !  It is assumed that \( f(a_x) \) and \( f(b_x) \) have opposite signs.
+    !
+    !#References
+    !  * R. P. Brent, "[An algorithm with guaranteed convergence for
+    !    finding a zero of a function](http://maths-people.anu.edu.au/~brent/pd/rpb005.pdf)",
+    !    The Computer Journal, Vol 14, No. 4., 1971.
+    !  * R. P. Brent, "[Algorithms for minimization without derivatives](http://maths-people.anu.edu.au/~brent/pub/pub011.html)",
+    !    Prentice-Hall, Inc., 1973.
+    !
+    !# See also
+    !  1. [zeroin.f](http://www.netlib.org/go/zeroin.f) from Netlib
+
+        subroutine zeroin(f,ax,bx,fax,fbx,tol,xzero,fzero,iflag)
+
+        use iso_fortran_env, only: error_unit
+
+        implicit none
+
+        procedure(func)       :: f       !! the function to find the root of
+        real(wp),intent(in)   :: ax      !! left endpoint of initial interval
+        real(wp),intent(in)   :: bx      !! right endpoint of initial interval
+        real(wp),intent(in)   :: fax     !! `f(ax)` for endpoint
+        real(wp),intent(in)   :: fbx     !! `f(ax)` for endpoint
+        real(wp),intent(in)   :: tol     !! desired length of the interval of
+                                         !! uncertainty of the final result (>=0)
+        real(wp),intent(out)  :: xzero   !! abscissa approximating a zero of `f`
+                                         !! in the interval `ax`,`bx`
+        real(wp),intent(out)  :: fzero   !! value of `f` at the root (`f(xzero)`)
+        integer,intent(out)   :: iflag   !! status flag (`-1`=error, `0`=root found)
+
+        real(wp) :: a,b,c,d,e,fa,fb,fc,tol1,xm,p,q,r,s
+
+        real(wp),parameter :: eps = epsilon(one)
+
+        tol1 = eps+one
+
+        a=ax
+        b=bx
+        fa = fax
+        fb = fbx
+
+        !check trivial cases first:
+        if (fa==zero) then
+
+            iflag = 0
+            xzero = a
+            fzero = fa
+
+        elseif (fb==zero) then
+
+            iflag = 0
+            xzero = b
+            fzero = fb
+
+        elseif (fa*(fb/abs(fb))<zero) then  ! check that f(ax) and f(bx) have different signs
+
+            c=a
+            fc=fa
+            d=b-a
+            e=d
+
+            do
+
+                if (abs(fc)<abs(fb)) then
+                    a=b
+                    b=c
+                    c=a
+                    fa=fb
+                    fb=fc
+                    fc=fa
+                end if
+
+                tol1=two*eps*abs(b)+0.5_wp*tol
+                xm = 0.5_wp*(c-b)
+                if ((abs(xm)<=tol1).or.(fb==zero)) exit
+
+                ! see if a bisection is forced
+                if ((abs(e)>=tol1).and.(abs(fa)>abs(fb))) then
+                    s=fb/fa
+                    if (a/=c) then
+                        ! inverse quadratic interpolation
+                        q=fa/fc
+                        r=fb/fc
+                        p=s*(two*xm*q*(q-r)-(b-a)*(r-one))
+                        q=(q-one)*(r-one)*(s-one)
+                    else
+                        ! linear interpolation
+                        p=two*xm*s
+                        q=one-s
+                    end if
+                    if (p<=zero) then
+                        p=-p
+                    else
+                        q=-q
+                    end if
+                    s=e
+                    e=d
+                    if (((two*p)>=(three*xm*q-abs(tol1*q))) .or. &
+                        (p>=abs(0.5_wp*s*q))) then
+                        d=xm
+                        e=d
+                    else
+                        d=p/q
+                    end if
+                else
+                    d=xm
+                    e=d
+                end if
+
+                a=b
+                fa=fb
+                if (abs(d)<=tol1) then
+                    if (xm<=zero) then
+                        b=b-tol1
+                    else
+                        b=b+tol1
+                    end if
+                else
+                    b=b+d
+                end if
+                fb=f(b)
+                if ((fb*(fc/abs(fc)))>zero) then
+                    c=a
+                    fc=fa
+                    d=b-a
+                    e=d
+                end if
+
+            end do
+
+            iflag = 0
+            xzero = b
+            fzero = fb
+
+        else
+
+            iflag = -1
+            write(error_unit,'(A)')&
+                'Error in zeroin: f(ax) and f(bx) do not have different signs.'
+
+        end if
+
+        end subroutine zeroin
+    !*****************************************************************************************
+
+    end subroutine solve_lambert_arorarussell
+!*****************************************************************************************
+
+!*****************************************************************************************
 !> author: Jacob Williams
 !
-!  Compare the two Lambert routines.
+!  Compare the Lambert routines.
 
     subroutine lambert_test()
 
@@ -966,8 +2127,9 @@
     integer                 :: imeth,icases,i,multi_revs,iway,n_cases
     real(wp)                :: tof,err1,err2
     logical                 :: long_way,status_ok
-    character(len=10)       :: str
-    real                    :: dum, tstart, tend
+    character(len=100)      :: str
+    real                    :: tstart, tend
+    real(wp),dimension(3)   :: arora_v1,arora_v2
 
     real(wp),dimension(6),parameter :: rv1_base = &
                                         [1e6_wp,1e6_wp,1e6_wp,10.0_wp,10.0_wp,10.0_wp]
@@ -975,6 +2137,13 @@
                                         [1e6_wp,1e6_wp,1e6_wp,10.0_wp,10.0_wp,10.0_wp]
     real(wp),parameter :: tof_base = 86400.0_wp  !sec
     real(wp),parameter :: mu = 3.986004362330e+05_wp
+
+    !real(wp),parameter :: auora_tol      = 1.0e-14_wp   !122946 cases/sec
+    real(wp),parameter :: auora_tol       = 1.0e-9_wp    !203025 cases/sec
+    integer,parameter  :: max_iterations = 100
+    logical,parameter  :: shortperiod    = .true.   !.. only for multirev I think ...
+    !logical,parameter  :: shortperiod    = .false. !
+    real(wp),parameter :: lu             = 1.0e5_wp
 
     write(*,*) ''
     write(*,*) '---------------'
@@ -987,13 +2156,14 @@
     write(*,*) ''
 
     n_cases = 10
-    multi_revs = 1
+    multi_revs = 0  !1
 
     !reseed the random number generator:
     call random_seed()
 
     do icases=1,n_cases
 
+        write(*,*) ''
         do i=1,6
             rv1(i) = get_random_number(-rv1_base(i),rv1_base(i))
         end do
@@ -1006,7 +2176,7 @@
 
             long_way = (iway==1)
 
-            do imeth=1,2    ![izzo, gooding]
+            do imeth=1,3    ![izzo, gooding, auora]
 
                 !if (icases==1 .and. imeth==1 .and. iway==1) &
                 !        write(*,'(*(A30,1X))') &
@@ -1024,7 +2194,10 @@
                     call solve_lambert_gooding(rv1(1:3),rv2(1:3),tof,mu,long_way,&
                                                 multi_revs,gooding_v1,gooding_v2,&
                                                 status_ok)
-
+                case(3)
+                    call solve_lambert_arorarussell(rv1(1:3),rv2(1:3),tof,mu,lu,multi_revs,long_way,&
+                                                            shortperiod,auora_tol,&
+                                                            max_iterations,arora_v1,arora_v2)
                 end select
 
             end do
@@ -1042,20 +2215,39 @@
                     err2 = norm2( izzo_v2(:,i) - gooding_v2(:,i) )
 
                     if (err1>tol) then
-                        str = '*****ERROR*****'
+                        str = '*****IZZO-GOODING ERROR*****'
                     else
-                        str = ''
+                        str = '     IZZO-GOODING v1'
                     end if
                     write(*,'(I5,1X,E25.16,1X,E25.16,1X,E25.16,1X,A)')&
-                                 icases, e(1:2), err1, str
+                                 icases, e(1:2), err1, trim(str)
 
                     if (err2>tol) then
-                        str = '*****ERROR*****'
+                        str = '*****IZZO-GOODING ERROR*****'
                     else
-                        str = ''
+                        str = '     IZZO-GOODING v2'
                     end if
                     write(*,'(I5,1X,E25.16,1X,E25.16,1X,E25.16,1X,A)')&
-                                 icases, e(1:2), err2, str
+                                 icases, e(1:2), err2, trim(str)
+
+                     err1 = norm2( arora_v1 - gooding_v1(:,i) )
+                     err2 = norm2( arora_v2 - gooding_v2(:,i) )
+
+                     if (err1>tol) then
+                         str = '*****ARORA-GOODING ERROR*****'
+                     else
+                         str = '     ARORA-GOODING v1'
+                     end if
+                     write(*,'(I5,1X,E25.16,1X,E25.16,1X,E25.16,1X,A)')&
+                                  icases, e(1:2), err1, trim(str)
+
+                     if (err2>tol) then
+                         str = '*****ARORA-GOODING ERROR*****'
+                     else
+                         str = '     ARORA-GOODING v2'
+                     end if
+                     write(*,'(I5,1X,E25.16,1X,E25.16,1X,E25.16,1X,A)')&
+                                  icases, e(1:2), err2, trim(str)
 
                 end do
 
@@ -1072,9 +2264,9 @@
     write(*,*) '   Test 2: Speed test'
     write(*,*) ''
 
-    n_cases = 100000
+    n_cases = 1000000
 
-    do imeth=1,2    ![izzo, gooding]
+    do imeth=1,3    ![izzo, gooding, auora]
 
         !reseed the random number generator:
         call random_seed()
@@ -1104,20 +2296,26 @@
                     call solve_lambert_gooding(rv1(1:3),rv2(1:3),tof,mu,long_way,&
                                                 multi_revs,gooding_v1,gooding_v2,&
                                                 status_ok)
-
+                case(3)
+                    call solve_lambert_arorarussell(rv1(1:3),rv2(1:3),tof,mu,lu,multi_revs,long_way,&
+                                                            shortperiod,auora_tol,&
+                                                            max_iterations,arora_v1,arora_v2)
                 end select
 
             end do
 
         end do
 
-         call cpu_time(tend)
+        call cpu_time(tend)
         select case (imeth)
         case(1)
-               write(*,*) 'run time for Izzo   : ', tend-tstart, ' sec.  ', n_cases/(tend-tstart),' cases/sec'
-           case(2)
-               write(*,*) 'run time for Gooding: ', tend-tstart, ' sec.  ', n_cases/(tend-tstart),' cases/sec'
-           end select
+            write(*,*) 'run time for Izzo   : ', tend-tstart, ' sec.  ', dble(n_cases)/(tend-tstart),' cases/sec'
+        case(2)
+            write(*,*) 'run time for Gooding: ', tend-tstart, ' sec.  ', dble(n_cases)/(tend-tstart),' cases/sec'
+        case(3)
+            write(*,*) 'run time for Arora  : ', tend-tstart, ' sec.  ', dble(n_cases)/(tend-tstart),' cases/sec'
+        end select
+        write(*,*) ''
 
     end do
 

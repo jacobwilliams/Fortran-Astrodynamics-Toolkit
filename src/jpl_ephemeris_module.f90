@@ -605,7 +605,7 @@
          iostat  = istat,         &
          status  = 'OLD'          )
 
-         write(*,*) "istat=",istat
+         !write(*,*) "istat=",istat
 
     status_ok = (istat==0)  !if there were no problems opening the file
 

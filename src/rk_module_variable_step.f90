@@ -181,6 +181,9 @@
 
     end interface
 
+    ! public routines:
+    public :: norm2_func,maxval_func
+
     ! for testing:
     public :: step_size_test
     public :: rk_test_variable_step
@@ -325,6 +328,29 @@
 
     end subroutine compute_stepsize
 !*****************************************************************************************
+
+
+
+    ! hfactor = 0.9_wp * abs(tol/err)  **(one/real(p,wp))   ! v1
+    ! hfactor = 0.9_wp * abs(tol/err)  **(one/real(p+1,wp)) ! v2
+    ! hfactor =          abs(tol/err)  **(one/real(p+1,wp)) ! v3
+    ! hfactor = 0.9_wp * abs(tol*h/err)**(one/real(p,wp))   ! v4
+    ! hfactor =          abs(tol*h/err)**(one/real(p,wp))   ! v5
+    !
+    !
+    ! ... could be reduced to these parameters ...
+    !
+    ! USE_TOL_TIMES_H = true or false
+    ! HFACTOR_SCALE   = 0.9_wp
+    ! EXPONENT        = p or p+1
+    !
+    ! if (USE_TOL_TIMES_H) then
+    !     hfactor = HFACTOR_SCALE * abs(tol*h/err)**(one/real(EXPONENT,wp))
+    ! else
+    !     hfactor = HFACTOR_SCALE * abs(tol/err)**(one/real(EXPONENT,wp))
+    ! end if
+
+
 
 !*****************************************************************************************
     pure function compute_h_factor_v1(me,h,tol,err,p) result(hfactor)
