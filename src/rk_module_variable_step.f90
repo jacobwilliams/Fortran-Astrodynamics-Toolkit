@@ -114,7 +114,7 @@
         procedure :: order => rkf108_order
     end type rkf108_class
 
-    interface
+    abstract interface
 
         pure function norm_func(x) result(xmag)
         !! Vector norm function. Must return a value \( \ge 0 \).
