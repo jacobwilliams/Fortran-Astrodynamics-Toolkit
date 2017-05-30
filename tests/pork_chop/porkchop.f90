@@ -64,7 +64,7 @@
         real(wp),parameter :: mu            = 132712440018.0d0         !! Sun gravity parameter [km^3/s^2]
         real(wp),parameter :: j2000_datenum = 730120.5d0               !! J2000 epoch - python date number (matplotlib.dates.date2num)
         real(wp),parameter :: j2000_jd      = 2451545.0d0              !! J2000 epoch - julian date
-        character(len=*),parameter :: ephemeris_file = '../../eph/JPLEPH_2000-2100.405'    !! ephemeris file
+        character(len=*),parameter :: ephemeris_file = '../../eph/JPLEPH.405'    !! ephemeris file
 
         !local variables:
         real(8),dimension(3) :: r1                   !! first cartesian position [km]

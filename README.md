@@ -63,7 +63,6 @@ cat header.405 ascp*.405 | ./asc2eph
 mkdir Fortran-Astrodynamics-Toolkit/eph
 mv JPLEPH Fortran-Astrodynamics-Toolkit/eph/JPLEPH.405
 ```
-Note that some of the examples require the file to be named ```JPLEPH_2000-2100.405```.
 
 ### Geopotential files
 
