@@ -500,7 +500,7 @@
                                                         3.0_wp] !! km, km/s
     real(wp),parameter :: et = zero           !! ephemeris time [sec]
     real(wp),parameter :: scale = 384400.0_wp !! scale factor [km]
-    character(len=*),parameter :: ephemeris_file_421 = '../eph/JPLEPH_1900-2050.421' !! JPL DE421 ephemeris file
+    character(len=*),parameter :: ephemeris_file_421 = '../eph/JPLEPH.421' !! JPL DE421 ephemeris file
 
     type(icrf_frame) :: from
     type(two_body_rotating_pulsating_frame) :: to
