@@ -40,6 +40,8 @@
     use transformation_module
     use vector_module
 
+    use c_interface_module
+
     implicit none
 
     public
