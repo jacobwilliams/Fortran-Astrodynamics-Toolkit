@@ -8,6 +8,7 @@
     module c_interface_module
 
     use iso_c_binding
+    use geopotential_module
 
     implicit none
 
@@ -34,29 +35,35 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
+!>
+!
+!@note This is just a wapper for `initialize` in [[geopotential_model]].
+
     function initialize_geopotential_model(itype,gravfile,n,m) &
         result(cp) bind(c,name='initialize_geopotential_model')
 
-    use geopotential_module
-
     implicit none
 
-    integer(c_int),intent(in),value :: itype
-    type(c_ptr),intent(in),value :: gravfile
-    integer(c_int),intent(in),value :: n
-    integer(c_int),intent(in),value :: m
-    type(c_ptr) :: cp   !! pointer to a [[container]] containing a [[geopotential_model]]
+    integer(c_int),intent(in),value :: itype  !! mode :
+                                              !!
+                                              !! * 1 (Mueller) is only mode
+                                              !! currently supported
+    type(c_ptr),intent(in),value :: gravfile !! gravity coefficient file name
+    integer(c_int),intent(in),value :: n    !! degree
+    integer(c_int),intent(in),value :: m    !! order
+    type(c_ptr) :: cp   !! pointer to a [[container]]
+                        !! containing a [[geopotential_model]]
 
-    type(container),pointer :: grav_container
-    class(geopotential_model),pointer :: grav
-    logical :: status_ok
-    character(len=:),allocatable :: gravfile_f
-    integer :: ilen
+    type(container),pointer :: grav_container  !! Fortran version of `cp`
+    class(geopotential_model),pointer :: grav  !! the data in the container
+    logical :: status_ok !! initialization status flag
+    character(len=:),allocatable :: gravfile_f  !! Fortran version of `gravfile`
+    integer :: ilen  !! string length
 
     allocate(grav_container)
 
     select case (itype)
-    case(1)
+    case(1) !! mueller method
         allocate(geopotential_model_mueller :: grav_container%data)
         select type (g => grav_container%data)
         class is (geopotential_model_mueller)
@@ -81,23 +88,31 @@
             end if
 
         end select
+
     case default
         error stop 'error: invalid itype input'
     end select
+
+    if (c_associated(cp,c_null_ptr)) then
+        deallocate(grav_container)
+    end if
 
     end function initialize_geopotential_model
 !*****************************************************************************************
 
 !*****************************************************************************************
-    subroutine destroy_geopotential_model(cp) bind(c,name='destroy_geopotential_model')
+!>
+!
+!@note This is just a wapper for `destroy` in [[geopotential_model]].
 
-    use geopotential_module
+    subroutine destroy_geopotential_model(cp) bind(c,name='destroy_geopotential_model')
 
     implicit none
 
-    type(c_ptr),intent(in),value :: cp  !! pointer to a [[container]] containing a [[geopotential_model]]
+    type(c_ptr),intent(in),value :: cp  !! pointer to a [[container]]
+                                        !! containing a [[geopotential_model]]
 
-    type(container),pointer :: grav_container
+    type(container),pointer :: grav_container !! Fortran version of `cp`
 
     ! convert cp to fortran:
     call c_f_pointer(cp,grav_container)
@@ -108,6 +123,7 @@
             call g%destroy()
             !cp = c_null_ptr  ! should we do this too (make inout ?)
         end select
+        deallocate(grav_container)
     else
         error stop 'error: pointer is not associated'
     end if
@@ -116,19 +132,22 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
-    subroutine get_acceleration(cp,n,m,rvec,acc) bind(c,name='get_acceleration')
+!>
+!
+!@note This is just a wapper for `get_acc` in [[geopotential_model]].
 
-    use geopotential_module
+    subroutine get_acceleration(cp,n,m,rvec,acc) bind(c,name='get_acceleration')
 
     implicit none
 
-    type(c_ptr),intent(in),value :: cp  !! pointer to a [[container]] containing a [[geopotential_model]]
-    integer(c_int),intent(in),value :: n
-    integer(c_int),intent(in),value :: m
-    real(c_double),dimension(3),intent(in) :: rvec
-    real(c_double),dimension(3),intent(out) :: acc
+    type(c_ptr),intent(in),value :: cp  !! pointer to a [[container]]
+                                        !! containing a [[geopotential_model]]
+    integer(c_int),intent(in),value :: n !! degree
+    integer(c_int),intent(in),value :: m !! order
+    real(c_double),dimension(3),intent(in) :: rvec !! position vector
+    real(c_double),dimension(3),intent(out) :: acc !! acceleration vector
 
-    type(container),pointer :: grav_container
+    type(container),pointer :: grav_container  !! Fortran version of `cp`
 
     ! convert cp to fortran:
     call c_f_pointer(cp,grav_container)
