@@ -23,12 +23,12 @@
     end type container
 
     interface
-      function strlen(str) result(isize) bind(C, name='strlen')
-          !! C string length
-          import
-          type(c_ptr),value :: str
-          integer(c_int) :: isize
-      end function strlen
+        function strlen(str) result(isize) bind(C, name='strlen')
+            !! C string length
+            import
+            type(c_ptr),value :: str
+            integer(c_int) :: isize
+        end function strlen
     end interface
 
     contains
@@ -58,7 +58,6 @@
     class(geopotential_model),pointer :: grav  !! the data in the container
     logical :: status_ok !! initialization status flag
     character(len=:),allocatable :: gravfile_f  !! Fortran version of `gravfile`
-    integer :: ilen  !! string length
 
     allocate(grav_container)
 
@@ -69,14 +68,7 @@
         class is (geopotential_model_mueller)
 
             ! get the gravity file name:
-            ilen = strlen(gravfile) ! get string length
-            block
-                !convert the C string to a Fortran string
-                character(kind=c_char,len=ilen+1),pointer :: s
-                call c_f_pointer(cptr=gravfile,fptr=s)
-                gravfile_f = s(1:ilen)
-                nullify(s)
-            end block
+            call c_ptr_to_f_string(gravfile,gravfile_f)
 
             call g%initialize(gravfile_f,n,m,status_ok)
             if (.not. status_ok) then
@@ -93,6 +85,7 @@
         error stop 'error: invalid itype input'
     end select
 
+    ! if there was an error:
     if (c_associated(cp,c_null_ptr)) then
         deallocate(grav_container)
     end if
@@ -162,6 +155,31 @@
     end if
 
     end subroutine get_acceleration
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Convert a `c_ptr` to a string into a Fortran string.
+
+    subroutine c_ptr_to_f_string(cp,fstr)
+
+    implicit none
+
+    type(c_ptr),intent(in) :: cp
+    character(len=:),allocatable,intent(out) :: fstr
+
+    integer :: ilen  !! string length
+
+    ilen = strlen(cp)
+    block
+        !convert the C string to a Fortran string
+        character(kind=c_char,len=ilen+1),pointer :: s
+        call c_f_pointer(cp,s)
+        fstr = s(1:ilen)
+        nullify(s)
+    end block
+
+    end subroutine c_ptr_to_f_string
 !*****************************************************************************************
 
 !*****************************************************************************************
