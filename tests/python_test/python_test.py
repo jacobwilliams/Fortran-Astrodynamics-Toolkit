@@ -36,6 +36,23 @@ itype = c_int(1)  # model type (1 is only one supported currently)
 n = c_int(8)  # degree
 m = c_int(8)  # order
 
+#----------------------------
+print('')
+print('... string test...')
+print('')
+
+return_a_string = FAT.return_a_string
+return_a_string.restype = None
+return_a_string.argtypes = [c_int,POINTER(c_char_p)]
+
+buff_len = 9 # length of the buffer to use
+buffer = c_char_p(b' '.ljust(buff_len))  # allocate the buffer
+for i in range(13):
+    return_a_string(c_int(i),byref(buffer))
+    print('->'+buffer.value+'<-')
+print('')
+#----------------------------
+
 print('calling initialize_geopotential_model...')
 
 cp = initialize_geopotential_model(itype,gravfile,n,m)

@@ -183,5 +183,47 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
+!>
+!  Convert a Fortran string to a `c_ptr` to a string.
+!  (the C string must already have been allocated to a fixed size)
+
+    subroutine f_string_to_c_ptr(fstr,buffer)
+
+    implicit none
+
+    character(len=*),intent(in) :: fstr
+    type(c_ptr),intent(inout) :: buffer   !! a preallocated string buffer
+
+    integer :: ilen !! string length of buffer
+
+    ilen = strlen(buffer)
+
+    block
+        character(kind=c_char,len=ilen+1),pointer :: s
+        call c_f_pointer(buffer,s)
+        s(1:min(len(fstr),ilen)) = fstr(1:min(len(fstr),ilen))
+        buffer = c_loc(s)
+    end block
+
+    end subroutine f_string_to_c_ptr
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Just a test of [[f_string_to_c_ptr]].
+
+    subroutine return_a_string(ival,buffer) bind(c,name='return_a_string')
+
+    implicit none
+
+    integer(c_int),intent(in),value :: ival
+    type(c_ptr),intent(inout)       :: buffer  !! a preallocated string buffer
+
+    call f_string_to_c_ptr(repeat('*',ival),buffer)
+
+    end subroutine return_a_string
+!*****************************************************************************************
+
+!*****************************************************************************************
     end module c_interface_module
 !*****************************************************************************************
