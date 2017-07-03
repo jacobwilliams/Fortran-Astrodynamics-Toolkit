@@ -20,6 +20,7 @@ LIBDIR='./lib/'                             # build directory for library
 MODCODE='fortran_astrodynamics_toolkit.f90' # FAT module file name
 LIBOUT='libfat.a'                           # name of FAT library
 FORDMD='fortran-astrodynamics-toolkit.md'   # FORD MD config file
+
 FCOMPILER='gnu'                             # Fortran compiler flag for FoBiS
 FCOMPILERFLAGS='-c -O2'                     # Fortran compiler settings
 #FCOMPILERFLAGS='-c -O3 -finline-functions'  # Fortran compiler settings

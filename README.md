@@ -10,6 +10,7 @@ The goal is to produce a comprehensive library, written in modern Fortran (Fortr
  * Lambert solvers
   - [x] Gooding
   - [x] Izzo
+  - [x] Arora
  * Kepler propagators
   - [x] Gooding
   - [ ] Goodyear
@@ -29,6 +30,7 @@ The goal is to produce a comprehensive library, written in modern Fortran (Fortr
   - [x] IAU_MOON
  * Celestial Body Ephemerides
   - [x] JPLEPH
+  - [x] SPICE
  * Alternate equations of motion
   - [x] Circular restricted three-body problem
   - [x] Clohessy-Wiltshire
@@ -43,6 +45,30 @@ The goal is to produce a comprehensive library, written in modern Fortran (Fortr
 <a href="https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/tree/master/tests/crtbp"><img src="https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/blob/master/tests/crtbp/crtbp_test.png" align="center" height="300"></a>
 <a href="https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/tree/master/tests/gravity"><img src="https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/blob/master/tests/gravity/trajectory.png" align="center" height="400"></a>
 <a href="https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/tree/master/tests/dro"><img src="https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/blob/master/tests/dro/dros.png" align="center" height="400"></a>
+
+## Building
+
+A [FoBiS](https://github.com/szaghi/FoBiS) configuration file (`fortran-astrodynamics-toolkit.fobis`) is provided that can build the library and examples. Use the `mode` flag to indicate what to build. For example:
+
+* To build all the examples using gfortran: `FoBiS.py build -f fortran-astrodynamics-toolkit.fobis -mode tests-gnu`
+* To build all the examples using ifort: `FoBiS.py build -f fortran-astrodynamics-toolkit.fobis -mode tests-intel`
+* To build a static library using gfortran: `FoBiS.py build -f fortran-astrodynamics-toolkit.fobis -mode static-gnu`
+* To build a static library using ifort: `FoBiS.py build -f fortran-astrodynamics-toolkit.fobis -mode static-intel`
+
+The full set of modes are:
+
+* `static-gnu`
+* `static-gnu-debug`
+* `static-intel`
+* `static-intel-debug`
+* `shared-gnu`
+* `shared-gnu-debug`
+* `shared-intel`
+* `shared-intel-debug`
+* `tests-gnu`
+* `tests-gnu-debug`
+* `tests-intel`
+* `tests-intel-debug`
 
 ## Third-Party Requirements
 
