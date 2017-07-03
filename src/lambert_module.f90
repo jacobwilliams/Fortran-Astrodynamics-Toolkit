@@ -984,13 +984,13 @@
     real(wp),dimension(3),intent(out) :: v1
     real(wp),dimension(3),intent(out) :: v2
 
-    !integer,parameter  :: max_iterations_bisection = 50            ! original !!!!!
+    !integer,parameter  :: max_iterations_bisection = 50         ! original
     !real(wp),parameter :: bisection_error_tolerance = 1e-8_wp
-    integer,parameter  :: max_iterations_bisection = 100            !jw test!!!!!
-    real(wp),parameter :: bisection_error_tolerance = 1e-14_wp      !!!!!!!!!!!!!  ... better match for izzo and gooding ...
+    integer,parameter  :: max_iterations_bisection = 100         !! modified from original - better match for izzo and gooding
+    real(wp),parameter :: bisection_error_tolerance = 1e-14_wp   !! modified from original - better match for izzo and gooding
     real(wp),parameter :: sq2 = sqrt(two)
 
-    logical,parameter :: use_zeroin = .false.   !!!! jw test
+    logical,parameter :: use_zeroin = .false.   !! jw test
 
     ! precomputed values for for dele_bi0 for first 20 revs
     ! (deltae_b point where tau crosses zero from arora eqn 55)
@@ -2138,11 +2138,10 @@
     real(wp),parameter :: tof_base = 86400.0_wp  !sec
     real(wp),parameter :: mu = 3.986004362330e+05_wp
 
-    !real(wp),parameter :: auora_tol      = 1.0e-14_wp   !122946 cases/sec
-    real(wp),parameter :: auora_tol       = 1.0e-9_wp    !203025 cases/sec
+    !real(wp),parameter :: auora_tol      = 1.0e-14_wp   !  122946 cases/sec
+    real(wp),parameter :: auora_tol       = 1.0e-9_wp    !! 203025 cases/sec
     integer,parameter  :: max_iterations = 100
-    logical,parameter  :: shortperiod    = .true.   !.. only for multirev I think ...
-    !logical,parameter  :: shortperiod    = .false. !
+    logical,parameter  :: shortperiod    = .true.   !! "solution 1" for mult-rev case.
     real(wp),parameter :: lu             = 1.0e5_wp
 
     write(*,*) ''
