@@ -72,7 +72,7 @@ The full set of modes are:
 
 ## Third-Party Requirements
 
-A script `get_third_party.sh` is include to download and build the third-party dependencies on unix-like operating systems.
+A script `get_third_party.sh` is included to download and build the third-party dependencies on unix-like operating systems.
 
 ### Pyplot-Fortran
 
