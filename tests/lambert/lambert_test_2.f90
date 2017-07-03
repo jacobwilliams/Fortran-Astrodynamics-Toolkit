@@ -1,8 +1,6 @@
 !*****************************************************************************************
 !>
 !  Just an example using the lambert module.
-!
-!  ```gfortran test2.f90 ../../lib/libfat.a -I../../mod -O3 -o test2```
 
     program lambert_test_2
 
