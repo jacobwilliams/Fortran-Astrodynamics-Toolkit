@@ -13,8 +13,8 @@ The goal is to produce a comprehensive library, written in modern Fortran (Fortr
   - [x] Arora
  * Kepler propagators
   - [x] Gooding
+  - [x] Shepperd
   - [ ] Goodyear
-  - [ ] Shepperd
  * ODE solvers (with event-finding)
   - [x] Runge-Kutta
   - [ ] Nystrom

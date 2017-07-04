@@ -18,7 +18,7 @@
     real(wp),dimension(:,:),allocatable :: v2         !! vector containing 3d arrays with the cartesian components of the velocities at r2
     logical                             :: status_ok  !! true if everything is OK
     integer                             :: i          !! counter
-    integer ::                          :: icase      !! different methods to run
+    integer                             :: icase      !! different methods to run
     character(len=:),allocatable        :: prefix     !! file prefix for the different methods
 
     logical :: shortperiod
