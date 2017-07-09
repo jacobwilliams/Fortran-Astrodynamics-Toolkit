@@ -11,11 +11,11 @@ $MOD_FILE    = fortran_astrodynamics_toolkit.f90
 $FORD_FILE   = fortran-astrodynamics-toolkit.md
 $STATIC_LIB  = libfat.a
 $SHARED_LIB  = libfat.so
-$CSTATIC_GNU = -c -fbacktrace -Wall -Wextra -Wno-maybe-uninitialized -Wno-unused-function -pedantic -std=f2008ts
-$CSTATIC_INT = -c -std15
-$DEBUG_GNU   = -O0 -g3 -Warray-bounds -Wcharacter-truncation -Wline-truncation -Wimplicit-interface -Wimplicit-procedure -Wunderflow -fcheck=all -fmodule-private -ffree-line-length-132 -fimplicit-none -fbacktrace -fdump-core -finit-real=nan -std=f2008ts -fall-intrinsics
-$DEBUG_INT   = -O0 -debug all -check all -warn all -extend-source 132 -traceback -gen-interfaces -fpe-all=0 -fp-stack-check -fstack-protector-all -ftrapuv -no-ftz -std15
 $OPTIMIZE    = -O2
+$CSTATIC_GNU = -c -fbacktrace -Wall -Wextra -Wno-maybe-uninitialized -Wno-unused-function -pedantic -std=f2008ts
+$DEBUG_GNU   = -O0 -g3 -Warray-bounds -Wcharacter-truncation -Wline-truncation -Wimplicit-interface -Wimplicit-procedure -Wunderflow -fcheck=all -fmodule-private -ffree-line-length-132 -fimplicit-none -fbacktrace -fdump-core -finit-real=nan -std=f2008ts -fall-intrinsics
+$CSTATIC_INT = -c -std15
+$DEBUG_INT   = -O0 -debug all -check all -warn all -extend-source 132 -traceback -gen-interfaces -fpe-all=0 -fp-stack-check -fstack-protector-all -ftrapuv -no-ftz -std15
 
 # main modes
 # library
@@ -72,7 +72,7 @@ output          = $STATIC_LIB
 
 [static-intel-debug]
 description     = Build library with Intel Fortran by debug-static flags
-compiler        = gnu
+compiler        = intel
 cflags          = $CSTATIC_INT $DEBUG_INT
 cflags_heritage = True
 build_dir       = ./lib/
@@ -140,7 +140,7 @@ output          = $SHARED_LIB
 
 [shared-intel-debug]
 description     = Build library with Intel Fortran by debug-shared flags
-compiler        = gnu
+compiler        = intel
 cflags          = $CSTATIC_INT $DEBUG_INT
 cflags_heritage = True
 build_dir       = ./lib/
@@ -200,7 +200,7 @@ jobs            = 2
 
 [tests-intel-debug]
 description     = Build all tests with Intel Fortran by debug-static flags
-compiler        = gnu
+compiler        = intel
 cflags          = $CSTATIC_INT $DEBUG_INT
 cflags_heritage = True
 build_dir       = ./bin/
