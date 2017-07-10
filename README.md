@@ -14,7 +14,7 @@ The goal is to produce a comprehensive library, written in modern Fortran (Fortr
  * Kepler propagators
   - [x] Gooding
   - [x] Shepperd
-  - [ ] Goodyear
+  - [x] Goodyear
  * ODE solvers (with event-finding)
   - [x] Runge-Kutta
   - [ ] Nystrom
