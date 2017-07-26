@@ -211,6 +211,7 @@
 
     if (.not. associated(me%f)) error stop 'Error in integrate_to_event: f is not associated.'
     if (.not. associated(me%g)) error stop 'Error in integrate_to_event: g is not associated.'
+    if (h==zero) error stop 'Error in integrate_to_event: h must not be zero.'
 
     !If the points are being exported:
     export = associated(me%report)
@@ -218,7 +219,7 @@
     !first point:
     if (export) call me%report(t0,x0)
 
-    if (h==zero) then
+    if (t0==tmax) then
         xf = x0
         tf = t0
         call me%g(t0,x0,gf)
@@ -227,7 +228,7 @@
         first = .true.
         t = t0
         x = x0
-        call me%g(t0,x0,ga)     !evalute event function
+        call me%g(t0,x0,ga)     !evaluate event function
         dt = sign(h,tmax-t0)    !time step (correct sign)
 
         do
@@ -240,7 +241,7 @@
                 t2 = tmax
             end if
             call me%step(t,x,dt,xf)
-            call me%g(t2,xf,gb)     !evalute event function
+            call me%g(t2,xf,gb)     !evaluate event function
 
             if (first .and. abs(ga)<=tol) then
 

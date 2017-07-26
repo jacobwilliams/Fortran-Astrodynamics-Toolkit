@@ -25,6 +25,7 @@
     public :: outer_product
     public :: box_product
     public :: vector_projection
+    public :: vector_projection_on_plane
     public :: axis_angle_rotation_to_rotation_matrix
     public :: spherical_to_cartesian
     public :: cartesian_to_spherical
@@ -251,6 +252,26 @@
     end if
 
     end function vector_projection
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Project a vector onto a plane.
+!
+!# Reference
+!   * [Projection of a Vector onto a Plane](http://www.maplesoft.com/support/help/Maple/view.aspx?path=MathApps/ProjectionOfVectorOntoPlane)
+
+    pure subroutine vector_projection_on_plane(a,b,c)
+
+    implicit none
+
+    real(wp),dimension(3),intent(in)  :: a !! the original vector
+    real(wp),dimension(3),intent(in)  :: b !! the plane to project on to (a normal vector)
+    real(wp),dimension(3),intent(out) :: c !! the projection of a onto the b plane
+
+    c = a - vector_projection(a,b)
+
+    end subroutine vector_projection_on_plane
 !*****************************************************************************************
 
 !*****************************************************************************************
