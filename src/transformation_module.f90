@@ -243,7 +243,7 @@
 
     implicit none
 
-    type(iau_earth_rotating_frame)  :: f
+    type(icrf_frame)  :: f
     type(celestial_body),intent(in) :: b   !! the central body
 
     f%primary_body = b

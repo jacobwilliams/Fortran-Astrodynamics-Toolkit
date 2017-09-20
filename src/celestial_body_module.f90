@@ -18,8 +18,9 @@
     end type celestial_body
 
     !define some bodies:
-    type(celestial_body),parameter,public :: body_earth = celestial_body(3,'Earth',3.9860043543609593E+05_wp) !! the earth
-    type(celestial_body),parameter,public :: body_moon  = celestial_body(10,'Moon',4.9028000661637961E+03_wp) !! the moon
+    type(celestial_body),parameter,public :: body_earth = celestial_body(399,'Earth',3.9860043543609593E+05_wp) !! the earth
+    type(celestial_body),parameter,public :: body_moon  = celestial_body(301,'Moon', 4.9028000661637961E+03_wp) !! the moon
+    type(celestial_body),parameter,public :: body_sun   = celestial_body(10,'Sun',   1.3271244004193938E+11_wp) !! the sun
 
 !*****************************************************************************************
     end module celestial_body_module
