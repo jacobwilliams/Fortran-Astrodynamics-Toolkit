@@ -14,6 +14,12 @@
     !parameters:
     real(wp),parameter :: jd_j2000 = 2451545.0_wp  !! julian date of J2000 epoch
 
+    interface julian_date
+        !! calendar date to julian date
+        module procedure :: julian_date_realsec, &
+                            julian_date_intsec
+    end interface
+
     !public routines:
     public :: julian_day
     public :: julian_date
@@ -74,7 +80,7 @@
 !
 !  Converts Julian date to Modified Julian date.
 !
-!# Reference
+!### Reference
 !   * [USNO](http://tycho.usno.navy.mil/mjd.html)
 
     pure function jd_to_mjd(jd) result(mjd)
@@ -95,7 +101,7 @@
 !
 !  Converts Modified Julian date to Julian date.
 !
-!# Reference
+!### Reference
 !   * [USNO](http://tycho.usno.navy.mil/mjd.html)
 
     pure function mjd_to_jd(mjd) result(jd)
@@ -119,7 +125,7 @@
 !  Valid for any Gregorian calendar date producing a
 !  Julian date greater than zero.
 !
-!# Reference
+!### Reference
 !   * [USNO](http://aa.usno.navy.mil/faq/docs/JD_Formula.php)
 
     pure integer function julian_day(y,m,d)
@@ -145,10 +151,10 @@
 !  Valid for any Gregorian calendar date producing a
 !  Julian date greater than zero.
 !
-!  AUTHOR
-!    Jacob Williams : 1/21/2015
+!### History
+!  * JW : 10/4/2017 : moved main code to [[julian_date_realsec]] routine.
 
-    pure function julian_date(y,m,d,hour,minute,second)
+    pure function julian_date_intsec(y,m,d,hour,minute,second) result(julian_date)
 
     implicit none
 
@@ -160,6 +166,36 @@
     integer,intent(in) :: minute
     integer,intent(in) :: second
 
+    ! call the other routine:
+    julian_date = julian_date_realsec(y,m,d,hour,minute,real(second,wp))
+
+    end function julian_date_intsec
+!*****************************************************************************************
+
+!*****************************************************************************************
+!> author: Jacob Williams
+!  date: 1/21/2015
+!
+!  Returns the Julian date for the specified YEAR, MONTH, DAY, HR, MIN, SEC.
+!
+!  Valid for any Gregorian calendar date producing a
+!  Julian date greater than zero.
+!
+!### History
+!  * JW : 10/4/2017 : made `second` a real value & renamed routine.
+
+    pure function julian_date_realsec(y,m,d,hour,minute,second) result(julian_date)
+
+    implicit none
+
+    real(wp)            :: julian_date
+    integer,intent(in)  :: y
+    integer,intent(in)  :: m
+    integer,intent(in)  :: d
+    integer,intent(in)  :: hour
+    integer,intent(in)  :: minute
+    real(wp),intent(in) :: second
+
     integer :: julian_day_number
 
     julian_day_number = julian_day(y,m,d)
@@ -169,7 +205,7 @@
                     minute/1440.0_wp + &
                     second/86400.0_wp
 
-    end function julian_date
+    end function julian_date_realsec
 !*****************************************************************************************
 
 !*****************************************************************************************
