@@ -1977,9 +1977,18 @@
    !event finding test:
 
    write(*,*) ' Event test - integrate until z = 12,000'
-   s2 = spacecraft(n=n,f=twobody,g=twobody_event,mu=398600.436233_wp,&
-                    rtol=[1.0e-12_wp],atol=[1.0e-12_wp],&
-                    stepsize_method=sz,report=twobody_report)
+
+   ! NOTE: the following causes an ICE in gfortran 7.1, but works with ifort:
+   ! s2 = spacecraft(n=n,f=twobody,g=twobody_event,mu=398600.436233_wp,&
+   !                  rtol=[1.0e-12_wp],atol=[1.0e-12_wp],&
+   !                  stepsize_method=sz,report=twobody_report)
+   ! do it this way instead:
+   call s2%initialize(n=n,f=twobody,g=twobody_event,&
+                      rtol=[1.0e-12_wp],atol=[1.0e-12_wp],&
+                      stepsize_method=sz,&
+                      report=twobody_report)
+   s2%mu = 398600.436233_wp
+
    s2%fevals = 0
    s2%first = .true.
    x0 = [10000.0_wp,10000.0_wp,10000.0_wp,&   !initial state [r,v] (km,km/s)
