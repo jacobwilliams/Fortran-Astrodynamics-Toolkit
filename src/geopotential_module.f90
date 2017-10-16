@@ -1127,6 +1127,9 @@
 !  * `pinesnorm.m` Matlab code from "Normalization and Implementation of
 !    Three Gravitational Acceleration Models", NASA/TP-2016-218604.
 !    [link](https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20160011252.pdf)
+!
+!@note Change from the original reference: the central body term is
+!      added at the end, once the harmonic terms have been computed.
 
     pure function pinesnorm(mu,req,r_f,cnm,snm,nmax,mmax) result(accel)
 
@@ -1134,14 +1137,14 @@
 
     implicit none
 
-    real(wp),intent(in)                 :: mu
-    real(wp),intent(in)                 :: req
-    real(wp),dimension(3),intent(in)    :: r_f
-    real(wp),dimension(:,0:),intent(in) :: cnm
-    real(wp),dimension(:,0:),intent(in) :: snm
-    integer,intent(in)                  :: nmax
-    integer,intent(in)                  :: mmax
-    real(wp),dimension(3)               :: accel
+    real(wp),intent(in)                 :: mu     !! gravitational constant [km^3/s^2]
+    real(wp),intent(in)                 :: req    !! body equatorial radius [km]
+    real(wp),dimension(3),intent(in)    :: r_f    !! body-fixed Cartesian position vector [km]
+    real(wp),dimension(:,0:),intent(in) :: cnm    !! c coefficients (Normalized)
+    real(wp),dimension(:,0:),intent(in) :: snm    !! s coefficients (Normalized)
+    integer,intent(in)                  :: nmax   !! desired degree
+    integer,intent(in)                  :: mmax   !! desired order
+    real(wp),dimension(3)               :: accel  !! body-fixed Cartesian acceleration vector [km/s^2]
 
     real(wp),dimension(nmax+3,nmax+3) :: anm
     real(wp),dimension(mmax+2) :: rm,im
