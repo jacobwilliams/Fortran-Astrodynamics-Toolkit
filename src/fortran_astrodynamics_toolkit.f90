@@ -25,6 +25,7 @@
     use gravity_module
     use iau_orientation_module
     use jpl_ephemeris_module
+    use kepler_module
     use kind_module
     use lambert_module
     use math_module

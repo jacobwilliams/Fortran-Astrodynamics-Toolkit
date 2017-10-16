@@ -74,6 +74,12 @@
         procedure,public :: get_acc => compute_gravity_acceleration_pines
     end type geopotential_model_pines
 
+    type,extends(geopotential_model_matrix_coeff),public :: geopotential_model_normalized_pines
+        !! Pines (normalized) method
+    contains
+        procedure,public :: get_acc => compute_gravity_acceleration_normalized_pines
+    end type geopotential_model_normalized_pines
+
     type,extends(geopotential_model_matrix_coeff),public :: geopotential_model_kuga_carrara
         !! Kuga/Carrara method
     contains
@@ -211,6 +217,25 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
+!>
+!  Wrapper for normalized Pines method.
+
+    subroutine compute_gravity_acceleration_normalized_pines(me,r,n,m,a)
+
+    implicit none
+
+    class(geopotential_model_normalized_pines),intent(inout) :: me
+    real(wp),dimension(3),intent(in)   :: r
+    integer,intent(in)                 :: n
+    integer,intent(in)                 :: m
+    real(wp),dimension(3),intent(out)  :: a
+
+    a = pinesnorm(me%mu,me%re,r,me%cnm,me%snm,n,m)
+
+    end subroutine compute_gravity_acceleration_normalized_pines
+!*****************************************************************************************
+
+!*****************************************************************************************
 !> author: Jacob Williams
 !  date: 9/20/2014
 !
@@ -343,7 +368,7 @@
         status_ok = .false.
     end if
 
-    !unnormalize the coefficients:
+    !unnormalize the coefficients if necessary:
     if (status_ok) then
 
         select type (me)
@@ -371,6 +396,9 @@
 
             select type (me)
             class is (geopotential_model_kuga_carrara)
+                !this model uses the normalized coefficients
+                return
+            class is (geopotential_model_normalized_pines)
                 !this model uses the normalized coefficients
                 return
             end select
@@ -1092,6 +1120,127 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
+!>
+!  Normalized Pines geopotential code.
+!
+!### Reference
+!  * `pinesnorm.m` Matlab code from "Normalization and Implementation of
+!    Three Gravitational Acceleration Models", NASA/TP-2016-218604.
+!    [link](https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20160011252.pdf)
+
+    pure function pinesnorm(mu,req,r_f,cnm,snm,nmax,mmax) result(accel)
+
+    use iso_fortran_env, only: wp => real64
+
+    implicit none
+
+    real(wp),intent(in)                 :: mu
+    real(wp),intent(in)                 :: req
+    real(wp),dimension(3),intent(in)    :: r_f
+    real(wp),dimension(:,0:),intent(in) :: cnm
+    real(wp),dimension(:,0:),intent(in) :: snm
+    integer,intent(in)                  :: nmax
+    integer,intent(in)                  :: mmax
+    real(wp),dimension(3)               :: accel
+
+    real(wp),dimension(nmax+3,nmax+3) :: anm
+    real(wp),dimension(mmax+2) :: rm,im
+    real(wp),dimension(3) :: harmonics_acc
+    real(wp) :: alpha,alpha_den,alpha_num,beta,beta_den,&
+                beta_num,dnm,enm,fnm,g1,g1temp,g2,&
+                g2temp,g3,g3temp,g4,g4temp,rho,rhop,rmag,&
+                s,sm,t,u
+    integer :: m,n,m_a,n_a,m_ri,nmodel
+
+    rmag     = norm2(r_f)
+    s        = r_f(1)/rmag
+    t        = r_f(2)/rmag
+    u        = r_f(3)/rmag
+    anm      = 0.0_wp
+    anm(1,1) = sqrt(2.0_wp)
+    do m = 0,nmax+2
+        m_a = m + 1
+        if (m /= 0) then ! diagonal recursion
+           anm(m_a,m_a) = sqrt(1+(1.0_wp/(2*m)))*anm(m_a-1,m_a-1)
+        end if
+        if (m /= nmax+2) then ! first off-diagonal recursion
+            anm(m_a+1,m_a) = sqrt(real(2*m+3,wp))*u*anm(m_a,m_a)
+        end if
+        if (m < nmax+1) then ! column recursion
+            do n = m+2,nmax+2
+                n_a          = n + 1
+                alpha_num    = (2*n+1)*(2*n-1)
+                alpha_den    = (n-m)*(n+m)
+                alpha        = sqrt(alpha_num/alpha_den)
+                beta_num     = (2*n+1)*(n-m-1)*(n+m-1)
+                beta_den     = (2*n-3)*(n+m)*(n-m)
+                beta         = sqrt(beta_num/beta_den)
+                anm(n_a,m_a) = alpha*u*anm(n_a-1,m_a) - beta*anm(n_a-2,m_a)
+            end do
+        end if
+    end do
+    do n = 0,nmax+2
+        n_a = n + 1
+        anm(n_a,1) = anm(n_a,1)*sqrt(0.5_wp)
+    end do
+    rm = 0.0_wp
+    im = 0.0_wp
+    rm(1) = 0.0_wp
+    im(1) = 0.0_wp
+    rm(2) = 1.0_wp
+    im(2) = 0.0_wp
+    do m = 1,mmax
+        m_ri = m+2
+        rm(m_ri) = s*rm(m_ri-1) - t*im(m_ri-1)
+        im(m_ri) = s*im(m_ri-1) + t*rm(m_ri-1)
+    end do
+    rho  = (mu)/(req*rmag)
+    rhop = (req)/(rmag)
+    g1 = 0.0_wp
+    g2 = 0.0_wp
+    g3 = 0.0_wp
+    g4 = 0.0_wp
+    do n = 0,nmax
+        n_a = n+1
+        g1temp = 0.0_wp
+        g2temp = 0.0_wp
+        g3temp = 0.0_wp
+        g4temp = 0.0_wp
+        sm     = 0.5_wp
+        if (n>mmax) then
+            nmodel=mmax
+        else
+            nmodel=n
+        end if
+        do m = 0,nmodel
+            if (n>=2) then
+                m_a    = m + 1
+                m_ri   = m + 2
+                dnm    = cnm(n,m)*rm(m_ri)   + snm(n,m)*im(m_ri)
+                enm    = cnm(n,m)*rm(m_ri-1) + snm(n,m)*im(m_ri-1)
+                fnm    = snm(n,m)*rm(m_ri-1) - cnm(n,m)*im(m_ri-1)
+                alpha  = sqrt(sm*(n-m)*(n+m+1))
+                g1temp = g1temp + anm(n_a,m_a)*(m)*enm
+                g2temp = g2temp + anm(n_a,m_a)*(m)*fnm
+                g3temp = g3temp + alpha*anm(n_a,m_a+1)*dnm
+                g4temp = g4temp + ((n+m+1)*anm(n_a,m_a)+alpha*u*anm(n_a,m_a+1))*dnm
+                if (m == 0) sm = 1.0_wp
+            end if
+        end do
+        rho = rhop*rho
+        g1  = g1 + rho*g1temp
+        g2  = g2 + rho*g2temp
+        g3  = g3 + rho*g3temp
+        g4  = g4 + rho*g4temp
+    end do
+
+    ! include central body term here:
+    accel = (-mu/rmag**3 * r_f) + [g1 - g4*s, g2 - g4*t, g3 - g4*u]
+
+    end function pinesnorm
+!*****************************************************************************************
+
+!*****************************************************************************************
 !> author: Jacob Williams
 !  date: 9/20/2014
 !
@@ -1108,15 +1257,16 @@
     character(len=*),parameter :: gravfile = '../grav/GGM03C.GEO'  !! the coefficient file
 
     class(geopotential_model),pointer :: g
-    type(geopotential_model_mueller)     ,target :: g_mueller
-    type(geopotential_model_lear)        ,target :: g_lear
-    type(geopotential_model_pines)       ,target :: g_pines
+    type(geopotential_model_mueller)          ,target :: g_mueller
+    type(geopotential_model_lear)             ,target :: g_lear
+    type(geopotential_model_pines)            ,target :: g_pines
+    type(geopotential_model_normalized_pines) ,target :: g_normalized_pines
     type(geopotential_model_kuga_carrara),target :: g_kuga_carrara
 
-    real(wp),dimension(3) :: a1,a2,a3,a4,rvec
+    real(wp),dimension(3) :: a1,a2,a3,a4,a5,rvec
     logical :: status_ok
     integer :: lat,lon,i,j,nmax,mmax
-    real(wp) :: h,err1,err2,err3,rlon,rlat,tmp
+    real(wp) :: h,err1,err2,err3,err4,rlon,rlat,tmp
     character(len=20) :: name
     real :: tstart, tstop
 
@@ -1172,14 +1322,20 @@
     if (.not. status_ok) stop 'Error'
     call g_kuga_carrara%get_acc(r,n,m,a4)
 
+    call g_normalized_pines%initialize(gravfile,n,m,status_ok)
+    if (.not. status_ok) stop 'Error'
+    call g_normalized_pines%get_acc(r,n,m,a5)
+
     write(*,*) ''
     write(*,'(A,*(E30.16,1X))') 'mueller      =',a1
     write(*,'(A,*(E30.16,1X))') 'lear         =',a2
     write(*,'(A,*(E30.16,1X))') 'pines        =',a3
     write(*,'(A,*(E30.16,1X))') 'kuga_carrara =',a4
+    write(*,'(A,*(E30.16,1X))') 'norm_pines   =',a3
     write(*,*) ''
     write(*,'(A,*(E30.16,1X))') 'mueller-lear difference      =',norm2(a1-a2)
     write(*,'(A,*(E30.16,1X))') 'mueller-pines difference     =',norm2(a1-a3)
+    write(*,'(A,*(E30.16,1X))') 'mueller-normpines difference =',norm2(a1-a5)
     write(*,'(A,*(E30.16,1X))') 'lear-pines difference        =',norm2(a2-a3)
     write(*,'(A,*(E30.16,1X))') 'lear-kuga_carrara difference =',norm2(a2-a4)
     write(*,*) ''
@@ -1195,16 +1351,18 @@
 
             rvec = spherical_to_cartesian(h,lon*deg2rad,lat*deg2rad)
 
-            call g_mueller%get_acc(rvec,n,m,a1)       ! mueller
-            call g_lear%get_acc(rvec,n,m,a2)          ! lear
-            call g_pines%get_acc(rvec,n,m,a3)         ! pines
-            call g_kuga_carrara%get_acc(rvec,n,m,a4)  ! kuga/carrara
+            call g_mueller%get_acc(rvec,n,m,a1)          ! mueller
+            call g_lear%get_acc(rvec,n,m,a2)             ! lear
+            call g_pines%get_acc(rvec,n,m,a3)            ! pines
+            call g_normalized_pines%get_acc(rvec,n,m,a5) ! normalized pines
+            call g_kuga_carrara%get_acc(rvec,n,m,a4)     ! kuga/carrara
 
             err1 = norm2( a2 - a1 )
             err2 = norm2( a3 - a2 )
             err3 = norm2( a4 - a1 )
-            if (err2>1.0e-15_wp .or. err1>1.0e-15_wp .or. err3>1.0e-15_wp) then
-                write(*,*) lat,lon,norm2(a1),norm2(a2),norm2(a2),norm2(a3),err1,err2,err3
+            err4 = norm2( a5 - a1 )
+            if (err2>1.0e-15_wp .or. err1>1.0e-15_wp .or. err3>1.0e-15_wp .or. err4>1.0e-15_wp) then
+                write(*,*) lat,lon,norm2(a1),norm2(a2),norm2(a2),norm2(a3),err1,err2,err3,err4
                 status_ok = .false.
             end if
             if (abs(lat)==90) exit    !only do poles once
@@ -1214,6 +1372,7 @@
     call g_mueller%destroy()
     call g_lear%destroy()
     call g_pines%destroy()
+    call g_normalized_pines%destroy()
     call g_kuga_carrara%destroy()
     if (status_ok) write(*,*) 'All tests passed.'
 
@@ -1224,7 +1383,7 @@
     nmax = 10
     mmax = 10
 
-    do i=1,4
+    do i=1,5
 
         select case(i)
         case(1)
@@ -1239,6 +1398,9 @@
         case(4)
             g => g_kuga_carrara
             name = 'Kuga/Carrara'
+        case(5)
+            g => g_normalized_pines
+            name = 'Normalized Pines'
         end select
         call g%initialize(gravfile,nmax,mmax,status_ok)
         if (.not. status_ok) stop 'Error'
