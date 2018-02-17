@@ -36,7 +36,7 @@ The goal is to produce a comprehensive library, written in modern Fortran (Fortr
   - [x] Clohessy-Wiltshire
   - [x] Modified equinoctial elements
  * Misc
-  - [ ] orbital element conversions
+  - [x] orbital element conversions
   - [ ] targeting and optimization
   - [ ] spacecraft engine models
 

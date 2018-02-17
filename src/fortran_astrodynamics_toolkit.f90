@@ -32,6 +32,7 @@
     use minpack_module
     use modified_equinoctial_module
     use numbers_module
+    use orbital_mechanics_module
     use random_module
     use relative_motion_module
     use rk_module
