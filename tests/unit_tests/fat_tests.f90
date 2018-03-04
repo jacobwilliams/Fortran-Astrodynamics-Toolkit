@@ -3,7 +3,7 @@
 !
 !  Unit test program for the Fortran Astrodynamics Toolkit
 
-    program test
+    program fat_tests
 
     use fortran_astrodynamics_toolkit
 
@@ -26,6 +26,7 @@
     call step_size_test()
     call rk_test()
     call rk_test_variable_step()
+    call standish_module_test()
 
-    end program test
+    end program fat_tests
 !*****************************************************************************************

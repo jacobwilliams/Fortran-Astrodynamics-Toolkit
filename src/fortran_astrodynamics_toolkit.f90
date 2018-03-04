@@ -37,6 +37,7 @@
     use relative_motion_module
     use rk_module
     use rk_module_variable_step
+    use standish_module
     use string_module
     use time_module
     use transformation_module
