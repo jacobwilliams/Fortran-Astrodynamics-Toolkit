@@ -1,339 +1,586 @@
-! Fortran 90 Module
-! Simplified BSD Licence (below). Enjoy!
-! Compile: gfortran -c -O2 standish_module.f90
-Module standish
-      Implicit None
-! standish ephemeris
-!  * see http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf
-	! elements
-	! a = semi major axis (au)
-	! e = eccentricity (rad)
-	! i = inclination (rad)
-	! l = mean longitude (rad)
-	! w = longitude of perihelion (rad)
-	! o = longitude of ascending mode (rad)
+!*****************************************************************************************
+!>
+!  Approximate positions of the major planets
+!  Method and data from e. m. standish, jpl/caltech
 !
-! global user defined type
-      Type ephem
-         Character (Len=64) :: desc ! data description
-         Integer :: n 			! number of planets
-         Logical :: lrad 		! .true. = table in radians
-         Real (8) :: epoch 		! data epoch
-         Real (8) :: jul1, jul2 ! valid date range
-         Character (Len=8), Dimension (10) :: name ! planet name
-         Real (8), Dimension (16, 9) :: o ! keplerian elements terms
-      End Type ephem
+!### See also
+!  * [[analytical_ephemeris_module]]
 !
-! global variables
-      Type (ephem) :: eph (2)! approximate keplerian elements 
-      Character (Len=64) :: SMODVER = "Standish Ephemeris Module 2018 V1"
-      Real (8), Parameter :: s_ZERO = 0.0d00, s_ONE = 1.0d00, s_TWO = 2.0d00
-      Real (8), Parameter :: s_D2PI = s_TWO * Acos (-s_ONE)! 2Pi
-      Real (8), Parameter :: s_DR2D = 360.0d0/s_D2PI ! Rad to Deg
-      Real (8), Parameter :: s_SOBL = 0.397776978d0  ! sin(23.43928 deg) J2000 Obliquity
-      Real (8), Parameter :: s_COBL = 0.917482139d0  ! cos(23.43928 deg) J2000 Obliquity
-      Real (8), Parameter :: s_KPS = 4.74047046d0    ! AU/YR -> km/s velocity conversion
-      Real (8), Parameter :: s_DPC = 3.6525d04 		 ! Julian days per century
-      Real (8), Parameter :: mu_sun = 39.47692641d0  ! AU^3/YR^2
-	  
-! local variables
-      Integer , private:: i, j !only needed initially for data statements	  
-	
-! DATA
-! Approximate Positions of the Major Planets - 
-	! Data and Approximation Model from E. M. Standish*, JPL/CalTech
-	!  * see http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf
-	! Standish's table 1 (in au and radians). Perturbations are zero.
-      Data eph(1)%desc / "Keplerian Elements Valid 1800AD-2050AD." /
-      Data eph(1)%n / 9 /
-      Data eph(1)%lrad / .True. /
-      Data eph(1)%epoch / 2451545.00D0 /
-      Data eph(1)%jul1, eph(1)%jul2 / 2378497.0, 2470172.0 /
-      Data (eph(1)%name(j), j=1, 9) / "Mercury", "Venus", "Earth",&
-     &  "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto" /
-	! This is Standish's table 1 (in au and radians). Perturbations are zero.						
-      Data ((eph(1)%o(i, j), i=1, 16), j=1, 9) / &
-     & 0.38709927, 0.20563594, 0.12225995, 4.4025989, 1.3518935, &
-     & 0.84353095, 3.70000009E-07, 1.90600003E-05, - 1.03803286E-04, &
-     & 2608.7903, 2.80085020E-03, - 2.18760967E-03, 0.0000000, &
-     & 0.0000000, 0.0000000, 0.0000000, 0.72333568, 6.77671982E-03, &
-     & 5.92482723E-02, 3.1761343, 2.2968962, 1.3383157, 3.90000014E-06, &
-     & - 4.10700013E-05, - 1.37689030E-05, 1021.3286, 4.68322469E-05, - &
-     & 4.84667765E-03, 0.0000000, 0.0000000, 0.0000000, 0.0000000, &
-     & 1.0000026, 1.67112295E-02, - 2.67209913E-07, 1.7534375, &
-     & 1.7966015, 0.0000000, 5.62000014E-06, - 4.39200012E-05, - &
-     & 2.25962198E-04, 628.30756, 5.64218918E-03, 0.0000000, 0.0000000, &
-     & 0.0000000, 0.0000000, 0.0000000, 1.5237104, 9.33941007E-02, &
-     & 3.22832055E-02, - 7.94723779E-02, - 0.41789517, 0.86497712, &
-     & 1.84700002E-05, 7.88199977E-05, - 1.41918135E-04, 334.06131, &
-     & 7.75643345E-03, - 5.10636950E-03, 0.0000000, 0.0000000, &
-     & 0.0000000, 0.0000000, 5.2028871, 4.83862385E-02, 2.27660220E-02, &
-     & 0.60033119, 0.25706047, 1.7536005, - 1.16069998E-04, - &
-     & 1.32529996E-04, - 3.20641411E-05, 52.966312, 3.70929041E-03, &
-     & 3.57253314E-03, 0.0000000, 0.0000000, 0.0000000, 0.0000000, &
-     & 9.5366764, 5.38617894E-02, 4.33887430E-02, 0.87186599, &
-     & 1.6161553, 1.9837835, - 1.25059998E-03, - 5.09909994E-04, &
-     & 3.37911442E-05, 21.336540, - 7.31244357E-03, - 5.03838016E-03, &
-     & 0.0000000, 0.0000000, 0.0000000, 0.0000000, 19.189165, &
-     & 4.72574383E-02, 1.34850740E-02, 5.4670362, 2.9837148, 1.2918390, &
-     & - 1.96175999E-03, - 4.39700016E-05, - 4.24008576E-05, 7.4784222, &
-     & 7.12186471E-03, 7.40122399E-04, 0.0000000, 0.0000000, 0.0000000, &
-     & 0.0000000, 30.069923, 8.59048031E-03, 3.08930874E-02, - &
-     & 0.96202600, 0.78478318, 2.3000686, 2.62910005E-04, &
-     & 5.10499995E-05, 6.17357864E-06, 3.8128369, - 5.62719675E-03, - &
-     & 8.87786155E-05, 0.0000000, 0.0000000, 0.0000000, 0.0000000, &
-     & 39.482117, 0.24882729, 0.29914966, 4.1700983, 3.9107401, &
-     & 1.9251670, - 3.15960002E-04, 5.17000008E-05, 8.40899645E-07, &
-     & 2.5343544, - 7.09117157E-04, - 2.06556579E-04, 0.0000000, &
-     & 0.0000000, 0.0000000, 0.0000000 /
+!### Reference
+!  * http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf
 !
-! Approximate Positions of the Major Planets - 
-	! Data and Approximation Model from E. M. Standish*, JPL/CalTech
-	!  * see http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf
-	! Standish's table 2 (in au and radians). Perturbations are not zero.
-      Data eph(2)%desc / "Keplerian Elements Valid 3000 BC - 3000 AD." /
-      Data eph(2)%n / 9 /
-      Data eph(2)%lrad / .True. /
-      Data eph(2)%epoch / 2451545.00D0 /
-      Data eph(2)%jul1, eph(2)%jul2 / 625674, 2816788 /
-      Data (eph(2)%name(j), j=1, 9) / "Mercury", "Venus", "Earth",&
-     &  "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto" /
-      Data ((eph(2)%o(i, j), i=1, 16), j=1, 9) / &
-     & 0.38709843, 0.20563661, 0.12227069, 4.4026222, 1.3518922, &
-     & 0.84368551, 0.0000000, 2.12300001E-05, - 1.03002007E-04, &
-     & 2608.7903, 2.78205727E-03, - 2.13177688E-03, 0.0000000, &
-     & 0.0000000, 0.0000000, 0.0000000, 0.72332102, 6.76399004E-03, &
-     & 5.93023673E-02, 3.1761451, 2.2997777, 1.3381896, - &
-     & 2.60000007E-07, - 5.10700011E-05, 7.59113527E-06, 1021.3286, &
-     & 9.91285546E-04, - 4.76024114E-03, 0.0000000, 0.0000000, &
-     & 0.0000000, 0.0000000, 1.0000002, 1.67316291E-02, - &
-     & 9.48516663E-06, 1.7534785, 1.7964685, - 8.92317668E-02, - &
-     & 2.99999989E-08, - 3.66099994E-05, - 2.33381579E-04, 628.30762, &
-     & 5.54932002E-03, - 4.21040738E-03, 0.0000000, 0.0000000, &
-     & 0.0000000, 0.0000000, 1.5237124, 9.33651105E-02, 3.23203318E-02, &
-     & - 7.97289312E-02, - 0.41743821, 0.86765921, 9.69999974E-07, &
-     & 9.14900011E-05, - 1.26493964E-04, 334.06125, 7.89301097E-03, - &
-     & 4.68663359E-03, 0.0000000, 0.0000000, 0.0000000, 0.0000000, &
-     & 5.2024803, 4.85358983E-02, 2.26650927E-02, 0.59925520, &
-     & 0.24914493, 1.7504400, - 2.86400009E-05, 1.80260002E-04, - &
-     & 5.63216017E-05, 52.969063, 3.17635899E-03, 2.27322499E-03, - &
-     & 2.17328397E-06, 1.05837814E-03, - 6.21955749E-03, 0.66935557, &
-     & 9.5414991, 5.55082485E-02, 4.35327180E-02, 0.87398607, &
-     & 1.6207365, 1.9833919, - 3.06500006E-05, - 3.20440013E-04, &
-     & 7.88834659E-05, 21.329931, 9.45610274E-03, - 4.36594151E-03, &
-     & 4.52022823E-06, - 2.34475732E-03, 1.52402408E-02, 0.66935557, &
-     & 19.187979, 4.68574017E-02, 1.34910680E-02, 5.4838729, 3.0095420, &
-     & 1.2908891, - 2.04550000E-04, - 1.54999998E-05, - 3.14429781E-05, &
-     & 7.4786506, 1.61739404E-03, 1.00176642E-03, 1.01806800E-05, - &
-     & 1.70574244E-02, 3.08735552E-03, 0.13387112, 30.069527, &
-     & 8.95438995E-03, 3.08932904E-02, 5.3096914, 0.81474739, &
-     & 2.3001058, 6.44699976E-05, 8.17999990E-06, 3.90953755E-06, &
-     & 3.8129361, 1.76267436E-04, - 1.05819658E-04, - 7.21658762E-06, &
-     & 1.19286822E-02, - 1.77369907E-03, 0.13387112, 39.486862, &
-     & 0.24885239, 0.29916763, 4.1707320, 3.9112310, 1.9251275, &
-     & 4.49750992E-03, 6.01600004E-05, 8.74410020E-08, 2.5338767, - &
-     & 1.69092222E-04, - 1.41368364E-04, - 2.20386923E-04, 0.0000000, &
-     & 0.0000000, 0.0000000 /
-!
-Contains
-!
-! Elements Routines
-! requires  constants : s_ZERO s_ONE s_TWO s_D2PI s_DPC
-!
-      Subroutine Title
-         Write (*,*) "Approximate Positions of the Major Planets"
-         Write (*,*) "Method and Data from E. M. Standish, JPL/CalTech"
-		 Write (*,*) eph(2)%desc
-         Write (*,*) "(http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf)"
-         Write (*,*) SMODVER
-         Write (*,*)
-      End Subroutine
-!
-      Subroutine helio (np, jd, p, itbl)
-	! for planet np and julian date jd and using using table itbl,
-	! return j2000 ecliptic position (au) and velocity (au/yr).
-	! in cartesian coordinates (p(1)-p(6)).
-         Implicit None
-         Integer, Intent (In) :: np ! planet 1-9
-         Real (8), Intent (In) :: jd ! julian date
-         Real (8), Intent (Out) :: p (6)! position (au)/velocity (au/yr)
-         Integer, Intent (Out) :: itbl !table used or error if zero
-         Real (8) :: z (8)! elements a e i l w o ma ea
-         Real (8) :: po (8)
-         z = s_ZERO
-         po = s_ZERO
-         itbl = tbl (jd)
-         If (itbl .Gt. 0) Then
-            Call calcelements (np, jd, itbl, z)
-            Call el2op (z, po)
-            Call op2ec (z, po, p)
-         End If
-      End Subroutine
-!
-      Real (8) Function kepler (ma, ec)! solve kepler's equation ma = ea + ec*sin(ea)
-         Implicit None ! acceptable accuracy for this calculation
-         Real (8), Intent (In) :: ma, ec ! mean anomaly (ma) and eccentricity in rad
-         Real (8) :: r, ea, tol ! max error	in eccentric anomaly ea in rad			
-         Integer :: i, maxit ! max iterations (1-4 typical for ec<0.3)
-         tol = 1.0d-08
-         maxit = 12
-         ea = ma + ec * Sin (ma)! starting value
-         Do i = 1, maxit ! newton(-raphson) iterations
-            r = (ma-ea+ec*Sin(ea)) / (s_ONE-ec*Cos(ea))
-            ea = ea + r
-            If (Abs(r) .Le. tol) Exit
-         End Do
-         kepler = modulo (ea, s_D2PI)! eccentric anomaly adjusted 0-2pi
-      End Function
-!
-      Integer Function tbl (jd)
-         Implicit None
-	! jd = julian date  (eg 2451545.0)
-	! itbl=1 jd in range of table 1 (1800ad-2050ad) - highest accuracy
-	! itbl=2 jd outside range of table 1 but in range of table 2 (3000bc-3000ad)
-	! itbl=0 3000bc<jd or jd>3000ad  julian date out of range for ephemeris.
-         Real (8), Intent (In) :: jd ! julian
-         tbl = 0
-         If ((jd .Gt. eph(2)%jul1) .And. (jd .Lt. eph(2)%jul1)) tbl = 2
-         If ((jd .Gt. eph(1)%jul1) .And. (jd .Lt. eph(1)%jul2)) tbl = 1
-      End Function
-	
-      Subroutine calcelements (np, jd, itbl, z)
-         Implicit None
-	! calculate current elements z(jd) for planet j from jpl data
-	! z(1) = a ; z(2) = e ; z(3) = i
-	! z(4) = l ; z(5) = w ; z(6) = o
-	! z(7) = ma ; z(8) = ea
-         Integer, Intent (In) :: np, itbl ! planet , table
-         Real (8), Intent (In) :: jd ! julian
-         Real (8), Intent (Out) :: z (8)! elements for jd
-         Integer :: i
-         Real (8) :: t, tz
-         t = (jd-eph(itbl)%epoch) / s_DPC ! centuries since epoch
-         Do i = 1, 6			!a,e,i,l,w,o
-            z (i) = eph(itbl)%o(i, np) + eph(itbl)%o(i+6, np) * t 
-		!	if (i>2) z(i) = modulo(z(i), s_d2pi)	!optional scaling
-         End Do
-		!perturbation term tz, nonzero for planets 5-9 if table 2 used
-         tz = eph(itbl)%o(13, np) * t ** 2 + eph(itbl)%o(14, np) * Cos &
-        & (eph(itbl)%o(16, np)*t) + eph(itbl)%o(15, np) * Sin &
-        & (eph(itbl)%o(16, np)*t)
-         z (7) = modulo ((z(4)-z(5)+tz), s_D2PI)! mean anomaly in z(7)
-         z (8) = kepler (z(7), z(2))! eccentric anomaly in z(8)	
-      End Subroutine
-!
-! Coordinates Subroutines
-! requires constants : s_zero  s_d2pi  s_sobl  s_cobl
-!
-      Subroutine el2op (z, po)
-	!heliocentric coordinates for orbital plane from elements
-         Implicit None
-         Real (8), Intent (In) :: z (8)! elements a,e,i,l,w,o,ma,ea
-         Real (8), Intent (Out) :: po (6)! coordinates and velocities
-         Real (8) :: v, xp, yp, vx, vy, s1, c1, s2
-	! heliocentric orbital plane
-         po = 0.0d0
-         s1 = Sin (z(8))
-         c1 = Cos (z(8))
-         s2 = Sqrt (1.0d0-z(2)*z(2))
-         v = s_D2PI / (Sqrt(z(1))*(1.0d0-z(2)*c1))! velocity au/yr
-         po (1) = z (1) * (c1-z(2))! xp (plane of orbit)	
-         po (2) = z (1) * s1 * s2 ! yp
-         po (4) = - v * s1 ! vxp
-         po (5) = v * c1 * s2 ! vyp
-      End Subroutine
-!	
-      Subroutine op2ec (z, po, pe)
-	!heliocentric coordinates j2000 ecliptic plane from orbital plane
-         Implicit None
-         Real (8), Intent (In) :: z (8)! elements a,e,i,l,w,o,ma,ea
-         Real (8), Intent (In) :: po (6)! orbital plane coordinates
-         Real (8), Intent (Out) :: pe (6)! j2000 ecliptic plane coordinates	
-         Real (8) :: s1, s2, s3, c1, c2, c3
-	! heliocentric au, au/yr	
-         s1 = Sin (z(5)-z(6))
-         s2 = Sin (z(3))
-         s3 = Sin (z(6))
-         c1 = Cos (z(5)-z(6))
-         c2 = Cos (z(3))
-         c3 = Cos (z(6))
-         pe (1) = (c1*c3-s1*s3*c2) * po (1) - (s1*c3+c1*s3*c2) * po (2)! xec
-         pe (2) = (c1*s3+s1*c3*c2) * po (1) - (s1*s3-c1*c3*c2) * po (2)! yec
-         pe (3) = s1 * s2 * po (1) + c1 * s2 * po (2)! zec
-         pe (4) = (c1*c3-s1*s3*c2) * po (4) - (s1*c3+c1*s3*c2) * po (5)! vxec
-         pe (5) = (c1*s3+s1*c3*c2) * po (4) - (s1*s3-c1*c3*c2) * po (5)! vyec
-         pe (6) = s1 * s2 * po (4) + c1 * s2 * po (5)! vzec
-      End Subroutine
-!	
-      Subroutine ec2eq (pe, pq)
-	! converts cartesian heliocentric j2000 ecliptic to equatorial
-         Implicit None
-         Real (8), Intent (In) :: pe (6)!ecliptic
-         Real (8), Intent (Out) :: pq (6)!equatorial
-	! requires constants s_sobl s_cobl (sin and cos of obliquity 23.43928 deg)
-         pq (1) = pe (1)! xeq same as xec
-         pq (2) = s_COBL * pe (2) - s_SOBL * pe (3)! yeq
-         pq (3) = s_SOBL * pe (2) + s_COBL * pe (3)! zeq
-         pq (4) = pe (4)! vxeq same as vxec
-         pq (5) = s_COBL * pe (5) - s_SOBL * pe (6)! vyeq
-         pq (6) = s_SOBL * pe (5) + s_COBL * pe (6)! vzeq
-      End Subroutine
-!
-      Subroutine eq2ec (pq, pe)
-	! converts cartesian heliocentric equatorial to ecliptic
-	! requires constants s_sobl s_cobl (sin and cos of obliquity 23.43928 deg)
-         Implicit None
-         Real (8), Intent (Out) :: pe (6)  !ecliptic
-         Real (8), Intent (In) :: pq (6)   !equatorial
-         pe (1) = pq (1)! xec same as xeq
-         pe (2) = s_COBL * pq (2) + s_SOBL * pq (3)! yec
-         pe (3) = - s_SOBL * pq (2) + s_COBL * pq (3)! zec
-         pe (4) = pq (4)! vxec same as vxeq
-         pe (5) = s_COBL * pq (5) + s_SOBL * pq (6)! vyec
-         pe (6) = - s_SOBL * pq (5) + s_COBL * pq (6)! vzec
-      End Subroutine
-!
-      Subroutine sphere (x, y, z, rho, theta, phi)
-	! cartesian to spherical coordinates (angles in radians)
-	! distance (rho), longitude (theta), and latitude (phi)
-	! x = r cos(phi) cos (theta)  y = r cos(phi) sin(theta)  z = r sin(phi)
-         Implicit None
-         Real (8), Intent (In) :: x, y, z
-         Real (8), Intent (Out) :: rho, theta, phi
-         Real (8) :: r
-         theta = s_ZERO
-         phi = s_ZERO
-         rho = Sqrt (x*x+y*y+z*z)
-         r = Sqrt (x*x+y*y)
-         If (r /= s_ZERO) Then
-            theta = modulo (Atan2(y, x), s_D2PI)
-            phi = Atan2 (z, r)
-         End If
-      End Subroutine
-! +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-! Copyright 2018 Cumulo Epsilon (epsilon0167) (GPG Key ID 8F126A52)
+!### History
+!  * Original version copyright 2018 cumulo epsilon (epsilon0167) (gpg key id 8f126a52)
+!    BSD License: https://github.com/CumuloEpsilon/Standish-Ephemeris
+!  * Jacob Williams, extensive refactoring with some modifications,
+!    and integration into the ephemeris module.
 
-! Redistribution and use in source and binary forms, with or without 
+    module standish_module
+
+    use kind_module,       only: wp
+    use conversion_module, only: deg2rad,rad2deg,year2day,day2sec,au2m,m2km
+    use numbers_module,    only: zero,one,two,twopi
+    use ephemeris_module,  only: ephemeris_class
+
+    implicit none
+
+    type,extends(ephemeris_class),public :: standish_ephemeris
+    contains
+        procedure,public :: get_rv => standish_rv_func
+    end type standish_ephemeris
+
+    ! constants
+
+    real(wp),parameter :: obliquity = 23.43928_wp         !! obliquity at J2000 [deg]
+    real(wp),parameter :: s_sobl = sin(obliquity*deg2rad) !! sin of j2000 obliquity
+    real(wp),parameter :: s_cobl = cos(obliquity*deg2rad) !! cos of j2000 obliquity
+    real(wp),parameter :: s_dpc = 36525.0_wp              !! julian days per century
+    real(wp),parameter :: mu_sun = 39.47692641_wp         !! au^3/yr^2
+    real(wp),parameter :: epoch = 2451545.0_wp            !! Julian date of J2000 epoch
+
+    ! there are two sets of tables that can be used:
+
+    !> keplerian elements valid 1800 ad - 2050 ad
+    real(wp),dimension(2),parameter :: eph_1_jd_range = [2378497.0_wp, 2470172.0_wp]
+    !> this is standish's table 1 (in au and radians). perturbations are zero.
+    real(wp),dimension(16,9),parameter :: eph_1_o = reshape([ &
+        0.38709927, 0.20563594, 0.12225995, 4.4025989, 1.3518935, &
+        0.84353095, 3.70000009e-07, 1.90600003e-05, - 1.03803286e-04, &
+        2608.7903, 2.80085020e-03, - 2.18760967e-03, 0.0000000, &
+        0.0000000, 0.0000000, 0.0000000, 0.72333568, 6.77671982e-03, &
+        5.92482723e-02, 3.1761343, 2.2968962, 1.3383157, 3.90000014e-06, &
+        - 4.10700013e-05, - 1.37689030e-05, 1021.3286, 4.68322469e-05, - &
+        4.84667765e-03, 0.0000000, 0.0000000, 0.0000000, 0.0000000, &
+        1.0000026, 1.67112295e-02, - 2.67209913e-07, 1.7534375, &
+        1.7966015, 0.0000000, 5.62000014e-06, - 4.39200012e-05, - &
+        2.25962198e-04, 628.30756, 5.64218918e-03, 0.0000000, 0.0000000, &
+        0.0000000, 0.0000000, 0.0000000, 1.5237104, 9.33941007e-02, &
+        3.22832055e-02, - 7.94723779e-02, - 0.41789517, 0.86497712, &
+        1.84700002e-05, 7.88199977e-05, - 1.41918135e-04, 334.06131, &
+        7.75643345e-03, - 5.10636950e-03, 0.0000000, 0.0000000, &
+        0.0000000, 0.0000000, 5.2028871, 4.83862385e-02, 2.27660220e-02, &
+        0.60033119, 0.25706047, 1.7536005, - 1.16069998e-04, - &
+        1.32529996e-04, - 3.20641411e-05, 52.966312, 3.70929041e-03, &
+        3.57253314e-03, 0.0000000, 0.0000000, 0.0000000, 0.0000000, &
+        9.5366764, 5.38617894e-02, 4.33887430e-02, 0.87186599, &
+        1.6161553, 1.9837835, - 1.25059998e-03, - 5.09909994e-04, &
+        3.37911442e-05, 21.336540, - 7.31244357e-03, - 5.03838016e-03, &
+        0.0000000, 0.0000000, 0.0000000, 0.0000000, 19.189165, &
+        4.72574383e-02, 1.34850740e-02, 5.4670362, 2.9837148, 1.2918390, &
+        - 1.96175999e-03, - 4.39700016e-05, - 4.24008576e-05, 7.4784222, &
+        7.12186471e-03, 7.40122399e-04, 0.0000000, 0.0000000, 0.0000000, &
+        0.0000000, 30.069923, 8.59048031e-03, 3.08930874e-02, - &
+        0.96202600, 0.78478318, 2.3000686, 2.62910005e-04, &
+        5.10499995e-05, 6.17357864e-06, 3.8128369, - 5.62719675e-03, - &
+        8.87786155e-05, 0.0000000, 0.0000000, 0.0000000, 0.0000000, &
+        39.482117, 0.24882729, 0.29914966, 4.1700983, 3.9107401, &
+        1.9251670, - 3.15960002e-04, 5.17000008e-05, 8.40899645e-07, &
+        2.5343544, - 7.09117157e-04, - 2.06556579e-04, 0.0000000, &
+        0.0000000, 0.0000000, 0.0000000 ], [16,9])
+
+    !> keplerian elements valid 3000 bc - 3000 ad
+    real(wp),dimension(2),parameter :: eph_2_jd_range = [625674.0_wp, 2816788.0_wp]
+    !> standish's table 2 (in au and radians). perturbations are not zero.
+    real(wp),dimension(16,9),parameter :: eph_2_o = reshape([ &
+        0.38709843, 0.20563661, 0.12227069, 4.4026222, 1.3518922, &
+        0.84368551, 0.0000000, 2.12300001e-05, - 1.03002007e-04, &
+        2608.7903, 2.78205727e-03, - 2.13177688e-03, 0.0000000, &
+        0.0000000, 0.0000000, 0.0000000, 0.72332102, 6.76399004e-03, &
+        5.93023673e-02, 3.1761451, 2.2997777, 1.3381896, - &
+        2.60000007e-07, - 5.10700011e-05, 7.59113527e-06, 1021.3286, &
+        9.91285546e-04, - 4.76024114e-03, 0.0000000, 0.0000000, &
+        0.0000000, 0.0000000, 1.0000002, 1.67316291e-02, - &
+        9.48516663e-06, 1.7534785, 1.7964685, - 8.92317668e-02, - &
+        2.99999989e-08, - 3.66099994e-05, - 2.33381579e-04, 628.30762, &
+        5.54932002e-03, - 4.21040738e-03, 0.0000000, 0.0000000, &
+        0.0000000, 0.0000000, 1.5237124, 9.33651105e-02, 3.23203318e-02, &
+        - 7.97289312e-02, - 0.41743821, 0.86765921, 9.69999974e-07, &
+        9.14900011e-05, - 1.26493964e-04, 334.06125, 7.89301097e-03, - &
+        4.68663359e-03, 0.0000000, 0.0000000, 0.0000000, 0.0000000, &
+        5.2024803, 4.85358983e-02, 2.26650927e-02, 0.59925520, &
+        0.24914493, 1.7504400, - 2.86400009e-05, 1.80260002e-04, - &
+        5.63216017e-05, 52.969063, 3.17635899e-03, 2.27322499e-03, - &
+        2.17328397e-06, 1.05837814e-03, - 6.21955749e-03, 0.66935557, &
+        9.5414991, 5.55082485e-02, 4.35327180e-02, 0.87398607, &
+        1.6207365, 1.9833919, - 3.06500006e-05, - 3.20440013e-04, &
+        7.88834659e-05, 21.329931, 9.45610274e-03, - 4.36594151e-03, &
+        4.52022823e-06, - 2.34475732e-03, 1.52402408e-02, 0.66935557, &
+        19.187979, 4.68574017e-02, 1.34910680e-02, 5.4838729, 3.0095420, &
+        1.2908891, - 2.04550000e-04, - 1.54999998e-05, - 3.14429781e-05, &
+        7.4786506, 1.61739404e-03, 1.00176642e-03, 1.01806800e-05, - &
+        1.70574244e-02, 3.08735552e-03, 0.13387112, 30.069527, &
+        8.95438995e-03, 3.08932904e-02, 5.3096914, 0.81474739, &
+        2.3001058, 6.44699976e-05, 8.17999990e-06, 3.90953755e-06, &
+        3.8129361, 1.76267436e-04, - 1.05819658e-04, - 7.21658762e-06, &
+        1.19286822e-02, - 1.77369907e-03, 0.13387112, 39.486862, &
+        0.24885239, 0.29916763, 4.1707320, 3.9112310, 1.9251275, &
+        4.49750992e-03, 6.01600004e-05, 8.74410020e-08, 2.5338767, - &
+        1.69092222e-04, - 1.41368364e-04, - 2.20386923e-04, 0.0000000, &
+        0.0000000, 0.0000000 ], [16,9])
+
+    contains
+!*****************************************************************************************
+
+!*****************************************************************************************
+!> author: Jacob Williams
+!
+!  Convert the NAIF SPICE ID code to the one used by the standish ephemeris.
+!  Returns `0` if the body was not found.
+!
+!### See also
+!  * [[spice_id_to_old_id]]
+
+    pure function spice_id_to_standish_id(spice_id) result(old_id)
+
+    implicit none
+
+    integer,intent(in) :: spice_id !! the ID code used by SPICE
+    integer            :: old_id   !! the ID code used by this module
+
+    integer :: i !! counter
+
+    !>
+    !  The index of this array is the ID code. The value is the NAIF code.
+    !  See: [NAIF Integer ID codes](http://naif.jpl.nasa.gov/pub/naif/toolkit_docs/FORTRAN/req/naif_ids.html)
+    integer,parameter,dimension(9) :: new_ids = &
+        [   199,&  ! mercury
+            299,&  ! venus
+            3,  &  ! earth-moon barycenter
+            499,&  ! mars
+            599,&  ! jupiter
+            699,&  ! saturn
+            799,&  ! uranus
+            899,&  ! neptune
+            999]   ! pluto
+
+    !just a simple search of the list:
+    ! [small enough that bisection search probably not worth it]
+    do i=1,size(new_ids)
+        if (new_ids(i)==spice_id) then
+            old_id = i
+            return
+        end if
+    end do
+
+    !not found:
+    old_id = 0
+
+    end function spice_id_to_standish_id
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  This is the function that can be used in the [[ephemeris_class]].
+!
+!  Return the state of the `targ` body relative to
+!  the `obs` body, in the inertial frame [ICRF].
+
+    subroutine standish_rv_func(me,et,targ,obs,rv,status_ok)
+
+    use celestial_body_module, only: celestial_body
+    use time_module,           only: et_to_jd
+
+    implicit none
+
+    class(standish_ephemeris),intent(inout) :: me
+    real(wp),intent(in)                     :: et         !! ephemeris time [sec]
+    type(celestial_body),intent(in)         :: targ       !! target body
+    type(celestial_body),intent(in)         :: obs        !! observer body
+    real(wp),dimension(6),intent(out)       :: rv         !! state of targ w.r.t. obs
+    logical,intent(out)                     :: status_ok  !! true if there were no problems
+
+    real(wp) :: jd
+    integer :: itbl_targ, itbl_obs
+    integer :: itarg
+    integer :: iobs
+    real(wp), dimension(6) :: targ_rv_au
+    real(wp), dimension(6) :: obs_rv_au
+    real(wp),dimension(6) :: rv_ecliptic
+
+    integer,parameter :: naif_id_sun = 10 !! NAIF ID for the Sun
+
+    if (targ==obs) then
+        rv = zero
+        return
+    end if
+
+    jd    = et_to_jd(et)
+    itarg = spice_id_to_standish_id(targ%id)
+    iobs  = spice_id_to_standish_id(obs%id)
+
+    if (itarg==0 .or. iobs==0) then
+
+        ! if the bodies were not found in this ephemeris
+        rv = zero
+        status_ok = .false.
+
+    else
+
+        if (targ%id/=naif_id_sun) then
+            ! targ w.r.t sun [j2000 ecliptic]
+            call helio (itarg, jd, targ_rv_au, itbl_targ)
+        else
+            targ_rv_au = zero
+            itbl_targ = 3 ! dummy value
+        end if
+
+        if (obs%id/=naif_id_sun) then
+            ! obs w.r.t sun [j2000 ecliptic]
+            call helio (iobs, jd, obs_rv_au, itbl_obs )
+        else
+            obs_rv_au = zero
+            itbl_obs = 3 ! dummy value
+        end if
+
+        if (itbl_targ>0 .and. itbl_obs>0) then
+
+            ! vector from obs to targ [j2000 ecliptic]
+            rv_ecliptic = targ_rv_au - obs_rv_au
+
+            ! convert to ICRF:
+            call ec2eq (rv_ecliptic, rv)
+
+            ! Convert to km, km/s:
+            rv = rv * au2m * m2km
+            rv(4:6) = rv(4:6) / (year2day*day2sec)
+
+            status_ok = .true.
+
+        else
+            ! out of range of the ephemeris:
+            rv = zero
+            status_ok = .false.
+        end if
+
+    end if
+
+    end subroutine standish_rv_func
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  For planet np and julian date jd and using using table `itbl`,
+!  return j2000 ecliptic position (au) and velocity (au/yr).
+!  in cartesian coordinates (p(1)-p(6)).
+
+    pure subroutine helio (np, jd, p, itbl)
+
+    implicit none
+
+    integer, intent (in) :: np      !! planet 1-9
+    real(wp), intent (in) :: jd     !! julian date
+    real(wp), dimension(6), intent(out) :: p !! position (au)/velocity (au/yr)
+    integer, intent (out) :: itbl   !! table used or error if zero
+
+    real(wp),dimension(8) :: z  !! elements [a e i l w o ma ea]
+    real(wp),dimension(8) :: po
+
+    z = zero
+    po = zero
+    itbl = tbl (jd)
+    if (itbl > 0) then
+        call calcelements (np, jd, itbl, z)
+        call el2op (z, po)
+        call op2ec (z, po, p)
+    end if
+
+    end subroutine helio
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  solve kepler's equation ma = ea + ec*sin(ea)
+
+    pure real(wp) function kepler (ma, ec)
+
+    implicit none
+
+    real(wp), intent (in) :: ma !! eccentricity
+    real(wp), intent (in) :: ec !! mean anomaly in rad
+
+    real(wp) :: r, ea
+    integer :: i
+
+    ! acceptable accuracy for this calculation
+    real(wp),parameter :: tol = 1.0e-08_wp  !! max error in eccentric anomaly `ea` in rad
+    integer,parameter :: maxit = 12         !! max iterations (1-4 typical for `ec<0.3`)
+
+    ea = ma + ec * sin (ma)! starting value
+    do i = 1, maxit ! newton(-raphson) iterations
+        r = (ma-ea+ec*sin(ea)) / (one-ec*cos(ea))
+        ea = ea + r
+        if (abs(r) <= tol) exit
+    end do
+    kepler = modulo (ea, twopi) ! eccentric anomaly adjusted 0-2pi
+
+    end function kepler
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Determine which data set to use for highest accuracy for the given julian date.
+!
+!@note There was a typo in the original routine.
+
+    pure function tbl (jd) result(itbl)
+
+    implicit none
+
+    real(wp), intent (in) :: jd  !! julian date (eg 2451545.0)
+    integer :: itbl !! Which data set to use:
+                    !!
+                    !! * itbl=1 jd in range of table 1
+                    !!   (1800ad-2050ad) - highest accuracy
+                    !! * itbl=2 jd outside range of table 1
+                    !!   but in range of table 2 (3000bc-3000ad)
+                    !! * itbl=0 3000bc<jd or jd>3000ad  julian
+                    !!   date out of range for ephemeris.
+
+    if ((jd > eph_1_jd_range(1)) .and. (jd < eph_1_jd_range(2))) then
+        itbl = 1
+    else
+        if ((jd > eph_2_jd_range(1)) .and. (jd < eph_2_jd_range(2))) then
+            itbl = 2
+        else
+            itbl = 0
+        end if
+    end if
+
+    end function tbl
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Calculate current elements `z(jd)` for planet `j` from jpl data
+
+    pure subroutine calcelements (np, jd, itbl, z)
+
+    implicit none
+
+    integer, intent (in) :: np        !! planet number (1-9)
+    integer, intent (in) :: itbl      !! which table to use (1-2)
+    real(wp), intent (in) :: jd       !! julian date
+    real(wp), dimension(8), intent(out) :: z  !! elements for `jd`
+                                              !!
+                                              !!  * a = semi major axis (au)
+                                              !!  * e = eccentricity (rad)
+                                              !!  * i = inclination (rad)
+                                              !!  * l = mean longitude (rad)
+                                              !!  * w = longitude of perihelion (rad)
+                                              !!  * o = longitude of ascending mode (rad)
+                                              !!  * ma = mean anomaly (rad)
+                                              !!  * ea = eccentric anomaly (rad)
+
+    select case (itbl)
+    case(1)
+        z = eph(eph_1_o)
+    case(2)
+        z = eph(eph_2_o)
+    case default
+        error stop 'invalid value of itbl in calcelements'
+    end select
+
+    contains
+
+        pure function eph(o) result(z)
+
+        implicit none
+
+        real(wp),dimension(:,:),intent(in) :: o !! data table to use
+        real(wp), dimension(8) :: z  !! result
+
+        integer :: i   !! counter
+        real(wp) :: t  !! centuries since epoch
+        real(wp) :: tz !! perturbation term
+
+        t = (jd-epoch) / s_dpc
+
+        do i = 1, 6      ! a,e,i,l,w,o
+            z (i) = o(i, np) + o(i+6, np) * t
+            ! if (i>2) z(i) = modulo(z(i), twopi)  !optional scaling
+        end do
+
+        if (itbl==2) then
+            ! perturbation term nonzero for planets 5-9 if table 2 used
+            tz =  o(13, np) * t ** 2 + &
+                  o(14, np) * cos(o(16, np)*t) + &
+                  o(15, np) * sin(o(16, np)*t)
+        else
+            tz = zero
+        end if
+
+        z (7) = modulo ((z(4)-z(5)+tz), twopi)  ! mean anomaly
+        z (8) = kepler (z(7), z(2))             ! eccentric anomaly
+
+        end function eph
+
+    end subroutine calcelements
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  heliocentric coordinates for orbital plane from elements
+
+    pure subroutine el2op (z, po)
+
+    implicit none
+
+    real(wp), dimension(8), intent (in) :: z   !! elements [a,e,i,l,w,o,ma,ea]
+    real(wp), dimension(6), intent (out) :: po !! coordinates and velocities
+
+    real(wp) :: v, xp, yp, vx, vy, s1, c1, s2
+
+    ! heliocentric orbital plane
+    po = zero
+    s1 = sin (z(8))
+    c1 = cos (z(8))
+    s2 = sqrt (one-z(2)*z(2))
+    v = twopi / (sqrt(z(1))*(one-z(2)*c1))  ! velocity au/yr
+
+    po (1) = z (1) * (c1-z(2)) ! xp (plane of orbit)
+    po (2) = z (1) * s1 * s2   ! yp
+    po (4) = - v * s1          ! vxp
+    po (5) = v * c1 * s2       ! vyp
+
+    end subroutine el2op
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  heliocentric coordinates j2000 ecliptic plane from orbital plane
+
+    pure subroutine op2ec (z, po, pe)
+
+    implicit none
+
+    real(wp),dimension(8),intent(in)  :: z  !! elements a,e,i,l,w,o,ma,ea
+    real(wp),dimension(6),intent(in)  :: po !! orbital plane coordinates
+    real(wp),dimension(6),intent(out) :: pe !! j2000 ecliptic plane coordinates
+
+    real(wp) :: s1, s2, s3, c1, c2, c3
+
+    ! heliocentric au, au/yr
+    s1 = sin (z(5)-z(6))
+    s2 = sin (z(3))
+    s3 = sin (z(6))
+    c1 = cos (z(5)-z(6))
+    c2 = cos (z(3))
+    c3 = cos (z(6))
+
+    pe (1) = (c1*c3-s1*s3*c2) * po (1) - (s1*c3+c1*s3*c2) * po (2) ! xec
+    pe (2) = (c1*s3+s1*c3*c2) * po (1) - (s1*s3-c1*c3*c2) * po (2) ! yec
+    pe (3) = s1 * s2 * po (1) + c1 * s2 * po (2)                   ! zec
+    pe (4) = (c1*c3-s1*s3*c2) * po (4) - (s1*c3+c1*s3*c2) * po (5) ! vxec
+    pe (5) = (c1*s3+s1*c3*c2) * po (4) - (s1*s3-c1*c3*c2) * po (5) ! vyec
+    pe (6) = s1 * s2 * po (4) + c1 * s2 * po (5)                   ! vzec
+
+    end subroutine op2ec
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  converts cartesian heliocentric j2000 ecliptic to equatorial
+
+    pure subroutine ec2eq (pe, pq)
+
+    implicit none
+
+    real(wp), dimension(6), intent (in) :: pe  !! ecliptic
+    real(wp), dimension(6), intent (out) :: pq !! equatorial
+
+    pq (1) = pe (1)                             ! xeq same as xec
+    pq (2) = s_cobl * pe (2) - s_sobl * pe (3)  ! yeq
+    pq (3) = s_sobl * pe (2) + s_cobl * pe (3)  ! zeq
+    pq (4) = pe (4)                             ! vxeq same as vxec
+    pq (5) = s_cobl * pe (5) - s_sobl * pe (6)  ! vyeq
+    pq (6) = s_sobl * pe (5) + s_cobl * pe (6)  ! vzeq
+
+    end subroutine ec2eq
+!*****************************************************************************************
+
+! the following two aren't used:
+
+!*****************************************************************************************
+!>
+!  converts cartesian heliocentric equatorial to ecliptic
+
+    pure subroutine eq2ec (pq, pe)
+
+    implicit none
+
+    real(wp), dimension(6), intent (out) :: pe  !! ecliptic
+    real(wp), dimension(6), intent (in) :: pq   !! equatorial
+
+    pe (1) = pq (1)                              ! xec same as xeq
+    pe (2) = s_cobl * pq (2) + s_sobl * pq (3)   ! yec
+    pe (3) = - s_sobl * pq (2) + s_cobl * pq (3) ! zec
+    pe (4) = pq (4)                              ! vxec same as vxeq
+    pe (5) = s_cobl * pq (5) + s_sobl * pq (6)   ! vyec
+    pe (6) = - s_sobl * pq (5) + s_cobl * pq (6) ! vzec
+
+    end subroutine eq2ec
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  cartesian to spherical coordinates (angles in radians)
+
+    pure subroutine sphere (x, y, z, rho, theta, phi)
+
+    implicit none
+
+    real(wp), intent (in) :: x       !! x = r cos(phi) cos (theta)
+    real(wp), intent (in) :: y       !! y = r cos(phi) sin(theta)
+    real(wp), intent (in) :: z       !! z = r sin(phi)
+    real(wp), intent (out) :: rho    !! distance
+    real(wp), intent (out) :: theta  !! longitude
+    real(wp), intent (out) :: phi    !! latitude
+
+    real(wp) :: r
+
+    theta = zero
+    phi = zero
+    rho = sqrt (x*x+y*y+z*z)
+    r = sqrt (x*x+y*y)
+    if (r /= zero) then
+        theta = modulo (atan2(y, x), twopi)
+        phi = atan2 (z, r)
+    end if
+
+    end subroutine sphere
+!*****************************************************************************************
+
+!*****************************************************************************************
+    end module standish_module
+!*****************************************************************************************
+
+!*****************************************************************************************
+!
+!### Original License
+!
+! copyright 2018 cumulo epsilon (epsilon0167) (gpg key id 8f126a52)
+!
+! redistribution and use in source and binary forms, with or without
 ! modification, are permitted provided that the following conditions are met:
-
-! 1. Redistributions of source code must retain the above copyright 
+!
+! 1. redistributions of source code must retain the above copyright
 ! notice, this list of conditions and the following disclaimer.
-
-! 2. Redistributions in binary form must reproduce the above copyright 
-! notice, this list of conditions and the following disclaimer in the 
+!
+! 2. redistributions in binary form must reproduce the above copyright
+! notice, this list of conditions and the following disclaimer in the
 ! documentation and/or other materials provided with the distribution.
-
-! THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- ! "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
- ! LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
- ! FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
- ! COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
- ! INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
- ! BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
- ! LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
- ! CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
- ! LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
- ! IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF 
- ! THE POSSIBILITY OF SUCH DAMAGE.
-! +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-End Module
+!
+! this software is provided by the copyright holders and contributors
+! "as is" and any express or implied warranties, including, but not
+! limited to, the implied warranties of merchantability and fitness
+! for a particular purpose are disclaimed. in no event shall the
+! copyright holder or contributors be liable for any direct, indirect,
+! incidental, special, exemplary, or consequential damages (including,
+! but not limited to, procurement of substitute goods or services;
+! loss of use, data, or profits; or business interruption) however
+! caused and on any theory of liability, whether in contract, strict
+! liability, or tort (including negligence or otherwise) arising
+! in any way out of the use of this software, even if advised of
+! the possibility of such damage.
+!
+!*****************************************************************************************
