@@ -16,6 +16,8 @@ $CSTATIC_GNU = -c -fbacktrace -Wall -Wextra -Wno-maybe-uninitialized -Wno-unused
 $DEBUG_GNU   = -O0 -g3 -Warray-bounds -Wcharacter-truncation -Wline-truncation -Wimplicit-interface -Wimplicit-procedure -Wunderflow -fcheck=all -fmodule-private -ffree-line-length-132 -fimplicit-none -fbacktrace -fdump-core -finit-real=nan -std=f2008ts -fall-intrinsics
 $CSTATIC_INT = -c -std15
 $DEBUG_INT   = -O0 -debug all -check all -warn all -extend-source 132 -traceback -gen-interfaces -fpe-all=0 -fp-stack-check -fstack-protector-all -ftrapuv -no-ftz -std15
+$EXDIRS      = archive
+               tmp
 
 # main modes
 # library
@@ -35,6 +37,7 @@ jobs            = 2
 mklib           = static
 target          = $MOD_FILE
 output          = $STATIC_LIB
+exclude_dirs    = $EXDIRS
 
 [static-gnu-debug]
 description     = Build library with GNU gfortran by debug-static flags
@@ -52,6 +55,7 @@ jobs            = 2
 mklib           = static
 target          = $MOD_FILE
 output          = $STATIC_LIB
+exclude_dirs    = $EXDIRS
 
 [static-intel]
 description     = Build library with Intel Fortran by optimized-static flags
@@ -69,6 +73,7 @@ jobs            = 2
 mklib           = static
 target          = $MOD_FILE
 output          = $STATIC_LIB
+exclude_dirs    = $EXDIRS
 
 [static-intel-debug]
 description     = Build library with Intel Fortran by debug-static flags
@@ -86,6 +91,7 @@ jobs            = 2
 mklib           = static
 target          = $MOD_FILE
 output          = $STATIC_LIB
+exclude_dirs    = $EXDIRS
 
 [shared-gnu]
 description     = Build library with GNU gfortran by optimized-shared flags
@@ -103,6 +109,7 @@ jobs            = 2
 mklib           = shared
 target          = $MOD_FILE
 output          = $SHARED_LIB
+exclude_dirs    = $EXDIRS
 
 [shared-gnu-debug]
 description     = Build library with GNU gfortran by debug-shared flags
@@ -120,6 +127,7 @@ jobs            = 2
 mklib           = shared
 target          = $MOD_FILE
 output          = $SHARED_LIB
+exclude_dirs    = $EXDIRS
 
 [shared-intel]
 description     = Build library with Intel Fortran by optimized-shared flags
@@ -137,6 +145,7 @@ jobs            = 2
 mklib           = shared
 target          = $MOD_FILE
 output          = $SHARED_LIB
+exclude_dirs    = $EXDIRS
 
 [shared-intel-debug]
 description     = Build library with Intel Fortran by debug-shared flags
@@ -154,6 +163,7 @@ jobs            = 2
 mklib           = shared
 target          = $MOD_FILE
 output          = $SHARED_LIB
+exclude_dirs    = $EXDIRS
 
 # test programs
 [tests-gnu]
@@ -169,6 +179,7 @@ colors          = True
 quiet           = False
 log             = False
 jobs            = 2
+exclude_dirs    = $EXDIRS
 
 [tests-gnu-debug]
 description     = Build all tests with GNU gfortran by debug-static flags
@@ -183,6 +194,7 @@ colors          = True
 quiet           = False
 log             = False
 jobs            = 2
+exclude_dirs    = $EXDIRS
 
 [tests-intel]
 description     = Build all tests with Intel Fortran by optimized-static flags
@@ -197,6 +209,7 @@ colors          = True
 quiet           = False
 log             = False
 jobs            = 2
+exclude_dirs    = $EXDIRS
 
 [tests-intel-debug]
 description     = Build all tests with Intel Fortran by debug-static flags
@@ -211,6 +224,7 @@ colors          = True
 quiet           = False
 log             = False
 jobs            = 2
+exclude_dirs    = $EXDIRS
 
 # auxiliary rules
 [rule-makedoc]

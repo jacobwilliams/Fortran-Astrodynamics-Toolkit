@@ -70,6 +70,12 @@ The full set of modes are:
 * `tests-intel`
 * `tests-intel-debug`
 
+To generate the documentation using [ford](https://github.com/cmacmackin/ford), run:
+
+```
+FoBis.py rule --execute makedoc -f fortran-astrodynamics-toolkit.fobis
+```
+
 ## Third-Party Requirements
 
 A script `get_third_party.sh` is included to download and build the third-party dependencies on unix-like operating systems.
