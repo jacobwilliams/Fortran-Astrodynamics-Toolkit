@@ -39,18 +39,21 @@
     !metric:
     real(wp),parameter :: km2m = 1000.0_wp
     real(wp),parameter :: m2km = one/km2m
+    real(wp),parameter :: au2m = 149597870700.0_wp !! IAU 2012 defined value
 
     !time:
     real(wp),parameter :: min2sec      = 60.0_wp
     real(wp),parameter :: hr2min       = 60.0_wp
     real(wp),parameter :: day2hr       = 24.0_wp
-    real(wp),parameter :: century2day  = 36525.0_wp        !! julian century
+    real(wp),parameter :: year2day     = 365.25_wp         !! julian year
+    real(wp),parameter :: century2day  = year2day*100.0_wp !! julian century
     real(wp),parameter :: deg2arcmin   = 60.0_wp
     real(wp),parameter :: deg2arcsec   = 3600.0_wp
     real(wp),parameter :: hr2sec       = hr2min*min2sec
     real(wp),parameter :: day2min      = day2hr*hr2min
     real(wp),parameter :: day2sec      = day2min*min2sec
     real(wp),parameter :: century2sec  = century2day*day2sec
+    real(wp),parameter :: day2year     = one/year2day
     real(wp),parameter :: day2century  = one/century2day
     real(wp),parameter :: hr2day       = one/day2hr
     real(wp),parameter :: sec2day      = one/day2sec

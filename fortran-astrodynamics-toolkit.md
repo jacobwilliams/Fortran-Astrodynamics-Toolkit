@@ -2,7 +2,7 @@ project: fortran-astrodynamics-toolkit
 project_dir: ./src
 output_dir: ./doc
 project_github: https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit
-summary: A modern Fortran library for astrodynamics
+summary: A modern Fortran library for Astrodynamics
 author: Jacob Williams
 github: https://github.com/jacobwilliams
 predocmark_alt: >
@@ -32,7 +32,7 @@ of all the standard orbital mechanics algorithms such as:
  * Targeting and optimization
  * Engine models
 
-This is a work in progress, and is currently in a very preliminary state.  
+This is a work in progress, and is currently in a very preliminary state.
 
 License
 ---------------
