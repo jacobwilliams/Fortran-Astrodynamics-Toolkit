@@ -31,6 +31,8 @@ The goal is to produce a comprehensive library, written in modern Fortran (Fortr
  * Celestial Body Ephemerides
   - [x] JPLEPH
   - [x] SPICE
+  - [x] Analytical Moon w.r.t Earth
+  - [x] Analytical solar system primary bodies
  * Alternate equations of motion
   - [x] Circular restricted three-body problem
   - [x] Clohessy-Wiltshire
