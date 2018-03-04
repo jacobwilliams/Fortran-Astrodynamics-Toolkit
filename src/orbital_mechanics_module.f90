@@ -34,7 +34,7 @@
     real(wp),intent(in)              :: mu   !! gravitational parameter [km^3/s^2]
     real(wp),dimension(3),intent(in) :: r    !! position vector [km]
     real(wp),dimension(3),intent(in) :: v    !! velocity vector [km/s]
-    real(wp),intent(out)             :: p    !! parameter [km]
+    real(wp),intent(out)             :: p    !! semiparameter a*(1-e**2) [km]
     real(wp),intent(out)             :: ecc  !! eccentricity [--]
     real(wp),intent(out)             :: inc  !! inclination [rad]
     real(wp),intent(out)             :: raan !! raan [rad]
@@ -87,7 +87,7 @@
     implicit none
 
     real(wp),intent(in)               :: mu   !! gravitational parameter [km^3/s^2]
-    real(wp),intent(in)               :: p    !! parameter [km]
+    real(wp),intent(in)               :: p    !! semiparameter a*(1-e**2) [km]
     real(wp),intent(in)               :: ecc  !! eccentricity [--]
     real(wp),intent(in)               :: inc  !! inclination [rad]
     real(wp),intent(in)               :: raan !! raan [rad]
