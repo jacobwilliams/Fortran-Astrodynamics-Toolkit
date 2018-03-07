@@ -390,6 +390,7 @@
 !  Determine which data set to use for highest accuracy for the given julian date.
 !
 !@note There was a typo in the original routine.
+!
 !@note Assumes that [[eph_set]] has only two elements.
 
     pure function tbl (jd) result(itbl)
@@ -441,48 +442,28 @@
                                               !!  * ma = mean anomaly (rad)
                                               !!  * ea = eccentric anomaly (rad)
 
-    select case (itbl)
-    case(1)
-        z = eph(eph_set(1)%o)
-    case(2)
-        z = eph(eph_set(2)%o)
-    case default
-        error stop 'invalid value of itbl in calcelements'
-    end select
+    integer :: i   !! counter
+    real(wp) :: t  !! centuries since epoch
+    real(wp) :: tz !! perturbation term
 
-    contains
+    t = (jd-epoch) * day2century
 
-        pure function eph(o) result(z)
+    do i = 1, 6      ! a,e,i,l,w,o
+        z (i) = eph_set(itbl)%o(i, np) + eph_set(itbl)%o(i+6, np) * t
+        ! if (i>2) z(i) = modulo(z(i), twopi)  !optional scaling
+    end do
 
-        implicit none
+    if (itbl==2) then
+        ! perturbation term nonzero for planets 5-9 if table 2 used
+        tz =  eph_set(itbl)%o(13, np) * t ** 2 + &
+              eph_set(itbl)%o(14, np) * cos(eph_set(itbl)%o(16, np)*t) + &
+              eph_set(itbl)%o(15, np) * sin(eph_set(itbl)%o(16, np)*t)
+    else
+        tz = zero
+    end if
 
-        real(wp),dimension(:,:),intent(in) :: o !! data table to use
-        real(wp), dimension(8) :: z  !! result
-
-        integer :: i   !! counter
-        real(wp) :: t  !! centuries since epoch
-        real(wp) :: tz !! perturbation term
-
-        t = (jd-epoch) * day2century
-
-        do i = 1, 6      ! a,e,i,l,w,o
-            z (i) = o(i, np) + o(i+6, np) * t
-            ! if (i>2) z(i) = modulo(z(i), twopi)  !optional scaling
-        end do
-
-        if (itbl==2) then
-            ! perturbation term nonzero for planets 5-9 if table 2 used
-            tz =  o(13, np) * t ** 2 + &
-                  o(14, np) * cos(o(16, np)*t) + &
-                  o(15, np) * sin(o(16, np)*t)
-        else
-            tz = zero
-        end if
-
-        z (7) = modulo ((z(4)-z(5)+tz), twopi)  ! mean anomaly
-        z (8) = kepler (z(7), z(2))             ! eccentric anomaly
-
-        end function eph
+    z (7) = modulo ((z(4)-z(5)+tz), twopi)  ! mean anomaly
+    z (8) = kepler (z(7), z(2))             ! eccentric anomaly
 
     end subroutine calcelements
 !*****************************************************************************************
