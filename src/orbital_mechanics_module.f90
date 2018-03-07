@@ -16,6 +16,9 @@
 
     public :: rv_to_orbital_elements
     public :: orbital_elements_to_rv
+    public :: orbit_period
+    public :: orbit_energy
+    public :: periapsis_apoapsis
 
     contains
 !*****************************************************************************************
@@ -31,10 +34,10 @@
 
     implicit none
 
-    real(wp),intent(in)              :: mu   !! gravitational parameter [km^3/s^2]
+    real(wp),intent(in)              :: mu   !! gravitational parameter [\(km^{3}/s^{2}\)]
     real(wp),dimension(3),intent(in) :: r    !! position vector [km]
     real(wp),dimension(3),intent(in) :: v    !! velocity vector [km/s]
-    real(wp),intent(out)             :: p    !! semiparameter a*(1-e**2) [km]
+    real(wp),intent(out)             :: p    !! semiparameter \(a(1-e^{2})\) [km]
     real(wp),intent(out)             :: ecc  !! eccentricity [--]
     real(wp),intent(out)             :: inc  !! inclination [rad]
     real(wp),intent(out)             :: raan !! raan [rad]
@@ -86,8 +89,8 @@
 
     implicit none
 
-    real(wp),intent(in)               :: mu   !! gravitational parameter [km^3/s^2]
-    real(wp),intent(in)               :: p    !! semiparameter a*(1-e**2) [km]
+    real(wp),intent(in)               :: mu   !! gravitational parameter [\(km^{3}/s^{2}\)]
+    real(wp),intent(in)               :: p    !! semiparameter \(a(1-e^{2})\) [km]
     real(wp),intent(in)               :: ecc  !! eccentricity [--]
     real(wp),intent(in)               :: inc  !! inclination [rad]
     real(wp),intent(in)               :: raan !! raan [rad]
@@ -158,6 +161,76 @@
     equatorial = (one - abs(cos(inc))) < tol  ! 0 or 180 deg
 
     end subroutine orbit_check
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Compute the two-body orbital period.
+
+    pure function orbit_period(mu,a) result(period)
+
+    implicit none
+
+    real(wp),intent(in) :: mu !! gravitational parameter [\(km^{3}/s^{2}\)]
+    real(wp),intent(in) :: a  !! semimajor axis [km]
+    real(wp) :: period        !! two-body orbital period [s]
+
+    period = twopi/sqrt(mu/a**3)
+
+    end function orbit_period
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Compute the two-body orbital energy.
+
+    pure function orbit_energy(mu,rv) result(energy)
+
+    implicit none
+
+    real(wp),intent(in) :: mu               !! gravitational parameter [\(km^{3}/s^{2}\)]
+    real(wp),dimension(6),intent(in) :: rv  !! position and velocity vector [km,km/s]
+    real(wp) :: energy                      !! two-body orbital energy [\(km^{2}/s^{2}\)]
+
+    real(wp) :: rmag  !! position vector magnitude [km]
+    real(wp) :: vmag  !! velocity vector magnitude [km]
+
+    rmag = norm2(rv(1:3))
+    vmag = norm2(rv(4:6))
+
+    energy = (vmag**2 / two) - (mu / rmag)
+
+    end function orbit_energy
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Compute the periapsis and apoapsis position and velocity magnitudes.
+
+    pure subroutine periapsis_apoapsis(mu,a,e,rp,ra,vp,va)
+
+    implicit none
+
+    real(wp),intent(in)  :: mu  !! gravitational parameter [\(km^{3}/s^{2}\)]
+    real(wp),intent(in)  :: a   !! semimajor axis [km]
+    real(wp),intent(in)  :: e   !! eccentricity [--]
+    real(wp),intent(out) :: rp  !! periapsis position magnitude [km]
+    real(wp),intent(out) :: ra  !! apoapsis position magnitude [km]
+    real(wp),intent(out) :: vp  !! periapsis velocity magnitude [km/s]
+    real(wp),intent(out) :: va  !! apoapsis velocity magnitude [km/s]
+
+    real(wp) :: rarp   !! \(r_a + r_p \)
+    real(wp) :: twomu  !! \( 2 \mu \)
+
+    twomu = two * mu
+
+    rp   = a*(one-e)
+    ra   = a*(one+e)
+    rarp = ra + rp
+    vp   = sqrt(twomu*ra/(rp*rarp))
+    va   = sqrt(twomu*rp/(ra*rarp))
+
+    end subroutine periapsis_apoapsis
 !*****************************************************************************************
 
 !*****************************************************************************************
