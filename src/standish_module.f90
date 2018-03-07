@@ -47,7 +47,8 @@
 
     use celestial_body_module
     use kind_module,            only: wp
-    use conversion_module,      only: deg2rad,rad2deg,year2day,day2sec,au2m,m2km
+    use conversion_module,      only: deg2rad,rad2deg,year2day,&
+                                      day2sec,au2m,m2km,day2century
     use numbers_module,         only: zero,one,two,twopi
     use ephemeris_module,       only: ephemeris_class
     use time_module,            only: et_to_jd
@@ -58,6 +59,8 @@
     private
 
     type,extends(ephemeris_class),public :: standish_ephemeris
+        !! Standish ephemeris class for computing the
+        !! approximate positions of the major planets.
     contains
         procedure,public :: get_rv => standish_rv_func
     end type standish_ephemeris
@@ -67,8 +70,6 @@
     real(wp),parameter :: obliquity = 23.43928_wp         !! obliquity at J2000 [deg]
     real(wp),parameter :: s_sobl = sin(obliquity*deg2rad) !! sin of j2000 obliquity
     real(wp),parameter :: s_cobl = cos(obliquity*deg2rad) !! cos of j2000 obliquity
-    real(wp),parameter :: s_dpc = 36525.0_wp              !! julian days per century
-    real(wp),parameter :: mu_sun = 39.47692641_wp         !! au^3/yr^2
     real(wp),parameter :: epoch = 2451545.0_wp            !! Julian date of J2000 epoch
 
     type,extends(base_class) :: ephem
@@ -462,7 +463,7 @@
         real(wp) :: t  !! centuries since epoch
         real(wp) :: tz !! perturbation term
 
-        t = (jd-epoch) / s_dpc
+        t = (jd-epoch) * day2century
 
         do i = 1, 6      ! a,e,i,l,w,o
             z (i) = o(i, np) + o(i+6, np) * t
