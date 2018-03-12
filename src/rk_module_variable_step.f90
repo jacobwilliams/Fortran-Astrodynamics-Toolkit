@@ -239,12 +239,20 @@
     class(stepsize_class),intent(inout)       :: me
     real(wp),intent(in),optional              :: hmin             !! minimum allowed step size (>0)
     real(wp),intent(in),optional              :: hmax             !! maximum allowed step size (>0)
-    real(wp),intent(in),optional              :: hfactor_reject   !! minimum allowed factor for decreasing step size after refected step (>0)
-    real(wp),intent(in),optional              :: hfactor_accept   !! maximum allowed factor for decreasing step size after accepted step (>0)
-    procedure(norm_func),optional             :: norm             !! the user-specified \( ||x|| \) function
-    integer,intent(in),optional               :: accept_mode      !! method to determine if step is accepted [1,2]
-    procedure(compute_h_factor_func),optional :: compute_h_factor !! routine for compute the `h` factor
-    integer,intent(in),optional               :: max_attempts     !! max step size change attempts after rejected step
+    real(wp),intent(in),optional              :: hfactor_reject   !! minimum allowed factor for
+                                                                  !! decreasing step size after
+                                                                  !! rejected step (>0)
+    real(wp),intent(in),optional              :: hfactor_accept   !! maximum allowed factor for
+                                                                  !! decreasing step size after
+                                                                  !! accepted step (>0)
+    procedure(norm_func),optional             :: norm             !! the user-specified \( ||x|| \)
+                                                                  !! function
+    integer,intent(in),optional               :: accept_mode      !! method to determine if step
+                                                                  !! is accepted [1,2]
+    procedure(compute_h_factor_func),optional :: compute_h_factor !! routine for compute the `h`
+                                                                  !! factor
+    integer,intent(in),optional               :: max_attempts     !! max step size change attempts
+                                                                  !! after rejected step
 
     if (present(hmin))             me%hmin             = abs(hmin)
     if (present(hmax))             me%hmax             = abs(hmax)
@@ -464,10 +472,16 @@
     class(rk_variable_step_class),intent(inout) :: me
     integer,intent(in)                          :: n               !! number of equations
     procedure(deriv_func)                       :: f               !! derivative function
-    real(wp),dimension(:),intent(in)            :: rtol            !! relative tolerance (if size=1, then same tol used for all equations)
-    real(wp),dimension(:),intent(in)            :: atol            !! absolute tolerance (if size=1, then same tol used for all equations)
+    real(wp),dimension(:),intent(in)            :: rtol            !! relative tolerance (if size=1,
+                                                                   !! then same tol used for all
+                                                                   !! equations)
+    real(wp),dimension(:),intent(in)            :: atol            !! absolute tolerance (if size=1,
+                                                                   !! then same tol used for all
+                                                                   !! equations)
     class(stepsize_class),intent(in)            :: stepsize_method !! method for varying the step size
-    integer,intent(in),optional                 :: hinit_method    !! which method to use for automatic initial step size computation.
+    integer,intent(in),optional                 :: hinit_method    !! which method to use for
+                                                                   !! automatic initial step size
+                                                                   !! computation.
                                                                    !! 1 = use `hstart`, 2 = use `hinit`.
     procedure(report_func),optional             :: report          !! for reporting the steps
     procedure(event_func),optional              :: g               !! for stopping at an event
@@ -523,7 +537,7 @@
 !>
 !  Main integration routine for the [[rk_variable_step_class]].
 
-    subroutine integrate(me,t0,x0,h,tf,xf)
+    subroutine integrate(me,t0,x0,h,tf,xf,ierr)
 
     implicit none
 
@@ -533,13 +547,25 @@
     real(wp),intent(in)               :: h     !! initial abs(time step)
     real(wp),intent(in)               :: tf    !! final time
     real(wp),dimension(:),intent(out) :: xf    !! final state
+    integer,intent(out),optional      :: ierr  !! 0 = no errors,
+                                               !! <0 = error.
+                                               !! if not present, an error will stop program.
 
     real(wp) :: t,dt,t2,err,tol,dt_new
     real(wp),dimension(me%n) :: x,terr,etol,xp0
     logical :: last,export,accept
     integer :: i,p
 
-    if (.not. associated(me%f)) error stop 'Error in integrate: f is not associated.'
+    if (present(ierr)) ierr = 0
+
+    if (.not. associated(me%f)) then
+        if (present(ierr)) then
+            ierr = -1
+            return
+        else
+            error stop 'Error in integrate: f is not associated.'
+        end if
+    end if
 
     me%num_rejected_steps = 0
     export = associated(me%report)
@@ -564,7 +590,12 @@
             case(2)
                 dt = me%hinit(t0,x0,sign(one,tf-t0),xp0,me%stepsize_method%hmax,me%atol,me%rtol)
             case default
-                error stop 'invalid hinit_method selection'
+                if (present(ierr)) then
+                    ierr = -2
+                    return
+                else
+                    error stop 'invalid hinit_method selection'
+                end if
             end select
             !write(*,*) 'inital step size: ',dt
         else
@@ -600,10 +631,20 @@
                     !note: if we have reached the min step size, and the error
                     !is still too large, we can't proceed.
                     if (i>=me%stepsize_method%max_attempts) then
-                        error stop 'error: too many attempts to reduce step size.'
+                        if (present(ierr)) then
+                            ierr = -3
+                            return
+                        else
+                            error stop 'error: too many attempts to reduce step size.'
+                        end if
                     end if
                     if (abs(dt) <= abs(me%stepsize_method%hmin)) then
-                        error stop 'warning: min step size.'
+                        if (present(ierr)) then
+                            ierr = -4
+                            return
+                        else
+                            error stop 'warning: min step size.'
+                        end if
                     end if
 
                     !......
@@ -641,7 +682,7 @@
 !@note There are some efficiency improvements that could be made here.
 !      This is a work in progress.
 
-    subroutine integrate_to_event(me,t0,x0,h,tmax,tol,tf,xf,gf)
+    subroutine integrate_to_event(me,t0,x0,h,tmax,tol,tf,xf,gf,ierr)
 
     use brent_module
 
@@ -656,6 +697,9 @@
     real(wp),intent(out)                 :: tf      !! actual final time reached
     real(wp),dimension(me%n),intent(out) :: xf      !! final state (at tf)
     real(wp),intent(out)                 :: gf      !! g value at tf
+    integer,intent(out),optional      :: ierr  !! 0 = no errors,
+                                               !! <0 = error.
+                                               !! if not present, an error will stop program.
 
     real(wp),dimension(me%n) :: etol,xp0
     real(wp),dimension(me%n) :: x,g_xf
@@ -666,8 +710,24 @@
     procedure(report_func),pointer :: report
     type(brent_class) :: solver
 
-    if (.not. associated(me%f)) error stop 'Error in integrate_to_event: f is not associated.'
-    if (.not. associated(me%g)) error stop 'Error in integrate_to_event: g is not associated.'
+    if (present(ierr)) ierr = 0
+
+    if (.not. associated(me%f)) then
+        if (present(ierr)) then
+            ierr = -1
+            return
+        else
+            error stop 'Error in integrate_to_event: f is not associated.'
+        end if
+    end if
+    if (.not. associated(me%g)) then
+        if (present(ierr)) then
+            ierr = -2
+            return
+        else
+            error stop 'Error in integrate_to_event: g is not associated.'
+        end if
+    end if
 
     me%num_rejected_steps = 0
     export = associated(me%report)
@@ -696,7 +756,12 @@
             case(2)
                 dt = me%hinit(t0,x0,sign(one,tmax-t0),xp0,me%stepsize_method%hmax,me%atol,me%rtol)
             case default
-                error stop 'invalid hinit_method selection'
+                if (present(ierr)) then
+                    ierr = -3
+                    return
+                else
+                    error stop 'invalid hinit_method selection'
+                end if
             end select
         else
             ! user-specified initial step size:
@@ -735,10 +800,20 @@
                     !note: if we have reached the min step size, and the error
                     !is still too large, we can't proceed.
                     if (i>=me%stepsize_method%max_attempts) then
-                        error stop 'error: too many attempts to reduce step size.'
+                        if (present(ierr)) then
+                            ierr = -4
+                            return
+                        else
+                            error stop 'error: too many attempts to reduce step size.'
+                        end if
                     end if
                     if (abs(dt) <= abs(me%stepsize_method%hmin)) then
-                        error stop 'warning: min step size.'
+                        if (present(ierr)) then
+                            ierr = -5
+                            return
+                        else
+                            error stop 'warning: min step size.'
+                        end if
                     end if
 
                     !......
@@ -1920,7 +1995,7 @@
 
     type(spacecraft) :: s, s2
     real(wp) :: t0,tf,x0(n),dt,xf(n),x02(n),gf,tf_actual,rtol,atol
-
+    integer :: ierr !! error flag
     type(stepsize_class) :: sz
 
     write(*,*) ''
@@ -1997,8 +2072,9 @@
    dt = 10.0_wp    !time step (sec)
    tf = 1000.0_wp  !final time (sec)
 
-   call s2%integrate_to_event(t0,x0,dt,tf,tol,tf_actual,xf,gf)
+   call s2%integrate_to_event(t0,x0,dt,tf,tol,tf_actual,xf,gf,ierr)
    write(*,*) ''
+   write(*,'(A,I5)')         'ierr:       ',ierr
    write(*,'(A/,*(F15.6/))') 'Final time: ',tf_actual
    write(*,'(A/,*(F15.6/))') 'Final state:',xf
    write(*,'(A/,*(F15.6/))') 'Event func :',gf
