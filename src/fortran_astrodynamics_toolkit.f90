@@ -23,6 +23,7 @@
     use geopotential_module
     use gooding_module
     use gravity_module
+    use halo_orbit_module
     use iau_orientation_module
     use jpl_ephemeris_module
     use kepler_module

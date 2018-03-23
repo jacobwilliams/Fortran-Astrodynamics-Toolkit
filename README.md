@@ -39,6 +39,7 @@ The goal is to produce a comprehensive library, written in modern Fortran (Fortr
   - [x] Modified equinoctial elements
  * Misc
   - [x] orbital element conversions
+  - [x] halo orbits
   - [ ] targeting and optimization
   - [ ] spacecraft engine models
 
