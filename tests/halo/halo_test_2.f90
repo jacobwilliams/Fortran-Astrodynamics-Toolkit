@@ -9,7 +9,6 @@
 
     use fortran_astrodynamics_toolkit
     use pyplot_module
-    use halo_orbit_module
 
     implicit none
 
@@ -21,13 +20,21 @@
     integer,parameter  :: n  = 6             !! number of state variables
     real(wp),parameter :: Az_step =1000.0_wp !! Az step size (km)
 
-    real(wp),dimension(n) :: rv  !! halo orbit initial state
+    real(wp),dimension(n) :: rv     !! halo orbit initial state
+    real(wp),dimension(n,n) :: phi  !! monodromy matrix
+    real(wp),dimension(n,2) :: w    !! real and and imaginary parts of the eigenvalues of `phi`
+    real(wp),dimension(n,n) :: z    !! real and imaginary parts of the eigenvectors of `phi`
     integer  :: libpoint         !! libration point (1,2,3)
     integer  :: i                !! counter
+    integer  :: j                !! counter
     real(wp) :: Az               !! halo z-amplitude (km)
     integer  :: info             !! minpack status code
     integer  :: sol_family       !! 1 or 3 (family)
     real(wp) :: period           !! halo period (normalized time)
+    integer  :: ierr             !! output flag from [[compute_eigenvalues_and_eigenvectors]]
+    real(wp) :: mu               !! CRTBP parameter
+
+    mu = compute_crtpb_parameter(mu_earth,mu_moon)
 
     do libpoint = 1, 3
         write(*,*) ''
@@ -51,6 +58,28 @@
                                     rv(4),',',&
                                     rv(5),',',&
                                     rv(6),']', period
+
+                if (libpoint==1 .and. sol_family==1 .and. i==1) then
+
+                    call compute_halo_monodromy_matrix(mu,rv,period,phi)
+                    write(*,*) ''
+                    write(*,*) 'monodromy matrix:'
+                    write(*,*) ''
+                    call print_matrix(phi)
+                    write(*,*) ''
+
+                    call compute_eigenvalues_and_eigenvectors(6, phi, w, z, ierr)
+                    write(*,*) ''
+                    write(*,*) 'eigenvalues:'
+                    write(*,*) ''
+                    call print_matrix(w)
+                    write(*,*) ''
+                    write(*,*) 'eigenvectors:'
+                    write(*,*) ''
+                    call print_matrix(z)
+                    write(*,*) ''
+
+                end if
             end do
         end do
     end do

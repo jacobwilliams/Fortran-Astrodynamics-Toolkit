@@ -10,13 +10,9 @@
 
     module halo_orbit_module
 
-    use numbers_module
     use iso_fortran_env, only: wp => real64
-    use crtbp_module, only: compute_libration_points,&
-                            unnormalize_variables,&
-                            compute_crtpb_parameter,&
-                            normalize_variables,&
-                            crtbp_derivs
+    use numbers_module
+    use crtbp_module
 
     implicit none
 
@@ -24,6 +20,7 @@
 
     public :: halo_to_rv
     public :: halo_to_rv_diffcorr
+    public :: compute_halo_monodromy_matrix
 
     public :: halo_orbit_test ! test routine
 
@@ -323,31 +320,107 @@
     rv(4:6) = rv(4:6) * gamma_l * (lambda*w)
     rv(1)   = rv(1) + x_libpoint(libpoint)
 
+    contains
+!*******************************************************************************
+
+    !***************************************************************************
+        pure function c_n(lib,n,mu,gl) result(cn)
+
+        !! Equations 8a, 8b in the reference.
+
+        implicit none
+
+        integer,intent(in)   :: lib  !! libration point (1,2,3)
+        integer,intent(in)   :: n    !! the n in cn
+        real(wp),intent(in)  :: mu   !! cr3bp normalized grav parameter
+        real(wp),intent(in)  :: gl   !! \( \gamma_l \)
+        real(wp)             :: cn   !! result
+
+        ! Equation 8a and 8b:
+        select case(lib)
+        case(1); cn = (mu+(-1)**n*(one-mu)*(gl/(one-gl))**(n+1)  )/gl**3
+        case(2); cn = ((-1)**n*(mu+(one-mu)*(gl/(one+gl))**(n+1)))/gl**3
+        case(3); cn = (one-mu+mu*(gl/(one+gl))**(n+1)            )/gl**3
+        end select
+
+        end function c_n
+    !***************************************************************************
+
     end subroutine halo_to_rv
 !*******************************************************************************
 
 !*******************************************************************************
 !>
-!  Equations 8a, 8b in the reference.
+!  Compute the halo orbit monodromy matrix
+!  (which is the state transition matrix propagated for one period)
+!  The input should be the result from the [[halo_to_rv_diffcorr]] routine.
 
-    pure function c_n(lib,n,mu,gl) result(cn)
+    subroutine compute_halo_monodromy_matrix(mu,rv,period,phi)
+
+    use rk_module
 
     implicit none
 
-    integer,intent(in)   :: lib  !! libration point (1,2,3)
-    integer,intent(in)   :: n    !! the n in cn
-    real(wp),intent(in)  :: mu   !! cr3bp normalized grav parameter
-    real(wp),intent(in)  :: gl   !! \( \gamma_l \)
-    real(wp)             :: cn
+    real(wp),intent(in)                 :: mu     !! CRTBP parameter
+    real(wp),dimension(6),intent(in)    :: rv     !! halo orbit state vector
+                                                  !! (normalized)
+    real(wp),intent(in)                 :: period !! halo orbit period
+                                                  !! (normalized)
+    real(wp),dimension(6,6),intent(out) :: phi    !! monodromy matrix
 
-    ! Equation 8a and 8b:
-    select case(lib)
-    case(1); cn = (mu+(-1)**n*(one-mu)*(gl/(one-gl))**(n+1)  )/gl**3
-    case(2); cn = ((-1)**n*(mu+(one-mu)*(gl/(one+gl))**(n+1)))/gl**3
-    case(3); cn = (one-mu+mu*(gl/(one+gl))**(n+1)            )/gl**3
-    end select
+    real(wp),parameter :: t0 = zero  !! initial time (normalized)
+                                     !! (epoch doesn't matter for cr3bp)
+    integer,parameter  :: n_steps_per_rev = 100   !! number of integration steps
+                                                  !! per orbit rev
 
-    end function c_n
+    real(wp),dimension(42)  :: x0     !! initial normalized state and STM
+    real(wp),dimension(42)  :: xf     !! final normalized state and STM
+    real(wp),dimension(6,6) :: phi0   !! initial STM
+    integer                 :: i      !! counter
+    type(rk8_10_class)      :: prop   !! integrator
+    real(wp)                :: dt     !! integration time step (normalized)
+
+    ! initial state:
+    x0(1:6) = rv
+
+    ! initial stm is the identity matrix:
+    phi0 = zero
+    do i = 1, 6
+       phi0(i,i) = one
+    end do
+    x0(7:42) = pack (phi0, mask=.true.)
+
+    ! for now, use a fixed time step:
+    ! (same as was used in [[halo_to_rv_diffcorr]])
+    dt = period / real(n_steps_per_rev,wp)
+
+    ! initialize the integrator:
+    call prop%initialize(42,func)
+
+    ! propagate for one period:
+    call prop%integrate(t0,x0,dt,period,xf)
+
+    ! extract the STM:
+    phi = reshape(xf(7:42), shape=[6,6])
+
+    contains
+!*******************************************************************************
+
+    !***************************************************************************
+        subroutine func(me,t,x,xdot)
+        !! CRTBP derivative function (with STM)
+        implicit none
+        class(rk_class),intent(inout)        :: me
+        real(wp),intent(in)                  :: t
+        real(wp),dimension(me%n),intent(in)  :: x
+        real(wp),dimension(me%n),intent(out) :: xdot
+
+        call crtbp_derivs_with_stm(mu,x,xdot)
+
+        end subroutine func
+    !**************************************************************************
+
+    end subroutine compute_halo_monodromy_matrix
 !*******************************************************************************
 
 !*******************************************************************************
