@@ -59,12 +59,13 @@
     integer,intent(out) :: info             !! status code (1=no errors)
     real(wp),intent(out),optional :: period !! period of halo (normalized time units)
 
-    integer,parameter  :: n_state_vars = 6         !! number of state variables in the equations of motion
-    integer,parameter  :: n_opt_vars   = 2         !! number of variables in the targeting problem
-    real(wp),parameter :: t0           = 0.0_wp    !! initial time (normalized) (epoch doesn't matter for cr3bp)
-    real(wp),parameter :: tol          = 1.0e-8_wp !! tolerance for event finding
-    real(wp),parameter :: xtol         = 1.0e-6_wp !! tolerance for [[hybrd]]
-    integer,parameter  :: maxfev       = 1000      !! max number of function evaluations for [[hybrd]]
+    integer,parameter  :: n_state_vars    = 6         !! number of state variables in the equations of motion
+    integer,parameter  :: n_opt_vars      = 2         !! number of variables in the targeting problem
+    real(wp),parameter :: t0              = 0.0_wp    !! initial time (normalized) (epoch doesn't matter for cr3bp)
+    real(wp),parameter :: tol             = 1.0e-8_wp !! tolerance for event finding
+    real(wp),parameter :: xtol            = 1.0e-6_wp !! tolerance for [[hybrd]]
+    integer,parameter  :: maxfev          = 1000      !! max number of function evaluations for [[hybrd]]
+    integer,parameter  :: n_steps_per_rev = 100       !! number of integration steps per orbit rev
 
     type(rk8_10_class)               :: prop   !! integrator
     real(wp),dimension(n_opt_vars)   :: x_vy0  !! variables in the targeting problem (x0 and vy0)
@@ -87,8 +88,8 @@
     ! first we get the halo state approximation at tau1=0:
     call halo_to_rv(libpoint,mu1,mu2,dist,A_z,n,zero,x0,approx_period)
 
-    ! for now, just take 100 integration steps per period:
-    dt = approx_period / 100.0_wp
+    ! for now, fixed number of integration steps per period:
+    dt = approx_period / real(n_steps_per_rev,wp)
     tmax = two * approx_period ! should be enough to find the x-z crossing
 
     ! initialize the integrator:
@@ -150,8 +151,6 @@
 
         real(wp) :: gf
         real(wp),dimension(6) :: x,x1,xf
-
-        real(wp),parameter :: tol = 1.0e-8_wp !! event finding tolerance
 
         x    = x0      ! initial guess state (z is held fixed)
         x(1) = xvec(1) ! x0
