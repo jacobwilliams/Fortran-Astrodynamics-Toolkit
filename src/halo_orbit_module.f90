@@ -10,18 +10,21 @@
 
     module halo_orbit_module
 
-    use iso_fortran_env, only: wp => real64
     use numbers_module
+    use iso_fortran_env, only: wp => real64
     use crtbp_module, only: compute_libration_points,&
                             unnormalize_variables,&
                             compute_crtpb_parameter,&
-                            normalize_variables
+                            normalize_variables,&
+                            crtbp_derivs
 
     implicit none
 
     private
 
     public :: halo_to_rv
+    public :: halo_to_rv_diffcorr
+
     public :: halo_orbit_test ! test routine
 
     contains
@@ -29,11 +32,18 @@
 
 !*******************************************************************************
 !>
-!  Compute the state vector from the halo orbit approximation.
-!  This will be an approximation of a halo orbit in the CR3BP system,
-!  and will need to be corrected to produce a real halo orbit.
+!  Compute the state vector for a halo orbit.
+!  This uses the approximation, which is retargeted in the
+!  real CR3BP system to produce a periodic orbit.
+!
+!@todo use a variable-step size integrator
 
-    subroutine halo_to_rv(libpoint,mu1,mu2,dist,A_z,n,t1,rv)
+    subroutine halo_to_rv_diffcorr(libpoint,mu1,mu2,dist,A_z,n,t1,rv,info,period)
+
+    use rk_module
+    use minpack_module
+    use iso_fortran_env, only: error_unit
+    use math_module,     only: wrap_angle
 
     implicit none
 
@@ -46,6 +56,167 @@
     real(wp),intent(in) :: t1               !! tau1 [rad]
     real(wp),dimension(6),intent(out) :: rv !! cr3bp normalized state vector
                                             !! [wrt barycenter]
+    integer,intent(out) :: info             !! status code (1=no errors)
+    real(wp),intent(out),optional :: period !! period of halo (normalized time units)
+
+    integer,parameter  :: n_state_vars = 6         !! number of state variables in the equations of motion
+    integer,parameter  :: n_opt_vars   = 2         !! number of variables in the targeting problem
+    real(wp),parameter :: t0           = 0.0_wp    !! initial time (normalized) (epoch doesn't matter for cr3bp)
+    real(wp),parameter :: tol          = 1.0e-8_wp !! tolerance for event finding
+    real(wp),parameter :: xtol         = 1.0e-6_wp !! tolerance for [[hybrd]]
+    integer,parameter  :: maxfev       = 1000      !! max number of function evaluations for [[hybrd]]
+
+    type(rk8_10_class)               :: prop   !! integrator
+    real(wp),dimension(n_opt_vars)   :: x_vy0  !! variables in the targeting problem (x0 and vy0)
+    real(wp),dimension(n_opt_vars)   :: vx_vzf !! constraints in the targeting problem (vxf and vzf)
+    real(wp),dimension(n_state_vars) :: x0     !! halo initial guess from richardson approximation
+    real(wp),dimension(n_state_vars) :: xf     !! state after 1/2 rev (to get the period)
+    real(wp) :: tf_actual     !! 1/2 period for retargeted orbit (normalized time)
+    real(wp) :: actual_period !! actual halo orbit period for retargeted orbit (normalized time)
+    real(wp) :: approx_period !! period approximation (normalized time)
+    real(wp) :: dt_to_t1      !! time from `t1=0` to input `t1`
+    real(wp) :: gf            !! function value after 1/2 rev (y-coordinate)
+    real(wp) :: tau           !! `t1` wrapped from \(- \pi \) to \( \pi \)
+    real(wp) :: dt            !! time step (normalized)
+    real(wp) :: tmax          !! max final time for event finding integration
+    real(wp) :: mu            !! CRTBP parameter
+
+    ! compute the CRTBP mu parameter:
+    mu = compute_crtpb_parameter(mu1,mu2)
+
+    ! first we get the halo state approximation at tau1=0:
+    call halo_to_rv(libpoint,mu1,mu2,dist,A_z,n,zero,x0,approx_period)
+
+    ! for now, just take 100 integration steps per period:
+    dt = approx_period / 100.0_wp
+    tmax = two * approx_period ! should be enough to find the x-z crossing
+
+    ! initialize the integrator:
+    call prop%initialize(n_state_vars,func,g=xz_plane_crossing)
+
+    ! now, solve for a halo:
+    x_vy0 = [x0(1),x0(5)]  ! x0 and vy0
+    call hybrd1(halo_fcn,2,x_vy0,vx_vzf,tol=xtol,info=info)
+    if (info==1) then ! solution converged
+
+        ! now have the solution at t1=0:
+        x0(1) = x_vy0(1)
+        x0(5) = x_vy0(2)
+
+        ! this is the t1 we want:
+        tau = wrap_angle(t1)
+
+        ! if we need the period:
+        if (present(period) .or. tau/=zero) then
+            ! integrate to the first x-axis crossings (one half rev):
+            ! [need to check output...]
+            call prop%integrate_to_event(t0,x0,dt,tmax,tol,tf_actual,xf,gf)
+            actual_period = two * tf_actual ! normalized period
+        end if
+
+        ! now we want to propagate to the input tau1
+        if (tau==zero) then
+            ! already have the solution
+            rv = x0
+        else
+            ! now, integrate from t1=0 to input t1 to get rv:
+            dt_to_t1 = actual_period * (tau / twopi)
+            call prop%integrate(t0,x0,dt,dt_to_t1,rv)
+        end if
+
+        if (present(period)) period = actual_period
+
+    else ! there was an error
+        write(error_unit,'(A)') 'Error: the halo targeting problem did not converge.'
+        rv = x0
+    end if
+
+    !call prop%destroy()
+
+    contains
+!*******************************************************************************
+
+    !***************************************************************************
+        subroutine halo_fcn(n,xvec,fvec,iflag)
+        !! Halo function for [[hybrd1]]
+
+        implicit none
+
+        integer,intent(in)                :: n      !! `n=2` in this case
+        real(wp),dimension(n),intent(in)  :: xvec   !! x_vy0
+        real(wp),dimension(n),intent(out) :: fvec   !! [vxf,vzf]
+        integer,intent(inout)             :: iflag  !! status flag (set negative
+                                                    !! to terminate solver)
+
+        real(wp) :: gf
+        real(wp),dimension(6) :: x,x1,xf
+
+        real(wp),parameter :: tol = 1.0e-8_wp !! event finding tolerance
+
+        x    = x0      ! initial guess state (z is held fixed)
+        x(1) = xvec(1) ! x0
+        x(5) = xvec(2) ! vy0
+
+        !integrate to the next x-z-plane crossing:
+        call prop%integrate_to_event(t0,x,dt,tmax,tol,tf_actual,xf,gf)
+
+        !want x and z-velocity at the x-z-plane crossing to be zero:
+        fvec = [xf(4),xf(6)]
+
+        end subroutine halo_fcn
+    !***************************************************************************
+
+    !***************************************************************************
+        subroutine func(me,t,x,xdot)
+        !! CRTBP derivative function
+        implicit none
+        class(rk_class),intent(inout)        :: me
+        real(wp),intent(in)                  :: t
+        real(wp),dimension(me%n),intent(in)  :: x
+        real(wp),dimension(me%n),intent(out) :: xdot
+
+        call crtbp_derivs(mu,x,xdot)
+
+        end subroutine func
+    !**************************************************************************
+
+    !***************************************************************************
+        subroutine xz_plane_crossing(me,t,x,g)
+        !! x-z-plane crossing event function
+        implicit none
+        class(rk_class),intent(inout)        :: me
+        real(wp),intent(in)                  :: t
+        real(wp),dimension(me%n),intent(in)  :: x
+        real(wp),intent(out)                 :: g
+
+        g = x(2)  ! y = 0 at x-z-plane crossing
+
+        end subroutine xz_plane_crossing
+    !***************************************************************************
+
+    end subroutine halo_to_rv_diffcorr
+!*******************************************************************************
+
+!*******************************************************************************
+!>
+!  Compute the state vector from the halo orbit approximation.
+!  This will be an approximation of a halo orbit in the CR3BP system,
+!  and will need to be corrected to produce a real halo orbit.
+
+    subroutine halo_to_rv(libpoint,mu1,mu2,dist,A_z,n,t1,rv,period)
+
+    implicit none
+
+    integer,intent(in)  :: libpoint         !! Libration point number: [1,2,3]
+    real(wp),intent(in) :: mu1              !! grav param for primary body [km3/s2]
+    real(wp),intent(in) :: mu2              !! grav param for secondary body [km3/s2]
+    real(wp),intent(in) :: dist             !! distance between bodies [km]
+    real(wp),intent(in) :: A_z              !! halo z amplitude [km]
+    integer,intent(in)  :: n                !! halo family: 1, 3
+    real(wp),intent(in) :: t1               !! tau1 [rad]
+    real(wp),dimension(6),intent(out) :: rv !! cr3bp normalized state vector
+                                            !! [wrt barycenter]
+    real(wp),intent(out),optional :: period !! normalized halo orbit period
 
     real(wp) :: mu          !! CRTBP parameter
     integer  :: delta_n     !! 2 - n
@@ -58,6 +229,11 @@
                 d1,d2,d21,d3,d31,d32,k,l1,l2,s1,s2
     real(wp),dimension(3) :: x_libpoint  !! x-coordinates of the libration
                                          !! point (wrt barycenter, normalized)
+
+    ! error check:
+    if (n/=1 .and. n/=3) then
+        error stop 'invalid n input to halo_to_rv'
+    end if
 
     ! compute all the intermediate parameters:
     mu = compute_crtpb_parameter(mu1,mu2)
@@ -123,6 +299,8 @@
     d32     = three*(four*c3*(a23-d21)+c4*(four+k**2))/64.0_wp/lambda**2
     delta_n = 2 - n  ! equation 21
 
+    if (present(period)) period = twopi/(lambda*w)
+
     ! Equations 20a, 20b, 20c (and their derivatives):
     x  = a21*Ax2+a22*Az2-Ax*cos(t1)+&
          (a23*Ax2-a24*Az2)*cos(two*t1)+&
@@ -145,63 +323,6 @@
     rv(1:3) = rv(1:3) * gamma_l
     rv(4:6) = rv(4:6) * gamma_l * (lambda*w)
     rv(1)   = rv(1) + x_libpoint(libpoint)
-
-    ! write(*,*) ''
-    ! write(*,*) 'mu      ', mu
-    ! write(*,*) 'gamma_l ', gamma_l
-    ! write(*,*) 'w       ', w
-    ! write(*,*) 'c2      ', c2
-    ! write(*,*) 'c3      ', c3
-    ! write(*,*) 'c4      ', c4
-    ! write(*,*) 'lambda  ', lambda
-    ! write(*,*) 'k       ', k
-    ! write(*,*) 'delta   ', delta
-    ! write(*,*) 'd1      ', d1
-    ! write(*,*) 'd2      ', d2
-    ! write(*,*) 'd3      ', d3
-    ! write(*,*) 'a21     ', a21
-    ! write(*,*) 'a23     ', a23
-    ! write(*,*) 'b21     ', b21
-    ! write(*,*) 's1      ', s1
-    ! write(*,*) 'a22     ', a22
-    ! write(*,*) 'a24     ', a24
-    ! write(*,*) 'b22     ', b22
-    ! write(*,*) 'd21     ', d21
-    ! write(*,*) 's2      ', s2
-    ! write(*,*) 'a1      ', a1
-    ! write(*,*) 'a2      ', a2
-    ! write(*,*) 'l1      ', l1
-    ! write(*,*) 'l2      ', l2
-    ! write(*,*) 'Ax2     ', Ax2
-    ! write(*,*) 'Az2     ', Az2
-    ! write(*,*) 'Ax      ', Ax
-    ! write(*,*) 'Ay      ', Ay
-    ! write(*,*) 'Az      ', Az
-    ! write(*,*) 'Ax      ', Ax*dist*gamma_l, 'km'
-    ! write(*,*) 'Ay      ', Ay*dist*gamma_l, 'km'
-    ! write(*,*) 'Az      ', Az*dist*gamma_l, 'km'
-    ! write(*,*) 'a31     ', a31
-    ! write(*,*) 'a32     ', a32
-    ! write(*,*) 'b31     ', b31
-    ! write(*,*) 'b32     ', b32
-    ! write(*,*) 'd31     ', d31
-    ! write(*,*) 'd32     ', d32
-    ! write(*,*) 'delta_n ', delta_n
-    ! write(*,*) ''
-    ! write(*,*) 'rich x:   ',x
-    ! write(*,*) 'rich y:   ',y
-    ! write(*,*) 'rich z:   ',z
-    ! write(*,*) 'rich vx:  ',vx
-    ! write(*,*) 'rich vy:  ',vy
-    ! write(*,*) 'rich vz:  ',vz
-    ! write(*,*) ''
-    ! write(*,*) 'bary: x:  ', rv(1)
-    ! write(*,*) 'bary: y:  ', rv(2)
-    ! write(*,*) 'bary: z:  ', rv(3)
-    ! write(*,*) 'bary: vx: ', rv(4)
-    ! write(*,*) 'bary: vy: ', rv(5)
-    ! write(*,*) 'bary: vz: ', rv(6)
-    ! write(*,*) ''
 
     end subroutine halo_to_rv
 !*******************************************************************************
