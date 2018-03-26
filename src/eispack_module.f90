@@ -1381,6 +1381,7 @@
     else
        Ierr = 10*n
     endif
+
  end subroutine rg
 !*****************************************************************************************
 
@@ -1389,7 +1390,11 @@
 !  Compute the eigenvalues and, optionally, the eigenvectors
 !  of a real general matrix.
 !
-!  See [[rg]] for more details. This routine is just a wrapper to that one.
+!### See also
+!  * See [[rg]] for more details. This routine is just a wrapper to that one.
+!
+!### Author
+!  * Jacob Williams, 3/25/2018
 
     subroutine compute_eigenvalues_and_eigenvectors(n, a, w, z, ierr)
 
