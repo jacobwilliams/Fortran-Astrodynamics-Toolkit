@@ -1402,9 +1402,9 @@
 
     implicit none
 
-    integer,intent(in)                  :: n    !! the order of the matrix `a`.
-    real(wp),dimension(n,n),intent(in)  :: a    !! contains the real general matrix.
-    real(wp),dimension(n,2),intent(out) :: w    !! real and and imaginary parts of the eigenvalues.
+    integer,intent(in)                  :: n    !! the order of the matrix `a`
+    real(wp),dimension(n,n),intent(in)  :: a    !! contains the real general matrix
+    real(wp),dimension(n,2),intent(out) :: w    !! real and imaginary parts of the eigenvalues
     real(wp),dimension(n,n),intent(out) :: z    !! real and imaginary parts of the eigenvectors
     integer,intent(out)                 :: ierr !! output flag from [[rg]]
 
