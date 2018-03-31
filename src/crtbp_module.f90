@@ -18,7 +18,7 @@
     public :: crtbp_derivs
     public :: crtbp_derivs_with_stm
     public :: normalize_variables, unnormalize_variables
-    public :: compute_libration_points
+    public :: compute_libration_points,compute_libration_points_v2
     public :: crtbp_test
 
     contains
@@ -223,7 +223,7 @@
            fp = 5.0_wp * x**4 - &
                 4.0_wp * x**3 * (3.0_wp - mu) + &
                 3.0_wp * x**2 * (3.0_wp - 2.0_wp * mu) - &
-                2.0_wp * x * mu - &
+                2.0_wp * x * mu + &
                 2.0_wp * mu
            x = x - f / fp
         end do
@@ -278,6 +278,75 @@
     if (present(r5)) r5 = [0.5_wp - mu, -sqrt(3.0_wp)/2.0_wp]
 
     end subroutine compute_libration_points
+!*******************************************************************************
+
+!*******************************************************************************
+!>
+!  Compute the coordinates of the libration points (L1,L2,L3,L4,L5).
+!
+!  This is just an alternate version of [[compute_libration_points]].
+!
+!### Reference
+!  * J.S. Parker, R.L. Anderson, "Low-Energy Lunar Trajectory Design", 2014.
+!   (Appendix A.5)
+!
+!@note The coordinate are w.r.t. the barycenter of the system.
+
+    subroutine compute_libration_points_v2(mu,r1,r2,r3,r4,r5)
+
+    use math_module, only: cube_root
+
+    implicit none
+
+    real(wp),intent(in)                        :: mu  !! CRTBP parameter
+    real(wp),intent(out),optional              :: r1  !! L1 x coordinate
+    real(wp),intent(out),optional              :: r2  !! L2 x coordinate
+    real(wp),intent(out),optional              :: r3  !! L3 x coordinate
+    real(wp),dimension(2),intent(out),optional :: r4  !! L4 [x,y] coordinates
+    real(wp),dimension(2),intent(out),optional :: r5  !! L5 [x,y] coordinates
+
+    integer,parameter  :: maxiter = 100    !! maximum number of iterations
+    real(wp),parameter :: tol = 1.0e-12_wp !! convergence tolerance
+
+    real(wp) :: gamma, gamma0
+    integer :: i !! counter
+
+    if (present(r1)) then
+        gamma0 = cube_root(mu * (one-mu) / three)
+        gamma = gamma0 + one
+        do i = 1,maxiter
+            if (abs(gamma-gamma0)<=tol) exit
+            gamma0 = gamma
+            gamma = cube_root((mu*(gamma0-one)**2)/(three-two*mu-gamma0*(three-mu-gamma0)))
+        end do
+        r1 = one - mu - gamma
+    end if
+
+    if (present(r2)) then
+        gamma0 = cube_root(mu * (one-mu) / three)
+        gamma = gamma0 + one
+        do i = 1,maxiter
+            if (abs(gamma-gamma0)<=tol) exit
+            gamma0 = gamma
+            gamma = cube_root((mu*(gamma0+one)**2)/(three-two*mu+gamma0*(three-mu+gamma0)))
+        end do
+        r2 = one - mu + gamma
+    end if
+
+    if (present(r3)) then
+        gamma0 = cube_root(mu * (one-mu) / three)
+        gamma = gamma0 + one
+        do i = 1,maxiter
+            if (abs(gamma-gamma0)<=tol) exit
+            gamma0 = gamma
+            gamma = cube_root((one-mu)*(gamma0+one)**2/(one+two*mu+gamma0*(two+mu+gamma0)))
+        end do
+        r3 = - mu - gamma
+    end if
+
+    call compute_libration_points(mu,r4=r4,r5=r5)
+
+    end subroutine compute_libration_points_v2
 !*******************************************************************************
 
 !*******************************************************************************
@@ -438,6 +507,8 @@
     real(wp)                :: r1      !! L1 x coordinate (normalized)
     real(wp)                :: r2      !! L2 x coordinate (normalized)
     real(wp)                :: r3      !! L3 x coordinate (normalized)
+    real(wp),dimension(2)   :: r4      !! L4 x coordinate (normalized)
+    real(wp),dimension(2)   :: r5      !! L5 x coordinate (normalized)
 
     !create an identity matrix for stm initial condition:
     eye = zero
@@ -452,32 +523,48 @@
     write(*,*) '---------------'
     write(*,*) ''
 
-    do i=1,2
+    do i=1,3
 
-        if (i==1) then
+        select case (i)
+        case(1)
             mu1 = mu_earth
             mu2 = mu_moon
-        else
+        case(2)
             mu1 = mu_earth
             mu2 = mu_earth
-        end if
+        case(3)
+            mu1 = mu_earth + mu_moon/four
+            mu2 = mu_earth
+        end select
 
         write(*,*) ''
         mu = compute_crtpb_parameter(mu1,mu2)
         c = compute_jacobi_constant(mu,x)
         call crtbp_derivs(mu,x,xd)
         call crtbp_derivs_with_stm(mu,x_phi,x_phi_d)
-        call compute_libration_points(mu,r1,r2,r3)
+        call compute_libration_points(mu,r1,r2,r3,r4,r5)
 
-        write(*,'(A,1X,*(F30.16,1X))') 'mu:         ', mu
-        write(*,'(A,1X,*(F12.6,1X))' ) 'L1 x:       ', r1
-        write(*,'(A,1X,*(F12.6,1X))' ) 'L2 x:       ', r2
-        write(*,'(A,1X,*(F12.6,1X))' ) 'L3 x:       ', r3
-        write(*,'(A,1X,*(F12.6,1X))' ) 'x:          ', x
-        write(*,'(A,1X,*(F12.6,1X))' ) 'c:          ', c
-        write(*,'(A,1X,*(F12.6,1X))' ) 'xd:         ', xd
-        write(*,'(A,1X,*(F12.6,1X))' ) 'x+phi:      ', x_phi
-        write(*,'(A,1X,*(F12.6,1X))' ) 'xd+phi_dot: ', x_phi_d
+        write(*,'(A,1X,*(F30.16,1X))')  'mu:         ', mu
+        write(*,'(A,1X,*(F30.16,1X))' ) 'L1 x:       ', r1
+        write(*,'(A,1X,*(F30.16,1X))' ) 'L2 x:       ', r2
+        write(*,'(A,1X,*(F30.16,1X))' ) 'L3 x:       ', r3
+        write(*,'(A,1X,*(F30.16,1X))' ) 'L4 x:       ', r4
+        write(*,'(A,1X,*(F30.16,1X))' ) 'L5 x:       ', r5
+        write(*,'(A,1X,*(F30.16,1X))' ) 'x:          ', x
+        write(*,'(A,1X,*(F30.16,1X))' ) 'c:          ', c
+        write(*,'(A,1X,*(F30.16,1X))' ) 'xd:         ', xd
+        write(*,'(A,1X,*(F30.16,1X))' ) 'x+phi:      ', x_phi
+        write(*,'(A,1X,*(F30.16,1X))' ) 'xd+phi_dot: ', x_phi_d
+        write(*,*) ''
+
+        call compute_libration_points_v2(mu,r1,r2,r3,r4,r5)
+        write(*,*) ''
+        write(*,*) 'alternate formulation:'
+        write(*,'(A,1X,*(F30.16,1X))' ) 'L1 x:       ', r1
+        write(*,'(A,1X,*(F30.16,1X))' ) 'L2 x:       ', r2
+        write(*,'(A,1X,*(F30.16,1X))' ) 'L3 x:       ', r3
+        write(*,'(A,1X,*(F30.16,1X))' ) 'L4 x:       ', r4
+        write(*,'(A,1X,*(F30.16,1X))' ) 'L5 x:       ', r5
         write(*,*) ''
 
     end do
