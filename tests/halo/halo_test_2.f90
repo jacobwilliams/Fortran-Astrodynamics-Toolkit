@@ -20,10 +20,11 @@
     integer,parameter  :: n  = 6             !! number of state variables
     real(wp),parameter :: Az_step =1000.0_wp !! Az step size (km)
 
-    real(wp),dimension(n) :: rv     !! halo orbit initial state
-    real(wp),dimension(n,n) :: phi  !! monodromy matrix
-    real(wp),dimension(n,2) :: w    !! real and and imaginary parts of the eigenvalues of `phi`
-    real(wp),dimension(n,n) :: z    !! real and imaginary parts of the eigenvectors of `phi`
+    real(wp),dimension(n)    :: rv     !! halo orbit initial state
+    real(wp),dimension(n,n)  :: phi    !! monodromy matrix
+    real(wp),dimension(n,2)  :: w      !! real and and imaginary parts of the eigenvalues of `phi`
+    real(wp),dimension(n,n)  :: z      !! real and imaginary parts of the eigenvectors of `phi`
+    complex(wp),dimension(n) :: lambda !! eigenvalues of `phi`
     integer  :: libpoint         !! libration point (1,2,3)
     integer  :: i                !! counter
     integer  :: j                !! counter
@@ -68,6 +69,7 @@
                     call print_matrix(phi)
                     write(*,*) ''
 
+                    ! general method:
                     call compute_eigenvalues_and_eigenvectors(6, phi, w, z, ierr)
                     write(*,*) ''
                     write(*,*) 'eigenvalues:'
@@ -77,6 +79,20 @@
                     write(*,*) 'eigenvectors:'
                     write(*,*) ''
                     call print_matrix(z)
+                    write(*,*) ''
+
+                    ! quicker method for just the eigenvalues:
+                    call compute_monodromy_matrix_eigenvalues(phi,lambda)
+                    write(*,*) ''
+                    write(*,*) 'lambda:'
+                    write(*,*) lambda
+                    write(*,*) ''
+
+                    ! the determinant should be 1.0 since matrix is sympletic
+                    write(*,*) ''
+                    write(*,*) '-----'
+                    write(*,*) 'determinate of phi: ', matrix_determinant(6,phi)
+                    write(*,*) '-----'
                     write(*,*) ''
 
                 end if

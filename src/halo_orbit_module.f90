@@ -21,6 +21,7 @@
     public :: halo_to_rv
     public :: halo_to_rv_diffcorr
     public :: compute_halo_monodromy_matrix
+    public :: compute_monodromy_matrix_eigenvalues
 
     public :: halo_orbit_test ! test routine
 
@@ -421,6 +422,46 @@
     !**************************************************************************
 
     end subroutine compute_halo_monodromy_matrix
+!*******************************************************************************
+
+!*******************************************************************************
+!>
+!  Compute the eigenvalues of the monodromy matrix.
+!
+!### Reference
+!  * J.S. Parker, R.L. Anderson, "Low-Energy Lunar Trajectory Design",
+!    2014. (p 79)
+
+    subroutine compute_monodromy_matrix_eigenvalues(phi,lambda)
+
+    use matrix_module, only: matrix_trace
+
+    implicit none
+
+    real(wp),dimension(6,6),intent(in)   :: phi    !! monodromy matrix
+    complex(wp),dimension(6),intent(out) :: lambda !! eigenvalues of `phi`
+
+    real(wp) :: alpha, beta, alpha2
+    complex(wp) :: p, q, a, b, c
+
+    alpha  = two - matrix_trace(6,phi)
+    alpha2 = alpha*alpha
+    beta   = (alpha2 - matrix_trace(6,matmul(phi,phi)))/two + one
+    a      = sqrt(alpha2 - four*beta + eight)
+    p      = (alpha + a) / two
+    q      = (alpha - a) / two
+    b      = sqrt(p*p - four)
+    c      = sqrt(q*q - four)
+
+    ! eigenvalues:
+    lambda(1) = (-p + b) / two
+    lambda(2) = (-p - b) / two
+    lambda(3) = (-q + c) / two
+    lambda(4) = (-q - c) / two
+    lambda(5) = (one, zero)
+    lambda(6) = (one, zero)
+
+    end subroutine compute_monodromy_matrix_eigenvalues
 !*******************************************************************************
 
 !*******************************************************************************
