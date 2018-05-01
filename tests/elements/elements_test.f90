@@ -15,16 +15,15 @@
     implicit none
 
     real(wp),dimension(3) :: r,v,r2,v2
-    real(wp),dimension(6) :: rv,rv2
+    real(wp),dimension(6) :: rv,rv2,rv3,evec,gvec
     real(wp) :: mu
     real(wp) :: a,p,ecc,inc,raan,aop,tru
     real(wp) :: a2,p2,ecc2,inc2,raan2,aop2,tru2
-    real(wp),dimension(6) :: evec
-    integer :: i !! counter
+    integer  :: i  !! counter
 
     mu = 3.9860043543609593E+05_wp ! for earth
 
-    do i = 1, 6
+    do i = 1, 8
 
         write(*,*) ''
         write(*,*) '---------------------------'
@@ -84,41 +83,61 @@
             aop  = 45.0_wp * deg2rad
             tru  = 45.0_wp * deg2rad
             p = a * (one - ecc**2)
+        case (7)
+            write(*,*) 'general parabolic:'
+            p    = 80000.0_wp
+            ecc  = 1.0_wp
+            inc  = 45.0_wp * deg2rad
+            raan = 45.0_wp * deg2rad
+            aop  = 45.0_wp * deg2rad
+            tru  = 45.0_wp * deg2rad
+        case (8)
+            write(*,*) 'equatorial parabolic:'
+            p    = 80000.0_wp
+            ecc  = 1.0_wp
+            inc  = 0.00001_wp * deg2rad
+            raan = 45.0_wp * deg2rad
+            aop  = 45.0_wp * deg2rad
+            tru  = 45.0_wp * deg2rad
         case default
             error stop 'invalid case number'
         end select
 
+        write(*,*) '---------------------------'
+
         call orbital_elements_to_rv(mu, p, ecc, inc, raan, aop, tru, r, v)
         rv = [r,v]
-
-        write(*,*) ''
-        write(*,'(A,*(E26.16,1X))') 'cartesian: ', rv
 
         ! classical orbital elements:
         call rv_to_orbital_elements(mu, r, v, p2, ecc2, inc2, raan2, aop2, tru2)
         call orbital_elements_to_rv(mu, p2, ecc2, inc2, raan2, aop2, tru2, r2, v2)
-        write(*,*) ''
-        write(*,'(A,*(E26.16,1X))') 'classical elements: ', p, ecc, inc, raan, aop, tru
-        write(*,'(A,*(E26.16,1X))') 'elements r diff: ', r2 - r
-        write(*,'(A,*(E26.16,1X))') 'elements v diff: ', v2 - v
 
         ! gooding elements:
-        call pv3els (mu, rv, evec)
-        call els3pv (mu, evec, rv2)
-        write(*,*) ''
-        write(*,'(A,*(E26.16,1X))') 'gooding elements: ', evec
-        write(*,'(A,*(E26.16,1X))') 'gooding r diff: ', rv2(1:3) - rv(1:3)
-        write(*,'(A,*(E26.16,1X))') 'gooding v diff: ', rv2(4:6) - rv(4:6)
+        call pv3els(mu, rv, gvec)
+        call els3pv(mu, gvec, rv2)
 
         ! modified equinoctial elements:
-        call cartesian_to_equinoctial(mu,rv,evec)
-        call equinoctial_to_cartesian(mu,evec,rv2)
+        call cartesian_to_equinoctial(mu, rv, evec)
+        call equinoctial_to_cartesian(mu, evec, rv3)
+
         write(*,*) ''
-        write(*,'(A,*(E26.16,1X))') 'equinoctial elements: ', evec
-        write(*,'(A,*(E26.16,1X))') 'equinoctial r diff: ', rv2(1:3) - rv(1:3)
-        write(*,'(A,*(E26.16,1X))') 'equinoctial v diff: ', rv2(4:6) - rv(4:6)
+        write(*,'(A22,*(E26.16,1X))') 'cartesian:', rv
+        write(*,'(A22,*(E26.16,1X))') 'classical elements:', p, ecc, inc, raan, aop, tru
+        write(*,'(A22,*(E26.16,1X))') 'gooding elements:', gvec
+        write(*,'(A22,*(E26.16,1X))') 'equinoctial elements:', evec
+
+        write(*,*) ''
+        write(*,'(A22,*(E26.16,1X))') 'elements r diff:', r2 - r
+        write(*,'(A22,*(E26.16,1X))') 'elements v diff:', v2 - v
+        write(*,*) ''
+        write(*,'(A22,*(E26.16,1X))') 'gooding r diff:', rv2(1:3) - rv(1:3)
+        write(*,'(A22,*(E26.16,1X))') 'gooding v diff:', rv2(4:6) - rv(4:6)
+        write(*,*) ''
+        write(*,'(A22,*(E26.16,1X))') 'equinoctial r diff:', rv3(1:3) - rv(1:3)
+        write(*,'(A22,*(E26.16,1X))') 'equinoctial v diff:', rv3(4:6) - rv(4:6)
 
     end do
+
     write(*,*) ''
 
 !*****************************************************************************************
