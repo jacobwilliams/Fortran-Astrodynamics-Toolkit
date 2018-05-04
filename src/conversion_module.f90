@@ -56,6 +56,7 @@
     real(wp),parameter :: day2year     = one/year2day
     real(wp),parameter :: day2century  = one/century2day
     real(wp),parameter :: hr2day       = one/day2hr
+    real(wp),parameter :: sec2hr       = one/hr2sec
     real(wp),parameter :: sec2day      = one/day2sec
     real(wp),parameter :: sec2century  = one/century2sec
     real(wp),parameter :: arcmin2deg   = one/deg2arcmin
