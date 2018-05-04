@@ -5,7 +5,7 @@ Fortran Astrodynamics Toolkit
 
 ## Overview
 
-The goal is to produce a comprehensive library, written in modern Fortran (Fortran 2003/2008), of all the standard orbital mechanics algorithms.  This is a work in progress, and is currently in a preliminary state.  Currently-implemented and proposed capabilities include:
+The goal is to produce a comprehensive library, written in modern Fortran (Fortran 2003/2008), of all the standard orbital mechanics algorithms.  This is a work in progress.  Currently-implemented and proposed capabilities include:
 
  * Lambert solvers
   - [x] Gooding
