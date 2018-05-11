@@ -18,7 +18,7 @@
     public :: crtbp_derivs
     public :: crtbp_derivs_with_stm
     public :: normalize_variables, unnormalize_variables
-    public :: compute_libration_points
+    public :: compute_libration_points,compute_libration_points_v2
     public :: crtbp_test
 
     contains
@@ -182,6 +182,8 @@
 !>
 !  Compute the coordinates of the libration points (L1,L2,L3,L4,L5).
 !  L1-L3 are computed using Newton's method. L4-L5 are known analytically.
+!
+!@note The coordinate are w.r.t. the barycenter of the system.
 
     subroutine compute_libration_points(mu,r1,r2,r3,r4,r5)
 
@@ -201,8 +203,10 @@
     real(wp) :: fp !! derivative of quintic function
     real(wp) :: x  !! indep. variable in the quintic functions
 
-    integer,parameter  :: maxiter = 100         !! maximum number of iterations for newton's method
-    real(wp),parameter :: tol     = 1.0e-12_wp  !! convergence tolerance for newton's method
+    integer,parameter  :: maxiter = 100    !! maximum number of
+                                           !! iterations for newton's method
+    real(wp),parameter :: tol = 1.0e-12_wp !! convergence tolerance for
+                                           !! newton's method
 
     !L1, L2, and L3 are solved using iterative Newton method:
 
@@ -219,11 +223,12 @@
            fp = 5.0_wp * x**4 - &
                 4.0_wp * x**3 * (3.0_wp - mu) + &
                 3.0_wp * x**2 * (3.0_wp - 2.0_wp * mu) - &
-                2.0_wp * x * mu - &
+                2.0_wp * x * mu + &
                 2.0_wp * mu
            x = x - f / fp
         end do
-        r1 = 1.0_wp - x
+        r1 = 1.0_wp - x  ! wrt primary body
+        r1 = r1 - mu     ! wrt barycenter
     end if
 
     if (present(r2)) then
@@ -243,7 +248,8 @@
                 2.0_wp * mu
            x = x - f / fp
         end do
-        r2 = 1.0_wp + x
+        r2 = 1.0_wp + x  ! wrt primary body
+        r2 = r2 - mu     ! wrt barycenter
     end if
 
     if (present(r3)) then
@@ -263,14 +269,84 @@
                 2.0_wp * (6.0_wp + 7.0_wp * mu)
            x = x - f / fp
         end do
-        r3 = -(x + 1.0_wp)
+        r3 = -(x + 1.0_wp)  ! wrt primary body
+        r3 = r3 - mu        ! wrt barycenter
     end if
 
-    !L4 and L5 are analytic:
+    ! L4 and L5 are analytic:
     if (present(r4)) r4 = [0.5_wp - mu,  sqrt(3.0_wp)/2.0_wp]
     if (present(r5)) r5 = [0.5_wp - mu, -sqrt(3.0_wp)/2.0_wp]
 
     end subroutine compute_libration_points
+!*******************************************************************************
+
+!*******************************************************************************
+!>
+!  Compute the coordinates of the libration points (L1,L2,L3,L4,L5).
+!
+!  This is just an alternate version of [[compute_libration_points]].
+!
+!### Reference
+!  * J.S. Parker, R.L. Anderson, "Low-Energy Lunar Trajectory Design", 2014.
+!   (Appendix A.5)
+!
+!@note The coordinate are w.r.t. the barycenter of the system.
+
+    subroutine compute_libration_points_v2(mu,r1,r2,r3,r4,r5)
+
+    use math_module, only: cube_root
+
+    implicit none
+
+    real(wp),intent(in)                        :: mu  !! CRTBP parameter
+    real(wp),intent(out),optional              :: r1  !! L1 x coordinate
+    real(wp),intent(out),optional              :: r2  !! L2 x coordinate
+    real(wp),intent(out),optional              :: r3  !! L3 x coordinate
+    real(wp),dimension(2),intent(out),optional :: r4  !! L4 [x,y] coordinates
+    real(wp),dimension(2),intent(out),optional :: r5  !! L5 [x,y] coordinates
+
+    integer,parameter  :: maxiter = 100    !! maximum number of iterations
+    real(wp),parameter :: tol = 1.0e-12_wp !! convergence tolerance
+
+    real(wp) :: gamma, gamma0
+    integer :: i !! counter
+
+    if (present(r1)) then
+        gamma0 = cube_root(mu * (one-mu) / three)
+        gamma = gamma0 + one
+        do i = 1,maxiter
+            if (abs(gamma-gamma0)<=tol) exit
+            gamma0 = gamma
+            gamma = cube_root((mu*(gamma0-one)**2)/(three-two*mu-gamma0*(three-mu-gamma0)))
+        end do
+        r1 = one - mu - gamma
+    end if
+
+    if (present(r2)) then
+        gamma0 = cube_root(mu * (one-mu) / three)
+        gamma = gamma0 + one
+        do i = 1,maxiter
+            if (abs(gamma-gamma0)<=tol) exit
+            gamma0 = gamma
+            gamma = cube_root((mu*(gamma0+one)**2)/(three-two*mu+gamma0*(three-mu+gamma0)))
+        end do
+        r2 = one - mu + gamma
+    end if
+
+    if (present(r3)) then
+        gamma0 = cube_root(mu * (one-mu) / three)
+        gamma = gamma0 + one
+        do i = 1,maxiter
+            if (abs(gamma-gamma0)<=tol) exit
+            gamma0 = gamma
+            gamma = cube_root((one-mu)*(gamma0+one)**2/(one+two*mu+gamma0*(two+mu+gamma0)))
+        end do
+        r3 = - mu - gamma
+    end if
+
+    call compute_libration_points(mu,r4=r4,r5=r5)
+
+    end subroutine compute_libration_points_v2
 !*******************************************************************************
 
 !*******************************************************************************
@@ -401,14 +477,17 @@
 
     subroutine crtbp_test()
 
+    use celestial_body_module
+
     implicit none
 
-    real(wp),parameter :: mu_earth = 398600.435608_wp    !! \( \mu_{Earth} ~ (\mathrm{km}^3/\mathrm{s}^2) \)
-    real(wp),parameter :: mu_moon  = 4902.799108_wp      !! \( \mu_{Moon}  ~ (\mathrm{km}^3/\mathrm{s}^2) \)
-    real(wp),parameter :: mu_sun   = 132712440017.987_wp !! \( \mu_{Sun}   ~ (\mathrm{km}^3/\mathrm{s}^2) \)
+    real(wp),parameter :: mu_earth = body_earth%mu !! \( \mu_{Earth} ~ (\mathrm{km}^3/\mathrm{s}^2) \)
+    real(wp),parameter :: mu_moon  = body_moon%mu  !! \( \mu_{Moon}  ~ (\mathrm{km}^3/\mathrm{s}^2) \)
+    real(wp),parameter :: mu_sun   = body_sun%mu   !! \( \mu_{Sun}   ~ (\mathrm{km}^3/\mathrm{s}^2) \)
 
     !< sample state (normalized)
-    !< see: [Celestial Mechanics Notes Set 4: The Circular Restricted Three Body Problem](http://cosweb1.fau.edu/~jmirelesjames/hw4Notes.pdf), p.40.
+    !< see: [Celestial Mechanics Notes Set 4: The Circular Restricted
+    !< Three Body Problem](http://cosweb1.fau.edu/~jmirelesjames/hw4Notes.pdf), p.40.
     real(wp),dimension(6),parameter :: x = [  0.30910452642073_wp, &
                                               0.07738174525518_wp, &
                                               0.0_wp,              &
@@ -418,11 +497,18 @@
 
     integer                 :: i       !! counter
     real(wp)                :: mu      !! CRTPB parameter
+    real(wp)                :: mu1     !! primary body mu
+    real(wp)                :: mu2     !! secondary body mu
     real(wp)                :: c       !! Jacobi constant
     real(wp),dimension(6)   :: xd      !! derivative vector: state
     real(wp),dimension(42)  :: x_phi   !! initial state + phi (identity)
     real(wp),dimension(42)  :: x_phi_d !! derivative vector: state + phi
     real(wp),dimension(6,6) :: eye     !! 6x6 identity matrix
+    real(wp)                :: r1      !! L1 x coordinate (normalized)
+    real(wp)                :: r2      !! L2 x coordinate (normalized)
+    real(wp)                :: r3      !! L3 x coordinate (normalized)
+    real(wp),dimension(2)   :: r4      !! L4 x coordinate (normalized)
+    real(wp),dimension(2)   :: r5      !! L5 x coordinate (normalized)
 
     !create an identity matrix for stm initial condition:
     eye = zero
@@ -437,18 +523,51 @@
     write(*,*) '---------------'
     write(*,*) ''
 
-    mu = compute_crtpb_parameter(mu_earth,mu_moon)
-    c = compute_jacobi_constant(mu,x)
-    call crtbp_derivs(mu,x,xd)
-    call crtbp_derivs_with_stm(mu,x_phi,x_phi_d)
+    do i=1,3
 
-    write(*,'(A,1X,*(F30.16,1X))') 'Earth-Moon mu:   ', mu
-    write(*,'(A,1X,*(F12.6,1X))' ) 'x:          ', x
-    write(*,'(A,1X,*(F12.6,1X))' ) 'c:          ', c
-    write(*,'(A,1X,*(F12.6,1X))' ) 'xd:         ', xd
-    write(*,'(A,1X,*(F12.6,1X))' ) 'x+phi:      ', x_phi
-    write(*,'(A,1X,*(F12.6,1X))' ) 'xd+phi_dot: ', x_phi_d
-    write(*,*) ''
+        select case (i)
+        case(1)
+            mu1 = mu_earth
+            mu2 = mu_moon
+        case(2)
+            mu1 = mu_earth
+            mu2 = mu_earth
+        case(3)
+            mu1 = mu_earth + mu_moon/four
+            mu2 = mu_earth
+        end select
+
+        write(*,*) ''
+        mu = compute_crtpb_parameter(mu1,mu2)
+        c = compute_jacobi_constant(mu,x)
+        call crtbp_derivs(mu,x,xd)
+        call crtbp_derivs_with_stm(mu,x_phi,x_phi_d)
+        call compute_libration_points(mu,r1,r2,r3,r4,r5)
+
+        write(*,'(A,1X,*(F30.16,1X))')  'mu:         ', mu
+        write(*,'(A,1X,*(F30.16,1X))' ) 'L1 x:       ', r1
+        write(*,'(A,1X,*(F30.16,1X))' ) 'L2 x:       ', r2
+        write(*,'(A,1X,*(F30.16,1X))' ) 'L3 x:       ', r3
+        write(*,'(A,1X,*(F30.16,1X))' ) 'L4 x:       ', r4
+        write(*,'(A,1X,*(F30.16,1X))' ) 'L5 x:       ', r5
+        write(*,'(A,1X,*(F30.16,1X))' ) 'x:          ', x
+        write(*,'(A,1X,*(F30.16,1X))' ) 'c:          ', c
+        write(*,'(A,1X,*(F30.16,1X))' ) 'xd:         ', xd
+        write(*,'(A,1X,*(F30.16,1X))' ) 'x+phi:      ', x_phi
+        write(*,'(A,1X,*(F30.16,1X))' ) 'xd+phi_dot: ', x_phi_d
+        write(*,*) ''
+
+        call compute_libration_points_v2(mu,r1,r2,r3,r4,r5)
+        write(*,*) ''
+        write(*,*) 'alternate formulation:'
+        write(*,'(A,1X,*(F30.16,1X))' ) 'L1 x:       ', r1
+        write(*,'(A,1X,*(F30.16,1X))' ) 'L2 x:       ', r2
+        write(*,'(A,1X,*(F30.16,1X))' ) 'L3 x:       ', r3
+        write(*,'(A,1X,*(F30.16,1X))' ) 'L4 x:       ', r4
+        write(*,'(A,1X,*(F30.16,1X))' ) 'L5 x:       ', r5
+        write(*,*) ''
+
+    end do
 
     end subroutine crtbp_test
 !*******************************************************************************

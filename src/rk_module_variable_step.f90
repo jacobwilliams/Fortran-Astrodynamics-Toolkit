@@ -81,7 +81,7 @@
         procedure,public                 :: initialize         !! initialize the class (set n,f, and report)
         procedure,public                 :: destroy            !! destructor
         procedure,non_overridable,public :: integrate          !! main integration routine
-        !procedure,non_overridable,public :: integrate_to_event !! integration with event finding
+        procedure,non_overridable,public :: integrate_to_event !! integration with event finding
         procedure(step_func),deferred    :: step               !! the step routine for the rk method
         procedure(order_func),deferred   :: order              !! returns `p`, the order of the method
         procedure :: hstart  !! for automatically computing the initial step size [this is from DDEABM]
@@ -114,7 +114,7 @@
         procedure :: order => rkf108_order
     end type rkf108_class
 
-    interface
+    abstract interface
 
         pure function norm_func(x) result(xmag)
         !! Vector norm function. Must return a value \( \ge 0 \).
@@ -181,6 +181,9 @@
 
     end interface
 
+    ! public routines:
+    public :: norm2_func,maxval_func
+
     ! for testing:
     public :: step_size_test
     public :: rk_test_variable_step
@@ -236,12 +239,20 @@
     class(stepsize_class),intent(inout)       :: me
     real(wp),intent(in),optional              :: hmin             !! minimum allowed step size (>0)
     real(wp),intent(in),optional              :: hmax             !! maximum allowed step size (>0)
-    real(wp),intent(in),optional              :: hfactor_reject   !! minimum allowed factor for decreasing step size after refected step (>0)
-    real(wp),intent(in),optional              :: hfactor_accept   !! maximum allowed factor for decreasing step size after accepted step (>0)
-    procedure(norm_func),optional             :: norm             !! the user-specified \( ||x|| \) function
-    integer,intent(in),optional               :: accept_mode      !! method to determine if step is accepted [1,2]
-    procedure(compute_h_factor_func),optional :: compute_h_factor !! routine for compute the `h` factor
-    integer,intent(in),optional               :: max_attempts     !! max step size change attempts after rejected step
+    real(wp),intent(in),optional              :: hfactor_reject   !! minimum allowed factor for
+                                                                  !! decreasing step size after
+                                                                  !! rejected step (>0)
+    real(wp),intent(in),optional              :: hfactor_accept   !! maximum allowed factor for
+                                                                  !! decreasing step size after
+                                                                  !! accepted step (>0)
+    procedure(norm_func),optional             :: norm             !! the user-specified \( ||x|| \)
+                                                                  !! function
+    integer,intent(in),optional               :: accept_mode      !! method to determine if step
+                                                                  !! is accepted [1,2]
+    procedure(compute_h_factor_func),optional :: compute_h_factor !! routine for compute the `h`
+                                                                  !! factor
+    integer,intent(in),optional               :: max_attempts     !! max step size change attempts
+                                                                  !! after rejected step
 
     if (present(hmin))             me%hmin             = abs(hmin)
     if (present(hmax))             me%hmax             = abs(hmax)
@@ -325,6 +336,29 @@
 
     end subroutine compute_stepsize
 !*****************************************************************************************
+
+
+
+    ! hfactor = 0.9_wp * abs(tol/err)  **(one/real(p,wp))   ! v1
+    ! hfactor = 0.9_wp * abs(tol/err)  **(one/real(p+1,wp)) ! v2
+    ! hfactor =          abs(tol/err)  **(one/real(p+1,wp)) ! v3
+    ! hfactor = 0.9_wp * abs(tol*h/err)**(one/real(p,wp))   ! v4
+    ! hfactor =          abs(tol*h/err)**(one/real(p,wp))   ! v5
+    !
+    !
+    ! ... could be reduced to these parameters ...
+    !
+    ! USE_TOL_TIMES_H = true or false
+    ! HFACTOR_SCALE   = 0.9_wp
+    ! EXPONENT        = p or p+1
+    !
+    ! if (USE_TOL_TIMES_H) then
+    !     hfactor = HFACTOR_SCALE * abs(tol*h/err)**(one/real(EXPONENT,wp))
+    ! else
+    !     hfactor = HFACTOR_SCALE * abs(tol/err)**(one/real(EXPONENT,wp))
+    ! end if
+
+
 
 !*****************************************************************************************
     pure function compute_h_factor_v1(me,h,tol,err,p) result(hfactor)
@@ -438,10 +472,16 @@
     class(rk_variable_step_class),intent(inout) :: me
     integer,intent(in)                          :: n               !! number of equations
     procedure(deriv_func)                       :: f               !! derivative function
-    real(wp),dimension(:),intent(in)            :: rtol            !! relative tolerance (if size=1, then same tol used for all equations)
-    real(wp),dimension(:),intent(in)            :: atol            !! absolute tolerance (if size=1, then same tol used for all equations)
+    real(wp),dimension(:),intent(in)            :: rtol            !! relative tolerance (if size=1,
+                                                                   !! then same tol used for all
+                                                                   !! equations)
+    real(wp),dimension(:),intent(in)            :: atol            !! absolute tolerance (if size=1,
+                                                                   !! then same tol used for all
+                                                                   !! equations)
     class(stepsize_class),intent(in)            :: stepsize_method !! method for varying the step size
-    integer,intent(in),optional                 :: hinit_method    !! which method to use for automatic initial step size computation.
+    integer,intent(in),optional                 :: hinit_method    !! which method to use for
+                                                                   !! automatic initial step size
+                                                                   !! computation.
                                                                    !! 1 = use `hstart`, 2 = use `hinit`.
     procedure(report_func),optional             :: report          !! for reporting the steps
     procedure(event_func),optional              :: g               !! for stopping at an event
@@ -497,7 +537,7 @@
 !>
 !  Main integration routine for the [[rk_variable_step_class]].
 
-    subroutine integrate(me,t0,x0,h,tf,xf)
+    subroutine integrate(me,t0,x0,h,tf,xf,ierr)
 
     implicit none
 
@@ -507,13 +547,25 @@
     real(wp),intent(in)               :: h     !! initial abs(time step)
     real(wp),intent(in)               :: tf    !! final time
     real(wp),dimension(:),intent(out) :: xf    !! final state
+    integer,intent(out),optional      :: ierr  !! 0 = no errors,
+                                               !! <0 = error.
+                                               !! if not present, an error will stop program.
 
     real(wp) :: t,dt,t2,err,tol,dt_new
     real(wp),dimension(me%n) :: x,terr,etol,xp0
     logical :: last,export,accept
     integer :: i,p
 
-    if (.not. associated(me%f)) error stop 'Error in integrate: f is not associated.'
+    if (present(ierr)) ierr = 0
+
+    if (.not. associated(me%f)) then
+        if (present(ierr)) then
+            ierr = -1
+            return
+        else
+            error stop 'Error in integrate: f is not associated.'
+        end if
+    end if
 
     me%num_rejected_steps = 0
     export = associated(me%report)
@@ -538,7 +590,12 @@
             case(2)
                 dt = me%hinit(t0,x0,sign(one,tf-t0),xp0,me%stepsize_method%hmax,me%atol,me%rtol)
             case default
-                error stop 'invalid hinit_method selection'
+                if (present(ierr)) then
+                    ierr = -2
+                    return
+                else
+                    error stop 'invalid hinit_method selection'
+                end if
             end select
             !write(*,*) 'inital step size: ',dt
         else
@@ -558,7 +615,7 @@
                 ! take a step:
                 call me%step(t,x,dt,xf,terr)
 
-                ! evalute error and compute new step size:
+                ! evaluate error and compute new step size:
                 err = me%stepsize_method%norm(terr)
                 tol = me%stepsize_method%norm( me%rtol * xf + me%atol )
                 call me%stepsize_method%compute_stepsize(dt,tol,err,p,dt_new,accept)
@@ -574,10 +631,20 @@
                     !note: if we have reached the min step size, and the error
                     !is still too large, we can't proceed.
                     if (i>=me%stepsize_method%max_attempts) then
-                        error stop 'error: too many attempts to reduce step size.'
+                        if (present(ierr)) then
+                            ierr = -3
+                            return
+                        else
+                            error stop 'error: too many attempts to reduce step size.'
+                        end if
                     end if
                     if (abs(dt) <= abs(me%stepsize_method%hmin)) then
-                        error stop 'warning: min step size.'
+                        if (present(ierr)) then
+                            ierr = -4
+                            return
+                        else
+                            error stop 'warning: min step size.'
+                        end if
                     end if
 
                     !......
@@ -607,145 +674,246 @@
     end subroutine integrate
 !*****************************************************************************************
 
-! ... need to update this one also ...
+!*****************************************************************************************
+!>
+!  Event-finding integration routine for the [[rk_variable_step_class]].
+!  Integrates until g(t,x)=0, or until t=tf (whichever happens first).
+!
+!@note There are some efficiency improvements that could be made here.
+!      This is a work in progress.
 
-! !*****************************************************************************************
-! !>
-! !  Event-finding integration routine for the [[rk_variable_step_class]].
-! !  Integrates until g(t,x)=0, or until t=tf (whichever happens first).
-! !
-! !@note There are some efficiency improvements that could be made here.
-! !      This is a work in progress.
-!
-!     subroutine integrate_to_event(me,t0,x0,h,tmax,tol,tf,xf,gf)
-!
-!     use brent_module
-!
-!     implicit none
-!
-!     class(rk_variable_step_class),intent(inout)        :: me
-!     real(wp),intent(in)                  :: t0      !! initial time
-!     real(wp),dimension(me%n),intent(in)  :: x0      !! initial state
-!     real(wp),intent(in)                  :: h       !! abs(time step)
-!     real(wp),intent(in)                  :: tmax    !! max final time if event not located
-!     real(wp),intent(in)                  :: tol     !! function tolerance for root finding
-!     real(wp),intent(out)                 :: tf      !! actual final time reached
-!     real(wp),dimension(me%n),intent(out) :: xf      !! final state (at tf)
-!     real(wp),intent(out)                 :: gf      !! g value at tf
-!
-!     !local variables:
-!     real(wp) :: t,dt,t2,ga,gb,dt_root,dum
-!     real(wp),dimension(me%n) :: x,g_xf
-!     logical :: first,last,export
-!     procedure(report_func),pointer :: report
-!     type(brent_class) :: solver
-!     integer :: iflag
-!
-!     if (.not. associated(me%f)) error stop 'Error in integrate_to_event: f is not associated.'
-!     if (.not. associated(me%g)) error stop 'Error in integrate_to_event: g is not associated.'
-!
-!     !If the points are being exported:
-!     export = associated(me%report)
-!
-!     !first point:
-!     if (export) call me%report(t0,x0)
-!
-!     if (h==zero) then
-!         xf = x0
-!         tf = t0
-!         call me%g(t0,x0,gf)
-!     else
-!
-!         first = .true.
-!         t = t0
-!         x = x0
-!         call me%g(t0,x0,ga)     !evalute event function
-!         dt = sign(h,tmax-t0)    !time step (correct sign)
-!
-!         do
-!
-!             t2 = t + dt
-!             last = ((dt>=zero .and. t2>=tmax) .or. &  !adjust last time step
-!                     (dt<zero .and. t2<=tmax))         !
-!             if (last) then
-!                 dt = tmax-t
-!                 t2 = tmax
-!             end if
-!             call me%step(t,x,dt,xf)
-!             call me%g(t2,xf,gb)     !evalute event function
-!
-!             if (first .and. abs(ga)<=tol) then
-!
-!                 !we ignore a root at t0 after the first step
-!                 if (abs(gb)<=tol) then !check this one since it could have landed on a root
-!                     gf = gb
-!                     tf = t2
-!                     exit
-!                 else
-!                     if (last) then  !exiting without having found a root
-!                         tf = t2
-!                         gf = gb
-!                         exit
-!                     end if
-!                     if (export) call me%report(t2,xf)   !intermediate point
-!                     x = xf
-!                     t = t2
-!                     ga = gb
-!                 end if
-!
-!             elseif (ga*gb<=zero) then !there is a root somewhere on [t,t+dt]
-!
-!                 !find the root:
-!                 call solver%set_function(solver_func)
-!                 call solver%find_zero(zero,dt,tol,dt_root,dum,iflag,ga,gb)
-!                 t2 = t + dt_root
-!                 gf = solver_func(solver,dt_root)
-!                 tf = t2
-!                 xf = g_xf !computed in the solver function
-!                 exit
-!
-!             else  !no root yet, continue
-!
-!                 if (last) then  !exiting without having found a root
-!                     tf = t2
-!                     gf = gb
-!                     exit
-!                 end if
-!                 if (export) call me%report(t2,xf)   !intermediate point
-!                 x = xf
-!                 t = t2
-!                 ga = gb
-!
-!             end if
-!
-!             if (first) first = .false.
-!
-!         end do
-!
-!     end if
-!
-!     if (export) call me%report(t2,xf)   !last point
-!
-!     contains
-!
-!         function solver_func(this,delt) result(g)
-!
-!         !! root solver function. The input is the dt offset from time t.
-!
-!         implicit none
-!
-!         class(brent_class),intent(inout) :: this
-!         real(wp),intent(in) :: delt  !! from [0 to dt]
-!         real(wp) :: g
-!
-!         !take a step from t to t+delt and evaluate g function:
-!         call me%step(t,x,delt,g_xf)
-!         call me%g(t+delt,g_xf,g)
-!
-!         end function solver_func
-!
-!     end subroutine integrate_to_event
-! !*****************************************************************************************
+    subroutine integrate_to_event(me,t0,x0,h,tmax,tol,tf,xf,gf,ierr)
+
+    use brent_module
+
+    implicit none
+
+    class(rk_variable_step_class),intent(inout) :: me
+    real(wp),intent(in)                  :: t0      !! initial time
+    real(wp),dimension(me%n),intent(in)  :: x0      !! initial state
+    real(wp),intent(in)                  :: h       !! abs(time step)
+    real(wp),intent(in)                  :: tmax    !! max final time if event not located
+    real(wp),intent(in)                  :: tol     !! function tolerance for root finding
+    real(wp),intent(out)                 :: tf      !! actual final time reached
+    real(wp),dimension(me%n),intent(out) :: xf      !! final state (at tf)
+    real(wp),intent(out)                 :: gf      !! g value at tf
+    integer,intent(out),optional      :: ierr  !! 0 = no errors,
+                                               !! <0 = error.
+                                               !! if not present, an error will stop program.
+
+    real(wp),dimension(me%n) :: etol,xp0
+    real(wp),dimension(me%n) :: x,g_xf
+    real(wp),dimension(me%n) :: terr !! truncation error estimate
+    integer :: i,p,iflag
+    real(wp) :: t,dt,t2,ga,gb,dt_root,dum,err,dt_new,stol
+    logical :: first,last,export,accept
+    procedure(report_func),pointer :: report
+    type(brent_class) :: solver
+
+    if (present(ierr)) ierr = 0
+
+    if (.not. associated(me%f)) then
+        if (present(ierr)) then
+            ierr = -1
+            return
+        else
+            error stop 'Error in integrate_to_event: f is not associated.'
+        end if
+    end if
+    if (.not. associated(me%g)) then
+        if (present(ierr)) then
+            ierr = -2
+            return
+        else
+            error stop 'Error in integrate_to_event: g is not associated.'
+        end if
+    end if
+
+    me%num_rejected_steps = 0
+    export = associated(me%report)
+
+    if (export) call me%report(t0,x0)  !first point
+
+    if (t0==tmax) then
+        xf = x0
+        tf = t0
+        call me%g(t0,x0,gf)
+    else
+
+        first = .true.
+        t = t0
+        x = x0
+        call me%g(t,x,ga)     !evaluate event function
+
+        if (h==zero) then
+            ! compute an appropriate initial step size:
+            ! WARNING: this may not be working in all cases .....
+            etol = me%rtol * me%stepsize_method%norm(x0) + me%atol
+            call me%f(t0,x0,xp0)  ! get initial dx/dt
+            select case (me%hinit_method)
+            case(1)
+                call me%hstart(t0,tmax,x0,xp0,etol,dt)
+            case(2)
+                dt = me%hinit(t0,x0,sign(one,tmax-t0),xp0,me%stepsize_method%hmax,me%atol,me%rtol)
+            case default
+                if (present(ierr)) then
+                    ierr = -3
+                    return
+                else
+                    error stop 'invalid hinit_method selection'
+                end if
+            end select
+        else
+            ! user-specified initial step size:
+            dt = sign(h,tmax-t0)  ! (correct sign)
+        end if
+
+        p = me%order()     !order of the method
+        do
+
+            t2 = t + dt
+            last = ((dt>=zero .and. t2>=tmax) .or. &  !adjust last time step
+                    (dt<zero .and. t2<=tmax))         !
+            if (last) then
+                dt = tmax-t
+                t2 = tmax
+            end if
+
+            do i=0,me%stepsize_method%max_attempts
+
+                ! take a step:
+                call me%step(t,x,dt,xf,terr)
+
+                ! evaluate error and compute new step size:
+                err = me%stepsize_method%norm(terr)
+                stol = me%stepsize_method%norm( me%rtol * xf + me%atol )
+                call me%stepsize_method%compute_stepsize(dt,stol,err,p,dt_new,accept)
+                dt = dt_new
+
+                if (accept) then
+                    !accept this step
+                    exit
+                else
+                    !step is rejected, repeat step with new dt
+                    me%num_rejected_steps = me%num_rejected_steps + 1
+
+                    !note: if we have reached the min step size, and the error
+                    !is still too large, we can't proceed.
+                    if (i>=me%stepsize_method%max_attempts) then
+                        if (present(ierr)) then
+                            ierr = -4
+                            return
+                        else
+                            error stop 'error: too many attempts to reduce step size.'
+                        end if
+                    end if
+                    if (abs(dt) <= abs(me%stepsize_method%hmin)) then
+                        if (present(ierr)) then
+                            ierr = -5
+                            return
+                        else
+                            error stop 'warning: min step size.'
+                        end if
+                    end if
+
+                    !......
+                    !... if we have two rejected steps and the step size hasn't changed..
+                    !    then we need to abort, since no progress is being made...
+                    !......
+
+                    last = ((dt>=zero .and. t2>=tmax) .or. &  !adjust last time step
+                            (dt<zero .and. t2<=tmax))         !
+                    if (last) then
+                        dt = tmax-t
+                        t2 = tmax
+                    else
+                        t2 = t + dt
+                    end if
+
+                end if
+
+            end do
+
+            call me%g(t2,xf,gb)     !evaluate event function
+
+            if (first .and. abs(ga)<=tol) then
+
+                !we ignore a root at t0 after the first step
+                if (abs(gb)<=tol) then !check this one since it could have landed on a root
+                    gf = gb
+                    tf = t2
+                    exit
+                else
+                    if (last) then  !exiting without having found a root
+                        tf = t2
+                        gf = gb
+                        exit
+                    end if
+                    if (export) call me%report(t2,xf)   !intermediate point
+                    x = xf
+                    t = t2
+                    ga = gb
+                end if
+
+            elseif (ga*gb<=zero) then !there is a root somewhere on [t,t+dt]
+
+                !find the root:
+                call solver%set_function(solver_func)
+                call solver%find_zero(zero,dt,tol,dt_root,dum,iflag,ga,gb)
+                t2 = t + dt_root
+                gf = solver_func(solver,dt_root)
+                tf = t2
+                xf = g_xf !computed in the solver function
+                exit
+
+            else  !no root yet, continue
+
+                if (last) then  !exiting without having found a root
+                    tf = t2
+                    gf = gb
+                    exit
+                end if
+                if (export) call me%report(t2,xf)   !intermediate point
+                x = xf
+                t = t2
+                ga = gb
+
+            end if
+
+            if (first) first = .false.
+            if (last) exit
+            x = xf
+            t = t2
+        end do
+
+    end if
+
+    if (export) call me%report(tf,xf)   !last point
+
+    contains
+
+        function solver_func(this,delt) result(g)
+
+        !! root solver function. The input is the dt offset from time t.
+
+        implicit none
+
+        class(brent_class),intent(inout) :: this
+        real(wp),intent(in) :: delt  !! from [0 to dt]
+        real(wp) :: g
+
+        real(wp),dimension(me%n) :: terr !! truncation error estimate
+
+        !take a step from t to t+delt and evaluate g function:
+        ! [we don't check the error because we are within a
+        !  step that was already accepted, so it should be ok]
+        call me%step(t,x,delt,g_xf,terr)
+        call me%g(t+delt,g_xf,g)
+
+        end function solver_func
+
+    end subroutine integrate_to_event
+!*****************************************************************************************
 
 !*****************************************************************************************
 !>
@@ -1812,9 +1980,9 @@
 
     implicit none
 
-    !type,extends(rkf78_class) :: spacecraft
+    type,extends(rkf78_class) :: spacecraft
     !type,extends(rkf89_class) :: spacecraft
-    type,extends(rkv89_class) :: spacecraft
+    !type,extends(rkv89_class) :: spacecraft
     !type,extends(rkf108_class) :: spacecraft
         !! spacecraft propagation type.
         real(wp) :: mu     = zero     !! central body gravitational parameter (km3/s2)
@@ -1827,7 +1995,7 @@
 
     type(spacecraft) :: s, s2
     real(wp) :: t0,tf,x0(n),dt,xf(n),x02(n),gf,tf_actual,rtol,atol
-
+    integer :: ierr !! error flag
     type(stepsize_class) :: sz
 
     write(*,*) ''
@@ -1846,6 +2014,7 @@
                         hfactor_accept = 2.0_wp,   &
                         max_attempts   = 5,        &
                         accept_mode    = 1,        &
+                        norm = maxval_func, &
                         compute_h_factor = compute_h_factor_v5 )
 
     !integrator constructor:
@@ -1879,21 +2048,38 @@
     write(*,'(A,I5)') 'Number of rejected steps:',s%num_rejected_steps
     write(*,*) ''
 
-!    !***************************************************************************
-!    !event finding test:
-!
-!    write(*,*) ' Event test - integrate until z = 12,000'
-!    s2 = spacecraft(n=n,f=twobody,g=twobody_event,mu=398600.436233_wp,report=twobody_report)
-!    x0 = [10000.0_wp,10000.0_wp,10000.0_wp,&   !initial state [r,v] (km,km/s)
-!            1.0_wp,2.0_wp,3.0_wp]
-!    t0 = zero       !initial time (sec)
-!    dt = 10.0_wp    !time step (sec)
-!    tf = 1000.0_wp  !final time (sec)
-!    call s2%integrate_to_event(t0,x0,dt,tf,tol,tf_actual,xf,gf)
-!    write(*,*) ''
-!    write(*,'(A/,*(F15.6/))') 'Final time: ',tf_actual
-!    write(*,'(A/,*(F15.6/))') 'Final state:',xf
-!    write(*,'(A/,*(F15.6/))') 'Event func :',gf
+   !***************************************************************************
+   !event finding test:
+
+   write(*,*) ' Event test - integrate until z = 12,000'
+
+   ! NOTE: the following causes an ICE in gfortran 7.1, but works with ifort:
+   ! s2 = spacecraft(n=n,f=twobody,g=twobody_event,mu=398600.436233_wp,&
+   !                  rtol=[1.0e-12_wp],atol=[1.0e-12_wp],&
+   !                  stepsize_method=sz,report=twobody_report)
+   ! do it this way instead:
+   call s2%initialize(n=n,f=twobody,g=twobody_event,&
+                      rtol=[1.0e-12_wp],atol=[1.0e-12_wp],&
+                      stepsize_method=sz,&
+                      report=twobody_report)
+   s2%mu = 398600.436233_wp
+
+   s2%fevals = 0
+   s2%first = .true.
+   x0 = [10000.0_wp,10000.0_wp,10000.0_wp,&   !initial state [r,v] (km,km/s)
+           1.0_wp,2.0_wp,3.0_wp]
+   t0 = zero       !initial time (sec)
+   dt = 10.0_wp    !time step (sec)
+   tf = 1000.0_wp  !final time (sec)
+
+   call s2%integrate_to_event(t0,x0,dt,tf,tol,tf_actual,xf,gf,ierr)
+   write(*,*) ''
+   write(*,'(A,I5)')         'ierr:       ',ierr
+   write(*,'(A/,*(F15.6/))') 'Final time: ',tf_actual
+   write(*,'(A/,*(F15.6/))') 'Final state:',xf
+   write(*,'(A/,*(F15.6/))') 'Event func :',gf
+   write(*,'(A,I5)') 'Function evaluations:', s2%fevals
+   write(*,'(A,I5)') 'Number of rejected steps:',s2%num_rejected_steps
 
     contains
 !*****************************************************************************************

@@ -64,6 +64,9 @@
         procedure :: from_primary_to_center
         procedure :: get_c_cdot => get_c_cdot_two_body_rotating
     end type two_body_rotating_frame
+    interface two_body_rotating_frame
+        module procedure :: two_body_rotating_frame_constructor
+    end interface two_body_rotating_frame
 
     type,extends(two_body_rotating_frame),public :: two_body_rotating_pulsating_frame
         !! This frame is an extension of the two-body rotating frame, where
@@ -73,6 +76,9 @@
     contains
         procedure :: get_c_cdot => get_c_cdot_two_body_rotating_pulsating
     end type two_body_rotating_pulsating_frame
+    interface two_body_rotating_pulsating_frame
+        module procedure :: two_body_rotating_pulsating_frame_constructor
+    end interface two_body_rotating_pulsating_frame
 
     !... note: could also have a two_body_rotating_pulsating_crtbp_frame
     !          which scales r,v,t based on the crtbp assumptions...
@@ -83,26 +89,39 @@
     contains
         procedure :: get_c_cdot => get_c_cdot_iau_earth
     end type iau_earth_rotating_frame
+    interface iau_earth_rotating_frame
+        module procedure :: iau_earth_rotating_frame_constructor
+    end interface iau_earth_rotating_frame
+
     type,extends(iau_rotating_frame_class),public :: iau_moon_rotating_frame
         !! IAU Moon frame
     contains
         procedure :: get_c_cdot => get_c_cdot_iau_moon
     end type iau_moon_rotating_frame
+    interface iau_moon_rotating_frame
+        module procedure :: iau_moon_rotating_frame_constructor
+    end interface iau_moon_rotating_frame
 
     !inertial frame definitions:
 
     type,extends(inertial_frame_class),public :: icrf_frame
-        !! the fundamental inertial frame for the ephemeris (i.e., J2000).
+        !! the fundamental inertial frame
+        !! for the ephemeris (i.e., J2000).
     contains
         procedure :: get_c_cdot => get_c_cdot_icrf
     end type icrf_frame
+    interface icrf_frame
+        module procedure :: icrf_frame_constructor
+    end interface icrf_frame
 
     abstract interface
         subroutine c_cdot_func(me,eph,to_icrf,c,cdot,status_ok)
             import :: wp,reference_frame,ephemeris_class
             implicit none
             class(reference_frame),intent(inout)         :: me
-            class(ephemeris_class),intent(inout)         :: eph     !! for ephemeris computations (assumed to have already been initialized)
+            class(ephemeris_class),intent(inout)         :: eph     !! for ephemeris computations
+                                                                    !! (assumed to have already
+                                                                    !! been initialized)
             logical,intent(in)                           :: to_icrf
             real(wp),dimension(3,3),intent(out)          :: c
             real(wp),dimension(3,3),intent(out),optional :: cdot
@@ -114,6 +133,122 @@
     public :: transformation_module_test
 
     contains
+!********************************************************************************
+
+!********************************************************************************
+!>
+!  Constructor for a [[two_body_rotating_frame]]
+
+    pure function two_body_rotating_frame_constructor(&
+                primary_body,secondary_body,center,et) result(f)
+
+    implicit none
+
+    type(two_body_rotating_frame) :: f
+    type(celestial_body),intent(in) :: primary_body   !! the primary body of
+                                                      !! the frame
+    type(celestial_body),intent(in) :: secondary_body !! the secondary body used
+                                                      !! to construct the frame
+    integer,intent(in)              :: center         !! the frame center (can
+                                                      !! be `primary_body`,
+                                                      !! `secondary_body`, or
+                                                      !! `barycenter`)
+    real(wp),intent(in)             :: et             !! epoch at which the
+                                                      !! frame is defined [sec]
+
+    f%primary_body   = primary_body
+    f%secondary_body = secondary_body
+    f%center         = center
+    f%et             = et
+
+    end function two_body_rotating_frame_constructor
+!********************************************************************************
+
+!********************************************************************************
+!>
+!  Constructor for a [[two_body_rotating_pulsating_frame]]
+
+    pure function two_body_rotating_pulsating_frame_constructor(&
+                primary_body,secondary_body,center,scale,et) result(f)
+
+    implicit none
+
+    type(two_body_rotating_pulsating_frame) :: f
+    type(celestial_body),intent(in) :: primary_body   !! the primary body of
+                                                      !! the frame
+    type(celestial_body),intent(in) :: secondary_body !! the secondary body used
+                                                      !! to construct the frame
+    integer,intent(in)              :: center         !! the frame center (can
+                                                      !! be `primary_body`,
+                                                      !! `secondary_body`, or
+                                                      !! `barycenter`)
+    real(wp),intent(in)             :: scale          !! scale factor
+    real(wp),intent(in)             :: et             !! epoch at which the
+                                                      !! frame is defined [sec]
+
+    f%primary_body   = primary_body
+    f%secondary_body = secondary_body
+    f%center         = center
+    f%scale          = scale
+    f%et             = et
+
+    end function two_body_rotating_pulsating_frame_constructor
+!********************************************************************************
+
+!********************************************************************************
+!>
+!  Constructor for a [[iau_earth_rotating_frame]]
+
+    pure function iau_earth_rotating_frame_constructor(b,et) result(f)
+
+    implicit none
+
+    type(iau_earth_rotating_frame)  :: f
+    type(celestial_body),intent(in) :: b   !! the central body
+    real(wp),intent(in)             :: et  !! epoch at which the
+                                           !! frame is defined [sec]
+
+    f%primary_body   = b
+    f%et             = et
+
+    end function iau_earth_rotating_frame_constructor
+!********************************************************************************
+
+!********************************************************************************
+!>
+!  Constructor for a [[iau_moon_rotating_frame]]
+
+    pure function iau_moon_rotating_frame_constructor(b,et) result(f)
+
+    implicit none
+
+    type(iau_earth_rotating_frame)  :: f
+    type(celestial_body),intent(in) :: b   !! the central body
+    real(wp),intent(in)             :: et  !! epoch at which the
+                                           !! frame is defined [sec]
+
+    f%primary_body   = b
+    f%et             = et
+
+    end function iau_moon_rotating_frame_constructor
+!********************************************************************************
+
+!********************************************************************************
+!>
+!  Constructor for a [[icrf_frame]]
+!
+!@note the `et` doesn't matter for inertial frames
+
+    pure function icrf_frame_constructor(b) result(f)
+
+    implicit none
+
+    type(icrf_frame)  :: f
+    type(celestial_body),intent(in) :: b   !! the central body
+
+    f%primary_body = b
+
+    end function icrf_frame_constructor
 !********************************************************************************
 
 !********************************************************************************
@@ -500,7 +635,7 @@
                                                         3.0_wp] !! km, km/s
     real(wp),parameter :: et = zero           !! ephemeris time [sec]
     real(wp),parameter :: scale = 384400.0_wp !! scale factor [km]
-    character(len=*),parameter :: ephemeris_file_421 = '../eph/JPLEPH_1900-2050.421' !! JPL DE421 ephemeris file
+    character(len=*),parameter :: ephemeris_file_421 = '../eph/JPLEPH.421' !! JPL DE421 ephemeris file
 
     type(icrf_frame) :: from
     type(two_body_rotating_pulsating_frame) :: to

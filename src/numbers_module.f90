@@ -34,5 +34,14 @@
                                                      [zero,one,zero],&
                                                      [zero,zero,one]],[3,3])
 
+    !> 6x6 identity matrix:
+    real(wp),dimension(6,6),parameter,public :: identity_6x6= reshape(&
+                                                    [[one,zero,zero,zero,zero,zero],&
+                                                     [zero,one,zero,zero,zero,zero],&
+                                                     [zero,zero,one,zero,zero,zero],&
+                                                     [zero,zero,zero,one,zero,zero],&
+                                                     [zero,zero,zero,zero,one,zero],&
+                                                     [zero,zero,zero,zero,zero,one] ],[6,6])
+
     end module numbers_module
 !*****************************************************************************************

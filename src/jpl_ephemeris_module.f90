@@ -605,7 +605,7 @@
          iostat  = istat,         &
          status  = 'OLD'          )
 
-         write(*,*) "istat=",istat
+         !write(*,*) "istat=",istat
 
     status_ok = (istat==0)  !if there were no problems opening the file
 
@@ -915,8 +915,8 @@
     type(jpl_ephemeris) :: eph405, eph421
     logical :: status_ok_405,status_ok_421
 
-    character(len=*),parameter :: ephemeris_file_405 = '../eph/JPLEPH_2000-2100.405' !! JPL DE405 ephemeris file
-    character(len=*),parameter :: ephemeris_file_421 = '../eph/JPLEPH_1900-2050.421' !! JPL DE421 ephemeris file
+    character(len=*),parameter :: ephemeris_file_405 = '../eph/JPLEPH.405' !! JPL DE405 ephemeris file
+    character(len=*),parameter :: ephemeris_file_421 = '../eph/JPLEPH.421' !! JPL DE421 ephemeris file
 
     write(*,*) ''
     write(*,*) '---------------'

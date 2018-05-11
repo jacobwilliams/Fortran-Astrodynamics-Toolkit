@@ -21,8 +21,8 @@
 
     abstract interface
         subroutine rv_func(me,et,targ,obs,rv,status_ok)
-        !! function to return the state of the `obs` body relative to
-        !! the `targ` body, in the inertial frame [ICRF].
+        !! function to return the state of the `targ` body relative to
+        !! the `obs` body, in the inertial frame [ICRF].
         import :: wp,ephemeris_class,celestial_body
         implicit none
         class(ephemeris_class),intent(inout) :: me
