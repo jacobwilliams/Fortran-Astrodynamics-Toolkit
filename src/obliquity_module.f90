@@ -48,7 +48,7 @@
     procedure(mean_obliquity_func),optional :: obliquity_func !! optional function to compute
                                                               !! the mean obliquity. If not
                                                               !! present, then
-                                                              !! [[mean_obliquity_of_ecliptic_iau2000a]]
+                                                              !! [[mean_obliquity_of_ecliptic_spice]]
                                                               !! is used.
 
     real(wp) :: e !! mean obliquity at J2000 (rad)
@@ -57,7 +57,7 @@
     if (present(obliquity_func)) then
         e = obliquity_func(0.0_wp)
     else
-        e = mean_obliquity_of_ecliptic_iau2000a(0.0_wp)
+        e = mean_obliquity_of_ecliptic_spice(0.0_wp)
     end if
     e = e * deg2rad
     s = sin(e)
@@ -82,7 +82,7 @@
     procedure(mean_obliquity_func),optional :: obliquity_func !! optional function to compute
                                                               !! the mean obliquity. If not
                                                               !! present, then
-                                                              !! [[mean_obliquity_of_ecliptic_iau2000a]]
+                                                              !! [[mean_obliquity_of_ecliptic_spice]]
                                                               !! is used.
 
     rot = transpose(mean_ecliptic_to_equatorial_rotmat(obliquity_func))
@@ -113,10 +113,40 @@
     ! convert input time to centuries:
     t = et*sec2day*day2century
 
-    ! horner's rule:
+    ! use horner's rule:
     e = (c(1)+t*(c(2)+t*(c(3)+t*(c(4)+t*(c(5)+t*c(6))))))*arcsec2deg
 
     end function mean_obliquity_of_ecliptic_iau2000a
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Mean obliquity of the ecliptic, SPICE formula.
+!
+!### Reference
+!  * This equation is consistent with the one from the SPICE `zzmobliq` routine.
+
+    pure function mean_obliquity_of_ecliptic_spice(et) result(e)
+
+    implicit none
+
+    real(wp),intent(in) :: et  !! ephemeris time (sec)
+    real(wp)            :: e   !! obliquity of ecliptic (deg)
+
+    real(wp) :: t  !! time in centuries from the J2000 epoch
+
+    real(wp),dimension(0:3),parameter :: c = [  84381.448_wp,&
+                                                -46.8150_wp,&
+                                                -0.00059_wp,&
+                                                +0.001813_wp] !! coefficients
+
+    ! convert input time to centuries:
+    t = et*sec2day*day2century
+
+    ! use horner's rule:
+    e = (c(0)+t*(c(1)+t*(c(2)+t*c(3))))*arcsec2deg
+
+    end function mean_obliquity_of_ecliptic_spice
 !*****************************************************************************************
 
 !*****************************************************************************************

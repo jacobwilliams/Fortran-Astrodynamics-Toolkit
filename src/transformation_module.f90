@@ -114,6 +114,15 @@
         module procedure :: icrf_frame_constructor
     end interface icrf_frame
 
+    type,extends(inertial_frame_class),public :: ecliptic_frame
+        !! Mean ecliptic frame.
+    contains
+        procedure :: get_c_cdot => get_c_cdot_ecliptic
+    end type ecliptic_frame
+    interface ecliptic_frame
+        module procedure :: ecliptic_frame_constructor
+    end interface ecliptic_frame
+
     abstract interface
         subroutine c_cdot_func(me,eph,to_icrf,c,cdot,status_ok)
             import :: wp,reference_frame,ephemeris_class
@@ -249,6 +258,24 @@
     f%primary_body = b
 
     end function icrf_frame_constructor
+!********************************************************************************
+
+!********************************************************************************
+!>
+!  Constructor for a [[ecliptic_frame]]
+!
+!@note the `et` doesn't matter for inertial frames
+
+    pure function ecliptic_frame_constructor(b) result(f)
+
+    implicit none
+
+    type(ecliptic_frame)  :: f
+    type(celestial_body),intent(in) :: b   !! the central body
+
+    f%primary_body = b
+
+    end function ecliptic_frame_constructor
 !********************************************************************************
 
 !********************************************************************************
@@ -564,6 +591,34 @@
 !********************************************************************************
 
 !********************************************************************************
+    subroutine get_c_cdot_ecliptic(me,eph,to_icrf,c,cdot,status_ok)
+
+    !! rotation matrix for ICRF <-> Mean Ecliptic
+
+    use obliquity_module
+
+    implicit none
+
+    class(ecliptic_frame),intent(inout)          :: me
+    class(ephemeris_class),intent(inout)         :: eph
+    logical,intent(in)                           :: to_icrf
+    real(wp),dimension(3,3),intent(out)          :: c
+    real(wp),dimension(3,3),intent(out),optional :: cdot
+    logical,intent(out)                          :: status_ok
+
+    if (to_icrf) then
+        c = mean_ecliptic_to_equatorial_rotmat()
+    else
+        c = equatorial_to_mean_ecliptic_rotmat()
+    end if
+
+    if (present(cdot)) cdot = zero
+    status_ok = .true.
+
+    end subroutine get_c_cdot_ecliptic
+!********************************************************************************
+
+!********************************************************************************
     subroutine get_c_cdot_iau_earth(me,eph,to_icrf,c,cdot,status_ok)
 
     !! rotation matrix for IAU_EARTH <-> ICRF
@@ -642,6 +697,9 @@
     type(jpl_ephemeris) :: eph421
     logical :: status_ok
     real(wp),dimension(6) :: rv_out
+    type(ecliptic_frame) :: ecliptic_f
+    real(wp),dimension(3,3) :: c
+    integer :: i !! counter
 
     write(*,*) ''
     write(*,*) '---------------'
@@ -667,6 +725,25 @@
     write(*,'(A/,*(E30.16/))') 'initial state (J2000-Earth):', initial_state
     write(*,'(A/,*(E30.16/))') 'final state (Earth-Moon rotating, centered at barycenter, scale=384400):', rv_out
     write(*,*) ''
+
+    ! ecliptic frame:
+    ecliptic_f = ecliptic_frame(b=body_earth)
+    call ecliptic_f%get_c_cdot(eph421,to_icrf=.true.,c=c,status_ok=status_ok)
+    write(*,*) ''
+    write(*,*) 'ecliptic to j2000:'
+    do i=1,3
+        write(*,*) c(i,:)
+    end do
+
+    ! from SPICE:
+    ! rot = [1.0000000000000000E+00, 0.0000000000000000E+00, 0.0000000000000000E+00,
+    !        0.0000000000000000E+00, 9.1748206206918181E-01, -3.9777715593191371E-01,
+    !        0.0000000000000000E+00, 3.9777715593191371E-01, 9.1748206206918181E-01]
+    !
+    ! from FAT:
+    !        1.0000000000000000        0.0000000000000000        0.0000000000000000
+    !        0.0000000000000000       0.91748206206918181      -0.39777715593191371
+    !        0.0000000000000000       0.39777715593191371       0.91748206206918181
 
     !close the ephemeris:
     call eph421%close()
