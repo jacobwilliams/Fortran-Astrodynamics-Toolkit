@@ -27,14 +27,14 @@
 !### See also
 !  * Dario Izzo: pykep/src/core_functions/propagate_lagrangian.h
 
-    subroutine kepler_classical(x0, t, mu, xf)
+    subroutine kepler_classical(x0, dt, mu, xf)
 
     use newton_module, only: newton
 
     implicit none
 
     real(wp),dimension(6),intent(in)  :: x0  !! initial position,velocity vector
-    real(wp),intent(in)               :: t   !! propagation time
+    real(wp),intent(in)               :: dt  !! propagation time
     real(wp),intent(in)               :: mu  !! central body gravitational parameter
     real(wp),dimension(6),intent(out) :: xf  !! final position,velocity vector
 
@@ -51,6 +51,12 @@
     real(wp),parameter :: xtol = 1.0e-12_wp          !! indep variable tol for root finding
     integer,parameter  :: max_iter = 1000            !! maximum number of iterations in newton
 
+    ! check trivial case:
+    if (dt==zero) then
+        xf = x0
+        return
+    end if
+
     r0     = x0(1:3)
     v0     = x0(4:6)
     rmag   = norm2(r0)
@@ -66,7 +72,7 @@
     if (energy < -parabolic_tol) then ! elliptical case
 
         sqrta = sqrt(a)
-        dm = sqrt(mu / a**3) * t
+        dm = sqrt(mu / a**3) * dt
         de = dm
 
         call newton(de,kepde_,d_kepde_,ftol,xtol,max_iter,xs,fx,iflag)
@@ -87,14 +93,8 @@
     else if (energy > parabolic_tol) then ! hyperbolic case
 
         sqrta = sqrt(-a)
-        dn = sqrt(-mu / a**3) * t
-
-        ! todo: need a better initial guess
-        if (t > zero) then
-            dh = one
-        else
-            dh = -one
-        end if
+        dn = sqrt(-mu / a**3) * dt
+        dh = sign(one,dt)      ! todo: need a better initial guess
 
         call newton(dh,kepdh_,d_kepdh_,ftol,xtol,max_iter,xs,fx,iflag)
         if (iflag<0) then
@@ -116,7 +116,7 @@
         ! See Battin Section 4.2
 
         p    = two * rmag - sigma0**2
-        B    = one / p**1.5_wp * ( sigma0 * (rmag + p) + three * sqrt(mu) * t )
+        B    = one / p**1.5_wp * ( sigma0 * (rmag + p) + three * sqrt(mu) * dt )
         term = B + sqrt(one+B*B)
         z    = (term)**(one/three) - (term)**(-one/three) ! Battin eqn 4.12 where z = tan(f/2)
         x    = sqrt(p) * z - sigma0
