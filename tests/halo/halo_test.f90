@@ -17,7 +17,6 @@
     real(wp),parameter :: mu_moon  = 4902.800076_wp      !! \( \mu_{Moon}  ~ (\mathrm{km}^3/\mathrm{s}^2) \)
     real(wp),parameter :: em_distance = 384400.0_wp      !! earth-moon distance [km]
 
-    integer,parameter  :: libpoint = 2      !! L2 point
     real(wp),parameter :: A_z = 1000.0_wp   !! halo z-amplitude
     integer,parameter  :: sol_family = 1    !! 1 or 3 (family)
     real(wp),parameter :: t1 = 0.0_wp       !! tau for halo orbit
@@ -51,6 +50,9 @@
     real(wp)                :: x_L1,x_L2,x_L3
     integer                 :: info
     real(wp)                :: Az
+    integer                 :: libpoint !! libration point
+    real(wp)                :: period   !! halo orbit period
+    integer                 :: istat
 
     character(len=1),dimension(4),parameter :: colors = ['r','g','b','k']  !! line colors for plots
 
@@ -63,6 +65,7 @@
     real(wp),parameter  :: ystep = 0.01_wp
 
     ! get the halo orbit initial guess using the analytic approximation:
+    libpoint = 2 ! L2 point
     call halo_to_rv(libpoint,mu_earth,mu_moon,em_distance,A_z,sol_family,t1,x0)
 
     call unnormalize_variables(mu_earth,mu_moon,em_distance,x_crtbp=x0,x=x0_km)
@@ -154,19 +157,19 @@
                             use_numpy=.true.,axis_equal=.true.,mplot3d=.true.)
 
     !trajectory:
-    call plt%add_3d_plot(x_crtbp,y_crtbp,z_crtbp,label='trajectory',linestyle='b-',linewidth=2)
+    call plt%add_3d_plot(x_crtbp,y_crtbp,z_crtbp,label='trajectory',linestyle='b-',linewidth=2,istat=istat)
     !bodies:
-    call plt%add_3d_plot([-mu],[zero],[zero], label='B1',linestyle='bo',markersize=5,linewidth=5)
-    call plt%add_3d_plot([1.0_wp-mu],[zero],[zero], label='B2',linestyle='ko',markersize=5,linewidth=5)
+    call plt%add_3d_plot([-mu],[zero],[zero], label='B1',linestyle='bo',markersize=5,linewidth=5,istat=istat)
+    call plt%add_3d_plot([1.0_wp-mu],[zero],[zero], label='B2',linestyle='ko',markersize=5,linewidth=5,istat=istat)
     !libration point locations:
-    call plt%add_3d_plot([x_L1],[zero],[zero], label='L1',linestyle='rx',markersize=3,linewidth=3)
-    call plt%add_3d_plot([x_L2],[zero],[zero], label='L2',linestyle='rx',markersize=3,linewidth=3)
-    call plt%add_3d_plot([x_L3],[zero],[zero], label='L3',linestyle='rx',markersize=3,linewidth=3)
+    call plt%add_3d_plot([x_L1],[zero],[zero], label='L1',linestyle='rx',markersize=3,linewidth=3,istat=istat)
+    call plt%add_3d_plot([x_L2],[zero],[zero], label='L2',linestyle='rx',markersize=3,linewidth=3,istat=istat)
+    call plt%add_3d_plot([x_L3],[zero],[zero], label='L3',linestyle='rx',markersize=3,linewidth=3,istat=istat)
     !zero-velocity curve (for this jacobi constant):
     call plt%add_contour(x_vec, y_vec, c_mat, label='zero velocity curve', &
                            linestyle='-', linewidth=2, &
-                           levels=[c], color='r')
-    call plt%savefig('halo_guess.png',pyfile='halo_guess.py')
+                           levels=[c], color='r',istat=istat)
+    call plt%savefig('halo_guess.png',pyfile='halo_guess.py',istat=istat)
     call plt%destroy()
 
     !-------------------------------------------
@@ -190,63 +193,66 @@
 
     ! see also: http://ccar.colorado.edu/asen5050/projects/projects_2012/bezrouk/Mission%20Analysis.html
 
-    do i=1,10
+    do libpoint=1,2 ! libration point L1, L2, L3
+        do i=1,10
 
-        Az = A_z+(i-1)*1000.0_wp  ! in km
-        !Az = A_z+(i-1)*10000.0_wp  ! in km  - for L3 cases
+            Az = A_z+(i-1)*1000.0_wp  ! in km
+            !Az = A_z+(i-1)*10000.0_wp  ! in km  - for L3 cases
 
-        call prop%destroy()
-        call prop%initialize(n,func,g=x_axis_crossing)
+            call prop%destroy()
+            call prop%initialize(n,func,g=x_axis_crossing)
 
-        call halo_to_rv(libpoint,mu_earth,mu_moon,em_distance,&
-                        Az,sol_family,t1,x0)
+            call halo_to_rv(libpoint,mu_earth,mu_moon,em_distance,&
+                            Az,sol_family,t1,x0,period=period)
+            if (period==zero) cycle
 
-        write(*,*) ''
-        write(*,*) ' r0=',x0(1:3)
-        write(*,*) ' v0=',x0(4:6)
+            write(*,*) ''
+            write(*,*) ' r0=',x0(1:3)
+            write(*,*) ' v0=',x0(4:6)
 
-        if (allocated(x_crtbp)) then ! clear these for new trajectory
-            deallocate(x_crtbp)
-            deallocate(y_crtbp)
-            deallocate(z_crtbp)
-        end if
+            if (allocated(x_crtbp)) then ! clear these for new trajectory
+                deallocate(x_crtbp)
+                deallocate(y_crtbp)
+                deallocate(z_crtbp)
+            end if
 
-        !now, solve for a halo:
-        ! [note: we could also use the STM for better derivatives here....]
-        x_vy0 = [x0(1),x0(5)]
-        call hybrd1(halo_fcn,2,x_vy0,vx_vzf,tol=xtol,info=info)
-        write(*,*) ''
-        write(*,*) ' info=',info
-        write(*,*) ' Az =',Az
-        write(*,*) ' x0 =',x_vy0(1)
-        write(*,*) ' vy0=',x_vy0(2)
-        write(*,*) ' vxf=',vx_vzf(1)
-        write(*,*) ' vzf=',vx_vzf(2)
+            !now, solve for a halo:
+            ! [note: we could also use the STM for better derivatives here....]
+            x_vy0 = [x0(1),x0(5)]
+            call hybrd1(halo_fcn,2,x_vy0,vx_vzf,tol=xtol,info=info)
+            write(*,*) ''
+            write(*,*) ' info=',info
+            write(*,*) ' Az =',Az
+            write(*,*) ' x0 =',x_vy0(1)
+            write(*,*) ' vy0=',x_vy0(2)
+            write(*,*) ' vxf=',vx_vzf(1)
+            write(*,*) ' vzf=',vx_vzf(2)
 
-        !now plot solution:
-        call prop%initialize(n,func,report,g=x_axis_crossing)
-        x1    = x0
-        x1(1) = x_vy0(1)  !solution from hybrd
-        x1(5) = x_vy0(2)  !solution from hybrd
-        !integrate one full rev (two x-axis crossings):
-        call prop%integrate_to_event(t0,x1,dt,tmax,tol,tf_actual,xf,gf)  !1/2 rev
-        call prop%integrate_to_event(t0,xf,dt,tmax,tol,tf_actual,x1,gf)  !1 rev
+            !now plot solution:
+            call prop%initialize(n,func,report,g=x_axis_crossing)
+            x1    = x0
+            x1(1) = x_vy0(1)  !solution from hybrd
+            x1(5) = x_vy0(2)  !solution from hybrd
+            !integrate one full rev (two x-axis crossings):
+            call prop%integrate_to_event(t0,x1,dt,tmax,tol,tf_actual,xf,gf)  !1/2 rev
+            call prop%integrate_to_event(t0,xf,dt,tmax,tol,tf_actual,x1,gf)  !1 rev
 
-        write(*,*) 'period: ', 2.0_wp * tf_actual
+            write(*,*) 'period: ', 2.0_wp * tf_actual
 
-        !plot the 3D trajectory:
-        call plt%add_3d_plot(x_crtbp,y_crtbp,z_crtbp,label='solution',&
-                            linestyle=colors(1+mod(i,size(colors)))//'-',linewidth=2)
+            !plot the 3D trajectory:
+            call plt%add_3d_plot(x_crtbp,y_crtbp,z_crtbp,label='solution',&
+                                linestyle=colors(1+mod(i,size(colors)))//'-',linewidth=2,istat=istat)
 
+        end do
     end do
 
     !also plot the libration point locations:
-    call plt%add_3d_plot([x_L1],[zero],[zero], label='L1',linestyle='rx',markersize=4,linewidth=3)
-    call plt%add_3d_plot([x_L2],[zero],[zero], label='L2',linestyle='rx',markersize=4,linewidth=3)
-    call plt%add_3d_plot([x_L3],[zero],[zero], label='L3',linestyle='rx',markersize=3,linewidth=3)
-    call plt%add_3d_plot([-mu],[zero],[zero], label='B1',linestyle='bo',markersize=5,linewidth=5)
-    call plt%add_3d_plot([1.0_wp-mu],[zero],[zero], label='B2',linestyle='ko',markersize=5,linewidth=5)
-    call plt%savefig('halos.png',pyfile='halos.py')
+    call plt%add_3d_plot([x_L1],[zero],[zero], label='L1',linestyle='rx',markersize=4,linewidth=3,istat=istat)
+    call plt%add_3d_plot([x_L2],[zero],[zero], label='L2',linestyle='rx',markersize=4,linewidth=3,istat=istat)
+    !call plt%add_3d_plot([x_L3],[zero],[zero], label='L3',linestyle='rx',markersize=3,linewidth=3,istat=istat)
+    !call plt%add_3d_plot([-mu],[zero],[zero], label='B1',linestyle='bo',markersize=5,linewidth=5,istat=istat)
+    call plt%add_3d_plot([1.0_wp-mu],[zero],[zero], label='B2',linestyle='ko',markersize=5,linewidth=5,istat=istat)
+    call plt%savefig('halos.png',pyfile='halos.py',istat=istat)
     call plt%destroy()
 
     contains

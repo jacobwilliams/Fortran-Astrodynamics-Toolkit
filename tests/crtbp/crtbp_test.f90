@@ -45,6 +45,7 @@
     real(wp),dimension(:,:),allocatable :: c_mat
     real(wp) :: x_L1,x_L2,x_L3
     real(wp),dimension(2) :: xy_L4,xy_L5
+    integer :: istat
 
     !for zero-velocity countours:
     real(wp),parameter  :: xmin  = -2.0_wp
@@ -127,17 +128,17 @@
                             use_numpy=.true.,axis_equal=.true.)
 
     !trajectory:
-    call plt%add_plot(x_crtbp,y_crtbp,label='trajectory',linestyle='b-',linewidth=2)
+    call plt%add_plot(x_crtbp,y_crtbp,label='trajectory',linestyle='b-',linewidth=2,istat=istat)
     !libration point locations:
-    call plt%add_plot([x_L1],[zero],        label='L1',linestyle='rx',markersize=3,linewidth=3)
-    call plt%add_plot([x_L2],[zero],        label='L2',linestyle='rx',markersize=3,linewidth=3)
-    call plt%add_plot([x_L3],[zero],        label='L3',linestyle='rx',markersize=3,linewidth=3)
-    call plt%add_plot([xy_L4(1)],[xy_L4(2)],label='L4',linestyle='rx',markersize=3,linewidth=3)
-    call plt%add_plot([xy_L5(1)],[xy_L5(2)],label='L5',linestyle='rx',markersize=3,linewidth=3)
+    call plt%add_plot([x_L1],[zero],        label='L1',linestyle='rx',markersize=3,linewidth=3,istat=istat)
+    call plt%add_plot([x_L2],[zero],        label='L2',linestyle='rx',markersize=3,linewidth=3,istat=istat)
+    call plt%add_plot([x_L3],[zero],        label='L3',linestyle='rx',markersize=3,linewidth=3,istat=istat)
+    call plt%add_plot([xy_L4(1)],[xy_L4(2)],label='L4',linestyle='rx',markersize=3,linewidth=3,istat=istat)
+    call plt%add_plot([xy_L5(1)],[xy_L5(2)],label='L5',linestyle='rx',markersize=3,linewidth=3,istat=istat)
     !zero-velocity curve (for this jacobi constant):
     call plt%add_contour(x_vec, y_vec, c_mat, label='zero velocity curve', &
-                            linestyle='-', linewidth=2, levels=[c], color='r')
-    call plt%savefig('crtbp_test.png')
+                            linestyle='-', linewidth=2, levels=[c], color='r',istat=istat)
+    call plt%savefig('crtbp_test.png',istat=istat)
     call plt%destroy()
 
     contains

@@ -44,6 +44,7 @@
     real(wp)                :: x,y,gf,tf_actual,t1
     real(wp)                :: x_L1,x_L2,x_L3
     integer                 :: info
+    integer                 :: istat
 
     character(len=1),dimension(4),parameter :: colors = ['r','g','b','k']  !! line colors for plots
 
@@ -150,15 +151,15 @@
                             use_numpy=.true.,axis_equal=.true.)
 
     !trajectory:
-    call plt%add_plot(x_crtbp,y_crtbp,label='trajectory',linestyle='b-',linewidth=2)
+    call plt%add_plot(x_crtbp,y_crtbp,label='trajectory',linestyle='b-',linewidth=2,istat=istat)
     !libration point locations:
-    call plt%add_plot([x_L1],[zero],        label='L1',linestyle='rx',markersize=3,linewidth=3)
-    call plt%add_plot([x_L2],[zero],        label='L2',linestyle='rx',markersize=3,linewidth=3)
+    call plt%add_plot([x_L1],[zero],label='L1',linestyle='rx',markersize=3,linewidth=3,istat=istat)
+    call plt%add_plot([x_L2],[zero],label='L2',linestyle='rx',markersize=3,linewidth=3,istat=istat)
     !zero-velocity curve (for this jacobi constant):
     call plt%add_contour(x_vec, y_vec, c_mat, label='zero velocity curve', &
                             linestyle='-', linewidth=2, &
-                            levels=[c], color='r')
-    call plt%savefig('dro_guess.png')
+                            levels=[c], color='r',istat=istat)
+    call plt%savefig('dro_guess.png',istat=istat)
     call plt%destroy()
 
     !-------------------------------------------
@@ -221,14 +222,14 @@
 
         !plot the 2D trajectory:
         call plt%add_plot(x_crtbp,y_crtbp,label='solution',&
-                            linestyle=colors(1+mod(i,size(colors)))//'-',linewidth=2)
+                            linestyle=colors(1+mod(i,size(colors)))//'-',linewidth=2,istat=istat)
 
     end do
 
     !also plot the libration point locations:
-    call plt%add_plot([x_L1],[zero], label='L1',linestyle='rx',markersize=4,linewidth=3)
-    call plt%add_plot([x_L2],[zero], label='L2',linestyle='rx',markersize=4,linewidth=3)
-    call plt%savefig('dros.png')
+    call plt%add_plot([x_L1],[zero], label='L1',linestyle='rx',markersize=4,linewidth=3,istat=istat)
+    call plt%add_plot([x_L2],[zero], label='L2',linestyle='rx',markersize=4,linewidth=3,istat=istat)
+    call plt%savefig('dros.png',istat=istat)
     call plt%destroy()
 
     contains

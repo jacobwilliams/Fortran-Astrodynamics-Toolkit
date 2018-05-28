@@ -10,7 +10,7 @@
 
     module halo_orbit_module
 
-    use iso_fortran_env, only: wp => real64
+    use iso_fortran_env, only: wp => real64, error_unit
     use numbers_module
     use crtbp_module
 
@@ -40,7 +40,6 @@
 
     use rk_module
     use minpack_module
-    use iso_fortran_env, only: error_unit
     use math_module,     only: wrap_angle
 
     implicit none
@@ -223,9 +222,10 @@
     real(wp) :: x,y,z,vx,vy,vz
     real(wp) :: a1,a2,a21,a22,a23,a24,a31,a32,b21,&
                 b22,b31,b32,c2,c3,c4,delta,w,&
-                d1,d2,d21,d3,d31,d32,k,l1,l2,s1,s2
+                d1,d2,d21,d3,d31,d32,k,l1,l2,s1,s2,term
     real(wp),dimension(3) :: x_libpoint  !! x-coordinates of the libration
                                          !! point (wrt barycenter, normalized)
+    logical :: ok
 
     ! error check:
     if (n/=1 .and. n/=3) then
@@ -278,7 +278,21 @@
     l1      = two*s1*lambda**2+a1
     l2      = two*s2*lambda**2+a2
     Az2     = Az**2
-    Ax      = sqrt((-delta-l2*Az2)/l1) ! equation 18 -- NOTE: we should check if this is feasible
+
+    ! check if this Az is feasible
+    ok = (l1/=zero)
+    if (ok) then
+        term = (-delta-l2*Az2)/l1
+        ok = (term>=zero)
+    end if
+    if (.not. ok) then
+        rv = zero
+        if (present(period)) period = zero
+        write(error_unit,'(A)') 'Error: infeasible input.'
+        return
+    end if
+
+    Ax      = sqrt(term) ! equation 18
     Ax2     = Ax**2
     Ay      = k*Ax
     w       = one+s1*Ax2+s2*Az2  ! frequency correction

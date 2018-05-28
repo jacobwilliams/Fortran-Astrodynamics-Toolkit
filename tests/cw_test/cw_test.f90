@@ -124,52 +124,63 @@
     call plt%initialize(grid=.true.,xlabel='LVLH x [km]',ylabel='LVLH y [km]',&
                             title='Integration vs CW Propagation',legend=.true.,figsize=[10,5])
     call plt%add_plot([zero],[zero],label='Target', &
-                            linestyle='bo',markersize=5)
+                            linestyle='bo',markersize=5,istat=istat)
     call plt%add_plot(x_lvlh_int,y_lvlh_int, &
-                            label='Integrated (10x10 gravity)', linestyle='b-',markersize=5,linewidth=2)
+                            label='Integrated (10x10 gravity)', &
+                            linestyle='b-',markersize=5,linewidth=2,istat=istat)
     call plt%add_plot(x_lvlh_int_pm,y_lvlh_int_pm, &
-                            label='Integrated (pointmass gravity)', linestyle='g-',markersize=5,linewidth=2)
+                            label='Integrated (pointmass gravity)', &
+                            linestyle='g-',markersize=5,linewidth=2,istat=istat)
     call plt%add_plot(x_lvlh_cw,y_lvlh_cw, &
-                            label='CW Equations', linestyle='r-',markersize=5,linewidth=2)
-    call plt%savefig('cw_test_xy.png')
+                            label='CW Equations', linestyle='r-',markersize=5,linewidth=2,istat=istat)
+    call plt%savefig('cw_test_xy.png',istat=istat)
     call plt%destroy()
 
     call plt%initialize(grid=.true.,xlabel='LVLH x [km]',ylabel='LVLH z [km]',&
                             title='Integration vs CW Propagation',legend=.true.,figsize=[10,5])
-    call plt%add_plot([zero],[zero],label='Target',linestyle='bo',markersize=5)
+    call plt%add_plot([zero],[zero],label='Target',linestyle='bo',markersize=5,istat=istat)
     call plt%add_plot(x_lvlh_int,z_lvlh_int, &
-                            label='Integrated (10x10 gravity)', linestyle='b-',markersize=5,linewidth=2)
+                            label='Integrated (10x10 gravity)', &
+                            linestyle='b-',markersize=5,linewidth=2,istat=istat)
     call plt%add_plot(x_lvlh_int_pm,z_lvlh_int_pm, &
-                            label='Integrated (pointmass gravity)', linestyle='g-',markersize=5,linewidth=2)
+                            label='Integrated (pointmass gravity)', &
+                            linestyle='g-',markersize=5,linewidth=2,istat=istat)
     call plt%add_plot(x_lvlh_cw,z_lvlh_cw, &
-                            label='CW Equations', linestyle='r-',markersize=5,linewidth=2)
-    call plt%savefig('cw_test_xz.png')
+                            label='CW Equations', &
+                            linestyle='r-',markersize=5,linewidth=2,istat=istat)
+    call plt%savefig('cw_test_xz.png',istat=istat)
     call plt%destroy()
 
     call plt%initialize(grid=.true.,xlabel='LVLH y [km]',ylabel='LVLH z [km]',&
                             title='Integration vs CW Propagation',legend=.true.,figsize=[10,5])
-    call plt%add_plot([zero],[zero],label='Target',linestyle='bo',markersize=5)
+    call plt%add_plot([zero],[zero],label='Target',linestyle='bo',markersize=5,istat=istat)
     call plt%add_plot(y_lvlh_int,z_lvlh_int, &
-                            label='Integrated (10x10 gravity)', linestyle='b-',markersize=5,linewidth=2)
+                            label='Integrated (10x10 gravity)', &
+                            linestyle='b-',markersize=5,linewidth=2,istat=istat)
     call plt%add_plot(y_lvlh_int_pm,z_lvlh_int_pm,&
-                            label='Integrated (pointmass gravity)', linestyle='g-',markersize=5,linewidth=2)
+                            label='Integrated (pointmass gravity)', &
+                            linestyle='g-',markersize=5,linewidth=2,istat=istat)
     call plt%add_plot(y_lvlh_cw,z_lvlh_cw, &
-                            label='CW Equations', linestyle='r-',markersize=5,linewidth=2)
-    call plt%savefig('cw_test_yz.png')
+                            label='CW Equations', &
+                            linestyle='r-',markersize=5,linewidth=2,istat=istat)
+    call plt%savefig('cw_test_yz.png',istat=istat)
     call plt%destroy()
 
     ! 3d plot:
     call plt%initialize(grid=.true.,xlabel='LVLH x [km]',ylabel='LVLH y [km]',zlabel='LVLH z[km]',&
                             title='Integration vs CW Propagation',legend=.true.,mplot3d=.true.,figsize=[10,5])
     call plt%add_3d_plot([zero],[zero],[zero],&
-                            label='Target',linestyle='bo',markersize=5)
+                            label='Target',linestyle='bo',markersize=5,istat=istat)
     call plt%add_3d_plot(x_lvlh_int,y_lvlh_int,z_lvlh_int,&
-                            label='Integrated (10x10 gravity)', linestyle='b-',markersize=5,linewidth=2)
+                            label='Integrated (10x10 gravity)', &
+                            linestyle='b-',markersize=5,linewidth=2,istat=istat)
     call plt%add_3d_plot(x_lvlh_int_pm,y_lvlh_int_pm,z_lvlh_int_pm,&
-                            label='Integrated (pointmass gravity)', linestyle='g-',markersize=5,linewidth=2)
+                            label='Integrated (pointmass gravity)', &
+                            linestyle='g-',markersize=5,linewidth=2,istat=istat)
     call plt%add_3d_plot(x_lvlh_cw,y_lvlh_cw,z_lvlh_cw, &
-                            label='CW Equations', linestyle='r-',markersize=5,linewidth=2)
-    call plt%savefig('cw_test_xyz.png')
+                            label='CW Equations', &
+                            linestyle='r-',markersize=5,linewidth=2,istat=istat)
+    call plt%savefig('cw_test_xyz.png',istat=istat)
     call plt%destroy()
 
     !cleanup:
