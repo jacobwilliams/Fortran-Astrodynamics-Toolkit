@@ -3,7 +3,7 @@
 !
 !  Brent algorithms for minimization and root solving without derivatives.
 !
-!# See also
+!### See also
 !
 !  1. R. Brent, "Algorithms for Minimization Without Derivatives",
 !     Prentice-Hall, Inc., 1973.
@@ -27,8 +27,9 @@
     end type brent_class
 
     abstract interface
-        function func(me,x) result(f)    !! Interface to the function to be minimized.
-                                         !! It should evaluate f(x) for any x in the interval (ax,bx)
+        function func(me,x) result(f)
+            !! Interface to the function to be minimized.
+            !! It should evaluate f(x) for any x in the interval (ax,bx)
             import :: wp,brent_class
             implicit none
             class(brent_class),intent(inout) :: me
@@ -87,8 +88,8 @@
 !  algol 60 procedure localmin given in richard brent, algorithms for
 !  minimization without derivatives, prentice - hall, inc. (1973).
 !
-!# See also
-!  [1] http://www.netlib.no/netlib/fmm/fmin.f
+!### See also
+!  [1] http://www.netlib.org/fmm/fmin.f
 
     function fmin(me,ax,bx,tol) result(xmin)
 
@@ -97,18 +98,20 @@
     class(brent_class),intent(inout) :: me
     real(wp),intent(in) :: ax   !! left endpoint of initial interval
     real(wp),intent(in) :: bx   !! right endpoint of initial interval
-    real(wp),intent(in) :: tol  !! desired length of the interval of uncertainty of the final result (>=0)
-    real(wp)            :: xmin !! abcissa approximating the point where f attains a minimum
+    real(wp),intent(in) :: tol  !! desired length of the interval of
+                                !! uncertainty of the final result (>=0)
+    real(wp)            :: xmin !! abcissa approximating the point where
+                                !! f attains a minimum
 
     real(wp) :: a,b,d,e,xm,p,q,r,tol1,tol2,u,v,w
     real(wp) :: fu,fv,fw,fx,x
     real(wp) :: abs,sqrt,sign
 
-    real(wp),parameter :: c = (three-sqrt(five))/two    !! squared inverse of golden ratio
+    real(wp),parameter :: c = (three-sqrt(five))/two  !! squared inverse of golden ratio
     real(wp),parameter :: half = 0.5_wp
     real(wp),parameter :: eps = sqrt(epsilon(one))
 
-    !initialization
+    ! initialization
 
     a = ax
     b = bx
@@ -132,46 +135,65 @@
 
         ! is golden-section necessary
 
-        if (abs(e) <= tol1) go to 40
+        if (abs(e) <= tol1) then
 
-        !  fit parabola
+            !  a golden-section step
 
-        r = (x - w)*(fx - fv)
-        q = (x - v)*(fx - fw)
-        p = (x - v)*q - (x - w)*r
-        q = two*(q - r)
-        if (q > zero) p = -p
-        q =  abs(q)
-        r = e
-        e = d
+            if (x >= xm) then
+                e = a - x
+            else
+                e = b - x
+            end if
+            d = c*e
 
-        !  is parabola acceptable
+        else
 
-        if (abs(p) >= abs(half*q*r)) go to 40
-        if (p <= q*(a - x)) go to 40
-        if (p >= q*(b - x)) go to 40
+            !  fit parabola
 
-        !  a parabolic interpolation step
+            r = (x - w)*(fx - fv)
+            q = (x - v)*(fx - fw)
+            p = (x - v)*q - (x - w)*r
+            q = two*(q - r)
+            if (q > zero) p = -p
+            q =  abs(q)
+            r = e
+            e = d
 
-        d = p/q
-        u = x + d
+            !  is parabola acceptable
 
-        !  f must not be evaluated too close to ax or bx
+            if ((abs(p) >= abs(half*q*r)) .or. (p <= q*(a - x)) .or. (p >= q*(b - x))) then
 
-        if ((u - a) < tol2) d = sign(tol1, xm - x)
-        if ((b - u) < tol2) d = sign(tol1, xm - x)
-        go to 50
+                !  a golden-section step
 
-        !  a golden-section step
+                if (x >= xm) then
+                    e = a - x
+                else
+                    e = b - x
+                end if
+                d = c*e
 
-    40  if (x >= xm) e = a - x
-        if (x < xm) e = b - x
-        d = c*e
+            else
+
+                !  a parabolic interpolation step
+
+                d = p/q
+                u = x + d
+
+                !  f must not be evaluated too close to ax or bx
+
+                if (((u - a) < tol2) .or. ((b - u) < tol2)) d = sign(tol1, xm - x)
+
+            end if
+
+        end if
 
         !  f must not be evaluated too close to x
 
-    50  if (abs(d) >= tol1) u = x + d
-        if (abs(d) < tol1) u = x + sign(tol1, d)
+        if (abs(d) >= tol1) then
+            u = x + d
+        else
+            u = x + sign(tol1, d)
+        end if
         fu = me%f(u)
 
         !  update a, b, v, w, and x
@@ -185,24 +207,18 @@
             fw = fx
             x = u
             fx = fu
-            cycle
-        end if
-
-        if (u < x) a = u
-        if (u >= x) b = u
-
-        if (fu <= fw .or. w == x) then
-            v = w
-            fv = fw
-            w = u
-            fw = fu
-            cycle
-        end if
-
-        if (fu <= fv .or. v == x .or. v == w ) then
-            v = u
-            fv = fu
-            cycle
+        else
+            if (u < x) a = u
+            if (u >= x) b = u
+            if (fu <= fw .or. w == x) then
+                v = w
+                fv = fw
+                w = u
+                fw = fu
+            else if (fu <= fv .or. v == x .or. v == w ) then
+                v = u
+                fv = fu
+            end if
         end if
 
     end do    !  end of main loop
@@ -221,14 +237,14 @@
 !
 !  It is assumed that \( f(a_x) \) and \( f(b_x) \) have opposite signs.
 !
-!#References
+!### References
 !  * R. P. Brent, "[An algorithm with guaranteed convergence for
 !    finding a zero of a function](http://maths-people.anu.edu.au/~brent/pd/rpb005.pdf)",
 !    The Computer Journal, Vol 14, No. 4., 1971.
 !  * R. P. Brent, "[Algorithms for minimization without derivatives](http://maths-people.anu.edu.au/~brent/pub/pub011.html)",
 !    Prentice-Hall, Inc., 1973.
 !
-!# See also
+!### See also
 !  1. [zeroin.f](http://www.netlib.org/go/zeroin.f) from Netlib
 
     subroutine zeroin(me,ax,bx,tol,xzero,fzero,iflag,fax,fbx)
@@ -374,7 +390,7 @@
 !> author: Jacob Williams
 !  date: 7/16/2014
 !
-!  Test of the fmin and zeroin functions.
+!  Test of the [[fmin]] and [[zeroin]] functions.
 
     subroutine brent_test()
 
