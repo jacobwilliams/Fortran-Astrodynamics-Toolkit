@@ -9,6 +9,7 @@
 !   * Fehlberg 8(9)
 !   * Verner 8(9)
 !   * Feagin 8(10)
+!   * Feagin 12(10)
 !
 !@warning This is a work in progress.
 
