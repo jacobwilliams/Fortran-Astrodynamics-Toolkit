@@ -30,16 +30,25 @@
 
         real(wp) :: hmax           = huge(one)        !! maximum allowed step size
         real(wp) :: hmin           = two*epsilon(one) !! minimum allowed step size
-        real(wp) :: hfactor_reject = 1.0e-3_wp        !! minimum allowed factor for decreasing step size after refected step
+        real(wp) :: hfactor_reject = 1.0e-3_wp        !! minimum allowed factor for decreasing step size after rejected step
         real(wp) :: hfactor_accept = 100.0_wp         !! maximum allowed factor for increasing step size after accepted step
         integer  :: accept_mode    = 1                !! method to determine if step is accepted [1,2]
         integer  :: max_attempts   = 100              !! maximum number of attempts to decrease step size before giving up
 
+        ! the `hfactor` equation is:
+        !
+        ! if (relative_err) then
+        !     hfactor = safety_factor * abs(tol*h/err)**(one/real(p+p_exponent_offset,wp))
+        ! else
+        !     hfactor = safety_factor * abs(tol/err)**(one/real(p+p_exponent_offset,wp))
+        ! end if
+
+        logical  :: relative_err      = .false. !! to use `tol*h` in the `hfactor` equation
+        real(wp) :: safety_factor     = 0.9_wp  !! for `hfactor` equation (>0)
+        integer  :: p_exponent_offset = 0       !! p + this value in the exponent (0 or 1)
+
         procedure(norm_func),nopass,pointer :: norm => maxval_func
             !! routine for computing the norm of the state
-
-        procedure(compute_h_factor_func),pointer :: compute_h_factor => compute_h_factor_v1
-            !! routine for computing the h factor when computing a new step size
 
         contains
 
@@ -113,6 +122,12 @@
         procedure :: step  => rkf108
         procedure :: order => rkf108_order
     end type rkf108_class
+    type,extends(rk_variable_step_class),public :: rkf1210_class
+        !! Runga-Kutta Feagin 12(10) method.
+        contains
+        procedure :: step  => rkf1210
+        procedure :: order => rkf1210_order
+    end type rkf1210_class
 
     abstract interface
 
@@ -168,17 +183,6 @@
             real(wp),dimension(me%n),intent(out) :: terr !! truncation error estimate
         end subroutine step_func
 
-        pure function compute_h_factor_func(me,h,tol,err,p) result(hfactor)
-            import :: wp, stepsize_class
-            implicit none
-            class(stepsize_class),intent(in) :: me
-            real(wp),intent(in)              :: h        !! current step size
-            real(wp),intent(in)              :: tol      !! abs error tolerance
-            real(wp),intent(in)              :: err      !! truncation error estimate
-            integer,intent(in)               :: p        !! order of the method
-            real(wp)                         :: hfactor  !! new step size factor (`hnew` = `h` * `hfactor`)
-        end function compute_h_factor_func
-
     end interface
 
     ! public routines:
@@ -231,7 +235,8 @@
 !         Need to fix this.
 
     pure subroutine stepsize_class_constructor(me,hmin,hmax,hfactor_reject,&
-                        hfactor_accept,norm,accept_mode,compute_h_factor,max_attempts)
+                        hfactor_accept,norm,accept_mode,relative_err,&
+                        safety_factor,p_exponent_offset,max_attempts)
 
 
     implicit none
@@ -249,19 +254,24 @@
                                                                   !! function
     integer,intent(in),optional               :: accept_mode      !! method to determine if step
                                                                   !! is accepted [1,2]
-    procedure(compute_h_factor_func),optional :: compute_h_factor !! routine for compute the `h`
-                                                                  !! factor
     integer,intent(in),optional               :: max_attempts     !! max step size change attempts
                                                                   !! after rejected step
+    logical,intent(in),optional   :: relative_err       !! to use `tol*h` in the `hfactor` equation
+    real(wp),intent(in),optional  :: safety_factor      !! for `hfactor` equation (>0)
+    integer,intent(in),optional   :: p_exponent_offset  !! p + this value in the exponent (0 or 1)
 
     if (present(hmin))             me%hmin             = abs(hmin)
     if (present(hmax))             me%hmax             = abs(hmax)
     if (present(hfactor_reject))   me%hfactor_reject   = abs(hfactor_reject)
     if (present(hfactor_accept))   me%hfactor_accept   = abs(hfactor_accept)
     if (present(norm))             me%norm             => norm
-    if (present(compute_h_factor)) me%compute_h_factor => compute_h_factor
     if (present(accept_mode))      me%accept_mode      = accept_mode
     if (present(max_attempts))     me%max_attempts     = max_attempts
+
+    !if (present(compute_h_factor)) me%compute_h_factor => compute_h_factor
+    if (present(relative_err     )) me%relative_err      = relative_err
+    if (present(safety_factor    )) me%safety_factor     = abs(safety_factor    )
+    if (present(p_exponent_offset)) me%p_exponent_offset = abs(p_exponent_offset)
 
     end subroutine stepsize_class_constructor
 !*****************************************************************************************
@@ -305,7 +315,12 @@
     else
 
         ! compute base factor based on the selected formula:
-        hfactor = abs(me%compute_h_factor(h,tol,err,p))
+        !hfactor = abs(me%compute_h_factor(h,tol,err,p))
+        if (me%relative_err) then
+            hfactor = abs( me%safety_factor*abs(tol*h/err)**(one/real(p+me%p_exponent_offset,wp)) )
+        else
+            hfactor = abs( me%safety_factor*abs(tol/err)**(one/real(p+me%p_exponent_offset,wp)) )
+        end if
 
         ! if the step is to be accepted:
         select case (me%accept_mode)
@@ -319,7 +334,7 @@
         ! see: L. Shampine "Some Practical Runge-Kutta Formulas",
         !      Mathematics of Computation, 46(173), Jan 1986.
         ! different conditions for satisfying error conditions:
-        !  ||err|| <= tol   -- Error per setp (EPS)
+        !  ||err|| <= tol   -- Error per step (EPS)
         !  ||err|| <= h*tol -- Error per unit step (EPUS)
 
         !compute the actual hfactor based on the limits:
@@ -335,130 +350,6 @@
     hnew = sign(max(me%hmin,min(me%hmax,abs(h)*hfactor)),h)
 
     end subroutine compute_stepsize
-!*****************************************************************************************
-
-
-
-    ! hfactor = 0.9_wp * abs(tol/err)  **(one/real(p,wp))   ! v1
-    ! hfactor = 0.9_wp * abs(tol/err)  **(one/real(p+1,wp)) ! v2
-    ! hfactor =          abs(tol/err)  **(one/real(p+1,wp)) ! v3
-    ! hfactor = 0.9_wp * abs(tol*h/err)**(one/real(p,wp))   ! v4
-    ! hfactor =          abs(tol*h/err)**(one/real(p,wp))   ! v5
-    !
-    !
-    ! ... could be reduced to these parameters ...
-    !
-    ! USE_TOL_TIMES_H = true or false
-    ! HFACTOR_SCALE   = 0.9_wp
-    ! EXPONENT        = p or p+1
-    !
-    ! if (USE_TOL_TIMES_H) then
-    !     hfactor = HFACTOR_SCALE * abs(tol*h/err)**(one/real(EXPONENT,wp))
-    ! else
-    !     hfactor = HFACTOR_SCALE * abs(tol/err)**(one/real(EXPONENT,wp))
-    ! end if
-
-
-
-!*****************************************************************************************
-    pure function compute_h_factor_v1(me,h,tol,err,p) result(hfactor)
-
-    !! Hull, Enright, Fellen and Sedgwick method
-
-    implicit none
-
-    class(stepsize_class),intent(in) :: me
-    real(wp),intent(in)              :: h        !! current step size
-    real(wp),intent(in)              :: tol      !! abs error tolerance
-    real(wp),intent(in)              :: err      !! truncation error estimate
-    integer,intent(in)               :: p        !! order of the method
-    real(wp)                         :: hfactor  !! step size factor
-
-    hfactor = 0.9_wp * abs(tol/err)**(one/real(p,wp))
-
-    !..note: algorithm 17.13 has p+1 in the exponent...
-
-    end function compute_h_factor_v1
-!*****************************************************************************************
-
-!*****************************************************************************************
-    pure function compute_h_factor_v2(me,h,tol,err,p) result(hfactor)
-
-    !! Stoer and Bulirsch method
-
-    implicit none
-
-    class(stepsize_class),intent(in) :: me
-    real(wp),intent(in)              :: h        !! current step size
-    real(wp),intent(in)              :: tol      !! abs error tolerance
-    real(wp),intent(in)              :: err      !! truncation error estimate
-    integer,intent(in)               :: p        !! order of the method
-    real(wp)                         :: hfactor  !! step size factor
-
-    hfactor = abs(tol/err)**(one/real(p+1,wp))
-
-    end function compute_h_factor_v2
-!*****************************************************************************************
-
-!*****************************************************************************************
-    pure function compute_h_factor_v3(me,h,tol,err,p) result(hfactor)
-
-    !! Stoer and Bulirsch method version 2
-
-    implicit none
-
-    class(stepsize_class),intent(in) :: me
-    real(wp),intent(in)              :: h        !! current step size
-    real(wp),intent(in)              :: tol      !! abs error tolerance
-    real(wp),intent(in)              :: err      !! truncation error estimate
-    integer,intent(in)               :: p        !! order of the method
-    real(wp)                         :: hfactor  !! step size factor
-
-    hfactor = 0.9_wp * abs(tol*h/err)**(one/real(p,wp))
-
-    end function compute_h_factor_v3
-!*****************************************************************************************
-
-!*****************************************************************************************
-    pure function compute_h_factor_v4(me,h,tol,err,p) result(hfactor)
-
-    !! Algorithm 17.12 method
-
-    implicit none
-
-    class(stepsize_class),intent(in) :: me
-    real(wp),intent(in)              :: h        !! current step size
-    real(wp),intent(in)              :: tol      !! abs error tolerance
-    real(wp),intent(in)              :: err      !! truncation error estimate
-    integer,intent(in)               :: p        !! order of the method
-    real(wp)                         :: hfactor  !! step size factor
-
-    hfactor = abs(tol*h/err)**(one/real(p,wp))
-
-    end function compute_h_factor_v4
-!*****************************************************************************************
-
-!*****************************************************************************************
-    pure function compute_h_factor_v5(me,h,tol,err,p) result(hfactor)
-
-    !! Algorithm 17.13 method
-    !!
-    !! See: L.F. Shampine, H. A. Watts, "Global Error Estimation for Ordinary Differential Equations",
-    !!      ACM Transactions on Mathematical Software (TOMS),
-    !!      Volume 2 Issue 2, June 1976
-
-    implicit none
-
-    class(stepsize_class),intent(in) :: me
-    real(wp),intent(in)              :: h        !! current step size
-    real(wp),intent(in)              :: tol      !! abs error tolerance
-    real(wp),intent(in)              :: err      !! truncation error estimate
-    integer,intent(in)               :: p        !! order of the method
-    real(wp)                         :: hfactor  !! step size factor
-
-    hfactor = 0.9_wp * abs(tol/err)**(one/real(p+1,wp))
-
-    end function compute_h_factor_v5
 !*****************************************************************************************
 
 !*****************************************************************************************
@@ -1380,11 +1271,12 @@
 
 !*****************************************************************************************
 !>
-!  Feagin's RK8(10) method.
+!  Feagin's RK8(10) method -- a 10th-order method with an embedded 8th-order method.
 !
 !### Reference
 !  * T. Feagin, "[A Tenth-Order Runge-Kutta Method with Error Estimate]
 !    (http://sce.uhcl.edu/feagin/courses/rk10.pdf)",
+!    [coefficient file](http://sce.uhcl.edu/rungekutta/rk108.txt)
 
     subroutine rkf108(me,t,x,h,xf,terr)
 
@@ -1560,6 +1452,503 @@
 
 !*****************************************************************************************
 !>
+!  Feagin's RK12(10) method -- a 12th-order method with an embedded 10th-order method.
+!
+!### Reference
+!  * [coefficient file](http://sce.uhcl.edu/rungekutta/rk1210.txt)
+
+    subroutine rkf1210(me,t,x,h,xf,terr)
+
+    implicit none
+
+    class(rkf1210_class),intent(inout)    :: me
+    real(wp),intent(in)                  :: t     !! initial time
+    real(wp),dimension(me%n),intent(in)  :: x     !! initial state
+    real(wp),intent(in)                  :: h     !! time step
+    real(wp),dimension(me%n),intent(out) :: xf    !! state at time `t+h`
+    real(wp),dimension(me%n),intent(out) :: terr  !! truncation error estimate
+
+    real(wp),parameter :: a0  = 0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: a1  = 0.200000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: a2  = 0.555555555555555555555555555555555555555555555555555555555556_wp
+    real(wp),parameter :: a3  = 0.833333333333333333333333333333333333333333333333333333333333_wp
+    real(wp),parameter :: a4  = 0.333333333333333333333333333333333333333333333333333333333333_wp
+    real(wp),parameter :: a5  = 1.00000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: a6  = 0.671835709170513812712245661002797570438953420568682550710222_wp
+    real(wp),parameter :: a7  = 0.288724941110620201935458488967024976908118598341806976469674_wp
+    real(wp),parameter :: a8  = 0.562500000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: a9  = 0.833333333333333333333333333333333333333333333333333333333333_wp
+    real(wp),parameter :: a10 = 0.947695431179199287562380162101836721649589325892740646458322_wp
+    real(wp),parameter :: a11 = 0.0548112876863802643887753674810754475842153612931128785028369_wp
+    real(wp),parameter :: a12 = 0.0848880518607165350639838930162674302064148175640019542045934_wp
+    real(wp),parameter :: a13 = 0.265575603264642893098114059045616835297201264164077621448665_wp
+    real(wp),parameter :: a14 = 0.500000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: a15 = 0.734424396735357106901885940954383164702798735835922378551335_wp
+    real(wp),parameter :: a16 = 0.915111948139283464936016106983732569793585182435998045795407_wp
+    real(wp),parameter :: a17 = 0.947695431179199287562380162101836721649589325892740646458322_wp
+    real(wp),parameter :: a18 = 0.833333333333333333333333333333333333333333333333333333333333_wp
+    real(wp),parameter :: a19 = 0.288724941110620201935458488967024976908118598341806976469674_wp
+    real(wp),parameter :: a20 = 0.671835709170513812712245661002797570438953420568682550710222_wp
+    real(wp),parameter :: a21 = 0.333333333333333333333333333333333333333333333333333333333333_wp
+    real(wp),parameter :: a22 = 0.555555555555555555555555555555555555555555555555555555555556_wp
+    real(wp),parameter :: a23 = 0.200000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: a24 = 1.00000000000000000000000000000000000000000000000000000000000_wp
+
+    real(wp),parameter :: c0  =  0.0238095238095238095238095238095238095238095238095238095238095_wp
+    real(wp),parameter :: c1  =  0.0234375000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: c2  =  0.0312500000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: c3  =  0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: c4  =  0.0416666666666666666666666666666666666666666666666666666666667_wp
+    real(wp),parameter :: c5  =  0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: c6  =  0.0500000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: c7  =  0.0500000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: c8  =  0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: c9  =  0.100000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: c10 =   0.0714285714285714285714285714285714285714285714285714285714286_wp
+    real(wp),parameter :: c11 =   0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: c12 =   0.138413023680782974005350203145033146748813640089941234591267_wp
+    real(wp),parameter :: c13 =   0.215872690604931311708935511140681138965472074195773051123019_wp
+    real(wp),parameter :: c14 =   0.243809523809523809523809523809523809523809523809523809523810_wp
+    real(wp),parameter :: c15 =   0.215872690604931311708935511140681138965472074195773051123019_wp
+    real(wp),parameter :: c16 =   0.138413023680782974005350203145033146748813640089941234591267_wp
+    real(wp),parameter :: c17 =  -0.0714285714285714285714285714285714285714285714285714285714286_wp
+    real(wp),parameter :: c18 =  -0.100000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: c19 =  -0.0500000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: c20 =  -0.0500000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: c21 =  -0.0416666666666666666666666666666666666666666666666666666666667_wp
+    real(wp),parameter :: c22 =  -0.0312500000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: c23 =  -0.0234375000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: c24 =   0.0238095238095238095238095238095238095238095238095238095238095_wp
+
+    real(wp),parameter :: b10   =    0.200000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b20   =   -0.216049382716049382716049382716049382716049382716049382716049_wp
+    real(wp),parameter :: b21   =    0.771604938271604938271604938271604938271604938271604938271605_wp
+    real(wp),parameter :: b30   =    0.208333333333333333333333333333333333333333333333333333333333_wp
+    real(wp),parameter :: b31   =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b32   =    0.625000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b40   =    0.193333333333333333333333333333333333333333333333333333333333_wp
+    real(wp),parameter :: b41   =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b42   =    0.220000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b43   =   -0.0800000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b50   =    0.100000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b51   =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b52   =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b53   =    0.400000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b54   =    0.500000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b60   =    0.103364471650010477570395435690481791543342708330349879244197_wp
+    real(wp),parameter :: b61   =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b62   =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b63   =    0.124053094528946761061581889237115328211074784955180298044074_wp
+    real(wp),parameter :: b64   =    0.483171167561032899288836480451962508724109257517289177302380_wp
+    real(wp),parameter :: b65   =   -0.0387530245694763252085681443767620580395733302341368038804290_wp
+    real(wp),parameter :: b70   =    0.124038261431833324081904585980175168140024670698633612292480_wp
+    real(wp),parameter :: b71   =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b72   =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b73   =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b74   =    0.217050632197958486317846256953159942875916353757734167684657_wp
+    real(wp),parameter :: b75   =    0.0137455792075966759812907801835048190594443990939408530842918_wp
+    real(wp),parameter :: b76   =   -0.0661095317267682844455831341498149531672668252085016565917546_wp
+    real(wp),parameter :: b80   =    0.0914774894856882983144991846980432197088832099976660100090486_wp
+    real(wp),parameter :: b81   =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b82   =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b83   =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b84   =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b85   =   -0.00544348523717469689965754944144838611346156873847009178068318_wp
+    real(wp),parameter :: b86   =    0.0680716801688453518578515120895103863112751730758794372203952_wp
+    real(wp),parameter :: b87   =    0.408394315582641046727306852653894780093303185664924644551239_wp
+    real(wp),parameter :: b90   =    0.0890013652502551018954509355423841780143232697403434118692699_wp
+    real(wp),parameter :: b91   =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b92   =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b93   =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b94   =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b95   =    0.00499528226645532360197793408420692800405891149406814091955810_wp
+    real(wp),parameter :: b96   =    0.397918238819828997341739603001347156083435060931424970826304_wp
+    real(wp),parameter :: b97   =    0.427930210752576611068192608300897981558240730580396406312359_wp
+    real(wp),parameter :: b98   =   -0.0865117637557827005740277475955029103267246394128995965941585_wp
+    real(wp),parameter :: b100  =    0.0695087624134907543112693906409809822706021061685544615255758_wp
+    real(wp),parameter :: b101  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b102  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b103  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b104  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b105  =    0.129146941900176461970759579482746551122871751501482634045487_wp
+    real(wp),parameter :: b106  =    1.53073638102311295076342566143214939031177504112433874313011_wp
+    real(wp),parameter :: b107  =    0.577874761129140052546751349454576715334892100418571882718036_wp
+    real(wp),parameter :: b108  =   -0.951294772321088980532340837388859453930924498799228648050949_wp
+    real(wp),parameter :: b109  =   -0.408276642965631951497484981519757463459627174520978426909934_wp
+    real(wp),parameter :: b110  =    0.0444861403295135866269453507092463581620165501018684152933313_wp
+    real(wp),parameter :: b111  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b112  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b113  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b114  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b115  =   -0.00380476867056961731984232686574547203016331563626856065717964_wp
+    real(wp),parameter :: b116  =    0.0106955064029624200721262602809059154469206077644957399593972_wp
+    real(wp),parameter :: b117  =    0.0209616244499904333296674205928919920806734650660039898074652_wp
+    real(wp),parameter :: b118  =   -0.0233146023259321786648561431551978077665337818756053603898847_wp
+    real(wp),parameter :: b119  =    0.00263265981064536974369934736325334761174975280887405725010964_wp
+    real(wp),parameter :: b1110 =    0.00315472768977025060103545855572111407955208306374459723959783_wp
+    real(wp),parameter :: b120  =    0.0194588815119755475588801096525317761242073762016273186231215_wp
+    real(wp),parameter :: b121  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b122  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b123  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b124  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b125  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b126  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b127  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b128  =    0.0000678512949171812509306121653452367476194364781259165332321534_wp
+    real(wp),parameter :: b129  =   -0.0000429795859049273623271005330230162343568863387724883603675550_wp
+    real(wp),parameter :: b1210 =    0.0000176358982260285155407485928953302139937553442829975734148981_wp
+    real(wp),parameter :: b1211 =    0.0653866627415027051009595231385181033549511358787382098351924_wp
+    real(wp),parameter :: b130  =    0.206836835664277105916828174798272361078909196043446411598231_wp
+    real(wp),parameter :: b131  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b132  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b133  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b134  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b135  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b136  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b137  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b138  =    0.0166796067104156472828045866664696450306326505094792505215514_wp
+    real(wp),parameter :: b139  =   -0.00879501563200710214457024178249986591130234990219959208704979_wp
+    real(wp),parameter :: b1310 =    0.00346675455362463910824462315246379209427513654098596403637231_wp
+    real(wp),parameter :: b1311 =   -0.861264460105717678161432562258351242030270498966891201799225_wp
+    real(wp),parameter :: b1312 =    0.908651882074050281096239478469262145034957129939256789178785_wp
+    real(wp),parameter :: b140  =    0.0203926084654484010091511314676925686038504449562413004562382_wp
+    real(wp),parameter :: b141  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b142  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b143  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b144  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b145  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b146  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b147  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b148  =    0.0869469392016685948675400555583947505833954460930940959577347_wp
+    real(wp),parameter :: b149  =   -0.0191649630410149842286436611791405053287170076602337673587681_wp
+    real(wp),parameter :: b1410 =    0.00655629159493663287364871573244244516034828755253746024098838_wp
+    real(wp),parameter :: b1411 =    0.0987476128127434780903798528674033899738924968006632201445462_wp
+    real(wp),parameter :: b1412 =    0.00535364695524996055083260173615567408717110247274021056118319_wp
+    real(wp),parameter :: b1413 =    0.301167864010967916837091303817051676920059229784957479998077_wp
+    real(wp),parameter :: b150  =    0.228410433917778099547115412893004398779136994596948545722283_wp
+    real(wp),parameter :: b151  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b152  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b153  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b154  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b155  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b156  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b157  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b158  =   -0.498707400793025250635016567442511512138603770959682292383042_wp
+    real(wp),parameter :: b159  =    0.134841168335724478552596703792570104791700727205981058201689_wp
+    real(wp),parameter :: b1510 =   -0.0387458244055834158439904226924029230935161059142806805674360_wp
+    real(wp),parameter :: b1511 =   -1.27473257473474844240388430824908952380979292713250350199641_wp
+    real(wp),parameter :: b1512 =    1.43916364462877165201184452437038081875299303577911839630524_wp
+    real(wp),parameter :: b1513 =   -0.214007467967990254219503540827349569639028092344812795499026_wp
+    real(wp),parameter :: b1514 =    0.958202417754430239892724139109781371059908874605153648768037_wp
+    real(wp),parameter :: b160  =    2.00222477655974203614249646012506747121440306225711721209798_wp
+    real(wp),parameter :: b161  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b162  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b163  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b164  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b165  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b166  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b167  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b168  =    2.06701809961524912091954656438138595825411859673341600679555_wp
+    real(wp),parameter :: b169  =    0.623978136086139541957471279831494466155292316167021080663140_wp
+    real(wp),parameter :: b1610 =   -0.0462283685500311430283203554129062069391947101880112723185773_wp
+    real(wp),parameter :: b1611 =   -8.84973288362649614860075246727118949286604835457092701094630_wp
+    real(wp),parameter :: b1612 =    7.74257707850855976227437225791835589560188590785037197433615_wp
+    real(wp),parameter :: b1613 =   -0.588358519250869210993353314127711745644125882130941202896436_wp
+    real(wp),parameter :: b1614 =   -1.10683733362380649395704708016953056176195769617014899442903_wp
+    real(wp),parameter :: b1615 =   -0.929529037579203999778397238291233214220788057511899747507074_wp
+    real(wp),parameter :: b170  =    3.13789533412073442934451608989888796808161259330322100268310_wp
+    real(wp),parameter :: b171  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b172  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b173  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b174  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b175  =    0.129146941900176461970759579482746551122871751501482634045487_wp
+    real(wp),parameter :: b176  =    1.53073638102311295076342566143214939031177504112433874313011_wp
+    real(wp),parameter :: b177  =    0.577874761129140052546751349454576715334892100418571882718036_wp
+    real(wp),parameter :: b178  =    5.42088263055126683050056840891857421941300558851862156403363_wp
+    real(wp),parameter :: b179  =    0.231546926034829304872663800877643660904880180835945693836936_wp
+    real(wp),parameter :: b1710 =    0.0759292995578913560162301311785251873561801342333194895292058_wp
+    real(wp),parameter :: b1711 =  -12.3729973380186513287414553402595806591349822617535905976253_wp
+    real(wp),parameter :: b1712 =    9.85455883464769543935957209317369202080367765721777101906955_wp
+    real(wp),parameter :: b1713 =    0.0859111431370436529579357709052367772889980495122329601159540_wp
+    real(wp),parameter :: b1714 =   -5.65242752862643921117182090081762761180392602644189218673969_wp
+    real(wp),parameter :: b1715 =   -1.94300935242819610883833776782364287728724899124166920477873_wp
+    real(wp),parameter :: b1716 =   -0.128352601849404542018428714319344620742146491335612353559923_wp
+    real(wp),parameter :: b180  =    1.38360054432196014878538118298167716825163268489922519995564_wp
+    real(wp),parameter :: b181  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b182  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b183  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b184  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b185  =    0.00499528226645532360197793408420692800405891149406814091955810_wp
+    real(wp),parameter :: b186  =    0.397918238819828997341739603001347156083435060931424970826304_wp
+    real(wp),parameter :: b187  =    0.427930210752576611068192608300897981558240730580396406312359_wp
+    real(wp),parameter :: b188  =   -1.30299107424475770916551439123047573342071475998399645982146_wp
+    real(wp),parameter :: b189  =    0.661292278669377029097112528107513072734573412294008071500699_wp
+    real(wp),parameter :: b1810 =   -0.144559774306954349765969393688703463900585822441545655530145_wp
+    real(wp),parameter :: b1811 =   -6.96576034731798203467853867461083919356792248105919255460819_wp
+    real(wp),parameter :: b1812 =    6.65808543235991748353408295542210450632193197576935120716437_wp
+    real(wp),parameter :: b1813 =   -1.66997375108841486404695805725510845049807969199236227575796_wp
+    real(wp),parameter :: b1814 =    2.06413702318035263832289040301832647130604651223986452170089_wp
+    real(wp),parameter :: b1815 =   -0.674743962644306471862958129570837723192079875998405058648892_wp
+    real(wp),parameter :: b1816 =   -0.00115618834794939500490703608435907610059605754935305582045729_wp
+    real(wp),parameter :: b1817 =   -0.00544057908677007389319819914241631024660726585015012485938593_wp
+    real(wp),parameter :: b190  =    0.951236297048287669474637975894973552166903378983475425758226_wp
+    real(wp),parameter :: b191  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b192  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b193  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b194  =    0.217050632197958486317846256953159942875916353757734167684657_wp
+    real(wp),parameter :: b195  =    0.0137455792075966759812907801835048190594443990939408530842918_wp
+    real(wp),parameter :: b196  =   -0.0661095317267682844455831341498149531672668252085016565917546_wp
+    real(wp),parameter :: b197  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b198  =    0.152281696736414447136604697040747131921486432699422112099617_wp
+    real(wp),parameter :: b199  =   -0.337741018357599840802300793133998004354643424457539667670080_wp
+    real(wp),parameter :: b1910 =   -0.0192825981633995781534949199286824400469353110630787982121133_wp
+    real(wp),parameter :: b1911 =   -3.68259269696866809932409015535499603576312120746888880201882_wp
+    real(wp),parameter :: b1912 =    3.16197870406982063541533528419683854018352080342887002331312_wp
+    real(wp),parameter :: b1913 =   -0.370462522106885290716991856022051125477943482284080569177386_wp
+    real(wp),parameter :: b1914 =   -0.0514974200365440434996434456698127984941168616474316871020314_wp
+    real(wp),parameter :: b1915 =   -0.000829625532120152946787043541792848416659382675202720677536554_wp
+    real(wp),parameter :: b1916 =    0.00000279801041419278598986586589070027583961355402640879503213503_wp
+    real(wp),parameter :: b1917 =    0.0418603916412360287969841020776788461794119440689356178942252_wp
+    real(wp),parameter :: b1918 =    0.279084255090877355915660874555379649966282167560126269290222_wp
+    real(wp),parameter :: b200  =    0.103364471650010477570395435690481791543342708330349879244197_wp
+    real(wp),parameter :: b201  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b202  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b203  =    0.124053094528946761061581889237115328211074784955180298044074_wp
+    real(wp),parameter :: b204  =    0.483171167561032899288836480451962508724109257517289177302380_wp
+    real(wp),parameter :: b205  =   -0.0387530245694763252085681443767620580395733302341368038804290_wp
+    real(wp),parameter :: b206  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b207  =   -0.438313820361122420391059788940960176420682836652600698580091_wp
+    real(wp),parameter :: b208  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b209  =   -0.218636633721676647685111485017151199362509373698288330593486_wp
+    real(wp),parameter :: b2010 =   -0.0312334764394719229981634995206440349766174759626578122323015_wp
+    real(wp),parameter :: b2011 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2012 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2013 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2014 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2015 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2016 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2017 =    0.0312334764394719229981634995206440349766174759626578122323015_wp
+    real(wp),parameter :: b2018 =    0.218636633721676647685111485017151199362509373698288330593486_wp
+    real(wp),parameter :: b2019 =    0.438313820361122420391059788940960176420682836652600698580091_wp
+    real(wp),parameter :: b210  =    0.193333333333333333333333333333333333333333333333333333333333_wp
+    real(wp),parameter :: b211  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b212  =    0.220000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b213  =   -0.0800000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b214  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b215  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b216  =    0.0984256130499315928152900286856048243348202521491288575952143_wp
+    real(wp),parameter :: b217  =   -0.196410889223054653446526504390100417677539095340135532418849_wp
+    real(wp),parameter :: b218  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b219  =    0.436457930493068729391826122587949137609670676712525034763317_wp
+    real(wp),parameter :: b2110 =    0.0652613721675721098560370939805555698350543810708414716730270_wp
+    real(wp),parameter :: b2111 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2112 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2113 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2114 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2115 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2116 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2117 =   -0.0652613721675721098560370939805555698350543810708414716730270_wp
+    real(wp),parameter :: b2118 =   -0.436457930493068729391826122587949137609670676712525034763317_wp
+    real(wp),parameter :: b2119 =    0.196410889223054653446526504390100417677539095340135532418849_wp
+    real(wp),parameter :: b2120 =   -0.0984256130499315928152900286856048243348202521491288575952143_wp
+    real(wp),parameter :: b220  =   -0.216049382716049382716049382716049382716049382716049382716049_wp
+    real(wp),parameter :: b221  =    0.771604938271604938271604938271604938271604938271604938271605_wp
+    real(wp),parameter :: b222  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b223  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b224  =   -0.666666666666666666666666666666666666666666666666666666666667_wp
+    real(wp),parameter :: b225  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b226  =   -0.390696469295978451446999802258495981249099665294395945559163_wp
+    real(wp),parameter :: b227  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b228  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b229  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2210 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2211 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2212 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2213 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2214 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2215 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2216 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2217 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2218 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2219 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2220 =    0.390696469295978451446999802258495981249099665294395945559163_wp
+    real(wp),parameter :: b2221 =    0.666666666666666666666666666666666666666666666666666666666667_wp
+    real(wp),parameter :: b230  =    0.200000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b231  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b232  =   -0.164609053497942386831275720164609053497942386831275720164609_wp
+    real(wp),parameter :: b233  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b234  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b235  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b236  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b237  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b238  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b239  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2310 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2311 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2312 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2313 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2314 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2315 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2316 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2317 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2318 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2319 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2320 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2321 =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b2322 =    0.164609053497942386831275720164609053497942386831275720164609_wp
+    real(wp),parameter :: b240  =    1.47178724881110408452949550989023611293535315518571691939396_wp
+    real(wp),parameter :: b241  =    0.787500000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b242  =    0.421296296296296296296296296296296296296296296296296296296296_wp
+    real(wp),parameter :: b243  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b244  =    0.291666666666666666666666666666666666666666666666666666666667_wp
+    real(wp),parameter :: b245  =    0.000000000000000000000000000000000000000000000000000000000000_wp
+    real(wp),parameter :: b246  =    0.348600717628329563206854421629657569274689947367847465753757_wp
+    real(wp),parameter :: b247  =    0.229499544768994849582890233710555447073823569666506700662510_wp
+    real(wp),parameter :: b248  =    5.79046485790481979159831978177003471098279506036722411333192_wp
+    real(wp),parameter :: b249  =    0.418587511856506868874073759426596207226461447604248151080016_wp
+    real(wp),parameter :: b2410 =    0.307039880222474002649653817490106690389251482313213999386651_wp
+    real(wp),parameter :: b2411 =   -4.68700905350603332214256344683853248065574415794742040470287_wp
+    real(wp),parameter :: b2412 =    3.13571665593802262152038152399873856554395436199962915429076_wp
+    real(wp),parameter :: b2413 =    1.40134829710965720817510506275620441055845017313930508348898_wp
+    real(wp),parameter :: b2414 =   -5.52931101439499023629010306005764336421276055777658156400910_wp
+    real(wp),parameter :: b2415 =   -0.853138235508063349309546894974784906188927508039552519557498_wp
+    real(wp),parameter :: b2416 =    0.103575780373610140411804607167772795518293914458500175573749_wp
+    real(wp),parameter :: b2417 =   -0.140474416950600941142546901202132534870665923700034957196546_wp
+    real(wp),parameter :: b2418 =   -0.418587511856506868874073759426596207226461447604248151080016_wp
+    real(wp),parameter :: b2419 =   -0.229499544768994849582890233710555447073823569666506700662510_wp
+    real(wp),parameter :: b2420 =   -0.348600717628329563206854421629657569274689947367847465753757_wp
+    real(wp),parameter :: b2421 =   -0.291666666666666666666666666666666666666666666666666666666667_wp
+    real(wp),parameter :: b2422 =   -0.421296296296296296296296296296296296296296296296296296296296_wp
+    real(wp),parameter :: b2423 =   -0.787500000000000000000000000000000000000000000000000000000000_wp
+
+    real(wp),dimension(me%n) :: f0,f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,&
+                                f13,f14,f15,f16,f17,f18,f19,f20,f21,f22,f23,f24
+
+    if (h==zero) then
+        xf = x
+        terr = zero
+        return
+    end if
+
+    call me%f(t+a0*h,  x,f0)
+    call me%f(t+a1*h,  x+h*(b10*f0),f1)
+    call me%f(t+a2*h,  x+h*(b20*f0  + b21 *f1),f2)
+    call me%f(t+a3*h,  x+h*(b30*f0  + b31 *f1 + b32*f2),f3)
+    call me%f(t+a4*h,  x+h*(b40*f0  + b41 *f1 + b42*f2  + b43*f3),f4)
+    call me%f(t+a5*h,  x+h*(b50*f0  + b51 *f1 + b52*f2  + b53*f3  + &
+                            b54*f4),f5)
+    call me%f(t+a6*h,  x+h*(b60*f0  + b61 *f1 + b62*f2  + b63*f3  + &
+                            b64*f4  + b65*f5),f6)
+    call me%f(t+a7*h,  x+h*(b70*f0  + b71 *f1 + b72*f2  + b73*f3  + &
+                            b74*f4  + b75*f5  + b76*f6),f7)
+    call me%f(t+a8*h,  x+h*(b80*f0  + b81 *f1 + b82*f2  + b83*f3  + &
+                            b84*f4  + b85*f5  + b86*f6  + b87*f7),f8)
+    call me%f(t+a9*h,  x+h*(b90*f0  + b91 *f1 + b92*f2  + b93*f3  + &
+                            b94*f4  + b95*f5  + b96*f6  + b97*f7  + &
+                            b98*f8),f9)
+    call me%f(t+a10*h, x+h*(b100*f0 + b101*f1 + b102*f2 + b103*f3 + &
+                            b104*f4 + b105*f5 + b106*f6 + b107*f7 + &
+                            b108*f8 + b109*f9),f10)
+    call me%f(t+a11*h, x+h*(b110*f0 + b111*f1 + b112*f2 + b113*f3 + &
+                            b114*f4 + b115*f5 + b116*f6 + b117*f7 + &
+                            b118*f8 + b119*f9 + b1110*f10),f11)
+    call me%f(t+a12*h, x+h*(b120*f0 + b121*f1 + b122*f2 + b123*f3 + &
+                            b124*f4 + b125*f5 + b126*f6 + b127*f7 + &
+                            b128*f8 + b129*f9 + b1210*f10 + b1211*f11),f12)
+    call me%f(t+a13*h, x+h*(b130*f0 + b131*f1 + b132*f2 + b133*f3 + &
+                            b134*f4 + b135*f5 + b136*f6 + b137*f7 + &
+                            b138*f8 + b139*f9 + b1310*f10 + b1311*f11 + &
+                            b1312*f12),f13)
+    call me%f(t+a14*h, x+h*(b140*f0 + b141*f1 + b142*f2 + b143*f3 + &
+                            b144*f4 + b145*f5 + b146*f6 + b147*f7 + &
+                            b148*f8 + b149*f9 + b1410*f10 + b1411*f11 + &
+                            b1412*f12 + b1413*f13),f14)
+    call me%f(t+a15*h, x+h*(b150*f0 + b151*f1 + b152*f2 + b153*f3 + &
+                            b154*f4 + b155*f5 + b156*f6 + b157*f7 + &
+                            b158*f8 + b159*f9 + b1510*f10 + b1511*f11 + &
+                            b1512*f12 + b1513*f13 + b1514*f14),f15)
+    call me%f(t+a16*h, x+h*(b160*f0 + b161*f1 + b162*f2 + b163*f3 + &
+                            b164*f4 + b165*f5 + b166*f6 + b167*f7 + &
+                            b168*f8 + b169*f9 + b1610*f10 + b1611*f11 + &
+                            b1612*f12 + b1613*f13 + b1614*f14 + b1615*f15),f16)
+    call me%f(t+a17*h, x+h*(b170*f0 + b171*f1 + b172*f2 + b173*f3 + &
+                            b174*f4 + b175*f5 + b176*f6 + b177*f7 + &
+                            b178*f8 + b179*f9 + b1710*f10 + b1711*f11 + &
+                            b1712*f12 + b1713*f13 + b1714*f14 + b1715*f15 + &
+                            b1716*f16),f17)
+    call me%f(t+a18*h, x+h*(b180*f0 + b181*f1 + b182*f2 + b183*f3 + &
+                            b184*f4 + b185*f5 + b186*f6 + b187*f7 + &
+                            b188*f8 + b189*f9 + b1810*f10 + b1811*f11 + &
+                            b1812*f12 + b1813*f13 + b1814*f14 + b1815*f15 + &
+                            b1816*f16 + b1817*f17),f18)
+    call me%f(t+a19*h, x+h*(b190*f0 + b191*f1 + b192*f2 + b193*f3 + &
+                            b194*f4 + b195*f5 + b196*f6 + b197*f7 + &
+                            b198*f8 + b199*f9 + b1910*f10 + b1911*f11 + &
+                            b1912*f12 + b1913*f13 + b1914*f14 + b1915*f15 + &
+                            b1916*f16 + b1917*f17 + b1918*f18),f19)
+    call me%f(t+a20*h, x+h*(b200*f0 + b201*f1 + b202*f2 + b203*f3 + &
+                            b204*f4 + b205*f5 + b206*f6 + b207*f7 + &
+                            b208*f8 + b209*f9 + b2010*f10 + b2011*f11 + &
+                            b2012*f12 + b2013*f13 + b2014*f14 + b2015*f15 + &
+                            b2016*f16 + b2017*f17 + b2018*f18 + b2019*f19),f20)
+    call me%f(t+a21*h, x+h*(b210*f0 + b211*f1 + b212*f2 + b213*f3 + &
+                            b214*f4 + b215*f5 + b216*f6 + b217*f7 + &
+                            b218*f8 + b219*f9 + b2110*f10 + b2111*f11 + &
+                            b2112*f12 + b2113*f13 + b2114*f14 + b2115*f15 + &
+                            b2116*f16 + b2117*f17 + b2118*f18 + b2119*f19 + &
+                            b2120*f20),f21)
+    call me%f(t+a22*h, x+h*(b220*f0 + b221*f1 + b222*f2 + b223*f3 + &
+                            b224*f4 + b225*f5 + b226*f6 + b227*f7 + &
+                            b228*f8 + b229*f9 + b2210*f10 + b2211*f11 + &
+                            b2212*f12 + b2213*f13 + b2214*f14 + b2215*f15 + &
+                            b2216*f16 + b2217*f17 + b2218*f18 + b2219*f19 + &
+                            b2220*f20 + b2221*f21),f22)
+    call me%f(t+a23*h, x+h*(b230*f0 + b231*f1 + b232*f2 + b233*f3 + &
+                            b234*f4 + b235*f5 + b236*f6 + b237*f7 + &
+                            b238*f8 + b239*f9 + b2310*f10 + b2311*f11 + &
+                            b2312*f12 + b2313*f13 + b2314*f14 + b2315*f15 + &
+                            b2316*f16 + b2317*f17 + b2318*f18 + b2319*f19 + &
+                            b2320*f20 + b2321*f21 + b2322*f22),f23)
+    call me%f(t+a24*h, x+h*(b240*f0 + b241*f1 + b242*f2 + b243*f3 + &
+                            b244*f4 + b245*f5 + b246*f6 + b247*f7 + &
+                            b248*f8 + b249*f9 + b2410*f10 + b2411*f11 + &
+                            b2412*f12 + b2413*f13 + b2414*f14 + b2415*f15 + &
+                            b2416*f16 + b2417*f17 + b2418*f18 + b2419*f19 + &
+                            b2420*f20 + b2421*f21 + b2422*f22 + b2423*f23),f24)
+
+    xf = x+h*(  c0*f0   + &
+                c1*f1   + &
+                c2*f2   + &
+                c3*f3   + &
+                c4*f4   + &
+                c5*f5   + &
+                c6*f6   + &
+                c7*f7   + &
+                c8*f8   + &
+                c9*f9   + &
+                c10*f10 + &
+                c11*f11 + &
+                c12*f12 + &
+                c13*f13 + &
+                c14*f14 + &
+                c15*f15 + &
+                c16*f16 + &
+                c17*f17 + &
+                c18*f18 + &
+                c19*f19 + &
+                c20*f20 + &
+                c21*f21 + &
+                c22*f22 + &
+                c23*f23 + &
+                c24*f24 )
+
+    terr = (49.0_wp/640.0_wp)*h*(f1-f23)
+
+    end subroutine rkf1210
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
 !  Returns the order of the rkf78 method.
 
     pure function rkf78_order(me) result(p)
@@ -1620,6 +2009,22 @@
     p = 10
 
     end function rkf108_order
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Returns the order of the [[rkf1210]] method.
+
+    pure function rkf1210_order(me) result(p)
+
+    implicit none
+
+    class(rkf1210_class),intent(in) :: me
+    integer                        :: p    !! order of the method
+
+    p = 12
+
+    end function rkf1210_order
 !*****************************************************************************************
 
 !*****************************************************************************************
@@ -1978,12 +2383,16 @@
 
     subroutine rk_test_variable_step()
 
+    use orbital_mechanics_module, only: orbital_elements_to_rv
+    use conversion_module,        only: deg2rad
+
     implicit none
 
-    type,extends(rkf78_class) :: spacecraft
+    !type,extends(rkf78_class) :: spacecraft
     !type,extends(rkf89_class) :: spacecraft
     !type,extends(rkv89_class) :: spacecraft
     !type,extends(rkf108_class) :: spacecraft
+    type,extends(rkf1210_class) :: spacecraft
         !! spacecraft propagation type.
         real(wp) :: mu     = zero     !! central body gravitational parameter (km3/s2)
         integer  :: fevals = 0        !! number of function evaluations
@@ -1997,6 +2406,13 @@
     real(wp) :: t0,tf,x0(n),dt,xf(n),x02(n),gf,tf_actual,rtol,atol
     integer :: ierr !! error flag
     type(stepsize_class) :: sz
+    integer :: icase
+    logical :: relative_err
+    real(wp) :: safety_factor, hfactor_accept
+    integer :: p_exponent_offset
+    real(wp) :: mu
+    real(wp) :: a,p,ecc,inc,raan,aop,tru
+    real(wp),dimension(3) :: r,v
 
     write(*,*) ''
     write(*,*) '---------------'
@@ -2006,52 +2422,107 @@
 
     !***************************************************************************
 
-    !step size constructor:
-    !call sz%initialize(hmin=1.0e-6_wp,hmax=1.0e6_wp)
-    call sz%initialize( hmin           = 1.0e-6_wp,&
-                        hmax           = 1.0e+6_wp,&
-                        hfactor_reject = 0.5_wp,   &
-                        hfactor_accept = 2.0_wp,   &
-                        max_attempts   = 5,        &
-                        accept_mode    = 1,        &
-                        norm = maxval_func, &
-                        compute_h_factor = compute_h_factor_v5 )
+    do icase = 1, 4
 
-    !integrator constructor:
-    call s%initialize(n=n,f=twobody,rtol=[1.0e-12_wp],atol=[1.0e-12_wp],&
-                        stepsize_method=sz,report=twobody_report)
+        write(*,*) ''
+        write(*,*) '***************'
+        write(*,*) ' case' , icase
+        write(*,*) '***************'
+        write(*,*) ''
 
-    !initial conditions:
-    x0   = [10000.0_wp,10000.0_wp,10000.0_wp,&   !initial state [r,v] (km,km/s)
-            1.0_wp,2.0_wp,3.0_wp]
-    t0   = zero              ! initial time (sec)
-    !dt   = 0.0_wp           ! automatically compute an initial time step (sec)
-    dt   = 10.0_wp           ! initial time step (sec)
-    tf   = 1000.0_wp         ! final time (sec)
-    s%mu = 398600.436233_wp  ! main body is Earth
+        ! ... relative_err,safety_factor,p_exponent_offset don't
+        !     seem to change the results at all ....
 
-    s%fevals = 0
-    s%first = .true.
-    call s%integrate(t0,x0,dt,tf,xf)    !forward
-    write(*,*) ''
-    write(*,'(A/,*(F15.6/))') 'Final state:',xf
-    write(*,'(A,I5)') 'Function evaluations:', s%fevals
-    write(*,'(A,I5)') 'Number of rejected steps:',s%num_rejected_steps
+        select case (icase)
+        case(1)
+            ! defaults
+            relative_err = .false.
+            safety_factor = 0.8_wp
+            p_exponent_offset = 1
+            hfactor_accept = 2.0_wp    ! changing this does change result
+        case(2)
+            relative_err = .false.
+            safety_factor = 0.9_wp
+            p_exponent_offset = 1
+            hfactor_accept = 5.0_wp
+        case(3)
+            relative_err = .false.
+            safety_factor = 0.95_wp
+            p_exponent_offset = 1
+            hfactor_accept = 10.0_wp
+        case(4)
+            relative_err = .false.
+            safety_factor = 0.9_wp
+            p_exponent_offset = 0
+            hfactor_accept = 2.0_wp
+        end select
 
-    s%fevals = 0
-    s%report => null()    !disable reporting
-    call s%integrate(tf,xf,-dt,t0,x02)  !backwards
-    s%num_rejected_steps = 0
+        !step size constructor:
+        !call sz%initialize(hmin=1.0e-6_wp,hmax=1.0e6_wp)
+        call sz%initialize( hmin              = 1.0e-6_wp,        &
+                            hmax              = 1.0e+6_wp,        &
+                            hfactor_reject    = 0.5_wp,           &
+                            hfactor_accept    = hfactor_accept,   &
+                            max_attempts      = 1000,              &
+                            accept_mode       = 2,                &
+                            norm              = maxval_func,      &
+                            relative_err      = relative_err,     &
+                            safety_factor     = safety_factor,    &
+                            p_exponent_offset = p_exponent_offset )
 
-    write(*,'(A/,*(E20.12/))') 'Error:',x02-x0
-    write(*,'(A,I5)') 'Function evaluations:', s%fevals
-    write(*,'(A,I5)') 'Number of rejected steps:',s%num_rejected_steps
-    write(*,*) ''
+        !integrator constructor:
+        call s%initialize(n=n,f=twobody,rtol=[1.0e-15_wp],atol=[1.0e-12_wp],&
+                            stepsize_method=sz,report=twobody_report)
 
-   !***************************************************************************
-   !event finding test:
+        !initial conditions:
+        !write(*,*) 'general elliptical:'
+        mu = 3.9860043543609593E+05_wp ! for earth
+        a    = 8000.0_wp ! km
+        ecc  = 0.1_wp
+        inc  = 45.0_wp * deg2rad
+        raan = 45.0_wp * deg2rad
+        aop  = 45.0_wp * deg2rad
+        tru  = 45.0_wp * deg2rad
+        p = a * (one - ecc**2)
 
-   write(*,*) ' Event test - integrate until z = 12,000'
+        call orbital_elements_to_rv(mu, p, ecc, inc, raan, aop, tru, r, v)
+        x0 = [r,v]
+
+        !x0   = [10000.0_wp,10000.0_wp,10000.0_wp,&   ! initial state [r,v] (km,km/s)
+        !        1.0_wp,2.0_wp,3.0_wp]
+        t0   = zero              ! initial time (sec)
+        !dt   = 0.0_wp           ! automatically compute an initial time step (sec)
+        dt   = 10.0_wp           ! initial time step (sec)
+        tf   = 10000.0_wp         ! final time (sec)
+        s%mu = 398600.436233_wp  ! main body is Earth
+
+        s%num_rejected_steps = 0
+        s%fevals = 0
+        s%first = .true.
+        call s%integrate(t0,x0,dt,tf,xf,ierr)    !forward
+        write(*,*) ''
+        write(*,*) 'ierr = ', ierr
+        write(*,'(A/,*(F15.6/))') 'Final state:',xf
+        write(*,'(A,I5)') 'Function evaluations:', s%fevals
+        write(*,'(A,I5)') 'Number of rejected steps:',s%num_rejected_steps   ! why is this 0 when ierr = -3 ???
+
+        s%num_rejected_steps = 0
+        s%fevals = 0
+        s%report => null()    !disable reporting
+        call s%integrate(tf,xf,-dt,t0,x02,ierr)  !backwards
+
+        write(*,*) 'ierr = ', ierr
+        write(*,'(A/,*(E20.12/))') 'Error:',x02-x0
+        write(*,'(A,I5)') 'Function evaluations:', s%fevals
+        write(*,'(A,I5)') 'Number of rejected steps:',s%num_rejected_steps
+        write(*,*) ''
+
+    end do
+
+    !***************************************************************************
+    !event finding test:
+
+    write(*,*) ' Event test - integrate until z = 12,000'
 
    ! NOTE: the following causes an ICE in gfortran 7.1, but works with ifort:
    ! s2 = spacecraft(n=n,f=twobody,g=twobody_event,mu=398600.436233_wp,&
