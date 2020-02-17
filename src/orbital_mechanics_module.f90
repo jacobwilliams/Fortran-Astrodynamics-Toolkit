@@ -19,6 +19,8 @@
     public :: orbit_period
     public :: orbit_energy
     public :: periapsis_apoapsis
+    public :: sphere_of_influence
+    public :: sphere_of_influence_earth_moon
 
     contains
 !*****************************************************************************************
@@ -231,6 +233,82 @@
     va   = sqrt(twomu*rp/(ra*rarp))
 
     end subroutine periapsis_apoapsis
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Computes the sphere-of-influence radius of the secondary body.
+!
+!### See also
+!  * R.H. Battin, "An Introduction to the Mathematics and
+!    Methods of Astrodynamics, Revised Edition", AIAA, 1999.
+!  * This is the approximate formula (8.74 from Battin).
+
+    pure function sphere_of_influence(mu_primary, mu_secondary, r_ps) result(r_soi)
+
+    implicit none
+
+    real(wp),intent(in)   :: mu_primary   !! primary body gravitational parameter [km^3/s^2]
+    real(wp),intent(in)   :: mu_secondary !! secondary body gravitational parameter [km^3/s^2]
+    real(wp),intent(in)   :: r_ps         !! distance between the two bodies [km]
+    real(wp)              :: r_soi        !! sphere of influence radius [km]
+
+    real(wp),parameter :: two_fifths = two/five
+
+    if (mu_primary>zero .and. mu_secondary>zero .and. r_ps>zero) then
+        r_soi = r_ps * (mu_secondary/mu_primary)**two_fifths
+    else
+        r_soi = zero
+    end if
+
+    end function sphere_of_influence
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Computes the sphere-of-influence radius of the secondary body.
+!
+!### Notes
+!  * `r` and `r_sp` should be in the same inertial frame.
+!  * The mass of the spacecraft is neglected.
+!
+!### See also
+!  * R.H. Battin, "An Introduction to the Mathematics and
+!    Methods of Astrodynamics, Revised Edition", AIAA, 1999.
+!  * This is the more complex formula, on p. 397 of Battin,
+!    which is better for the Earth/Moon system.
+
+    pure function sphere_of_influence_earth_moon(mu_primary, mu_secondary, r, r_sp) result(r_soi)
+
+    implicit none
+
+    real(wp),intent(in)              :: mu_primary   !! primary body gravitational parameter [km^3/s^2]
+    real(wp),intent(in)              :: mu_secondary !! secondary body gravitational parameter [km^3/s^2]
+    real(wp),dimension(3),intent(in) :: r            !! vector from the secondary body to the spacecraft [km]
+    real(wp),dimension(3),intent(in) :: r_sp         !! vector from the secondary to the primary body [km]
+    real(wp)                         :: r_soi        !! sphere of influence radius of the secondary body [km]
+
+    real(wp) :: r_mag, r_sp_mag, alpha, ca, ca2, denom
+
+    r_mag    = norm2(r)
+    r_sp_mag = norm2(r_sp)
+
+    if (mu_primary>zero .and. mu_secondary>zero .and. r_mag>zero .and. r_sp_mag>zero) then
+
+        alpha = angle_between_vectors(r,r_sp)
+        ca    = cos(alpha)
+        ca2   = ca * ca
+
+        denom = (mu_secondary**2/mu_primary**2)**(one/five)*(one+three*ca2)**(one/ten) + &
+                (two/five)*ca*((one+six*ca2)/(one+three*ca2))
+
+        r_soi = r_sp_mag / denom
+
+    else
+        r_soi = zero
+    end if
+
+    end function sphere_of_influence_earth_moon
 !*****************************************************************************************
 
 !*****************************************************************************************

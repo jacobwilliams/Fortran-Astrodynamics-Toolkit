@@ -16,6 +16,10 @@
     integer,parameter,public :: y_axis = 2
     integer,parameter,public :: z_axis = 3
 
+    real(wp),dimension(3),parameter,public :: x_unit = [one,zero,zero] !! x-axis unit vector
+    real(wp),dimension(3),parameter,public :: y_unit = [zero,one,zero] !! y-axis unit vector
+    real(wp),dimension(3),parameter,public :: z_unit = [zero,zero,one] !! z-axis unit vector
+
     public :: cross
     public :: unit
     public :: uhat_dot
