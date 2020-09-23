@@ -1,6 +1,8 @@
 Fortran Astrodynamics Toolkit
 =============================
 
+[![DOI](https://zenodo.org/badge/21782788.svg)](https://zenodo.org/badge/latestdoi/21782788)
+
 ![Image](https://raw.githubusercontent.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/master/tests/pork_chop/pork_chop.png)
 
 ## Overview
