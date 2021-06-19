@@ -245,14 +245,14 @@
     real(wp),dimension(size(a)),intent(in) :: b  !! the vector to project on to
     real(wp),dimension(size(a))            :: c  !! the projection of a onto b
 
-    real(wp) :: amag2
+    real(wp) :: bmag2
 
-    amag2 = dot_product(a,a)
+    bmag2 = dot_product(b,b)
 
-    if (amag2==zero) then
+    if (bmag2==zero) then
         c = zero
     else
-        c = a * dot_product(a,b) / amag2
+        c = b * dot_product(a,b) / bmag2
     end if
 
     end function vector_projection
