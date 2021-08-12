@@ -166,7 +166,7 @@
     call plt%add_3d_plot([x_L2],[zero],[zero], label='L2',linestyle='rx',markersize=3,linewidth=3,istat=istat)
     call plt%add_3d_plot([x_L3],[zero],[zero], label='L3',linestyle='rx',markersize=3,linewidth=3,istat=istat)
     !zero-velocity curve (for this jacobi constant):
-    call plt%add_contour(x_vec, y_vec, c_mat, label='zero velocity curve', &
+    call plt%add_contour(x_vec, y_vec, c_mat, &
                            linestyle='-', linewidth=2, &
                            levels=[c], color='r',istat=istat)
     call plt%savefig('halo_guess.png',pyfile='halo_guess.py',istat=istat)

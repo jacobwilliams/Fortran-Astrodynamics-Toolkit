@@ -136,7 +136,7 @@
     call plt%add_plot([xy_L4(1)],[xy_L4(2)],label='L4',linestyle='rx',markersize=3,linewidth=3,istat=istat)
     call plt%add_plot([xy_L5(1)],[xy_L5(2)],label='L5',linestyle='rx',markersize=3,linewidth=3,istat=istat)
     !zero-velocity curve (for this jacobi constant):
-    call plt%add_contour(x_vec, y_vec, c_mat, label='zero velocity curve', &
+    call plt%add_contour(x_vec, y_vec, c_mat, &
                             linestyle='-', linewidth=2, levels=[c], color='r',istat=istat)
     call plt%savefig('crtbp_test.png',istat=istat)
     call plt%destroy()

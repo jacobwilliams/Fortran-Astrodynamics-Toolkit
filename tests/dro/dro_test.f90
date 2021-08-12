@@ -156,7 +156,7 @@
     call plt%add_plot([x_L1],[zero],label='L1',linestyle='rx',markersize=3,linewidth=3,istat=istat)
     call plt%add_plot([x_L2],[zero],label='L2',linestyle='rx',markersize=3,linewidth=3,istat=istat)
     !zero-velocity curve (for this jacobi constant):
-    call plt%add_contour(x_vec, y_vec, c_mat, label='zero velocity curve', &
+    call plt%add_contour(x_vec, y_vec, c_mat, &
                             linestyle='-', linewidth=2, &
                             levels=[c], color='r',istat=istat)
     call plt%savefig('dro_guess.png',istat=istat)
