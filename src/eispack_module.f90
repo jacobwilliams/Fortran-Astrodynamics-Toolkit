@@ -94,7 +94,7 @@
     real(wp) c, f, g, r, s, b2, radix
     logical noconv
 
-    radix = 16
+    radix = 16.0_wp
     b2 = radix*radix
     k = 1
     l = n
@@ -669,11 +669,9 @@
     ! STORE ROOTS ISOLATED BY BALANC
     ! AND COMPUTE MATRIX NORM
     do i = 1, n
-       !
        do j = k, n
           norm = norm + abs(h(i, j))
        enddo
-       !
        k = i
        if (i < Low .or. i > Igh) then
           Wr(i) = h(i, i)
@@ -733,9 +731,9 @@
                 endif
                 its = its + 1
                 itn = itn - 1
-                ! LOOK FOR TWO CONSECUTIVE SMALL
-                ! SUB-DIAGONAL ELEMENTS.
-                ! FOR M=EN-2 STEP -1 UNTIL L DO --
+                ! LOOK FOR TWO CONSECUTIVE SMALL
+                ! SUB-DIAGONAL ELEMENTS.
+                ! FOR M=EN-2 STEP -1 UNTIL L DO --
                 do mm = l, enm2
                    m = enm2 + l - mm
                    zz = h(m, m)
