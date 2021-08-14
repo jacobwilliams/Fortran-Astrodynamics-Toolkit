@@ -28,6 +28,7 @@
     call rk_test_variable_step()
     call standish_module_test()
     call halo_orbit_test()
+    call eispack_test()
 
     end program fat_tests
 !*****************************************************************************************

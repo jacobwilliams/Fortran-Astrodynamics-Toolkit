@@ -34,6 +34,9 @@
     real(wp) :: period           !! halo period (normalized time)
     integer  :: ierr             !! output flag from [[compute_eigenvalues_and_eigenvectors]]
     real(wp) :: mu               !! CRTBP parameter
+    real(wp),dimension(:),allocatable   :: e !! real eigenvalues
+    real(wp),dimension(:,:),allocatable :: v !! normalized eigenvectors associated with the real eigenvalues
+    integer :: n_results !! number of real eigenvalues
 
     mu = compute_crtpb_parameter(mu_earth,mu_moon)
 
@@ -86,6 +89,16 @@
                     write(*,*) ''
                     write(*,*) 'lambda:'
                     write(*,*) lambda
+                    write(*,*) ''
+
+                    ! normalized values:
+                    call compute_real_eigenvalues_and_normalized_eigenvectors(6, phi, e, v, n_results, ierr)
+                    write(*,*) ''
+                    write(*,*) 'real eigenvalues:', e
+                    write(*,*) ''
+                    write(*,*) 'normalized eigenvectors:'
+                    write(*,*) ''
+                    call print_matrix(v)
                     write(*,*) ''
 
                     ! the determinant should be 1.0 since matrix is sympletic

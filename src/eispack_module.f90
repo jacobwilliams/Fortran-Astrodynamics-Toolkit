@@ -11,6 +11,8 @@
     private
 
     public :: compute_eigenvalues_and_eigenvectors
+    public :: compute_real_eigenvalues_and_normalized_eigenvectors
+    public :: eispack_test
 
     contains
 !*****************************************************************************************
@@ -1336,7 +1338,7 @@
                                          !! Note: A is destroyed on output.
     integer,intent(out)  :: Ierr  !! an INTEGER flag set to:
                                   !!
-                                  !! * Zero -- for normal return,
+                                  !! * 0 -- for normal return,
                                   !! * 10*N -- if N is greater than NM,
                                   !! * J    -- if the J-th eigenvalue has not been
                                   !!           determined after a total of 30 iterations.
@@ -1430,6 +1432,142 @@
     end do
 
     end subroutine compute_eigenvalues_and_eigenvectors
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Returns only the real eigenvalues and the associated eigenvectors.
+!  Wrapper for [[compute_eigenvalues_and_eigenvectors]].
+
+    subroutine compute_real_eigenvalues_and_normalized_eigenvectors(n, a, e, v, n_results, ierr)
+
+    use numbers_module
+
+    implicit none
+
+    integer,intent(in)                              :: n         !! the order of the matrix `a`
+    real(wp),dimension(n,n),intent(in)              :: a         !! contains the real general matrix
+    real(wp),dimension(:),allocatable,intent(out)   :: e         !! eigenvalues (size `n_results`)
+    real(wp),dimension(:,:),allocatable,intent(out) :: v         !! eigenvectors (size `n,n_results`)
+    integer,intent(out)                             :: n_results !! number of real eigenvalues
+    integer,intent(out)                             :: ierr      !! output flag from [[rg]]
+
+    real(wp),dimension(n,2) :: w  !! real and imaginary parts of the eigenvalues
+    real(wp),dimension(n,n) :: z  !! real and imaginary parts of the eigenvectors
+    integer :: i !! counter
+    integer :: j !! counter
+
+    call compute_eigenvalues_and_eigenvectors(n, a, w, z, ierr)
+
+    if (ierr==0) then
+
+        n_results = count(w(:,2)==0.0_wp)
+        if (n_results>0) then
+            allocate(e(n_results))
+            allocate(v(n,n_results))
+            j = 0
+            do i = 1, n
+                if (w(i,2)==0.0_wp) then ! real eigenvalue
+                    j = j + 1
+                    e(j) = w(i,1)
+                    v(:,j) = z(:,i) / norm2(z(:,i))  ! normalized eigenvector
+                end if
+            end do
+        end if
+
+    else
+        n_results = 0
+    end if
+
+    end subroutine compute_real_eigenvalues_and_normalized_eigenvectors
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Unit test
+
+    subroutine eispack_test()
+
+    implicit none
+
+    real(wp),dimension(3,3),parameter :: a = reshape([1.0_wp,4.0_wp,-3.0_wp,&
+                                                      2.0_wp,3.0_wp,-8.0_wp,&
+                                                      3.0_wp,2.0_wp,1.001_wp], [3,3])
+
+    real(wp),dimension(3,2) :: w    !! real and imaginary parts of the eigenvalues
+    real(wp),dimension(3,3) :: z    !! real and imaginary parts of the eigenvectors
+    integer :: ierr !! output flag
+    integer :: i !! counter
+    integer :: j !! counter
+    complex(wp),dimension(3) :: v
+
+    call compute_eigenvalues_and_eigenvectors(3, a, w, z, ierr)
+
+    write(*,*) ''
+    write(*,*) '---------------'
+    write(*,*) ' eispack_test'
+    write(*,*) '---------------'
+    write(*,*) ''
+
+    write(*,*) ''
+    write(*,*) 'ierr = ', ierr
+    write(*,*) ''
+    write(*,*) 'eigenvalues:'
+    do i = 1, 3
+    write(*,*) w(i,:)
+    end do
+    write(*,*) ''
+    write(*,*) 'eigenvectors (normalized):'
+
+    do i = 1, 3
+
+        if (w(i,2)==0.0_wp) then
+            ! If the J-th eigenvalue is real, the
+            ! J-th column of Z contains its eigenvector
+            do j = 1, 3
+                v(j) = cmplx(z(j,i), 0.0_wp, wp)
+            end do
+        elseif (w(i,2)>0.0_wp) then
+            ! If the J-th eigenvalue is complex with positive imaginary part, the
+            ! J-th and (J+1)-th columns of Z contain the real and
+            ! imaginary parts of its eigenvector.
+            do j = 1, 3
+                v(j) = cmplx(z(j,i), z(j,i+1), wp)
+            end do
+        else
+            do j = 1, 3
+                v(j) = cmplx(z(j,i-1), -z(j,i), wp)
+            end do
+        end if
+        v = v / sqrt(dot_product(v,v))
+        do j = 1, 3
+            write(*,'(F16.6,F16.6)') v(j)%re, v(j)%im
+        end do
+        write(*,*) ''
+
+    end do
+
+   ! ... results:
+   ! eigenvalues:
+   ! -1.89041207397761       0.000000000000000E+000
+   ! 3.44570603698881        5.01584673789593
+   ! 3.44570603698881       -5.01584673789593
+   !
+   ! eigenvectors:
+   ! 0.650411095383963      -0.379058329718174      -0.373946474570154
+   ! 0.605673686824173       0.640277015571315      -7.629236177444867E-002
+   ! 8.565310483790509E-002 -0.395692850335186        1.34627813418190
+
+   ! ... from numpy:
+   ! eigenvalues:
+   ! array([-1.89041207+0.j        ,  3.44570604+5.01584674j, 3.44570604-5.01584674j])
+   !
+   ! eigenvectors:
+   ! array([[ 0.77377504  ,  0.03085326-0.3669729j  ,  0.03085326+0.3669729j ],
+   !        [-0.4509546   , -0.25965047-0.37137631j , -0.25965047+0.37137631j],
+   !        [-0.44487317  ,  0.81181293             ,  0.81181293            ] ])
+
+   end subroutine eispack_test
 !*****************************************************************************************
 
 !*****************************************************************************************
