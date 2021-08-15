@@ -3,6 +3,9 @@ project_dir: ./src
 output_dir: ./doc
 media_dir: ./media
 project_github: https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit
+github: https://github.com/jacobwilliams
+website: https://degenerateconic.com
+twitter: https://twitter.com/degenerateconic
 summary: ![Fortran Astrodynamics Toolkit](|media|/logo.png)<br>
          A modern Fortran library for Astrodynamics
 author: Jacob Williams
