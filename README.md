@@ -60,26 +60,9 @@ A [FoBiS](https://github.com/szaghi/FoBiS) configuration file (`fortran-astrodyn
 * To build a static library using gfortran: `FoBiS.py build -f fortran-astrodynamics-toolkit.fobis -mode static-gnu`
 * To build a static library using ifort: `FoBiS.py build -f fortran-astrodynamics-toolkit.fobis -mode static-intel`
 
-The full set of modes are:
+The full set of modes are: `static-gnu`, `static-gnu-debug`, `static-intel`, `static-intel-debug`, `shared-gnu`, `shared-gnu-debug`, `shared-intel`, `shared-intel-debug`, `tests-gnu`, `tests-gnu-debug`, `tests-intel`, `tests-intel-debug`
 
-* `static-gnu`
-* `static-gnu-debug`
-* `static-intel`
-* `static-intel-debug`
-* `shared-gnu`
-* `shared-gnu-debug`
-* `shared-intel`
-* `shared-intel-debug`
-* `tests-gnu`
-* `tests-gnu-debug`
-* `tests-intel`
-* `tests-intel-debug`
-
-To generate the documentation using [ford](https://github.com/cmacmackin/ford), run:
-
-```
-FoBis.py rule --execute makedoc -f fortran-astrodynamics-toolkit.fobis
-```
+To generate the documentation using [ford](https://github.com/Fortran-FOSS-Programmers/ford), run: ```FoBis.py rule --execute makedoc -f fortran-astrodynamics-toolkit.fobis```
 
 ## Third-Party Requirements
 
@@ -112,6 +95,10 @@ unzip GGM03_Archive.zip
 mkdir Fortran-Astrodynamics-Toolkit/grav
 cp GGM03_Archive/GGM03C.GEO Fortran-Astrodynamics-Toolkit/grav
 ```
+
+## Documentation
+
+The documentation for the latest code in `master` can be found [here](http://jacobwilliams.github.io/Fortran-Astrodynamics-Toolkit/).
 
 ## See also
 
