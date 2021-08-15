@@ -1,5 +1,5 @@
-Fortran Astrodynamics Toolkit
-=============================
+![Fortran Astrodynamics Toolkit](/media/logo.png)
+============
 
 [![DOI](https://zenodo.org/badge/21782788.svg)](https://zenodo.org/badge/latestdoi/21782788)
 
@@ -7,43 +7,43 @@ Fortran Astrodynamics Toolkit
 
 ## Overview
 
-The goal is to produce a comprehensive library, written in modern Fortran (Fortran 2003/2008), of all the standard orbital mechanics algorithms.  This is a work in progress.  Currently-implemented and proposed capabilities include:
+The goal of the Fortran Astrodynamics Toolkit to produce a comprehensive library, written in modern Fortran (Fortran 2003/2008), of all the standard orbital mechanics algorithms.  This is a work in progress.  Currently-implemented and proposed capabilities include:
 
  * Lambert solvers
-  - [x] Gooding
-  - [x] Izzo
-  - [x] Arora
+   - [x] Gooding
+   - [x] Izzo
+   - [x] Arora
  * Kepler propagators
-  - [x] Gooding
-  - [x] Shepperd
-  - [x] Goodyear
+   - [x] Gooding
+   - [x] Shepperd
+   - [x] Goodyear
  * ODE solvers (with event-finding)
-  - [x] Runge-Kutta
-  - [ ] Nystrom
-  - [ ] Adams
+   - [x] Runge-Kutta
+   - [ ] Nystrom
+   - [ ] Adams
  * Force models
-  - [ ] point mass gravity field
-  - [x] geopotential gravity
-  - [ ] solar radiation pressure
-  - [ ] atmospheric drag
-  - [ ] relativistic effects
+   - [ ] point mass gravity field
+   - [x] geopotential gravity
+   - [ ] solar radiation pressure
+   - [ ] atmospheric drag
+   - [ ] relativistic effects
  * Reference frames
-  - [x] IAU_EARTH
-  - [x] IAU_MOON
+   - [x] IAU_EARTH
+   - [x] IAU_MOON
  * Celestial Body Ephemerides
-  - [x] JPLEPH
-  - [x] SPICE
-  - [x] Analytical Moon w.r.t Earth
-  - [x] Analytical solar system primary bodies
+   - [x] JPLEPH
+   - [x] SPICE
+   - [x] Analytical Moon w.r.t Earth
+   - [x] Analytical solar system primary bodies
  * Alternate equations of motion
-  - [x] Circular restricted three-body problem
-  - [x] Clohessy-Wiltshire
-  - [x] Modified equinoctial elements
+   - [x] Circular restricted three-body problem
+   - [x] Clohessy-Wiltshire
+   - [x] Modified equinoctial elements
  * Misc
-  - [x] orbital element conversions
-  - [x] halo orbits
-  - [ ] targeting and optimization
-  - [ ] spacecraft engine models
+   - [x] orbital element conversions
+   - [x] halo orbits
+   - [ ] targeting and optimization
+   - [ ] spacecraft engine models
 
 ## Examples
 
