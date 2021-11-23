@@ -19,20 +19,17 @@
 
 !*****************************************************************************************
 !>
-!***PURPOSE  Balance a real general matrix and isolate eigenvalues
-!            whenever possible.
-!***KEYWORDS  EIGENVECTORS, EISPACK
-!***AUTHOR  Smith, B. T., et al.
-!***DESCRIPTION
+!  Balance a real general matrix and isolate eigenvalues
+!  whenever possible.
 !
-!     This subroutine is a translation of the ALGOL procedure BALANCE,
-!     NUM. MATH. 13, 293-304(1969) by Parlett and Reinsch.
-!     HANDBOOK FOR AUTO. COMP., Vol.II-LINEAR ALGEBRA, 315-326(1971).
+!  This subroutine is a translation of the ALGOL procedure BALANCE,
+!  NUM. MATH. 13, 293-304(1969) by Parlett and Reinsch.
+!  HANDBOOK FOR AUTO. COMP., Vol.II-LINEAR ALGEBRA, 315-326(1971).
 !
-!     This subroutine balances a REAL matrix and isolates
-!     eigenvalues whenever possible.
+!  This subroutine balances a REAL matrix and isolates
+!  eigenvalues whenever possible.
 !
-!     On INPUT
+!### On INPUT
 !
 !        NM must be set to the row dimension of the two-dimensional
 !          array parameter, A, as declared in the calling program
@@ -44,7 +41,7 @@
 !        A contains the input matrix to be balanced.  A is a
 !          two-dimensional REAL array, dimensioned A(NM,N).
 !
-!     On OUTPUT
+!### On OUTPUT
 !
 !        A contains the balanced matrix.
 !
@@ -69,34 +66,38 @@
 !
 !     Note that 1 is returned for IGH if IGH is zero formally.
 !
-!     The ALGOL procedure EXC contained in BALANCE appears in
-!     BALANC  in line.  (Note that the ALGOL roles of identifiers
-!     K,L have been reversed.)
+!  The ALGOL procedure EXC contained in BALANCE appears in
+!  BALANC in line.  (Note that the ALGOL roles of identifiers
+!  K,L have been reversed.)
 !
-!     Questions and comments should be directed to B. S. Garbow,
-!     Applied Mathematics Division, ARGONNE NATIONAL LABORATORY
-!     ------------------------------------------------------------------
+!  Questions and comments should be directed to B. S. Garbow,
+!  Applied Mathematics Division, ARGONNE NATIONAL LABORATORY
 !
-!***REFERENCES  B. T. Smith, J. M. Boyle, J. J. Dongarra, B. S. Garbow,
-!                 Y. Ikebe, V. C. Klema and C. B. Moler, Matrix Eigen-
-!                 system Routines - EISPACK Guide, Springer-Verlag,
-!                 1976.
-!***REVISION HISTORY  (YYMMDD)
-!   760101  DATE WRITTEN
-!   890831  Modified array declarations.  (WRB)
-!   890831  REVISION DATE from Version 3.2
-!   891214  Prologue converted to Version 4.0 format.  (BAB)
-!   920501  Reformatted the REFERENCES section.  (WRB)
+!### References
+!  * B. T. Smith, J. M. Boyle, J. J. Dongarra, B. S. Garbow,
+!    Y. Ikebe, V. C. Klema and C. B. Moler, Matrix Eigen-
+!    system Routines - EISPACK Guide, Springer-Verlag,
+!    1976.
+!
+!### Revision history
+!  * Author: Smith, B. T., et al.
+!  * 760101  DATE WRITTEN
+!  * 890831  Modified array declarations.  (WRB)
+!  * 890831  REVISION DATE from Version 3.2
+!  * 891214  Prologue converted to Version 4.0 format.  (BAB)
+!  * 920501  Reformatted the REFERENCES section.  (WRB)
 
- subroutine balanc(Nm, n, a, Low, Igh, Scale)
+    subroutine balanc(Nm, n, a, Low, Igh, Scale)
+
     implicit none
 
-    integer i, j, k, l, m, n, jj, Nm, Igh, Low, iexc, igo, igo1, igo2
-    real(wp) a(Nm, *), Scale(*)
-    real(wp) c, f, g, r, s, b2, radix
-    logical noconv
+    integer :: i, j, k, l, m, n, jj, Nm, Igh, Low, iexc, igo, igo1, igo2
+    real(wp) :: a(Nm, *), Scale(*)
+    real(wp) :: c, f, g, r, s, b2
+    logical :: noconv
 
-    radix = 16.0_wp
+    real(wp),parameter :: radix = 16.0_wp
+
     b2 = radix*radix
     k = 1
     l = n
@@ -226,25 +227,24 @@
     end do
     Low = k
     Igh = l
+
  end subroutine balanc
+!*****************************************************************************************
 
 !*****************************************************************************************
 !>
-!***PURPOSE  Form the eigenvectors of a real general matrix from the
-!            eigenvectors of matrix output from BALANC.
-!***KEYWORDS  EIGENVECTORS, EISPACK
-!***AUTHOR  Smith, B. T., et al.
-!***DESCRIPTION
+!  Form the eigenvectors of a real general matrix from the
+!  eigenvectors of matrix output from BALANC.
 !
-!     This subroutine is a translation of the ALGOL procedure BALBAK,
-!     NUM. MATH. 13, 293-304(1969) by Parlett and Reinsch.
-!     HANDBOOK FOR AUTO. COMP., Vol.II-LINEAR ALGEBRA, 315-326(1971).
+!  This subroutine is a translation of the ALGOL procedure BALBAK,
+!  NUM. MATH. 13, 293-304(1969) by Parlett and Reinsch.
+!  HANDBOOK FOR AUTO. COMP., Vol.II-LINEAR ALGEBRA, 315-326(1971).
 !
-!     This subroutine forms the eigenvectors of a REAL GENERAL
-!     matrix by back transforming those of the corresponding
-!     balanced matrix determined by  BALANC.
+!  This subroutine forms the eigenvectors of a REAL GENERAL
+!  matrix by back transforming those of the corresponding
+!  balanced matrix determined by  BALANC.
 !
-!     On INPUT
+!### On Input
 !
 !        NM must be set to the row dimension of the two-dimensional
 !          array parameter, Z, as declared in the calling program
@@ -267,32 +267,35 @@
 !          vectors to be back transformed in its first M columns.
 !          Z is a two-dimensional REAL array, dimensioned Z(NM,M).
 !
-!     On OUTPUT
+!### On Output
 !
 !        Z contains the real and imaginary parts of the
 !          transformed eigenvectors in its first M columns.
 !
 !     Questions and comments should be directed to B. S. Garbow,
 !     Applied Mathematics Division, ARGONNE NATIONAL LABORATORY
-!     ------------------------------------------------------------------
 !
-!***REFERENCES  B. T. Smith, J. M. Boyle, J. J. Dongarra, B. S. Garbow,
-!                 Y. Ikebe, V. C. Klema and C. B. Moler, Matrix Eigen-
-!                 system Routines - EISPACK Guide, Springer-Verlag,
-!                 1976.
-!***REVISION HISTORY  (YYMMDD)
-!   760101  DATE WRITTEN
-!   890831  Modified array declarations.  (WRB)
-!   890831  REVISION DATE from Version 3.2
-!   891214  Prologue converted to Version 4.0 format.  (BAB)
-!   920501  Reformatted the REFERENCES section.  (WRB)
+!### References
+!  * B. T. Smith, J. M. Boyle, J. J. Dongarra, B. S. Garbow,
+!    Y. Ikebe, V. C. Klema and C. B. Moler, Matrix Eigen-
+!    system Routines - EISPACK Guide, Springer-Verlag,
+!    1976.
+!
+!### Revision History
+!  * Author: Smith, B. T., et al.
+!  * 760101  DATE WRITTEN
+!  * 890831  Modified array declarations.  (WRB)
+!  * 890831  REVISION DATE from Version 3.2
+!  * 891214  Prologue converted to Version 4.0 format.  (BAB)
+!  * 920501  Reformatted the REFERENCES section.  (WRB)
 
  subroutine balbak(Nm, n, Low, Igh, Scale, m, z)
+
     implicit none
 
-    integer i, j, k, m, n, ii, Nm, Igh, Low
-    real(wp) Scale(*), z(Nm, *)
-    real(wp) s
+    integer :: i, j, k, m, n, ii, Nm, Igh, Low
+    real(wp) :: Scale(*), z(Nm, *)
+    real(wp) :: s
 
     if (m /= 0) then
        if (Igh /= Low) then
@@ -329,28 +332,26 @@
     endif
 
  end subroutine balbak
+!*****************************************************************************************
 
 !*****************************************************************************************
 !>
-!***PURPOSE  Compute the complex quotient of two complex numbers.
-!***AUTHOR  (UNKNOWN)
-!***DESCRIPTION
+!  Compute the complex quotient of two complex numbers.
 !
-!     Complex division, (CR,CI) = (AR,AI)/(BR,BI)
+!  Complex division, (CR,CI) = (AR,AI)/(BR,BI)
 !
-!***SEE ALSO  EISDOC
-!***REVISION HISTORY  (YYMMDD)
-!   811101  DATE WRITTEN
-!   891214  Prologue converted to Version 4.0 format.  (BAB)
-!   900402  Added TYPE section.  (WRB)
+!### Revision History
+!  * 811101  DATE WRITTEN
+!  * 891214  Prologue converted to Version 4.0 format.  (BAB)
+!  * 900402  Added TYPE section.  (WRB)
 
  subroutine cdiv(Ar, Ai, Br, Bi, Cr, Ci)
 
     implicit none
 
-    real(wp) Ar, Ai, Br, Bi, Cr, Ci
+    real(wp) :: Ar, Ai, Br, Bi, Cr, Ci
 
-    real(wp) s, ars, ais, brs, bis
+    real(wp) :: s, ars, ais, brs, bis
 
     s = abs(Br) + abs(Bi)
     ars = Ar/s
@@ -362,25 +363,23 @@
     Ci = (ais*brs - ars*bis)/s
 
  end subroutine cdiv
+!*****************************************************************************************
 
 !*****************************************************************************************
 !>
-!***PURPOSE  Reduce a real general matrix to upper Hessenberg form
-!            using stabilized elementary similarity transformations.
-!***KEYWORDS  EIGENVALUES, EIGENVECTORS, EISPACK
-!***AUTHOR  Smith, B. T., et al.
-!***DESCRIPTION
+!  Reduce a real general matrix to upper Hessenberg form
+!  using stabilized elementary similarity transformations.
 !
-!     This subroutine is a translation of the ALGOL procedure ELMHES,
-!     NUM. MATH. 12, 349-368(1968) by Martin and Wilkinson.
-!     HANDBOOK FOR AUTO. COMP., VOL.II-LINEAR ALGEBRA, 339-358(1971).
+!  This subroutine is a translation of the ALGOL procedure ELMHES,
+!  NUM. MATH. 12, 349-368(1968) by Martin and Wilkinson.
+!  HANDBOOK FOR AUTO. COMP., VOL.II-LINEAR ALGEBRA, 339-358(1971).
 !
-!     Given a REAL GENERAL matrix, this subroutine
-!     reduces a submatrix situated in rows and columns
-!     LOW through IGH to upper Hessenberg form by
-!     stabilized elementary similarity transformations.
+!  Given a REAL GENERAL matrix, this subroutine
+!  reduces a submatrix situated in rows and columns
+!  LOW through IGH to upper Hessenberg form by
+!  stabilized elementary similarity transformations.
 !
-!     On INPUT
+!### On Input
 !
 !        NM must be set to the row dimension of the two-dimensional
 !          array parameter, A, as declared in the calling program
@@ -396,7 +395,7 @@
 !        A contains the input matrix.  A is a two-dimensional REAL
 !          array, dimensioned A(NM,N).
 !
-!     On OUTPUT
+!### On Output
 !
 !        A contains the upper Hessenberg matrix.  The multipliers which
 !          were used in the reduction are stored in the remaining
@@ -408,26 +407,29 @@
 !
 !     Questions and comments should be directed to B. S. Garbow,
 !     APPLIED MATHEMATICS DIVISION, ARGONNE NATIONAL LABORATORY
-!     ------------------------------------------------------------------
 !
-!***REFERENCES  B. T. Smith, J. M. Boyle, J. J. Dongarra, B. S. Garbow,
-!                 Y. Ikebe, V. C. Klema and C. B. Moler, Matrix Eigen-
-!                 system Routines - EISPACK Guide, Springer-Verlag,
-!                 1976.
-!***REVISION HISTORY  (YYMMDD)
-!   760101  DATE WRITTEN
-!   890831  Modified array declarations.  (WRB)
-!   890831  REVISION DATE from Version 3.2
-!   891214  Prologue converted to Version 4.0 format.  (BAB)
-!   920501  Reformatted the REFERENCES section.  (WRB)
+!### References
+!  * B. T. Smith, J. M. Boyle, J. J. Dongarra, B. S. Garbow,
+!    Y. Ikebe, V. C. Klema and C. B. Moler, Matrix Eigen-
+!    system Routines - EISPACK Guide, Springer-Verlag,
+!    1976.
+!
+!### Revision History
+!  * Author: Smith, B. T., et al.
+!  * 760101  DATE WRITTEN
+!  * 890831  Modified array declarations.  (WRB)
+!  * 890831  REVISION DATE from Version 3.2
+!  * 891214  Prologue converted to Version 4.0 format.  (BAB)
+!  * 920501  Reformatted the REFERENCES section.  (WRB)
 
  subroutine elmhes(Nm, n, Low, Igh, a, Intv)
+
     implicit none
 
-    integer i, j, m, n, la, Nm, Igh, kp1, Low, mm1, mp1
-    real(wp) a(Nm, *)
-    real(wp) x, y
-    integer Intv(*)
+    integer :: i, j, m, n, la, Nm, Igh, kp1, Low, mm1, mp1
+    real(wp) :: a(Nm, *)
+    real(wp) :: x, y
+    integer :: Intv(*)
 
     la = Igh - 1
     kp1 = Low + 1
@@ -486,25 +488,23 @@
     endif
 
  end subroutine elmhes
+!*****************************************************************************************
 
 !*****************************************************************************************
 !>
-!***PURPOSE  Accumulates the stabilized elementary similarity
-!            transformations used in the reduction of a real general
-!            matrix to upper Hessenberg form by ELMHES.
-!***KEYWORDS  EIGENVALUES, EIGENVECTORS, EISPACK
-!***AUTHOR  Smith, B. T., et al.
-!***DESCRIPTION
+!  Accumulates the stabilized elementary similarity
+!  transformations used in the reduction of a real general
+!  matrix to upper Hessenberg form by ELMHES.
 !
-!     This subroutine is a translation of the ALGOL procedure ELMTRANS,
-!     NUM. MATH. 16, 181-204(1970) by Peters and Wilkinson.
-!     HANDBOOK FOR AUTO. COMP., VOL.II-LINEAR ALGEBRA, 372-395(1971).
+!  This subroutine is a translation of the ALGOL procedure ELMTRANS,
+!  NUM. MATH. 16, 181-204(1970) by Peters and Wilkinson.
+!  HANDBOOK FOR AUTO. COMP., VOL.II-LINEAR ALGEBRA, 372-395(1971).
 !
-!     This subroutine accumulates the stabilized elementary
-!     similarity transformations used in the reduction of a
-!     REAL GENERAL matrix to upper Hessenberg form by  ELMHES.
+!  This subroutine accumulates the stabilized elementary
+!  similarity transformations used in the reduction of a
+!  REAL GENERAL matrix to upper Hessenberg form by  ELMHES.
 !
-!     On INPUT
+!### On Input
 !
 !        NM must be set to the row dimension of the two-dimensional
 !          array parameters, A and Z, as declared in the calling
@@ -526,7 +526,7 @@
 !          are used.  INT is a one-dimensional INTEGER array,
 !          dimensioned INT(IGH).
 !
-!     On OUTPUT
+!### On Output
 !
 !        Z contains the transformation matrix produced in the reduction
 !          by  ELMHES.  Z is a two-dimensional REAL array, dimensioned
@@ -534,18 +534,20 @@
 !
 !     Questions and comments should be directed to B. S. Garbow,
 !     APPLIED MATHEMATICS DIVISION, ARGONNE NATIONAL LABORATORY
-!     ------------------------------------------------------------------
 !
-!***REFERENCES  B. T. Smith, J. M. Boyle, J. J. Dongarra, B. S. Garbow,
-!                 Y. Ikebe, V. C. Klema and C. B. Moler, Matrix Eigen-
-!                 system Routines - EISPACK Guide, Springer-Verlag,
-!                 1976.
-!***REVISION HISTORY  (YYMMDD)
-!   760101  DATE WRITTEN
-!   890831  Modified array declarations.  (WRB)
-!   890831  REVISION DATE from Version 3.2
-!   891214  Prologue converted to Version 4.0 format.  (BAB)
-!   920501  Reformatted the REFERENCES section.  (WRB)
+!### References
+!  * B. T. Smith, J. M. Boyle, J. J. Dongarra, B. S. Garbow,
+!    Y. Ikebe, V. C. Klema and C. B. Moler, Matrix Eigen-
+!    system Routines - EISPACK Guide, Springer-Verlag,
+!    1976.
+!
+!### Revision History
+!  * Author: Smith, B. T., et al.
+!  * 760101  DATE WRITTEN
+!  * 890831  Modified array declarations.  (WRB)
+!  * 890831  REVISION DATE from Version 3.2
+!  * 891214  Prologue converted to Version 4.0 format.  (BAB)
+!  * 920501  Reformatted the REFERENCES section.  (WRB)
 
  subroutine eltran(Nm, n, Low, Igh, a, Int, z)
     implicit none
@@ -583,23 +585,21 @@
     endif
 
  end subroutine eltran
+!*****************************************************************************************
 
 !*****************************************************************************************
 !>
-!***PURPOSE  Compute the eigenvalues of a real upper Hessenberg matrix
-!            using the QR method.
-!***KEYWORDS  EIGENVALUES, EIGENVECTORS, EISPACK
-!***AUTHOR  Smith, B. T., et al.
-!***DESCRIPTION
+!  Compute the eigenvalues of a real upper Hessenberg matrix
+!  using the QR method.
 !
-!     This subroutine is a translation of the ALGOL procedure HQR,
-!     NUM. MATH. 14, 219-231(1970) by Martin, Peters, and Wilkinson.
-!     HANDBOOK FOR AUTO. COMP., VOL.II-LINEAR ALGEBRA, 359-371(1971).
+!  This subroutine is a translation of the ALGOL procedure HQR,
+!  NUM. MATH. 14, 219-231(1970) by Martin, Peters, and Wilkinson.
+!  HANDBOOK FOR AUTO. COMP., VOL.II-LINEAR ALGEBRA, 359-371(1971).
 !
-!     This subroutine finds the eigenvalues of a REAL
-!     UPPER Hessenberg matrix by the QR method.
+!  This subroutine finds the eigenvalues of a REAL
+!  UPPER Hessenberg matrix by the QR method.
 !
-!     On INPUT
+!### On Input
 !
 !        NM must be set to the row dimension of the two-dimensional
 !          array parameter, H, as declared in the calling program
@@ -618,7 +618,7 @@
 !          in the remaining triangle under the Hessenberg matrix.
 !          H is a two-dimensional REAL array, dimensioned H(NM,N).
 !
-!     On OUTPUT
+!### On Output
 !
 !        H has been destroyed.  Therefore, it must be saved before
 !          calling  HQR  if subsequent calculation and back
@@ -639,30 +639,33 @@
 !                     The eigenvalues should be correct for indices
 !                     IERR+1, IERR+2, ..., N.
 !
-!     Questions and comments should be directed to B. S. Garbow,
-!     APPLIED MATHEMATICS DIVISION, ARGONNE NATIONAL LABORATORY
-!     ------------------------------------------------------------------
+!  Questions and comments should be directed to B. S. Garbow,
+!  APPLIED MATHEMATICS DIVISION, ARGONNE NATIONAL LABORATORY
 !
-!***REFERENCES  B. T. Smith, J. M. Boyle, J. J. Dongarra, B. S. Garbow,
-!                 Y. Ikebe, V. C. Klema and C. B. Moler, Matrix Eigen-
-!                 system Routines - EISPACK Guide, Springer-Verlag,
-!                 1976.
-!***REVISION HISTORY  (YYMMDD)
-!   760101  DATE WRITTEN
-!   890531  Changed all specific intrinsics to generic.  (WRB)
-!   890831  Modified array declarations.  (WRB)
-!   890831  REVISION DATE from Version 3.2
-!   891214  Prologue converted to Version 4.0 format.  (BAB)
-!   920501  Reformatted the REFERENCES section.  (WRB)
+!### References
+!  * B. T. Smith, J. M. Boyle, J. J. Dongarra, B. S. Garbow,
+!    Y. Ikebe, V. C. Klema and C. B. Moler, Matrix Eigen-
+!    system Routines - EISPACK Guide, Springer-Verlag,
+!    1976.
+!
+!### Revision History
+!  * Author: Smith, B. T., et al.
+!  * 760101  DATE WRITTEN
+!  * 890531  Changed all specific intrinsics to generic.  (WRB)
+!  * 890831  Modified array declarations.  (WRB)
+!  * 890831  REVISION DATE from Version 3.2
+!  * 891214  Prologue converted to Version 4.0 format.  (BAB)
+!  * 920501  Reformatted the REFERENCES section.  (WRB)
 
  subroutine hqr(Nm, n, Low, Igh, h, Wr, Wi, Ierr)
+
     implicit none
 
-    integer i, j, k, l, m, n, en, ll, mm, na, Nm, Igh, &
-       itn, its, Low, mp2, enm2, Ierr, gt
-    real(wp) h(Nm, *), Wr(*), Wi(*)
-    real(wp) p, q, r, s, t, w, x, y, zz, norm, s1, s2
-    logical notlas
+    integer :: i, j, k, l, m, n, en, ll, mm, na, Nm, Igh, &
+               itn, its, Low, mp2, enm2, Ierr, gt
+    real(wp) :: h(Nm, *), Wr(*), Wi(*)
+    real(wp) :: p, q, r, s, t, w, x, y, zz, norm, s1, s2
+    logical :: notlas
 
     gt = 0
     Ierr = 0
@@ -834,28 +837,27 @@
           en = enm2
        end if
     enddo
+
  end subroutine hqr
+!*****************************************************************************************
 
 !*****************************************************************************************
 !>
-!***PURPOSE  Compute the eigenvalues and eigenvectors of a real upper
-!            Hessenberg matrix using QR method.
-!***KEYWORDS  EIGENVALUES, EIGENVECTORS, EISPACK
-!***AUTHOR  Smith, B. T., et al.
-!***DESCRIPTION
+!  Compute the eigenvalues and eigenvectors of a real upper
+!  Hessenberg matrix using QR method.
 !
-!     This subroutine is a translation of the ALGOL procedure HQR2,
-!     NUM. MATH. 16, 181-204(1970) by Peters and Wilkinson.
-!     HANDBOOK FOR AUTO. COMP., VOL.II-LINEAR ALGEBRA, 372-395(1971).
+!  This subroutine is a translation of the ALGOL procedure HQR2,
+!  NUM. MATH. 16, 181-204(1970) by Peters and Wilkinson.
+!  HANDBOOK FOR AUTO. COMP., VOL.II-LINEAR ALGEBRA, 372-395(1971).
 !
-!     This subroutine finds the eigenvalues and eigenvectors
-!     of a REAL UPPER Hessenberg matrix by the QR method.  The
-!     eigenvectors of a REAL GENERAL matrix can also be found
-!     if  ELMHES  and  ELTRAN  or  ORTHES  and  ORTRAN  have
-!     been used to reduce this general matrix to Hessenberg form
-!     and to accumulate the similarity transformations.
+!  This subroutine finds the eigenvalues and eigenvectors
+!  of a REAL UPPER Hessenberg matrix by the QR method.  The
+!  eigenvectors of a REAL GENERAL matrix can also be found
+!  if  ELMHES  and  ELTRAN  or  ORTHES  and  ORTRAN  have
+!  been used to reduce this general matrix to Hessenberg form
+!  and to accumulate the similarity transformations.
 !
-!     On INPUT
+!### On Input
 !
 !        NM must be set to the row dimension of the two-dimensional
 !          array parameters, H and Z, as declared in the calling
@@ -878,7 +880,7 @@
 !          identity matrix.  Z is a two-dimensional REAL array,
 !          dimensioned Z(NM,M).
 !
-!     On OUTPUT
+!### On Output
 !
 !        H has been destroyed.
 !
@@ -908,32 +910,34 @@
 !
 !     Calls CDIV for complex division.
 !
-!     Questions and comments should be directed to B. S. Garbow,
-!     APPLIED MATHEMATICS DIVISION, ARGONNE NATIONAL LABORATORY
-!     ------------------------------------------------------------------
+!  Questions and comments should be directed to B. S. Garbow,
+!  APPLIED MATHEMATICS DIVISION, ARGONNE NATIONAL LABORATORY
 !
-!***REFERENCES  B. T. Smith, J. M. Boyle, J. J. Dongarra, B. S. Garbow,
-!                 Y. Ikebe, V. C. Klema and C. B. Moler, Matrix Eigen-
-!                 system Routines - EISPACK Guide, Springer-Verlag,
-!                 1976.
-!***REVISION HISTORY  (YYMMDD)
-!   760101  DATE WRITTEN
-!   890531  Changed all specific intrinsics to generic.  (WRB)
-!   890831  Modified array declarations.  (WRB)
-!   890831  REVISION DATE from Version 3.2
-!   891214  Prologue converted to Version 4.0 format.  (BAB)
-!   920501  Reformatted the REFERENCES section.  (WRB)
+!### References
+!  * B. T. Smith, J. M. Boyle, J. J. Dongarra, B. S. Garbow,
+!    Y. Ikebe, V. C. Klema and C. B. Moler, Matrix Eigen-
+!    system Routines - EISPACK Guide, Springer-Verlag,
+!    1976.
+!
+!### Revision History
+!  * Smith, B. T., et al.
+!  * 760101  DATE WRITTEN
+!  * 890531  Changed all specific intrinsics to generic.  (WRB)
+!  * 890831  Modified array declarations.  (WRB)
+!  * 890831  REVISION DATE from Version 3.2
+!  * 891214  Prologue converted to Version 4.0 format.  (BAB)
+!  * 920501  Reformatted the REFERENCES section.  (WRB)
 
  subroutine hqr2(Nm, n, Low, Igh, h, Wr, Wi, z, Ierr)
     implicit none
 
-    integer i, j, k, l, m, n, en, ii, jj, ll, mm, na, Nm, &
-       nn, gt
-    integer Igh, itn, its, Low, mp2, enm2, Ierr
-    real(wp) h(Nm, *), Wr(*), Wi(*), z(Nm, *)
-    real(wp) p, q, r, s, t, w, x, y, ra, sa, vi, vr, zz, &
-       norm, s1, s2
-    logical notlas
+    integer :: i, j, k, l, m, n, en, ii, jj, ll, mm, na, Nm, &
+               nn, gt
+    integer :: Igh, itn, its, Low, mp2, enm2, Ierr
+    real(wp) :: h(Nm, *), Wr(*), Wi(*), z(Nm, *)
+    real(wp) :: p, q, r, s, t, w, x, y, ra, sa, vi, vr, zz, &
+                norm, s1, s2
+    logical :: notlas
 
     gt = 0
     Ierr = 0
@@ -1292,6 +1296,7 @@
        enddo
     endif
  end subroutine hqr2
+!*****************************************************************************************
 
 !*****************************************************************************************
 !>
@@ -1313,13 +1318,13 @@
 !  * Smith, B. T., et al.
 !
 !### History  (YYMMDD)
-! * 760101  DATE WRITTEN
-! * 890831  Modified array declarations.  (WRB)
-! * 890831  REVISION DATE from Version 3.2
-! * 891214  Prologue converted to Version 4.0 format.  (BAB)
-! * 920501  Reformatted the REFERENCES section.  (WRB)
-! * 921103  Corrected description of IV1.  (DWL, FNF and WRB)
-! * Jacob Williams, refactored into modern Fortran (3/25/2018)
+!  * 760101  DATE WRITTEN
+!  * 890831  Modified array declarations.  (WRB)
+!  * 890831  REVISION DATE from Version 3.2
+!  * 891214  Prologue converted to Version 4.0 format.  (BAB)
+!  * 920501  Reformatted the REFERENCES section.  (WRB)
+!  * 921103  Corrected description of IV1.  (DWL, FNF and WRB)
+!  * Jacob Williams, refactored into modern Fortran (3/25/2018)
 
  subroutine rg(Nm, n, a, Wr, Wi, Matz, z, Iv1, Fv1, Ierr)
 
