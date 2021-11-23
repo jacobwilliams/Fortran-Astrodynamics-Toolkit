@@ -114,3 +114,4 @@ The documentation for the latest code in `master` can be found [here](http://jac
  * [NOVAS](http://aa.usno.navy.mil/software/novas/novas_info.php)
  * [SOFA](http://www.iausofa.org)
  * [LLEA](https://github.com/helgee/LLEA)
+ * [poliastro](https://github.com/poliastro/poliastro)
