@@ -1,0 +1,62 @@
+name = "fortran-astrodynamics-toolkit"
+author = "Jacob Williams"
+copyright  = "Copyright (c) 2014-2021, Jacob Williams"
+license = "BSD-3"
+description = "A Modern Fortran Library for Astrodynamics"
+homepage = "https://github.com/jacobwilliams/fortran-astrodynamics-toolkit"
+keywords = ["astrodynamics"]
+
+[dev-dependencies]
+pyplot-fortran= { git = "https://github.com/jacobwilliams/pyplot-fortran", rev = "3.1.0" }
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+
+[library]
+source-dir = "src"
+
+[install]
+library = true
+
+[[test]]
+name = "lambert_test"
+source-dir = "tests/lambert"
+main = "lambert_test.f90"
+
+[[test]]
+name = "lambert_test_2"
+source-dir = "tests/lambert"
+main = "lambert_test_2.f90"
+
+[[test]]
+name = "crtbp_test"
+source-dir = "tests/crtbp"
+main = "crtbp_test.f90"
+
+[[test]]
+name = "dro_test"
+source-dir = "tests/dro"
+main = "dro_test.f90"
+
+[[test]]
+name = "elements_test"
+source-dir = "tests/elements"
+main = "elements_test.f90"
+
+[[test]]
+name = "halo_test"
+source-dir = "tests/halo"
+main = "halo_test.f90"
+
+[[test]]
+name = "kepler_tests"
+source-dir = "tests/kepler"
+main = "kepler_tests.f90"
+
+#... the ones that use the third-party components aren't enabled yet ...
+#  cw_test
+#  ephemeris_comparison
+#  fat_tests
+#  gravity_test
