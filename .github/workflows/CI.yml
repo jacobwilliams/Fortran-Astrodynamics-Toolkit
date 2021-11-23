@@ -28,6 +28,11 @@ jobs:
     - name: Setup Graphviz
       uses: ts-graphviz/setup-graphviz@v1
 
+    - name: Setup Fortran Package Manager
+      uses: fortran-lang/setup-fpm@v3
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Install Python dependencies
       if: contains( matrix.os, 'ubuntu')
       run: |
