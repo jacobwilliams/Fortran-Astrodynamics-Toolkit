@@ -1,4 +1,4 @@
-![Fortran Astrodynamics Toolkit](/media/logo.png)
+![Fortran Astrodynamics Toolkit](media/logo.png)
 ============
 
 [![DOI](https://zenodo.org/badge/21782788.svg)](https://zenodo.org/badge/latestdoi/21782788)
