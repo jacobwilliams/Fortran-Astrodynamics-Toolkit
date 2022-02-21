@@ -53,5 +53,9 @@
 
     public
 
+    private :: wp
+
+    integer,parameter,public :: fat_wp = wp  !! default real kind
+
     end module fortran_astrodynamics_toolkit
 !*****************************************************************************************

@@ -4,7 +4,7 @@
 
     program lambert_test_1
 
-    use fortran_astrodynamics_toolkit
+    use fortran_astrodynamics_toolkit, wp => fat_wp
 
     implicit none
 

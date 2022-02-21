@@ -12,7 +12,7 @@
 
     program cw_test
 
-    use fortran_astrodynamics_toolkit
+    use fortran_astrodynamics_toolkit, wp => fat_wp
     use pyplot_module
 
     implicit none
