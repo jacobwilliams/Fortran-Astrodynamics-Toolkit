@@ -1,8 +1,10 @@
 ![Fortran Astrodynamics Toolkit](media/logo.png)
 ============
 
+[![GitHub release](https://img.shields.io/github/release/jacobwilliams/Fortran-Astrodynamics-Toolkit.svg?style=plastic)](https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/releases/latest)
 [![DOI](https://zenodo.org/badge/21782788.svg)](https://zenodo.org/badge/latestdoi/21782788)
 [![Build Status](https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/actions/workflows/CI.yml/badge.svg)](https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/actions)
+[![codecov](https://codecov.io/gh/jacobwilliams/Fortran-Astrodynamics-Toolkit/branch/master/graph/badge.svg?token=BHtd51oUTE)](https://codecov.io/gh/jacobwilliams/Fortran-Astrodynamics-Toolkit)
 
 ![Image](https://raw.githubusercontent.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/master/tests/pork_chop/pork_chop.png)
 
