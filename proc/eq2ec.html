@@ -113,7 +113,12 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/eq2ec.html#src">eq2ec</a>
+  </div>
+</div>
 
 </div>
 
@@ -149,7 +154,12 @@
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/eq2ec.html#src">eq2ec</a>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -163,6 +173,27 @@
 
 
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">pure subroutine </span><span class="n">eq2ec</span><span class="w"> </span><span class="p">(</span><span class="n">pq</span><span class="p">,</span><span class="w"> </span><span class="n">pe</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="w"> </span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">pe</span><span class="w">  </span><span class="c">!! ecliptic</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="w"> </span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">pq</span><span class="w">   </span><span class="c">!! equatorial</span>
+
+<span class="w">    </span><span class="n">pe</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pq</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w">                              </span><span class="c">! xec same as xeq</span>
+<span class="w">    </span><span class="n">pe</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s_cobl</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pq</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s_sobl</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pq</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w">   </span><span class="c">! yec</span>
+<span class="w">    </span><span class="n">pe</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">s_sobl</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pq</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s_cobl</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pq</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="c">! zec</span>
+<span class="w">    </span><span class="n">pe</span><span class="w"> </span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pq</span><span class="w"> </span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w">                              </span><span class="c">! vxec same as vxeq</span>
+<span class="w">    </span><span class="n">pe</span><span class="w"> </span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s_cobl</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pq</span><span class="w"> </span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s_sobl</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pq</span><span class="w"> </span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w">   </span><span class="c">! vyec</span>
+<span class="w">    </span><span class="n">pe</span><span class="w"> </span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">s_sobl</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pq</span><span class="w"> </span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s_cobl</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pq</span><span class="w"> </span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="c">! vzec</span>
+
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">eq2ec</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
     
     </div>
   </div>

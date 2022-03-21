@@ -114,12 +114,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/mean_obliquity_of_ecliptic_iau2006.html#variable-t~7">t</a>
-      <a class="list-group-item" href="../proc/mean_obliquity_of_ecliptic_iau2006.html#variable-c~4">c</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/mean_obliquity_of_ecliptic_iau2006.html#src">mean_obliquity_of_ecliptic_iau2006</a>
   </div>
 </div>
 
@@ -146,7 +143,7 @@
 </tbody>
 </table>
 
-   <h3>Return Value <small><span class="anchor" id="variable-e~3"></span>real(kind=wp)</small></h3>
+   <h3>Return Value <small><span class="anchor" id="variable-e~2"></span>real(kind=wp)</small></h3>
     <p>obliquity of ecliptic (deg)</p>
     <br>
 
@@ -154,12 +151,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/mean_obliquity_of_ecliptic_iau2006.html#variable-t~7">t</a>
-      <a class="list-group-item" href="../proc/mean_obliquity_of_ecliptic_iau2006.html#variable-c~4">c</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/mean_obliquity_of_ecliptic_iau2006.html#src">mean_obliquity_of_ecliptic_iau2006</a>
   </div>
 </div>
 
@@ -167,34 +161,43 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-t~7"></span>real(kind=wp),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>t</strong></td><td></td><td></td><td><p>time in centuries from the J2000 epoch</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-c~4"></span>real(kind=wp),</td>
-<td>private,</td>  <td>parameter, dimension(6)</td><td>::</td>
-  <td><strong>c</strong></td><td> =</td><td>[84381.406_wp, -46.836769_wp, -0.0001831_wp, 0.00200340_wp, -0.000000576_wp, -0.0000000434_wp]</td><td><p>coefficients</p></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">pure function </span><span class="n">mean_obliquity_of_ecliptic_iau2006</span><span class="p">(</span><span class="n">et</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">et</span><span class="w">  </span><span class="c">!! ephemeris time (sec)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">e</span><span class="w">   </span><span class="c">!! obliquity of ecliptic (deg)</span>
+
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">t</span><span class="w">  </span><span class="c">!! time in centuries from the J2000 epoch</span>
+
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="p">,</span><span class="k">dimension</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">8438</span><span class="mf">1.406_wp</span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">                                            </span><span class="o">-</span><span class="mi">4</span><span class="mf">6.836769_wp</span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">                                            </span><span class="o">-</span><span class="mf">0.0001831_wp</span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">                                            </span><span class="mf">0.00200340_wp</span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">                                            </span><span class="o">-</span><span class="mf">0.000000576_wp</span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">                                            </span><span class="o">-</span><span class="mf">0.0000000434_wp</span><span class="p">]</span><span class="w"> </span><span class="c">!! coefficients</span>
+
+<span class="w">    </span><span class="c">! convert input time to centuries:</span>
+<span class="w">    </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">et</span><span class="o">*</span><span class="n">sec2day</span><span class="o">*</span><span class="n">day2century</span><span class="w"></span>
+
+<span class="w">    </span><span class="c">! use horner&#39;s rule:</span>
+<span class="w">    </span><span class="n">e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">t</span><span class="o">*</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="n">t</span><span class="o">*</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">+</span><span class="n">t</span><span class="o">*</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">+</span><span class="n">t</span><span class="o">*</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">+</span><span class="n">t</span><span class="o">*</span><span class="n">c</span><span class="p">(</span><span class="mi">6</span><span class="p">))))))</span><span class="o">*</span><span class="n">arcsec2deg</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">end function </span><span class="n">mean_obliquity_of_ecliptic_iau2006</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

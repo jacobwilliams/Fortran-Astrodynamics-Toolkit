@@ -114,11 +114,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/get_acceleration.html#variable-grav_container~3">grav_container</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/get_acceleration.html#src">get_acceleration</a>
   </div>
 </div>
 
@@ -144,13 +142,13 @@
 containing a <a href="../type/geopotential_model.html">geopotential_model</a></p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-n~29"></span>integer(kind=c_int),</td>
+  <td><span class="anchor" id="variable-n~28"></span>integer(kind=c_int),</td>
 <td>intent(in),</td>
   <td></td>  <td>value</td><td>::</td>
   <td><strong>n</strong></td><td><p>degree</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-m~16"></span>integer(kind=c_int),</td>
+  <td><span class="anchor" id="variable-m~12"></span>integer(kind=c_int),</td>
 <td>intent(in),</td>
   <td></td>  <td>value</td><td>::</td>
   <td><strong>m</strong></td><td><p>order</p></td>
@@ -176,11 +174,9 @@ containing a <a href="../type/geopotential_model.html">geopotential_model</a></p
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/get_acceleration.html#variable-grav_container~3">grav_container</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/get_acceleration.html#src">get_acceleration</a>
   </div>
 </div>
 
@@ -188,29 +184,46 @@ containing a <a href="../type/geopotential_model.html">geopotential_model</a></p
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-grav_container~3"></span>type(<a href='../type/container.html'>container</a>),</td>
-<td>private,</td>  <td>pointer</td><td>::</td>
-  <td><strong>grav_container</strong></td><td></td><td></td><td><p>Fortran version of <code>cp</code></p></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">get_acceleration</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">rvec</span><span class="p">,</span><span class="n">acc</span><span class="p">)</span><span class="w"> </span><span class="k">bind</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;get_acceleration&#39;</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    type</span><span class="p">(</span><span class="kt">c_ptr</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">value</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cp</span><span class="w">  </span><span class="c">!! pointer to a [[container]]</span>
+<span class="w">                                        </span><span class="c">!! containing a [[geopotential_model]]</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">(</span><span class="kt">c_int</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">value</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="c">!! degree</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">(</span><span class="kt">c_int</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">value</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="c">!! order</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="kt">c_double</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rvec</span><span class="w"> </span><span class="c">!! position vector</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="kt">c_double</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="c">!! acceleration vector</span>
+
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">container</span><span class="p">),</span><span class="k">pointer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">grav_container</span><span class="w">  </span><span class="c">!! Fortran version of `cp`</span>
+
+<span class="w">    </span><span class="c">! convert cp to fortran:</span>
+<span class="w">    </span><span class="k">call </span><span class="nb">c_f_pointer</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span><span class="n">grav_container</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">associated</span><span class="p">(</span><span class="n">grav_container</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        select type</span><span class="w"> </span><span class="p">(</span><span class="n">g</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">grav_container</span><span class="p">%</span><span class="k">data</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">class is</span><span class="w"> </span><span class="p">(</span><span class="n">geopotential_model</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">call </span><span class="n">g</span><span class="p">%</span><span class="n">get_acc</span><span class="p">(</span><span class="n">rvec</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">acc</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">end select</span>
+<span class="k">    else</span>
+<span class="k">        error stop</span><span class="w"> </span><span class="s1">&#39;error: pointer is not associated&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end if</span>
+
+<span class="k">    end subroutine </span><span class="n">get_acceleration</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

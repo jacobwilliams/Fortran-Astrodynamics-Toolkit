@@ -131,13 +131,19 @@
     </div>
   </div>
 </div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/spice_ephemeris.html#src">spice_ephemeris</a>
+  </div>
+</div>
 
 </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, public, extends(ephemeris_class) :: spice_ephemeris</h2>
+      <h2>type, public, extends(<a href='../type/ephemeris_class.html'>ephemeris_class</a>) :: spice_ephemeris</h2>
     <p>Main class for accessing the SPICE ephemeris system.</p>
 <p>Note: SPICE is not object-oriented or threadsafe. So,
 while this class provides an object-oriented like interface
@@ -164,15 +170,18 @@ to SPICE, it should really be treated as a singleton.</p>
 <polygon fill="none" stroke="black" points="240,-24 137,-24 137,0 240,0 240,-24"/>
 <text text-anchor="middle" x="188.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">spice_ephemeris</text>
 </g>
-<!-- ephemeris_class -->
+<!-- type~ephemeris_class -->
 <g id="type~~spice_ephemeris~~InheritsGraph_node2" class="node">
-<title>ephemeris_class</title>
+<title>type~ephemeris_class</title>
+<g id="a_type~~spice_ephemeris~~InheritsGraph_node2"><a xlink:href=".././type/ephemeris_class.html" xlink:title="ephemeris_class">
 <polygon fill="#5cb85c" stroke="#5cb85c" points="101,-24 0,-24 0,0 101,0 101,-24"/>
 <text text-anchor="middle" x="50.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ephemeris_class</text>
+</a>
 </g>
-<!-- type~spice_ephemeris&#45;&gt;ephemeris_class -->
+</g>
+<!-- type~spice_ephemeris&#45;&gt;type~ephemeris_class -->
 <g id="type~~spice_ephemeris~~InheritsGraph_edge1" class="edge">
-<title>type~spice_ephemeris&#45;&gt;ephemeris_class</title>
+<title>type~spice_ephemeris&#45;&gt;type~ephemeris_class</title>
 <path fill="none" stroke="#000000" d="M136.86,-12C128.59,-12 119.95,-12 111.49,-12"/>
 <polygon fill="#000000" stroke="#000000" points="111.28,-8.5 101.28,-12 111.28,-15.5 111.28,-8.5"/>
 </g>
@@ -238,6 +247,12 @@ to SPICE, it should really be treated as a singleton.</p>
     </div>
   </div>
 </div>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../type/spice_ephemeris.html#src">spice_ephemeris</a>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -249,7 +264,7 @@ to SPICE, it should really be treated as a singleton.</p>
 <tbody>
 <tr>
   <td><span class="anchor" id="variable-kernels"></span>character(len=:),</td>
-<td>private,</td>  <td>dimension(:), allocatable</td><td>::</td>
+<td>public,</td>  <td>dimension(:), allocatable</td><td>::</td>
   <td><strong>kernels</strong></td><td></td><td></td><td><p>the list of kernels</p></td>
 </tr>
 </tbody>
@@ -373,6 +388,28 @@ to SPICE, it should really be treated as a singleton.</p>
 
     </section>
     
+    <section>
+    <h3><span class="anchor" id="src"></span>Source Code</h3>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">type</span><span class="p">,</span><span class="k">extends</span><span class="p">(</span><span class="n">ephemeris_class</span><span class="p">),</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">spice_ephemeris</span><span class="w"></span>
+
+<span class="w">        </span><span class="c">!! Main class for accessing the SPICE ephemeris system.</span>
+<span class="w">        </span><span class="c">!!</span>
+<span class="w">        </span><span class="c">!! Note: SPICE is not object-oriented or threadsafe. So,</span>
+<span class="w">        </span><span class="c">!! while this class provides an object-oriented like interface</span>
+<span class="w">        </span><span class="c">!! to SPICE, it should really be treated as a singleton.</span>
+
+<span class="w">        </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">kernels</span><span class="w">  </span><span class="c">!! the list of kernels</span>
+
+<span class="w">    </span><span class="k">contains</span>
+
+<span class="k">        procedure</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">get_rv</span><span class="w">     </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">get_rv_from_spice_ephemeris</span><span class="w"></span>
+<span class="w">        </span><span class="k">procedure</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">initialize</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">initialize_spice_ephemeris</span><span class="w"></span>
+<span class="w">        </span><span class="k">procedure</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">close</span><span class="w">      </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">close_spice_ephemeris</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">end type </span><span class="n">spice_ephemeris</span><span class="w"></span>
+</pre></div>
+
+    </section>
     
     </div>
   </div>

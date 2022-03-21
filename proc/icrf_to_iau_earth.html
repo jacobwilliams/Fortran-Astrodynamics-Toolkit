@@ -116,15 +116,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/icrf_to_iau_earth.html#variable-w~16">w</a>
-      <a class="list-group-item" href="../proc/icrf_to_iau_earth.html#variable-dec~2">dec</a>
-      <a class="list-group-item" href="../proc/icrf_to_iau_earth.html#variable-ra~3">ra</a>
-      <a class="list-group-item" href="../proc/icrf_to_iau_earth.html#variable-d~11">d</a>
-      <a class="list-group-item" href="../proc/icrf_to_iau_earth.html#variable-t~30">t</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/icrf_to_iau_earth.html#src">icrf_to_iau_earth</a>
   </div>
 </div>
 
@@ -151,7 +145,7 @@
 </tbody>
 </table>
 
-   <h3>Return Value <small><span class="anchor" id="variable-rotmat~5"></span>real(kind=wp),dimension(3,3)</small></h3>
+   <h3>Return Value <small><span class="anchor" id="variable-rotmat~4"></span>real(kind=wp),dimension(3,3)</small></h3>
     <p>the rotation matrix</p>
     <br>
     <div class="panel panel-default">
@@ -390,15 +384,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/icrf_to_iau_earth.html#variable-w~16">w</a>
-      <a class="list-group-item" href="../proc/icrf_to_iau_earth.html#variable-dec~2">dec</a>
-      <a class="list-group-item" href="../proc/icrf_to_iau_earth.html#variable-ra~3">ra</a>
-      <a class="list-group-item" href="../proc/icrf_to_iau_earth.html#variable-d~11">d</a>
-      <a class="list-group-item" href="../proc/icrf_to_iau_earth.html#variable-t~30">t</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/icrf_to_iau_earth.html#src">icrf_to_iau_earth</a>
   </div>
 </div>
 
@@ -406,49 +394,39 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-w~16"></span>real(kind=wp),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>w</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-dec~2"></span>real(kind=wp),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>dec</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ra~3"></span>real(kind=wp),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>ra</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-d~11"></span>real(kind=wp),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>d</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-t~30"></span>real(kind=wp),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>t</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">pure function </span><span class="n">icrf_to_iau_earth</span><span class="p">(</span><span class="n">et</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">rotmat</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">et</span><span class="w">        </span><span class="c">!! ephemeris time [sec]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rotmat</span><span class="w">    </span><span class="c">!! the rotation matrix</span>
+
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">w</span><span class="p">,</span><span class="n">dec</span><span class="p">,</span><span class="n">ra</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">t</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">et</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sec2day</span><span class="w">     </span><span class="c">!interval in days from the J2000 epoch</span>
+<span class="w">    </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">et</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sec2century</span><span class="w"> </span><span class="c">!interval in Julian centuries (36525 days) from the J2000 epoch</span>
+
+<span class="w">    </span><span class="n">ra</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="w">         </span><span class="o">-</span><span class="w"> </span><span class="mf">0.641_wp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">t</span><span class="w">          </span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">deg2rad</span><span class="w"></span>
+<span class="w">    </span><span class="n">dec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="mi">9</span><span class="mf">0.0_wp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.557_wp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">t</span><span class="w">          </span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">deg2rad</span><span class="w"></span>
+<span class="w">    </span><span class="n">w</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="mi">19</span><span class="mf">0.147_wp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">36</span><span class="mf">0.9856235_wp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">deg2rad</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">rotmat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iau_rotation_matrix</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">dec</span><span class="p">,</span><span class="n">ra</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">end function </span><span class="n">icrf_to_iau_earth</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

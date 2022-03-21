@@ -114,12 +114,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/periapsis_apoapsis.html#variable-rarp">rarp</a>
-      <a class="list-group-item" href="../proc/periapsis_apoapsis.html#variable-twomu">twomu</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/periapsis_apoapsis.html#src">periapsis_apoapsis</a>
   </div>
 </div>
 
@@ -138,19 +135,19 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-mu~38"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-mu~28"></span>real(kind=wp),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>mu</strong></td><td><p>gravitational parameter [<script type="math/tex">km^{3}/s^{2}</script>]</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-a~42"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-a~36"></span>real(kind=wp),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>a</strong></td><td><p>semimajor axis [km]</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-e~24"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-e~11"></span>real(kind=wp),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>e</strong></td><td><p>eccentricity [--]</p></td>
@@ -162,7 +159,7 @@
   <td><strong>rp</strong></td><td><p>periapsis position magnitude [km]</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-ra~5"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-ra~2"></span>real(kind=wp),</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>ra</strong></td><td><p>apoapsis position magnitude [km]</p></td>
@@ -188,12 +185,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/periapsis_apoapsis.html#variable-rarp">rarp</a>
-      <a class="list-group-item" href="../proc/periapsis_apoapsis.html#variable-twomu">twomu</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/periapsis_apoapsis.html#src">periapsis_apoapsis</a>
   </div>
 </div>
 
@@ -201,38 +195,44 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-rarp"></span>real(kind=wp),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>rarp</strong></td><td></td><td></td><td><p>
-<script type="math/tex">r_a + r_p </script>
-</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-twomu"></span>real(kind=wp),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>twomu</strong></td><td></td><td></td><td><p>
-<script type="math/tex"> 2 \mu </script>
-</p></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">pure subroutine </span><span class="n">periapsis_apoapsis</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="n">rp</span><span class="p">,</span><span class="n">ra</span><span class="p">,</span><span class="n">vp</span><span class="p">,</span><span class="n">va</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">mu</span><span class="w">  </span><span class="c">!! gravitational parameter [\(km^{3}/s^{2}\)]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w">   </span><span class="c">!! semimajor axis [km]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">e</span><span class="w">   </span><span class="c">!! eccentricity [--]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rp</span><span class="w">  </span><span class="c">!! periapsis position magnitude [km]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ra</span><span class="w">  </span><span class="c">!! apoapsis position magnitude [km]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vp</span><span class="w">  </span><span class="c">!! periapsis velocity magnitude [km/s]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">va</span><span class="w">  </span><span class="c">!! apoapsis velocity magnitude [km/s]</span>
+
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rarp</span><span class="w">   </span><span class="c">!! \(r_a + r_p \)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">twomu</span><span class="w">  </span><span class="c">!! \( 2 \mu \)</span>
+
+<span class="w">    </span><span class="n">twomu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">mu</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">rp</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="o">*</span><span class="p">(</span><span class="n">one</span><span class="o">-</span><span class="n">e</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">ra</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="o">*</span><span class="p">(</span><span class="n">one</span><span class="o">+</span><span class="n">e</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">rarp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ra</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rp</span><span class="w"></span>
+<span class="w">    </span><span class="n">vp</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">twomu</span><span class="o">*</span><span class="n">ra</span><span class="o">/</span><span class="p">(</span><span class="n">rp</span><span class="o">*</span><span class="n">rarp</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="n">va</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">twomu</span><span class="o">*</span><span class="n">rp</span><span class="o">/</span><span class="p">(</span><span class="n">ra</span><span class="o">*</span><span class="n">rarp</span><span class="p">))</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">periapsis_apoapsis</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

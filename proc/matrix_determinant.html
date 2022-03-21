@@ -114,13 +114,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/matrix_determinant.html#variable-i~34">i</a>
-      <a class="list-group-item" href="../proc/matrix_determinant.html#variable-sgn">sgn</a>
-      <a class="list-group-item" href="../proc/matrix_determinant.html#variable-b~10">b</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/matrix_determinant.html#src">matrix_determinant</a>
   </div>
 </div>
 
@@ -143,13 +139,13 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-n~35"></span>integer,</td>
+  <td><span class="anchor" id="variable-n~30"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>n</strong></td><td><p>size of <code>a</code> matrix</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-a~22"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-a~18"></span>real(kind=wp),</td>
 <td>intent(in),</td>
   <td></td>  <td>dimension(n,n)</td><td>::</td>
   <td><strong>a</strong></td><td><p>the matrix</p></td>
@@ -183,7 +179,7 @@
 <text text-anchor="middle" x="192" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">matrix_determinant</text>
 </g>
 <!-- proc~matrix_determinant&#45;&gt;proc~matrix_determinant -->
-<g id="proc~~matrix_determinant~~CalledByGraph_edge2" class="edge">
+<g id="proc~~matrix_determinant~~CalledByGraph_edge1" class="edge">
 <title>proc~matrix_determinant&#45;&gt;proc~matrix_determinant</title>
 <path fill="none" stroke="#000000" d="M168.52,-24.01C160.32,-32.97 168.15,-42 192,-42 206.53,-42 215.12,-38.65 217.75,-34"/>
 <polygon fill="#000000" stroke="#000000" points="221.11,-32.99 215.48,-24.01 214.28,-34.54 221.11,-32.99"/>
@@ -198,7 +194,7 @@
 </g>
 </g>
 <!-- proc~matrix_cofactor&#45;&gt;proc~matrix_determinant -->
-<g id="proc~~matrix_determinant~~CalledByGraph_edge1" class="edge">
+<g id="proc~~matrix_determinant~~CalledByGraph_edge2" class="edge">
 <title>proc~matrix_cofactor&#45;&gt;proc~matrix_determinant</title>
 <path fill="none" stroke="#000000" d="M97.01,-12C105.26,-12 113.99,-12 122.67,-12"/>
 <polygon fill="#000000" stroke="#000000" points="122.8,-15.5 132.8,-12 122.8,-8.5 122.8,-15.5"/>
@@ -272,13 +268,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/matrix_determinant.html#variable-i~34">i</a>
-      <a class="list-group-item" href="../proc/matrix_determinant.html#variable-sgn">sgn</a>
-      <a class="list-group-item" href="../proc/matrix_determinant.html#variable-b~10">b</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/matrix_determinant.html#src">matrix_determinant</a>
   </div>
 </div>
 
@@ -286,39 +278,46 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-i~34"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>i</strong></td><td></td><td></td><td><p>counter</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-sgn"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>sgn</strong></td><td></td><td></td><td><p><code>(-1)**(i-1)</code> term</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-b~10"></span>real(kind=wp),</td>
-<td>private,</td>  <td>dimension(n-1, n-1)</td><td>::</td>
-  <td><strong>b</strong></td><td></td><td></td><td><p>temp matrix</p></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">pure recursive function </span><span class="n">matrix_determinant</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">det</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w">   </span><span class="c">!! size of `a` matrix</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">n</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w">   </span><span class="c">!! the matrix</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w">                            </span><span class="kd">::</span><span class="w"> </span><span class="n">det</span><span class="w"> </span><span class="c">!! the determinant of `a` matrix</span>
+
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w">   </span><span class="c">!! counter</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sgn</span><span class="w"> </span><span class="c">!! `(-1)**(i-1)` term</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="w">  </span><span class="c">!! temp matrix</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        </span><span class="n">det</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span>
+<span class="k">        </span><span class="n">det</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
+<span class="w">        </span><span class="n">sgn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">        </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">            </span><span class="n">b</span><span class="p">(:,</span><span class="w"> </span><span class="p">:(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">:,</span><span class="w"> </span><span class="p">:</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">b</span><span class="p">(:,</span><span class="w"> </span><span class="n">i</span><span class="p">:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">:,</span><span class="w"> </span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:)</span><span class="w"></span>
+<span class="w">            </span><span class="n">det</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">det</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sgn</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">matrix_determinant</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">b</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">sgn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">sgn</span><span class="w"></span>
+<span class="w">        </span><span class="k">end do</span>
+<span class="k">    end if</span>
+
+<span class="k">    end function </span><span class="n">matrix_determinant</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

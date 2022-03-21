@@ -113,7 +113,12 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/get_c_cdot_iau_earth.html#src">get_c_cdot_iau_earth</a>
+  </div>
+</div>
 
 </div>
 
@@ -136,7 +141,7 @@
   <td><strong>me</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-eph~9"></span>class(ephemeris_class),</td>
+  <td><span class="anchor" id="variable-eph~9"></span>class(<a href='../type/ephemeris_class.html'>ephemeris_class</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>eph</strong></td><td><p>for ephemeris computations (assumed to have already been initialized)</p></td>
@@ -148,19 +153,19 @@
   <td><strong>to_icrf</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-c~47"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-c~22"></span>real(kind=wp),</td>
 <td>intent(out),</td>
   <td></td>  <td>dimension(3,3)</td><td>::</td>
   <td><strong>c</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-cdot~16"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-cdot~10"></span>real(kind=wp),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td>dimension(3,3)</td><td>::</td>
   <td><strong>cdot</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-status_ok~19"></span>logical,</td>
+  <td><span class="anchor" id="variable-status_ok~15"></span>logical,</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>status_ok</strong></td><td></td>
@@ -304,7 +309,12 @@
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/get_c_cdot_iau_earth.html#src">get_c_cdot_iau_earth</a>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -318,6 +328,36 @@
 
 
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">get_c_cdot_iau_earth</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">eph</span><span class="p">,</span><span class="n">to_icrf</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">cdot</span><span class="p">,</span><span class="n">status_ok</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="c">!! rotation matrix for IAU_EARTH &lt;-&gt; ICRF</span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    class</span><span class="p">(</span><span class="n">iau_earth_rotating_frame</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span><span class="w"></span>
+<span class="w">    </span><span class="k">class</span><span class="p">(</span><span class="n">ephemeris_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">eph</span><span class="w">     </span><span class="c">!! for ephemeris computations (assumed to have already been initialized)</span>
+<span class="w">    </span><span class="kt">logical</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                            </span><span class="kd">::</span><span class="w"> </span><span class="n">to_icrf</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">c</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="k">optional</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">cdot</span><span class="w"></span>
+<span class="w">    </span><span class="kt">logical</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">                           </span><span class="kd">::</span><span class="w"> </span><span class="n">status_ok</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">icrf_to_iau_earth</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">et</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="c">!... don&#39;t have the cdot code yet... need to refactor iau code ...</span>
+<span class="w">    </span><span class="c">! see also: ftp://naif.jpl.nasa.gov/pub/naif/toolkit_docs/FORTRAN/spicelib/tisbod.html</span>
+
+<span class="w">    </span><span class="c">!if (present(cdot)) cdot =</span>
+<span class="w">    </span><span class="k">error stop</span><span class="w"> </span><span class="s1">&#39;not yet supported&#39;</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">status_ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">get_c_cdot_iau_earth</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
     
     </div>
   </div>

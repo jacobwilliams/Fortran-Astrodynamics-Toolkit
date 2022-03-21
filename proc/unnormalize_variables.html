@@ -114,15 +114,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/unnormalize_variables.html#variable-tp~2">tp</a>
-      <a class="list-group-item" href="../proc/unnormalize_variables.html#variable-n~34">n</a>
-      <a class="list-group-item" href="../proc/unnormalize_variables.html#variable-tu~2">tu</a>
-      <a class="list-group-item" href="../proc/unnormalize_variables.html#variable-du~2">du</a>
-      <a class="list-group-item" href="../proc/unnormalize_variables.html#variable-mu~21">mu</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/unnormalize_variables.html#src">unnormalize_variables</a>
   </div>
 </div>
 
@@ -189,19 +183,19 @@
   <td><strong>t_crtbp</strong></td><td><p>CRTBP normalized time</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-x~56"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-x~42"></span>real(kind=wp),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td>dimension(6)</td><td>::</td>
   <td><strong>x</strong></td><td><p>unnormalized state w.r.t. barycenter [km,km/s]</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-m~18"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-m~14"></span>real(kind=wp),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>m</strong></td><td><p>unnormalized mass [kg]</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-t~29"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-t~20"></span>real(kind=wp),</td>
 <td>intent(out),</td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>t</strong></td><td><p>unnormalized time [sec]</p></td>
@@ -215,15 +209,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/unnormalize_variables.html#variable-tp~2">tp</a>
-      <a class="list-group-item" href="../proc/unnormalize_variables.html#variable-n~34">n</a>
-      <a class="list-group-item" href="../proc/unnormalize_variables.html#variable-tu~2">tu</a>
-      <a class="list-group-item" href="../proc/unnormalize_variables.html#variable-du~2">du</a>
-      <a class="list-group-item" href="../proc/unnormalize_variables.html#variable-mu~21">mu</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/unnormalize_variables.html#src">unnormalize_variables</a>
   </div>
 </div>
 
@@ -231,49 +219,53 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-tp~2"></span>real(kind=wp),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>tp</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-n~34"></span>real(kind=wp),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>n</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-tu~2"></span>real(kind=wp),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>tu</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-du~2"></span>real(kind=wp),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>du</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-mu~21"></span>real(kind=wp),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>mu</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">unnormalize_variables</span><span class="p">(</span><span class="n">mu1</span><span class="p">,</span><span class="n">mu2</span><span class="p">,</span><span class="n">d12</span><span class="p">,</span><span class="n">x_crtbp</span><span class="p">,</span><span class="n">m_crtbp</span><span class="p">,</span><span class="n">t_crtbp</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">t</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">mu1</span><span class="w">      </span><span class="c">!! grav. param. of body 1 \( [\mathrm{km}^3/\mathrm{s}^2] \)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">mu2</span><span class="w">      </span><span class="c">!! grav. param. of body 2 \( [\mathrm{km}^3/\mathrm{s}^2] \)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">d12</span><span class="w">      </span><span class="c">!! distance between body 1 and body 2 [km]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">x_crtbp</span><span class="w">  </span><span class="c">!! CRTBP normalized state</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">m_crtbp</span><span class="w">  </span><span class="c">!! CRTBP normalized mass</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">t_crtbp</span><span class="w">  </span><span class="c">!! CRTBP normalized time</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w">        </span><span class="c">!! unnormalized state w.r.t. barycenter [km,km/s]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="k">optional</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">m</span><span class="w">        </span><span class="c">!! unnormalized mass [kg]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="k">optional</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">t</span><span class="w">        </span><span class="c">!! unnormalized time [sec]</span>
+
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tp</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">tu</span><span class="p">,</span><span class="n">du</span><span class="p">,</span><span class="n">mu</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">((</span><span class="n">mu1</span><span class="o">+</span><span class="n">mu2</span><span class="p">)</span><span class="o">/</span><span class="n">d12</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span><span class="w">  </span><span class="c">!mean motion (rad/sec)</span>
+<span class="w">    </span><span class="n">tu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="n">n</span><span class="w">  </span><span class="c">!time unit</span>
+<span class="w">    </span><span class="n">du</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d12</span><span class="w">    </span><span class="c">!distance unit</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="nb">present</span><span class="p">(</span><span class="n">x_crtbp</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        </span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x_crtbp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">du</span><span class="w">       </span><span class="c">!unscale distance</span>
+<span class="w">        </span><span class="n">x</span><span class="p">(</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x_crtbp</span><span class="p">(</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">du</span><span class="o">/</span><span class="n">tu</span><span class="p">)</span><span class="w">  </span><span class="c">!unscale velocity</span>
+<span class="w">    </span><span class="k">end if</span>
+
+<span class="k">    if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="nb">present</span><span class="p">(</span><span class="n">m_crtbp</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        </span><span class="n">mu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">mu1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mu2</span><span class="p">)</span><span class="o">/</span><span class="n">universal_grav_constant</span><span class="w">    </span><span class="c">!mass unit</span>
+<span class="w">        </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_crtbp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">mu</span><span class="w">  </span><span class="c">!unscale mass</span>
+<span class="w">    </span><span class="k">end if</span>
+
+<span class="k">    if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="nb">present</span><span class="p">(</span><span class="n">t_crtbp</span><span class="p">))</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_crtbp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">tu</span><span class="w">  </span><span class="c">!unscale time</span>
+
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">unnormalize_variables</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

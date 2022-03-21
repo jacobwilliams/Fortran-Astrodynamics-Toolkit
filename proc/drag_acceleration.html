@@ -114,11 +114,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/drag_acceleration.html#variable-vrel_mag">vrel_mag</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/drag_acceleration.html#src">drag_acceleration</a>
   </div>
 </div>
 
@@ -181,11 +179,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/drag_acceleration.html#variable-vrel_mag">vrel_mag</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/drag_acceleration.html#src">drag_acceleration</a>
   </div>
 </div>
 
@@ -193,29 +189,38 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-vrel_mag"></span>real(kind=wp),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>vrel_mag</strong></td><td></td><td></td><td><p>magnitude of the relative velocity [km/s]</p></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">pure subroutine </span><span class="n">drag_acceleration</span><span class="p">(</span><span class="n">vrel</span><span class="p">,</span><span class="n">cd</span><span class="p">,</span><span class="n">area</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">rho</span><span class="p">,</span><span class="n">acc</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">vrel</span><span class="w">   </span><span class="c">!! velocity relative to the atmosphere [km/s]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">cd</span><span class="w">     </span><span class="c">!! spacecraft drag coefficient [--]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">area</span><span class="w">   </span><span class="c">!! cross-section area [km^2]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">m</span><span class="w">      </span><span class="c">!! spacecraft mass [kg]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">rho</span><span class="w">    </span><span class="c">!! atmospheric density [kg/km^3]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">acc</span><span class="w">    </span><span class="c">!! drag acceleration vector [km/s^2]</span>
+
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vrel_mag</span><span class="w">  </span><span class="c">!! magnitude of the relative velocity [km/s]</span>
+
+<span class="w">    </span><span class="n">vrel_mag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="n">vrel</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="mf">0.5_wp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">rho</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cd</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">area</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vrel_mag</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vrel</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">drag_acceleration</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

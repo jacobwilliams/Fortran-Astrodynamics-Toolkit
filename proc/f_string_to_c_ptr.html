@@ -114,11 +114,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/f_string_to_c_ptr.html#variable-ilen~2">ilen</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/f_string_to_c_ptr.html#src">f_string_to_c_ptr</a>
   </div>
 </div>
 
@@ -371,11 +369,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/f_string_to_c_ptr.html#variable-ilen~2">ilen</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/f_string_to_c_ptr.html#src">f_string_to_c_ptr</a>
   </div>
 </div>
 
@@ -383,29 +379,39 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-ilen~2"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>ilen</strong></td><td></td><td></td><td><p>string length of buffer</p></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">f_string_to_c_ptr</span><span class="p">(</span><span class="n">fstr</span><span class="p">,</span><span class="n">buffer</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fstr</span><span class="w"></span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="kt">c_ptr</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">buffer</span><span class="w">   </span><span class="c">!! a preallocated string buffer</span>
+
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ilen</span><span class="w"> </span><span class="c">!! string length of buffer</span>
+
+<span class="w">    </span><span class="n">ilen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">block</span>
+<span class="k">        </span><span class="kt">character</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="kt">c_char</span><span class="p">,</span><span class="nb">len</span><span class="o">=</span><span class="n">ilen</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="k">pointer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">s</span><span class="w"></span>
+<span class="w">        </span><span class="k">call </span><span class="nb">c_f_pointer</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span><span class="n">s</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">s</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fstr</span><span class="p">),</span><span class="n">ilen</span><span class="p">))</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fstr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fstr</span><span class="p">),</span><span class="n">ilen</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="n">buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">c_loc</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">end block</span>
+
+<span class="k">    end subroutine </span><span class="n">f_string_to_c_ptr</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

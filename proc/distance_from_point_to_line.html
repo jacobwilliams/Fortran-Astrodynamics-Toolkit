@@ -116,12 +116,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/distance_from_point_to_line.html#variable-x21">x21</a>
-      <a class="list-group-item" href="../proc/distance_from_point_to_line.html#variable-x21_mag">x21_mag</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/distance_from_point_to_line.html#src">distance_from_point_to_line</a>
   </div>
 </div>
 
@@ -145,19 +142,19 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-x1~3"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-x1"></span>real(kind=wp),</td>
 <td>intent(in),</td>
   <td></td>  <td>dimension(3)</td><td>::</td>
   <td><strong>x1</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-x2~3"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-x2"></span>real(kind=wp),</td>
 <td>intent(in),</td>
   <td></td>  <td>dimension(3)</td><td>::</td>
   <td><strong>x2</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-x~75"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-x~51"></span>real(kind=wp),</td>
 <td>intent(in),</td>
   <td></td>  <td>dimension(3)</td><td>::</td>
   <td><strong>x</strong></td><td></td>
@@ -165,7 +162,7 @@
 </tbody>
 </table>
 
-   <h3>Return Value <small><span class="anchor" id="variable-d~20"></span>real(kind=wp)</small></h3>
+   <h3>Return Value <small><span class="anchor" id="variable-d~6"></span>real(kind=wp)</small></h3>
     
     <br>
     <div class="panel panel-default">
@@ -274,12 +271,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/distance_from_point_to_line.html#variable-x21">x21</a>
-      <a class="list-group-item" href="../proc/distance_from_point_to_line.html#variable-x21_mag">x21_mag</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/distance_from_point_to_line.html#src">distance_from_point_to_line</a>
   </div>
 </div>
 
@@ -287,34 +281,46 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-x21"></span>real(kind=wp),</td>
-<td>private,</td>  <td>dimension(3)</td><td>::</td>
-  <td><strong>x21</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-x21_mag"></span>real(kind=wp),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>x21_mag</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">pure function </span><span class="n">distance_from_point_to_line</span><span class="w"> </span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x1</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x2</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">d</span><span class="w"></span>
+
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x21</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x21_mag</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">x21</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x1</span><span class="w"></span>
+<span class="w">    </span><span class="n">x21_mag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="n">x21</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x21_mag</span><span class="o">/=</span><span class="mf">0.0_wp</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+
+<span class="k">        </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="w"> </span><span class="n">cross</span><span class="p">(</span><span class="w"> </span><span class="n">x21</span><span class="p">,</span><span class="w"> </span><span class="n">x1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">x21_mag</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">else</span>
+
+<span class="k">        </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="n">x1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">end if</span>
+
+<span class="k">    end function </span><span class="n">distance_from_point_to_line</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

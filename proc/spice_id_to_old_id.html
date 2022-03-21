@@ -116,12 +116,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/spice_id_to_old_id.html#variable-i~55">i</a>
-      <a class="list-group-item" href="../proc/spice_id_to_old_id.html#variable-new_ids~2">new_ids</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/spice_id_to_old_id.html#src">spice_id_to_old_id</a>
   </div>
 </div>
 
@@ -258,12 +255,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/spice_id_to_old_id.html#variable-i~55">i</a>
-      <a class="list-group-item" href="../proc/spice_id_to_old_id.html#variable-new_ids~2">new_ids</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/spice_id_to_old_id.html#src">spice_id_to_old_id</a>
   </div>
 </div>
 
@@ -271,35 +265,60 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-i~55"></span>integer,</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>i</strong></td><td></td><td></td><td><p>counter</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-new_ids~2"></span>integer,</td>
-<td>private,</td>  <td>parameter, dimension(13)</td><td>::</td>
-  <td><strong>new_ids</strong></td><td> =</td><td>[199, 299, 399, 499, 599, 699, 799, 899, 999, 301, 10, 0, 3]</td><td><p>The index of this array is the old ID code. The value is the new code.
-See: <a href="http://naif.jpl.nasa.gov/pub/naif/toolkit_docs/FORTRAN/req/naif_ids.html">NAIF Integer ID codes</a></p></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">pure function </span><span class="n">spice_id_to_old_id</span><span class="p">(</span><span class="n">spice_id</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">old_id</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">spice_id</span><span class="w"> </span><span class="c">!! the ID code used by SPICE</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">old_id</span><span class="w">   </span><span class="c">!! the ID code used by this module (old JPL ephemeris code)</span>
+
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="c">!! counter</span>
+
+<span class="w">    </span><span class="c">!&gt;</span>
+<span class="w">    </span><span class="c">!  The index of this array is the old ID code. The value is the new code.</span>
+<span class="w">    </span><span class="c">!  See: [NAIF Integer ID codes](http://naif.jpl.nasa.gov/pub/naif/toolkit_docs/FORTRAN/req/naif_ids.html)</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="p">,</span><span class="k">dimension</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">new_ids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="w">   </span><span class="mi">199</span><span class="p">,&amp;</span><span class="w">  </span><span class="c">! mercury</span>
+<span class="w">            </span><span class="mi">299</span><span class="p">,&amp;</span><span class="w">  </span><span class="c">! venus</span>
+<span class="w">            </span><span class="mi">399</span><span class="p">,&amp;</span><span class="w">  </span><span class="c">! earth</span>
+<span class="w">            </span><span class="mi">499</span><span class="p">,&amp;</span><span class="w">  </span><span class="c">! mars</span>
+<span class="w">            </span><span class="mi">599</span><span class="p">,&amp;</span><span class="w">  </span><span class="c">! jupiter</span>
+<span class="w">            </span><span class="mi">699</span><span class="p">,&amp;</span><span class="w">  </span><span class="c">! saturn</span>
+<span class="w">            </span><span class="mi">799</span><span class="p">,&amp;</span><span class="w">  </span><span class="c">! uranus</span>
+<span class="w">            </span><span class="mi">899</span><span class="p">,&amp;</span><span class="w">  </span><span class="c">! neptune</span>
+<span class="w">            </span><span class="mi">999</span><span class="p">,&amp;</span><span class="w">  </span><span class="c">! pluto</span>
+<span class="w">            </span><span class="mi">301</span><span class="p">,&amp;</span><span class="w">  </span><span class="c">! moon</span>
+<span class="w">            </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="c">! sun</span>
+<span class="w">            </span><span class="mi">0</span><span class="p">,</span><span class="w">  </span><span class="p">&amp;</span><span class="w">  </span><span class="c">! solar-system barycenter</span>
+<span class="w">            </span><span class="mi">3</span><span class="w">   </span><span class="p">]</span><span class="w">  </span><span class="c">! earth-moon barycenter</span>
+
+<span class="w">    </span><span class="c">!just a simple search of the list:</span>
+<span class="w">    </span><span class="c">! [small enough that bisection search probably not worth it]</span>
+<span class="w">    </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">new_ids</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">new_ids</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">==</span><span class="n">spice_id</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            </span><span class="n">old_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
+<span class="w">            </span><span class="k">return</span>
+<span class="k">        end if</span>
+<span class="k">    end do</span><span class="w"></span>
+
+<span class="w">    </span><span class="c">!not found:</span>
+<span class="w">    </span><span class="n">old_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">end function </span><span class="n">spice_id_to_old_id</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

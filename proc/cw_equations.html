@@ -116,13 +116,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/cw_equations.html#variable-nt">nt</a>
-      <a class="list-group-item" href="../proc/cw_equations.html#variable-cnt">cnt</a>
-      <a class="list-group-item" href="../proc/cw_equations.html#variable-snt">snt</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/cw_equations.html#src">cw_equations</a>
   </div>
 </div>
 
@@ -146,19 +142,19 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-x0~11"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-x0~5"></span>real(kind=wp),</td>
 <td>intent(in),</td>
   <td></td>  <td>dimension(6)</td><td>::</td>
   <td><strong>x0</strong></td><td><p>initial state [r,v] of chaser (at t0) [km, km/s]</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-dt~9"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-dt~2"></span>real(kind=wp),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>dt</strong></td><td><p>elapsed time from t0 [sec]</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-n~40"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-n~33"></span>real(kind=wp),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>n</strong></td><td><p>mean motion of target orbit (<code>sqrt(mu/a**3)</code>) [1/sec]</p></td>
@@ -166,7 +162,7 @@
 </tbody>
 </table>
 
-   <h3>Return Value <small><span class="anchor" id="variable-x~67"></span>real(kind=wp),dimension(6)</small></h3>
+   <h3>Return Value <small><span class="anchor" id="variable-x~47"></span>real(kind=wp),dimension(6)</small></h3>
     <p>final state [r,v] of chaser [km, km/s]</p>
     <br>
     <div class="panel panel-default">
@@ -275,13 +271,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/cw_equations.html#variable-nt">nt</a>
-      <a class="list-group-item" href="../proc/cw_equations.html#variable-cnt">cnt</a>
-      <a class="list-group-item" href="../proc/cw_equations.html#variable-snt">snt</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/cw_equations.html#src">cw_equations</a>
   </div>
 </div>
 
@@ -289,39 +281,55 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-nt"></span>real(kind=wp),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>nt</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-cnt"></span>real(kind=wp),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>cnt</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-snt"></span>real(kind=wp),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>snt</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">function </span><span class="n">cw_equations</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span><span class="n">dt</span><span class="p">,</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x0</span><span class="w">    </span><span class="c">!! initial state [r,v] of chaser (at t0) [km, km/s]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">dt</span><span class="w">    </span><span class="c">!! elapsed time from t0 [sec]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w">     </span><span class="c">!! mean motion of target orbit (`sqrt(mu/a**3)`) [1/sec]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w">     </span><span class="c">!! final state [r,v] of chaser [km, km/s]</span>
+
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nt</span><span class="p">,</span><span class="n">cnt</span><span class="p">,</span><span class="n">snt</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dt</span><span class="o">==</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x0</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span>
+
+<span class="k">        if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="o">==</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            error stop</span><span class="w"> </span><span class="s1">&#39;Error: Target orbit mean motion must be non-zero.&#39;</span><span class="w"></span>
+<span class="w">        </span><span class="k">else</span>
+
+<span class="k">            </span><span class="n">nt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="o">*</span><span class="n">dt</span><span class="w"></span>
+<span class="w">            </span><span class="n">cnt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">cos</span><span class="p">(</span><span class="n">nt</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">snt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sin</span><span class="p">(</span><span class="n">nt</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">            </span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">four</span><span class="o">-</span><span class="n">three</span><span class="o">*</span><span class="n">cnt</span><span class="p">)</span><span class="o">*</span><span class="n">x0</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">snt</span><span class="o">/</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="n">x0</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">two</span><span class="o">/</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">one</span><span class="o">-</span><span class="n">cnt</span><span class="p">)</span><span class="o">*</span><span class="n">x0</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">x</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">six</span><span class="o">*</span><span class="p">(</span><span class="n">snt</span><span class="o">-</span><span class="n">nt</span><span class="p">)</span><span class="o">*</span><span class="n">x0</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">x0</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">two</span><span class="o">/</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">one</span><span class="o">-</span><span class="n">cnt</span><span class="p">)</span><span class="o">*</span><span class="n">x0</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">four</span><span class="o">*</span><span class="n">snt</span><span class="o">-</span><span class="n">three</span><span class="o">*</span><span class="n">nt</span><span class="p">)</span><span class="o">*</span><span class="n">x0</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">x</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cnt</span><span class="o">*</span><span class="n">x0</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">snt</span><span class="o">/</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="n">x0</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">x</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">three</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="n">snt</span><span class="o">*</span><span class="n">x0</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cnt</span><span class="o">*</span><span class="n">x0</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">two</span><span class="o">*</span><span class="n">snt</span><span class="o">*</span><span class="n">x0</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">x</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="p">(</span><span class="n">six</span><span class="o">*</span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">one</span><span class="o">-</span><span class="n">cnt</span><span class="p">))</span><span class="o">*</span><span class="n">x0</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">two</span><span class="o">*</span><span class="n">snt</span><span class="o">*</span><span class="n">x0</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">four</span><span class="o">*</span><span class="n">cnt</span><span class="o">-</span><span class="n">three</span><span class="p">)</span><span class="o">*</span><span class="n">x0</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">x</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">n</span><span class="o">*</span><span class="n">snt</span><span class="o">*</span><span class="n">x0</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cnt</span><span class="o">*</span><span class="n">x0</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">end if</span>
+
+<span class="k">    end if</span>
+
+<span class="k">    end function </span><span class="n">cw_equations</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

@@ -116,13 +116,9 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/axis_angle_rotation.html#variable-khat">khat</a>
-      <a class="list-group-item" href="../proc/axis_angle_rotation.html#variable-ct">ct</a>
-      <a class="list-group-item" href="../proc/axis_angle_rotation.html#variable-st">st</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/axis_angle_rotation.html#src">axis_angle_rotation</a>
   </div>
 </div>
 
@@ -145,13 +141,13 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-v~6"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-v~5"></span>real(kind=wp),</td>
 <td>intent(in),</td>
   <td></td>  <td>dimension(3)</td><td>::</td>
   <td><strong>v</strong></td><td><p>vector to rotate</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-k~9"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-k"></span>real(kind=wp),</td>
 <td>intent(in),</td>
   <td></td>  <td>dimension(3)</td><td>::</td>
   <td><strong>k</strong></td><td><p>rotation axis</p></td>
@@ -393,13 +389,9 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../proc/axis_angle_rotation.html#variable-khat">khat</a>
-      <a class="list-group-item" href="../proc/axis_angle_rotation.html#variable-ct">ct</a>
-      <a class="list-group-item" href="../proc/axis_angle_rotation.html#variable-st">st</a>
-    </div>
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/axis_angle_rotation.html#src">axis_angle_rotation</a>
   </div>
 </div>
 
@@ -407,39 +399,39 @@
     <br class="visible-xs visible-sm hidden-md">
 
 
-    <section>    
-      <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-khat"></span>real(kind=wp),</td>
-<td>private,</td>  <td>dimension(3)</td><td>::</td>
-  <td><strong>khat</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ct"></span>real(kind=wp),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>ct</strong></td><td></td><td></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-st"></span>real(kind=wp),</td>
-<td>private</td>  <td></td><td>::</td>
-  <td><strong>st</strong></td><td></td><td></td><td></td>
-</tr>
-</tbody>
-</table>
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">pure subroutine </span><span class="n">axis_angle_rotation</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">theta</span><span class="p">,</span><span class="n">vrot</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">v</span><span class="w">      </span><span class="c">!! vector to rotate</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">k</span><span class="w">      </span><span class="c">!! rotation axis</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">theta</span><span class="w">  </span><span class="c">!! rotation angle [rad]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vrot</span><span class="w">   </span><span class="c">!! result</span>
+
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">khat</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ct</span><span class="p">,</span><span class="n">st</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">ct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">st</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">khat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">unit</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w">   </span><span class="c">!rotation axis unit vector</span>
+
+<span class="w">    </span><span class="n">vrot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="o">*</span><span class="n">ct</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cross</span><span class="p">(</span><span class="n">khat</span><span class="p">,</span><span class="n">v</span><span class="p">)</span><span class="o">*</span><span class="n">st</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">khat</span><span class="o">*</span><span class="nb">dot_product</span><span class="p">(</span><span class="n">khat</span><span class="p">,</span><span class="n">v</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">one</span><span class="o">-</span><span class="n">ct</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">axis_angle_rotation</span><span class="w"></span>
+</pre></div>
 
     </section>
     <br>
-    
-    
-
-    
-    
-
-
-    
     
     </div>
   </div>

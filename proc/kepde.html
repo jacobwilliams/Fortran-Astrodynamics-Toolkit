@@ -113,7 +113,12 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/kepde.html#src">kepde</a>
+  </div>
+</div>
 
 </div>
 
@@ -155,13 +160,13 @@ eccentric anomaly difference.  See Battin, eqn 4.43.</p>
   <td><strong>sqrta</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-a~43"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-a~37"></span>real(kind=wp),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>a</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-r~52"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-r~29"></span>real(kind=wp),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>r</strong></td><td></td>
@@ -176,7 +181,12 @@ eccentric anomaly difference.  See Battin, eqn 4.43.</p>
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/kepde.html#src">kepde</a>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -190,6 +200,28 @@ eccentric anomaly difference.  See Battin, eqn 4.43.</p>
 
 
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">pure function </span><span class="n">kepde</span><span class="p">(</span><span class="n">de</span><span class="p">,</span><span class="w"> </span><span class="n">dm</span><span class="p">,</span><span class="w"> </span><span class="n">sigma0</span><span class="p">,</span><span class="w"> </span><span class="n">sqrta</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">de</span><span class="w">      </span><span class="c">!! eccentric anomaly difference</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dm</span><span class="w">      </span><span class="c">!! mean anomaly difference</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sigma0</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sqrta</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">kepde</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">kepde</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">dm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sigma0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">sqrta</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">cos</span><span class="p">(</span><span class="n">de</span><span class="p">))</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">&amp;</span><span class="w"></span>
+<span class="w">            </span><span class="p">(</span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">sin</span><span class="p">(</span><span class="n">de</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">end function </span><span class="n">kepde</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
     
     </div>
   </div>

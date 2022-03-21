@@ -115,7 +115,12 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/cross_matrix.html#src">cross_matrix</a>
+  </div>
+</div>
 
 </div>
 
@@ -133,7 +138,7 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-r~11"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-r~8"></span>real(kind=wp),</td>
 <td>intent(in),</td>
   <td></td>  <td>dimension(3)</td><td>::</td>
   <td><strong>r</strong></td><td></td>
@@ -279,7 +284,12 @@
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/cross_matrix.html#src">cross_matrix</a>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -293,6 +303,24 @@
 
 
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">pure function </span><span class="n">cross_matrix</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">rcross</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">rcross</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">rcross</span><span class="p">(:,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">zero</span><span class="p">,</span><span class="n">r</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="o">-</span><span class="n">r</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span><span class="w"></span>
+<span class="w">    </span><span class="n">rcross</span><span class="p">(:,</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="o">-</span><span class="n">r</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="n">zero</span><span class="p">,</span><span class="n">r</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span><span class="w"></span>
+<span class="w">    </span><span class="n">rcross</span><span class="p">(:,</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">r</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="o">-</span><span class="n">r</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">zero</span><span class="p">]</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">end function </span><span class="n">cross_matrix</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
     
     </div>
   </div>

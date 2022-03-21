@@ -113,7 +113,12 @@
     <div id="sidebar">
   <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/stepsize_class_constructor.html#src">stepsize_class_constructor</a>
+  </div>
+</div>
 
 </div>
 
@@ -166,7 +171,7 @@ decreasing step size after
 accepted step (&gt;0)</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-norm~4"></span>procedure(<a href='../interface/norm_func.html'>norm_func</a>),</td>
+  <td><span class="anchor" id="variable-norm~2"></span>procedure(<a href='../interface/norm_func.html'>norm_func</a>),</td>
 <td></td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>norm</strong></td><td><p>the user-specified <script type="math/tex"> ||x|| </script>
@@ -212,7 +217,12 @@ after rejected step</p></td>
     <section class="visible-xs visible-sm hidden-md">
       <h3>Contents</h3>
  
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/stepsize_class_constructor.html#src">stepsize_class_constructor</a>
+  </div>
+</div>
 
     </section>
     <br class="visible-xs visible-sm hidden-md">
@@ -226,6 +236,52 @@ after rejected step</p></td>
 
 
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">pure subroutine </span><span class="n">stepsize_class_constructor</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">hmin</span><span class="p">,</span><span class="n">hmax</span><span class="p">,</span><span class="n">hfactor_reject</span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">hfactor_accept</span><span class="p">,</span><span class="n">norm</span><span class="p">,</span><span class="n">accept_mode</span><span class="p">,</span><span class="n">relative_err</span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">                        </span><span class="n">safety_factor</span><span class="p">,</span><span class="n">p_exponent_offset</span><span class="p">,</span><span class="n">max_attempts</span><span class="p">)</span><span class="w"></span>
+
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    class</span><span class="p">(</span><span class="n">stepsize_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">hmin</span><span class="w">             </span><span class="c">!! minimum allowed step size (&gt;0)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">hmax</span><span class="w">             </span><span class="c">!! maximum allowed step size (&gt;0)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">hfactor_reject</span><span class="w">   </span><span class="c">!! minimum allowed factor for</span>
+<span class="w">                                                                  </span><span class="c">!! decreasing step size after</span>
+<span class="w">                                                                  </span><span class="c">!! rejected step (&gt;0)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">hfactor_accept</span><span class="w">   </span><span class="c">!! maximum allowed factor for</span>
+<span class="w">                                                                  </span><span class="c">!! decreasing step size after</span>
+<span class="w">                                                                  </span><span class="c">!! accepted step (&gt;0)</span>
+<span class="w">    </span><span class="k">procedure</span><span class="p">(</span><span class="n">norm_func</span><span class="p">),</span><span class="k">optional</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">norm</span><span class="w">             </span><span class="c">!! the user-specified \( ||x|| \)</span>
+<span class="w">                                                                  </span><span class="c">!! function</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">accept_mode</span><span class="w">      </span><span class="c">!! method to determine if step</span>
+<span class="w">                                                                  </span><span class="c">!! is accepted [1,2]</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">max_attempts</span><span class="w">     </span><span class="c">!! max step size change attempts</span>
+<span class="w">                                                                  </span><span class="c">!! after rejected step</span>
+<span class="w">    </span><span class="kt">logical</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">relative_err</span><span class="w">       </span><span class="c">!! to use `tol*h` in the `hfactor` equation</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">safety_factor</span><span class="w">      </span><span class="c">!! for `hfactor` equation (&gt;0)</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">p_exponent_offset</span><span class="w">  </span><span class="c">!! p + this value in the exponent (0 or 1)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">hmin</span><span class="p">))</span><span class="w">             </span><span class="n">me</span><span class="p">%</span><span class="n">hmin</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">hmin</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">hmax</span><span class="p">))</span><span class="w">             </span><span class="n">me</span><span class="p">%</span><span class="n">hmax</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">hmax</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">hfactor_reject</span><span class="p">))</span><span class="w">   </span><span class="n">me</span><span class="p">%</span><span class="n">hfactor_reject</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">hfactor_reject</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">hfactor_accept</span><span class="p">))</span><span class="w">   </span><span class="n">me</span><span class="p">%</span><span class="n">hfactor_accept</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">hfactor_accept</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">norm</span><span class="p">))</span><span class="w">             </span><span class="n">me</span><span class="p">%</span><span class="n">norm</span><span class="w">             </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">norm</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">accept_mode</span><span class="p">))</span><span class="w">      </span><span class="n">me</span><span class="p">%</span><span class="n">accept_mode</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">accept_mode</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">max_attempts</span><span class="p">))</span><span class="w">     </span><span class="n">me</span><span class="p">%</span><span class="n">max_attempts</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">max_attempts</span><span class="w"></span>
+
+<span class="w">    </span><span class="c">!if (present(compute_h_factor)) me%compute_h_factor =&gt; compute_h_factor</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">relative_err</span><span class="w">     </span><span class="p">))</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">relative_err</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">relative_err</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">safety_factor</span><span class="w">    </span><span class="p">))</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">safety_factor</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">safety_factor</span><span class="w">    </span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">p_exponent_offset</span><span class="p">))</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">p_exponent_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">p_exponent_offset</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">stepsize_class_constructor</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
     
     </div>
   </div>
