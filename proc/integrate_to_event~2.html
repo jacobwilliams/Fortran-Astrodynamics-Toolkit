@@ -88,13 +88,13 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 1.4% of total for procedures.">166 statements</a>
+    title=" 0.8% of total for procedures.">91 statements</a>
      </li> 
-    <li><i class="fa fa-code"></i><a href="../src/rk_module_variable_step.f90"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/rk_module.f90"> Source File</a></li>
   </ul>
   <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/rk_module_variable_step.f90.html'>rk_module_variable_step.f90</a></li>
-     <li><a href='../module/rk_module_variable_step.html'>rk_module_variable_step</a></li>
+     <li><a href='../sourcefile/rk_module.f90.html'>rk_module.f90</a></li>
+     <li><a href='../module/rk_module.html'>rk_module</a></li>
      <li class="active">integrate_to_event</li>
   </ol>
 </div>
@@ -125,7 +125,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private subroutine integrate_to_event(me, t0, x0, h, tmax, tol, tf, xf, gf, ierr)</h2>
+    <h2>private subroutine integrate_to_event(me, t0, x0, h, tmax, tol, tf, xf, gf)</h2>
         <div class="panel panel-default">
       <div class="panel-heading">
   <h3 class="panel-title">Uses</h3>
@@ -285,7 +285,7 @@
     </div>
 
 
-    <p>Event-finding integration routine for the <a href="../type/rk_variable_step_class.html">rk_variable_step_class</a>.
+    <p>Event-finding integration routine for the <a href="../type/rk_class.html">rk_class</a>.
   Integrates until g(t,x)=0, or until t=tf (whichever happens first).</p>
 <p></p><div class="alert alert-info" role="alert"><h4>Note</h4><p>There are some efficiency improvements that could be made here.
       This is a work in progress.</p></div>
@@ -295,25 +295,25 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-me~33"></span>class(<a href='../type/rk_variable_step_class.html'>rk_variable_step_class</a>),</td>
+  <td><span class="anchor" id="variable-me~45"></span>class(<a href='../type/rk_class.html'>rk_class</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>me</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-t0~4"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-t0~5"></span>real(kind=wp),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>t0</strong></td><td><p>initial time</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-x0~4"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-x0~6"></span>real(kind=wp),</td>
 <td>intent(in),</td>
   <td></td>  <td>dimension(me%n)</td><td>::</td>
   <td><strong>x0</strong></td><td><p>initial state</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-h~15"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-h~21"></span>real(kind=wp),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>h</strong></td><td><p>abs(time step)</p></td>
@@ -325,19 +325,19 @@
   <td><strong>tmax</strong></td><td><p>max final time if event not located</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tol~5"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-tol~7"></span>real(kind=wp),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>tol</strong></td><td><p>function tolerance for root finding</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-tf~4"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-tf~5"></span>real(kind=wp),</td>
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>tf</strong></td><td><p>actual final time reached</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-xf~8"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-xf~12"></span>real(kind=wp),</td>
 <td>intent(out),</td>
   <td></td>  <td>dimension(me%n)</td><td>::</td>
   <td><strong>xf</strong></td><td><p>final state (at tf)</p></td>
@@ -347,14 +347,6 @@
 <td>intent(out)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>gf</strong></td><td><p>g value at tf</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ierr~4"></span>integer,</td>
-<td>intent(out),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>ierr</strong></td><td><p>0 = no errors,
-&lt;0 = error.
-if not present, an error will stop program.</p></td>
 </tr>
 </tbody>
 </table>
@@ -385,13 +377,13 @@ if not present, an error will stop program.</p></td>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">integrate_to_event</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">t0</span><span class="p">,</span><span class="n">x0</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">tmax</span><span class="p">,</span><span class="n">tol</span><span class="p">,</span><span class="n">tf</span><span class="p">,</span><span class="n">xf</span><span class="p">,</span><span class="n">gf</span><span class="p">,</span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">integrate_to_event</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">t0</span><span class="p">,</span><span class="n">x0</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">tmax</span><span class="p">,</span><span class="n">tol</span><span class="p">,</span><span class="n">tf</span><span class="p">,</span><span class="n">xf</span><span class="p">,</span><span class="n">gf</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">    </span><span class="k">use </span><span class="n">brent_module</span><span class="w"></span>
 
 <span class="w">    </span><span class="k">implicit none</span>
 
-<span class="k">    class</span><span class="p">(</span><span class="n">rk_variable_step_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span><span class="w"></span>
+<span class="k">    class</span><span class="p">(</span><span class="n">rk_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span><span class="w"></span>
 <span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">t0</span><span class="w">      </span><span class="c">!! initial time</span>
 <span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">n</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">x0</span><span class="w">      </span><span class="c">!! initial state</span>
 <span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">h</span><span class="w">       </span><span class="c">!! abs(time step)</span>
@@ -400,42 +392,24 @@ if not present, an error will stop program.</p></td>
 <span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">tf</span><span class="w">      </span><span class="c">!! actual final time reached</span>
 <span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">n</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">xf</span><span class="w">      </span><span class="c">!! final state (at tf)</span>
 <span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">gf</span><span class="w">      </span><span class="c">!! g value at tf</span>
-<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="k">optional</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">ierr</span><span class="w">  </span><span class="c">!! 0 = no errors,</span>
-<span class="w">                                               </span><span class="c">!! &lt;0 = error.</span>
-<span class="w">                                               </span><span class="c">!! if not present, an error will stop program.</span>
 
-<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">etol</span><span class="p">,</span><span class="n">xp0</span><span class="w"></span>
+<span class="w">    </span><span class="c">!local variables:</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">t</span><span class="p">,</span><span class="n">dt</span><span class="p">,</span><span class="n">t2</span><span class="p">,</span><span class="n">ga</span><span class="p">,</span><span class="n">gb</span><span class="p">,</span><span class="n">dt_root</span><span class="p">,</span><span class="n">dum</span><span class="w"></span>
 <span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="n">g_xf</span><span class="w"></span>
-<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">terr</span><span class="w"> </span><span class="c">!! truncation error estimate</span>
-<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">iflag</span><span class="w"></span>
-<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">t</span><span class="p">,</span><span class="n">dt</span><span class="p">,</span><span class="n">t2</span><span class="p">,</span><span class="n">ga</span><span class="p">,</span><span class="n">gb</span><span class="p">,</span><span class="n">dt_root</span><span class="p">,</span><span class="n">dum</span><span class="p">,</span><span class="n">err</span><span class="p">,</span><span class="n">dt_new</span><span class="p">,</span><span class="n">stol</span><span class="w"></span>
-<span class="w">    </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="n">last</span><span class="p">,</span><span class="n">export</span><span class="p">,</span><span class="k">accept</span>
-<span class="k">    procedure</span><span class="p">(</span><span class="n">report_func</span><span class="p">),</span><span class="k">pointer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">report</span><span class="w"></span>
+<span class="w">    </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="n">last</span><span class="p">,</span><span class="n">export</span><span class="w"></span>
+<span class="w">    </span><span class="k">procedure</span><span class="p">(</span><span class="n">report_func</span><span class="p">),</span><span class="k">pointer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">report</span><span class="w"></span>
 <span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">brent_class</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">solver</span><span class="w"></span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iflag</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">ierr</span><span class="p">))</span><span class="w"> </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="nb">associated</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">f</span><span class="p">))</span><span class="w"> </span><span class="k">error stop</span><span class="w"> </span><span class="s1">&#39;Error in integrate_to_event: f is not associated.&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="nb">associated</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">g</span><span class="p">))</span><span class="w"> </span><span class="k">error stop</span><span class="w"> </span><span class="s1">&#39;Error in integrate_to_event: g is not associated.&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="o">==</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">error stop</span><span class="w"> </span><span class="s1">&#39;Error in integrate_to_event: h must not be zero.&#39;</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="nb">associated</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">f</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">ierr</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="k">return</span>
-<span class="k">        else</span>
-<span class="k">            error stop</span><span class="w"> </span><span class="s1">&#39;Error in integrate_to_event: f is not associated.&#39;</span><span class="w"></span>
-<span class="w">        </span><span class="k">end if</span>
-<span class="k">    end if</span>
-<span class="k">    if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="nb">associated</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">g</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">        if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">ierr</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">2</span><span class="w"></span>
-<span class="w">            </span><span class="k">return</span>
-<span class="k">        else</span>
-<span class="k">            error stop</span><span class="w"> </span><span class="s1">&#39;Error in integrate_to_event: g is not associated.&#39;</span><span class="w"></span>
-<span class="w">        </span><span class="k">end if</span>
-<span class="k">    end if</span>
-
-<span class="k">    </span><span class="n">me</span><span class="p">%</span><span class="n">num_rejected_steps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">    </span><span class="c">!If the points are being exported:</span>
 <span class="w">    </span><span class="n">export</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">associated</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">report</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">export</span><span class="p">)</span><span class="w"> </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">report</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span><span class="n">x0</span><span class="p">)</span><span class="w">  </span><span class="c">!first point</span>
+<span class="w">    </span><span class="c">!first point:</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">export</span><span class="p">)</span><span class="w"> </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">report</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span><span class="n">x0</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">t0</span><span class="o">==</span><span class="n">tmax</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 <span class="k">        </span><span class="n">xf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x0</span><span class="w"></span>
@@ -446,32 +420,9 @@ if not present, an error will stop program.</p></td>
 <span class="k">        </span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w"></span>
 <span class="w">        </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t0</span><span class="w"></span>
 <span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x0</span><span class="w"></span>
-<span class="w">        </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">g</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">ga</span><span class="p">)</span><span class="w">     </span><span class="c">!evaluate event function</span>
+<span class="w">        </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">g</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span><span class="n">x0</span><span class="p">,</span><span class="n">ga</span><span class="p">)</span><span class="w">     </span><span class="c">!evaluate event function</span>
+<span class="w">        </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sign</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">tmax</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span><span class="w">    </span><span class="c">!time step (correct sign)</span>
 
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="o">==</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
-<span class="w">            </span><span class="c">! compute an appropriate initial step size:</span>
-<span class="w">            </span><span class="c">! WARNING: this may not be working in all cases .....</span>
-<span class="w">            </span><span class="n">etol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">rtol</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">stepsize_method</span><span class="p">%</span><span class="n">norm</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">atol</span><span class="w"></span>
-<span class="w">            </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">f</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span><span class="n">x0</span><span class="p">,</span><span class="n">xp0</span><span class="p">)</span><span class="w">  </span><span class="c">! get initial dx/dt</span>
-<span class="w">            </span><span class="k">select case</span><span class="w"> </span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">hinit_method</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">case</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">hstart</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span><span class="n">tmax</span><span class="p">,</span><span class="n">x0</span><span class="p">,</span><span class="n">xp0</span><span class="p">,</span><span class="n">etol</span><span class="p">,</span><span class="n">dt</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">case</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">hinit</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span><span class="n">x0</span><span class="p">,</span><span class="nb">sign</span><span class="p">(</span><span class="n">one</span><span class="p">,</span><span class="n">tmax</span><span class="o">-</span><span class="n">t0</span><span class="p">),</span><span class="n">xp0</span><span class="p">,</span><span class="n">me</span><span class="p">%</span><span class="n">stepsize_method</span><span class="p">%</span><span class="n">hmax</span><span class="p">,</span><span class="n">me</span><span class="p">%</span><span class="n">atol</span><span class="p">,</span><span class="n">me</span><span class="p">%</span><span class="n">rtol</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="k">case </span><span class="n">default</span><span class="w"></span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">ierr</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">3</span><span class="w"></span>
-<span class="w">                    </span><span class="k">return</span>
-<span class="k">                else</span>
-<span class="k">                    error stop</span><span class="w"> </span><span class="s1">&#39;invalid hinit_method selection&#39;</span><span class="w"></span>
-<span class="w">                </span><span class="k">end if</span>
-<span class="k">            end select</span>
-<span class="k">        else</span><span class="w"></span>
-<span class="w">            </span><span class="c">! user-specified initial step size:</span>
-<span class="w">            </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sign</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">tmax</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span><span class="w">  </span><span class="c">! (correct sign)</span>
-<span class="w">        </span><span class="k">end if</span>
-
-<span class="k">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">order</span><span class="p">()</span><span class="w">     </span><span class="c">!order of the method</span>
 <span class="w">        </span><span class="k">do</span>
 
 <span class="k">            </span><span class="n">t2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dt</span><span class="w"></span>
@@ -481,63 +432,8 @@ if not present, an error will stop program.</p></td>
 <span class="k">                </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tmax</span><span class="o">-</span><span class="n">t</span><span class="w"></span>
 <span class="w">                </span><span class="n">t2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tmax</span><span class="w"></span>
 <span class="w">            </span><span class="k">end if</span>
-
-<span class="k">            do </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">me</span><span class="p">%</span><span class="n">stepsize_method</span><span class="p">%</span><span class="n">max_attempts</span><span class="w"></span>
-
-<span class="w">                </span><span class="c">! take a step:</span>
-<span class="w">                </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">step</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">dt</span><span class="p">,</span><span class="n">xf</span><span class="p">,</span><span class="n">terr</span><span class="p">)</span><span class="w"></span>
-
-<span class="w">                </span><span class="c">! evaluate error and compute new step size:</span>
-<span class="w">                </span><span class="n">err</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">stepsize_method</span><span class="p">%</span><span class="n">norm</span><span class="p">(</span><span class="n">terr</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="n">stol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">stepsize_method</span><span class="p">%</span><span class="n">norm</span><span class="p">(</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">rtol</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">xf</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">atol</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">stepsize_method</span><span class="p">%</span><span class="n">compute_stepsize</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span><span class="n">stol</span><span class="p">,</span><span class="n">err</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">dt_new</span><span class="p">,</span><span class="k">accept</span><span class="p">)</span><span class="w"></span>
-<span class="w">                </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dt_new</span><span class="w"></span>
-
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">accept</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
-<span class="w">                    </span><span class="c">!accept this step</span>
-<span class="w">                    </span><span class="k">exit</span>
-<span class="k">                else</span><span class="w"></span>
-<span class="w">                    </span><span class="c">!step is rejected, repeat step with new dt</span>
-<span class="w">                    </span><span class="n">me</span><span class="p">%</span><span class="n">num_rejected_steps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">num_rejected_steps</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-
-<span class="w">                    </span><span class="c">!note: if we have reached the min step size, and the error</span>
-<span class="w">                    </span><span class="c">!is still too large, we can&#39;t proceed.</span>
-<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">&gt;=</span><span class="n">me</span><span class="p">%</span><span class="n">stepsize_method</span><span class="p">%</span><span class="n">max_attempts</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                        if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">ierr</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                            </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">4</span><span class="w"></span>
-<span class="w">                            </span><span class="k">return</span>
-<span class="k">                        else</span>
-<span class="k">                            error stop</span><span class="w"> </span><span class="s1">&#39;error: too many attempts to reduce step size.&#39;</span><span class="w"></span>
-<span class="w">                        </span><span class="k">end if</span>
-<span class="k">                    end if</span>
-<span class="k">                    if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">stepsize_method</span><span class="p">%</span><span class="n">hmin</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                        if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">ierr</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                            </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">5</span><span class="w"></span>
-<span class="w">                            </span><span class="k">return</span>
-<span class="k">                        else</span>
-<span class="k">                            error stop</span><span class="w"> </span><span class="s1">&#39;warning: min step size.&#39;</span><span class="w"></span>
-<span class="w">                        </span><span class="k">end if</span>
-<span class="k">                    end if</span><span class="w"></span>
-
-<span class="w">                    </span><span class="c">!......</span>
-<span class="w">                    </span><span class="c">!... if we have two rejected steps and the step size hasn&#39;t changed..</span>
-<span class="w">                    </span><span class="c">!    then we need to abort, since no progress is being made...</span>
-<span class="w">                    </span><span class="c">!......</span>
-
-<span class="w">                    </span><span class="n">last</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">dt</span><span class="o">&gt;=</span><span class="n">zero</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">t2</span><span class="o">&gt;=</span><span class="n">tmax</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span><span class="w">  </span><span class="c">!adjust last time step</span>
-<span class="w">                            </span><span class="p">(</span><span class="n">dt</span><span class="o">&lt;</span><span class="n">zero</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">t2</span><span class="o">&lt;=</span><span class="n">tmax</span><span class="p">))</span><span class="w">         </span><span class="c">!</span>
-<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">last</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">                        </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tmax</span><span class="o">-</span><span class="n">t</span><span class="w"></span>
-<span class="w">                        </span><span class="n">t2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tmax</span><span class="w"></span>
-<span class="w">                    </span><span class="k">else</span>
-<span class="k">                        </span><span class="n">t2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dt</span><span class="w"></span>
-<span class="w">                    </span><span class="k">end if</span>
-
-<span class="k">                end if</span>
-
-<span class="k">            end do</span>
-
-<span class="k">            call </span><span class="n">me</span><span class="p">%</span><span class="n">g</span><span class="p">(</span><span class="n">t2</span><span class="p">,</span><span class="n">xf</span><span class="p">,</span><span class="n">gb</span><span class="p">)</span><span class="w">     </span><span class="c">!evaluate event function</span>
+<span class="k">            call </span><span class="n">me</span><span class="p">%</span><span class="n">step</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">dt</span><span class="p">,</span><span class="n">xf</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">g</span><span class="p">(</span><span class="n">t2</span><span class="p">,</span><span class="n">xf</span><span class="p">,</span><span class="n">gb</span><span class="p">)</span><span class="w">     </span><span class="c">!evaluate event function</span>
 
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">first</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">ga</span><span class="p">)</span><span class="o">&lt;=</span><span class="n">tol</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"></span>
 
@@ -584,14 +480,12 @@ if not present, an error will stop program.</p></td>
 <span class="w">            </span><span class="k">end if</span>
 
 <span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">first</span><span class="p">)</span><span class="w"> </span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span><span class="w"></span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">last</span><span class="p">)</span><span class="w"> </span><span class="k">exit</span>
-<span class="k">            </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xf</span><span class="w"></span>
-<span class="w">            </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t2</span><span class="w"></span>
+
 <span class="w">        </span><span class="k">end do</span>
 
 <span class="k">    end if</span>
 
-<span class="k">    if</span><span class="w"> </span><span class="p">(</span><span class="n">export</span><span class="p">)</span><span class="w"> </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">report</span><span class="p">(</span><span class="n">tf</span><span class="p">,</span><span class="n">xf</span><span class="p">)</span><span class="w">   </span><span class="c">!last point</span>
+<span class="k">    if</span><span class="w"> </span><span class="p">(</span><span class="n">export</span><span class="p">)</span><span class="w"> </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">report</span><span class="p">(</span><span class="n">t2</span><span class="p">,</span><span class="n">xf</span><span class="p">)</span><span class="w">   </span><span class="c">!last point</span>
 
 <span class="w">    </span><span class="k">contains</span>
 
@@ -605,12 +499,8 @@ if not present, an error will stop program.</p></td>
 <span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">delt</span><span class="w">  </span><span class="c">!! from [0 to dt]</span>
 <span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="w"></span>
 
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">terr</span><span class="w"> </span><span class="c">!! truncation error estimate</span>
-
 <span class="w">        </span><span class="c">!take a step from t to t+delt and evaluate g function:</span>
-<span class="w">        </span><span class="c">! [we don&#39;t check the error because we are within a</span>
-<span class="w">        </span><span class="c">!  step that was already accepted, so it should be ok]</span>
-<span class="w">        </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">step</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">delt</span><span class="p">,</span><span class="n">g_xf</span><span class="p">,</span><span class="n">terr</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">step</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">delt</span><span class="p">,</span><span class="n">g_xf</span><span class="p">)</span><span class="w"></span>
 <span class="w">        </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">g</span><span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="n">delt</span><span class="p">,</span><span class="n">g_xf</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">        </span><span class="k">end function </span><span class="n">solver_func</span><span class="w"></span>
