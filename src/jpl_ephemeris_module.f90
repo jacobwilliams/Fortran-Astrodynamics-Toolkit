@@ -886,7 +886,7 @@
 !
 !### Ephemeris files
 !  This routine requires the DE405 and DE421 JPL binary ephemeris files
-!  to be present in the `../eph` directory.
+!  to be present in the `./eph` directory.
 !  These can be built by using the instructions
 !  [here](ftp://ssd.jpl.nasa.gov/pub/eph/planets/fortran/userguide.txt).
 !
@@ -915,8 +915,8 @@
     type(jpl_ephemeris) :: eph405, eph421
     logical :: status_ok_405,status_ok_421
 
-    character(len=*),parameter :: ephemeris_file_405 = '../eph/JPLEPH.405' !! JPL DE405 ephemeris file
-    character(len=*),parameter :: ephemeris_file_421 = '../eph/JPLEPH.421' !! JPL DE421 ephemeris file
+    character(len=*),parameter :: ephemeris_file_405 = './eph/JPLEPH.405' !! JPL DE405 ephemeris file
+    character(len=*),parameter :: ephemeris_file_421 = './eph/JPLEPH.421' !! JPL DE421 ephemeris file
 
     write(*,*) ''
     write(*,*) '---------------'
