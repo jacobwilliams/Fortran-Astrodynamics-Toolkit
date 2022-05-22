@@ -1257,7 +1257,7 @@
 
     implicit none
 
-    character(len=*),parameter :: gravfile = '../grav/GGM03C.GEO'  !! the coefficient file
+    character(len=*),parameter :: gravfile = './grav/GGM03C.GEO'  !! the coefficient file
 
     class(geopotential_model),pointer :: g
     type(geopotential_model_mueller)          ,target :: g_mueller
