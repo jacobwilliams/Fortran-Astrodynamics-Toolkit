@@ -63,6 +63,20 @@ fpm build --profile release
 fpm test --profile release
 ```
 
+
+To use `Fortran-Astrodynamics-Toolkit` within your fpm project, add the following to your `fpm.toml` file:
+```toml
+[dependencies]
+fortran-astrodynamics-toolkit = { git="https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit.git" }
+```
+
+or, to use a specific version:
+
+```toml
+[dependencies]
+fortran-astrodynamics-toolkit = { git="https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit.git", tag = "0.3" }
+```
+
 To generate the documentation using [ford](https://github.com/Fortran-FOSS-Programmers/ford), run: `ford fortran-astrodynamics-toolkit.md`
 
 ## Third-Party Requirements
