@@ -22,7 +22,7 @@
     real(wp),parameter :: orbit_sma = 6778.0_wp        !orbit semimajor axis [km]
 
     !the coefficient file:
-    character(len=*),parameter :: gravfile = '../grav/GGM03C.GEO'
+    character(len=*),parameter :: gravfile = './grav/GGM03C.GEO'
     integer,parameter :: grav_n = 10    !max degree
     integer,parameter :: grav_m = 10    !max order
 

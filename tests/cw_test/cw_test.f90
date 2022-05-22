@@ -30,7 +30,7 @@
     real(wp),parameter              :: mu_earth      = 398600.4418_wp           !! grav. param of earth [km3/s2]
     real(wp),parameter              :: orbit_inc     = 45.0_wp*deg2rad          !! orbit inclination [rad]
     real(wp),parameter              :: orbit_sma     = 6778.0_wp                !! orbit semimajor axis [km]
-    character(len=*),parameter      :: gravfile      = '../grav/GGM03C.GEO'     !! grav coefficient file
+    character(len=*),parameter      :: gravfile      = './grav/GGM03C.GEO'     !! grav coefficient file
     integer,parameter               :: grav_n        = 10                       !! max degree
     integer,parameter               :: grav_m        = 10                       !! max order
     real(wp),dimension(3),parameter :: r_chaser_lvlh = [1.0_wp,1.0_wp,1.0_wp]   !! chaser r relative to target (LVLH)

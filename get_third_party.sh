@@ -9,8 +9,16 @@ cd tmp
 wget ftp://ssd.jpl.nasa.gov/pub/eph/planets/fortran/*
 wget ftp://ssd.jpl.nasa.gov/pub/eph/planets/ascii/de405/*
 wget ftp://ssd.jpl.nasa.gov/pub/eph/planets/ascii/de421/*
-#edit asc2eph.f file to set NRECL = 4:
-sed -i '_original' '/^C.*PARAMETER ( NRECL = 4 )/s/^C//' asc2eph.f
+
+# edit asc2eph.f file to set NRECL = 4:
+# seems that -i only works on mac?
+if [[ $OSTYPE == 'darwin'* ]]
+then
+  sed -i '_original' '/^C.*PARAMETER ( NRECL = 4 )/s/^C//' asc2eph.f
+else
+  sed --in-place='_original' '/^C.*PARAMETER ( NRECL = 4 )/s/^C//' asc2eph.f
+fi
+
 gfortran asc2eph.f -o asc2eph
 mkdir ../eph
 cat header.405 ascp*.405 | ./asc2eph

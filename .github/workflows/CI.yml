@@ -49,6 +49,9 @@ jobs:
            --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${{ matrix.gcc_v }} \
            --slave /usr/bin/gcov gcov /usr/bin/gcov-${{ matrix.gcc_v }}
 
+    - name: Get third party data
+      run: ./get_third_party.sh
+
     # - name: Compile
     #   run: fpm build --profile release
 

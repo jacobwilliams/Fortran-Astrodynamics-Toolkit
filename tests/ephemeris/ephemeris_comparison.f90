@@ -19,7 +19,7 @@
     integer               :: i
     integer               :: jd_start, jd_end
 
-    character(len=*),parameter :: ephemeris_file_405 = '../eph/JPLEPH.405' !! JPL DE405 ephemeris file
+    character(len=*),parameter :: ephemeris_file_405 = './eph/JPLEPH.405' !! JPL DE405 ephemeris file
 
     write(*,*) ''
     write(*,*) '---------------'
