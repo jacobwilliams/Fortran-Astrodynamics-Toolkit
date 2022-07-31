@@ -479,6 +479,8 @@
     real(wp),dimension(3) :: h         !! angular momentum vector
     real(wp),dimension(3) :: w         !! angular velocity of frame
     logical               :: need_cdot !! if we need to compute `cdot`
+    real(wp),dimension(3) :: rhat      !! `r` unit vector
+    real(wp),dimension(3) :: hhat      !! `h` unit vector
 
     need_cdot = present(cdot)
 
@@ -490,9 +492,11 @@
         r      = me%rv12(1:3)
         v      = me%rv12(4:6)
         h      = cross(r,v)
-        c(1,:) = unit(r)
-        c(3,:) = unit(h)
-        c(2,:) = cross(c(3,:),c(1,:))
+        rhat   = unit(r)
+        hhat   = unit(h)
+        c(1,:) = rhat
+        c(3,:) = hhat
+        c(2,:) = cross(hhat,rhat)
 
         if (need_cdot) then
             w = h / dot_product(r,r)            ! see: https://en.wikipedia.org/wiki/Angular_velocity
