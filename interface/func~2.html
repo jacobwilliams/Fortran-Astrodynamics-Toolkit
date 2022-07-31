@@ -89,13 +89,13 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.0% of total for abstract interfaces.">8 statements</a>
+    title=" 2.3% of total for abstract interfaces.">9 statements</a>
      </li> 
-    <li><i class="fa fa-code"></i><a href="../src/lambert_module.f90"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/brent_module.f90"> Source File</a></li>
   </ul>
   <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/lambert_module.f90.html'>lambert_module.f90</a></li>
-     <li><a href='../module/lambert_module.html'>lambert_module</a></li>
+     <li><a href='../sourcefile/brent_module.f90.html'>brent_module.f90</a></li>
+     <li><a href='../module/brent_module.html'>brent_module</a></li>
      <li class="active">func</li>
   </ol>
 </div>
@@ -122,7 +122,7 @@
     
     <div class="col-md-9" id='text'>
       <h2>abstract interface <br>
-      private function func(t) result(f)</h2>    
+      private function func(me, x) result(f)</h2>    
 
     
 
@@ -131,18 +131,25 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-t~5"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-me~3"></span>class(<a href='../type/brent_class.html'>brent_class</a>),</td>
+<td>intent(inout)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>me</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-x"></span>real(kind=wp),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>t</strong></td><td><p>Independant variable for the function.</p></td>
+  <td><strong>x</strong></td><td></td>
 </tr>
 </tbody>
 </table>
 
       <h3>Return Value <span class="anchor" id="variable-f~5"></span><small>real(kind=wp)</small></h3>
-    <p>The function evaluated at <code>t</code>.</p>
+    
     <h3>Description</h3>
-    <p>interface to the <a href="../proc/zeroin.html">zeroin</a> input function</p>
+    <p>Interface to the function to be minimized.
+It should evaluate f(x) for any x in the interval (ax,bx)</p>
     <br>
 
  </div>

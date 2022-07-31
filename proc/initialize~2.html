@@ -88,13 +88,13 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">13 statements</a>
+    title=" 0.3% of total for procedures.">36 statements</a>
      </li> 
-    <li><i class="fa fa-code"></i><a href="../src/rk_module.f90"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/rk_module_variable_step.f90"> Source File</a></li>
   </ul>
   <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/rk_module.f90.html'>rk_module.f90</a></li>
-     <li><a href='../module/rk_module.html'>rk_module</a></li>
+     <li><a href='../sourcefile/rk_module_variable_step.f90.html'>rk_module_variable_step.f90</a></li>
+     <li><a href='../module/rk_module_variable_step.html'>rk_module_variable_step</a></li>
      <li class="active">initialize</li>
   </ol>
 </div>
@@ -125,32 +125,63 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>private subroutine initialize(me, n, f, report, g)</h2>
+    <h2>private subroutine initialize(me, n, f, rtol, atol, stepsize_method, hinit_method, report, g)</h2>
     
 
-    <p>Initialize the <a href="../type/rk_class.html">rk_class</a>.</p>
+    <p>Initialize the <a href="../type/rk_variable_step_class.html">rk_variable_step_class</a>.</p>
 
     <h3>Arguments</h3>
       <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-me~42"></span>class(<a href='../type/rk_class.html'>rk_class</a>),</td>
+  <td><span class="anchor" id="variable-me~58"></span>class(<a href='../type/rk_variable_step_class.html'>rk_variable_step_class</a>),</td>
 <td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>me</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-n~28"></span>integer,</td>
+  <td><span class="anchor" id="variable-n~35"></span>integer,</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>n</strong></td><td><p>number of variables</p></td>
+  <td><strong>n</strong></td><td><p>number of equations</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-f~15"></span>procedure(<a href='../interface/deriv_func~2.html'>deriv_func</a>)</td>
+  <td><span class="anchor" id="variable-f~21"></span>procedure(<a href='../interface/deriv_func~2.html'>deriv_func</a>)</td>
 <td></td>
   <td></td>  <td></td><td>::</td>
   <td><strong>f</strong></td><td><p>derivative function</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-rtol~3"></span>real(kind=wp),</td>
+<td>intent(in),</td>
+  <td></td>  <td>dimension(:)</td><td>::</td>
+  <td><strong>rtol</strong></td><td><p>relative tolerance (if size=1,
+then same tol used for all
+equations)</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-atol~3"></span>real(kind=wp),</td>
+<td>intent(in),</td>
+  <td></td>  <td>dimension(:)</td><td>::</td>
+  <td><strong>atol</strong></td><td><p>absolute tolerance (if size=1,
+then same tol used for all
+equations)</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-stepsize_method~2"></span>class(<a href='../type/stepsize_class.html'>stepsize_class</a>),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>stepsize_method</strong></td><td><p>method for varying the step size</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-hinit_method~2"></span>integer,</td>
+<td>intent(in),</td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>hinit_method</strong></td><td><p>which method to use for
+automatic initial step size
+computation.
+1 = use <code>hstart</code>, 2 = use <code>hinit</code>.</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-report~5"></span>procedure(<a href='../interface/report_func~3.html'>report_func</a>),</td>
@@ -159,7 +190,7 @@
   <td><strong>report</strong></td><td><p>for reporting the steps</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-g~5"></span>procedure(<a href='../interface/event_func~2.html'>event_func</a>),</td>
+  <td><span class="anchor" id="variable-g~6"></span>procedure(<a href='../interface/event_func~2.html'>event_func</a>),</td>
 <td></td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>g</strong></td><td><p>for stopping at an event</p></td>
@@ -193,22 +224,57 @@
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">initialize</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">report</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"></span>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">initialize</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">rtol</span><span class="p">,</span><span class="n">atol</span><span class="p">,</span><span class="n">stepsize_method</span><span class="p">,</span><span class="n">hinit_method</span><span class="p">,</span><span class="n">report</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">    </span><span class="k">implicit none</span>
 
-<span class="k">    class</span><span class="p">(</span><span class="n">rk_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span><span class="w"></span>
-<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w">       </span><span class="c">!! number of variables</span>
-<span class="w">    </span><span class="k">procedure</span><span class="p">(</span><span class="n">deriv_func</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">f</span><span class="w">       </span><span class="c">!! derivative function</span>
-<span class="w">    </span><span class="k">procedure</span><span class="p">(</span><span class="n">report_func</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">report</span><span class="w">  </span><span class="c">!! for reporting the steps</span>
-<span class="w">    </span><span class="k">procedure</span><span class="p">(</span><span class="n">event_func</span><span class="p">),</span><span class="k">optional</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="w">       </span><span class="c">!! for stopping at an event</span>
+<span class="k">    class</span><span class="p">(</span><span class="n">rk_variable_step_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span><span class="w"></span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                          </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w">               </span><span class="c">!! number of equations</span>
+<span class="w">    </span><span class="k">procedure</span><span class="p">(</span><span class="n">deriv_func</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">f</span><span class="w">               </span><span class="c">!! derivative function</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">rtol</span><span class="w">            </span><span class="c">!! relative tolerance (if size=1,</span>
+<span class="w">                                                                   </span><span class="c">!! then same tol used for all</span>
+<span class="w">                                                                   </span><span class="c">!! equations)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">atol</span><span class="w">            </span><span class="c">!! absolute tolerance (if size=1,</span>
+<span class="w">                                                                   </span><span class="c">!! then same tol used for all</span>
+<span class="w">                                                                   </span><span class="c">!! equations)</span>
+<span class="w">    </span><span class="k">class</span><span class="p">(</span><span class="n">stepsize_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">stepsize_method</span><span class="w"> </span><span class="c">!! method for varying the step size</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">hinit_method</span><span class="w">    </span><span class="c">!! which method to use for</span>
+<span class="w">                                                                   </span><span class="c">!! automatic initial step size</span>
+<span class="w">                                                                   </span><span class="c">!! computation.</span>
+<span class="w">                                                                   </span><span class="c">!! 1 = use `hstart`, 2 = use `hinit`.</span>
+<span class="w">    </span><span class="k">procedure</span><span class="p">(</span><span class="n">report_func</span><span class="p">),</span><span class="k">optional</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">report</span><span class="w">          </span><span class="c">!! for reporting the steps</span>
+<span class="w">    </span><span class="k">procedure</span><span class="p">(</span><span class="n">event_func</span><span class="p">),</span><span class="k">optional</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="w">               </span><span class="c">!! for stopping at an event</span>
 
 <span class="w">    </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">destroy</span><span class="p">()</span><span class="w"></span>
 
 <span class="w">    </span><span class="n">me</span><span class="p">%</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
 <span class="w">    </span><span class="n">me</span><span class="p">%</span><span class="n">f</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">f</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">allocate</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">rtol</span><span class="p">(</span><span class="n">n</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="k">allocate</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">atol</span><span class="p">(</span><span class="n">n</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">rtol</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        </span><span class="n">me</span><span class="p">%</span><span class="n">rtol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rtol</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="c">!use this for all equations</span>
+<span class="w">    </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">rtol</span><span class="p">)</span><span class="o">==</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        </span><span class="n">me</span><span class="p">%</span><span class="n">rtol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rtol</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span>
+<span class="k">        error stop</span><span class="w"> </span><span class="s1">&#39;invalid size for rtol array.&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end if</span>
+<span class="k">    if</span><span class="w"> </span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">atol</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        </span><span class="n">me</span><span class="p">%</span><span class="n">atol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atol</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="c">!use this for all equations</span>
+<span class="w">    </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">atol</span><span class="p">)</span><span class="o">==</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        </span><span class="n">me</span><span class="p">%</span><span class="n">atol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atol</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span>
+<span class="k">        error stop</span><span class="w"> </span><span class="s1">&#39;invalid size for atol array.&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="k">end if</span>
+
+<span class="k">    if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">hinit_method</span><span class="p">))</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">hinit_method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hinit_method</span><span class="w"></span>
+
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">report</span><span class="p">))</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">report</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">report</span><span class="w"></span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">g</span><span class="p">))</span><span class="w">      </span><span class="n">me</span><span class="p">%</span><span class="n">g</span><span class="w">      </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">g</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">allocate</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">stepsize_method</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="o">=</span><span class="n">stepsize_method</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">me</span><span class="p">%</span><span class="n">num_rejected_steps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
 
 <span class="w">    </span><span class="k">end subroutine </span><span class="n">initialize</span><span class="w"></span>
 </pre></div>
