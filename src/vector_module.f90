@@ -37,6 +37,16 @@
     public :: rotation_matrix_dot
     public :: angle_between_vectors
 
+    interface fill_vector
+        module procedure :: fill_vector_with_vector, fill_vector_with_scalar
+    end interface
+    public :: fill_vector
+
+    interface extract_vector
+        module procedure :: extract_vector_from_vector, extract_scalar_from_vector
+    end interface
+    public :: extract_vector
+
     !test routine:
     public :: vector_test
 
@@ -466,6 +476,86 @@
     ang = atan2(c,d)
 
     end function angle_between_vectors
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Put the vector in the vector and update the index
+
+    subroutine fill_vector_with_vector(x, vals, i)
+
+    implicit none
+
+    real(wp),dimension(:),intent(inout) :: x
+    real(wp),dimension(:),intent(in) :: vals
+    integer,intent(inout) :: i !! should be initialized to 0 before the first call
+
+    integer :: j !! counter
+
+    do j = 1, size(vals)
+        call fill_vector(x,vals(j),i)
+    end do
+
+    end subroutine fill_vector_with_vector
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Put the value in the vector and update the index
+
+    subroutine fill_vector_with_scalar(x, val, i)
+
+    implicit none
+
+    real(wp),dimension(:),intent(inout) :: x
+    real(wp),intent(in) :: val
+    integer,intent(inout) :: i !! should be initialized to 0 before the first call
+
+    i = i + 1
+    if (i>size(x)) error stop 'error in fill_vector: x is not large enough.'
+    x(i) = val
+
+    end subroutine fill_vector_with_scalar
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Extract a vector from the vector and update the index
+
+    subroutine extract_vector_from_vector(vals, x, i)
+
+    implicit none
+
+    real(wp),dimension(:),intent(out) :: vals
+    real(wp),dimension(:),intent(in) :: x
+    integer,intent(inout) :: i !! should be initialized to 0 before the first call
+
+    integer :: j !! counter
+
+    do j = 1, size(vals)
+        call extract_vector(vals(j),x,i)
+    end do
+
+    end subroutine extract_vector_from_vector
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Extract the value from the vector and update the index
+
+    subroutine extract_scalar_from_vector(val, x, i)
+
+    implicit none
+
+    real(wp),intent(out) :: val
+    real(wp),dimension(:),intent(in) :: x
+    integer,intent(inout) :: i !! should be initialized to 0 before the first call
+
+    i = i + 1
+    if (i>size(x)) error stop 'error in extract_vector: x is not large enough.'
+    val = x(i)
+
+    end subroutine extract_scalar_from_vector
 !*****************************************************************************************
 
 !*****************************************************************************************
