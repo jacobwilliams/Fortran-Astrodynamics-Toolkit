@@ -14,8 +14,50 @@
 
     public :: cube_root
     public :: wrap_angle
+    public :: magnitude
 
     contains
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Returns a positive number the same magnitude as the input,
+!  with only one significant digit.
+!
+!  If `mina` is present, then `max(mina,mag(a))` is returned
+!
+!  Examples:
+!```
+!     mag(1234.56)  -> 1000.0
+!     mag(-999.99)  -> 900.0
+!     mag(1.456e-4) -> 0.0001
+!```
+
+    pure elemental function magnitude(a,mina) result(m)
+
+    implicit none
+
+    real(wp),intent(in) :: a
+    real(wp),intent(in),optional :: mina
+    real(wp) :: m
+
+    real(wp) :: x,tmp
+
+    x = abs(a)
+
+    if (x==0.0_wp) then
+        if (.not. present(mina)) then
+            m = 1.0_wp
+        else
+            m = mina
+        end if
+    else
+        tmp = 10.0_wp ** floor(log10(x))
+        m = tmp * floor(x/tmp)
+        if (present(mina)) m = max(mina,m)
+    end if
+
+    end function magnitude
 !*****************************************************************************************
 
 !*****************************************************************************************

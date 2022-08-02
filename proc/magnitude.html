@@ -8,7 +8,7 @@
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
-    <title>outer_product &ndash; fortran-astrodynamics-toolkit</title>
+    <title>magnitude &ndash; fortran-astrodynamics-toolkit</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -78,26 +78,24 @@
 
     <div class="container">
   <div class="row">
-    <h1>outer_product
+    <h1>magnitude
       <small>Function</small>
     </h1>
     <div class="row">
   <div class="col-lg-12">
 <div class="well well-sm">
   <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-pencil"></i> Jacob Williams</li>
-    <li><i class="fa fa-calendar-o"></i> 7/21/2014</li>
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">10 statements</a>
+    title=" 0.2% of total for procedures.">19 statements</a>
      </li> 
-    <li><i class="fa fa-code"></i><a href="../src/vector_module.f90"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/math_module.f90"> Source File</a></li>
   </ul>
   <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/vector_module.f90.html'>vector_module.f90</a></li>
-     <li><a href='../module/vector_module.html'>vector_module</a></li>
-     <li class="active">outer_product</li>
+     <li><a href='../sourcefile/math_module.f90.html'>math_module.f90</a></li>
+     <li><a href='../module/math_module.html'>math_module</a></li>
+     <li class="active">magnitude</li>
   </ol>
 </div>
 </div>
@@ -118,7 +116,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
-    <a class="list-group-item" href="../proc/outer_product.html#src">outer_product</a>
+    <a class="list-group-item" href="../proc/magnitude.html#src">magnitude</a>
   </div>
 </div>
 
@@ -127,31 +125,38 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public pure function outer_product(a, b) result(c)</h2>
+    <h2>public pure elemental function magnitude(a, mina) result(m)</h2>
     
 
-    <p>Computes the outer product of the two vectors.</p>
+    <p>Returns a positive number the same magnitude as the input,
+  with only one significant digit.</p>
+<p>If <code>mina</code> is present, then <code>max(mina,mag(a))</code> is returned</p>
+<p>Examples:</p>
+<div class="codehilite"><pre><span></span><code><span class="w">     </span><span class="n">mag</span><span class="p">(</span><span class="mf">1234.56</span><span class="p">)</span><span class="w">  </span><span class="o">-&gt;</span><span class="w"> </span><span class="mf">1000.0</span><span class="w"></span>
+<span class="w">     </span><span class="n">mag</span><span class="p">(</span><span class="o">-</span><span class="mf">999.99</span><span class="p">)</span><span class="w">  </span><span class="o">-&gt;</span><span class="w"> </span><span class="mf">900.0</span><span class="w"></span>
+<span class="w">     </span><span class="n">mag</span><span class="p">(</span><span class="mf">1.456e-4</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mf">0.0001</span><span class="w"></span>
+</code></pre></div>
 
     <h3>Arguments</h3>
       <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-a~13"></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
+  <td><span class="anchor" id="variable-a~11"></span>real(kind=wp),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
   <td><strong>a</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-b~5"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-mina"></span>real(kind=wp),</td>
 <td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>b</strong></td><td></td>
+  <td>optional</td>  <td></td><td>::</td>
+  <td><strong>mina</strong></td><td></td>
 </tr>
 </tbody>
 </table>
 
-   <h3>Return Value <small><span class="anchor" id="variable-c~13"></span>real(kind=wp),dimension(size(a),size(b))</small></h3>
+   <h3>Return Value <small><span class="anchor" id="variable-m~14"></span>real(kind=wp)</small></h3>
     
     <br>
 
@@ -161,7 +166,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
-    <a class="list-group-item" href="../proc/outer_product.html#src">outer_product</a>
+    <a class="list-group-item" href="../proc/magnitude.html#src">magnitude</a>
   </div>
 </div>
 
@@ -179,21 +184,31 @@
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">pure function </span><span class="n">outer_product</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="w"></span>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">pure elemental function </span><span class="n">magnitude</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">mina</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">    </span><span class="k">implicit none</span>
 
-<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
-<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="w"></span>
-<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">))</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">c</span><span class="w"></span>
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mina</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">m</span><span class="w"></span>
 
-<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="n">tmp</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="n">c</span><span class="p">(:,</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="o">*</span><span class="n">b</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="k">end do</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="w"></span>
 
-<span class="k">    end function </span><span class="n">outer_product</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="o">==</span><span class="mf">0.0_wp</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="nb">present</span><span class="p">(</span><span class="n">mina</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_wp</span><span class="w"></span>
+<span class="w">        </span><span class="k">else</span>
+<span class="k">            </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mina</span><span class="w"></span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">    else</span>
+<span class="k">        </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="mf">0.0_wp</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="nb">floor</span><span class="p">(</span><span class="n">log10</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">floor</span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="n">tmp</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">mina</span><span class="p">))</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">mina</span><span class="p">,</span><span class="n">m</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">end if</span>
+
+<span class="k">    end function </span><span class="n">magnitude</span><span class="w"></span>
 </pre></div>
 
     </section>
