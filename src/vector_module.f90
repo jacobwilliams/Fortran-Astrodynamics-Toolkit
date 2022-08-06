@@ -38,7 +38,8 @@
     public :: angle_between_vectors
 
     interface fill_vector
-        module procedure :: fill_vector_with_vector, fill_vector_with_scalar
+        module procedure :: fill_vector_with_vector, fill_vector_with_scalar, &
+                            fill_char_vector_with_vector, fill_char_vector_with_scalar
     end interface
     public :: fill_vector
 
@@ -516,6 +517,46 @@
     x(i) = val
 
     end subroutine fill_vector_with_scalar
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Put the vector in the vector and update the index (character version)
+
+    subroutine fill_char_vector_with_vector(x, vals, i)
+
+    implicit none
+
+    character(len=*),dimension(:),intent(inout) :: x
+    character(len=*),dimension(:),intent(in) :: vals
+    integer,intent(inout) :: i !! should be initialized to 0 before the first call
+
+    integer :: j !! counter
+
+    do j = 1, size(vals)
+        call fill_vector(x,vals(j),i)
+    end do
+
+    end subroutine fill_char_vector_with_vector
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Put the value in the vector and update the index (character version)
+
+    subroutine fill_char_vector_with_scalar(x, val, i)
+
+    implicit none
+
+    character(len=*),dimension(:),intent(inout) :: x
+    character(len=*),intent(in) :: val
+    integer,intent(inout) :: i !! should be initialized to 0 before the first call
+
+    i = i + 1
+    if (i>size(x)) error stop 'error in fill_vector: x is not large enough.'
+    x(i) = val
+
+    end subroutine fill_char_vector_with_scalar
 !*****************************************************************************************
 
 !*****************************************************************************************
