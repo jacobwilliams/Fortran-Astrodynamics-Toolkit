@@ -20,6 +20,10 @@
                             julian_date_intsec
     end interface
 
+    interface julian_date_to_calendar_date
+        module procedure :: calendar_date_realsec
+    end interface
+
     !public routines:
     public :: julian_day
     public :: julian_date
@@ -27,6 +31,7 @@
     public :: jd_to_et
     public :: jd_to_mjd
     public :: mjd_to_jd
+    public :: julian_date_to_calendar_date
 
     !test routine:
     public :: time_module_test
@@ -210,6 +215,66 @@
 
 !*****************************************************************************************
 !> author: Jacob Williams
+!
+!  Returns the year, month, day, hr, min, sec for the specified Julian date.
+!
+!### See also
+!  * https://aa.usno.navy.mil/faq/JD_formula.html
+!  * http://www.davidgsimpson.com/software/jd2greg_f90.txt
+
+    pure subroutine calendar_date_realsec(julian_date,year,month,day,hrs,min,sec)
+
+    implicit none
+
+    real(wp),intent(in)  :: julian_date !! julian date
+    integer,intent(out)  :: year
+    integer,intent(out)  :: month
+    integer,intent(out)  :: day
+    integer,intent(out)  :: hrs
+    integer,intent(out)  :: min
+    real(wp),intent(out) :: sec
+
+    integer :: i,j,k,l,n,jd
+    real(wp) :: frac_day
+
+    jd = int(julian_date)
+
+    l = jd+68569
+    n = 4*l/146097
+    l = l-(146097*n+3)/4
+    i = 4000*(l+1)/1461001
+    l = l-1461*i/4+31
+    j = 80*l/2447
+    k = l-2447*j/80
+    l = j/11
+    j = j+2-12*l
+    i = 100*(n-49)+i+l
+
+    year  = i
+    month = j
+    day   = k
+
+    frac_day = julian_date - real(jd,wp) + 0.5_wp
+
+    hrs = int(frac_day*24.0_wp)
+    min = int((frac_day - hrs/24.0_wp) * 1440.0_wp)
+    sec = (frac_day - hrs/24.0_wp - min/1440.0_wp) * 86400.0_wp
+
+    if (sec == 60.0_wp) then
+        sec = 0.0_wp
+        min = min + 1
+     end if
+
+     if (min == 60) then
+        min = 0
+        hrs = hrs + 1
+     end if
+
+    end subroutine calendar_date_realsec
+!*****************************************************************************************
+
+!*****************************************************************************************
+!> author: Jacob Williams
 !  date: 1/21/2015
 !
 !  Test routine for the Julian date routines.
@@ -218,6 +283,9 @@
 
     implicit none
 
+    real(wp) :: jd, sec
+    integer :: year,month,day,hrs,min
+
     write(*,*) ''
     write(*,*) '---------------'
     write(*,*) ' time_module_test'
@@ -225,7 +293,26 @@
     write(*,*) ''
 
     ! JD = 2451545.0
-    write(*,*) julian_date(2000,1,1,12,0,0)
+    jd = julian_date(2000,1,1,12,0,0)
+
+    call calendar_date_realsec(jd,year,month,day,hrs,min,sec)
+
+    write(*,*) 'jd    ', jd
+    write(*,*) 'year  ', year
+    write(*,*) 'month ', month
+    write(*,*) 'day   ', day
+    write(*,*) 'hrs   ', hrs
+    write(*,*) 'min   ', min
+    write(*,*) 'sec   ', sec
+
+    if (year/=2000)  error stop 'error: incorrect year'
+    if (month/=1)    error stop 'error: incorrect month'
+    if (day/=1)      error stop 'error: incorrect day'
+    if (hrs/=12)     error stop 'error: incorrect hrs'
+    if (min/=0)      error stop 'error: incorrect min'
+    if (sec/=0.0_wp) error stop 'error: incorrect sec'
+
+    write(*,*) 'PASSED'
 
     end subroutine time_module_test
 !*****************************************************************************************
