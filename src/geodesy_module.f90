@@ -791,16 +791,19 @@ subroutine philambda2xyz(ax, ay, b, phi, lambda, x, y, z)
     real(wp),intent(in) :: ax, ay, b, phi, lambda
     real(wp),intent(out) :: x, y, z
 
-    real(wp) :: ee2,ex2,N
+    real(wp) :: ee2,ex2,N,sp,cp,sl,cl
 
+    sp  = sin(phi)
+    cp  = cos(phi)
+    sl  = sin(lambda)
+    cl  = cos(lambda)
     ee2 = (ax*ax-ay*ay)/(ax*ax)
     ex2 = (ax*ax-b*b)/(ax*ax)
+    N   = ax/sqrt(one-ex2*sp*sp-ee2*cp*cp*sl*sl)
 
-    N = ax/sqrt(one-ex2*sin(phi)*sin(phi)-ee2*cos(phi)*cos(phi)*sin(lambda)*sin(lambda))
-
-    x = N*cos(phi)*cos(lambda)
-    y = N*(one-ee2)*cos(phi)*sin(lambda)
-    z = N*(one-ex2)*sin(phi)
+    x = N*cp*cl
+    y = N*(one-ee2)*cp*sl
+    z = N*(one-ex2)*sp
 
 end subroutine philambda2xyz
 
