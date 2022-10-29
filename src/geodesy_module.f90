@@ -587,16 +587,20 @@ subroutine cartesian_to_geodetic_triaxial(ax, ay, b, Xi, Yi, Zi, tol, phi, lambd
     real(wp),intent(out) :: lambda !! geodetic longitude (radians)
     real(wp),intent(out) :: h !! geodetic height
 
-    real(wp) :: kx,ky,cx,cy,cz,XX,YY,ZZ,x,y,z,Xo,Yo,Zo,m,Mm
+    real(wp) :: kx,ky,cx,cy,cz,XX,YY,ZZ,x,y,z,Xo,Yo,Zo,m,Mm,axax,ayay,b2
     integer :: n
     real(wp),dimension(3) :: d
 
-    kx = (ax*ax-b*b)/ax
-    ky = (ay*ay-b*b)/ay
+    axax = ax*ax
+    ayay = ay*ay
+    b2 = b*b
 
-    cx = (ax*ax)/(b*b)
-    cy = (ay*ay)/(b*b)
-    cz = (ax*ax)/(ay*ay)
+    kx = (axax-b2)/ax
+    ky = (ayay-b2)/ay
+
+    cx = (axax)/(b2)
+    cy = (ayay)/(b2)
+    cz = (axax)/(ayay)
 
     XX = abs(Xi)
     YY = abs(Yi)
@@ -611,7 +615,7 @@ subroutine cartesian_to_geodetic_triaxial(ax, ay, b, Xi, Yi, Zi, tol, phi, lambd
         elseif (ky*XX*ky*XX+kx*YY*kx*YY < kx*ky*kx*ky) then
             x = ax*XX/kx
             y = ay*YY/ky
-            z = b*sqrt(one-((x*x)/(ax*ax))-((y*y)/(ay*ay)))
+            z = b*sqrt(one-((x*x)/(axax))-((y*y)/(ayay)))
         elseif (XX == zero) then
             x = zero
             y = ay
@@ -641,7 +645,7 @@ subroutine cartesian_to_geodetic_triaxial(ax, ay, b, Xi, Yi, Zi, tol, phi, lambd
             x = cx*XX/(cx+m)
             y = cy*YY/(cy+m)
             if (m < zero .and. ky*XX*ky*XX + kx*YY*kx*YY < kx*ky*kx*ky) then
-                z = b*sqrt(one-((x*x)/(ax*ax))-((y*y)/(ay*ay)))
+                z = b*sqrt(one-((x*x)/(axax))-((y*y)/(ayay)))
             else
                 z = ZZ/(one+m)
             end if
