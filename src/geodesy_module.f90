@@ -6,6 +6,7 @@
     module geodesy_module
 
     use kind_module,    only: wp
+    use numbers_module
 
     implicit none
 
@@ -15,10 +16,15 @@
     public :: olson
     public :: direct
     public :: inverse
+    public :: cartesian_to_geodetic_triaxial
+
     public :: geodetic_to_cartesian
+    public :: geodetic_to_cartesian_triaxial
+
     public :: great_circle_distance
     public :: geocentric_radius
 
+    ! unit tests:
     public :: direct_inverse_test
 
     contains
@@ -548,6 +554,370 @@
     s    = (boa*a)*biga*(sig-dsig)
 
     end subroutine inverse
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Function computes the geodetic latitude (phi), longitude (lambda) and
+!  height (h) of a point related to an ellipsoid
+!  defined by its three semiaxes ax, ay and b (0 < b <= ay <= ax)
+!  given Cartesian coordinates Xi, Yi, Zi and tolerance (tol).
+!  Latitude and longitude are returned in radians.
+!
+!### Reference
+!  * Panou G. and Korakitis R. (2019) "Cartesian to geodetic coordinates conversion
+!    on an ellipsoid using the bisection method".
+!    Journal of Geodesy volume 96, Article number: 66 (2022).
+!    [(link)](https://link.springer.com/article/10.1007/s00190-022-01650-9)
+!
+!### History
+!  * Jacob Williams, 10/29/2022 : Fortran verison of this algorithm,
+!    based on the Matlab (v1.0 01/03/2019) code.
+
+subroutine cartesian_to_geodetic_triaxial(ax, ay, b, Xi, Yi, Zi, tol, phi, lambda, h)
+
+    real(wp),intent(in) :: ax !! semiaxes (0 < b <= ay <= ax)
+    real(wp),intent(in) :: ay !! semiaxes (0 < b <= ay <= ax)
+    real(wp),intent(in) :: b  !! semiaxes (0 < b <= ay <= ax)
+    real(wp),intent(in) :: Xi !! Cartesian coordinates
+    real(wp),intent(in) :: Yi !! Cartesian coordinates
+    real(wp),intent(in) :: Zi !! Cartesian coordinates
+    real(wp),intent(in) :: tol !! tolerance (may be set to zero)
+    real(wp),intent(out) :: phi !! geodetic latitude (radians)
+    real(wp),intent(out) :: lambda !! geodetic longitude (radians)
+    real(wp),intent(out) :: h !! geodetic height
+
+    real(wp) :: kx,ky,cx,cy,cz,XX,YY,ZZ,x,y,z,Xo,Yo,Zo,m,Mm
+    integer :: n
+    real(wp),dimension(3) :: d
+
+    kx = (ax*ax-b*b)/ax
+    ky = (ay*ay-b*b)/ay
+
+    cx = (ax*ax)/(b*b)
+    cy = (ay*ay)/(b*b)
+    cz = (ax*ax)/(ay*ay)
+
+    XX = abs(Xi)
+    YY = abs(Yi)
+    ZZ = abs(Zi)
+
+    ! Compute geodetic latitude/longitude
+    if (ZZ == zero) then
+        if (XX == zero .and. YY == zero) then
+            x = zero
+            y = zero
+            z = b
+        elseif (ky*XX*ky*XX+kx*YY*kx*YY < kx*ky*kx*ky) then
+            x = ax*XX/kx
+            y = ay*YY/ky
+            z = b*sqrt(one-((x*x)/(ax*ax))-((y*y)/(ay*ay)))
+        elseif (XX == zero) then
+            x = zero
+            y = ay
+            z = zero
+        elseif (YY == zero) then
+            x = ax
+            y = zero
+            z = zero
+        else
+            Xo = XX/ax
+            Yo = YY/ay
+            call bisection_special_2(cz, Xo, Yo, tol, n, m, Mm)
+            x = cz*XX/(cz+m)
+            y = YY/(one+m)
+            z = zero
+        end if
+    else
+        if (XX == zero .and. YY == zero) then
+            x = zero
+            y = zero
+            z = b
+        else
+            Xo = XX/ax
+            Yo = YY/ay
+            Zo = ZZ/b
+            call bisection_special_3(cx, cy, Xo, Yo, Zo, tol, n, m, Mm)
+            x = cx*XX/(cx+m)
+            y = cy*YY/(cy+m)
+            if (m < zero .and. ky*XX*ky*XX + kx*YY*kx*YY < kx*ky*kx*ky) then
+                z = b*sqrt(one-((x*x)/(ax*ax))-((y*y)/(ay*ay)))
+            else
+                z = ZZ/(one+m)
+            end if
+        end if
+
+    end if
+
+    call xyz2philambda(ax, ay, b, x, y, z, phi, lambda)
+
+    ! Compute geodetic height
+    d = [XX-x, YY-y, ZZ-z]
+    h = norm2(d)
+    if ((XX+YY+ZZ) < (x+y+z)) h = -h
+
+    call philambda_quadrant(Xi, Yi, Zi, phi, lambda)
+
+end subroutine cartesian_to_geodetic_triaxial
+
+!*****************************************************************************************
+!>
+!  Function computes the Cartesian coordinates given the
+!  geodetic latitude (phi), longitude (lambda) and
+!  height (h) of a point related to an ellipsoid
+!  defined by its three semiaxes ax, ay and b
+!
+!### History
+!  * Jacob Williams, 10/29/2022 : Fortran verison of this algorithm,
+!    based on the Matlab (v1.0 01/03/2019) code.
+
+subroutine geodetic_to_cartesian_triaxial(ax, ay, b, phi, lambda, h, xi, yi, zi)
+
+    real(wp),intent(in) :: ax !! semiaxes (0 < b <= ay <= ax)
+    real(wp),intent(in) :: ay !! semiaxes (0 < b <= ay <= ax)
+    real(wp),intent(in) :: b  !! semiaxes (0 < b <= ay <= ax)
+    real(wp),intent(in) :: phi !! geodetic latitude (radians)
+    real(wp),intent(in) :: lambda !! geodetic longitude (radians)
+    real(wp),intent(in) :: h !! geodetic height
+    real(wp),intent(out) :: xi !! Cartesian coordinates
+    real(wp),intent(out) :: yi !! Cartesian coordinates
+    real(wp),intent(out) :: zi !! Cartesian coordinates
+
+    real(wp) :: ee2,ex2,N,cp,sp,cl,sl
+
+    cp  = cos(phi)
+    sp  = sin(phi)
+    cl  = cos(lambda)
+    sl  = sin(lambda)
+    ee2 = (ax*ax-ay*ay)/(ax*ax)
+    ex2 = (ax*ax-b*b)/(ax*ax)
+    N   = ax/sqrt(one - ex2*sp*sp - ee2*cp*cp*sl*sl)
+
+    xi = (N+h)*cp*cl
+    yi = (N*(one-ee2)+h)*cp*sl
+    zi = (N*(one-ex2)+h)*sp
+
+end subroutine geodetic_to_cartesian_triaxial
+
+!*****************************************************************************************
+!>
+
+subroutine bisection_special_2(cz, Xo, Yo, tol, n, m, Gm)
+
+    real(wp),intent(in) :: cz, Xo, Yo, tol
+    integer,intent(out) :: n
+    real(wp),intent(out) :: m, Gm
+
+    real(wp) :: d1,Gd1,d2,d,MM
+
+    d1 = -one+Yo
+    Gd1 = (cz*Xo*cz*Xo)/((cz+d1)*(cz+d1))
+    d2 = -one+sqrt(cz*Xo*cz*Xo+Yo*Yo)
+    d = (d2 - d1)/two
+    n = 0
+    m = -two
+
+    do while (d > tol)
+        n = n + 1
+        MM = m
+        m = d1 + d
+        Gm = ((cz*Xo*cz*Xo)/((cz+m)*(cz+m)))+((Yo*Yo)/((one+m)**2))-one
+        if (MM == m + tol .or. Gm == zero) return
+        if (sign(one,Gm) == sign(one,Gd1)) then
+            d1 = m
+            Gd1 = Gm
+        else
+            d2 = m
+        end if
+        d = (d2 - d1)/two
+    end do
+
+    n = n + 1
+    m = d1 + d
+    Gm = ((cz*Xo*cz*Xo)/((cz+m)*(cz+m)))+((Yo*Yo)/((one+m)**2))-one
+
+end subroutine bisection_special_2
+
+!*****************************************************************************************
+!>
+
+subroutine bisection_special_3(cx, cy, Xo, Yo, Zo, tol, n, m, Hm)
+
+    real(wp),intent(in) :: cx, cy, Xo, Yo, Zo, tol
+    integer,intent(out) :: n
+    real(wp),intent(out) :: m, Hm
+
+    real(wp) :: d1,Hd1,d2,d,MM
+
+    d1 = -one+Zo
+    Hd1 = ((cx*Xo*cx*Xo)/((cx+d1)*(cx+d1)))+((cy*Yo*cy*Yo)/((cy+d1)*(cy+d1)))
+    d2 = -one+sqrt(cx*Xo*cx*Xo+cy*Yo*cy*Yo+Zo*Zo)
+    d = (d2 - d1)/two
+    n = 0
+    m = -two
+
+    do while (d > tol)
+        n = n + 1
+        MM = m
+        m = d1 + d
+        Hm = ((cx*Xo*cx*Xo)/((cx+m)*(cx+m)))+((cy*Yo*cy*Yo)/&
+             ((cy+m)*(cy+m)))+((Zo*Zo)/((one+m)**2))-one
+        if (MM == m + tol .or. Hm == zero) return
+        if (sign(one,Hm) == sign(one,Hd1)) then
+            d1 = m
+            Hd1 = Hm
+        else
+            d2 = m
+        end if
+        d = (d2 - d1)/two
+    end do
+
+    n = n + 1
+    m = d1 + d
+    Hm = ((cx*Xo*cx*Xo)/((cx+m)*(cx+m)))+((cy*Yo*cy*Yo)/&
+         ((cy+m)*(cy+m)))+((Zo*Zo)/((one+m)**2))-one
+
+end subroutine bisection_special_3
+
+!*****************************************************************************************
+!>
+
+subroutine philambda2xyz(ax, ay, b, phi, lambda, x, y, z)
+
+    real(wp),intent(in) :: ax, ay, b, phi, lambda
+    real(wp),intent(out) :: x, y, z
+
+    real(wp) :: ee2,ex2,N
+
+    ee2 = (ax*ax-ay*ay)/(ax*ax)
+    ex2 = (ax*ax-b*b)/(ax*ax)
+
+    N = ax/sqrt(one-ex2*sin(phi)*sin(phi)-ee2*cos(phi)*cos(phi)*sin(lambda)*sin(lambda))
+
+    x = N*cos(phi)*cos(lambda)
+    y = N*(one-ee2)*cos(phi)*sin(lambda)
+    z = N*(one-ex2)*sin(phi)
+
+end subroutine philambda2xyz
+
+!*****************************************************************************************
+!>
+
+subroutine philambda_quadrant(XX, YY, ZZ, phi, lambda)
+
+    real(wp),intent(in) :: XX, YY, ZZ
+    real(wp),intent(inout) :: phi, lambda
+
+    if (ZZ < zero) then
+        phi = -phi
+    end if
+
+    if (XX >= zero) then
+        if (YY >= zero) then
+            lambda = lambda
+        else
+            lambda = -lambda
+        end if
+    else
+        if (YY >= zero) then
+            lambda = pi-lambda
+        else
+            lambda = lambda-pi
+        end if
+    end if
+
+end subroutine philambda_quadrant
+
+!*****************************************************************************************
+!>
+
+subroutine xyz2philambda(ax, ay, b, x, y, z, phi, lambda)
+
+    real(wp),intent(in) :: ax, ay, b, x, y, z
+    real(wp),intent(out) :: phi, lambda
+
+    real(wp) :: ee2,ex2,s0,SS0,Sphi,Cphi,Slambda,Clambda,&
+                Den,P,L,x0,y0,z0,D,NN,onemee2,onemex2,term,&
+                at,bt,onemee2x
+    integer :: n
+    real(wp),dimension(3,2) :: J
+    real(wp),dimension(3,1) :: dl,UU
+    real(wp),dimension(2,2) :: Nmat
+    real(wp),dimension(2,1) :: u, dx
+    real(wp),dimension(1,1) :: tmp
+    real(wp),dimension(2,2) :: NmatTmp
+
+    ee2 = (ax*ax - ay*ay)/(ax*ax)
+    ex2 = (ax*ax - b*b)/(ax*ax)
+    onemee2 = one - ee2
+    onemex2 = one - ex2
+    onemee2x = onemee2*x
+    term = sqrt(onemee2*onemee2x*x + y*y)
+    at = onemee2*z
+    bt = onemex2*term
+
+    ! Initial values
+    if (at <= bt) then
+        phi = atan(at/bt)
+    else
+        phi = halfpi - atan(bt/at)
+    end if
+
+    if (x == zero .and. y == zero) then
+        lambda = zero
+    elseif (y <= onemee2x) then
+        lambda = two*atan(y/(onemee2x+term))
+    else
+        lambda = halfpi - two*atan(onemee2x/(y+term))
+    end if
+
+    s0 = zero
+    do n = 1, 100
+        SS0 = s0
+
+        ! Design Matrix J
+        Sphi = sin(phi)
+        Cphi = cos(phi)
+        Slambda = sin(lambda)
+        Clambda = cos(lambda)
+
+        NN = ax/sqrt(onemex2*Sphi*Sphi-ee2*Cphi*Cphi*Slambda*Slambda)
+
+        Den = two*(onemex2*Sphi*Sphi-ee2*Cphi*Cphi*Slambda*Slambda)**(3.0_wp/two)
+        P = -ax*(ex2-ee2*Slambda*Slambda)*sin(two*phi)/Den
+        L = -ax*ee2*Cphi*Cphi*sin(2*lambda)/Den
+
+        J = zero
+
+        J(1,1) = (P*Cphi-NN*Sphi)*Clambda
+        J(2,1) = onemee2*(P*Cphi-NN*Sphi)*Slambda
+        J(3,1) = onemex2*(P*Sphi+NN*Cphi)
+
+        J(1,2) = (L*Clambda-NN*Slambda)*Cphi
+        J(2,2) = onemee2*(L*Slambda+NN*Clambda)*Cphi
+        J(3,2) = onemex2*L*Sphi
+
+        ! Vector dl
+        call philambda2xyz(ax, ay, b, phi, lambda, x0, y0, z0)
+        dl(:,1) = [x-x0, y-y0, z-z0]
+
+        ! Solution
+        Nmat    = matmul(transpose(J),J)
+        u       = matmul(transpose(J),dl)
+        D       = Nmat(1,1)*Nmat(2,2) - Nmat(1,2)*Nmat(2,1)
+        NmatTmp = transpose(reshape([Nmat(2,2), -Nmat(1,2), -Nmat(2,1), Nmat(1,1)], [2,2]))
+        dx      = matmul((NmatTmp / D) , u)
+        phi     = phi + dx(1,1)
+        lambda  = lambda + dx(2,1)
+        UU      = matmul(J,dx) - dl
+        tmp     = sqrt(matmul(transpose(UU),UU))
+        s0      = tmp(1,1)
+
+        if (s0 == SS0) exit
+
+    end do
+
+end subroutine xyz2philambda
 !*****************************************************************************************
 
 !*****************************************************************************************
