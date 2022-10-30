@@ -88,7 +88,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 2.6% of total for derived types.</p>Including implementation: 207 statements,  2.6% of total for derived types.">7 statements</a>
+    title="<p> 2.6% of total for derived types.</p>Including implementation: 207 statements,  3.0% of total for derived types.">7 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/brent_module.f90"> Source File</a></li>
   </ul>
@@ -117,7 +117,7 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../type/brent_class.html#variable-f~2">f</a>
+      <a class="list-group-item" href="../type/brent_class.html#variable-f~3">f</a>
     </div>
   </div>
 </div>
@@ -154,7 +154,7 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../type/brent_class.html#variable-f~2">f</a>
+      <a class="list-group-item" href="../type/brent_class.html#variable-f~3">f</a>
     </div>
   </div>
 </div>
@@ -184,7 +184,7 @@
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-f~2"></span>procedure(<a href='../interface/func~2.html'>func</a>),</td>
+  <td><span class="anchor" id="variable-f~3"></span>procedure(<a href='../interface/func~2.html'>func</a>),</td>
 <td>public,</td>  <td>pointer</td><td>::</td>
   <td><strong>f</strong></td><td>=> </td><td>null()</td><td><p>function to be minimized</p></td>
 </tr>
@@ -203,14 +203,19 @@
   <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-set_function"></span><h3>procedure, public :: <strong>set_function</strong>    </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
-          <h3>private subroutine <a href='../proc/set_function.html'>set_function</a>(me, f)</h3>  <dl class="dl-horizontal">
+                <h3>
+        private subroutine <a href='../proc/set_function.html'>set_function</a>(me, f)</h3>
+        <dl class="dl-horizontal">
     <dt>Author</dt><dd>Jacob Williams</dd>
     <dt>Date</dt><dd>7/19/2014</dd>
   </dl>
 
-<p>Set the function to be minimized.</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
+    <p>Set the function to be minimized.</p>
+
+    <h4>
+    Arguments
+    </h4>
+      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
@@ -237,11 +242,36 @@
   <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-minimize"></span><h3>procedure, public :: <strong>minimize</strong>  => <a href='../proc/fmin.html'>fmin</a>   </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
-          <h3>private function <a href='../proc/fmin.html'>fmin</a>(me, ax, bx, tol) result(xmin)</h3>
-<p>An approximation x to the point where f attains a minimum on
-  the interval (ax,bx) is determined.</p><a href="../proc/fmin.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
+                <h3>
+        private function <a href='../proc/fmin.html'>fmin</a>(me, ax, bx, tol) result(xmin)</h3>
+      
+    <p>An approximation x to the point where f attains a minimum on
+  the interval (ax,bx) is determined.</p>
+<p>the method used is a combination of golden section search and
+  successive parabolic interpolation. convergence is never much slower
+  than that for a fibonacci search. if f has a continuous second
+  derivative which is positive at the minimum (which is not at ax or
+  bx), then convergence is superlinear, and usually of the order of
+  about 1.324.</p>
+<p>the function f is never evaluated at two points closer together
+  than eps<em>abs(fmin) + (tol/3), where eps is approximately the square
+  root of the relative machine precision. if f is a unimodal
+  function and the computed values of f are always unimodal when
+  separated by at least eps</em>abs(x) + (tol/3), then fmin approximates
+  the abcissa of the global minimum of f on the interval ax,bx with
+  an error less than 3<em>eps</em>abs(fmin) + tol. if f is not unimodal,
+  then fmin may approximate a local, but perhaps non-global, minimum to
+  the same accuracy.</p>
+<p>this function subprogram is a slightly modified version of the
+  algol 60 procedure localmin given in richard brent, algorithms for
+  minimization without derivatives, prentice - hall, inc. (1973).</p>
+<h3>See also</h3>
+<p>[1] http://www.netlib.org/fmm/fmin.f</p>
+
+    <h4>
+    Arguments
+    </h4>
+      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
@@ -272,7 +302,11 @@ uncertainty of the final result (&gt;=0)</p></td>
 </tbody>
 </table>
 
-<h4>Return Value <small>real(kind=wp)</small></h4>  <p>abcissa approximating the point where
+      <h4>
+        Return Value <small>real(kind=wp)      
+      </small>
+      </h4>
+      <p>abcissa approximating the point where
 f attains a minimum</p>
 
       </li>
@@ -283,13 +317,31 @@ f attains a minimum</p>
   <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-find_zero"></span><h3>procedure, public :: <strong>find_zero</strong>  => <a href='../proc/zeroin.html'>zeroin</a>   </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
-          <h3>private subroutine <a href='../proc/zeroin.html'>zeroin</a>(me, ax, bx, tol, xzero, fzero, iflag, fax, fbx)</h3>
-<p>Find a zero of the function <script type="math/tex"> f(x) </script> in the given interval
+                <h3>
+        private subroutine <a href='../proc/zeroin.html'>zeroin</a>(me, ax, bx, tol, xzero, fzero, iflag, fax, fbx)</h3>
+      
+    <p>Find a zero of the function <script type="math/tex"> f(x) </script> in the given interval
   <script type="math/tex"> [a_x,b_x] </script> to within a tolerance <script type="math/tex"> 4 \epsilon |x| + tol </script>,
   where <script type="math/tex"> \epsilon </script> is the relative machine precision defined as
-  the smallest representable number such that <script type="math/tex"> 1.0 + \epsilon > 1.0 </script>.</p><a href="../proc/zeroin.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
+  the smallest representable number such that <script type="math/tex"> 1.0 + \epsilon > 1.0 </script>.</p>
+<p>It is assumed that <script type="math/tex"> f(a_x) </script> and <script type="math/tex"> f(b_x) </script> have opposite signs.</p>
+<h3>References</h3>
+<ul>
+<li>R. P. Brent, "<a href="http://maths-people.anu.edu.au/~brent/pd/rpb005.pdf">An algorithm with guaranteed convergence for
+    finding a zero of a function</a>",
+    The Computer Journal, Vol 14, No. 4., 1971.</li>
+<li>R. P. Brent, "<a href="http://maths-people.anu.edu.au/~brent/pub/pub011.html">Algorithms for minimization without derivatives</a>",
+    Prentice-Hall, Inc., 1973.</li>
+</ul>
+<h3>See also</h3>
+<ol>
+<li><a href="http://www.netlib.org/go/zeroin.f">zeroin.f</a> from Netlib</li>
+</ol>
+
+    <h4>
+    Arguments
+    </h4>
+      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>

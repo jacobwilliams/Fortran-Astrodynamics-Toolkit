@@ -88,7 +88,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 0.7% of total for derived types.</p>Including implementation: 40 statements,  0.5% of total for derived types.">2 statements</a>
+    title="<p> 0.7% of total for derived types.</p>Including implementation: 40 statements,  0.6% of total for derived types.">2 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/transformation_module.f90"> Source File</a></li>
   </ul>
@@ -114,20 +114,10 @@
   <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../type/iau_rotating_frame_class.html#variable-primary_body">primary_body</a>
-      <a class="list-group-item" href="../type/iau_rotating_frame_class.html#variable-et">et</a>
-    </div>
-  </div>
-</div>
-<div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#boundprocs-0">Type-Bound Procedures</a></h3></div>
   <div id="boundprocs-0" class="panel-collapse collapse">
     <div class="list-group">
       <a class="list-group-item" href="../type/iau_rotating_frame_class.html#boundprocedure-transform">transform</a>
-      <a class="list-group-item" href="../type/iau_rotating_frame_class.html#boundprocedure-get_c_cdot">get_c_cdot</a>
     </div>
   </div>
 </div>
@@ -364,20 +354,10 @@
       <h3>Contents</h3>
  
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../type/iau_rotating_frame_class.html#variable-primary_body">primary_body</a>
-      <a class="list-group-item" href="../type/iau_rotating_frame_class.html#variable-et">et</a>
-    </div>
-  </div>
-</div>
-<div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#boundprocs-1">Type-Bound Procedures</a></h3></div>
   <div id="boundprocs-1" class="panel-collapse collapse">
     <div class="list-group">
       <a class="list-group-item" href="../type/iau_rotating_frame_class.html#boundprocedure-transform">transform</a>
-      <a class="list-group-item" href="../type/iau_rotating_frame_class.html#boundprocedure-get_c_cdot">get_c_cdot</a>
     </div>
   </div>
 </div>
@@ -391,26 +371,6 @@
     </section>
     <br class="visible-xs visible-sm hidden-md">
 
-    <section>
-    <h2>Components</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-primary_body"></span>type(<a href='../type/celestial_body.html'>celestial_body</a>),</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>primary_body</strong></td><td> =</td><td>body_earth</td><td><p>the primary body of the frame</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-et"></span>real(kind=wp),</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>et</strong></td><td> =</td><td>zero</td><td><p>epoch at which the frame is defined [sec]</p></td>
-</tr>
-</tbody>
-</table>
-
-    </section>
-    <br>
     
     
     
@@ -425,14 +385,19 @@
   </div>
   <ul class="list-group">
       <li class="list-group-item">
-          <h3>private subroutine <a href='../proc/transform.html'>transform</a>(from, rv, to, et, eph, rv_out, status_ok)</h3>
-<p>Transform a Cartesian state from one reference frame to another at
+                <h3>
+        private subroutine <a href='../proc/transform.html'>transform</a>(from, rv, to, et, eph, rv_out, status_ok)</h3>
+      
+    <p>Transform a Cartesian state from one reference frame to another at
 a specified epoch. The <code>from</code> and <code>to</code> <a href="../type/reference_frame.html">reference_frame</a>s may each
 be defined at a different epoch. The <code>et</code> ephemeris time is the time
 the transformation is to be done, and accounts for the motion of the two
 frame centers from <code>from%et</code> and <code>to%et</code> to <code>et</code>.</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
+
+    <h4>
+    Arguments
+    </h4>
+      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
@@ -470,64 +435,6 @@ frame centers from <code>from%et</code> and <code>to%et</code> to <code>et</code
 <td>intent(out),</td>
   <td></td>  <td>dimension(6)</td><td>::</td>
   <td><strong>rv_out</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>logical,</td>
-<td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>status_ok</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-
-      </li>
-  </ul>
-</div>
-
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_c_cdot"></span><h3>procedure(<a href='../interface/c_cdot_func.html'>c_cdot_func</a>), public, deferred :: <strong>get_c_cdot</strong>    </h3></div>
-  <div class="panel-body">
-    
-    <p>to get the rotating matrix for the frame orientation</p>
-  </div>
-  <ul class="list-group">
-      <li class="list-group-item">
-            <h3>subroutine c_cdot_func(me, eph, to_icrf, c, cdot, status_ok)<small>Prototype</small></h3>    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/reference_frame.html'>reference_frame</a>),</td>
-<td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>me</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>class(<a href='../type/ephemeris_class.html'>ephemeris_class</a>),</td>
-<td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>eph</strong></td><td><p>for ephemeris computations
-(assumed to have already
-been initialized)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>logical,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>to_icrf</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(out),</td>
-  <td></td>  <td>dimension(3,3)</td><td>::</td>
-  <td><strong>c</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(out),</td>
-  <td>optional</td>  <td>dimension(3,3)</td><td>::</td>
-  <td><strong>cdot</strong></td><td></td>
 </tr>
 <tr>
   <td><span class="anchor" ></span>logical,</td>

@@ -89,13 +89,13 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.0% of total for abstract interfaces.">8 statements</a>
+    title="11.8% of total for abstract interfaces.">47 statements</a>
      </li> 
-    <li><i class="fa fa-code"></i><a href="../src/relative_motion_module.f90"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/rk_module_variable_step.f90"> Source File</a></li>
   </ul>
   <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/relative_motion_module.f90.html'>relative_motion_module.f90</a></li>
-     <li><a href='../module/relative_motion_module.html'>relative_motion_module</a></li>
+     <li><a href='../sourcefile/rk_module_variable_step.f90.html'>rk_module_variable_step.f90</a></li>
+     <li><a href='../module/rk_module_variable_step.html'>rk_module_variable_step</a></li>
      <li class="active">report_func</li>
   </ol>
 </div>
@@ -122,7 +122,7 @@
     
     <div class="col-md-9" id='text'>
       <h2>abstract interface <br>
-      private subroutine report_func(t, rv)</h2>    
+      private subroutine report_func(me, t, x)</h2>    
 
     
 
@@ -131,22 +131,28 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-t~2"></span>real(kind=wp),</td>
-<td>intent(in)</td>
+  <td><span class="anchor" id="variable-me~5"></span>class(<a href='../type/rk_variable_step_class.html'>rk_variable_step_class</a>),</td>
+<td>intent(inout)</td>
   <td></td>  <td></td><td>::</td>
-  <td><strong>t</strong></td><td><p>time [sec]</p></td>
+  <td><strong>me</strong></td><td></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-rv"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-t~4"></span>real(kind=wp),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>t</strong></td><td><p>time</p></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-x~6"></span>real(kind=wp),</td>
 <td>intent(in),</td>
-  <td></td>  <td>dimension(6)</td><td>::</td>
-  <td><strong>rv</strong></td><td><p>state [km,km/s]</p></td>
+  <td></td>  <td>dimension(:)</td><td>::</td>
+  <td><strong>x</strong></td><td><p>state vector</p></td>
 </tr>
 </tbody>
 </table>
 
     <h3>Description</h3>
-    <p>for reporting the points in the <a href="../proc/cw_propagator.html">cw_propagator</a>.</p>
+    <p>report function</p>
     <br>
 
  </div>

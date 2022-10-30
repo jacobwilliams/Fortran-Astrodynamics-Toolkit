@@ -90,7 +90,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="19.3% of total for modules and submodules.">2498 statements</a>
+    title="18.6% of total for modules and submodules.">2498 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/rk_module_variable_step.f90"> Source File</a></li>
   </ul>
@@ -122,7 +122,7 @@
       <a class="list-group-item" href="../module/rk_module_variable_step.html#interface-order_func">order_func</a>
       <a class="list-group-item" href="../module/rk_module_variable_step.html#interface-deriv_func~2">deriv_func</a>
       <a class="list-group-item" href="../module/rk_module_variable_step.html#interface-event_func~2">event_func</a>
-      <a class="list-group-item" href="../module/rk_module_variable_step.html#interface-report_func~3">report_func</a>
+      <a class="list-group-item" href="../module/rk_module_variable_step.html#interface-report_func~2">report_func</a>
       <a class="list-group-item" href="../module/rk_module_variable_step.html#interface-step_func~2">step_func</a>
     </div>
   </div>
@@ -455,7 +455,7 @@
       <a class="list-group-item" href="../module/rk_module_variable_step.html#interface-order_func">order_func</a>
       <a class="list-group-item" href="../module/rk_module_variable_step.html#interface-deriv_func~2">deriv_func</a>
       <a class="list-group-item" href="../module/rk_module_variable_step.html#interface-event_func~2">event_func</a>
-      <a class="list-group-item" href="../module/rk_module_variable_step.html#interface-report_func~3">report_func</a>
+      <a class="list-group-item" href="../module/rk_module_variable_step.html#interface-report_func~2">report_func</a>
       <a class="list-group-item" href="../module/rk_module_variable_step.html#interface-step_func~2">step_func</a>
     </div>
   </div>
@@ -658,7 +658,7 @@
 </div>
 
      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="interface-report_func~3"></span><h3>abstract interface
+  <div class="panel-heading codesum"><span class="anchor" id="interface-report_func~2"></span><h3>abstract interface
   </h3></div>
   <ul class="list-group">
     <li class="list-group-item">
@@ -764,52 +764,52 @@ Runge-Kutta integrators.</p>
 <tbody>
 <tr>
   <td><span class="anchor" id="variable-hmax"></span>real(kind=wp),</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>hmax</strong></td><td> =</td><td>huge(one)</td><td><p>maximum allowed step size</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-hmin"></span>real(kind=wp),</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>hmin</strong></td><td> =</td><td>two*epsilon(one)</td><td><p>minimum allowed step size</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-hfactor_reject"></span>real(kind=wp),</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>hfactor_reject</strong></td><td> =</td><td>1.0e-3_wp</td><td><p>minimum allowed factor for decreasing step size after rejected step</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-hfactor_accept"></span>real(kind=wp),</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>hfactor_accept</strong></td><td> =</td><td>100.0_wp</td><td><p>maximum allowed factor for increasing step size after accepted step</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-accept_mode"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>accept_mode</strong></td><td> =</td><td>1</td><td><p>method to determine if step is accepted [1,2]</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-max_attempts"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>max_attempts</strong></td><td> =</td><td>100</td><td><p>maximum number of attempts to decrease step size before giving up</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-relative_err"></span>logical,</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>relative_err</strong></td><td> =</td><td>.false.</td><td><p>to use <code>tol*h</code> in the <code>hfactor</code> equation</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-safety_factor"></span>real(kind=wp),</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>safety_factor</strong></td><td> =</td><td>0.9_wp</td><td><p>for <code>hfactor</code> equation (&gt;0)</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-p_exponent_offset"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>p_exponent_offset</strong></td><td> =</td><td>0</td><td><p>p + this value in the exponent (0 or 1)</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-norm"></span>procedure(<a href='../interface/norm_func.html'>norm_func</a>),</td>
-<td>public,</td>  <td>nopass, pointer</td><td>::</td>
+<td>private,</td>  <td>nopass, pointer</td><td>::</td>
   <td><strong>norm</strong></td><td>=> </td><td>maxval_func</td><td><p>routine for computing the norm of the state</p></td>
 </tr>
 </tbody>
@@ -819,7 +819,7 @@ Runge-Kutta integrators.</p>
      <h4>Type-Bound Procedures</h4>
       <table class="table table-striped varlist">
       <tbody>
-       <tr><td>procedure, public :: <strong><a href='../type/stepsize_class.html#boundprocedure-initialize~6'>initialize</a></strong>  => stepsize_class_constructor </td>
+       <tr><td>procedure, public :: <strong><a href='../type/stepsize_class.html#boundprocedure-initialize~4'>initialize</a></strong>  => stepsize_class_constructor </td>
        <td></td></tr>
        <tr><td>procedure, public :: <strong><a href='../type/stepsize_class.html#boundprocedure-compute_stepsize'>compute_stepsize</a></strong>  </td>
        <td></td></tr>
@@ -840,53 +840,53 @@ Runge-Kutta integrators.</p>
 <tbody>
 <tr>
   <td><span class="anchor" id="variable-n~2"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>n</strong></td><td> =</td><td>0</td><td><p>user specified number of variables</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-f~3"></span>procedure(<a href='../interface/deriv_func~2.html'>deriv_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
+  <td><span class="anchor" id="variable-f~2"></span>procedure(<a href='../interface/deriv_func~2.html'>deriv_func</a>),</td>
+<td>private,</td>  <td>pointer</td><td>::</td>
   <td><strong>f</strong></td><td>=> </td><td>null()</td><td><p>user-specified derivative function</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-report~2"></span>procedure(<a href='../interface/report_func~3.html'>report_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
+  <td><span class="anchor" id="variable-report~2"></span>procedure(<a href='../interface/report_func~2.html'>report_func</a>),</td>
+<td>private,</td>  <td>pointer</td><td>::</td>
   <td><strong>report</strong></td><td>=> </td><td>null()</td><td><p>user-specified report function</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-g~2"></span>procedure(<a href='../interface/event_func~2.html'>event_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
+<td>private,</td>  <td>pointer</td><td>::</td>
   <td><strong>g</strong></td><td>=> </td><td>null()</td><td><p>event function (stop when this is zero)</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-stepsize_method"></span>class(<a href='../type/stepsize_class.html'>stepsize_class</a>),</td>
-<td>public,</td>  <td>allocatable</td><td>::</td>
+<td>private,</td>  <td>allocatable</td><td>::</td>
   <td><strong>stepsize_method</strong></td><td></td><td></td><td><p>the method for varying the step size</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-rtol"></span>real(kind=wp),</td>
-<td>public,</td>  <td>dimension(:), allocatable</td><td>::</td>
+<td>private,</td>  <td>dimension(:), allocatable</td><td>::</td>
   <td><strong>rtol</strong></td><td></td><td></td><td><p>relative tolerance (<code>size(n)</code>)</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-atol"></span>real(kind=wp),</td>
-<td>public,</td>  <td>dimension(:), allocatable</td><td>::</td>
+<td>private,</td>  <td>dimension(:), allocatable</td><td>::</td>
   <td><strong>atol</strong></td><td></td><td></td><td><p>absolute tolerance (<code>size(n)</code>)</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-p"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>p</strong></td><td> =</td><td>0</td><td><p>order of the method</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-hinit_method"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>hinit_method</strong></td><td> =</td><td>1</td><td><p>if automatically computing the inital step size, which
 method to use. 1 = <code>hstart</code>, 2 = <code>hinit</code>.</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-num_rejected_steps"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>num_rejected_steps</strong></td><td> =</td><td>0</td><td><p>number of rejected steps</p></td>
 </tr>
 </tbody>
@@ -904,13 +904,13 @@ method to use. 1 = <code>hstart</code>, 2 = <code>hinit</code>.</p></td>
        <td><p>main integration routine</p></td></tr>
        <tr><td>procedure, public, non_overridable :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-integrate_to_event~2'>integrate_to_event</a></strong>  </td>
        <td><p>integration with event finding</p></td></tr>
-       <tr><td>procedure(step_func), public :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-step~2'>step</a></strong>  </td>
+       <tr><td>procedure(step_func), private :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-step~2'>step</a></strong>  </td>
        <td><p>the step routine for the rk method</p></td></tr>
-       <tr><td>procedure(order_func), public :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-order'>order</a></strong>  </td>
+       <tr><td>procedure(order_func), private :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-order'>order</a></strong>  </td>
        <td><p>returns <code>p</code>, the order of the method</p></td></tr>
-       <tr><td>procedure, public :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-hstart'>hstart</a></strong>  </td>
+       <tr><td>procedure, private :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-hstart'>hstart</a></strong>  </td>
        <td><p>for automatically computing the initial step size [this is from DDEABM]</p></td></tr>
-       <tr><td>procedure, public :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-hinit'>hinit</a></strong>  </td>
+       <tr><td>procedure, private :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-hinit'>hinit</a></strong>  </td>
        <td><p>for automatically computing the initial step size [this is from DOP853]</p></td></tr>
        </tbody>
        </table>
@@ -921,64 +921,6 @@ method to use. 1 = <code>hstart</code>, 2 = <code>hinit</code>.</p></td>
   <div class="panel-heading codesum"><span class="anchor" id="type-rkf78_class"></span><h3>type, public, extends(<a href='../type/rk_variable_step_class.html'>rk_variable_step_class</a>) :: <a href='../type/rkf78_class.html'>rkf78_class</a>  </h3></div>
   <div class="panel-body">
     <p>Runga-Kutta Fehlberg 7(8) method.</p>
-     <h4>Components</h4>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-n~2"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>n</strong></td><td> =</td><td>0</td><td><p>user specified number of variables</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-f~3"></span>procedure(<a href='../interface/deriv_func~2.html'>deriv_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
-  <td><strong>f</strong></td><td>=> </td><td>null()</td><td><p>user-specified derivative function</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-report~2"></span>procedure(<a href='../interface/report_func~3.html'>report_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
-  <td><strong>report</strong></td><td>=> </td><td>null()</td><td><p>user-specified report function</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-g~2"></span>procedure(<a href='../interface/event_func~2.html'>event_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
-  <td><strong>g</strong></td><td>=> </td><td>null()</td><td><p>event function (stop when this is zero)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-stepsize_method"></span>class(<a href='../type/stepsize_class.html'>stepsize_class</a>),</td>
-<td>public,</td>  <td>allocatable</td><td>::</td>
-  <td><strong>stepsize_method</strong></td><td></td><td></td><td><p>the method for varying the step size</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-rtol"></span>real(kind=wp),</td>
-<td>public,</td>  <td>dimension(:), allocatable</td><td>::</td>
-  <td><strong>rtol</strong></td><td></td><td></td><td><p>relative tolerance (<code>size(n)</code>)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-atol"></span>real(kind=wp),</td>
-<td>public,</td>  <td>dimension(:), allocatable</td><td>::</td>
-  <td><strong>atol</strong></td><td></td><td></td><td><p>absolute tolerance (<code>size(n)</code>)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-p"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>p</strong></td><td> =</td><td>0</td><td><p>order of the method</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-hinit_method"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>hinit_method</strong></td><td> =</td><td>1</td><td><p>if automatically computing the inital step size, which
-method to use. 1 = <code>hstart</code>, 2 = <code>hinit</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-num_rejected_steps"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>num_rejected_steps</strong></td><td> =</td><td>0</td><td><p>number of rejected steps</p></td>
-</tr>
-</tbody>
-</table>
-
      
      <h4>Type-Bound Procedures</h4>
       <table class="table table-striped varlist">
@@ -991,10 +933,6 @@ method to use. 1 = <code>hstart</code>, 2 = <code>hinit</code>.</p></td>
        <td><p>main integration routine</p></td></tr>
        <tr><td>procedure, public, non_overridable :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-integrate_to_event~2'>integrate_to_event</a></strong>  </td>
        <td><p>integration with event finding</p></td></tr>
-       <tr><td>procedure, public :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-hstart'>hstart</a></strong>  </td>
-       <td><p>for automatically computing the initial step size [this is from DDEABM]</p></td></tr>
-       <tr><td>procedure, public :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-hinit'>hinit</a></strong>  </td>
-       <td><p>for automatically computing the initial step size [this is from DOP853]</p></td></tr>
        <tr><td>procedure, public :: <strong><a href='../type/rkf78_class.html#boundprocedure-step~5'>step</a></strong>  => rkf78 </td>
        <td></td></tr>
        <tr><td>procedure, public :: <strong><a href='../type/rkf78_class.html#boundprocedure-order~2'>order</a></strong>  => rkf78_order </td>
@@ -1008,64 +946,6 @@ method to use. 1 = <code>hstart</code>, 2 = <code>hinit</code>.</p></td>
   <div class="panel-heading codesum"><span class="anchor" id="type-rkf89_class"></span><h3>type, public, extends(<a href='../type/rk_variable_step_class.html'>rk_variable_step_class</a>) :: <a href='../type/rkf89_class.html'>rkf89_class</a>  </h3></div>
   <div class="panel-body">
     <p>Runga-Kutta Fehlberg 8(9) method.</p>
-     <h4>Components</h4>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-n~2"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>n</strong></td><td> =</td><td>0</td><td><p>user specified number of variables</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-f~3"></span>procedure(<a href='../interface/deriv_func~2.html'>deriv_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
-  <td><strong>f</strong></td><td>=> </td><td>null()</td><td><p>user-specified derivative function</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-report~2"></span>procedure(<a href='../interface/report_func~3.html'>report_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
-  <td><strong>report</strong></td><td>=> </td><td>null()</td><td><p>user-specified report function</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-g~2"></span>procedure(<a href='../interface/event_func~2.html'>event_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
-  <td><strong>g</strong></td><td>=> </td><td>null()</td><td><p>event function (stop when this is zero)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-stepsize_method"></span>class(<a href='../type/stepsize_class.html'>stepsize_class</a>),</td>
-<td>public,</td>  <td>allocatable</td><td>::</td>
-  <td><strong>stepsize_method</strong></td><td></td><td></td><td><p>the method for varying the step size</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-rtol"></span>real(kind=wp),</td>
-<td>public,</td>  <td>dimension(:), allocatable</td><td>::</td>
-  <td><strong>rtol</strong></td><td></td><td></td><td><p>relative tolerance (<code>size(n)</code>)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-atol"></span>real(kind=wp),</td>
-<td>public,</td>  <td>dimension(:), allocatable</td><td>::</td>
-  <td><strong>atol</strong></td><td></td><td></td><td><p>absolute tolerance (<code>size(n)</code>)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-p"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>p</strong></td><td> =</td><td>0</td><td><p>order of the method</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-hinit_method"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>hinit_method</strong></td><td> =</td><td>1</td><td><p>if automatically computing the inital step size, which
-method to use. 1 = <code>hstart</code>, 2 = <code>hinit</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-num_rejected_steps"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>num_rejected_steps</strong></td><td> =</td><td>0</td><td><p>number of rejected steps</p></td>
-</tr>
-</tbody>
-</table>
-
      
      <h4>Type-Bound Procedures</h4>
       <table class="table table-striped varlist">
@@ -1078,10 +958,6 @@ method to use. 1 = <code>hstart</code>, 2 = <code>hinit</code>.</p></td>
        <td><p>main integration routine</p></td></tr>
        <tr><td>procedure, public, non_overridable :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-integrate_to_event~2'>integrate_to_event</a></strong>  </td>
        <td><p>integration with event finding</p></td></tr>
-       <tr><td>procedure, public :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-hstart'>hstart</a></strong>  </td>
-       <td><p>for automatically computing the initial step size [this is from DDEABM]</p></td></tr>
-       <tr><td>procedure, public :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-hinit'>hinit</a></strong>  </td>
-       <td><p>for automatically computing the initial step size [this is from DOP853]</p></td></tr>
        <tr><td>procedure, public :: <strong><a href='../type/rkf89_class.html#boundprocedure-step~6'>step</a></strong>  => rkf89 </td>
        <td></td></tr>
        <tr><td>procedure, public :: <strong><a href='../type/rkf89_class.html#boundprocedure-order~3'>order</a></strong>  => rkf89_order </td>
@@ -1095,64 +971,6 @@ method to use. 1 = <code>hstart</code>, 2 = <code>hinit</code>.</p></td>
   <div class="panel-heading codesum"><span class="anchor" id="type-rkv89_class"></span><h3>type, public, extends(<a href='../type/rk_variable_step_class.html'>rk_variable_step_class</a>) :: <a href='../type/rkv89_class.html'>rkv89_class</a>  </h3></div>
   <div class="panel-body">
     <p>Runga-Kutta Verner 8(9) method.</p>
-     <h4>Components</h4>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-n~2"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>n</strong></td><td> =</td><td>0</td><td><p>user specified number of variables</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-f~3"></span>procedure(<a href='../interface/deriv_func~2.html'>deriv_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
-  <td><strong>f</strong></td><td>=> </td><td>null()</td><td><p>user-specified derivative function</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-report~2"></span>procedure(<a href='../interface/report_func~3.html'>report_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
-  <td><strong>report</strong></td><td>=> </td><td>null()</td><td><p>user-specified report function</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-g~2"></span>procedure(<a href='../interface/event_func~2.html'>event_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
-  <td><strong>g</strong></td><td>=> </td><td>null()</td><td><p>event function (stop when this is zero)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-stepsize_method"></span>class(<a href='../type/stepsize_class.html'>stepsize_class</a>),</td>
-<td>public,</td>  <td>allocatable</td><td>::</td>
-  <td><strong>stepsize_method</strong></td><td></td><td></td><td><p>the method for varying the step size</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-rtol"></span>real(kind=wp),</td>
-<td>public,</td>  <td>dimension(:), allocatable</td><td>::</td>
-  <td><strong>rtol</strong></td><td></td><td></td><td><p>relative tolerance (<code>size(n)</code>)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-atol"></span>real(kind=wp),</td>
-<td>public,</td>  <td>dimension(:), allocatable</td><td>::</td>
-  <td><strong>atol</strong></td><td></td><td></td><td><p>absolute tolerance (<code>size(n)</code>)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-p"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>p</strong></td><td> =</td><td>0</td><td><p>order of the method</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-hinit_method"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>hinit_method</strong></td><td> =</td><td>1</td><td><p>if automatically computing the inital step size, which
-method to use. 1 = <code>hstart</code>, 2 = <code>hinit</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-num_rejected_steps"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>num_rejected_steps</strong></td><td> =</td><td>0</td><td><p>number of rejected steps</p></td>
-</tr>
-</tbody>
-</table>
-
      
      <h4>Type-Bound Procedures</h4>
       <table class="table table-striped varlist">
@@ -1165,10 +983,6 @@ method to use. 1 = <code>hstart</code>, 2 = <code>hinit</code>.</p></td>
        <td><p>main integration routine</p></td></tr>
        <tr><td>procedure, public, non_overridable :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-integrate_to_event~2'>integrate_to_event</a></strong>  </td>
        <td><p>integration with event finding</p></td></tr>
-       <tr><td>procedure, public :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-hstart'>hstart</a></strong>  </td>
-       <td><p>for automatically computing the initial step size [this is from DDEABM]</p></td></tr>
-       <tr><td>procedure, public :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-hinit'>hinit</a></strong>  </td>
-       <td><p>for automatically computing the initial step size [this is from DOP853]</p></td></tr>
        <tr><td>procedure, public :: <strong><a href='../type/rkv89_class.html#boundprocedure-step~7'>step</a></strong>  => rkv89 </td>
        <td></td></tr>
        <tr><td>procedure, public :: <strong><a href='../type/rkv89_class.html#boundprocedure-order~4'>order</a></strong>  => rkv89_order </td>
@@ -1182,64 +996,6 @@ method to use. 1 = <code>hstart</code>, 2 = <code>hinit</code>.</p></td>
   <div class="panel-heading codesum"><span class="anchor" id="type-rkf108_class"></span><h3>type, public, extends(<a href='../type/rk_variable_step_class.html'>rk_variable_step_class</a>) :: <a href='../type/rkf108_class.html'>rkf108_class</a>  </h3></div>
   <div class="panel-body">
     <p>Runga-Kutta Feagin 8(10) method.</p>
-     <h4>Components</h4>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-n~2"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>n</strong></td><td> =</td><td>0</td><td><p>user specified number of variables</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-f~3"></span>procedure(<a href='../interface/deriv_func~2.html'>deriv_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
-  <td><strong>f</strong></td><td>=> </td><td>null()</td><td><p>user-specified derivative function</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-report~2"></span>procedure(<a href='../interface/report_func~3.html'>report_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
-  <td><strong>report</strong></td><td>=> </td><td>null()</td><td><p>user-specified report function</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-g~2"></span>procedure(<a href='../interface/event_func~2.html'>event_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
-  <td><strong>g</strong></td><td>=> </td><td>null()</td><td><p>event function (stop when this is zero)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-stepsize_method"></span>class(<a href='../type/stepsize_class.html'>stepsize_class</a>),</td>
-<td>public,</td>  <td>allocatable</td><td>::</td>
-  <td><strong>stepsize_method</strong></td><td></td><td></td><td><p>the method for varying the step size</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-rtol"></span>real(kind=wp),</td>
-<td>public,</td>  <td>dimension(:), allocatable</td><td>::</td>
-  <td><strong>rtol</strong></td><td></td><td></td><td><p>relative tolerance (<code>size(n)</code>)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-atol"></span>real(kind=wp),</td>
-<td>public,</td>  <td>dimension(:), allocatable</td><td>::</td>
-  <td><strong>atol</strong></td><td></td><td></td><td><p>absolute tolerance (<code>size(n)</code>)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-p"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>p</strong></td><td> =</td><td>0</td><td><p>order of the method</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-hinit_method"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>hinit_method</strong></td><td> =</td><td>1</td><td><p>if automatically computing the inital step size, which
-method to use. 1 = <code>hstart</code>, 2 = <code>hinit</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-num_rejected_steps"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>num_rejected_steps</strong></td><td> =</td><td>0</td><td><p>number of rejected steps</p></td>
-</tr>
-</tbody>
-</table>
-
      
      <h4>Type-Bound Procedures</h4>
       <table class="table table-striped varlist">
@@ -1252,10 +1008,6 @@ method to use. 1 = <code>hstart</code>, 2 = <code>hinit</code>.</p></td>
        <td><p>main integration routine</p></td></tr>
        <tr><td>procedure, public, non_overridable :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-integrate_to_event~2'>integrate_to_event</a></strong>  </td>
        <td><p>integration with event finding</p></td></tr>
-       <tr><td>procedure, public :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-hstart'>hstart</a></strong>  </td>
-       <td><p>for automatically computing the initial step size [this is from DDEABM]</p></td></tr>
-       <tr><td>procedure, public :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-hinit'>hinit</a></strong>  </td>
-       <td><p>for automatically computing the initial step size [this is from DOP853]</p></td></tr>
        <tr><td>procedure, public :: <strong><a href='../type/rkf108_class.html#boundprocedure-step~8'>step</a></strong>  => rkf108 </td>
        <td></td></tr>
        <tr><td>procedure, public :: <strong><a href='../type/rkf108_class.html#boundprocedure-order~5'>order</a></strong>  => rkf108_order </td>
@@ -1269,64 +1021,6 @@ method to use. 1 = <code>hstart</code>, 2 = <code>hinit</code>.</p></td>
   <div class="panel-heading codesum"><span class="anchor" id="type-rkf1210_class"></span><h3>type, public, extends(<a href='../type/rk_variable_step_class.html'>rk_variable_step_class</a>) :: <a href='../type/rkf1210_class.html'>rkf1210_class</a>  </h3></div>
   <div class="panel-body">
     <p>Runga-Kutta Feagin 12(10) method.</p>
-     <h4>Components</h4>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-n~2"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>n</strong></td><td> =</td><td>0</td><td><p>user specified number of variables</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-f~3"></span>procedure(<a href='../interface/deriv_func~2.html'>deriv_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
-  <td><strong>f</strong></td><td>=> </td><td>null()</td><td><p>user-specified derivative function</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-report~2"></span>procedure(<a href='../interface/report_func~3.html'>report_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
-  <td><strong>report</strong></td><td>=> </td><td>null()</td><td><p>user-specified report function</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-g~2"></span>procedure(<a href='../interface/event_func~2.html'>event_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
-  <td><strong>g</strong></td><td>=> </td><td>null()</td><td><p>event function (stop when this is zero)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-stepsize_method"></span>class(<a href='../type/stepsize_class.html'>stepsize_class</a>),</td>
-<td>public,</td>  <td>allocatable</td><td>::</td>
-  <td><strong>stepsize_method</strong></td><td></td><td></td><td><p>the method for varying the step size</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-rtol"></span>real(kind=wp),</td>
-<td>public,</td>  <td>dimension(:), allocatable</td><td>::</td>
-  <td><strong>rtol</strong></td><td></td><td></td><td><p>relative tolerance (<code>size(n)</code>)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-atol"></span>real(kind=wp),</td>
-<td>public,</td>  <td>dimension(:), allocatable</td><td>::</td>
-  <td><strong>atol</strong></td><td></td><td></td><td><p>absolute tolerance (<code>size(n)</code>)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-p"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>p</strong></td><td> =</td><td>0</td><td><p>order of the method</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-hinit_method"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>hinit_method</strong></td><td> =</td><td>1</td><td><p>if automatically computing the inital step size, which
-method to use. 1 = <code>hstart</code>, 2 = <code>hinit</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-num_rejected_steps"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>num_rejected_steps</strong></td><td> =</td><td>0</td><td><p>number of rejected steps</p></td>
-</tr>
-</tbody>
-</table>
-
      
      <h4>Type-Bound Procedures</h4>
       <table class="table table-striped varlist">
@@ -1339,10 +1033,6 @@ method to use. 1 = <code>hstart</code>, 2 = <code>hinit</code>.</p></td>
        <td><p>main integration routine</p></td></tr>
        <tr><td>procedure, public, non_overridable :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-integrate_to_event~2'>integrate_to_event</a></strong>  </td>
        <td><p>integration with event finding</p></td></tr>
-       <tr><td>procedure, public :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-hstart'>hstart</a></strong>  </td>
-       <td><p>for automatically computing the initial step size [this is from DDEABM]</p></td></tr>
-       <tr><td>procedure, public :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-hinit'>hinit</a></strong>  </td>
-       <td><p>for automatically computing the initial step size [this is from DOP853]</p></td></tr>
        <tr><td>procedure, public :: <strong><a href='../type/rkf1210_class.html#boundprocedure-step~9'>step</a></strong>  => rkf1210 </td>
        <td></td></tr>
        <tr><td>procedure, public :: <strong><a href='../type/rkf1210_class.html#boundprocedure-order~6'>order</a></strong>  => rkf1210_order </td>
@@ -1356,64 +1046,6 @@ method to use. 1 = <code>hstart</code>, 2 = <code>hinit</code>.</p></td>
   <div class="panel-heading codesum"><span class="anchor" id="type-rkf1412_class"></span><h3>type, public, extends(<a href='../type/rk_variable_step_class.html'>rk_variable_step_class</a>) :: <a href='../type/rkf1412_class.html'>rkf1412_class</a>  </h3></div>
   <div class="panel-body">
     <p>Runga-Kutta Feagin 14(12) method.</p>
-     <h4>Components</h4>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-n~2"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>n</strong></td><td> =</td><td>0</td><td><p>user specified number of variables</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-f~3"></span>procedure(<a href='../interface/deriv_func~2.html'>deriv_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
-  <td><strong>f</strong></td><td>=> </td><td>null()</td><td><p>user-specified derivative function</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-report~2"></span>procedure(<a href='../interface/report_func~3.html'>report_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
-  <td><strong>report</strong></td><td>=> </td><td>null()</td><td><p>user-specified report function</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-g~2"></span>procedure(<a href='../interface/event_func~2.html'>event_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
-  <td><strong>g</strong></td><td>=> </td><td>null()</td><td><p>event function (stop when this is zero)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-stepsize_method"></span>class(<a href='../type/stepsize_class.html'>stepsize_class</a>),</td>
-<td>public,</td>  <td>allocatable</td><td>::</td>
-  <td><strong>stepsize_method</strong></td><td></td><td></td><td><p>the method for varying the step size</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-rtol"></span>real(kind=wp),</td>
-<td>public,</td>  <td>dimension(:), allocatable</td><td>::</td>
-  <td><strong>rtol</strong></td><td></td><td></td><td><p>relative tolerance (<code>size(n)</code>)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-atol"></span>real(kind=wp),</td>
-<td>public,</td>  <td>dimension(:), allocatable</td><td>::</td>
-  <td><strong>atol</strong></td><td></td><td></td><td><p>absolute tolerance (<code>size(n)</code>)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-p"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>p</strong></td><td> =</td><td>0</td><td><p>order of the method</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-hinit_method"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>hinit_method</strong></td><td> =</td><td>1</td><td><p>if automatically computing the inital step size, which
-method to use. 1 = <code>hstart</code>, 2 = <code>hinit</code>.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-num_rejected_steps"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>num_rejected_steps</strong></td><td> =</td><td>0</td><td><p>number of rejected steps</p></td>
-</tr>
-</tbody>
-</table>
-
      
      <h4>Type-Bound Procedures</h4>
       <table class="table table-striped varlist">
@@ -1426,10 +1058,6 @@ method to use. 1 = <code>hstart</code>, 2 = <code>hinit</code>.</p></td>
        <td><p>main integration routine</p></td></tr>
        <tr><td>procedure, public, non_overridable :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-integrate_to_event~2'>integrate_to_event</a></strong>  </td>
        <td><p>integration with event finding</p></td></tr>
-       <tr><td>procedure, public :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-hstart'>hstart</a></strong>  </td>
-       <td><p>for automatically computing the initial step size [this is from DDEABM]</p></td></tr>
-       <tr><td>procedure, public :: <strong><a href='../type/rk_variable_step_class.html#boundprocedure-hinit'>hinit</a></strong>  </td>
-       <td><p>for automatically computing the initial step size [this is from DOP853]</p></td></tr>
        <tr><td>procedure, public :: <strong><a href='../type/rkf1412_class.html#boundprocedure-step~10'>step</a></strong>  => rkf1412 </td>
        <td></td></tr>
        <tr><td>procedure, public :: <strong><a href='../type/rkf1412_class.html#boundprocedure-order~7'>order</a></strong>  => rkf1412_order </td>
@@ -1927,7 +1555,7 @@ computation.
 1 = use <code>hstart</code>, 2 = use <code>hinit</code>.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" ></span>procedure(<a href='../interface/report_func~3.html'>report_func</a>),</td>
+  <td><span class="anchor" ></span>procedure(<a href='../interface/report_func~2.html'>report_func</a>),</td>
 <td></td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>report</strong></td><td><p>for reporting the steps</p></td>

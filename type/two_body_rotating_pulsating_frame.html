@@ -88,7 +88,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 3.0% of total for derived types.</p>Including implementation: 107 statements,  1.4% of total for derived types.">5 statements</a>
+    title="<p> 3.0% of total for derived types.</p>Including implementation: 107 statements,  1.5% of total for derived types.">5 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/transformation_module.f90"> Source File</a></li>
   </ul>
@@ -117,8 +117,6 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../type/two_body_rotating_pulsating_frame.html#variable-primary_body">primary_body</a>
-      <a class="list-group-item" href="../type/two_body_rotating_pulsating_frame.html#variable-et">et</a>
       <a class="list-group-item" href="../type/two_body_rotating_pulsating_frame.html#variable-secondary_body">secondary_body</a>
       <a class="list-group-item" href="../type/two_body_rotating_pulsating_frame.html#variable-center">center</a>
       <a class="list-group-item" href="../type/two_body_rotating_pulsating_frame.html#variable-rv12">rv12</a>
@@ -314,8 +312,6 @@ based on the distance between the primary and secondary bodies.</p>
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../type/two_body_rotating_pulsating_frame.html#variable-primary_body">primary_body</a>
-      <a class="list-group-item" href="../type/two_body_rotating_pulsating_frame.html#variable-et">et</a>
       <a class="list-group-item" href="../type/two_body_rotating_pulsating_frame.html#variable-secondary_body">secondary_body</a>
       <a class="list-group-item" href="../type/two_body_rotating_pulsating_frame.html#variable-center">center</a>
       <a class="list-group-item" href="../type/two_body_rotating_pulsating_frame.html#variable-rv12">rv12</a>
@@ -356,16 +352,6 @@ based on the distance between the primary and secondary bodies.</p>
     <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
 <tbody>
-<tr>
-  <td><span class="anchor" id="variable-primary_body"></span>type(<a href='../type/celestial_body.html'>celestial_body</a>),</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>primary_body</strong></td><td> =</td><td>body_earth</td><td><p>the primary body of the frame</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-et"></span>real(kind=wp),</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>et</strong></td><td> =</td><td>zero</td><td><p>epoch at which the frame is defined [sec]</p></td>
-</tr>
 <tr>
   <td><span class="anchor" id="variable-secondary_body"></span>type(<a href='../type/celestial_body.html'>celestial_body</a>),</td>
 <td>public</td>  <td></td><td>::</td>
@@ -464,14 +450,19 @@ frame is defined [sec]</p></td>
   </div>
   <ul class="list-group">
       <li class="list-group-item">
-          <h3>private subroutine <a href='../proc/transform.html'>transform</a>(from, rv, to, et, eph, rv_out, status_ok)</h3>
-<p>Transform a Cartesian state from one reference frame to another at
+                <h3>
+        private subroutine <a href='../proc/transform.html'>transform</a>(from, rv, to, et, eph, rv_out, status_ok)</h3>
+      
+    <p>Transform a Cartesian state from one reference frame to another at
 a specified epoch. The <code>from</code> and <code>to</code> <a href="../type/reference_frame.html">reference_frame</a>s may each
 be defined at a different epoch. The <code>et</code> ephemeris time is the time
 the transformation is to be done, and accounts for the motion of the two
 frame centers from <code>from%et</code> and <code>to%et</code> to <code>et</code>.</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
+
+    <h4>
+    Arguments
+    </h4>
+      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
@@ -528,10 +519,15 @@ frame centers from <code>from%et</code> and <code>to%et</code> to <code>et</code
   <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-from_primary_to_center"></span><h3>procedure, public :: <strong>from_primary_to_center</strong>    </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
-          <h3>private subroutine <a href='../proc/from_primary_to_center.html'>from_primary_to_center</a>(me, eph, et, rc, status_ok)</h3>
-<p>returns the state of the frame center w.r.t. the frame primary body.</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
+                <h3>
+        private subroutine <a href='../proc/from_primary_to_center.html'>from_primary_to_center</a>(me, eph, et, rc, status_ok)</h3>
+      
+    <p>returns the state of the frame center w.r.t. the frame primary body.</p>
+
+    <h4>
+    Arguments
+    </h4>
+      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
@@ -576,10 +572,15 @@ frame centers from <code>from%et</code> and <code>to%et</code> to <code>et</code
   <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-get_c_cdot~3"></span><h3>procedure, public :: <strong>get_c_cdot</strong>  => <a href='../proc/get_c_cdot_two_body_rotating_pulsating.html'>get_c_cdot_two_body_rotating_pulsating</a>   </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
-          <h3>private subroutine <a href='../proc/get_c_cdot_two_body_rotating_pulsating.html'>get_c_cdot_two_body_rotating_pulsating</a>(me, eph, to_icrf, c, cdot, status_ok)</h3>
-<p>rotation matrix for ROTATING_PULSATING &lt;-&gt; ICRF</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
+                <h3>
+        private subroutine <a href='../proc/get_c_cdot_two_body_rotating_pulsating.html'>get_c_cdot_two_body_rotating_pulsating</a>(me, eph, to_icrf, c, cdot, status_ok)</h3>
+      
+    <p>rotation matrix for ROTATING_PULSATING &lt;-&gt; ICRF</p>
+
+    <h4>
+    Arguments
+    </h4>
+      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>

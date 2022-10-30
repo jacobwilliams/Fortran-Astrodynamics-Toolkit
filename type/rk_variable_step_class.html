@@ -88,7 +88,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 8.5% of total for derived types.</p>Including implementation: 470 statements,  6.0% of total for derived types.">23 statements</a>
+    title="<p> 8.5% of total for derived types.</p>Including implementation: 470 statements,  6.7% of total for derived types.">23 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/rk_module_variable_step.f90"> Source File</a></li>
   </ul>
@@ -118,7 +118,7 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       <a class="list-group-item" href="../type/rk_variable_step_class.html#variable-n~2">n</a>
-      <a class="list-group-item" href="../type/rk_variable_step_class.html#variable-f~3">f</a>
+      <a class="list-group-item" href="../type/rk_variable_step_class.html#variable-f~2">f</a>
       <a class="list-group-item" href="../type/rk_variable_step_class.html#variable-report~2">report</a>
       <a class="list-group-item" href="../type/rk_variable_step_class.html#variable-g~2">g</a>
       <a class="list-group-item" href="../type/rk_variable_step_class.html#variable-stepsize_method">stepsize_method</a>
@@ -397,7 +397,7 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       <a class="list-group-item" href="../type/rk_variable_step_class.html#variable-n~2">n</a>
-      <a class="list-group-item" href="../type/rk_variable_step_class.html#variable-f~3">f</a>
+      <a class="list-group-item" href="../type/rk_variable_step_class.html#variable-f~2">f</a>
       <a class="list-group-item" href="../type/rk_variable_step_class.html#variable-report~2">report</a>
       <a class="list-group-item" href="../type/rk_variable_step_class.html#variable-g~2">g</a>
       <a class="list-group-item" href="../type/rk_variable_step_class.html#variable-stepsize_method">stepsize_method</a>
@@ -441,53 +441,53 @@
 <tbody>
 <tr>
   <td><span class="anchor" id="variable-n~2"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>n</strong></td><td> =</td><td>0</td><td><p>user specified number of variables</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-f~3"></span>procedure(<a href='../interface/deriv_func~2.html'>deriv_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
+  <td><span class="anchor" id="variable-f~2"></span>procedure(<a href='../interface/deriv_func~2.html'>deriv_func</a>),</td>
+<td>private,</td>  <td>pointer</td><td>::</td>
   <td><strong>f</strong></td><td>=> </td><td>null()</td><td><p>user-specified derivative function</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-report~2"></span>procedure(<a href='../interface/report_func~3.html'>report_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
+  <td><span class="anchor" id="variable-report~2"></span>procedure(<a href='../interface/report_func~2.html'>report_func</a>),</td>
+<td>private,</td>  <td>pointer</td><td>::</td>
   <td><strong>report</strong></td><td>=> </td><td>null()</td><td><p>user-specified report function</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-g~2"></span>procedure(<a href='../interface/event_func~2.html'>event_func</a>),</td>
-<td>public,</td>  <td>pointer</td><td>::</td>
+<td>private,</td>  <td>pointer</td><td>::</td>
   <td><strong>g</strong></td><td>=> </td><td>null()</td><td><p>event function (stop when this is zero)</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-stepsize_method"></span>class(<a href='../type/stepsize_class.html'>stepsize_class</a>),</td>
-<td>public,</td>  <td>allocatable</td><td>::</td>
+<td>private,</td>  <td>allocatable</td><td>::</td>
   <td><strong>stepsize_method</strong></td><td></td><td></td><td><p>the method for varying the step size</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-rtol"></span>real(kind=wp),</td>
-<td>public,</td>  <td>dimension(:), allocatable</td><td>::</td>
+<td>private,</td>  <td>dimension(:), allocatable</td><td>::</td>
   <td><strong>rtol</strong></td><td></td><td></td><td><p>relative tolerance (<code>size(n)</code>)</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-atol"></span>real(kind=wp),</td>
-<td>public,</td>  <td>dimension(:), allocatable</td><td>::</td>
+<td>private,</td>  <td>dimension(:), allocatable</td><td>::</td>
   <td><strong>atol</strong></td><td></td><td></td><td><p>absolute tolerance (<code>size(n)</code>)</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-p"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>p</strong></td><td> =</td><td>0</td><td><p>order of the method</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-hinit_method"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>hinit_method</strong></td><td> =</td><td>1</td><td><p>if automatically computing the inital step size, which
 method to use. 1 = <code>hstart</code>, 2 = <code>hinit</code>.</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-num_rejected_steps"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>num_rejected_steps</strong></td><td> =</td><td>0</td><td><p>number of rejected steps</p></td>
 </tr>
 </tbody>
@@ -509,10 +509,15 @@ method to use. 1 = <code>hstart</code>, 2 = <code>hinit</code>.</p></td>
   </div>
   <ul class="list-group">
       <li class="list-group-item">
-          <h3>private subroutine <a href='../proc/initialize~2.html'>initialize</a>(me, n, f, rtol, atol, stepsize_method, hinit_method, report, g)</h3>
-<p>Initialize the <a href="../type/rk_variable_step_class.html">rk_variable_step_class</a>.</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
+                <h3>
+        private subroutine <a href='../proc/initialize~2.html'>initialize</a>(me, n, f, rtol, atol, stepsize_method, hinit_method, report, g)</h3>
+      
+    <p>Initialize the <a href="../type/rk_variable_step_class.html">rk_variable_step_class</a>.</p>
+
+    <h4>
+    Arguments
+    </h4>
+      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
@@ -565,7 +570,7 @@ computation.
 1 = use <code>hstart</code>, 2 = use <code>hinit</code>.</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" ></span>procedure(<a href='../interface/report_func~3.html'>report_func</a>),</td>
+  <td><span class="anchor" ></span>procedure(<a href='../interface/report_func~2.html'>report_func</a>),</td>
 <td></td>
   <td>optional</td>  <td></td><td>::</td>
   <td><strong>report</strong></td><td><p>for reporting the steps</p></td>
@@ -592,10 +597,15 @@ computation.
   </div>
   <ul class="list-group">
       <li class="list-group-item">
-          <h3>private subroutine <a href='../proc/destroy~2.html'>destroy</a>(me)</h3>
-<p>Destructor for <a href="../type/rk_variable_step_class.html">rk_variable_step_class</a>.</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
+                <h3>
+        private subroutine <a href='../proc/destroy~2.html'>destroy</a>(me)</h3>
+      
+    <p>Destructor for <a href="../type/rk_variable_step_class.html">rk_variable_step_class</a>.</p>
+
+    <h4>
+    Arguments
+    </h4>
+      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
@@ -620,10 +630,15 @@ computation.
   </div>
   <ul class="list-group">
       <li class="list-group-item">
-          <h3>private subroutine <a href='../proc/integrate~2.html'>integrate</a>(me, t0, x0, h, tf, xf, ierr)</h3>
-<p>Main integration routine for the <a href="../type/rk_variable_step_class.html">rk_variable_step_class</a>.</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
+                <h3>
+        private subroutine <a href='../proc/integrate~2.html'>integrate</a>(me, t0, x0, h, tf, xf, ierr)</h3>
+      
+    <p>Main integration routine for the <a href="../type/rk_variable_step_class.html">rk_variable_step_class</a>.</p>
+
+    <h4>
+    Arguments
+    </h4>
+      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
@@ -686,11 +701,18 @@ if not present, an error will stop program.</p></td>
   </div>
   <ul class="list-group">
       <li class="list-group-item">
-          <h3>private subroutine <a href='../proc/integrate_to_event~2.html'>integrate_to_event</a>(me, t0, x0, h, tmax, tol, tf, xf, gf, ierr)</h3>
-<p>Event-finding integration routine for the <a href="../type/rk_variable_step_class.html">rk_variable_step_class</a>.
-  Integrates until g(t,x)=0, or until t=tf (whichever happens first).</p><a href="../proc/integrate_to_event~2.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
+                <h3>
+        private subroutine <a href='../proc/integrate_to_event~2.html'>integrate_to_event</a>(me, t0, x0, h, tmax, tol, tf, xf, gf, ierr)</h3>
+      
+    <p>Event-finding integration routine for the <a href="../type/rk_variable_step_class.html">rk_variable_step_class</a>.
+  Integrates until g(t,x)=0, or until t=tf (whichever happens first).</p>
+<p></p><div class="alert alert-info" role="alert"><h4>Note</h4><p>There are some efficiency improvements that could be made here.
+      This is a work in progress.</p></div>
+
+    <h4>
+    Arguments
+    </h4>
+      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
@@ -764,16 +786,21 @@ if not present, an error will stop program.</p></td>
 </div>
 
      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-step~2"></span><h3>procedure(<a href='../interface/step_func~2.html'>step_func</a>), public, deferred :: <strong>step</strong>    </h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-step~2"></span><h3>procedure(<a href='../interface/step_func~2.html'>step_func</a>), private, deferred :: <strong>step</strong>    </h3></div>
   <div class="panel-body">
     
     <p>the step routine for the rk method</p>
   </div>
   <ul class="list-group">
       <li class="list-group-item">
-            <h3>subroutine step_func(me, t, x, h, xf, terr)<small>Prototype</small></h3><p>rk step function</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
+                  <h3>
+        subroutine step_func(me, t, x, h, xf, terr)<small>Prototype</small></h3>
+    <p>rk step function</p>
+
+    <h4>
+    Arguments
+    </h4>
+      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
@@ -822,15 +849,21 @@ if not present, an error will stop program.</p></td>
 </div>
 
      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-order"></span><h3>procedure(<a href='../interface/order_func.html'>order_func</a>), public, deferred :: <strong>order</strong>    </h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-order"></span><h3>procedure(<a href='../interface/order_func.html'>order_func</a>), private, deferred :: <strong>order</strong>    </h3></div>
   <div class="panel-body">
     
     <p>returns <code>p</code>, the order of the method</p>
   </div>
   <ul class="list-group">
       <li class="list-group-item">
-            <h3>pure function order_func(me) result(p)<small>Prototype</small></h3>    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
+                  <h3>
+        pure function order_func(me) result(p)<small>Prototype</small></h3>
+    
+
+    <h4>
+    Arguments
+    </h4>
+      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
@@ -842,25 +875,55 @@ if not present, an error will stop program.</p></td>
 </tbody>
 </table>
 
-<h4>Return Value <small>integer</small></h4>  <p>order of the method</p>
+      <h4>
+        Return Value <small>integer      
+      </small>
+      </h4>
+      <p>order of the method</p>
 
       </li>
   </ul>
 </div>
 
      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-hstart"></span><h3>procedure, public :: <strong>hstart</strong>    </h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-hstart"></span><h3>procedure, private :: <strong>hstart</strong>    </h3></div>
   <div class="panel-body">
     
     <p>for automatically computing the initial step size [this is from DDEABM]</p>
   </div>
   <ul class="list-group">
       <li class="list-group-item">
-          <h3>private subroutine <a href='../proc/hstart.html'>hstart</a>(me, a, b, y, yprime, etol, h)</h3>
-<p>Computes a starting step size to be used in solving initial
-  value problems in ordinary differential equations.</p><a href="../proc/hstart.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
+                <h3>
+        private subroutine <a href='../proc/hstart.html'>hstart</a>(me, a, b, y, yprime, etol, h)</h3>
+      
+    <p>Computes a starting step size to be used in solving initial
+  value problems in ordinary differential equations.</p>
+<p>It is based on an estimate of the local lipschitz constant for the
+  differential equation (lower bound on a norm of the jacobian) ,
+  a bound on the differential equation (first derivative), and
+  a bound on the partial derivative of the equation with respect to
+  the independent variable. (all approximated near the initial point a)</p>
+<p></p><div class="alert alert-info" role="alert"><h4>Note</h4><p>Subroutine hstart also uses the <code>me%stepsize_method%norm</code>
+      function for computing vector norms</p></div>
+<p></p><div class="alert alert-info" role="alert"><h4>Note</h4><p>This routine is from <a href="https://github.com/jacobwilliams/ddeabm">DDEABM</a>.</p></div>
+<h1>History</h1>
+<ul>
+<li>820301  date written -- watts, h. a., (snla)</li>
+<li>890531  changed all specific intrinsics to generic.  (wrb)</li>
+<li>890831  modified array declarations.  (wrb)</li>
+<li>890911  removed unnecessary intrinsics.  (wrb)</li>
+<li>891024  changed references from dvnorm to dhvnrm.  (wrb)</li>
+<li>891214  prologue converted to version 4.0 format.  (bab)</li>
+<li>900328  added type section.  (wrb)</li>
+<li>910722  updated author section.  (als)</li>
+<li>December, 2015 : Refactored this routine (jw)</li>
+<li>April 2016 : Some modifications for the variable-step RK module (jw)</li>
+</ul>
+
+    <h4>
+    Arguments
+    </h4>
+      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
@@ -932,17 +995,23 @@ differential equation method.</p></td>
 </div>
 
      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-hinit"></span><h3>procedure, public :: <strong>hinit</strong>    </h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-hinit"></span><h3>procedure, private :: <strong>hinit</strong>    </h3></div>
   <div class="panel-body">
     
     <p>for automatically computing the initial step size [this is from DOP853]</p>
   </div>
   <ul class="list-group">
       <li class="list-group-item">
-          <h3>private function <a href='../proc/hinit.html'>hinit</a>(me, x, y, posneg, f0, hmax, atol, rtol)</h3>
-<p>computation of an initial step size guess</p><a href="../proc/hinit.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
+                <h3>
+        private function <a href='../proc/hinit.html'>hinit</a>(me, x, y, posneg, f0, hmax, atol, rtol)</h3>
+      
+    <p>computation of an initial step size guess</p>
+<p></p><div class="alert alert-info" role="alert"><h4>Note</h4><p>This routine is from dop853. It was modified for this module.</p></div>
+
+    <h4>
+    Arguments
+    </h4>
+      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
@@ -996,7 +1065,11 @@ differential equation method.</p></td>
 </tbody>
 </table>
 
-<h4>Return Value <small>real(kind=wp)</small></h4>  
+      <h4>
+        Return Value <small>real(kind=wp)      
+      </small>
+      </h4>
+      
 
       </li>
   </ul>

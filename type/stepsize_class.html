@@ -88,7 +88,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 6.6% of total for derived types.</p>Including implementation: 80 statements,  1.0% of total for derived types.">18 statements</a>
+    title="<p> 6.6% of total for derived types.</p>Including implementation: 80 statements,  1.1% of total for derived types.">18 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/rk_module_variable_step.f90"> Source File</a></li>
   </ul>
@@ -134,7 +134,7 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#boundprocs-0">Type-Bound Procedures</a></h3></div>
   <div id="boundprocs-0" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../type/stepsize_class.html#boundprocedure-initialize~6">initialize</a>
+      <a class="list-group-item" href="../type/stepsize_class.html#boundprocedure-initialize~4">initialize</a>
       <a class="list-group-item" href="../type/stepsize_class.html#boundprocedure-compute_stepsize">compute_stepsize</a>
       <a class="list-group-item" href="../type/stepsize_class.html#boundprocedure-destroy~4">destroy</a>
     </div>
@@ -344,7 +344,7 @@ Runge-Kutta integrators.</p>
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#boundprocs-1">Type-Bound Procedures</a></h3></div>
   <div id="boundprocs-1" class="panel-collapse collapse">
     <div class="list-group">
-      <a class="list-group-item" href="../type/stepsize_class.html#boundprocedure-initialize~6">initialize</a>
+      <a class="list-group-item" href="../type/stepsize_class.html#boundprocedure-initialize~4">initialize</a>
       <a class="list-group-item" href="../type/stepsize_class.html#boundprocedure-compute_stepsize">compute_stepsize</a>
       <a class="list-group-item" href="../type/stepsize_class.html#boundprocedure-destroy~4">destroy</a>
     </div>
@@ -367,52 +367,52 @@ Runge-Kutta integrators.</p>
 <tbody>
 <tr>
   <td><span class="anchor" id="variable-hmax"></span>real(kind=wp),</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>hmax</strong></td><td> =</td><td>huge(one)</td><td><p>maximum allowed step size</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-hmin"></span>real(kind=wp),</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>hmin</strong></td><td> =</td><td>two*epsilon(one)</td><td><p>minimum allowed step size</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-hfactor_reject"></span>real(kind=wp),</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>hfactor_reject</strong></td><td> =</td><td>1.0e-3_wp</td><td><p>minimum allowed factor for decreasing step size after rejected step</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-hfactor_accept"></span>real(kind=wp),</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>hfactor_accept</strong></td><td> =</td><td>100.0_wp</td><td><p>maximum allowed factor for increasing step size after accepted step</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-accept_mode"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>accept_mode</strong></td><td> =</td><td>1</td><td><p>method to determine if step is accepted [1,2]</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-max_attempts"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>max_attempts</strong></td><td> =</td><td>100</td><td><p>maximum number of attempts to decrease step size before giving up</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-relative_err"></span>logical,</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>relative_err</strong></td><td> =</td><td>.false.</td><td><p>to use <code>tol*h</code> in the <code>hfactor</code> equation</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-safety_factor"></span>real(kind=wp),</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>safety_factor</strong></td><td> =</td><td>0.9_wp</td><td><p>for <code>hfactor</code> equation (&gt;0)</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-p_exponent_offset"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
+<td>private</td>  <td></td><td>::</td>
   <td><strong>p_exponent_offset</strong></td><td> =</td><td>0</td><td><p>p + this value in the exponent (0 or 1)</p></td>
 </tr>
 <tr>
   <td><span class="anchor" id="variable-norm"></span>procedure(<a href='../interface/norm_func.html'>norm_func</a>),</td>
-<td>public,</td>  <td>nopass, pointer</td><td>::</td>
+<td>private,</td>  <td>nopass, pointer</td><td>::</td>
   <td><strong>norm</strong></td><td>=> </td><td>maxval_func</td><td><p>routine for computing the norm of the state</p></td>
 </tr>
 </tbody>
@@ -427,13 +427,20 @@ Runge-Kutta integrators.</p>
     <section>
     <h2>Type-Bound Procedures</h2>
      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-initialize~6"></span><h3>procedure, public :: <strong>initialize</strong>  => <a href='../proc/stepsize_class_constructor.html'>stepsize_class_constructor</a>   </h3></div>
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-initialize~4"></span><h3>procedure, public :: <strong>initialize</strong>  => <a href='../proc/stepsize_class_constructor.html'>stepsize_class_constructor</a>   </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
-          <h3>private pure subroutine <a href='../proc/stepsize_class_constructor.html'>stepsize_class_constructor</a>(me, hmin, hmax, hfactor_reject, hfactor_accept, norm, accept_mode, relative_err, safety_factor, p_exponent_offset, max_attempts)</h3>
-<p>Constructor for a <a href="../type/stepsize_class.html">stepsize_class</a>.</p><a href="../proc/stepsize_class_constructor.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
+                <h3>
+        private pure subroutine <a href='../proc/stepsize_class_constructor.html'>stepsize_class_constructor</a>(me, hmin, hmax, hfactor_reject, hfactor_accept, norm, accept_mode, relative_err, safety_factor, p_exponent_offset, max_attempts)</h3>
+      
+    <p>Constructor for a <a href="../type/stepsize_class.html">stepsize_class</a>.</p>
+<p></p><div class="alert alert-warning" role="alert"><h4>Warning</h4><p>The <code>norm</code> and <code>compute_h_factor</code> options aren't public in the module.
+         Need to fix this.</p></div>
+
+    <h4>
+    Arguments
+    </h4>
+      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
@@ -521,10 +528,15 @@ after rejected step</p></td>
   <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-compute_stepsize"></span><h3>procedure, public :: <strong>compute_stepsize</strong>    </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
-          <h3>private pure subroutine <a href='../proc/compute_stepsize.html'>compute_stepsize</a>(me, h, tol, err, p, hnew, accept)</h3>
-<p>Compute the new step size using the specific method.</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
+                <h3>
+        private pure subroutine <a href='../proc/compute_stepsize.html'>compute_stepsize</a>(me, h, tol, err, p, hnew, accept)</h3>
+      
+    <p>Compute the new step size using the specific method.</p>
+
+    <h4>
+    Arguments
+    </h4>
+      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
@@ -581,10 +593,15 @@ after rejected step</p></td>
   <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-destroy~4"></span><h3>procedure, public :: <strong>destroy</strong>  => <a href='../proc/destroy_stepsize_class.html'>destroy_stepsize_class</a>   </h3></div>
   <ul class="list-group">
       <li class="list-group-item">
-          <h3>private subroutine <a href='../proc/destroy_stepsize_class.html'>destroy_stepsize_class</a>(me)</h3>
-<p>Destructor for <a href="../type/stepsize_class.html">stepsize_class</a>.</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
+                <h3>
+        private subroutine <a href='../proc/destroy_stepsize_class.html'>destroy_stepsize_class</a>(me)</h3>
+      
+    <p>Destructor for <a href="../type/stepsize_class.html">stepsize_class</a>.</p>
+
+    <h4>
+    Arguments
+    </h4>
+      <table class="table table-striped varlist">
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>

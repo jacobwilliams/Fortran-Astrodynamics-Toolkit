@@ -24,6 +24,7 @@
     real(wp),parameter,public :: pi         = acos(-one)
     real(wp),parameter,public :: twopi      = two*pi
     real(wp),parameter,public :: fourpi     = four*pi
+    real(wp),parameter,public :: halfpi     = 0.5_wp*pi
 
     real(wp),parameter,public :: universal_grav_constant = 6.67408e-20_wp !! CODATA-recommended universal gravitational
                                                                           !! constant \( km^3/kg-s^2  \)
