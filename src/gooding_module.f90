@@ -36,7 +36,6 @@
     real(wp),parameter :: ntwo   = -two
     real(wp),parameter :: pineg  = -pi
     real(wp),parameter :: half   = 0.5_wp
-    real(wp),parameter :: halfpi = pi/two
     real(wp),parameter :: athird = one/three
     real(wp),parameter :: asixth = one/six
 
