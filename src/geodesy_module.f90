@@ -17,6 +17,7 @@
     public :: direct
     public :: inverse
     public :: cartesian_to_geodetic_triaxial
+    public :: CartesianIntoGeodeticI, CartesianIntoGeodeticII
 
     public :: geodetic_to_cartesian
     public :: geodetic_to_cartesian_triaxial
@@ -926,6 +927,340 @@ subroutine xyz2philambda(ax, ay, b, x, y, z, phi, lambda)
 
 end subroutine xyz2philambda
 !*****************************************************************************************
+
+!****************************************************************
+!>
+!  Numerical solution to polynomial equation
+
+pure function solve_polynomial(B, x0, error) result(x)
+
+    real(wp),dimension(0:6),intent(in) :: B !! Polynomial `B = B(6) x^6 + B(5) x^5 + ... + B(0)`
+    real(wp),intent(in) :: x0 !! Initial point
+    real(wp),intent(in) :: error !! Maximum error
+    real(wp) :: x !! root found after applying Newton-Raphson method to `B`
+                  !! The function returns the value when the correction
+                  !! is smaller than error.
+
+    real(wp) :: f,fp,corr
+    integer :: i !! counter
+
+    integer,parameter :: maxiter = 100 !! maximum number of iterations
+
+    x = x0
+    corr = huge(1.0_wp)
+    do i = 1, maxiter
+        if (abs(corr)<=error) exit
+        f  = B(6)
+        fp = B(6)
+        f  = x*f  + B(5)
+        fp = x*fp + f
+        f  = x*f  + B(4)
+        fp = x*fp + f
+        f  = x*f  + B(3)
+        fp = x*fp + f
+        f  = x*f  + B(2)
+        fp = x*fp + f
+        f  = x*f  + B(1)
+        fp = x*fp + f
+        f  = x*f  + B(0)
+        corr = f/fp
+        x = x - corr
+    end do
+
+end function solve_polynomial
+
+!****************************************************************
+!>
+!  Horner's method to compute `B(x-c)` in terms of `B(x)`.
+
+pure subroutine horner(B, c, BB)
+
+  real(wp),dimension(0:6),intent(in) :: B !! Polynomial `B = B(6) x^6 + B(5) x^5 + ... + B(0)`
+  real(wp),intent(in) :: c
+  real(wp),dimension(0:6),intent(out) :: BB !! Polynomial `BB` such that `B(x-c) = BB(x)`
+
+  integer :: i,j !! counters
+
+  BB = B
+
+  do i = 0,6
+    do j = 5,i,-1
+      BB(j) = BB(j) - BB(j+1)*c
+    end do
+  end do
+
+end subroutine horner
+
+!******************************************************************
+!>
+!  Cartesian to Geodetic I
+!
+!### See also
+!  * [[CartesianIntoGeodeticII]]
+!
+!### Reference
+!  * Gema Maria Diaz-Toca, Leandro Marin, Ioana Necula,
+!    "Direct transformation from Cartesian into geodetic coordinates on a triaxial ellipsoid"
+!    Computers & Geosciences, Volume 142, September 2020, 104551.
+!    [link](https://www.sciencedirect.com/science/article/pii/S0098300420305410?via%3Dihub),
+!    [C++ code](https://data.mendeley.com/datasets/s5f6sww86x/2)
+
+subroutine CartesianIntoGeodeticI(ax, ay, az, xG, yG, zG, latitude, longitude, altitude, error)
+
+    real(wp),intent(in) :: ax, ay, az !! semiaxes of the celestial body: ax>ay>az
+    real(wp),intent(in) :: xG, yG, zG !! cartesian coordinates of the considered point
+                                      !! in the first octant: xG, yG, zG with (xG,yG,zG)<>(0,0,0)
+    real(wp),intent(out) :: latitude, longitude, altitude !! geodetic coordinates of the considered point
+    real(wp),intent(in) :: error !! Values smaller than error treated as 0.0
+
+    real(wp) :: ax2,ay2,az2,ax4,ay4,az4,b5,b4,b3,b3x,b3y,b3z,&
+                b2,b2x,b2y,b2z,b1,b1x,b1y,b1z,b0,b0x,b0y,b0z,eec,exc
+    real(wp) :: xg2,yg2,zg2,aux
+    real(wp) :: xE,yE,zE,k,B(0:6),BB(0:6)
+
+    ! Computations independent of xG,yG,zG. They can be precomputed, if necessary.
+    ax2 = ax*ax
+    ay2 = ay*ay
+    az2 = az*az
+    ax4 = ax2*ax2
+    ay4 = ay2*ay2
+    az4 = az2*az2
+    b5 = 2*(ax2+ay2+az2)
+    b4 = ax4 + 4*ax2*ay2 + ay4 + 4*ax2*az2 + 4*ay2*az2 + az4
+    b3 = 2*ax4*ay2 + 2*ax2*ay4 + 2*ax4*az2 + 8*ax2*ay2*az2 + 2*ay4*az2 + 2*ax2*az4 + 2*ay2*az4
+    b3x = - 2*ax2*ay2 - 2*ax2*az2
+    b3y = - 2*ax2*ay2 - 2*ay2*az2
+    b3z = - 2*ay2*az2 - 2*ax2*az2
+    b2 = 4*ax4*ay2*az2 + 4*ax2*ay4*az2 + ax4*az4 + 4*ax2*ay2*az4 + ax4*ay4 + ay4*az4
+    b2x = -ax2*ay4 -4*ax2*ay2*az2 -ax2*az4
+    b2y = -ax4*ay2 -4*ax2*ay2*az2 -ay2*az4
+    b2z = -ax4*az2 -4*ax2*ay2*az2 -ay4*az2
+    b1 = 2*ax4*ay4*az2 + 2*ax4*ay2*az4 + 2*ax2*ay4*az4
+    b1x = - 2*ax2*ay4*az2 - 2*ax2*ay2*az4
+    b1y = - 2*ax4*ay2*az2 - 2*ax2*ay2*az4
+    b1z = - 2*ax4*ay2*az2 - 2*ax2*ay4*az2
+    b0 = ax4*ay4*az4
+    b0x = - ax2*ay4*az4
+    b0y = - ax4*ay2*az4
+    b0z = - ax4*ay4*az2
+    eec = (ax2-ay2)/ax2
+    exc = (ax2-az2)/ax2
+
+    ! Computations dependant of xG, yG, zG
+    xg2 = xG*xG
+    yg2 = yG*yG
+    zg2 = zG*zG
+    aux = xg2/ax2+yg2/ay2+zg2/az2
+
+    B = [b0+b0x*xg2+b0y*yg2+b0z*zg2, &
+         b1+b1x*xg2+b1y*yg2+b1z*zg2, &
+         b2+b2x*xg2+b2y*yg2+b2z*zg2, &
+         b3+b3x*xg2+b3y*yg2+b3z*zg2, &
+         b4-(ax2*xg2+ay2*yg2+az2*zg2), &
+         b5, &
+         1.0_wp ]
+
+  if (abs(aux-1.0_wp) < error) then ! The point is on the ellipsoid
+
+    xE = xG
+    yE = yG
+    zE = zG
+
+  else if (aux > 1.0_wp) then ! The point is outside the ellipsoid
+
+    k = solve_polynomial(B,(xg2+yg2+zg2)/3.0_wp,error)
+    xE = ax2*xG/(ax2+k)
+    yE = ay2*yG/(ay2+k)
+    zE = az2*zG/(az2+k)
+
+  else if (zG > 0.0_wp) then ! The point  is inside the ellipsoid and zG>0
+
+    call horner(B,az2,BB) ! B(x-az2) = BB(x)
+    k = solve_polynomial(BB,(xg2+yg2+zg2)/3.0_wp+az2,error) - az2
+    xE = ax2*xG/(ax2+k)
+    yE = ay2*yG/(ay2+k)
+    zE = az2*zG/(az2+k)
+
+  else if (xG > 0.0_wp .and. yG > 0.0_wp) then ! The point is inside the ellipsoid and zG=0, yG > 0, xG > 0
+
+    call horner(B,ay2,BB)
+    k = solve_polynomial(BB,(xg2+yg2+zg2)/3.0_wp+ay2,error) - ay2
+    xE = ax2*xG/(ax2+k)
+    yE = ay2*yG/(ay2+k)
+    zE = 0.0_wp
+
+  else if (xG < error .and. yG > 0.0_wp) then
+
+    xE = 0.0_wp
+    yE = ay
+    zE = 0.0_wp
+
+  else if (xG > 0.0_wp .and. yG < error) then
+
+    xE = ax
+    yE = 0.0_wp
+    zE = 0.0_wp
+
+  end if
+
+  ! Computing longitude
+  if (xG > 0.0_wp) then
+    longitude = atan(yE/((1.0_wp-eec)*xE))
+  else if (yG > 0.0_wp) then
+    longitude = halfpi
+  else
+    longitude = huge(1.0_wp)  ! undefined
+  end if
+
+  ! Computing latitude
+  if (xE > 0.0_wp .or. yE > 0.0_wp) then
+    latitude = atan((1.0_wp-eec)/(1.0_wp-exc)*zE/norm2([xE*(1.0_wp-eec),yE]))
+  else
+    latitude = halfpi
+  end if
+
+  ! Computing altitude
+  if (aux>=1.0_wp) then
+    altitude = norm2([xE-xG,yE-yG,zE-zG])
+  else
+    altitude = -norm2([xE-xG,yE-yG,zE-zG])
+  end if
+
+  end subroutine CartesianIntoGeodeticI
+
+!******************************************************************
+!>
+!  Cartesian into Geodetic II
+!
+!### See also
+!  * [[CartesianIntoGeodeticI]]
+
+subroutine CartesianIntoGeodeticII(ax, ay, az, xG, yG, zG, latitude, longitude, altitude, error)
+
+    real(wp),intent(in) :: ax, ay, az !! semiaxes of the celestial body: ax>ay>az
+    real(wp),intent(in) :: xG, yG, zG !! cartesian coordinates of the considered point
+                                      !! in the first octant: xG, yG, zG with (xG,yG,zG)<>(0,0,0)
+    real(wp),intent(out) :: latitude, longitude, altitude !! geodetic coordinates of the considered point
+    real(wp),intent(in) :: error !! Values smaller than error treated as 0.0
+
+    real(wp) :: aymaz,aypaz,axmaz,axpaz,axpaz2,ax2,ay2,az2,ax4,ay4,az4,az6,&
+                az8,temp0,temp1,temp2,temp3,temp4,temp5,temp6,temp7,temp8,&
+                temp9,tempa,az6ax2,az6ay2,tempb,maz10,excc,eecc
+    real(wp) :: xg2,yg2,zg2,zgxg2,zgyg2,zg3,zg4,aux
+    real(wp) :: xE,yE,zE,k,B(0:6)
+
+    ! Computations independent of xG,yG,zG. They can be precomputed, if necessary.
+    aymaz = ay-az
+    aypaz = ay+az
+    axmaz = ax-az
+    axpaz = ax+az
+    axpaz2 = axpaz*axpaz
+    ax2 = ax*ax
+    ay2 = ay*ay
+    az2 = az*az
+    ax4 = ax2*ax2
+    ay4 = ay2*ay2
+    az4 = az2*az2
+    az6 = az4*az2
+    az8 = az4*az4
+    temp0 = aymaz*aymaz*aypaz*aypaz*axmaz*axmaz*axpaz2
+    temp1 = 2*az2*aymaz*aypaz*axmaz*axpaz*(ax2+ay2-2*az2)
+    temp2 = -az2*(ax4*ay4-2*ax4*ay2*az2+ax4*az4-2*ax2*ay4*az2+4*ax2*ay2*az4-2*ay2*az6+az8-2*ax2*az6+ay4*az4)
+    temp3 = -az2*(-ax2*ay4+2*ax2*ay2*az2-ax2*az4)
+    temp4 = -az2*(-ax4*ay2+2*ax2*ay2*az2-ay2*az4)
+    temp5 = -az2*(-ax4*az2-4*ax2*ay2*az2+6*ax2*az4-ay4*az2+6*ay2*az4-6*az6)
+    temp6 =  -2*az4*(ax4*ay2-ax4*az2+ax2*ay4-4*ax2*ay2*az2+3*ax2*az4-ay4*az2+3*ay2*az4-2*az6)
+    temp7 = -2*az4*(-ax2*ay2+ax2*az2)
+    temp8 = -2*az4*(-ax2*ay2+ay2*az2)
+    temp9 = -2*az4*(-ax2*az2-ay2*az2+2*az4)
+    tempa = -az6*(ax4+4*ax2*ay2-6*ax2*az2+ay4-6*ay2*az2+6*az4)
+    az6ax2 = az6*ax2
+    az6ay2 = az6*ay2
+    tempb = -2*az8*(ax2+ay2-2*az2)
+    maz10 = -az6*az4
+    excc = (ax2-az2)/(ax2)
+    eecc = (ax2-ay2)/(ax2)
+
+    xg2 = xG*xG
+    yg2 = yG*yG
+    zg2 = zG*zG
+    zgxg2 = zG*xg2
+    zgyg2 = zG*yg2
+    zg3 = zg2*zG
+    zg4 = zg2*zg2
+    aux = xg2/ax2+yg2/ay2+zg2/az2
+
+  if (abs(aux-1.0_wp) < error) then ! The point is on the ellipsoid
+
+    xE = xG
+    yE = yG
+    zE = zG
+
+  else if (zG > error) then ! The point is inside or outside the ellipsoid with zG != 0
+
+    B(6) = temp0
+    B(5) = temp1*zG
+    B(4) = temp2+temp3*xg2+temp4*yg2+temp5*zg2
+    B(3) = zG*temp6+temp7*zgxg2+temp8*zgyg2+temp9*zg3
+    B(2) = zg2*(tempa+az6ax2*xg2+az6ay2*yg2+az8*zg2)
+    B(1) = tempb*zg3
+    B(0) = maz10*zg4
+
+    k = solve_polynomial(B,az*zG/norm2([xG,yG,zG]),error)
+    xE = ax2*xG*k/(ax2*k-az2*k+az2*zG)
+    yE = ay2*yG*k/(ay2*k-az2*k+az2*zG)
+    zE = k
+
+  else if (yG > error) then
+
+    B = [-ay4*ay2*zg2, &
+         -2*ay4*(ax2-ay2)*zG, &
+         -ay2*(ax4-2*ax2*ay2-ax2*yg2+ay4-ay2*zg2), &
+         2*ay2*(ax2-ay2)*zG, &
+         ax4+ay4-2*ax2*ay2, &
+         0.0_wp, &
+         0.0_wp ]
+
+    k = solve_polynomial(B,ay*yG/norm2([xG,yG,zG]),error)
+    xE = k*ax2*xG/(ax2*k-ay2*k+ay2*yG)
+    yE = k
+    zE = 0.0_wp
+
+  else
+
+    xE = ax
+    yE = 0.0_wp
+    zE = 0.0_wp
+
+  end if
+
+  ! Computing longitude
+
+  if (xG > 0.0_wp) then
+    longitude = atan(yE/((1.0_wp-eecc)*xE))
+  else if (yG > 0.0_wp) then
+    longitude = halfpi
+  else
+    longitude = huge(1.0_wp) ! undefined
+  end if
+
+  ! Computing latitude
+
+  if (xE > 0.0_wp .or. yE > 0.0_wp) then
+    latitude = atan((1.0_wp-eecc)/(1.0_wp-excc)*zE/norm2([xE*(1.0_wp-eecc),yE]))
+  else
+    latitude = halfpi
+  end if
+
+  ! Computing altitude
+
+  if (aux>=1.0) then
+    altitude = norm2([xE-xG,yE-yG,zE-zG])
+  else
+    altitude = -norm2([xE-xG,yE-yG,zE-zG])
+  end if
+
+end subroutine CartesianIntoGeodeticII
 
 !*****************************************************************************************
 !>

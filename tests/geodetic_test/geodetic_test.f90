@@ -15,9 +15,9 @@ program geodetic_test
     implicit none
 
     integer,parameter :: n_repeat = 1000  !! number of times to repeat speed test
-    real(wp),parameter :: ax  = 6378137.0_wp    !! Ellipsoid : WGS84 Equatorial radius
-    real(wp),parameter :: ay  = 6378137.0_wp    !! Ellipsoid : WGS84 Equatorial radius (same)
-    real(wp),parameter :: b   = 6356752.3142_wp !! Ellipsoid : WGS84 Polar radius
+    real(wp) :: ax  = 6378137.0_wp    !! Ellipsoid : WGS84 Equatorial radius
+    real(wp) :: ay  = 6378137.0_wp    !! Ellipsoid : WGS84 Equatorial radius (same)
+    real(wp) :: b   = 6356752.3142_wp !! Ellipsoid : WGS84 Polar radius
     real(wp),parameter :: tol = 1.0e-13_wp !! tolerance
     real(wp),parameter :: test_tol = 1.0e-6_wp !! tolerance for a failed test
 
@@ -26,6 +26,8 @@ program geodetic_test
     integer :: i !! counter
     real(wp),dimension(3) :: err !! error vector
     real(wp),dimension(3) :: r
+    integer :: isize
+    integer,dimension(:),allocatable :: iseed
 
     real(wp) :: tstart, tstop
 
@@ -38,6 +40,10 @@ program geodetic_test
     write(*,*) ''
     write(*,*) ' 1. Triaxial'
     write(*,*) ''
+
+    call random_seed(size=isize)
+    allocate(iseed(isize)); iseed = 42
+    call random_seed(put=iseed)
 
     tmp = zero
     call cpu_time(tstart)
@@ -139,7 +145,7 @@ program geodetic_test
     write(*,'(A30,1X,E30.16,1X,F17.1,1X,A)') 'heikkinen : Speed', tmp, n_repeat/(tstop-tstart), 'cases/sec'
 
     write(*,*) ''
-    write(*,*) ' 3. Comparison'
+    write(*,*) ' 3. Comparison: heikkinen vs. triaxial'
     write(*,*) ''
 
     tmp = zero
@@ -165,6 +171,93 @@ program geodetic_test
             error stop 'FAILURE'
         end if
         !write(*,*) 'err: ', err
+        tmp = tmp + norm2(err) !compute something so loop isn't optimized away
+
+    end do
+    call cpu_time(tstop)
+    write(*,'(A30,1X,E30.16,1X,F17.1,1X,A)') 'Comparison', tmp, n_repeat/(tstop-tstart), 'cases/sec'
+
+    !----------------------------------------
+    ay  = 6378147.0_wp  ! make it a triaxial ellipsoid
+
+    write(*,*) ''
+    write(*,*) ' 4. Comparison: triaxial vs. CartesianIntoGeodeticI'
+    write(*,*) ''
+
+    tmp = zero
+    call cpu_time(tstart)
+    do i = 1, n_repeat
+
+        !  what is meant by "octant" for the CartesianIntoGeodeticI inputs?
+        !  the lat and long values returned are not correct for general inputs
+        !  do we have to do some transformation of the inputs ???
+        !  for now, just generate points from 0 -> 90 deg
+
+        h      = get_random_number(1.0_wp, 10000.0_wp)
+        lambda = get_random_number(0.0_wp, 90.0_wp) * deg2rad
+        phi    = get_random_number(0.0_wp, 90.0_wp) * deg2rad
+
+        call geodetic_to_cartesian_triaxial(ax, ay, b, phi, lambda, h, xi, yi, zi)
+        r = [xi, yi, zi]
+        call cartesian_to_geodetic_triaxial(ax, ay, b, xi, yi, zi, tol, phi_, lambda_, h_)
+        call CartesianIntoGeodeticI(ax, ay, b, xi, yi, zi, phi_, lambda_, h_, error=tol)
+
+        phi_error    = rel_error(phi_ ,    phi,    .true.)
+        lambda_error = rel_error(lambda_ , lambda, .true.)
+        h_error      = rel_error(h_ ,      h,      .false.)
+        err = [phi_error,lambda_error,h_error]
+
+        if (any(err > test_tol)) then
+            write(*,*) 'x,y,z:', r
+            write(*,*) 'var   ', 'CartesianIntoGeodeticI      ', 'cartesian_to_geodetic_triaxial'
+            write(*,*) 'lat:  ', phi_*rad2deg,     phi*rad2deg
+            write(*,*) 'lon:  ', lambda_*rad2deg , lambda*rad2deg
+            write(*,*) 'alt:  ', h_ ,      h
+            write(*,*) 'errors: ', phi_error, lambda_error, h_error
+            error stop 'FAILURE'
+        end if
+        tmp = tmp + norm2(err) !compute something so loop isn't optimized away
+
+    end do
+    call cpu_time(tstop)
+    write(*,'(A30,1X,E30.16,1X,F17.1,1X,A)') 'Comparison', tmp, n_repeat/(tstop-tstart), 'cases/sec'
+
+    write(*,*) ''
+    write(*,*) ' 5. Comparison: triaxial vs. CartesianIntoGeodeticII'
+    write(*,*) ''
+
+    tmp = zero
+    call cpu_time(tstart)
+    do i = 1, n_repeat
+
+        !  what is meant by "octant" for the CartesianIntoGeodeticI inputs?
+        !  the lat and long values returned are not correct for general inputs
+        !  do we have to do some transformation of the inputs ???
+        !  for now, just generate points from 0 -> 90 deg
+
+        h      = get_random_number(1.0_wp, 10000.0_wp)
+        lambda = get_random_number(0.0_wp, 90.0_wp) * deg2rad
+        phi    = get_random_number(0.0_wp, 90.0_wp) * deg2rad
+
+        call geodetic_to_cartesian_triaxial(ax, ay, b, phi, lambda, h, xi, yi, zi)
+        r = [xi, yi, zi]
+        call cartesian_to_geodetic_triaxial(ax, ay, b, xi, yi, zi, tol, phi_, lambda_, h_)
+        call CartesianIntoGeodeticII(ax, ay, b, xi, yi, zi, phi_, lambda_, h_, error=tol)
+
+        phi_error    = rel_error(phi_ ,    phi,    .true.)
+        lambda_error = rel_error(lambda_ , lambda, .true.)
+        h_error      = rel_error(h_ ,      h,      .false.)
+        err = [phi_error,lambda_error,h_error]
+
+        if (any(err > test_tol)) then
+            write(*,*) 'x,y,z:', r
+            write(*,*) 'var   ', 'CartesianIntoGeodeticII     ', 'cartesian_to_geodetic_triaxial'
+            write(*,*) 'lat:  ', phi_*rad2deg,     phi*rad2deg
+            write(*,*) 'lon:  ', lambda_*rad2deg , lambda*rad2deg
+            write(*,*) 'alt:  ', h_ ,      h
+            write(*,*) 'errors: ', phi_error, lambda_error, h_error
+            error stop 'FAILURE'
+        end if
         tmp = tmp + norm2(err) !compute something so loop isn't optimized away
 
     end do
