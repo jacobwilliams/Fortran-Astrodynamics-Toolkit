@@ -676,7 +676,7 @@ end subroutine cartesian_to_geodetic_triaxial
 !  * Jacob Williams, 10/29/2022 : Fortran verison of this algorithm,
 !    based on the Matlab (v1.0 01/03/2019) code.
 
-subroutine geodetic_to_cartesian_triaxial(ax, ay, b, phi, lambda, h, xi, yi, zi)
+subroutine geodetic_to_cartesian_triaxial(ax, ay, b, phi, lambda, h, r)
 
     real(wp),intent(in) :: ax !! semiaxes (0 < b <= ay <= ax)
     real(wp),intent(in) :: ay !! semiaxes (0 < b <= ay <= ax)
@@ -684,9 +684,7 @@ subroutine geodetic_to_cartesian_triaxial(ax, ay, b, phi, lambda, h, xi, yi, zi)
     real(wp),intent(in) :: phi !! geodetic latitude (radians)
     real(wp),intent(in) :: lambda !! geodetic longitude (radians)
     real(wp),intent(in) :: h !! geodetic height
-    real(wp),intent(out) :: xi !! Cartesian coordinates
-    real(wp),intent(out) :: yi !! Cartesian coordinates
-    real(wp),intent(out) :: zi !! Cartesian coordinates
+    real(wp),dimension(3),intent(out) :: r  !! Cartesian position vector [x,y,z]
 
     real(wp) :: ee2,ex2,N,cp,sp,cl,sl
 
@@ -698,9 +696,9 @@ subroutine geodetic_to_cartesian_triaxial(ax, ay, b, phi, lambda, h, xi, yi, zi)
     ex2 = (ax*ax-b*b)/(ax*ax)
     N   = ax/sqrt(one - ex2*sp*sp - ee2*cp*cp*sl*sl)
 
-    xi = (N+h)*cp*cl
-    yi = (N*(one-ee2)+h)*cp*sl
-    zi = (N*(one-ex2)+h)*sp
+    r = [(N+h)*cp*cl, &
+         (N*(one-ee2)+h)*cp*sl, &
+         (N*(one-ex2)+h)*sp ]
 
 end subroutine geodetic_to_cartesian_triaxial
 

@@ -21,13 +21,13 @@ program geodetic_test
     real(wp),parameter :: tol = 1.0e-13_wp !! tolerance
     real(wp),parameter :: test_tol = 1.0e-6_wp !! tolerance for a failed test
 
-    real(wp) :: h, tmp, phi, lambda, xi, yi, zi, phi_, lambda_, h_
+    real(wp) :: h, tmp, phi, lambda, phi_, lambda_, h_
     real(wp) :: phi_error, lambda_error, h_error
     integer :: i !! counter
     real(wp),dimension(3) :: err !! error vector
-    real(wp),dimension(3) :: r
-    integer :: isize
-    integer,dimension(:),allocatable :: iseed
+    real(wp),dimension(3) :: r !! cartesian position vector
+    integer :: isize !! size if `iseed`
+    integer,dimension(:),allocatable :: iseed !! for random number generator
 
     real(wp) :: tstart, tstop
 
@@ -53,8 +53,8 @@ program geodetic_test
         lambda = get_random_number(0.0_wp, 360.0_wp) * deg2rad
         phi    = get_random_number(-90.0_wp, 90.0_wp) * deg2rad
 
-        call geodetic_to_cartesian_triaxial(ax, ay, b, phi, lambda, h, xi, yi, zi)
-        call cartesian_to_geodetic_triaxial(ax, ay, b, xi, yi, zi, tol, phi_, lambda_, h_)
+        call geodetic_to_cartesian_triaxial(ax, ay, b, phi, lambda, h, r)
+        call cartesian_to_geodetic_triaxial(ax, ay, b, r(1), r(2), r(3), tol, phi_, lambda_, h_)
 
         phi_error    = rel_error(phi_ ,    phi,    .true.)
         lambda_error = rel_error(lambda_ , lambda, .true.)
@@ -80,8 +80,8 @@ program geodetic_test
         lambda = get_random_number(0.0_wp, 360.0_wp) * deg2rad
         phi    = get_random_number(-90.0_wp, 90.0_wp) * deg2rad
 
-        call geodetic_to_cartesian_triaxial(ax, ay, b, phi, lambda, h, xi, yi, zi)
-        tmp = tmp + xi + yi + zi !compute something so loop isn't optimized away
+        call geodetic_to_cartesian_triaxial(ax, ay, b, phi, lambda, h, r)
+        tmp = tmp + sum(r) !compute something so loop isn't optimized away
 
     end do
     call cpu_time(tstop)
@@ -97,9 +97,8 @@ program geodetic_test
                 unit([get_random_number(-10000.0_wp, 10000.0_wp),&
                       get_random_number(-10000.0_wp, 10000.0_wp),&
                       get_random_number(-10000.0_wp, 10000.0_wp) ])
-        xi = r(1); yi = r(2); zi = r(3)
 
-        call cartesian_to_geodetic_triaxial(ax, ay, b, xi, yi, zi, tol, phi_, lambda_, h_)
+        call cartesian_to_geodetic_triaxial(ax, ay, b, r(1), r(2), r(3), tol, phi_, lambda_, h_)
         tmp = tmp + phi_ + lambda_ + h_ !compute something so loop isn't optimized away
 
     end do
@@ -156,9 +155,8 @@ program geodetic_test
         lambda = get_random_number(0.0_wp, 360.0_wp) * deg2rad
         phi    = get_random_number(-90.0_wp, 90.0_wp) * deg2rad
 
-        call geodetic_to_cartesian_triaxial(ax, ay, b, phi, lambda, h, xi, yi, zi)
-        r = [xi, yi, zi]
-        call cartesian_to_geodetic_triaxial(ax, ay, b, xi, yi, zi, tol, phi_, lambda_, h_)
+        call geodetic_to_cartesian_triaxial(ax, ay, b, phi, lambda, h, r)
+        call cartesian_to_geodetic_triaxial(ax, ay, b, r(1), r(2), r(3), tol, phi_, lambda_, h_)
         call heikkinen(r, ax, b, h, lambda, phi)
 
         phi_error    = rel_error(phi_ ,    phi,    .true.)
@@ -197,10 +195,9 @@ program geodetic_test
         lambda = get_random_number(0.0_wp, 90.0_wp) * deg2rad
         phi    = get_random_number(0.0_wp, 90.0_wp) * deg2rad
 
-        call geodetic_to_cartesian_triaxial(ax, ay, b, phi, lambda, h, xi, yi, zi)
-        r = [xi, yi, zi]
-        call cartesian_to_geodetic_triaxial(ax, ay, b, xi, yi, zi, tol, phi_, lambda_, h_)
-        call CartesianIntoGeodeticI(ax, ay, b, xi, yi, zi, phi_, lambda_, h_, error=tol)
+        call geodetic_to_cartesian_triaxial(ax, ay, b, phi, lambda, h, r)
+        call cartesian_to_geodetic_triaxial(ax, ay, b, r(1), r(2), r(3), tol, phi_, lambda_, h_)
+        call CartesianIntoGeodeticI(ax, ay, b, r(1), r(2), r(3), phi_, lambda_, h_, error=tol)
 
         phi_error    = rel_error(phi_ ,    phi,    .true.)
         lambda_error = rel_error(lambda_ , lambda, .true.)
@@ -239,10 +236,9 @@ program geodetic_test
         lambda = get_random_number(0.0_wp, 90.0_wp) * deg2rad
         phi    = get_random_number(0.0_wp, 90.0_wp) * deg2rad
 
-        call geodetic_to_cartesian_triaxial(ax, ay, b, phi, lambda, h, xi, yi, zi)
-        r = [xi, yi, zi]
-        call cartesian_to_geodetic_triaxial(ax, ay, b, xi, yi, zi, tol, phi_, lambda_, h_)
-        call CartesianIntoGeodeticII(ax, ay, b, xi, yi, zi, phi_, lambda_, h_, error=tol)
+        call geodetic_to_cartesian_triaxial(ax, ay, b, phi, lambda, h, r)
+        call cartesian_to_geodetic_triaxial(ax, ay, b, r(1), r(2), r(3), tol, phi_, lambda_, h_)
+        call CartesianIntoGeodeticII(ax, ay, b, r(1), r(2), r(3), phi_, lambda_, h_, error=tol)
 
         phi_error    = rel_error(phi_ ,    phi,    .true.)
         lambda_error = rel_error(lambda_ , lambda, .true.)
