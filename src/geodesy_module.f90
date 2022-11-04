@@ -18,9 +18,11 @@
     public :: inverse
     public :: cartesian_to_geodetic_triaxial
     public :: CartesianIntoGeodeticI, CartesianIntoGeodeticII
+    public :: cartesian_to_geodetic_triaxial_2
 
     public :: geodetic_to_cartesian
     public :: geodetic_to_cartesian_triaxial
+    public :: geodetic_to_cartesian_triaxial_2
 
     public :: great_circle_distance
     public :: geocentric_radius
@@ -592,6 +594,8 @@ subroutine cartesian_to_geodetic_triaxial(ax, ay, b, Xi, Yi, Zi, tol, phi, lambd
     integer :: n
     real(wp),dimension(3) :: d
 
+    if (ax < ay .or. ay < b) error stop 'error in cartesian_to_geodetic_triaxial: invalid ax,ay,b'
+
     axax = ax*ax
     ayay = ay*ay
     b2 = b*b
@@ -654,7 +658,7 @@ subroutine cartesian_to_geodetic_triaxial(ax, ay, b, Xi, Yi, Zi, tol, phi, lambd
 
     end if
 
-    call xyz2philambda(ax, ay, b, x, y, z, phi, lambda)
+    call xyz2fl(ax, ay, b, x, y, z, phi, lambda)
 
     ! Compute geodetic height
     d = [XX-x, YY-y, ZZ-z]
@@ -701,6 +705,46 @@ subroutine geodetic_to_cartesian_triaxial(ax, ay, b, phi, lambda, h, r)
          (N*(one-ex2)+h)*sp ]
 
 end subroutine geodetic_to_cartesian_triaxial
+
+!********************************************************************************
+!>
+!  Geodetic to Cartesian for Triaxial Ellipsoid.
+!
+!### References
+!  * S. Bektas, "Geodetic Computations on Triaxial Ellipsoid",
+!    International Journal of Mining Science (IJMS),
+!    Volume 1, Issue 1, June 2015, p 25-34
+
+    pure subroutine geodetic_to_cartesian_triaxial_2(a,b,c,lat,long,h,r)
+
+    implicit none
+
+    real(wp),intent(in) :: a    !! ellipsoid radii `a >= b >= c`
+    real(wp),intent(in) :: b    !! ellipsoid radii `a >= b >= c`
+    real(wp),intent(in) :: c    !! ellipsoid radii `a >= b >= c`
+    real(wp),intent(in) :: lat  !! latitude (rad)
+    real(wp),intent(in) :: long !! longitude (rad)
+    real(wp),intent(in) :: h    !! altitude
+    real(wp),dimension(3),intent(out) :: r  !! Cartesian coordinates (x,y,z)
+
+    real(wp) :: ex2,ee2,v,a2,clat,slat,clon,slon,omee2
+
+    a2    = a * a
+    ex2   = (a2-c**2)/a2
+    ee2   = (a2-b**2)/a2
+    clat  = cos(lat)
+    slat  = sin(lat)
+    clon  = cos(long)
+    slon  = sin(long)
+    omee2 = 1.0_wp-ee2
+    v     = a/sqrt(1.0_wp-ex2*slat**2-ee2*clat**2*slon**2)
+
+    r = [(v+h)*clon*clat, &
+         (v*omee2+h)*slon*clat, &
+         (v*omee2+h)*slat ]
+
+    end subroutine geodetic_to_cartesian_triaxial_2
+!*****************************************************************************************
 
 !*****************************************************************************************
 !>
@@ -785,30 +829,6 @@ end subroutine bisection_special_3
 !*****************************************************************************************
 !>
 
-subroutine philambda2xyz(ax, ay, b, phi, lambda, x, y, z)
-
-    real(wp),intent(in) :: ax, ay, b, phi, lambda
-    real(wp),intent(out) :: x, y, z
-
-    real(wp) :: ee2,ex2,N,sp,cp,sl,cl
-
-    sp  = sin(phi)
-    cp  = cos(phi)
-    sl  = sin(lambda)
-    cl  = cos(lambda)
-    ee2 = (ax*ax-ay*ay)/(ax*ax)
-    ex2 = (ax*ax-b*b)/(ax*ax)
-    N   = ax/sqrt(one-ex2*sp*sp-ee2*cp*cp*sl*sl)
-
-    x = N*cp*cl
-    y = N*(one-ee2)*cp*sl
-    z = N*(one-ex2)*sp
-
-end subroutine philambda2xyz
-
-!*****************************************************************************************
-!>
-
 subroutine philambda_quadrant(XX, YY, ZZ, phi, lambda)
 
     real(wp),intent(in) :: XX, YY, ZZ
@@ -836,99 +856,60 @@ end subroutine philambda_quadrant
 
 !*****************************************************************************************
 !>
+!  Computes the transformation of Cartesian to geodetic coordinates on the surface of the ellipsoid
+!  assuming x,y,z are all non-negative
+!  Angular coordinates in radians
+!
+!  This is based on the [C++ version](https://www.researchgate.net/publication/353739609_PK-code)
 
-subroutine xyz2philambda(ax, ay, b, x, y, z, phi, lambda)
+subroutine xyz2fl(ax, ay, b, x, y, z, latitude, longitude)
 
     real(wp),intent(in) :: ax, ay, b, x, y, z
-    real(wp),intent(out) :: phi, lambda
+    real(wp),intent(out) :: latitude, longitude
 
-    real(wp) :: ee2,ex2,s0,SS0,Sphi,Cphi,Slambda,Clambda,&
-                Den,P,L,x0,y0,z0,D,NN,onemee2,onemex2,term,&
-                at,bt,onemee2x
-    integer :: n
-    real(wp),dimension(3,2) :: J
-    real(wp),dimension(3,1) :: dl,UU
-    real(wp),dimension(2,2) :: Nmat
-    real(wp),dimension(2,1) :: u, dx
-    real(wp),dimension(1,1) :: tmp
-    real(wp),dimension(2,2) :: NmatTmp
+    real(wp) :: nom,den,dex,xme,rot
+    real(wp) :: ax2,ay2,b2,Ex2,Ee2,lex2,lee2,mex,mee
 
-    ee2 = (ax*ax - ay*ay)/(ax*ax)
-    ex2 = (ax*ax - b*b)/(ax*ax)
-    onemee2 = one - ee2
-    onemex2 = one - ex2
-    onemee2x = onemee2*x
-    term = sqrt(onemee2*onemee2x*x + y*y)
-    at = onemee2*z
-    bt = onemex2*term
+    ! note: these could be precomputed:
+    ax2  = ax*ax
+    ay2  = ay*ay
+    b2   = b*b
+    Ex2  = ax2-b2
+    Ee2  = ax2-ay2
+    lex2 = Ex2/ax2
+    lee2 = Ee2/ax2
+    mex  = one-lex2
+    mee  = one-lee2
 
-    ! Initial values
-    if (at <= bt) then
-        phi = atan(at/bt)
+    nom=mee*z
+    xme=mee*x
+    dex=xme*xme+y*y
+    den=mex*sqrt(dex)
+    rot=sqrt(dex)
+
+    if (den==zero)  then
+        latitude=halfpi
+        longitude=zero
     else
-        phi = halfpi - atan(bt/at)
+        if (nom<=den) then
+            latitude=atan(nom/den)
+        else
+            latitude=halfpi-atan(den/nom)
+        end if
+        if (y<=xme) then
+            den=xme+rot
+            longitude=2.*atan(y/den)
+        else
+            den=y+rot
+            longitude=halfpi-2.0*atan(xme/den)
+        end if
     end if
 
-    if (x == zero .and. y == zero) then
-        lambda = zero
-    elseif (y <= onemee2x) then
-        lambda = two*atan(y/(onemee2x+term))
-    else
-        lambda = halfpi - two*atan(onemee2x/(y+term))
-    end if
-
-    s0 = zero
-    do n = 1, 100
-        SS0 = s0
-
-        ! Design Matrix J
-        Sphi = sin(phi)
-        Cphi = cos(phi)
-        Slambda = sin(lambda)
-        Clambda = cos(lambda)
-
-        NN = ax/sqrt(onemex2*Sphi*Sphi-ee2*Cphi*Cphi*Slambda*Slambda)
-
-        Den = two*(onemex2*Sphi*Sphi-ee2*Cphi*Cphi*Slambda*Slambda)**(3.0_wp/two)
-        P = -ax*(ex2-ee2*Slambda*Slambda)*sin(two*phi)/Den
-        L = -ax*ee2*Cphi*Cphi*sin(2*lambda)/Den
-
-        J = zero
-
-        J(1,1) = (P*Cphi-NN*Sphi)*Clambda
-        J(2,1) = onemee2*(P*Cphi-NN*Sphi)*Slambda
-        J(3,1) = onemex2*(P*Sphi+NN*Cphi)
-
-        J(1,2) = (L*Clambda-NN*Slambda)*Cphi
-        J(2,2) = onemee2*(L*Slambda+NN*Clambda)*Cphi
-        J(3,2) = onemex2*L*Sphi
-
-        ! Vector dl
-        call philambda2xyz(ax, ay, b, phi, lambda, x0, y0, z0)
-        dl(:,1) = [x-x0, y-y0, z-z0]
-
-        ! Solution
-        Nmat    = matmul(transpose(J),J)
-        u       = matmul(transpose(J),dl)
-        D       = Nmat(1,1)*Nmat(2,2) - Nmat(1,2)*Nmat(2,1)
-        NmatTmp = transpose(reshape([Nmat(2,2), -Nmat(1,2), -Nmat(2,1), Nmat(1,1)], [2,2]))
-        dx      = matmul((NmatTmp / D) , u)
-        phi     = phi + dx(1,1)
-        lambda  = lambda + dx(2,1)
-        UU      = matmul(J,dx) - dl
-        tmp     = sqrt(matmul(transpose(UU),UU))
-        s0      = tmp(1,1)
-
-        if (s0 == SS0) exit
-
-    end do
-
-end subroutine xyz2philambda
-!*****************************************************************************************
+end subroutine xyz2fl
 
 !****************************************************************
 !>
-!  Numerical solution to polynomial equation
+!  Numerical solution to polynomial equation using Newton-Raphson method
 
 pure function solve_polynomial(B, x0, error) result(x)
 
@@ -940,29 +921,25 @@ pure function solve_polynomial(B, x0, error) result(x)
                   !! is smaller than error.
 
     real(wp) :: f,fp,corr
-    integer :: i !! counter
+    integer :: i, j !! counter
 
     integer,parameter :: maxiter = 100 !! maximum number of iterations
 
     x = x0
-    corr = huge(1.0_wp)
     do i = 1, maxiter
-        if (abs(corr)<=error) exit
         f  = B(6)
-        fp = B(6)
-        f  = x*f  + B(5)
-        fp = x*fp + f
-        f  = x*f  + B(4)
-        fp = x*fp + f
-        f  = x*f  + B(3)
-        fp = x*fp + f
-        f  = x*f  + B(2)
-        fp = x*fp + f
-        f  = x*f  + B(1)
-        fp = x*fp + f
-        f  = x*f  + B(0)
+        do j = 5, 0, -1
+            if (j==5) then
+                fp = f
+            else
+                fp = x*fp + f
+            end if
+            f  = x*f + B(j)
+        end do
+        if (fp==0.0_wp) exit ! singular point
         corr = f/fp
         x = x - corr
+        if (abs(corr)<=error) exit
     end do
 
 end function solve_polynomial
@@ -1259,6 +1236,170 @@ subroutine CartesianIntoGeodeticII(ax, ay, az, xG, yG, zG, latitude, longitude, 
   end if
 
 end subroutine CartesianIntoGeodeticII
+
+!********************************************************************************
+!>
+!  Cartesian to geodetic for Triaxial Ellipsoid.
+!
+!### References
+!  * S. Bektas, "Geodetic Computations on Triaxial Ellipsoid",
+!    International Journal of Mining Science (IJMS),
+!    Volume 1, Issue 1, June 2015, p 25-34
+
+    subroutine cartesian_to_geodetic_triaxial_2(a,b,c,r,eps,phi,lambda,h)
+
+    implicit none
+
+    real(wp),intent(in) :: a    !! ellipsoid radii `a >= b >= c`
+    real(wp),intent(in) :: b    !! ellipsoid radii `a >= b >= c`
+    real(wp),intent(in) :: c    !! ellipsoid radii `a >= b >= c`
+    real(wp),dimension(3),intent(in) :: r !! Cartesian coordinates (x,y,z)
+    real(wp),intent(in)  :: eps  !! convergence tolerance
+    real(wp),intent(out) :: phi !! latitude (rad)
+    real(wp),intent(out) :: lambda !! longitude (rad)
+    real(wp),intent(out) :: h !! altitude
+
+    integer,parameter  :: maxiter = 20 !! maximum number of iterations
+    real(wp),parameter :: zero_tol  = 10.0_wp * epsilon(1.0_wp)  !! zero tolerance for singularities
+
+    integer :: i  !! iteration counter
+    real(wp),dimension(3,3) :: AA
+    real(wp),dimension(3) :: bvec, xvec
+    real(wp) :: a2,b2,c2,x,y,z,ex2,ee2,e,f,g,xo,yo,zo,j11,j12,j21,j23,rmag
+    logical :: success
+
+    x = r(1)
+    y = r(2)
+    z = r(3)
+    rmag = norm2(r)
+
+    if (a<b .or. b<c) error stop 'error in cartesian_to_geodetic_triaxial_2: invalid a,b,c'
+    if (abs(rmag)<=zero_tol) then
+        phi = 0.0_wp
+        lambda = 0.0_wp
+        h = 0.0_wp
+        return
+    end if
+
+    ! special cases:
+    if (abs(x)<=zero_tol) then
+        if (abs(y)<=zero_tol) then  ! (on the z-axis)
+            if (z>=0.0_wp) then
+                phi = halfpi
+                lambda = 0.0_wp
+                h = z-c
+            else
+                phi = -halfpi
+                lambda = 0.0_wp
+                h = -(z+c)
+            end if
+            return
+        else if (abs(z)<=zero_tol) then  ! on the y-axis
+            if (y>=0.0_wp) then
+                phi = 0.0_wp
+                lambda = halfpi
+                h = y-b
+            else
+                phi = 0.0_wp
+                lambda = -halfpi
+                h = -(y+b)
+            end if
+            return
+        end if
+    end if
+
+    a2  = a*a
+    b2  = b*b
+    c2  = c*c
+    ex2 = (a2-c2)/a2
+    ee2 = (a2-b2)/a2
+    E   = 1.0_wp/a2
+    F   = 1.0_wp/b2
+    G   = 1.0_wp/c2
+    xo  = a*x/rmag
+    yo  = b*y/rmag
+    zo  = c*z/rmag
+
+    do i = 1, maxiter
+
+        j11 = F*yo-(yo-y)*E
+        j12 = (xo-x)*F-E*xo
+        j21 = G*zo-(zo-z)*E
+        j23 = (xo-x)*G-E*xo
+
+        ! solve the linear system:
+        AA = reshape(-[j11,j21,2.0_wp*E*xo,j12,0.0_wp,2.0_wp*F*yo,0.0_wp,j23,2.0_wp*G*zo], [3,3])
+        bvec = [ (xo-x)*F*yo-(yo-y)*E*xo, &
+                 (xo-x)*G*zo-(zo-z)*E*xo, &
+                 E*xo**2+F*yo**2+G*zo**2-1.0_wp ]
+        call linear_solver(AA,bvec,xvec,success)
+        if (.not. success) then
+            write(*,*) 'error in cartesian_to_geodetic_triaxial_2: matrix is singular'
+            phi = 0.0_wp
+            lambda = 0.0_wp
+            h = 0.0_wp
+            return
+        end if
+        xo = xo + xvec(1)
+        yo = yo + xvec(2)
+        zo = zo + xvec(3)
+
+        if (maxval(abs(xvec))<eps) exit
+
+    end do
+
+    ! outputs:
+    phi = atan(zo*(1.0_wp-ee2)/(1.0_wp-ex2)/sqrt((1.0_wp-ee2)**2*xo**2+yo**2))
+    lambda = atan2(yo, (1.0_wp-ee2)*xo)
+    h = sign(1.0_wp,z-zo)*sign(1.0_wp,zo)*sqrt((x-xo)**2+(y-yo)**2+(z-zo)**2)
+
+    contains
+
+    subroutine linear_solver(a,b,x,success)
+
+        !!  Solve the 3x3 system: `A * x = b`
+        !!  Reference: https://caps.gsfc.nasa.gov/simpson/software/m33inv_f90.txt
+
+        implicit none
+
+        real(wp),dimension(3,3),intent(in)  :: a
+        real(wp),dimension(3),intent(in)    :: b
+        real(wp),dimension(3),intent(out)   :: x
+        logical,intent(out)                 :: success
+
+        real(wp) :: det !! determinant of a
+        real(wp),dimension(3,3) :: adj !! adjoint of a
+        real(wp),dimension(3,3) :: ainv !! inverse of a
+
+        det =     a(1,1)*a(2,2)*a(3,3)  &
+                - a(1,1)*a(2,3)*a(3,2)  &
+                - a(1,2)*a(2,1)*a(3,3)  &
+                + a(1,2)*a(2,3)*a(3,1)  &
+                + a(1,3)*a(2,1)*a(3,2)  &
+                - a(1,3)*a(2,2)*a(3,1)
+
+        success = abs(det) > tiny(1.0_wp) ! check for singularity
+
+        if (success) then
+            adj(:,1) = [a(2,2)*a(3,3)-a(2,3)*a(3,2),&
+                        a(2,3)*a(3,1)-a(2,1)*a(3,3),&
+                        a(2,1)*a(3,2)-a(2,2)*a(3,1)]
+            adj(:,2) = [a(1,3)*a(3,2)-a(1,2)*a(3,3),&
+                        a(1,1)*a(3,3)-a(1,3)*a(3,1),&
+                        a(1,2)*a(3,1)-a(1,1)*a(3,2)]
+            adj(:,3) = [a(1,2)*a(2,3)-a(1,3)*a(2,2),&
+                        a(1,3)*a(2,1)-a(1,1)*a(2,3),&
+                        a(1,1)*a(2,2)-a(1,2)*a(2,1)]
+            ainv = adj/det
+            x = matmul(ainv,b)
+        else
+            x = zero
+        end if
+
+        end subroutine linear_solver
+
+    end subroutine cartesian_to_geodetic_triaxial_2
+!********************************************************************************
 
 !*****************************************************************************************
 !>
