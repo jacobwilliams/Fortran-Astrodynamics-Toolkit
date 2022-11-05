@@ -145,6 +145,7 @@
 <li>Jacob Williams, 10/29/2022 : Fortran verison of this algorithm,
     based on the Matlab (v1.0 01/03/2019) code.</li>
 </ul>
+<p></p><div class="alert alert-warning" role="alert"><h4>Warning</h4><p>Not yet verified. I think there may some a bug here. See unit tests.</p></div>
 
     <h3>Arguments</h3>
       <table class="table table-striped varlist">
@@ -482,8 +483,8 @@
 
 <span class="k">    end if</span><span class="w"></span>
 
-<span class="w">    </span><span class="c">!call xyz2fl(ax, ay, b, x, y, z, phi, lambda)        ! analytical ? (C++ code)</span>
-<span class="w">    </span><span class="k">call </span><span class="n">xyz2philambda</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="w"> </span><span class="n">ay</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">phi</span><span class="p">,</span><span class="w"> </span><span class="n">lambda</span><span class="p">)</span><span class="w">  </span><span class="c">! matlab ... some problem with phi ??? doesn&#39;t match other one</span>
+<span class="w">    </span><span class="c">!call xyz2fl(ax, ay, b, x, y, z, phi, lambda)        ! just the analytica method</span>
+<span class="w">    </span><span class="k">call </span><span class="n">xyz2philambda</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="w"> </span><span class="n">ay</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">phi</span><span class="p">,</span><span class="w"> </span><span class="n">lambda</span><span class="p">)</span><span class="w">  </span><span class="c">! iterative method -- is there some bug here ???</span>
 
 <span class="w">    </span><span class="c">! Compute geodetic height</span>
 <span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">XX</span><span class="o">-</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">YY</span><span class="o">-</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">ZZ</span><span class="o">-</span><span class="n">z</span><span class="p">]</span><span class="w"></span>

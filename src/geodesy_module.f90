@@ -576,6 +576,8 @@
 !### History
 !  * Jacob Williams, 10/29/2022 : Fortran verison of this algorithm,
 !    based on the Matlab (v1.0 01/03/2019) code.
+!
+!@warning Not yet verified. I think there may some a bug here. See unit tests.
 
 subroutine cartesian_to_geodetic_triaxial(ax, ay, b, r, tol, phi, lambda, h)
 
@@ -656,8 +658,8 @@ subroutine cartesian_to_geodetic_triaxial(ax, ay, b, r, tol, phi, lambda, h)
 
     end if
 
-    !call xyz2fl(ax, ay, b, x, y, z, phi, lambda)        ! analytical ? (C++ code)
-    call xyz2philambda(ax, ay, b, x, y, z, phi, lambda)  ! matlab ... some problem with phi ??? doesn't match other one
+    !call xyz2fl(ax, ay, b, x, y, z, phi, lambda)        ! just the analytica method
+    call xyz2philambda(ax, ay, b, x, y, z, phi, lambda)  ! iterative method -- is there some bug here ???
 
     ! Compute geodetic height
     d = [XX-x, YY-y, ZZ-z]
@@ -863,8 +865,7 @@ end subroutine philambda_quadrant
      real(wp),intent(out) :: phi, lambda
 
      real(wp) :: ee2,ex2,s0,SS0,Sphi,Cphi,Slambda,Clambda,&
-                 Den,P,L,x0,y0,z0,D,NN,onemee2,onemex2,term,&
-                 at,bt,onemee2x
+                 Den,P,L,D,NN,onemee2,onemex2
      integer :: n
      real(wp),dimension(3,2) :: J
      real(wp),dimension(3,1) :: dl,UU
@@ -878,25 +879,8 @@ end subroutine philambda_quadrant
      ex2 = (ax*ax - b*b)/(ax*ax)
      onemee2 = one - ee2
      onemex2 = one - ex2
-     !onemee2x = onemee2*x
-     !term = sqrt(onemee2*onemee2x*x + y*y)
-     !at = onemee2*z
-     !bt = onemex2*term
 
-     ! Initial values
-    !  if (at <= bt) then
-    !      phi = atan(at/bt)
-    !  else
-    !      phi = halfpi - atan(bt/at)
-    !  end if
-    !  if (x == zero .and. y == zero) then
-    !      lambda = zero
-    !  elseif (y <= onemee2x) then
-    !      lambda = two*atan(y/(onemee2x+term))
-    !  else
-    !      lambda = halfpi - two*atan(onemee2x/(y+term))
-    !  end if
-    call xyz2fl(ax, ay, b, x, y, z, phi, lambda) ! use analytical one for initial guess - TEST
+     call xyz2fl(ax, ay, b, x, y, z, phi, lambda) ! use analytical one for initial guess
 
     ! JW: is there some bug below? ..........  I don't think it is working right.
 
@@ -910,15 +894,10 @@ end subroutine philambda_quadrant
          Slambda = sin(lambda)
          Clambda = cos(lambda)
 
-        ! NN = ax/sqrt(1.0_wp-ex2*Sphi*Sphi-ee2*Cphi*Cphi*Slambda*Slambda)
-        ! Den = 2.0_wp*(1.0_wp-ex2*Sphi*Sphi-ee2*Cphi*Cphi*Slambda*Slambda)**(three/two)
-        ! P = -ax*(ex2-ee2*Slambda*Slambda)*sin(2.0_wp*phi)/Den
-        ! L = -ax*ee2*Cphi*Cphi*sin(2.0_wp*lambda)/Den
-
-         NN = ax/sqrt(1.0_wp-ex2*Sphi*Sphi-ee2*Cphi*Cphi*Slambda*Slambda)
+         NN  = ax/sqrt(1.0_wp-ex2*Sphi*Sphi-ee2*Cphi*Cphi*Slambda*Slambda)
          Den = two*(1.0_wp-ex2*Sphi*Sphi-ee2*Cphi*Cphi*Slambda*Slambda)**(3.0_wp/two)
-         P = -ax*(ex2-ee2*Slambda*Slambda)*sin(two*phi)/Den
-         L = -ax*ee2*Cphi*Cphi*sin(2*lambda)/Den
+         P   = -ax*(ex2-ee2*Slambda*Slambda)*sin(two*phi)/Den
+         L   = -ax*ee2*Cphi*Cphi*sin(2*lambda)/Den
 
          J(1,1) = (P*Cphi-NN*Sphi)*Clambda
          J(2,1) = onemee2*(P*Cphi-NN*Sphi)*Slambda
@@ -928,8 +907,6 @@ end subroutine philambda_quadrant
          J(3,2) = onemex2*L*Sphi
 
          ! Vector dl
-        !  call philambda2xyz(ax, ay, b, phi, lambda, x0, y0, z0)
-        !  dl(:,1) = [x-x0, y-y0, z-z0]
          call geodetic_to_cartesian_triaxial_2(ax, ay, b, phi, lambda, 0.0_wp, r) ! just use the main one with alt=0
          dl(:,1) = [x,y,z] - r
 
@@ -945,7 +922,7 @@ end subroutine philambda_quadrant
 
         ! write(*,*) 'correction: ', n, dx
 
-         phi     = phi + dx(1,1)       ! correction
+         phi     = phi    + dx(1,1)   ! corrections
          lambda  = lambda + dx(2,1)
 
          UU      = matmul(J,dx) - dl
