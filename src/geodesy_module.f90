@@ -866,75 +866,77 @@ end subroutine philambda_quadrant
 
      real(wp) :: ee2,ex2,s0,SS0,Sphi,Cphi,Slambda,Clambda,&
                  Den,P,L,D,NN,onemee2,onemex2
-     integer :: n
-     real(wp),dimension(3,2) :: J
+     integer :: n, i
+     real(wp),dimension(3,2) :: J, JJ
+     real(wp),dimension(2,3) :: Jt !! transpose of J
      real(wp),dimension(3,1) :: dl,UU
-     real(wp),dimension(2,2) :: Nmat
-     real(wp),dimension(2,1) :: u, dx
+     real(wp),dimension(2,2) :: Nmat, Ninv
+     real(wp),dimension(2,1) :: u, dx, dx2
      real(wp),dimension(1,1) :: tmp
      real(wp),dimension(2,2) :: NmatTmp
-     real(wp),dimension(3) :: r
+     real(wp),dimension(3) :: r0
 
-     ee2 = (ax*ax - ay*ay)/(ax*ax)
-     ex2 = (ax*ax - b*b)/(ax*ax)
+     real(wp) :: dndphi, dxdphi,dydphi,dzdphi,dndlam,dxdlam,dydlam,dzdlam
+
+     integer,parameter :: maxiter = 100 !! maximum number of iterations
+
+     ee2 = (ax*ax - ay*ay)/(ax*ax) ! eqn. 5
+     ex2 = (ax*ax - b*b)/(ax*ax)   !
      onemee2 = one - ee2
      onemex2 = one - ex2
 
      call xyz2fl(ax, ay, b, x, y, z, phi, lambda) ! use analytical one for initial guess
 
-    ! JW: is there some bug below? ..........  I don't think it is working right.
+     ! JW: is there some bug below? ..........  I don't think it is working right.
+     ! it is producing initial lat corrections on the order of 1e-3, which seems way too big
+     ! compared to the analytical method !
 
-     s0 = zero
-     do n = 1, 100
-         SS0 = s0
+     !s0 = zero
+     do n = 1, maxiter
+        !SS0 = s0
 
-         ! Design Matrix J
-         Sphi = sin(phi)
-         Cphi = cos(phi)
-         Slambda = sin(lambda)
-         Clambda = cos(lambda)
+        ! Design Matrix J
+        Sphi = sin(phi)
+        Cphi = cos(phi)
+        Slambda = sin(lambda)
+        Clambda = cos(lambda)
 
-         NN  = ax/sqrt(1.0_wp-ex2*Sphi*Sphi-ee2*Cphi*Cphi*Slambda*Slambda)
-         Den = two*(1.0_wp-ex2*Sphi*Sphi-ee2*Cphi*Cphi*Slambda*Slambda)**(3.0_wp/two)
-         P   = -ax*(ex2-ee2*Slambda*Slambda)*sin(two*phi)/Den
-         L   = -ax*ee2*Cphi*Cphi*sin(2*lambda)/Den
+        NN  = ax/sqrt(one-ex2*Sphi*Sphi-ee2*Cphi*Cphi*Slambda*Slambda) ! eqn. 4
+        Den = two*(one-ex2*Sphi**2-ee2*Cphi**2*Slambda**2)**(three/two)
+        dndphi = -ax*sin(two*phi)*(ex2 - ee2*Slambda**2) / Den
+        dxdphi = (dndphi*Cphi - NN*Sphi) * Clambda
+        dydphi = onemee2*(dndphi*Cphi - NN*Sphi) * Slambda
+        dzdphi = onemex2*(dndphi*Sphi + NN*Cphi)
+        dndlam = -ax*ee2*Cphi**2*sin(two*lambda) / Den
+        dxdlam = (dndlam*Clambda - NN*Slambda)*Cphi
+        dydlam = onemee2*(dndlam*Slambda + NN*Clambda)*Cphi
+        dzdlam = onemex2*dndlam*Sphi
+        J = reshape([dxdphi,dydphi,dzdphi,dxdlam,dydlam,dzdlam],[3,2])
 
-         J(1,1) = (P*Cphi-NN*Sphi)*Clambda
-         J(2,1) = onemee2*(P*Cphi-NN*Sphi)*Slambda
-         J(3,1) = onemex2*(P*Sphi+NN*Cphi)
-         J(1,2) = (L*Clambda-NN*Slambda)*Cphi
-         J(2,2) = onemee2*(L*Slambda+NN*Clambda)*Cphi
-         J(3,2) = onemex2*L*Sphi
+        ! Vector dl
+        call geodetic_to_cartesian_triaxial_2(ax,ay,b,phi,lambda,0.0_wp,r0) ! just use the main one with alt=0
+        dl(:,1) = [x,y,z] - r0 ! eqn. 51
 
-         ! Vector dl
-         call geodetic_to_cartesian_triaxial_2(ax, ay, b, phi, lambda, 0.0_wp, r) ! just use the main one with alt=0
-         dl(:,1) = [x,y,z] - r
+        !Solution
+        Jt      = transpose(J)
+        Nmat    = matmul(Jt,J) ! eqn. 53
+        Ninv    = (one / (Nmat(1,1)*Nmat(2,2) - Nmat(1,2)*Nmat(2,1))) * &
+                  reshape([Nmat(2,2),-Nmat(2,1),-Nmat(1,2),Nmat(1,1)], [2,2]) ! eqn. 54
+        dx      = matmul(Ninv, matmul(Jt,dl)) ! eqn. 52
+        phi     = phi    + dx(1,1)   ! corrections. eqn. 55
+        lambda  = lambda + dx(2,1)   !
 
-         ! write(*,*) 'phi     =', phi
-         ! write(*,*) 'lambda  =', lambda
+        !write(*,*) 'correction:    ', n, dx
+        !write(*,*) 'abs(s0 - SS0): ', abs(s0 - SS0)
 
-         ! Solution
-         Nmat    = matmul(transpose(J),J)
-         u       = matmul(transpose(J),dl)
-         D       = Nmat(1,1)*Nmat(2,2) - Nmat(1,2)*Nmat(2,1)
-         NmatTmp = transpose(reshape([Nmat(2,2), -Nmat(1,2), -Nmat(2,1), Nmat(1,1)], [2,2]))
-         dx      = matmul((NmatTmp / D) , u)
-
-        ! write(*,*) 'correction: ', n, dx
-
-         phi     = phi    + dx(1,1)   ! corrections
-         lambda  = lambda + dx(2,1)
-
-         UU      = matmul(J,dx) - dl
-         tmp     = sqrt(matmul(transpose(UU),UU))
-         s0      = tmp(1,1)
-
-         if (s0 == SS0) exit     ! JW : this is not really a good stop criterion....
+        !  UU      = matmul(J,dx) - dl
+        !  tmp     = sqrt(matmul(transpose(UU),UU))
+        !  s0      = tmp(1,1)
+        !if (s0 == SS0) exit     ! JW : this is not really a good stopping criterion....
                                  !      dx bounces around very small values....
-         !write(*,*) 'abs(s0 - SS0): ', abs(s0 - SS0)
 
-         if (all(abs(dx) <= 10*epsilon(1.0_wp))) exit ! JW: how about this ??
-                                                      ! just check the correction ??
+        if (all(abs(dx) <= ten*epsilon(1.0_wp))) exit ! JW: how about this ??
+                                                     ! just check the correction ??
 
      end do
 
