@@ -898,10 +898,10 @@ subroutine xyz2fl(ax, ay, b, x, y, z, latitude, longitude)
         end if
         if (y<=xme) then
             den=xme+rot
-            longitude=2.*atan(y/den)
+            longitude=2.0_wp*atan(y/den)
         else
             den=y+rot
-            longitude=halfpi-2.0*atan(xme/den)
+            longitude=halfpi-2.0_wp*atan(xme/den)
         end if
     end if
 
