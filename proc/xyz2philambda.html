@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>xyz2philambda &ndash; fortran-astrodynamics-toolkit</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="../lists/files.html">Source Files</a></li>
+            <li><a href="../lists/modules.html">Modules</a></li>
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                   <li><a href="../lists/types.html">Derived Types</a></li>
+       
+            </ul>
+        
+            </li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+          </ul>
+        <form action="../search.html" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+        </div>
+<!--
+        <button type="submit" class="btn btn-default">Submit</button>
+-->
+        </form>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+  <div class="row">
+    <h1>xyz2philambda
+      <small>Subroutine</small>
+    </h1>
+    <div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.4% of total for procedures.">50 statements</a>
+     </li> 
+    <li><i class="fa fa-code"></i><a href="../src/geodesy_module.f90"> Source File</a></li>
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+     <li><a href='../sourcefile/geodesy_module.f90.html'>geodesy_module.f90</a></li>
+     <li><a href='../module/geodesy_module.html'>geodesy_module</a></li>
+     <li class="active">xyz2philambda</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    <div id="sidebar">
+  <h3>Contents</h3>
+ 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/xyz2philambda.html#src">xyz2philambda</a>
+  </div>
+</div>
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>private subroutine xyz2philambda(ax, ay, b, x, y, z, phi, lambda)</h2>
+    
+
+    <p>Determination of the geodetic latitude and longitude</p>
+
+    <h3>Arguments</h3>
+      <table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
+<tbody>
+<tr>
+  <td><span class="anchor" id="variable-ax~5"></span>real(kind=wp),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>ax</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-ay~3"></span>real(kind=wp),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>ay</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-b~19"></span>real(kind=wp),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>b</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-x~61"></span>real(kind=wp),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>x</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-y~11"></span>real(kind=wp),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>y</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-z~13"></span>real(kind=wp),</td>
+<td>intent(in)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>z</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-phi~5"></span>real(kind=wp),</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>phi</strong></td><td></td>
+</tr>
+<tr>
+  <td><span class="anchor" id="variable-lambda~4"></span>real(kind=wp),</td>
+<td>intent(out)</td>
+  <td></td>  <td></td><td>::</td>
+  <td><strong>lambda</strong></td><td></td>
+</tr>
+</tbody>
+</table>
+
+    <br>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Calls</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~xyz2philambda~~CallsGraph Pages: 1 -->
+<svg id="procxyz2philambdaCallsGraph" width="322pt" height="74pt"
+ viewBox="0.00 0.00 322.00 74.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~xyz2philambda~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 70)">
+<title>proc~~xyz2philambda~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 318,-70 318,4 -4,4"/>
+<!-- proc~xyz2philambda -->
+<g id="proc~~xyz2philambda~~CallsGraph_node1" class="node">
+<title>proc~xyz2philambda</title>
+<polygon fill="none" stroke="black" points="94,-45 0,-45 0,-21 94,-21 94,-45"/>
+<text text-anchor="middle" x="47" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">xyz2philambda</text>
+</g>
+<!-- proc~xyz2fl -->
+<g id="proc~~xyz2philambda~~CallsGraph_node2" class="node">
+<title>proc~xyz2fl</title>
+<g id="a_proc~~xyz2philambda~~CallsGraph_node2"><a xlink:href=".././proc/xyz2fl.html" xlink:title="xyz2fl">
+<polygon fill="#d9534f" stroke="#d9534f" points="249,-66 195,-66 195,-42 249,-42 249,-66"/>
+<text text-anchor="middle" x="222" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">xyz2fl</text>
+</a>
+</g>
+</g>
+<!-- proc~xyz2philambda&#45;&gt;proc~xyz2fl -->
+<g id="proc~~xyz2philambda~~CallsGraph_edge1" class="edge">
+<title>proc~xyz2philambda&#45;&gt;proc~xyz2fl</title>
+<path fill="none" stroke="#000000" d="M94.36,-38.63C122.81,-42.08 158.71,-46.44 185.01,-49.63"/>
+<polygon fill="#000000" stroke="#000000" points="184.59,-53.11 194.94,-50.84 185.43,-46.16 184.59,-53.11"/>
+</g>
+<!-- proc~geodetic_to_cartesian_triaxial_2 -->
+<g id="proc~~xyz2philambda~~CallsGraph_node3" class="node">
+<title>proc~geodetic_to_cartesian_triaxial_2</title>
+<g id="a_proc~~xyz2philambda~~CallsGraph_node3"><a xlink:href=".././proc/geodetic_to_cartesian_triaxial_2.html" xlink:title="geodetic_to_cartesian_triaxial_2">
+<polygon fill="#d9534f" stroke="#d9534f" points="314,-24 130,-24 130,0 314,0 314,-24"/>
+<text text-anchor="middle" x="222" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geodetic_to_cartesian_triaxial_2</text>
+</a>
+</g>
+</g>
+<!-- proc~xyz2philambda&#45;&gt;proc~geodetic_to_cartesian_triaxial_2 -->
+<g id="proc~~xyz2philambda~~CallsGraph_edge2" class="edge">
+<title>proc~xyz2philambda&#45;&gt;proc~geodetic_to_cartesian_triaxial_2</title>
+<path fill="none" stroke="#000000" d="M94.36,-27.37C102.36,-26.4 110.95,-25.36 119.75,-24.29"/>
+<polygon fill="#000000" stroke="#000000" points="120.24,-27.76 129.75,-23.08 119.4,-20.81 120.24,-27.76"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="597pt" height="32pt"
+ viewBox="0.00 0.00 596.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 592.5,-28 592.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="388.5,-24 243.5,-24 243.5,0 388.5,0 388.5,-24"/>
+<text text-anchor="middle" x="316" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="465,-24 407,-24 407,0 465,0 465,-24"/>
+<text text-anchor="middle" x="436" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="588.5,-24 483.5,-24 483.5,0 588.5,0 588.5,-24"/>
+<text text-anchor="middle" x="536" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a procedure to one which it calls. Dashed 
+    arrows point from an interface to procedures which implement that interface.
+    This could include the module procedures in a generic interface or the
+    implementation in a submodule of an interface in a parent module.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Called by</h3>
+      </div>
+      <div class="panel-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~xyz2philambda~~CalledByGraph Pages: 1 -->
+<svg id="procxyz2philambdaCalledByGraph" width="310pt" height="32pt"
+ viewBox="0.00 0.00 310.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~xyz2philambda~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>proc~~xyz2philambda~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 306,-28 306,4 -4,4"/>
+<!-- proc~xyz2philambda -->
+<g id="proc~~xyz2philambda~~CalledByGraph_node1" class="node">
+<title>proc~xyz2philambda</title>
+<polygon fill="none" stroke="black" points="302,-24 208,-24 208,0 302,0 302,-24"/>
+<text text-anchor="middle" x="255" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">xyz2philambda</text>
+</g>
+<!-- proc~cartesian_to_geodetic_triaxial -->
+<g id="proc~~xyz2philambda~~CalledByGraph_node2" class="node">
+<title>proc~cartesian_to_geodetic_triaxial</title>
+<g id="a_proc~~xyz2philambda~~CalledByGraph_node2"><a xlink:href=".././proc/cartesian_to_geodetic_triaxial.html" xlink:title="cartesian_to_geodetic_triaxial">
+<polygon fill="#d9534f" stroke="#d9534f" points="172,-24 0,-24 0,0 172,0 172,-24"/>
+<text text-anchor="middle" x="86" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cartesian_to_geodetic_triaxial</text>
+</a>
+</g>
+</g>
+<!-- proc~cartesian_to_geodetic_triaxial&#45;&gt;proc~xyz2philambda -->
+<g id="proc~~xyz2philambda~~CalledByGraph_edge1" class="edge">
+<title>proc~cartesian_to_geodetic_triaxial&#45;&gt;proc~xyz2philambda</title>
+<path fill="none" stroke="#000000" d="M172.46,-12C181.03,-12 189.58,-12 197.74,-12"/>
+<polygon fill="#000000" stroke="#000000" points="197.84,-15.5 207.84,-12 197.84,-8.5 197.84,-15.5"/>
+</g>
+</g>
+</svg>
+</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
+    <p>Nodes of different colours represent the following: </p>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="597pt" height="32pt"
+ viewBox="0.00 0.00 596.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 592.5,-28 592.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node4" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="388.5,-24 243.5,-24 243.5,0 388.5,0 388.5,-24"/>
+<text text-anchor="middle" x="316" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="465,-24 407,-24 407,0 465,0 465,-24"/>
+<text text-anchor="middle" x="436" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="588.5,-24 483.5,-24 483.5,0 588.5,0 588.5,-24"/>
+<text text-anchor="middle" x="536" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+    
+    <p>Solid arrows point from a procedure to one which it calls. Dashed 
+    arrows point from an interface to procedures which implement that interface.
+    This could include the module procedures in a generic interface or the
+    implementation in a submodule of an interface in a parent module.
+    </p>
+    </div></div></div></div>
+      </div>
+    </div>
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      <h3>Contents</h3>
+ 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/xyz2philambda.html#src">xyz2philambda</a>
+  </div>
+</div>
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+
+    
+    
+
+    
+    
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">xyz2philambda</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="w"> </span><span class="n">ay</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">phi</span><span class="p">,</span><span class="w"> </span><span class="n">lambda</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">     </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ax</span><span class="p">,</span><span class="w"> </span><span class="n">ay</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="w"></span>
+<span class="w">     </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">phi</span><span class="p">,</span><span class="w"> </span><span class="n">lambda</span><span class="w"></span>
+
+<span class="w">     </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ee2</span><span class="p">,</span><span class="n">ex2</span><span class="p">,</span><span class="n">s0</span><span class="p">,</span><span class="n">SS0</span><span class="p">,</span><span class="n">Sphi</span><span class="p">,</span><span class="n">Cphi</span><span class="p">,</span><span class="n">Slambda</span><span class="p">,</span><span class="n">Clambda</span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">                 </span><span class="n">Den</span><span class="p">,</span><span class="n">P</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">x0</span><span class="p">,</span><span class="n">y0</span><span class="p">,</span><span class="n">z0</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="n">NN</span><span class="p">,</span><span class="n">onemee2</span><span class="p">,</span><span class="n">onemex2</span><span class="p">,</span><span class="n">term</span><span class="p">,&amp;</span><span class="w"></span>
+<span class="w">                 </span><span class="n">at</span><span class="p">,</span><span class="n">bt</span><span class="p">,</span><span class="n">onemee2x</span><span class="w"></span>
+<span class="w">     </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="w">     </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">J</span><span class="w"></span>
+<span class="w">     </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dl</span><span class="p">,</span><span class="n">UU</span><span class="w"></span>
+<span class="w">     </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Nmat</span><span class="w"></span>
+<span class="w">     </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="w"></span>
+<span class="w">     </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tmp</span><span class="w"></span>
+<span class="w">     </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">NmatTmp</span><span class="w"></span>
+<span class="w">     </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span><span class="w"></span>
+
+<span class="w">     </span><span class="n">ee2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ax</span><span class="o">*</span><span class="n">ax</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ay</span><span class="o">*</span><span class="n">ay</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">ax</span><span class="o">*</span><span class="n">ax</span><span class="p">)</span><span class="w"></span>
+<span class="w">     </span><span class="n">ex2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ax</span><span class="o">*</span><span class="n">ax</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">b</span><span class="o">*</span><span class="n">b</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">ax</span><span class="o">*</span><span class="n">ax</span><span class="p">)</span><span class="w"></span>
+<span class="w">     </span><span class="n">onemee2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ee2</span><span class="w"></span>
+<span class="w">     </span><span class="n">onemex2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ex2</span><span class="w"></span>
+<span class="w">     </span><span class="c">!onemee2x = onemee2*x</span>
+<span class="w">     </span><span class="c">!term = sqrt(onemee2*onemee2x*x + y*y)</span>
+<span class="w">     </span><span class="c">!at = onemee2*z</span>
+<span class="w">     </span><span class="c">!bt = onemex2*term</span>
+
+<span class="w">     </span><span class="c">! Initial values</span>
+<span class="w">    </span><span class="c">!  if (at &lt;= bt) then</span>
+<span class="w">    </span><span class="c">!      phi = atan(at/bt)</span>
+<span class="w">    </span><span class="c">!  else</span>
+<span class="w">    </span><span class="c">!      phi = halfpi - atan(bt/at)</span>
+<span class="w">    </span><span class="c">!  end if</span>
+<span class="w">    </span><span class="c">!  if (x == zero .and. y == zero) then</span>
+<span class="w">    </span><span class="c">!      lambda = zero</span>
+<span class="w">    </span><span class="c">!  elseif (y &lt;= onemee2x) then</span>
+<span class="w">    </span><span class="c">!      lambda = two*atan(y/(onemee2x+term))</span>
+<span class="w">    </span><span class="c">!  else</span>
+<span class="w">    </span><span class="c">!      lambda = halfpi - two*atan(onemee2x/(y+term))</span>
+<span class="w">    </span><span class="c">!  end if</span>
+<span class="w">    </span><span class="k">call </span><span class="n">xyz2fl</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="w"> </span><span class="n">ay</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">phi</span><span class="p">,</span><span class="w"> </span><span class="n">lambda</span><span class="p">)</span><span class="w"> </span><span class="c">! use analytical one for initial guess - TEST</span>
+
+<span class="w">    </span><span class="c">! JW: is there some bug below? ..........  I don&#39;t think it is working right.</span>
+
+<span class="w">     </span><span class="n">s0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w"></span>
+<span class="w">     </span><span class="k">do </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="w"></span>
+<span class="w">         </span><span class="n">SS0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s0</span><span class="w"></span>
+
+<span class="w">         </span><span class="c">! Design Matrix J</span>
+<span class="w">         </span><span class="n">Sphi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">Cphi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">cos</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">Slambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sin</span><span class="p">(</span><span class="n">lambda</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">Clambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">cos</span><span class="p">(</span><span class="n">lambda</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">        </span><span class="c">! NN = ax/sqrt(1.0_wp-ex2*Sphi*Sphi-ee2*Cphi*Cphi*Slambda*Slambda)</span>
+<span class="w">        </span><span class="c">! Den = 2.0_wp*(1.0_wp-ex2*Sphi*Sphi-ee2*Cphi*Cphi*Slambda*Slambda)**(three/two)</span>
+<span class="w">        </span><span class="c">! P = -ax*(ex2-ee2*Slambda*Slambda)*sin(2.0_wp*phi)/Den</span>
+<span class="w">        </span><span class="c">! L = -ax*ee2*Cphi*Cphi*sin(2.0_wp*lambda)/Den</span>
+
+<span class="w">         </span><span class="n">NN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ax</span><span class="o">/</span><span class="nb">sqrt</span><span class="p">(</span><span class="mf">1.0_wp</span><span class="o">-</span><span class="n">ex2</span><span class="o">*</span><span class="n">Sphi</span><span class="o">*</span><span class="n">Sphi</span><span class="o">-</span><span class="n">ee2</span><span class="o">*</span><span class="n">Cphi</span><span class="o">*</span><span class="n">Cphi</span><span class="o">*</span><span class="n">Slambda</span><span class="o">*</span><span class="n">Slambda</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">Den</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0_wp</span><span class="o">-</span><span class="n">ex2</span><span class="o">*</span><span class="n">Sphi</span><span class="o">*</span><span class="n">Sphi</span><span class="o">-</span><span class="n">ee2</span><span class="o">*</span><span class="n">Cphi</span><span class="o">*</span><span class="n">Cphi</span><span class="o">*</span><span class="n">Slambda</span><span class="o">*</span><span class="n">Slambda</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">3.0_wp</span><span class="o">/</span><span class="n">two</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">P</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">ax</span><span class="o">*</span><span class="p">(</span><span class="n">ex2</span><span class="o">-</span><span class="n">ee2</span><span class="o">*</span><span class="n">Slambda</span><span class="o">*</span><span class="n">Slambda</span><span class="p">)</span><span class="o">*</span><span class="nb">sin</span><span class="p">(</span><span class="n">two</span><span class="o">*</span><span class="n">phi</span><span class="p">)</span><span class="o">/</span><span class="n">Den</span><span class="w"></span>
+<span class="w">         </span><span class="n">L</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">ax</span><span class="o">*</span><span class="n">ee2</span><span class="o">*</span><span class="n">Cphi</span><span class="o">*</span><span class="n">Cphi</span><span class="o">*</span><span class="nb">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">lambda</span><span class="p">)</span><span class="o">/</span><span class="n">Den</span><span class="w"></span>
+
+<span class="w">         </span><span class="n">J</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">P</span><span class="o">*</span><span class="n">Cphi</span><span class="o">-</span><span class="n">NN</span><span class="o">*</span><span class="n">Sphi</span><span class="p">)</span><span class="o">*</span><span class="n">Clambda</span><span class="w"></span>
+<span class="w">         </span><span class="n">J</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onemee2</span><span class="o">*</span><span class="p">(</span><span class="n">P</span><span class="o">*</span><span class="n">Cphi</span><span class="o">-</span><span class="n">NN</span><span class="o">*</span><span class="n">Sphi</span><span class="p">)</span><span class="o">*</span><span class="n">Slambda</span><span class="w"></span>
+<span class="w">         </span><span class="n">J</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onemex2</span><span class="o">*</span><span class="p">(</span><span class="n">P</span><span class="o">*</span><span class="n">Sphi</span><span class="o">+</span><span class="n">NN</span><span class="o">*</span><span class="n">Cphi</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">J</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">L</span><span class="o">*</span><span class="n">Clambda</span><span class="o">-</span><span class="n">NN</span><span class="o">*</span><span class="n">Slambda</span><span class="p">)</span><span class="o">*</span><span class="n">Cphi</span><span class="w"></span>
+<span class="w">         </span><span class="n">J</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onemee2</span><span class="o">*</span><span class="p">(</span><span class="n">L</span><span class="o">*</span><span class="n">Slambda</span><span class="o">+</span><span class="n">NN</span><span class="o">*</span><span class="n">Clambda</span><span class="p">)</span><span class="o">*</span><span class="n">Cphi</span><span class="w"></span>
+<span class="w">         </span><span class="n">J</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onemex2</span><span class="o">*</span><span class="n">L</span><span class="o">*</span><span class="n">Sphi</span><span class="w"></span>
+
+<span class="w">         </span><span class="c">! Vector dl</span>
+<span class="w">        </span><span class="c">!  call philambda2xyz(ax, ay, b, phi, lambda, x0, y0, z0)</span>
+<span class="w">        </span><span class="c">!  dl(:,1) = [x-x0, y-y0, z-z0]</span>
+<span class="w">         </span><span class="k">call </span><span class="n">geodetic_to_cartesian_triaxial_2</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="w"> </span><span class="n">ay</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">phi</span><span class="p">,</span><span class="w"> </span><span class="n">lambda</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="c">! just use the main one with alt=0</span>
+<span class="w">         </span><span class="n">dl</span><span class="p">(:,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">r</span><span class="w"></span>
+
+<span class="w">         </span><span class="c">! write(*,*) &#39;phi     =&#39;, phi</span>
+<span class="w">         </span><span class="c">! write(*,*) &#39;lambda  =&#39;, lambda</span>
+
+<span class="w">         </span><span class="c">! Solution</span>
+<span class="w">         </span><span class="n">Nmat</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="nb">matmul</span><span class="p">(</span><span class="nb">transpose</span><span class="p">(</span><span class="n">J</span><span class="p">),</span><span class="n">J</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">u</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nb">matmul</span><span class="p">(</span><span class="nb">transpose</span><span class="p">(</span><span class="n">J</span><span class="p">),</span><span class="n">dl</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">D</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">Nmat</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Nmat</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Nmat</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">Nmat</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">         </span><span class="n">NmatTmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">transpose</span><span class="p">(</span><span class="nb">reshape</span><span class="p">([</span><span class="n">Nmat</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="o">-</span><span class="n">Nmat</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="o">-</span><span class="n">Nmat</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">Nmat</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)],</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]))</span><span class="w"></span>
+<span class="w">         </span><span class="n">dx</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="nb">matmul</span><span class="p">((</span><span class="n">NmatTmp</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">D</span><span class="p">)</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">        </span><span class="c">! write(*,*) &#39;correction: &#39;, n, dx</span>
+
+<span class="w">         </span><span class="n">phi</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">phi</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w">       </span><span class="c">! correction</span>
+<span class="w">         </span><span class="n">lambda</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">lambda</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dx</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">         </span><span class="n">UU</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="nb">matmul</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">dx</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dl</span><span class="w"></span>
+<span class="w">         </span><span class="n">tmp</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="nb">matmul</span><span class="p">(</span><span class="nb">transpose</span><span class="p">(</span><span class="n">UU</span><span class="p">),</span><span class="n">UU</span><span class="p">))</span><span class="w"></span>
+<span class="w">         </span><span class="n">s0</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">tmp</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s0</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">SS0</span><span class="p">)</span><span class="w"> </span><span class="k">exit</span><span class="w">     </span><span class="c">! JW : this is not really a good stop criterion....</span>
+<span class="w">                                 </span><span class="c">!      dx bounces around very small values....</span>
+<span class="w">         </span><span class="c">!write(*,*) &#39;abs(s0 - SS0): &#39;, abs(s0 - SS0)</span>
+
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">all</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">dx</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">10</span><span class="o">*</span><span class="nb">epsilon</span><span class="p">(</span><span class="mf">1.0_wp</span><span class="p">)))</span><span class="w"> </span><span class="k">exit</span><span class="w"> </span><span class="c">! JW: how about this ??</span>
+<span class="w">                                                      </span><span class="c">! just check the correction ??</span>
+
+<span class="w">     </span><span class="k">end do</span>
+
+<span class="k">    end subroutine </span><span class="n">xyz2philambda</span><span class="w"></span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-6"><p>fortran-astrodynamics-toolkit was developed by Jacob Williams<br>&copy; 2022 
+</p>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+          </p>
+        </div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script src="../tipuesearch/tipuesearch_content.js"></script>
+    <script src="../tipuesearch/tipuesearch_set.js"></script>
+    <script src="../tipuesearch/tipuesearch.js"></script>
+    
+  </body>
+</html>

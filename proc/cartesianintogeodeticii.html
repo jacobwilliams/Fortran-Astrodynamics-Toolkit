@@ -88,7 +88,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.7% of total for procedures.">91 statements</a>
+    title=" 0.7% of total for procedures.">94 statements</a>
      </li> 
     <li><i class="fa fa-code"></i><a href="../src/geodesy_module.f90"> Source File</a></li>
   </ul>
@@ -125,7 +125,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine CartesianIntoGeodeticII(ax, ay, az, xG, yG, zG, latitude, longitude, altitude, error)</h2>
+    <h2>public subroutine CartesianIntoGeodeticII(ax, ay, az, r, latitude, longitude, altitude, error)</h2>
     
 
     <p>Cartesian into Geodetic II</p>
@@ -139,13 +139,13 @@
 <thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
 <tbody>
 <tr>
-  <td><span class="anchor" id="variable-ax~7"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-ax~8"></span>real(kind=wp),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>ax</strong></td><td><p>semiaxes of the celestial body: ax&gt;ay&gt;az</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-ay~5"></span>real(kind=wp),</td>
+  <td><span class="anchor" id="variable-ay~6"></span>real(kind=wp),</td>
 <td>intent(in)</td>
   <td></td>  <td></td><td>::</td>
   <td><strong>ay</strong></td><td><p>semiaxes of the celestial body: ax&gt;ay&gt;az</p></td>
@@ -157,24 +157,10 @@
   <td><strong>az</strong></td><td><p>semiaxes of the celestial body: ax&gt;ay&gt;az</p></td>
 </tr>
 <tr>
-  <td><span class="anchor" id="variable-xg~2"></span>real(kind=wp),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>xG</strong></td><td><p>cartesian coordinates of the considered point
-in the first octant: xG, yG, zG with (xG,yG,zG)&lt;&gt;(0,0,0)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-yg~2"></span>real(kind=wp),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>yG</strong></td><td><p>cartesian coordinates of the considered point
-in the first octant: xG, yG, zG with (xG,yG,zG)&lt;&gt;(0,0,0)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-zg~2"></span>real(kind=wp),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>zG</strong></td><td><p>cartesian coordinates of the considered point
+  <td><span class="anchor" id="variable-r~39"></span>real(kind=wp),</td>
+<td>intent(in),</td>
+  <td></td>  <td>dimension(3)</td><td>::</td>
+  <td><strong>r</strong></td><td><p>cartesian coordinates of the considered point
 in the first octant: xG, yG, zG with (xG,yG,zG)&lt;&gt;(0,0,0)</p></td>
 </tr>
 <tr>
@@ -331,18 +317,18 @@ in the first octant: xG, yG, zG with (xG,yG,zG)&lt;&gt;(0,0,0)</p></td>
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">CartesianIntoGeodeticII</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="w"> </span><span class="n">ay</span><span class="p">,</span><span class="w"> </span><span class="n">az</span><span class="p">,</span><span class="w"> </span><span class="n">xG</span><span class="p">,</span><span class="w"> </span><span class="n">yG</span><span class="p">,</span><span class="w"> </span><span class="n">zG</span><span class="p">,</span><span class="w"> </span><span class="n">latitude</span><span class="p">,</span><span class="w"> </span><span class="n">longitude</span><span class="p">,</span><span class="w"> </span><span class="n">altitude</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">)</span><span class="w"></span>
+    <div class="highlight"><pre><span></span><span class="k">subroutine </span><span class="n">CartesianIntoGeodeticII</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="w"> </span><span class="n">ay</span><span class="p">,</span><span class="w"> </span><span class="n">az</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">latitude</span><span class="p">,</span><span class="w"> </span><span class="n">longitude</span><span class="p">,</span><span class="w"> </span><span class="n">altitude</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ax</span><span class="p">,</span><span class="w"> </span><span class="n">ay</span><span class="p">,</span><span class="w"> </span><span class="n">az</span><span class="w"> </span><span class="c">!! semiaxes of the celestial body: ax&gt;ay&gt;az</span>
-<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">xG</span><span class="p">,</span><span class="w"> </span><span class="n">yG</span><span class="p">,</span><span class="w"> </span><span class="n">zG</span><span class="w"> </span><span class="c">!! cartesian coordinates of the considered point</span>
-<span class="w">                                      </span><span class="c">!! in the first octant: xG, yG, zG with (xG,yG,zG)&lt;&gt;(0,0,0)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="c">!! cartesian coordinates of the considered point</span>
+<span class="w">                                          </span><span class="c">!! in the first octant: xG, yG, zG with (xG,yG,zG)&lt;&gt;(0,0,0)</span>
 <span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">latitude</span><span class="p">,</span><span class="w"> </span><span class="n">longitude</span><span class="p">,</span><span class="w"> </span><span class="n">altitude</span><span class="w"> </span><span class="c">!! geodetic coordinates of the considered point</span>
 <span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="c">!! Values smaller than error treated as 0.0</span>
 
 <span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">aymaz</span><span class="p">,</span><span class="n">aypaz</span><span class="p">,</span><span class="n">axmaz</span><span class="p">,</span><span class="n">axpaz</span><span class="p">,</span><span class="n">axpaz2</span><span class="p">,</span><span class="n">ax2</span><span class="p">,</span><span class="n">ay2</span><span class="p">,</span><span class="n">az2</span><span class="p">,</span><span class="n">ax4</span><span class="p">,</span><span class="n">ay4</span><span class="p">,</span><span class="n">az4</span><span class="p">,</span><span class="n">az6</span><span class="p">,&amp;</span><span class="w"></span>
 <span class="w">                </span><span class="n">az8</span><span class="p">,</span><span class="n">temp0</span><span class="p">,</span><span class="n">temp1</span><span class="p">,</span><span class="n">temp2</span><span class="p">,</span><span class="n">temp3</span><span class="p">,</span><span class="n">temp4</span><span class="p">,</span><span class="n">temp5</span><span class="p">,</span><span class="n">temp6</span><span class="p">,</span><span class="n">temp7</span><span class="p">,</span><span class="n">temp8</span><span class="p">,&amp;</span><span class="w"></span>
 <span class="w">                </span><span class="n">temp9</span><span class="p">,</span><span class="n">tempa</span><span class="p">,</span><span class="n">az6ax2</span><span class="p">,</span><span class="n">az6ay2</span><span class="p">,</span><span class="n">tempb</span><span class="p">,</span><span class="n">maz10</span><span class="p">,</span><span class="n">excc</span><span class="p">,</span><span class="n">eecc</span><span class="w"></span>
-<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">xg2</span><span class="p">,</span><span class="n">yg2</span><span class="p">,</span><span class="n">zg2</span><span class="p">,</span><span class="n">zgxg2</span><span class="p">,</span><span class="n">zgyg2</span><span class="p">,</span><span class="n">zg3</span><span class="p">,</span><span class="n">zg4</span><span class="p">,</span><span class="n">aux</span><span class="w"></span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">xg2</span><span class="p">,</span><span class="n">yg2</span><span class="p">,</span><span class="n">zg2</span><span class="p">,</span><span class="n">zgxg2</span><span class="p">,</span><span class="n">zgyg2</span><span class="p">,</span><span class="n">zg3</span><span class="p">,</span><span class="n">zg4</span><span class="p">,</span><span class="n">aux</span><span class="p">,</span><span class="n">xG</span><span class="p">,</span><span class="n">yG</span><span class="p">,</span><span class="n">zG</span><span class="w"></span>
 <span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">xE</span><span class="p">,</span><span class="n">yE</span><span class="p">,</span><span class="n">zE</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">B</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="mi">6</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">    </span><span class="c">! Computations independent of xG,yG,zG. They can be precomputed, if necessary.</span>
@@ -377,6 +363,9 @@ in the first octant: xG, yG, zG with (xG,yG,zG)&lt;&gt;(0,0,0)</p></td>
 <span class="w">    </span><span class="n">excc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ax2</span><span class="o">-</span><span class="n">az2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">ax2</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="n">eecc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ax2</span><span class="o">-</span><span class="n">ay2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">ax2</span><span class="p">)</span><span class="w"></span>
 
+<span class="w">    </span><span class="n">xG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">yG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">zG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="n">xg2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xG</span><span class="o">*</span><span class="n">xG</span><span class="w"></span>
 <span class="w">    </span><span class="n">yg2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">yG</span><span class="o">*</span><span class="n">yG</span><span class="w"></span>
 <span class="w">    </span><span class="n">zg2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zG</span><span class="o">*</span><span class="n">zG</span><span class="w"></span>
