@@ -577,14 +577,12 @@
 !  * Jacob Williams, 10/29/2022 : Fortran verison of this algorithm,
 !    based on the Matlab (v1.0 01/03/2019) code.
 
-subroutine cartesian_to_geodetic_triaxial(ax, ay, b, Xi, Yi, Zi, tol, phi, lambda, h)
+subroutine cartesian_to_geodetic_triaxial(ax, ay, b, r, tol, phi, lambda, h)
 
     real(wp),intent(in) :: ax !! semiaxes (0 < b <= ay <= ax)
     real(wp),intent(in) :: ay !! semiaxes (0 < b <= ay <= ax)
     real(wp),intent(in) :: b  !! semiaxes (0 < b <= ay <= ax)
-    real(wp),intent(in) :: Xi !! Cartesian coordinates
-    real(wp),intent(in) :: Yi !! Cartesian coordinates
-    real(wp),intent(in) :: Zi !! Cartesian coordinates
+    real(wp),dimension(3),intent(in) :: r !! Cartesian coordinates (x,y,z)
     real(wp),intent(in) :: tol !! tolerance (may be set to zero)
     real(wp),intent(out) :: phi !! geodetic latitude (radians)
     real(wp),intent(out) :: lambda !! geodetic longitude (radians)
@@ -607,9 +605,9 @@ subroutine cartesian_to_geodetic_triaxial(ax, ay, b, Xi, Yi, Zi, tol, phi, lambd
     cy = (ayay)/(b2)
     cz = (axax)/(ayay)
 
-    XX = abs(Xi)
-    YY = abs(Yi)
-    ZZ = abs(Zi)
+    XX = abs(r(1))
+    YY = abs(r(2))
+    ZZ = abs(r(3))
 
     ! Compute geodetic latitude/longitude
     if (ZZ == zero) then
@@ -658,14 +656,15 @@ subroutine cartesian_to_geodetic_triaxial(ax, ay, b, Xi, Yi, Zi, tol, phi, lambd
 
     end if
 
-    call xyz2fl(ax, ay, b, x, y, z, phi, lambda)
+    !call xyz2fl(ax, ay, b, x, y, z, phi, lambda)        ! analytical ? (C++ code)
+    call xyz2philambda(ax, ay, b, x, y, z, phi, lambda)  ! matlab ... some problem with phi ??? doesn't match other one
 
     ! Compute geodetic height
     d = [XX-x, YY-y, ZZ-z]
     h = norm2(d)
     if ((XX+YY+ZZ) < (x+y+z)) h = -h
 
-    call philambda_quadrant(Xi, Yi, Zi, phi, lambda)
+    call philambda_quadrant(r(1), r(2), r(3), phi, lambda)
 
 end subroutine cartesian_to_geodetic_triaxial
 
@@ -854,6 +853,117 @@ subroutine philambda_quadrant(XX, YY, ZZ, phi, lambda)
 
 end subroutine philambda_quadrant
 
+!******************************************************************************
+!>
+!  Determination of the geodetic latitude and longitude
+
+    subroutine xyz2philambda(ax, ay, b, x, y, z, phi, lambda)
+
+     real(wp),intent(in) :: ax, ay, b, x, y, z
+     real(wp),intent(out) :: phi, lambda
+
+     real(wp) :: ee2,ex2,s0,SS0,Sphi,Cphi,Slambda,Clambda,&
+                 Den,P,L,x0,y0,z0,D,NN,onemee2,onemex2,term,&
+                 at,bt,onemee2x
+     integer :: n
+     real(wp),dimension(3,2) :: J
+     real(wp),dimension(3,1) :: dl,UU
+     real(wp),dimension(2,2) :: Nmat
+     real(wp),dimension(2,1) :: u, dx
+     real(wp),dimension(1,1) :: tmp
+     real(wp),dimension(2,2) :: NmatTmp
+     real(wp),dimension(3) :: r
+
+     ee2 = (ax*ax - ay*ay)/(ax*ax)
+     ex2 = (ax*ax - b*b)/(ax*ax)
+     onemee2 = one - ee2
+     onemex2 = one - ex2
+     !onemee2x = onemee2*x
+     !term = sqrt(onemee2*onemee2x*x + y*y)
+     !at = onemee2*z
+     !bt = onemex2*term
+
+     ! Initial values
+    !  if (at <= bt) then
+    !      phi = atan(at/bt)
+    !  else
+    !      phi = halfpi - atan(bt/at)
+    !  end if
+    !  if (x == zero .and. y == zero) then
+    !      lambda = zero
+    !  elseif (y <= onemee2x) then
+    !      lambda = two*atan(y/(onemee2x+term))
+    !  else
+    !      lambda = halfpi - two*atan(onemee2x/(y+term))
+    !  end if
+    call xyz2fl(ax, ay, b, x, y, z, phi, lambda) ! use analytical one for initial guess - TEST
+
+    ! JW: is there some bug below? ..........  I don't think it is working right.
+
+     s0 = zero
+     do n = 1, 100
+         SS0 = s0
+
+         ! Design Matrix J
+         Sphi = sin(phi)
+         Cphi = cos(phi)
+         Slambda = sin(lambda)
+         Clambda = cos(lambda)
+
+        ! NN = ax/sqrt(1.0_wp-ex2*Sphi*Sphi-ee2*Cphi*Cphi*Slambda*Slambda)
+        ! Den = 2.0_wp*(1.0_wp-ex2*Sphi*Sphi-ee2*Cphi*Cphi*Slambda*Slambda)**(three/two)
+        ! P = -ax*(ex2-ee2*Slambda*Slambda)*sin(2.0_wp*phi)/Den
+        ! L = -ax*ee2*Cphi*Cphi*sin(2.0_wp*lambda)/Den
+
+         NN = ax/sqrt(1.0_wp-ex2*Sphi*Sphi-ee2*Cphi*Cphi*Slambda*Slambda)
+         Den = two*(1.0_wp-ex2*Sphi*Sphi-ee2*Cphi*Cphi*Slambda*Slambda)**(3.0_wp/two)
+         P = -ax*(ex2-ee2*Slambda*Slambda)*sin(two*phi)/Den
+         L = -ax*ee2*Cphi*Cphi*sin(2*lambda)/Den
+
+         J(1,1) = (P*Cphi-NN*Sphi)*Clambda
+         J(2,1) = onemee2*(P*Cphi-NN*Sphi)*Slambda
+         J(3,1) = onemex2*(P*Sphi+NN*Cphi)
+         J(1,2) = (L*Clambda-NN*Slambda)*Cphi
+         J(2,2) = onemee2*(L*Slambda+NN*Clambda)*Cphi
+         J(3,2) = onemex2*L*Sphi
+
+         ! Vector dl
+        !  call philambda2xyz(ax, ay, b, phi, lambda, x0, y0, z0)
+        !  dl(:,1) = [x-x0, y-y0, z-z0]
+         call geodetic_to_cartesian_triaxial_2(ax, ay, b, phi, lambda, 0.0_wp, r) ! just use the main one with alt=0
+         dl(:,1) = [x,y,z] - r
+
+         ! write(*,*) 'phi     =', phi
+         ! write(*,*) 'lambda  =', lambda
+
+         ! Solution
+         Nmat    = matmul(transpose(J),J)
+         u       = matmul(transpose(J),dl)
+         D       = Nmat(1,1)*Nmat(2,2) - Nmat(1,2)*Nmat(2,1)
+         NmatTmp = transpose(reshape([Nmat(2,2), -Nmat(1,2), -Nmat(2,1), Nmat(1,1)], [2,2]))
+         dx      = matmul((NmatTmp / D) , u)
+
+        ! write(*,*) 'correction: ', n, dx
+
+         phi     = phi + dx(1,1)       ! correction
+         lambda  = lambda + dx(2,1)
+
+         UU      = matmul(J,dx) - dl
+         tmp     = sqrt(matmul(transpose(UU),UU))
+         s0      = tmp(1,1)
+
+         if (s0 == SS0) exit     ! JW : this is not really a good stop criterion....
+                                 !      dx bounces around very small values....
+         !write(*,*) 'abs(s0 - SS0): ', abs(s0 - SS0)
+
+         if (all(abs(dx) <= 10*epsilon(1.0_wp))) exit ! JW: how about this ??
+                                                      ! just check the correction ??
+
+     end do
+
+    end subroutine xyz2philambda
+!*****************************************************************************************
+
 !*****************************************************************************************
 !>
 !  Computes the transformation of Cartesian to geodetic coordinates on the surface of the ellipsoid
@@ -861,6 +971,10 @@ end subroutine philambda_quadrant
 !  Angular coordinates in radians
 !
 !  This is based on the [C++ version](https://www.researchgate.net/publication/353739609_PK-code)
+
+!
+! is this the analytical method from the paper ??? (sect 3.1)
+!
 
 subroutine xyz2fl(ax, ay, b, x, y, z, latitude, longitude)
 
@@ -881,27 +995,27 @@ subroutine xyz2fl(ax, ay, b, x, y, z, latitude, longitude)
     mex  = one-lex2
     mee  = one-lee2
 
-    nom=mee*z
-    xme=mee*x
-    dex=xme*xme+y*y
-    den=mex*sqrt(dex)
-    rot=sqrt(dex)
+    nom = mee*z
+    xme = mee*x
+    dex = xme*xme+y*y
+    den = mex*sqrt(dex)
+    rot = sqrt(dex)
 
     if (den==zero)  then
-        latitude=halfpi
-        longitude=zero
+        latitude = halfpi
+        longitude = zero
     else
         if (nom<=den) then
-            latitude=atan(nom/den)
+            latitude = atan(nom/den)
         else
-            latitude=halfpi-atan(den/nom)
+            latitude = halfpi-atan(den/nom)
         end if
         if (y<=xme) then
-            den=xme+rot
-            longitude=2.0_wp*atan(y/den)
+            den = xme+rot
+            longitude = 2.0_wp*atan(y/den)
         else
-            den=y+rot
-            longitude=halfpi-2.0_wp*atan(xme/den)
+            den = y+rot
+            longitude = halfpi - 2.0_wp*atan(xme/den)
         end if
     end if
 
@@ -980,17 +1094,17 @@ end subroutine horner
 !    [link](https://www.sciencedirect.com/science/article/pii/S0098300420305410?via%3Dihub),
 !    [C++ code](https://data.mendeley.com/datasets/s5f6sww86x/2)
 
-subroutine CartesianIntoGeodeticI(ax, ay, az, xG, yG, zG, latitude, longitude, altitude, error)
+subroutine CartesianIntoGeodeticI(ax, ay, az, r, latitude, longitude, altitude, error)
 
     real(wp),intent(in) :: ax, ay, az !! semiaxes of the celestial body: ax>ay>az
-    real(wp),intent(in) :: xG, yG, zG !! cartesian coordinates of the considered point
-                                      !! in the first octant: xG, yG, zG with (xG,yG,zG)<>(0,0,0)
+    real(wp),dimension(3),intent(in) :: r !! cartesian coordinates of the considered point
+                                          !! in the first octant: xG, yG, zG with (xG,yG,zG)<>(0,0,0)
     real(wp),intent(out) :: latitude, longitude, altitude !! geodetic coordinates of the considered point
     real(wp),intent(in) :: error !! Values smaller than error treated as 0.0
 
     real(wp) :: ax2,ay2,az2,ax4,ay4,az4,b5,b4,b3,b3x,b3y,b3z,&
                 b2,b2x,b2y,b2z,b1,b1x,b1y,b1z,b0,b0x,b0y,b0z,eec,exc
-    real(wp) :: xg2,yg2,zg2,aux
+    real(wp) :: xg2,yg2,zg2,aux,xG,yG,zG
     real(wp) :: xE,yE,zE,k,B(0:6),BB(0:6)
 
     ! Computations independent of xG,yG,zG. They can be precomputed, if necessary.
@@ -1000,21 +1114,21 @@ subroutine CartesianIntoGeodeticI(ax, ay, az, xG, yG, zG, latitude, longitude, a
     ax4 = ax2*ax2
     ay4 = ay2*ay2
     az4 = az2*az2
-    b5 = 2*(ax2+ay2+az2)
-    b4 = ax4 + 4*ax2*ay2 + ay4 + 4*ax2*az2 + 4*ay2*az2 + az4
-    b3 = 2*ax4*ay2 + 2*ax2*ay4 + 2*ax4*az2 + 8*ax2*ay2*az2 + 2*ay4*az2 + 2*ax2*az4 + 2*ay2*az4
-    b3x = - 2*ax2*ay2 - 2*ax2*az2
-    b3y = - 2*ax2*ay2 - 2*ay2*az2
-    b3z = - 2*ay2*az2 - 2*ax2*az2
-    b2 = 4*ax4*ay2*az2 + 4*ax2*ay4*az2 + ax4*az4 + 4*ax2*ay2*az4 + ax4*ay4 + ay4*az4
-    b2x = -ax2*ay4 -4*ax2*ay2*az2 -ax2*az4
-    b2y = -ax4*ay2 -4*ax2*ay2*az2 -ay2*az4
-    b2z = -ax4*az2 -4*ax2*ay2*az2 -ay4*az2
-    b1 = 2*ax4*ay4*az2 + 2*ax4*ay2*az4 + 2*ax2*ay4*az4
-    b1x = - 2*ax2*ay4*az2 - 2*ax2*ay2*az4
-    b1y = - 2*ax4*ay2*az2 - 2*ax2*ay2*az4
-    b1z = - 2*ax4*ay2*az2 - 2*ax2*ay4*az2
-    b0 = ax4*ay4*az4
+    b5  = 2.0_wp*(ax2+ay2+az2)
+    b4  = ax4 + 4.0_wp*ax2*ay2 + ay4 + 4.0_wp*ax2*az2 + 4.0_wp*ay2*az2 + az4
+    b3  = 2.0_wp*ax4*ay2 + 2.0_wp*ax2*ay4 + 2.0_wp*ax4*az2 + 8.0_wp*ax2*ay2*az2 + 2.0_wp*ay4*az2 + 2.0_wp*ax2*az4 + 2.0_wp*ay2*az4
+    b3x = - 2.0_wp*ax2*ay2 - 2.0_wp*ax2*az2
+    b3y = - 2.0_wp*ax2*ay2 - 2.0_wp*ay2*az2
+    b3z = - 2.0_wp*ay2*az2 - 2.0_wp*ax2*az2
+    b2  = 4.0_wp*ax4*ay2*az2 + 4.0_wp*ax2*ay4*az2 + ax4*az4 + 4.0_wp*ax2*ay2*az4 + ax4*ay4 + ay4*az4
+    b2x = -ax2*ay4 -4.0_wp*ax2*ay2*az2 -ax2*az4
+    b2y = -ax4*ay2 -4.0_wp*ax2*ay2*az2 -ay2*az4
+    b2z = -ax4*az2 -4.0_wp*ax2*ay2*az2 -ay4*az2
+    b1  = 2.0_wp*ax4*ay4*az2 + 2.0_wp*ax4*ay2*az4 + 2.0_wp*ax2*ay4*az4
+    b1x = - 2.0_wp*ax2*ay4*az2 - 2.0_wp*ax2*ay2*az4
+    b1y = - 2.0_wp*ax4*ay2*az2 - 2.0_wp*ax2*ay2*az4
+    b1z = - 2.0_wp*ax4*ay2*az2 - 2.0_wp*ax2*ay4*az2
+    b0  = ax4*ay4*az4
     b0x = - ax2*ay4*az4
     b0y = - ax4*ay2*az4
     b0z = - ax4*ay4*az2
@@ -1022,6 +1136,9 @@ subroutine CartesianIntoGeodeticI(ax, ay, az, xG, yG, zG, latitude, longitude, a
     exc = (ax2-az2)/ax2
 
     ! Computations dependant of xG, yG, zG
+    xG = r(1)
+    yG = r(2)
+    zG = r(3)
     xg2 = xG*xG
     yg2 = yG*yG
     zg2 = zG*zG
@@ -1110,18 +1227,18 @@ subroutine CartesianIntoGeodeticI(ax, ay, az, xG, yG, zG, latitude, longitude, a
 !### See also
 !  * [[CartesianIntoGeodeticI]]
 
-subroutine CartesianIntoGeodeticII(ax, ay, az, xG, yG, zG, latitude, longitude, altitude, error)
+subroutine CartesianIntoGeodeticII(ax, ay, az, r, latitude, longitude, altitude, error)
 
     real(wp),intent(in) :: ax, ay, az !! semiaxes of the celestial body: ax>ay>az
-    real(wp),intent(in) :: xG, yG, zG !! cartesian coordinates of the considered point
-                                      !! in the first octant: xG, yG, zG with (xG,yG,zG)<>(0,0,0)
+    real(wp),dimension(3),intent(in) :: r !! cartesian coordinates of the considered point
+                                          !! in the first octant: xG, yG, zG with (xG,yG,zG)<>(0,0,0)
     real(wp),intent(out) :: latitude, longitude, altitude !! geodetic coordinates of the considered point
     real(wp),intent(in) :: error !! Values smaller than error treated as 0.0
 
     real(wp) :: aymaz,aypaz,axmaz,axpaz,axpaz2,ax2,ay2,az2,ax4,ay4,az4,az6,&
                 az8,temp0,temp1,temp2,temp3,temp4,temp5,temp6,temp7,temp8,&
                 temp9,tempa,az6ax2,az6ay2,tempb,maz10,excc,eecc
-    real(wp) :: xg2,yg2,zg2,zgxg2,zgyg2,zg3,zg4,aux
+    real(wp) :: xg2,yg2,zg2,zgxg2,zgyg2,zg3,zg4,aux,xG,yG,zG
     real(wp) :: xE,yE,zE,k,B(0:6)
 
     ! Computations independent of xG,yG,zG. They can be precomputed, if necessary.
@@ -1156,6 +1273,9 @@ subroutine CartesianIntoGeodeticII(ax, ay, az, xG, yG, zG, latitude, longitude, 
     excc = (ax2-az2)/(ax2)
     eecc = (ax2-ay2)/(ax2)
 
+    xG = r(1)
+    yG = r(2)
+    zG = r(3)
     xg2 = xG*xG
     yg2 = yG*yG
     zg2 = zG*zG
