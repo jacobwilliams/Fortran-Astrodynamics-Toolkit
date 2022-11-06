@@ -20,8 +20,7 @@ program geodetic_test
     real(wp) :: ay  = 6378137.0_wp    !! Ellipsoid : WGS84 Equatorial radius (same)
     real(wp) :: b   = 6356752.3142_wp !! Ellipsoid : WGS84 Polar radius
     real(wp),parameter :: tol = 1.0e-15_wp !! tolerance
-    !real(wp),parameter :: test_tol = 1.0e-6_wp !! tolerance for a failed test
-    real(wp),parameter :: test_tol = 1.0e-1_wp !! tolerance for a failed test
+    real(wp),parameter :: test_tol = 1.0e-6_wp !! tolerance for a failed test
 
     real(wp) :: h, tmp, phi, lambda, phi_, lambda_, h_
     real(wp) :: phi_error, lambda_error, h_error

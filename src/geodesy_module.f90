@@ -205,9 +205,8 @@
     real(wp),intent(out) :: glon2    !! longitude of 2 [rad]
     real(wp),intent(out) :: baz      !! back azimuth 2->1 [rad]
 
-    real(wp) :: r,tu,sf,cf,cu,su,sa,csa,c2a,x,c,d,y,sy,cy,cz,e
+    real(wp) :: r,tu,sf,cf,cu,su,sa,c2a,x,c,d,y,sy,cy,cz,e
 
-    real(wp),parameter :: pi  = acos(-1.0_wp)
     real(wp),parameter :: eps = 0.5e-13_wp
 
     r  = 1.0_wp - f
