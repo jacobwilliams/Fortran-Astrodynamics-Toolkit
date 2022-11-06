@@ -19,7 +19,7 @@ program geodetic_test
     real(wp) :: ax  = 6378137.0_wp    !! Ellipsoid : WGS84 Equatorial radius
     real(wp) :: ay  = 6378137.0_wp    !! Ellipsoid : WGS84 Equatorial radius (same)
     real(wp) :: b   = 6356752.3142_wp !! Ellipsoid : WGS84 Polar radius
-    real(wp),parameter :: tol = 1.0e-13_wp !! tolerance
+    real(wp),parameter :: tol = 1.0e-15_wp !! tolerance
     !real(wp),parameter :: test_tol = 1.0e-6_wp !! tolerance for a failed test
     real(wp),parameter :: test_tol = 1.0e-1_wp !! tolerance for a failed test
 
@@ -52,7 +52,7 @@ program geodetic_test
     ay = 6378102.0_wp
     b  = 6356752.0_wp
 
-    do icase = 1, 4
+   do icase = 1, 15
 
         select case (icase)
         case(1); r  = [-5734871.6046899008_wp, -2808462.3459780114_wp, 2937.9300139431466_wp]
@@ -65,23 +65,35 @@ program geodetic_test
             r = [0.0_wp,0.0_wp,-1659.5_wp]  ! -90, 0, 100
         case(4)
             ! europa test case 2
-            ax = 1562.6_wp
-            ay = 1560.3_wp
-            b  = 1559.5_wp
             r = [535.0431623013602_wp, 1465.9544864619536_wp, 567.2596924930767_wp] ! 20, 70, 100
+        case(5);  r = [2000.0_wp, 2000.0_wp, 2000.0_wp]
+        case(6);  r = [2000.0_wp, 0.0_wp,    0.0_wp   ]
+        case(7);  r = [0.0_wp,    2000.0_wp, 0.0_wp   ]
+        case(8);  r = [0.0_wp,    0.0_wp,    2000.0_wp]
+        case(9);  r = [2000.0_wp, 0.0_wp,    2000.0_wp]
+        case(10); r = [0.0_wp,    0.0_wp,    0.0_wp   ]
+
+        case(11); r = [-2000.0_wp, 0.0_wp,    0.0_wp   ]
+        case(12); r = [0.0_wp,    -2000.0_wp, 0.0_wp   ]
+        case(13); r = [0.0_wp,    0.0_wp,    -2000.0_wp]
+
+        case(14); r = [2000.0_wp, 2000.0_wp, 0.0_wp   ]
+        case(15); r = [0.0_wp,    2000.0_wp, 2000.0_wp]
         end select
 
         write(*,'(1p,A26,1X,*(A26,1X))') 'Method', 'Lat (deg)', 'Long (deg)', 'Alt (m)'
         do imethod = 1, 4
             select case (imethod)
-            case(1); method = 'Panou'
-                call cartesian_to_geodetic_triaxial(ax, ay, b, r, tol, phi_, lambda_, h_)
-            case(2); method = 'Bektas'
-                call cartesian_to_geodetic_triaxial_2(ax, ay, b, r, tol, phi_, lambda_, h_)
-            case(3); method = 'CartesianIntoGeodeticI'
-                call CartesianIntoGeodeticI(ax, ay, b, r, phi_, lambda_, h_, error=tol)
-            case(4); method = 'CartesianIntoGeodeticII'
-                call CartesianIntoGeodeticII(ax, ay, b, r, phi_, lambda_, h_, error=tol)
+                case(1); method = 'Panou'
+                case(2); method = 'Bektas'
+                case(3); method = 'CartesianIntoGeodeticI'
+                case(4); method = 'CartesianIntoGeodeticII'
+            end select
+            select case (imethod)
+                case(1); call cartesian_to_geodetic_triaxial(  ax, ay, b, r, tol, phi_, lambda_, h_)
+                case(2); call cartesian_to_geodetic_triaxial_2(ax, ay, b, r, tol, phi_, lambda_, h_)
+                case(3); call CartesianIntoGeodeticI(          ax, ay, b, r, phi_, lambda_, h_, tol)
+                case(4); call CartesianIntoGeodeticII(         ax, ay, b, r, phi_, lambda_, h_, tol)
             end select
             write(*,'(1p,A26,1X,*(E26.16,1X))') method, phi_*rad2deg, lambda_*rad2deg, h_
         end do
@@ -118,8 +130,8 @@ program geodetic_test
         do i = 1, n_repeat
 
             h      = get_random_number(1.0_wp, 10000.0_wp)
-            lambda = get_random_number(0.0_wp, 90.0_wp) * deg2rad
-            phi    = get_random_number(0.0_wp, 90.0_wp) * deg2rad
+            lambda = get_random_number(-180.0_wp, 180.0_wp) * deg2rad
+            phi    = get_random_number(-90.0_wp, 90.0_wp) * deg2rad
             call geodetic_to_cartesian_triaxial(ax, ay, b, phi, lambda, h, r)
 
             select case (icase)
@@ -135,6 +147,7 @@ program geodetic_test
 
             if (any(abs(err) > test_tol) .or. any(ieee_is_nan(err))) then
                 write(*,*) ''
+                write(*,*) 'error for '//method, ', case', i
                 write(*,*) 'r      = ', r
                 write(*,*) 'h      = ', h,      h_,      h-h_
                 write(*,*) 'lambda = ', lambda, lambda_, lambda-lambda_
@@ -244,10 +257,10 @@ program geodetic_test
                         get_random_number(-10000.0_wp, 10000.0_wp) ])
 
             select case (icase)
-            case(1); call cartesian_to_geodetic_triaxial(ax, ay, b, r, tol, phi_, lambda_, h_)
+            case(1); call cartesian_to_geodetic_triaxial(  ax, ay, b, r, tol, phi_, lambda_, h_)
             case(2); call cartesian_to_geodetic_triaxial_2(ax, ay, b, r, tol, phi_, lambda_, h_)
-            case(3); call CartesianIntoGeodeticI(ax, ay, b, r, phi_, lambda_, h_, error=tol)
-            case(4); call CartesianIntoGeodeticII(ax, ay, b, r, phi_, lambda_, h_, error=tol)
+            case(3); call CartesianIntoGeodeticI(          ax, ay, b, r, phi_, lambda_, h_, tol)
+            case(4); call CartesianIntoGeodeticII(         ax, ay, b, r, phi_, lambda_, h_, tol)
             end select
             tmp = sin(tmp) + phi_ + lambda_ + h_ ! compute something so loop isn't optimized away
 
@@ -346,12 +359,12 @@ program geodetic_test
         !  for now, just generate points from 0 -> 90 deg
 
         h      = get_random_number(1.0_wp, 10000.0_wp)
-        lambda = get_random_number(0.0_wp, 90.0_wp) * deg2rad
-        phi    = get_random_number(0.0_wp, 90.0_wp) * deg2rad
+        lambda = get_random_number(0.0_wp, 360.0_wp) * deg2rad
+        phi    = get_random_number(-90.0_wp, 90.0_wp) * deg2rad
 
         call geodetic_to_cartesian_triaxial(ax, ay, b, phi, lambda, h, r)
         call cartesian_to_geodetic_triaxial(ax, ay, b, r, tol, phi_, lambda_, h_)
-        call CartesianIntoGeodeticI(ax, ay, b, r, phi_, lambda_, h_, error=tol)
+        call CartesianIntoGeodeticI(ax, ay, b, r, phi_, lambda_, h_, tol)
 
         phi_error    = rel_error(phi_ ,    phi,    .true.)
         lambda_error = rel_error(lambda_ , lambda, .true.)
@@ -386,13 +399,13 @@ program geodetic_test
         !  do we have to do some transformation of the inputs ???
         !  for now, just generate points from 0 -> 90 deg
 
-        h      = get_random_number(500.0_wp, 10000.0_wp)
-        lambda = get_random_number(0.0_wp, 90.0_wp) * deg2rad
-        phi    = get_random_number(0.0_wp, 90.0_wp) * deg2rad
+        h      = get_random_number(1.0_wp, 10000.0_wp)
+        lambda = get_random_number(0.0_wp, 360.0_wp) * deg2rad
+        phi    = get_random_number(-90.0_wp, 90.0_wp) * deg2rad
 
         call geodetic_to_cartesian_triaxial(ax, ay, b, phi, lambda, h, r)
         call cartesian_to_geodetic_triaxial(ax, ay, b, r, tol, phi_, lambda_, h_)
-        call CartesianIntoGeodeticII(ax, ay, b, r, phi_, lambda_, h_, error=tol)
+        call CartesianIntoGeodeticII(ax, ay, b, r, phi_, lambda_, h_, tol)
 
         phi_error    = rel_error(phi_ ,    phi,    .true.)
         lambda_error = rel_error(lambda_ , lambda, .true.)

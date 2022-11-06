@@ -561,117 +561,6 @@
 
 !*****************************************************************************************
 !>
-!  Function computes the geodetic latitude (phi), longitude (lambda) and
-!  height (h) of a point related to an ellipsoid
-!  defined by its three semiaxes ax, ay and b (0 < b <= ay <= ax)
-!  given Cartesian coordinates Xi, Yi, Zi and tolerance (tol).
-!  Latitude and longitude are returned in radians.
-!
-!### Reference
-!  * Panou G. and Korakitis R. (2019) "Cartesian to geodetic coordinates conversion
-!    on an ellipsoid using the bisection method".
-!    Journal of Geodesy volume 96, Article number: 66 (2022).
-!    [(link)](https://link.springer.com/article/10.1007/s00190-022-01650-9)
-!
-!### History
-!  * Jacob Williams, 10/29/2022 : Fortran verison of this algorithm,
-!    based on the Matlab (v1.0 01/03/2019) code.
-!
-!@warning Not yet verified. I think there may some a bug here. See unit tests.
-
-subroutine cartesian_to_geodetic_triaxial(ax, ay, b, r, tol, phi, lambda, h)
-
-    real(wp),intent(in) :: ax !! semiaxes (0 < b <= ay <= ax)
-    real(wp),intent(in) :: ay !! semiaxes (0 < b <= ay <= ax)
-    real(wp),intent(in) :: b  !! semiaxes (0 < b <= ay <= ax)
-    real(wp),dimension(3),intent(in) :: r !! Cartesian coordinates (x,y,z)
-    real(wp),intent(in) :: tol !! tolerance (may be set to zero)
-    real(wp),intent(out) :: phi !! geodetic latitude (radians)
-    real(wp),intent(out) :: lambda !! geodetic longitude (radians)
-    real(wp),intent(out) :: h !! geodetic height
-
-    real(wp) :: kx,ky,cx,cy,cz,XX,YY,ZZ,x,y,z,Xo,Yo,Zo,m,Mm,axax,ayay,b2
-    integer :: n
-    real(wp),dimension(3) :: d
-
-    if (ax < ay .or. ay < b) error stop 'error in cartesian_to_geodetic_triaxial: invalid ax,ay,b'
-
-    axax = ax*ax
-    ayay = ay*ay
-    b2 = b*b
-
-    kx = (axax-b2)/ax
-    ky = (ayay-b2)/ay
-
-    cx = (axax)/(b2)
-    cy = (ayay)/(b2)
-    cz = (axax)/(ayay)
-
-    XX = abs(r(1))
-    YY = abs(r(2))
-    ZZ = abs(r(3))
-
-    ! Compute geodetic latitude/longitude
-    if (ZZ == zero) then
-        if (XX == zero .and. YY == zero) then
-            x = zero
-            y = zero
-            z = b
-        elseif (ky*XX*ky*XX+kx*YY*kx*YY < kx*ky*kx*ky) then
-            x = ax*XX/kx
-            y = ay*YY/ky
-            z = b*sqrt(one-((x*x)/(axax))-((y*y)/(ayay)))
-        elseif (XX == zero) then
-            x = zero
-            y = ay
-            z = zero
-        elseif (YY == zero) then
-            x = ax
-            y = zero
-            z = zero
-        else
-            Xo = XX/ax
-            Yo = YY/ay
-            call bisection_special_2(cz, Xo, Yo, tol, n, m, Mm)
-            x = cz*XX/(cz+m)
-            y = YY/(one+m)
-            z = zero
-        end if
-    else
-        if (XX == zero .and. YY == zero) then
-            x = zero
-            y = zero
-            z = b
-        else
-            Xo = XX/ax
-            Yo = YY/ay
-            Zo = ZZ/b
-            call bisection_special_3(cx, cy, Xo, Yo, Zo, tol, n, m, Mm)
-            x = cx*XX/(cx+m)
-            y = cy*YY/(cy+m)
-            if (m < zero .and. ky*XX*ky*XX + kx*YY*kx*YY < kx*ky*kx*ky) then
-                z = b*sqrt(one-((x*x)/(axax))-((y*y)/(ayay)))
-            else
-                z = ZZ/(one+m)
-            end if
-        end if
-
-    end if
-
-    !call xyz2fl(ax, ay, b, x, y, z, phi, lambda)        ! just the analytica method
-    call xyz2philambda(ax, ay, b, x, y, z, phi, lambda)  ! iterative method -- is there some bug here ???
-
-    ! Compute geodetic height
-    d = [XX-x, YY-y, ZZ-z]
-    h = norm2(d)
-    if ((XX+YY+ZZ) < (x+y+z)) h = -h
-
-    call philambda_quadrant(r(1), r(2), r(3), phi, lambda)
-
-end subroutine cartesian_to_geodetic_triaxial
-
-!*****************************************************************************************
-!>
 !  Function computes the Cartesian coordinates given the
 !  geodetic latitude (phi), longitude (lambda) and
 !  height (h) of a point related to an ellipsoid
@@ -728,7 +617,7 @@ end subroutine geodetic_to_cartesian_triaxial
     real(wp),intent(in) :: h    !! altitude
     real(wp),dimension(3),intent(out) :: r  !! Cartesian coordinates (x,y,z)
 
-    real(wp) :: ex2,ee2,v,a2,clat,slat,clon,slon,omee2
+    real(wp) :: ex2,ee2,v,a2,clat,slat,clon,slon,omee2,omex2
 
     a2    = a * a
     ex2   = (a2-c**2)/a2
@@ -738,14 +627,118 @@ end subroutine geodetic_to_cartesian_triaxial
     clon  = cos(long)
     slon  = sin(long)
     omee2 = 1.0_wp-ee2
+    omex2 = 1.0_wp-ex2
     v     = a/sqrt(1.0_wp-ex2*slat**2-ee2*clat**2*slon**2)
 
     r = [(v+h)*clon*clat, &
          (v*omee2+h)*slon*clat, &
-         (v*omee2+h)*slat ]
+         (v*omex2+h)*slat ]
 
     end subroutine geodetic_to_cartesian_triaxial_2
 !*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Function computes the geodetic latitude (phi), longitude (lambda) and
+!  height (h) of a point related to an ellipsoid
+!  defined by its three semiaxes ax, ay and b (0 < b <= ay <= ax)
+!  given Cartesian coordinates Xi, Yi, Zi and tolerance (tol).
+!  Latitude and longitude are returned in radians.
+!
+!### Reference
+!  * Panou G. and Korakitis R. (2019) "Cartesian to geodetic coordinates conversion
+!    on an ellipsoid using the bisection method".
+!    Journal of Geodesy volume 96, Article number: 66 (2022).
+!    [(link)](https://link.springer.com/article/10.1007/s00190-022-01650-9)
+!
+!### History
+!  * Jacob Williams, 10/29/2022 : Fortran verison of this algorithm,
+!    based on the Matlab (v1.0 01/03/2019) code.
+
+subroutine cartesian_to_geodetic_triaxial(ax, ay, b, r, tol, phi, lambda, h)
+
+    real(wp),intent(in) :: ax !! semiaxes (0 < b <= ay <= ax)
+    real(wp),intent(in) :: ay !! semiaxes (0 < b <= ay <= ax)
+    real(wp),intent(in) :: b  !! semiaxes (0 < b <= ay <= ax)
+    real(wp),dimension(3),intent(in) :: r !! Cartesian coordinates (x,y,z)
+    real(wp),intent(in) :: tol !! tolerance (may be set to zero)
+    real(wp),intent(out) :: phi !! geodetic latitude (radians)
+    real(wp),intent(out) :: lambda !! geodetic longitude (radians)
+    real(wp),intent(out) :: h !! geodetic height
+
+    real(wp) :: kx,ky,cx,cy,cz,XX,YY,ZZ,x,y,z,Xo,Yo,Zo,m,Mm,axax,ayay,b2
+    integer :: n
+
+    if (ax < ay .or. ay < b) error stop 'error in cartesian_to_geodetic_triaxial: invalid ax,ay,b'
+
+    axax = ax*ax
+    ayay = ay*ay
+    b2   = b*b
+    kx   = (axax-b2)/ax
+    ky   = (ayay-b2)/ay
+    cx   = (axax)/(b2)
+    cy   = (ayay)/(b2)
+    cz   = (axax)/(ayay)
+
+    XX = abs(r(1))
+    YY = abs(r(2))
+    ZZ = abs(r(3))
+
+    ! Compute geodetic latitude/longitude
+    if (ZZ == zero) then
+        if (XX == zero .and. YY == zero) then
+            x = zero
+            y = zero
+            z = b
+        elseif (ky*XX*ky*XX+kx*YY*kx*YY < kx*ky*kx*ky) then
+            x = ax*XX/kx
+            y = ay*YY/ky
+            z = b*sqrt(one-((x*x)/(axax))-((y*y)/(ayay)))
+        elseif (XX == zero) then
+            x = zero
+            y = ay
+            z = zero
+        elseif (YY == zero) then
+            x = ax
+            y = zero
+            z = zero
+        else
+            Xo = XX/ax
+            Yo = YY/ay
+            call bisection_special_2(cz, Xo, Yo, tol, n, m, Mm)
+            x = cz*XX/(cz+m)
+            y = YY/(one+m)
+            z = zero
+        end if
+    else
+        if (XX == zero .and. YY == zero) then
+            x = zero
+            y = zero
+            z = b
+        else
+            Xo = XX/ax
+            Yo = YY/ay
+            Zo = ZZ/b
+            call bisection_special_3(cx, cy, Xo, Yo, Zo, tol, n, m, Mm)
+            x = cx*XX/(cx+m)
+            y = cy*YY/(cy+m)
+            if (m < zero .and. ky*XX*ky*XX + kx*YY*kx*YY < kx*ky*kx*ky) then
+                z = b*sqrt(one-((x*x)/(axax))-((y*y)/(ayay)))
+            else
+                z = ZZ/(one+m)
+            end if
+        end if
+    end if
+
+    call xyz2fl(ax, ay, b, x, y, z, phi, lambda)        ! analytic method used for initial guess
+    call xyz2philambda(ax, ay, b, x, y, z, phi, lambda) ! iterative method
+    call philambda_quadrant(r(1), r(2), r(3), phi, lambda)
+
+    ! Compute geodetic height
+    h = norm2([XX-x, YY-y, ZZ-z])
+    if ((XX+YY+ZZ) < (x+y+z)) h = -h
+
+end subroutine cartesian_to_geodetic_triaxial
 
 !*****************************************************************************************
 !>
@@ -830,23 +823,23 @@ end subroutine bisection_special_3
 !*****************************************************************************************
 !>
 
-subroutine philambda_quadrant(XX, YY, ZZ, phi, lambda)
+subroutine philambda_quadrant(x, y, z, phi, lambda)
 
-    real(wp),intent(in) :: XX, YY, ZZ
+    real(wp),intent(in) :: x, y, z
     real(wp),intent(inout) :: phi, lambda
 
-    if (ZZ < zero) then
+    if (z < zero) then
         phi = -phi
     end if
 
-    if (XX >= zero) then
-        if (YY >= zero) then
+    if (x >= zero) then
+        if (y >= zero) then
             lambda = lambda
         else
             lambda = -lambda
         end if
     else
-        if (YY >= zero) then
+        if (y >= zero) then
             lambda = pi-lambda
         else
             lambda = lambda-pi
@@ -862,21 +855,18 @@ end subroutine philambda_quadrant
     subroutine xyz2philambda(ax, ay, b, x, y, z, phi, lambda)
 
      real(wp),intent(in) :: ax, ay, b, x, y, z
-     real(wp),intent(out) :: phi, lambda
+     real(wp),intent(inout) :: phi, lambda !! input: initial guess, output: refined values
 
-     real(wp) :: ee2,ex2,s0,SS0,Sphi,Cphi,Slambda,Clambda,&
-                 Den,P,L,D,NN,onemee2,onemex2
-     integer :: n, i
-     real(wp),dimension(3,2) :: J, JJ
+     real(wp) :: ee2,ex2,Sphi,Cphi,Slambda,Clambda,&
+                 Den,P,L,D,NN,onemee2,onemex2,dndphi,dxdphi,&
+                 dydphi,dzdphi,dndlam,dxdlam,dydlam,dzdlam
+     integer :: n
+     real(wp),dimension(3,2) :: J
      real(wp),dimension(2,3) :: Jt !! transpose of J
-     real(wp),dimension(3,1) :: dl,UU
+     real(wp),dimension(3,1) :: dl
      real(wp),dimension(2,2) :: Nmat, Ninv
-     real(wp),dimension(2,1) :: u, dx, dx2
-     real(wp),dimension(1,1) :: tmp
-     real(wp),dimension(2,2) :: NmatTmp
+     real(wp),dimension(2,1) :: dx
      real(wp),dimension(3) :: r0
-
-     real(wp) :: dndphi, dxdphi,dydphi,dzdphi,dndlam,dxdlam,dydlam,dzdlam
 
      integer,parameter :: maxiter = 100 !! maximum number of iterations
 
@@ -885,15 +875,7 @@ end subroutine philambda_quadrant
      onemee2 = one - ee2
      onemex2 = one - ex2
 
-     call xyz2fl(ax, ay, b, x, y, z, phi, lambda) ! use analytical one for initial guess
-
-     ! JW: is there some bug below? ..........  I don't think it is working right.
-     ! it is producing initial lat corrections on the order of 1e-3, which seems way too big
-     ! compared to the analytical method !
-
-     !s0 = zero
      do n = 1, maxiter
-        !SS0 = s0
 
         ! Design Matrix J
         Sphi = sin(phi)
@@ -917,7 +899,7 @@ end subroutine philambda_quadrant
         call geodetic_to_cartesian_triaxial_2(ax,ay,b,phi,lambda,0.0_wp,r0) ! just use the main one with alt=0
         dl(:,1) = [x,y,z] - r0 ! eqn. 51
 
-        !Solution
+        ! Solution
         Jt      = transpose(J)
         Nmat    = matmul(Jt,J) ! eqn. 53
         Ninv    = (one / (Nmat(1,1)*Nmat(2,2) - Nmat(1,2)*Nmat(2,1))) * &
@@ -926,17 +908,7 @@ end subroutine philambda_quadrant
         phi     = phi    + dx(1,1)   ! corrections. eqn. 55
         lambda  = lambda + dx(2,1)   !
 
-        !write(*,*) 'correction:    ', n, dx
-        !write(*,*) 'abs(s0 - SS0): ', abs(s0 - SS0)
-
-        !  UU      = matmul(J,dx) - dl
-        !  tmp     = sqrt(matmul(transpose(UU),UU))
-        !  s0      = tmp(1,1)
-        !if (s0 == SS0) exit     ! JW : this is not really a good stopping criterion....
-                                 !      dx bounces around very small values....
-
-        if (all(abs(dx) <= ten*epsilon(1.0_wp))) exit ! JW: how about this ??
-                                                     ! just check the correction ??
+        if (all(abs(dx) <= ten*epsilon(1.0_wp))) exit
 
      end do
 
@@ -950,10 +922,6 @@ end subroutine philambda_quadrant
 !  Angular coordinates in radians
 !
 !  This is based on the [C++ version](https://www.researchgate.net/publication/353739609_PK-code)
-
-!
-! is this the analytical method from the paper ??? (sect 3.1)
-!
 
 subroutine xyz2fl(ax, ay, b, x, y, z, latitude, longitude)
 
@@ -1085,6 +1053,10 @@ subroutine CartesianIntoGeodeticI(ax, ay, az, r, latitude, longitude, altitude, 
                 b2,b2x,b2y,b2z,b1,b1x,b1y,b1z,b0,b0x,b0y,b0z,eec,exc
     real(wp) :: xg2,yg2,zg2,aux,xG,yG,zG
     real(wp) :: xE,yE,zE,k,B(0:6),BB(0:6)
+    logical :: done
+
+    call special_cases(ax,ay,az,r(1),r(2),r(3),latitude,longitude,altitude,done)
+    if (done) return
 
     ! Computations independent of xG,yG,zG. They can be precomputed, if necessary.
     ax2 = ax*ax
@@ -1115,9 +1087,9 @@ subroutine CartesianIntoGeodeticI(ax, ay, az, r, latitude, longitude, altitude, 
     exc = (ax2-az2)/ax2
 
     ! Computations dependant of xG, yG, zG
-    xG = r(1)
-    yG = r(2)
-    zG = r(3)
+    xG = abs(r(1))
+    yG = abs(r(2))
+    zG = abs(r(3))
     xg2 = xG*xG
     yg2 = yG*yG
     zg2 = zG*zG
@@ -1197,6 +1169,8 @@ subroutine CartesianIntoGeodeticI(ax, ay, az, r, latitude, longitude, altitude, 
     altitude = -norm2([xE-xG,yE-yG,zE-zG])
   end if
 
+  call philambda_quadrant(r(1), r(2), r(3), latitude, longitude)
+
   end subroutine CartesianIntoGeodeticI
 
 !******************************************************************
@@ -1219,6 +1193,10 @@ subroutine CartesianIntoGeodeticII(ax, ay, az, r, latitude, longitude, altitude,
                 temp9,tempa,az6ax2,az6ay2,tempb,maz10,excc,eecc
     real(wp) :: xg2,yg2,zg2,zgxg2,zgyg2,zg3,zg4,aux,xG,yG,zG
     real(wp) :: xE,yE,zE,k,B(0:6)
+    logical :: done
+
+    call special_cases(ax,ay,az,r(1),r(2),r(3),latitude,longitude,altitude,done)
+    if (done) return
 
     ! Computations independent of xG,yG,zG. They can be precomputed, if necessary.
     aymaz = ay-az
@@ -1252,9 +1230,9 @@ subroutine CartesianIntoGeodeticII(ax, ay, az, r, latitude, longitude, altitude,
     excc = (ax2-az2)/(ax2)
     eecc = (ax2-ay2)/(ax2)
 
-    xG = r(1)
-    yG = r(2)
-    zG = r(3)
+    xG = abs(r(1))
+    yG = abs(r(2))
+    zG = abs(r(3))
     xg2 = xG*xG
     yg2 = yG*yG
     zg2 = zG*zG
@@ -1334,6 +1312,8 @@ subroutine CartesianIntoGeodeticII(ax, ay, az, r, latitude, longitude, altitude,
     altitude = -norm2([xE-xG,yE-yG,zE-zG])
   end if
 
+  call philambda_quadrant(r(1), r(2), r(3), latitude, longitude)
+
 end subroutine CartesianIntoGeodeticII
 
 !********************************************************************************
@@ -1358,8 +1338,7 @@ end subroutine CartesianIntoGeodeticII
     real(wp),intent(out) :: lambda !! longitude (rad)
     real(wp),intent(out) :: h !! altitude
 
-    integer,parameter  :: maxiter = 20 !! maximum number of iterations
-    real(wp),parameter :: zero_tol  = 10.0_wp * epsilon(1.0_wp)  !! zero tolerance for singularities
+    integer,parameter :: maxiter = 20 !! maximum number of iterations
 
     integer :: i  !! iteration counter
     real(wp),dimension(3,3) :: AA
@@ -1370,43 +1349,12 @@ end subroutine CartesianIntoGeodeticII
     x = r(1)
     y = r(2)
     z = r(3)
-    rmag = norm2(r)
 
     if (a<b .or. b<c) error stop 'error in cartesian_to_geodetic_triaxial_2: invalid a,b,c'
-    if (abs(rmag)<=zero_tol) then
-        phi = 0.0_wp
-        lambda = 0.0_wp
-        h = 0.0_wp
-        return
-    end if
+    call special_cases(a,b,c,x,y,z,phi,lambda,h,success)
+    if (success) return
 
-    ! special cases:
-    if (abs(x)<=zero_tol) then
-        if (abs(y)<=zero_tol) then  ! (on the z-axis)
-            if (z>=0.0_wp) then
-                phi = halfpi
-                lambda = 0.0_wp
-                h = z-c
-            else
-                phi = -halfpi
-                lambda = 0.0_wp
-                h = -(z+c)
-            end if
-            return
-        else if (abs(z)<=zero_tol) then  ! on the y-axis
-            if (y>=0.0_wp) then
-                phi = 0.0_wp
-                lambda = halfpi
-                h = y-b
-            else
-                phi = 0.0_wp
-                lambda = -halfpi
-                h = -(y+b)
-            end if
-            return
-        end if
-    end if
-
+    rmag = norm2(r)
     a2  = a*a
     b2  = b*b
     c2  = c*c
@@ -1427,16 +1375,18 @@ end subroutine CartesianIntoGeodeticII
         j23 = (xo-x)*G-E*xo
 
         ! solve the linear system:
-        AA = reshape(-[j11,j21,2.0_wp*E*xo,j12,0.0_wp,2.0_wp*F*yo,0.0_wp,j23,2.0_wp*G*zo], [3,3])
+        AA = reshape(-[j11,j21,2.0_wp*E*xo,&
+                       j12,0.0_wp,2.0_wp*F*yo,&
+                       0.0_wp,j23,2.0_wp*G*zo], [3,3])
         bvec = [ (xo-x)*F*yo-(yo-y)*E*xo, &
                  (xo-x)*G*zo-(zo-z)*E*xo, &
                  E*xo**2+F*yo**2+G*zo**2-1.0_wp ]
         call linear_solver(AA,bvec,xvec,success)
         if (.not. success) then
             write(*,*) 'error in cartesian_to_geodetic_triaxial_2: matrix is singular'
-            phi = 0.0_wp
+            phi    = 0.0_wp
             lambda = 0.0_wp
-            h = 0.0_wp
+            h      = 0.0_wp
             return
         end if
         xo = xo + xvec(1)
@@ -1461,21 +1411,21 @@ end subroutine CartesianIntoGeodeticII
 
         implicit none
 
-        real(wp),dimension(3,3),intent(in)  :: a
-        real(wp),dimension(3),intent(in)    :: b
-        real(wp),dimension(3),intent(out)   :: x
-        logical,intent(out)                 :: success
+        real(wp),dimension(3,3),intent(in) :: a
+        real(wp),dimension(3),intent(in)   :: b
+        real(wp),dimension(3),intent(out)  :: x
+        logical,intent(out)                :: success
 
         real(wp) :: det !! determinant of a
         real(wp),dimension(3,3) :: adj !! adjoint of a
         real(wp),dimension(3,3) :: ainv !! inverse of a
 
-        det =     a(1,1)*a(2,2)*a(3,3)  &
-                - a(1,1)*a(2,3)*a(3,2)  &
-                - a(1,2)*a(2,1)*a(3,3)  &
-                + a(1,2)*a(2,3)*a(3,1)  &
-                + a(1,3)*a(2,1)*a(3,2)  &
-                - a(1,3)*a(2,2)*a(3,1)
+        det =   a(1,1)*a(2,2)*a(3,3)  &
+              - a(1,1)*a(2,3)*a(3,2)  &
+              - a(1,2)*a(2,1)*a(3,3)  &
+              + a(1,2)*a(2,3)*a(3,1)  &
+              + a(1,3)*a(2,1)*a(3,2)  &
+              - a(1,3)*a(2,2)*a(3,1)
 
         success = abs(det) > tiny(1.0_wp) ! check for singularity
 
@@ -1499,6 +1449,83 @@ end subroutine CartesianIntoGeodeticII
 
     end subroutine cartesian_to_geodetic_triaxial_2
 !********************************************************************************
+
+!********************************************************************************
+!>
+!  Special cases for lat/lon/altitude
+
+    subroutine special_cases(a,b,c,x,y,z,phi,lambda,h,done)
+
+    real(wp),intent(in)  :: a      !! ellipsoid radii `a >= b >= c`
+    real(wp),intent(in)  :: b      !! ellipsoid radii `a >= b >= c`
+    real(wp),intent(in)  :: c      !! ellipsoid radii `a >= b >= c`
+    real(wp),intent(in)  :: x      !! Cartesian x coordinate
+    real(wp),intent(in)  :: y      !! Cartesian y coordinate
+    real(wp),intent(in)  :: z      !! Cartesian z coordinate
+    real(wp),intent(out) :: phi    !! latitude (rad)
+    real(wp),intent(out) :: lambda !! longitude (rad)
+    real(wp),intent(out) :: h      !! altitude
+    logical,intent(out)  :: done   !! true if one of the special cases was computed
+
+    logical :: x0, y0, z0
+
+    real(wp),parameter :: zero_tol  = 10.0_wp * epsilon(1.0_wp)  !! zero tolerance for singularities
+
+    x0 = abs(x) <= zero_tol
+    y0 = abs(y) <= zero_tol
+    z0 = abs(z) <= zero_tol
+
+    if (x0 .and. y0 .and. z0) then ! center of the body
+        phi    = zero
+        lambda = zero
+        h      = -c    ! just pick this value
+        done = .true.
+        return
+    else if (x0 .and. y0) then ! (on the z-axis)
+        if (z>=zero) then
+            phi    = halfpi
+            lambda = zero
+            h      = z-c
+        else
+            phi    = -halfpi
+            lambda = zero
+            h      = -(z+c)
+        end if
+        done = .true.
+        return
+    else if (x0 .and. z0) then  ! on the y-axis
+        if (y>=zero) then
+            phi    = zero
+            lambda = halfpi
+            h      = y-b
+        else
+            phi    = zero
+            lambda = -halfpi
+            h      = -(y+b)
+        end if
+        done = .true.
+        return
+    else if (y0 .and. z0) then  ! on the x-axis
+        if (x>=zero) then
+            phi    = zero
+            lambda = zero
+            h      = x-a
+        else
+            phi    = zero
+            lambda = pi
+            h      = -(x+a)
+        end if
+        done = .true.
+        return
+    end if
+
+    phi    = zero
+    lambda = zero
+    h      = zero
+    done = .false.
+
+    end subroutine special_cases
+!*****************************************************************************************
 
 !*****************************************************************************************
 !>
