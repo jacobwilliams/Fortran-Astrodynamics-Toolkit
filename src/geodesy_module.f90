@@ -342,8 +342,6 @@
 
     pure function geocentric_radius(a,b,lat) result(r)
 
-    use numbers_module, only: zero
-
     implicit none
 
     real(wp),intent(in) :: a    !! equatorial radius (km)
@@ -412,10 +410,8 @@
                 cossig,costm,costm2,cosu1,cosu2,d,dsig,ep2,l,prev,&
                 sinal,sinlam,sinsig,sinu1,sinu2,tem1,tem2,temp,test,z
 
-    real(wp),parameter :: pi     = acos(-1.0_wp)
-    real(wp),parameter :: two_pi = 2.0_wp * pi
-    real(wp),parameter :: tol    = 1.0e-14_wp   !! convergence tolerance
-    real(wp),parameter :: eps    = 1.0e-15_wp   !! tolerance for zero
+    real(wp),parameter :: tol = 1.0e-14_wp   !! convergence tolerance
+    real(wp),parameter :: eps = 1.0e-15_wp   !! tolerance for zero
 
     boa = 1.0_wp - 1.0_wp/rf   ! b/a
 
@@ -427,8 +423,8 @@
     cosu2 = cos(beta2)
 
     l = l2 - l1  ! longitude difference [-pi,pi]
-    if ( l>pi ) l = l - two_pi
-    if ( l<-pi ) l = l + two_pi
+    if ( l>pi ) l = l - twopi
+    if ( l<-pi ) l = l + twopi
     prev = l
     test = l
     it   = 0
@@ -541,8 +537,8 @@
         tem2 = sinu1*cosu2 - cosu1*sinu2*coslam
         baz  = atan2(tem1,tem2)
     endif
-    if ( faz<0.0_wp ) faz = faz + two_pi
-    if ( baz<0.0_wp ) baz = baz + two_pi
+    if ( faz<0.0_wp ) faz = faz + twopi
+    if ( baz<0.0_wp ) baz = baz + twopi
 
     ! helmert 1880 from vincenty "geodetic inverse solution between antipodal points"
 
@@ -850,6 +846,8 @@ end subroutine philambda_quadrant
 !******************************************************************************
 !>
 !  Determination of the geodetic latitude and longitude
+!
+!@note This one has a different stopping criterion than the reference.
 
     subroutine xyz2philambda(ax, ay, b, x, y, z, phi, lambda)
 
@@ -867,14 +865,21 @@ end subroutine philambda_quadrant
      real(wp),dimension(2,1) :: dx
      real(wp),dimension(3) :: r0
 
+    ! real(wp) :: s0, SS0
+    ! real(wp),dimension(3,1) :: UU
+    ! real(wp),dimension(1,1) :: tmp
+
      integer,parameter :: maxiter = 100 !! maximum number of iterations
+     real(wp),parameter :: stop_tol = ten * epsilon(one) !! stopping tol for corrections
 
      ee2 = (ax*ax - ay*ay)/(ax*ax) ! eqn. 5
      ex2 = (ax*ax - b*b)/(ax*ax)   !
      onemee2 = one - ee2
      onemex2 = one - ex2
 
+     !s0 = zero
      do n = 1, maxiter
+        !SS0 = s0
 
         ! Design Matrix J
         Sphi = sin(phi)
@@ -907,7 +912,14 @@ end subroutine philambda_quadrant
         phi     = phi    + dx(1,1)   ! corrections. eqn. 55
         lambda  = lambda + dx(2,1)   !
 
-        if (all(abs(dx) <= ten*epsilon(1.0_wp))) exit
+        ! ! original:
+        ! UU      = matmul(J,dx) - dl
+        ! tmp     = sqrt(matmul(transpose(UU),UU))
+        ! s0      = tmp(1,1)
+        ! if (s0 == SS0) exit
+
+        ! JW: I think this is a better stopping criterion:
+        if (all(abs(dx) <= stop_tol)) exit
 
      end do
 
@@ -958,10 +970,10 @@ subroutine xyz2fl(ax, ay, b, x, y, z, latitude, longitude)
         end if
         if (y<=xme) then
             den = xme+rot
-            longitude = 2.0_wp*atan(y/den)
+            longitude = two*atan(y/den)
         else
             den = y+rot
-            longitude = halfpi - 2.0_wp*atan(xme/den)
+            longitude = halfpi - two*atan(xme/den)
         end if
     end if
 
@@ -996,7 +1008,7 @@ pure function solve_polynomial(B, x0, error) result(x)
             end if
             f  = x*f + B(j)
         end do
-        if (fp==0.0_wp) exit ! singular point
+        if (fp==zero) exit ! singular point
         corr = f/fp
         x = x - corr
         if (abs(corr)<=error) exit
@@ -1342,7 +1354,7 @@ end subroutine CartesianIntoGeodeticII
     integer :: i  !! iteration counter
     real(wp),dimension(3,3) :: AA
     real(wp),dimension(3) :: bvec, xvec
-    real(wp) :: a2,b2,c2,x,y,z,ex2,ee2,e,f,g,xo,yo,zo,j11,j12,j21,j23,rmag
+    real(wp) :: a2,b2,c2,x,y,z,ex2,ee2,e,f,g,xo,yo,zo,j11,j12,j21,j23,rmag,omee2
     logical :: success
 
     x = r(1)
@@ -1353,18 +1365,19 @@ end subroutine CartesianIntoGeodeticII
     call special_cases(a,b,c,x,y,z,phi,lambda,h,success)
     if (success) return
 
-    rmag = norm2(r)
-    a2  = a*a
-    b2  = b*b
-    c2  = c*c
-    ex2 = (a2-c2)/a2
-    ee2 = (a2-b2)/a2
-    E   = 1.0_wp/a2
-    F   = 1.0_wp/b2
-    G   = 1.0_wp/c2
-    xo  = a*x/rmag
-    yo  = b*y/rmag
-    zo  = c*z/rmag
+    rmag  = norm2(r)
+    a2    = a*a
+    b2    = b*b
+    c2    = c*c
+    ex2   = (a2-c2)/a2
+    ee2   = (a2-b2)/a2
+    omee2 = one-ee2
+    E     = one/a2
+    F     = one/b2
+    G     = one/c2
+    xo    = a*x/rmag
+    yo    = b*y/rmag
+    zo    = c*z/rmag
 
     do i = 1, maxiter
 
@@ -1374,18 +1387,18 @@ end subroutine CartesianIntoGeodeticII
         j23 = (xo-x)*G-E*xo
 
         ! solve the linear system:
-        AA = reshape(-[j11,j21,2.0_wp*E*xo,&
-                       j12,0.0_wp,2.0_wp*F*yo,&
-                       0.0_wp,j23,2.0_wp*G*zo], [3,3])
+        AA = reshape(-[j11,j21,two*E*xo,&
+                       j12,zero,two*F*yo,&
+                       zero,j23,two*G*zo], [3,3])
         bvec = [ (xo-x)*F*yo-(yo-y)*E*xo, &
                  (xo-x)*G*zo-(zo-z)*E*xo, &
-                 E*xo**2+F*yo**2+G*zo**2-1.0_wp ]
+                 E*xo**2+F*yo**2+G*zo**2-one ]
         call linear_solver(AA,bvec,xvec,success)
         if (.not. success) then
             write(*,*) 'error in cartesian_to_geodetic_triaxial_2: matrix is singular'
-            phi    = 0.0_wp
-            lambda = 0.0_wp
-            h      = 0.0_wp
+            phi    = zero
+            lambda = zero
+            h      = zero
             return
         end if
         xo = xo + xvec(1)
@@ -1397,9 +1410,9 @@ end subroutine CartesianIntoGeodeticII
     end do
 
     ! outputs:
-    phi = atan(zo*(1.0_wp-ee2)/(1.0_wp-ex2)/sqrt((1.0_wp-ee2)**2*xo**2+yo**2))
-    lambda = atan2(yo, (1.0_wp-ee2)*xo)
-    h = sign(1.0_wp,z-zo)*sign(1.0_wp,zo)*sqrt((x-xo)**2+(y-yo)**2+(z-zo)**2)
+    phi = atan(zo*omee2/(one-ex2)/sqrt(omee2**2*xo**2+yo**2))
+    lambda = atan2(yo, omee2*xo)
+    h = sign(one,z-zo)*sign(one,zo)*sqrt((x-xo)**2+(y-yo)**2+(z-zo)**2)
 
     contains
 

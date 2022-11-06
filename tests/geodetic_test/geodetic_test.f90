@@ -47,11 +47,11 @@ program geodetic_test
     write(*,*) ' 0. Test case 1 : Triaxial'
     write(*,*) ''
 
-    ax = 6378137.0_wp
+    ax = 6378137.0_wp  ! earth
     ay = 6378102.0_wp
     b  = 6356752.0_wp
 
-   do icase = 1, 15
+   do icase = 1, 16
 
         select case (icase)
         case(1); r  = [-5734871.6046899008_wp, -2808462.3459780114_wp, 2937.9300139431466_wp]
@@ -76,8 +76,16 @@ program geodetic_test
         case(12); r = [0.0_wp,    -2000.0_wp, 0.0_wp   ]
         case(13); r = [0.0_wp,    0.0_wp,    -2000.0_wp]
 
+        !.....these have some failures:
         case(14); r = [2000.0_wp, 2000.0_wp, 0.0_wp   ]
         case(15); r = [0.0_wp,    2000.0_wp, 2000.0_wp]
+        case(16)
+            ax = 6378137.0_wp ! earth
+            ay = 6378102.0_wp
+            b  = 6356752.0_wp
+            r = [1.0_wp,    2.0_wp,    3.0_wp   ] ! inside the body
+        !.....
+
         end select
 
         write(*,'(1p,A26,1X,*(A26,1X))') 'Method', 'Lat (deg)', 'Long (deg)', 'Alt (m)'
@@ -113,6 +121,55 @@ program geodetic_test
     ay  = 6378102.0_wp    ! see: https://link.springer.com/article/10.1007/s10291-020-01033-7/tables/1
     b   = 6356752.0_wp
 
+
+    write(*,'(A40,1X,A30,1X,A17)') 'Test', 'Max error', 'cases/sec'
+    do icase = 1,2
+
+        select case (icase)
+        case(1); method = 'Panou'
+        case(2); method = 'Bektas'
+        end select
+
+        call random_seed(put=iseed)
+        tmp = zero
+        call cpu_time(tstart)
+        do i = 1, n_repeat
+
+            ! points inside and outside the body:
+            h      = get_random_number(-6356752.0_wp, 6356752.0_wp)
+            lambda = get_random_number(-180.0_wp, 180.0_wp) * deg2rad
+            phi    = get_random_number(-90.0_wp, 90.0_wp) * deg2rad
+            call geodetic_to_cartesian_triaxial(ax, ay, b, phi, lambda, h, r)
+
+            select case (icase)
+            case(1); call cartesian_to_geodetic_triaxial(  ax, ay, b, r, tol, phi_, lambda_, h_)
+            case(2); call cartesian_to_geodetic_triaxial_2(ax, ay, b, r, tol, phi_, lambda_, h_)
+            end select
+            phi_error    = rel_error(phi_ ,    phi,    .true.)
+            lambda_error = rel_error(lambda_ , lambda, .true.)
+            h_error      = rel_error(h_ ,      h,      .false.)
+            err = [phi_error,lambda_error,h_error]
+
+            if (any(abs(err) > test_tol) .or. any(ieee_is_nan(err))) then
+                write(*,*) ''
+                write(*,*) 'error for '//method, ', case', i
+                write(*,*) 'r      = ', r
+                write(*,*) 'h      = ', h,      h_,      h-h_
+                write(*,*) 'lambda = ', lambda, lambda_, lambda-lambda_
+                write(*,*) 'phi    = ', phi,    phi_,    phi-phi_
+                write(*,*) 'err    = ', err
+                error stop 'FAILURE'
+            end if
+            tmp = max(tmp , maxval(abs(err))) !compute something so loop isn't optimized away
+
+        end do
+        call cpu_time(tstop)
+        write(*,'(A40,1X,E30.16,1X,F17.1,1X,A)') method//' : Consistency', tmp, n_repeat/(tstop-tstart), 'cases/sec'
+
+    end do
+
+    write(*,*) ''
+
     write(*,'(A40,1X,A30,1X,A17)') 'Test', 'Max error', 'cases/sec'
     do icase = 1,4
 
@@ -128,6 +185,7 @@ program geodetic_test
         call cpu_time(tstart)
         do i = 1, n_repeat
 
+            ! outside the body only:
             h      = get_random_number(1.0_wp, 10000.0_wp)
             lambda = get_random_number(-180.0_wp, 180.0_wp) * deg2rad
             phi    = get_random_number(-90.0_wp, 90.0_wp) * deg2rad
