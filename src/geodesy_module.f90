@@ -858,7 +858,7 @@ end subroutine philambda_quadrant
      real(wp),intent(inout) :: phi, lambda !! input: initial guess, output: refined values
 
      real(wp) :: ee2,ex2,Sphi,Cphi,Slambda,Clambda,&
-                 Den,P,L,D,NN,onemee2,onemex2,dndphi,dxdphi,&
+                 Den,NN,onemee2,onemex2,dndphi,dxdphi,&
                  dydphi,dzdphi,dndlam,dxdlam,dydlam,dzdlam
      integer :: n
      real(wp),dimension(3,2) :: J
