@@ -641,14 +641,15 @@ end subroutine geodetic_to_cartesian_triaxial
 !  Latitude and longitude are returned in radians.
 !
 !### Reference
-!  * Panou G. and Korakitis R. (2019) "Cartesian to geodetic coordinates conversion
+!  * G. Panou and R. Korakitis, "Cartesian to geodetic coordinates conversion
 !    on an ellipsoid using the bisection method".
 !    Journal of Geodesy volume 96, Article number: 66 (2022).
 !    [(link)](https://link.springer.com/article/10.1007/s00190-022-01650-9)
+!  * [C++ code](https://www.researchgate.net/publication/353739609_PK-code)
+!  * [MATLAB code](https://www.researchgate.net/publication/333904614_Cartesian2Geodetic_General_Panou_Korakitis)
 !
 !### History
-!  * Jacob Williams, 10/29/2022 : Fortran verison of this algorithm,
-!    based on the Matlab (v1.0 01/03/2019) code.
+!  * Jacob Williams, 10/29/2022 : Fortran verison of this algorithm.
 
 subroutine cartesian_to_geodetic_triaxial(ax, ay, b, r, tol, phi, lambda, h)
 
@@ -1050,7 +1051,7 @@ end subroutine horner
 !    "Direct transformation from Cartesian into geodetic coordinates on a triaxial ellipsoid"
 !    Computers & Geosciences, Volume 142, September 2020, 104551.
 !    [link](https://www.sciencedirect.com/science/article/pii/S0098300420305410?via%3Dihub),
-!    [C++ code](https://data.mendeley.com/datasets/s5f6sww86x/2)
+!  * [C++ code](https://data.mendeley.com/datasets/s5f6sww86x/2) [CC BY 4.0 License]
 
 subroutine CartesianIntoGeodeticI(ax, ay, az, r, latitude, longitude, altitude, error)
 
