@@ -685,15 +685,15 @@ subroutine cartesian_to_geodetic_triaxial(ax, ay, b, r, tol, phi, lambda, h)
             x = zero
             y = zero
             z = b
-        elseif (ky*XX*ky*XX+kx*YY*kx*YY < kx*ky*kx*ky) then
+        else if (ky*XX*ky*XX+kx*YY*kx*YY < kx*ky*kx*ky) then
             x = ax*XX/kx
             y = ay*YY/ky
             z = b*sqrt(one-((x*x)/(axax))-((y*y)/(ayay)))
-        elseif (XX == zero) then
+        else if (XX == zero) then
             x = zero
             y = ay
             z = zero
-        elseif (YY == zero) then
+        else if (YY == zero) then
             x = ax
             y = zero
             z = zero
