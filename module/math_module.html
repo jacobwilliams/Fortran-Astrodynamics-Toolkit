@@ -1,148 +1,167 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta name="description" content="A modern Fortran library for Astrodynamics">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
     <title>math_module &ndash; fortran-astrodynamics-toolkit</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
-    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="../js/svg-pan-zoom.min.js"></script>
-
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-              data-toggle="dropdown" role="button"
-              aria-haspopup="true"
-     aria-expanded="false">Contents <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="../lists/files.html">Source Files</a></li>
-            <li><a href="../lists/modules.html">Modules</a></li>
-            <li><a href="../lists/procedures.html">Procedures</a></li>
-            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                   <li><a href="../lists/types.html">Derived Types</a></li>
-       
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
             </ul>
-        
-            </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-          </ul>
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
         </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
-    <h1>math_module 
-    <small>Module</small>
+    <h1>math_module
+      <small>Module</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-pencil"></i> Jacob Williams</li>
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.3% of total for modules and submodules.">44 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/math_module.f90"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/math_module.f90.html'>math_module.f90</a></li>
-     <li class="active">math_module</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+            <li class="list-inline-item" id="meta-author"><i class="fa fa-pencil"></i> Jacob Williams</li>
 
-  </div>
-  
-  <div class="row">
-    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-0">Functions</a></h3></div>
-  <div id="funcs-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/math_module.html#proc-magnitude">magnitude</a>
-      <a class="list-group-item" href="../module/math_module.html#proc-wrap_angle">wrap_angle</a>
-      <a class="list-group-item" href="../module/math_module.html#proc-cube_root">cube_root</a>
-    </div>
-  </div>
-</div>
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 0.3% of total for modules and submodules.">44 statements</a>
+            </li>
 
-</div>
-
-    </div>
-    
-    <div class="col-md-9" id='text'>
-    <p>General math routines</p>
-<br>        <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Uses</h3>
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/math_module.f90"> Source File</a>
+            </li>
+        </ul>
       </div>
-      <ul class="list-group">
-      <li class="list-group-item">
-  <ul class="list-inline">
-    <li><a href='../module/kind_module.html'>kind_module</a></li>
-    <li><a href='../module/numbers_module.html'>numbers_module</a></li>
-  </ul>
-      </li>
-      <li class="list-group-item">
-  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/math_module.f90.html'>math_module.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">math_module</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/math_module.html#proc-magnitude">magnitude</a>
+            <a class="list-group-item" href="../module/math_module.html#proc-wrap_angle">wrap_angle</a>
+            <a class="list-group-item" href="../module/math_module.html#proc-cube_root">cube_root</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <p>General math routines</p>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='kind_module.html'>kind_module</a></li>
+                  <li class="list-inline-item"><a href='numbers_module.html'>numbers_module</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
@@ -162,7 +181,7 @@
 <!-- module~kind_module -->
 <g id="module~~math_module~~UsesGraph_node2" class="node">
 <title>module~kind_module</title>
-<g id="a_module~~math_module~~UsesGraph_node2"><a xlink:href=".././module/kind_module.html" xlink:title="kind_module">
+<g id="a_module~~math_module~~UsesGraph_node2"><a xlink:href="../module/kind_module.html" xlink:title="kind_module">
 <polygon fill="#337ab7" stroke="#337ab7" points="211,-44 130,-44 130,-20 211,-20 211,-44"/>
 <text text-anchor="middle" x="170.5" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module</text>
 </a>
@@ -177,7 +196,7 @@
 <!-- module~numbers_module -->
 <g id="module~~math_module~~UsesGraph_node3" class="node">
 <title>module~numbers_module</title>
-<g id="a_module~~math_module~~UsesGraph_node3"><a xlink:href=".././module/numbers_module.html" xlink:title="numbers_module">
+<g id="a_module~~math_module~~UsesGraph_node3"><a xlink:href="../module/numbers_module.html" xlink:title="numbers_module">
 <polygon fill="#337ab7" stroke="#337ab7" points="353,-24 247,-24 247,0 353,0 353,-24"/>
 <text text-anchor="middle" x="300" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module</text>
 </a>
@@ -192,11 +211,8 @@
 <!-- iso_fortran_env -->
 <g id="module~~math_module~~UsesGraph_node4" class="node">
 <title>iso_fortran_env</title>
-<g id="a_module~~math_module~~UsesGraph_node4"><a xlink:href="https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html" xlink:title="iso_fortran_env">
 <polygon fill="#337ab7" stroke="#337ab7" points="94,-44 0,-44 0,-20 94,-20 94,-44"/>
 <text text-anchor="middle" x="47" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
-</a>
-</g>
 </g>
 <!-- module~kind_module&#45;&gt;iso_fortran_env -->
 <g id="module~~math_module~~UsesGraph_edge3" class="edge">
@@ -212,9 +228,19 @@
 </g>
 </g>
 </svg>
-</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
@@ -264,140 +290,156 @@
 </g>
 </svg>
 
-    
-    <p>Solid arrows point from a submodule to the (sub)module which it is
-    descended from. Dashed arrows point from a module or program unit to 
-    modules which it uses.
-    </p>
-    </div></div></div></div>
-      </li>
-      </ul>
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
     </div>
 
-        <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Used by</h3>
-      </div>
-      <ul class="list-group">
-  <li class="list-group-item">
-    <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: module~~math_module~~UsedByGraph Pages: 1 -->
-<svg id="modulemath_moduleUsedByGraph" width="501pt" height="196pt"
- viewBox="0.00 0.00 501.00 196.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="module~~math_module~~UsedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 192)">
+<svg id="modulemath_moduleUsedByGraph" width="641pt" height="191pt"
+ viewBox="0.00 0.00 641.00 191.48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~math_module~~UsedByGraph" class="graph" transform="scale(1.06 1.06) rotate(0) translate(4 198.23)">
 <title>module~~math_module~~UsedByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-192 497,-192 497,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-198.23 673,-198.23 673,4 -4,4"/>
 <!-- module~math_module -->
 <g id="module~~math_module~~UsedByGraph_node1" class="node">
 <title>module~math_module</title>
 <polygon fill="none" stroke="black" points="86,-108 0,-108 0,-84 86,-84 86,-108"/>
 <text text-anchor="middle" x="43" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50">math_module</text>
 </g>
-<!-- proc~compute_libration_points -->
-<g id="module~~math_module~~UsedByGraph_node2" class="node">
-<title>proc~compute_libration_points</title>
-<g id="a_module~~math_module~~UsedByGraph_node2"><a xlink:href=".././proc/compute_libration_points.html" xlink:title="compute_libration_points">
-<polygon fill="#d9534f" stroke="#d9534f" points="278,-188 131,-188 131,-164 278,-164 278,-188"/>
-<text text-anchor="middle" x="204.5" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_libration_points</text>
-</a>
-</g>
-</g>
-<!-- proc~compute_libration_points&#45;&gt;module~math_module -->
-<g id="module~~math_module~~UsedByGraph_edge1" class="edge">
-<title>proc~compute_libration_points&#45;&gt;module~math_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M157.3,-163.88C145.52,-160.09 133.06,-155.44 122,-150 102.23,-140.28 81.83,-125.97 66.85,-114.53"/>
-<polygon fill="#000000" stroke="#000000" points="68.74,-111.57 58.7,-108.18 64.44,-117.09 68.74,-111.57"/>
-</g>
-<!-- module~orbital_mechanics_module -->
-<g id="module~~math_module~~UsedByGraph_node3" class="node">
-<title>module~orbital_mechanics_module</title>
-<g id="a_module~~math_module~~UsedByGraph_node3"><a xlink:href=".././module/orbital_mechanics_module.html" xlink:title="orbital_mechanics_module">
-<polygon fill="#337ab7" stroke="#337ab7" points="282.5,-108 126.5,-108 126.5,-84 282.5,-84 282.5,-108"/>
-<text text-anchor="middle" x="204.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">orbital_mechanics_module</text>
-</a>
-</g>
-</g>
-<!-- module~orbital_mechanics_module&#45;&gt;module~math_module -->
-<g id="module~~math_module~~UsedByGraph_edge2" class="edge">
-<title>module~orbital_mechanics_module&#45;&gt;module~math_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M126.09,-96C115.94,-96 105.75,-96 96.17,-96"/>
-<polygon fill="#000000" stroke="#000000" points="96.03,-92.5 86.03,-96 96.03,-99.5 96.03,-92.5"/>
-</g>
 <!-- module~fortran_astrodynamics_toolkit -->
-<g id="module~~math_module~~UsedByGraph_node4" class="node">
+<g id="module~~math_module~~UsedByGraph_node2" class="node">
 <title>module~fortran_astrodynamics_toolkit</title>
-<g id="a_module~~math_module~~UsedByGraph_node4"><a xlink:href=".././module/fortran_astrodynamics_toolkit.html" xlink:title="fortran_astrodynamics_toolkit">
-<polygon fill="#337ab7" stroke="#337ab7" points="493,-148 323,-148 323,-124 493,-124 493,-148"/>
-<text text-anchor="middle" x="408" y="-133.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fortran_astrodynamics_toolkit</text>
+<g id="a_module~~math_module~~UsedByGraph_node2"><a xlink:href="../module/fortran_astrodynamics_toolkit.html" xlink:title="fortran_astrodynamics_toolkit">
+<polygon fill="#337ab7" stroke="#337ab7" points="621.5,-190 451.5,-190 451.5,-166 621.5,-166 621.5,-190"/>
+<text text-anchor="middle" x="536.5" y="-175.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fortran_astrodynamics_toolkit</text>
 </a>
 </g>
 </g>
 <!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~math_module -->
-<g id="module~~math_module~~UsedByGraph_edge5" class="edge">
+<g id="module~~math_module~~UsedByGraph_edge1" class="edge">
 <title>module~fortran_astrodynamics_toolkit&#45;&gt;module~math_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M322.95,-134.72C265.93,-132.8 189.02,-128.14 122,-117 112.45,-115.41 102.38,-113.15 92.77,-110.7"/>
-<polygon fill="#000000" stroke="#000000" points="93.51,-107.28 82.95,-108.1 91.72,-114.05 93.51,-107.28"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M451.22,-189.09C365.41,-196.99 230.01,-199.98 122,-159 98.02,-149.9 75.81,-130.41 61.27,-115.5"/>
+<polygon fill="#000000" stroke="#000000" points="63.81,-113.09 54.4,-108.2 58.71,-117.88 63.81,-113.09"/>
 </g>
-<!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~orbital_mechanics_module -->
-<g id="module~~math_module~~UsedByGraph_edge7" class="edge">
-<title>module~fortran_astrodynamics_toolkit&#45;&gt;module~orbital_mechanics_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M346.54,-124C324.43,-119.61 299.21,-114.6 276.28,-110.05"/>
-<polygon fill="#000000" stroke="#000000" points="276.75,-106.58 266.26,-108.06 275.39,-113.44 276.75,-106.58"/>
-</g>
-<!-- proc~halo_to_rv_diffcorr -->
-<g id="module~~math_module~~UsedByGraph_node5" class="node">
-<title>proc~halo_to_rv_diffcorr</title>
-<g id="a_module~~math_module~~UsedByGraph_node5"><a xlink:href=".././proc/halo_to_rv_diffcorr.html" xlink:title="halo_to_rv_diffcorr">
-<polygon fill="#d9534f" stroke="#d9534f" points="260.5,-66 148.5,-66 148.5,-42 260.5,-42 260.5,-66"/>
-<text text-anchor="middle" x="204.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">halo_to_rv_diffcorr</text>
+<!-- module~orbital_mechanics_module -->
+<g id="module~~math_module~~UsedByGraph_node3" class="node">
+<title>module~orbital_mechanics_module</title>
+<g id="a_module~~math_module~~UsedByGraph_node3"><a xlink:href="../module/orbital_mechanics_module.html" xlink:title="orbital_mechanics_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="323,-150 167,-150 167,-126 323,-126 323,-150"/>
+<text text-anchor="middle" x="245" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">orbital_mechanics_module</text>
 </a>
 </g>
 </g>
-<!-- proc~halo_to_rv_diffcorr&#45;&gt;module~math_module -->
-<g id="module~~math_module~~UsedByGraph_edge4" class="edge">
-<title>proc~halo_to_rv_diffcorr&#45;&gt;module~math_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M156.5,-66.02C145.2,-68.93 133.16,-72.06 122,-75 113.53,-77.23 104.54,-79.63 95.8,-81.97"/>
-<polygon fill="#000000" stroke="#000000" points="94.83,-78.61 86.08,-84.58 96.64,-85.37 94.83,-78.61"/>
+<!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~orbital_mechanics_module -->
+<g id="module~~math_module~~UsedByGraph_edge6" class="edge">
+<title>module~fortran_astrodynamics_toolkit&#45;&gt;module~orbital_mechanics_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M451.38,-166.38C414.45,-161.27 371.09,-155.28 333.76,-150.13"/>
+<polygon fill="#000000" stroke="#000000" points="333.78,-146.6 323.4,-148.69 332.82,-153.53 333.78,-146.6"/>
+</g>
+<!-- module~orbital_mechanics_module&#45;&gt;module~math_module -->
+<g id="module~~math_module~~UsedByGraph_edge2" class="edge">
+<title>module~orbital_mechanics_module&#45;&gt;module~math_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M167.64,-125.98C152.47,-123.27 136.69,-120.24 122,-117 113.44,-115.12 104.42,-112.9 95.66,-110.63"/>
+<polygon fill="#000000" stroke="#000000" points="96.49,-107.23 85.92,-108.05 94.7,-113.99 96.49,-107.23"/>
+</g>
+<!-- proc~compute_libration_points -->
+<g id="module~~math_module~~UsedByGraph_node4" class="node">
+<title>proc~compute_libration_points</title>
+<g id="a_module~~math_module~~UsedByGraph_node4"><a xlink:href="../proc/compute_libration_points.html" xlink:title="crtbp_module::compute_libration_points">
+<polygon fill="#d9534f" stroke="#d9534f" points="359,-108 131,-108 131,-84 359,-84 359,-108"/>
+<text text-anchor="middle" x="245" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">crtbp_module::compute_libration_points</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_libration_points&#45;&gt;module~math_module -->
+<g id="module~~math_module~~UsedByGraph_edge3" class="edge">
+<title>proc~compute_libration_points&#45;&gt;module~math_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M130.85,-96C118.79,-96 107,-96 96.18,-96"/>
+<polygon fill="#000000" stroke="#000000" points="96.13,-92.5 86.13,-96 96.13,-99.5 96.13,-92.5"/>
 </g>
 <!-- proc~compute_libration_points_v2 -->
-<g id="module~~math_module~~UsedByGraph_node6" class="node">
+<g id="module~~math_module~~UsedByGraph_node5" class="node">
 <title>proc~compute_libration_points_v2</title>
-<g id="a_module~~math_module~~UsedByGraph_node6"><a xlink:href=".././proc/compute_libration_points_v2.html" xlink:title="compute_libration_points_v2">
-<polygon fill="#d9534f" stroke="#d9534f" points="287,-24 122,-24 122,0 287,0 287,-24"/>
-<text text-anchor="middle" x="204.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_libration_points_v2</text>
+<g id="a_module~~math_module~~UsedByGraph_node5"><a xlink:href="../proc/compute_libration_points_v2.html" xlink:title="crtbp_module::compute_libration_points_v2">
+<polygon fill="#d9534f" stroke="#d9534f" points="368,-66 122,-66 122,-42 368,-42 368,-66"/>
+<text text-anchor="middle" x="245" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">crtbp_module::compute_libration_points_v2</text>
 </a>
 </g>
 </g>
 <!-- proc~compute_libration_points_v2&#45;&gt;module~math_module -->
-<g id="module~~math_module~~UsedByGraph_edge3" class="edge">
+<g id="module~~math_module~~UsedByGraph_edge4" class="edge">
 <title>proc~compute_libration_points_v2&#45;&gt;module~math_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M144.09,-24.11C136.47,-26.58 128.92,-29.52 122,-33 99.69,-44.21 77.9,-62.64 63.04,-76.68"/>
-<polygon fill="#000000" stroke="#000000" points="60.28,-74.47 55.54,-83.95 65.16,-79.5 60.28,-74.47"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M167.64,-66.02C152.47,-68.73 136.69,-71.76 122,-75 113.44,-76.88 104.42,-79.1 95.66,-81.37"/>
+<polygon fill="#000000" stroke="#000000" points="94.7,-78.01 85.92,-83.95 96.49,-84.77 94.7,-78.01"/>
+</g>
+<!-- proc~halo_to_rv_diffcorr -->
+<g id="module~~math_module~~UsedByGraph_node6" class="node">
+<title>proc~halo_to_rv_diffcorr</title>
+<g id="a_module~~math_module~~UsedByGraph_node6"><a xlink:href="../proc/halo_to_rv_diffcorr.html" xlink:title="halo_orbit_module::halo_to_rv_diffcorr">
+<polygon fill="#d9534f" stroke="#d9534f" points="354,-24 136,-24 136,0 354,0 354,-24"/>
+<text text-anchor="middle" x="245" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">halo_orbit_module::halo_to_rv_diffcorr</text>
+</a>
+</g>
+</g>
+<!-- proc~halo_to_rv_diffcorr&#45;&gt;module~math_module -->
+<g id="module~~math_module~~UsedByGraph_edge5" class="edge">
+<title>proc~halo_to_rv_diffcorr&#45;&gt;module~math_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M146.73,-24.05C138.2,-26.51 129.83,-29.46 122,-33 99.12,-43.35 77.25,-62.05 62.53,-76.39"/>
+<polygon fill="#000000" stroke="#000000" points="59.69,-74.28 55.12,-83.83 64.65,-79.22 59.69,-74.28"/>
 </g>
 <!-- proc~rk_test_variable_step -->
 <g id="module~~math_module~~UsedByGraph_node7" class="node">
 <title>proc~rk_test_variable_step</title>
-<g id="a_module~~math_module~~UsedByGraph_node7"><a xlink:href=".././proc/rk_test_variable_step.html" xlink:title="rk_test_variable_step">
-<polygon fill="#d9534f" stroke="#d9534f" points="470,-106 346,-106 346,-82 470,-82 470,-106"/>
-<text text-anchor="middle" x="408" y="-91.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rk_test_variable_step</text>
+<g id="a_module~~math_module~~UsedByGraph_node7"><a xlink:href="../proc/rk_test_variable_step.html" xlink:title="rk_module_variable_step::rk_test_variable_step">
+<polygon fill="#d9534f" stroke="#d9534f" points="669,-148 404,-148 404,-124 669,-124 669,-148"/>
+<text text-anchor="middle" x="536.5" y="-133.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rk_module_variable_step::rk_test_variable_step</text>
 </a>
 </g>
 </g>
 <!-- proc~rk_test_variable_step&#45;&gt;module~orbital_mechanics_module -->
-<g id="module~~math_module~~UsedByGraph_edge6" class="edge">
+<g id="module~~math_module~~UsedByGraph_edge7" class="edge">
 <title>proc~rk_test_variable_step&#45;&gt;module~orbital_mechanics_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M346,-94.61C329.34,-94.77 310.96,-94.95 293.14,-95.13"/>
-<polygon fill="#000000" stroke="#000000" points="292.69,-91.63 282.73,-95.23 292.76,-98.63 292.69,-91.63"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M403.88,-136.91C379.92,-137.07 355.47,-137.24 333.2,-137.4"/>
+<polygon fill="#000000" stroke="#000000" points="333.1,-133.9 323.12,-137.47 333.15,-140.9 333.1,-133.9"/>
 </g>
 </g>
 </svg>
-</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>                <script>
+                  var panmodulemath_moduleUsedByGraph = svgPanZoom('#modulemath_moduleUsedByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
@@ -447,174 +489,231 @@
 </g>
 </svg>
 
-    
-    <p>Solid arrows point from a submodule to the (sub)module which it is
-    descended from. Dashed arrows point from a module or program unit to 
-    modules which it uses.
-    </p>
-    </div></div></div></div>
-  </li>
-      </ul>
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
     </div>
 
-    <br>
-
-    <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-1">Functions</a></h3></div>
-  <div id="funcs-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/math_module.html#proc-magnitude">magnitude</a>
-      <a class="list-group-item" href="../module/math_module.html#proc-wrap_angle">wrap_angle</a>
-      <a class="list-group-item" href="../module/math_module.html#proc-cube_root">cube_root</a>
-    </div>
-  </div>
-</div>
-
-    </section>
-    <br class="visible-xs visible-sm hidden-md">
+      <br>
 
 
-    
-    
 
-    
-    
- 
-    <section>
-    <h2>Functions</h2>
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-magnitude"></span><h3>public pure elemental function <a href='../proc/magnitude.html'>magnitude</a>(a, mina) result(m)</h3></div>
-  <div class="panel-body">
-       
-<p>Returns a positive number the same magnitude as the input,
+
+
+
+
+        <section>
+          <h2>Functions</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-magnitude"></span> <h3>public pure elemental function <a href='../proc/magnitude.html'>magnitude</a>(a, mina) result(m)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Returns a positive number the same magnitude as the input,
   with only one significant digit.</p><a href="../proc/magnitude.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~17"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>a</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mina"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in),</td>
-  <td>optional</td>  <td></td><td>::</td>
-  <td><strong>mina</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mina</strong></td>
+            <td>
 
-<h4>Return Value <small>real(kind=wp)</small></h4>  
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-wrap_angle"></span><h3>public pure elemental function <a href='../proc/wrap_angle.html'>wrap_angle</a>(a) result(r)</h3></div>
-  <div class="panel-body">
-       
-<p>Wrap an angle (in rad) from -pi to pi.</p>
+    <h4>
+    Return Value
+    <small>real(kind=wp)</small>
+    </h4>
     
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>a</strong></td><td></td>
-</tr>
-</tbody>
-</table>
 
-<h4>Return Value <small>real(kind=wp)</small></h4>  
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-cube_root"></span><h3>public pure elemental function <a href='../proc/cube_root.html'>cube_root</a>(x) result(y)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-  </dl>
-
-<p>Cube root of a number (real solution only).</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>x</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>real(kind=wp)</small></h4>  
-
-  </div>
-  </div>
-
-    </section>
-    <br>
-
-    
     </div>
   </div>
 
-    <hr>    
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-wrap_angle"></span> <h3>public pure elemental function <a href='../proc/wrap_angle.html'>wrap_angle</a>(a) result(r)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Wrap an angle (in rad) from -pi to pi.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~18"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-cube_root"></span> <h3>public pure elemental function <a href='../proc/cube_root.html'>cube_root</a>(x) result(y)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+    </dl>
+
+  <p>Cube root of a number (real solution only).</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~47"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+
+
+    </div>
+  </div>
+
+      <hr>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-      <div class="row">
-        <div class="col-xs-6 col-md-6"><p>fortran-astrodynamics-toolkit was developed by Jacob Williams<br>&copy; 2022 
+        <div class="row justify-content-between">
+          <div class="col"><p>fortran-astrodynamics-toolkit was developed by Jacob Williams<br>&copy; 2024 
 </p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
         </div>
-        <div class="col-xs-6 col-md-6">
-          <p class="text-right">
-            Documentation generated by 
-            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-          </p>
-        </div>
-      </div>
-      <br>
-      </div> <!-- /container -->    
+        <br>
+      </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
+    <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->
-<!--
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
--->
-    <script src="../js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
     <!-- MathJax JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-      });
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
-    
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
   </body>
 </html>

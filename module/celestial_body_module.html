@@ -1,216 +1,238 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta name="description" content="A modern Fortran library for Astrodynamics">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
     <title>celestial_body_module &ndash; fortran-astrodynamics-toolkit</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
-    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="../js/svg-pan-zoom.min.js"></script>
-
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-              data-toggle="dropdown" role="button"
-              aria-haspopup="true"
-     aria-expanded="false">Contents <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="../lists/files.html">Source Files</a></li>
-            <li><a href="../lists/modules.html">Modules</a></li>
-            <li><a href="../lists/procedures.html">Procedures</a></li>
-            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                   <li><a href="../lists/types.html">Derived Types</a></li>
-       
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
             </ul>
-        
-            </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-          </ul>
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
         </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
-    <h1>celestial_body_module 
-    <small>Module</small>
+    <h1>celestial_body_module
+      <small>Module</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-pencil"></i> Jacob Williams</li>
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.2% of total for modules and submodules.">21 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/celestial_body_module.f90"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/celestial_body_module.f90.html'>celestial_body_module.f90</a></li>
-     <li class="active">celestial_body_module</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+            <li class="list-inline-item" id="meta-author"><i class="fa fa-pencil"></i> Jacob Williams</li>
 
-  </div>
-  
-  <div class="row">
-    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_sun">body_sun</a>
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_mercury">body_mercury</a>
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_venus">body_venus</a>
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_earth">body_earth</a>
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_earth_moon_barycenter">body_earth_moon_barycenter</a>
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_moon">body_moon</a>
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_mars">body_mars</a>
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_jupiter">body_jupiter</a>
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_saturn">body_saturn</a>
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_uranus">body_uranus</a>
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_neptune">body_neptune</a>
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_pluto">body_pluto</a>
-    </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#types-0">Derived Types</a></h3></div>
-  <div id="types-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/celestial_body_module.html#type-celestial_body">celestial_body</a>
-    </div>
-  </div>
-</div>
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 0.2% of total for modules and submodules.">21 statements</a>
+            </li>
 
-</div>
-
-    </div>
-    
-    <div class="col-md-9" id='text'>
-    <p>Celestial body definitions</p>
-<br>        <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Uses</h3>
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/celestial_body_module.f90"> Source File</a>
+            </li>
+        </ul>
       </div>
-      <ul class="list-group">
-      <li class="list-group-item">
-  <ul class="list-inline">
-    <li><a href='../module/kind_module.html'>kind_module</a></li>
-    <li><a href='../module/numbers_module.html'>numbers_module</a></li>
-    <li><a href='../module/base_class_module.html'>base_class_module</a></li>
-  </ul>
-      </li>
-      <li class="list-group-item">
-  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/celestial_body_module.f90.html'>celestial_body_module.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">celestial_body_module</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_sun">body_sun</a>
+            <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_mercury">body_mercury</a>
+            <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_venus">body_venus</a>
+            <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_earth">body_earth</a>
+            <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_earth_moon_barycenter">body_earth_moon_barycenter</a>
+            <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_moon">body_moon</a>
+            <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_mars">body_mars</a>
+            <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_jupiter">body_jupiter</a>
+            <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_saturn">body_saturn</a>
+            <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_uranus">body_uranus</a>
+            <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_neptune">body_neptune</a>
+            <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_pluto">body_pluto</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#types-0"
+         aria-expanded="false" aria-controls="types-0">
+         <h4 class="card-header bg-primary text-white">Derived Types</h4>
+      </a>
+      <div id="types-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/celestial_body_module.html#type-celestial_body">celestial_body</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <p>Celestial body definitions</p>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='kind_module.html'>kind_module</a></li>
+                  <li class="list-inline-item"><a href='base_class_module.html'>base_class_module</a></li>
+                  <li class="list-inline-item"><a href='numbers_module.html'>numbers_module</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: module~~celestial_body_module~~UsesGraph Pages: 1 -->
-<svg id="modulecelestial_body_moduleUsesGraph" width="540pt" height="88pt"
- viewBox="0.00 0.00 540.00 87.91" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="module~~celestial_body_module~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 83.91)">
+<svg id="modulecelestial_body_moduleUsesGraph" width="540pt" height="112pt"
+ viewBox="0.00 0.00 540.00 112.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~celestial_body_module~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 108)">
 <title>module~~celestial_body_module~~UsesGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-83.91 536,-83.91 536,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-108 536,-108 536,4 -4,4"/>
 <!-- module~celestial_body_module -->
 <g id="module~~celestial_body_module~~UsesGraph_node1" class="node">
 <title>module~celestial_body_module</title>
-<polygon fill="none" stroke="black" points="532,-66 398,-66 398,-42 532,-42 532,-66"/>
-<text text-anchor="middle" x="465" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">celestial_body_module</text>
-</g>
-<!-- module~kind_module -->
-<g id="module~~celestial_body_module~~UsesGraph_node2" class="node">
-<title>module~kind_module</title>
-<g id="a_module~~celestial_body_module~~UsesGraph_node2"><a xlink:href=".././module/kind_module.html" xlink:title="kind_module">
-<polygon fill="#337ab7" stroke="#337ab7" points="211,-65 130,-65 130,-41 211,-41 211,-65"/>
-<text text-anchor="middle" x="170.5" y="-50.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module</text>
-</a>
-</g>
-</g>
-<!-- module~celestial_body_module&#45;&gt;module~kind_module -->
-<g id="module~~celestial_body_module~~UsesGraph_edge1" class="edge">
-<title>module~celestial_body_module&#45;&gt;module~kind_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M415.8,-66.02C398.9,-69.67 379.72,-73.2 362,-75 311.15,-80.18 297.6,-82.22 247,-75 236.45,-73.49 225.31,-70.86 214.93,-67.93"/>
-<polygon fill="#000000" stroke="#000000" points="215.83,-64.55 205.25,-65.05 213.84,-71.26 215.83,-64.55"/>
+<polygon fill="none" stroke="black" points="532,-64 398,-64 398,-40 532,-40 532,-64"/>
+<text text-anchor="middle" x="465" y="-49.6" font-family="Helvetica,sans-Serif" font-size="10.50">celestial_body_module</text>
 </g>
 <!-- module~base_class_module -->
-<g id="module~~celestial_body_module~~UsesGraph_node3" class="node">
+<g id="module~~celestial_body_module~~UsesGraph_node2" class="node">
 <title>module~base_class_module</title>
-<g id="a_module~~celestial_body_module~~UsesGraph_node3"><a xlink:href=".././module/base_class_module.html" xlink:title="base_class_module">
-<polygon fill="#337ab7" stroke="#337ab7" points="362,-66 247,-66 247,-42 362,-42 362,-66"/>
-<text text-anchor="middle" x="304.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">base_class_module</text>
+<g id="a_module~~celestial_body_module~~UsesGraph_node2"><a xlink:href="../module/base_class_module.html" xlink:title="base_class_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="362,-104 247,-104 247,-80 362,-80 362,-104"/>
+<text text-anchor="middle" x="304.5" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">base_class_module</text>
 </a>
 </g>
 </g>
 <!-- module~celestial_body_module&#45;&gt;module~base_class_module -->
-<g id="module~~celestial_body_module~~UsesGraph_edge2" class="edge">
+<g id="module~~celestial_body_module~~UsesGraph_edge1" class="edge">
 <title>module~celestial_body_module&#45;&gt;module~base_class_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M397.7,-54C389.38,-54 380.86,-54 372.53,-54"/>
-<polygon fill="#000000" stroke="#000000" points="372.48,-50.5 362.48,-54 372.48,-57.5 372.48,-50.5"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M416.44,-64C399.75,-68.21 380.81,-72.99 363.37,-77.4"/>
+<polygon fill="#000000" stroke="#000000" points="362.13,-74.1 353.3,-79.94 363.85,-80.88 362.13,-74.1"/>
+</g>
+<!-- module~kind_module -->
+<g id="module~~celestial_body_module~~UsesGraph_node3" class="node">
+<title>module~kind_module</title>
+<g id="a_module~~celestial_body_module~~UsesGraph_node3"><a xlink:href="../module/kind_module.html" xlink:title="kind_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="211,-44 130,-44 130,-20 211,-20 211,-44"/>
+<text text-anchor="middle" x="170.5" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module</text>
+</a>
+</g>
+</g>
+<!-- module~celestial_body_module&#45;&gt;module~kind_module -->
+<g id="module~~celestial_body_module~~UsesGraph_edge2" class="edge">
+<title>module~celestial_body_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M397.99,-47.49C344.35,-43.82 269.85,-38.72 221.17,-35.4"/>
+<polygon fill="#000000" stroke="#000000" points="221.41,-31.9 211.19,-34.71 220.93,-38.89 221.41,-31.9"/>
 </g>
 <!-- module~numbers_module -->
 <g id="module~~celestial_body_module~~UsesGraph_node4" class="node">
 <title>module~numbers_module</title>
-<g id="a_module~~celestial_body_module~~UsesGraph_node4"><a xlink:href=".././module/numbers_module.html" xlink:title="numbers_module">
+<g id="a_module~~celestial_body_module~~UsesGraph_node4"><a xlink:href="../module/numbers_module.html" xlink:title="numbers_module">
 <polygon fill="#337ab7" stroke="#337ab7" points="357.5,-24 251.5,-24 251.5,0 357.5,0 357.5,-24"/>
 <text text-anchor="middle" x="304.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module</text>
 </a>
@@ -219,35 +241,42 @@
 <!-- module~celestial_body_module&#45;&gt;module~numbers_module -->
 <g id="module~~celestial_body_module~~UsesGraph_edge3" class="edge">
 <title>module~celestial_body_module&#45;&gt;module~numbers_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M418.58,-41.96C400.51,-37.18 379.55,-31.62 360.61,-26.6"/>
-<polygon fill="#000000" stroke="#000000" points="361.49,-23.22 350.93,-24.04 359.7,-29.98 361.49,-23.22"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M416.44,-40C399.75,-35.79 380.81,-31.01 363.37,-26.6"/>
+<polygon fill="#000000" stroke="#000000" points="363.85,-23.12 353.3,-24.06 362.13,-29.9 363.85,-23.12"/>
 </g>
 <!-- iso_fortran_env -->
 <g id="module~~celestial_body_module~~UsesGraph_node5" class="node">
 <title>iso_fortran_env</title>
-<g id="a_module~~celestial_body_module~~UsesGraph_node5"><a xlink:href="https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html" xlink:title="iso_fortran_env">
-<polygon fill="#337ab7" stroke="#337ab7" points="94,-65 0,-65 0,-41 94,-41 94,-65"/>
-<text text-anchor="middle" x="47" y="-50.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
-</a>
-</g>
+<polygon fill="#337ab7" stroke="#337ab7" points="94,-44 0,-44 0,-20 94,-20 94,-44"/>
+<text text-anchor="middle" x="47" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
 </g>
 <!-- module~kind_module&#45;&gt;iso_fortran_env -->
 <g id="module~~celestial_body_module~~UsesGraph_edge4" class="edge">
 <title>module~kind_module&#45;&gt;iso_fortran_env</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M129.72,-53C121.56,-53 112.83,-53 104.21,-53"/>
-<polygon fill="#000000" stroke="#000000" points="104.2,-49.5 94.2,-53 104.2,-56.5 104.2,-49.5"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M129.72,-32C121.56,-32 112.83,-32 104.21,-32"/>
+<polygon fill="#000000" stroke="#000000" points="104.2,-28.5 94.2,-32 104.2,-35.5 104.2,-28.5"/>
 </g>
 <!-- module~numbers_module&#45;&gt;module~kind_module -->
 <g id="module~~celestial_body_module~~UsesGraph_edge5" class="edge">
 <title>module~numbers_module&#45;&gt;module~kind_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M264.61,-24.08C250.77,-28.38 235,-33.28 220.43,-37.8"/>
-<polygon fill="#000000" stroke="#000000" points="219.08,-34.56 210.57,-40.87 221.16,-41.24 219.08,-34.56"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M251.33,-19.9C241.38,-21.41 231,-22.99 221.13,-24.48"/>
+<polygon fill="#000000" stroke="#000000" points="220.44,-21.04 211.08,-26 221.49,-27.97 220.44,-21.04"/>
 </g>
 </g>
 </svg>
-</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
@@ -297,245 +326,261 @@
 </g>
 </svg>
 
-    
-    <p>Solid arrows point from a submodule to the (sub)module which it is
-    descended from. Dashed arrows point from a module or program unit to 
-    modules which it uses.
-    </p>
-    </div></div></div></div>
-      </li>
-      </ul>
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
     </div>
 
-        <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Used by</h3>
-      </div>
-      <ul class="list-group">
-  <li class="list-group-item">
-    <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: module~~celestial_body_module~~UsedByGraph Pages: 1 -->
-<svg id="modulecelestial_body_moduleUsedByGraph" width="641pt" height="349pt"
- viewBox="0.00 0.00 641.00 348.69" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="module~~celestial_body_module~~UsedByGraph" class="graph" transform="scale(1.15 1.15) rotate(0) translate(4 398)">
+<svg id="modulecelestial_body_moduleUsedByGraph" width="641pt" height="210pt"
+ viewBox="0.00 0.00 641.00 210.26" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~celestial_body_module~~UsedByGraph" class="graph" transform="scale(1.73 1.73) rotate(0) translate(4 359.12)">
 <title>module~~celestial_body_module~~UsedByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-398 735,-398 735,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-359.12 1103,-359.12 1103,4 -4,4"/>
 <!-- module~celestial_body_module -->
 <g id="module~~celestial_body_module~~UsedByGraph_node1" class="node">
 <title>module~celestial_body_module</title>
-<polygon fill="none" stroke="black" points="134,-268 0,-268 0,-244 134,-244 134,-268"/>
-<text text-anchor="middle" x="67" y="-253.6" font-family="Helvetica,sans-Serif" font-size="10.50">celestial_body_module</text>
-</g>
-<!-- proc~get_rv_from_jpl_ephemeris -->
-<g id="module~~celestial_body_module~~UsedByGraph_node2" class="node">
-<title>proc~get_rv_from_jpl_ephemeris</title>
-<g id="a_module~~celestial_body_module~~UsedByGraph_node2"><a xlink:href=".././proc/get_rv_from_jpl_ephemeris.html" xlink:title="get_rv_from_jpl_ephemeris">
-<polygon fill="#d9534f" stroke="#d9534f" points="333.5,-394 177.5,-394 177.5,-370 333.5,-370 333.5,-394"/>
-<text text-anchor="middle" x="255.5" y="-379.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_rv_from_jpl_ephemeris</text>
-</a>
-</g>
-</g>
-<!-- proc~get_rv_from_jpl_ephemeris&#45;&gt;module~celestial_body_module -->
-<g id="module~~celestial_body_module~~UsedByGraph_edge1" class="edge">
-<title>proc~get_rv_from_jpl_ephemeris&#45;&gt;module~celestial_body_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M189.81,-369.94C182.91,-367.49 176.16,-364.54 170,-361 132.68,-339.55 100.1,-300.52 82.32,-276.57"/>
-<polygon fill="#000000" stroke="#000000" points="84.95,-274.24 76.25,-268.19 79.28,-278.34 84.95,-274.24"/>
-</g>
-<!-- proc~crtbp_test -->
-<g id="module~~celestial_body_module~~UsedByGraph_node3" class="node">
-<title>proc~crtbp_test</title>
-<g id="a_module~~celestial_body_module~~UsedByGraph_node3"><a xlink:href=".././proc/crtbp_test.html" xlink:title="crtbp_test">
-<polygon fill="#d9534f" stroke="#d9534f" points="288,-352 223,-352 223,-328 288,-328 288,-352"/>
-<text text-anchor="middle" x="255.5" y="-337.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">crtbp_test</text>
-</a>
-</g>
-</g>
-<!-- proc~crtbp_test&#45;&gt;module~celestial_body_module -->
-<g id="module~~celestial_body_module~~UsedByGraph_edge2" class="edge">
-<title>proc~crtbp_test&#45;&gt;module~celestial_body_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M222.85,-334.56C206.66,-331.18 186.86,-326.1 170,-319 141.76,-307.11 112.27,-288.06 92.3,-274.02"/>
-<polygon fill="#000000" stroke="#000000" points="94.27,-271.12 84.1,-268.15 90.2,-276.82 94.27,-271.12"/>
-</g>
-<!-- proc~halo_orbit_test -->
-<g id="module~~celestial_body_module~~UsedByGraph_node4" class="node">
-<title>proc~halo_orbit_test</title>
-<g id="a_module~~celestial_body_module~~UsedByGraph_node4"><a xlink:href=".././proc/halo_orbit_test.html" xlink:title="halo_orbit_test">
-<polygon fill="#d9534f" stroke="#d9534f" points="301,-310 210,-310 210,-286 301,-286 301,-310"/>
-<text text-anchor="middle" x="255.5" y="-295.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">halo_orbit_test</text>
-</a>
-</g>
-</g>
-<!-- proc~halo_orbit_test&#45;&gt;module~celestial_body_module -->
-<g id="module~~celestial_body_module~~UsedByGraph_edge5" class="edge">
-<title>proc~halo_orbit_test&#45;&gt;module~celestial_body_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M209.83,-287.94C186.43,-282.67 157.36,-276.12 131.64,-270.33"/>
-<polygon fill="#000000" stroke="#000000" points="132.13,-266.85 121.6,-268.07 130.59,-273.68 132.13,-266.85"/>
-</g>
-<!-- proc~get_rv_from_spice_ephemeris -->
-<g id="module~~celestial_body_module~~UsedByGraph_node5" class="node">
-<title>proc~get_rv_from_spice_ephemeris</title>
-<g id="a_module~~celestial_body_module~~UsedByGraph_node5"><a xlink:href=".././proc/get_rv_from_spice_ephemeris.html" xlink:title="get_rv_from_spice_ephemeris">
-<polygon fill="#d9534f" stroke="#d9534f" points="341,-268 170,-268 170,-244 341,-244 341,-268"/>
-<text text-anchor="middle" x="255.5" y="-253.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_rv_from_spice_ephemeris</text>
-</a>
-</g>
-</g>
-<!-- proc~get_rv_from_spice_ephemeris&#45;&gt;module~celestial_body_module -->
-<g id="module~~celestial_body_module~~UsedByGraph_edge4" class="edge">
-<title>proc~get_rv_from_spice_ephemeris&#45;&gt;module~celestial_body_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M169.98,-256C161.42,-256 152.75,-256 144.28,-256"/>
-<polygon fill="#000000" stroke="#000000" points="144.06,-252.5 134.06,-256 144.06,-259.5 144.06,-252.5"/>
+<polygon fill="none" stroke="black" points="134,-150 0,-150 0,-126 134,-126 134,-150"/>
+<text text-anchor="middle" x="67" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50">celestial_body_module</text>
 </g>
 <!-- module~ephemeris_module -->
-<g id="module~~celestial_body_module~~UsedByGraph_node6" class="node">
+<g id="module~~celestial_body_module~~UsedByGraph_node2" class="node">
 <title>module~ephemeris_module</title>
-<g id="a_module~~celestial_body_module~~UsedByGraph_node6"><a xlink:href=".././module/ephemeris_module.html" xlink:title="ephemeris_module">
-<polygon fill="#337ab7" stroke="#337ab7" points="313,-138 198,-138 198,-114 313,-114 313,-138"/>
-<text text-anchor="middle" x="255.5" y="-123.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ephemeris_module</text>
+<g id="a_module~~celestial_body_module~~UsedByGraph_node2"><a xlink:href="../module/ephemeris_module.html" xlink:title="ephemeris_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="434.5,-230 319.5,-230 319.5,-206 434.5,-206 434.5,-230"/>
+<text text-anchor="middle" x="377" y="-215.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ephemeris_module</text>
 </a>
 </g>
 </g>
 <!-- module~ephemeris_module&#45;&gt;module~celestial_body_module -->
-<g id="module~~celestial_body_module~~UsedByGraph_edge3" class="edge">
+<g id="module~~celestial_body_module~~UsedByGraph_edge1" class="edge">
 <title>module~ephemeris_module&#45;&gt;module~celestial_body_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M236.95,-138.23C203.96,-161.23 132.54,-211.01 93.97,-237.9"/>
-<polygon fill="#000000" stroke="#000000" points="91.57,-235.31 85.36,-243.9 95.57,-241.05 91.57,-235.31"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M319.31,-216.33C277.26,-213.79 218.98,-207.49 170,-192 142.83,-183.41 114.37,-167.7 94.44,-155.43"/>
+<polygon fill="#000000" stroke="#000000" points="96.24,-152.43 85.91,-150.07 92.52,-158.36 96.24,-152.43"/>
 </g>
 <!-- module~fortran_astrodynamics_toolkit -->
-<g id="module~~celestial_body_module~~UsedByGraph_node7" class="node">
+<g id="module~~celestial_body_module~~UsedByGraph_node3" class="node">
 <title>module~fortran_astrodynamics_toolkit</title>
-<g id="a_module~~celestial_body_module~~UsedByGraph_node7"><a xlink:href=".././module/fortran_astrodynamics_toolkit.html" xlink:title="fortran_astrodynamics_toolkit">
-<polygon fill="#337ab7" stroke="#337ab7" points="731,-148 561,-148 561,-124 731,-124 731,-148"/>
-<text text-anchor="middle" x="646" y="-133.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fortran_astrodynamics_toolkit</text>
+<g id="a_module~~celestial_body_module~~UsedByGraph_node3"><a xlink:href="../module/fortran_astrodynamics_toolkit.html" xlink:title="fortran_astrodynamics_toolkit">
+<polygon fill="#337ab7" stroke="#337ab7" points="1036.5,-270 866.5,-270 866.5,-246 1036.5,-246 1036.5,-270"/>
+<text text-anchor="middle" x="951.5" y="-255.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fortran_astrodynamics_toolkit</text>
 </a>
 </g>
 </g>
 <!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~celestial_body_module -->
-<g id="module~~celestial_body_module~~UsedByGraph_edge6" class="edge">
+<g id="module~~celestial_body_module~~UsedByGraph_edge2" class="edge">
 <title>module~fortran_astrodynamics_toolkit&#45;&gt;module~celestial_body_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M626.83,-148.18C604.12,-162.69 563.51,-186.32 525,-197 409.72,-228.96 374.69,-197.47 256.5,-216"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M921.14,-270.09C835.93,-303.48 581.7,-391.09 378,-338"/>
 </g>
 <!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~ephemeris_module -->
-<g id="module~~celestial_body_module~~UsedByGraph_edge13" class="edge">
+<g id="module~~celestial_body_module~~UsedByGraph_edge9" class="edge">
 <title>module~fortran_astrodynamics_toolkit&#45;&gt;module~ephemeris_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M560.7,-133.83C489.53,-132 388.98,-129.41 323.28,-127.72"/>
-<polygon fill="#000000" stroke="#000000" points="323.13,-124.21 313.04,-127.46 322.95,-131.21 323.13,-124.21"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M866.23,-253.83C799.42,-250.37 703.69,-245.04 620,-239 560.7,-234.72 493.33,-228.79 444.75,-224.32"/>
+<polygon fill="#000000" stroke="#000000" points="444.96,-220.82 434.68,-223.39 444.32,-227.79 444.96,-220.82"/>
 </g>
 <!-- module~standish_module -->
-<g id="module~~celestial_body_module~~UsedByGraph_node8" class="node">
+<g id="module~~celestial_body_module~~UsedByGraph_node4" class="node">
 <title>module~standish_module</title>
-<g id="a_module~~celestial_body_module~~UsedByGraph_node8"><a xlink:href=".././module/standish_module.html" xlink:title="standish_module">
-<polygon fill="#337ab7" stroke="#337ab7" points="502.5,-66 399.5,-66 399.5,-42 502.5,-42 502.5,-66"/>
-<text text-anchor="middle" x="451" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">standish_module</text>
+<g id="a_module~~celestial_body_module~~UsedByGraph_node4"><a xlink:href="../module/standish_module.html" xlink:title="standish_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="745.5,-188 642.5,-188 642.5,-164 745.5,-164 745.5,-188"/>
+<text text-anchor="middle" x="694" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">standish_module</text>
 </a>
 </g>
 </g>
 <!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~standish_module -->
 <g id="module~~celestial_body_module~~UsedByGraph_edge14" class="edge">
 <title>module~fortran_astrodynamics_toolkit&#45;&gt;module~standish_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M624.32,-123.95C600.84,-110.64 561.1,-89.22 525,-75 519.65,-72.89 514.01,-70.9 508.34,-69.03"/>
-<polygon fill="#000000" stroke="#000000" points="509.37,-65.69 498.78,-66.03 507.27,-72.37 509.37,-65.69"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M915.99,-245.98C879.4,-233.35 819.84,-213.11 768,-197 761.48,-194.98 754.62,-192.91 747.82,-190.91"/>
+<polygon fill="#000000" stroke="#000000" points="748.52,-187.46 737.94,-188.02 746.56,-194.18 748.52,-187.46"/>
 </g>
 <!-- module~transformation_module -->
-<g id="module~~celestial_body_module~~UsedByGraph_node9" class="node">
+<g id="module~~celestial_body_module~~UsedByGraph_node5" class="node">
 <title>module~transformation_module</title>
-<g id="a_module~~celestial_body_module~~UsedByGraph_node9"><a xlink:href=".././module/transformation_module.html" xlink:title="transformation_module">
-<polygon fill="#337ab7" stroke="#337ab7" points="520,-188 382,-188 382,-164 520,-164 520,-188"/>
-<text text-anchor="middle" x="451" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">transformation_module</text>
+<g id="a_module~~celestial_body_module~~UsedByGraph_node5"><a xlink:href="../module/transformation_module.html" xlink:title="transformation_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="763,-310 625,-310 625,-286 763,-286 763,-310"/>
+<text text-anchor="middle" x="694" y="-295.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">transformation_module</text>
 </a>
 </g>
 </g>
 <!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~transformation_module -->
 <g id="module~~celestial_body_module~~UsedByGraph_edge15" class="edge">
 <title>module~fortran_astrodynamics_toolkit&#45;&gt;module~transformation_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M587.09,-148C566.01,-152.37 541.98,-157.35 520.09,-161.89"/>
-<polygon fill="#000000" stroke="#000000" points="519.28,-158.48 510.2,-163.94 520.7,-165.34 519.28,-158.48"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M873.84,-270C842.14,-274.96 805.42,-280.71 773.52,-285.71"/>
+<polygon fill="#000000" stroke="#000000" points="772.69,-282.29 763.35,-287.3 773.77,-289.21 772.69,-282.29"/>
 </g>
 <!-- module~jpl_ephemeris_module -->
 <g id="module~~celestial_body_module~~UsedByGraph_node10" class="node">
 <title>module~jpl_ephemeris_module</title>
-<g id="a_module~~celestial_body_module~~UsedByGraph_node10"><a xlink:href=".././module/jpl_ephemeris_module.html" xlink:title="jpl_ephemeris_module">
-<polygon fill="#337ab7" stroke="#337ab7" points="517.5,-24 384.5,-24 384.5,0 517.5,0 517.5,-24"/>
-<text text-anchor="middle" x="451" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">jpl_ephemeris_module</text>
+<g id="a_module~~celestial_body_module~~UsedByGraph_node10"><a xlink:href="../module/jpl_ephemeris_module.html" xlink:title="jpl_ephemeris_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="760.5,-146 627.5,-146 627.5,-122 760.5,-122 760.5,-146"/>
+<text text-anchor="middle" x="694" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">jpl_ephemeris_module</text>
 </a>
 </g>
 </g>
 <!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~jpl_ephemeris_module -->
-<g id="module~~celestial_body_module~~UsedByGraph_edge17" class="edge">
+<g id="module~~celestial_body_module~~UsedByGraph_edge16" class="edge">
 <title>module~fortran_astrodynamics_toolkit&#45;&gt;module~jpl_ephemeris_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M634.34,-123.93C614.77,-102.51 570.91,-57.77 525,-33 521.34,-31.03 517.48,-29.22 513.52,-27.57"/>
-<polygon fill="#000000" stroke="#000000" points="514.74,-24.29 504.15,-24 512.25,-30.83 514.74,-24.29"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M932.57,-245.99C900.67,-225.06 831.41,-181.58 768,-155 763.18,-152.98 758.11,-151.08 752.97,-149.32"/>
+<polygon fill="#000000" stroke="#000000" points="753.66,-145.86 743.07,-146.09 751.49,-152.52 753.66,-145.86"/>
 </g>
 <!-- module~standish_module&#45;&gt;module~celestial_body_module -->
-<g id="module~~celestial_body_module~~UsedByGraph_edge7" class="edge">
+<g id="module~~celestial_body_module~~UsedByGraph_edge3" class="edge">
 <title>module~standish_module&#45;&gt;module~celestial_body_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M399.46,-51.85C339.84,-51.72 240.02,-59.28 170,-105 121.27,-136.82 89.9,-200.89 76.11,-234.42"/>
-<polygon fill="#000000" stroke="#000000" points="72.83,-233.19 72.39,-243.78 79.34,-235.78 72.83,-233.19"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M642.3,-177.21C548.63,-178.82 342.32,-179.39 170,-159 156.2,-157.37 141.5,-154.82 127.67,-152.06"/>
+<polygon fill="#000000" stroke="#000000" points="128.29,-148.61 117.79,-150.02 126.87,-155.47 128.29,-148.61"/>
 </g>
 <!-- module~standish_module&#45;&gt;module~ephemeris_module -->
-<g id="module~~celestial_body_module~~UsedByGraph_edge11" class="edge">
+<g id="module~~celestial_body_module~~UsedByGraph_edge12" class="edge">
 <title>module~standish_module&#45;&gt;module~ephemeris_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M404.95,-66.04C395.64,-68.78 385.95,-71.83 377,-75 347.83,-85.33 315.58,-99.11 291.79,-109.74"/>
-<polygon fill="#000000" stroke="#000000" points="290.15,-106.64 282.47,-113.94 293.02,-113.02 290.15,-106.64"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M642.29,-183.66C623.94,-186.38 603.05,-189.4 584,-192 537.57,-198.34 485.18,-204.94 444.86,-209.91"/>
+<polygon fill="#000000" stroke="#000000" points="444.37,-206.44 434.87,-211.13 445.23,-213.39 444.37,-206.44"/>
 </g>
 <!-- module~transformation_module&#45;&gt;module~celestial_body_module -->
-<g id="module~~celestial_body_module~~UsedByGraph_edge8" class="edge">
+<g id="module~~celestial_body_module~~UsedByGraph_edge4" class="edge">
 <title>module~transformation_module&#45;&gt;module~celestial_body_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M398.51,-188.06C359.66,-196.81 304.96,-208.4 256.5,-216"/>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M254.5,-216C211.44,-222.75 163.35,-233.13 126.8,-241.63"/>
-<polygon fill="#000000" stroke="#000000" points="125.74,-238.28 116.81,-243.97 127.34,-245.1 125.74,-238.28"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M660.74,-310.03C603.12,-329.77 479.09,-364.35 378,-338"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M376,-338C277.7,-312.38 253.01,-297.54 170,-239 136.23,-215.18 103.41,-179.85 84.48,-157.9"/>
+<polygon fill="#000000" stroke="#000000" points="87.08,-155.55 77.94,-150.2 81.75,-160.09 87.08,-155.55"/>
 </g>
 <!-- module~transformation_module&#45;&gt;module~ephemeris_module -->
-<g id="module~~celestial_body_module~~UsedByGraph_edge12" class="edge">
+<g id="module~~celestial_body_module~~UsedByGraph_edge13" class="edge">
 <title>module~transformation_module&#45;&gt;module~ephemeris_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M403.16,-163.9C376.04,-156.89 341.73,-148.02 313.11,-140.63"/>
-<polygon fill="#000000" stroke="#000000" points="313.8,-137.19 303.24,-138.08 312.05,-143.97 313.8,-137.19"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M645.5,-285.94C589.17,-271.63 495.34,-247.8 435.11,-232.5"/>
+<polygon fill="#000000" stroke="#000000" points="435.92,-229.1 425.37,-230.03 434.2,-235.88 435.92,-229.1"/>
+</g>
+<!-- proc~crtbp_test -->
+<g id="module~~celestial_body_module~~UsedByGraph_node6" class="node">
+<title>proc~crtbp_test</title>
+<g id="a_module~~celestial_body_module~~UsedByGraph_node6"><a xlink:href="../proc/crtbp_test.html" xlink:title="crtbp_module::crtbp_test">
+<polygon fill="#d9534f" stroke="#d9534f" points="450,-150 304,-150 304,-126 450,-126 450,-150"/>
+<text text-anchor="middle" x="377" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">crtbp_module::crtbp_test</text>
+</a>
+</g>
+</g>
+<!-- proc~crtbp_test&#45;&gt;module~celestial_body_module -->
+<g id="module~~celestial_body_module~~UsedByGraph_edge5" class="edge">
+<title>proc~crtbp_test&#45;&gt;module~celestial_body_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M303.79,-138C255.9,-138 193.14,-138 144.41,-138"/>
+<polygon fill="#000000" stroke="#000000" points="144.24,-134.5 134.24,-138 144.24,-141.5 144.24,-134.5"/>
+</g>
+<!-- proc~get_rv_from_jpl_ephemeris -->
+<g id="module~~celestial_body_module~~UsedByGraph_node7" class="node">
+<title>proc~get_rv_from_jpl_ephemeris</title>
+<g id="a_module~~celestial_body_module~~UsedByGraph_node7"><a xlink:href="../proc/get_rv_from_jpl_ephemeris.html" xlink:title="jpl_ephemeris_module::jpl_ephemeris%get_rv_from_jpl_ephemeris">
+<polygon fill="#d9534f" stroke="#d9534f" points="561.5,-108 192.5,-108 192.5,-84 561.5,-84 561.5,-108"/>
+<text text-anchor="middle" x="377" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">jpl_ephemeris_module::jpl_ephemeris%get_rv_from_jpl_ephemeris</text>
+</a>
+</g>
+</g>
+<!-- proc~get_rv_from_jpl_ephemeris&#45;&gt;module~celestial_body_module -->
+<g id="module~~celestial_body_module~~UsedByGraph_edge6" class="edge">
+<title>proc~get_rv_from_jpl_ephemeris&#45;&gt;module~celestial_body_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M238.9,-108.01C215.85,-110.59 192.21,-113.59 170,-117 157.45,-118.93 144.11,-121.38 131.36,-123.92"/>
+<polygon fill="#000000" stroke="#000000" points="130.38,-120.54 121.28,-125.97 131.78,-127.4 130.38,-120.54"/>
+</g>
+<!-- proc~get_rv_from_spice_ephemeris -->
+<g id="module~~celestial_body_module~~UsedByGraph_node8" class="node">
+<title>proc~get_rv_from_spice_ephemeris</title>
+<g id="a_module~~celestial_body_module~~UsedByGraph_node8"><a xlink:href="../proc/get_rv_from_spice_ephemeris.html" xlink:title="spice_ephemeris_module::spice_ephemeris%get_rv_from_spice_ephemeris">
+<polygon fill="#d9534f" stroke="#d9534f" points="584,-66 170,-66 170,-42 584,-42 584,-66"/>
+<text text-anchor="middle" x="377" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">spice_ephemeris_module::spice_ephemeris%get_rv_from_spice_ephemeris</text>
+</a>
+</g>
+</g>
+<!-- proc~get_rv_from_spice_ephemeris&#45;&gt;module~celestial_body_module -->
+<g id="module~~celestial_body_module~~UsedByGraph_edge7" class="edge">
+<title>proc~get_rv_from_spice_ephemeris&#45;&gt;module~celestial_body_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M201.97,-66.03C191.04,-68.54 180.3,-71.5 170,-75 140.47,-85.03 110.57,-104.9 90.84,-119.66"/>
+<polygon fill="#000000" stroke="#000000" points="88.6,-116.96 82.79,-125.82 92.86,-122.52 88.6,-116.96"/>
+</g>
+<!-- proc~halo_orbit_test -->
+<g id="module~~celestial_body_module~~UsedByGraph_node9" class="node">
+<title>proc~halo_orbit_test</title>
+<g id="a_module~~celestial_body_module~~UsedByGraph_node9"><a xlink:href="../proc/halo_orbit_test.html" xlink:title="halo_orbit_module::halo_orbit_test">
+<polygon fill="#d9534f" stroke="#d9534f" points="475.5,-24 278.5,-24 278.5,0 475.5,0 475.5,-24"/>
+<text text-anchor="middle" x="377" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">halo_orbit_module::halo_orbit_test</text>
+</a>
+</g>
+</g>
+<!-- proc~halo_orbit_test&#45;&gt;module~celestial_body_module -->
+<g id="module~~celestial_body_module~~UsedByGraph_edge8" class="edge">
+<title>proc~halo_orbit_test&#45;&gt;module~celestial_body_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M278.4,-8.28C242.8,-10.38 203.17,-16.95 170,-33 130.68,-52.03 98.18,-92.84 81.06,-117.61"/>
+<polygon fill="#000000" stroke="#000000" points="78.14,-115.68 75.47,-125.93 83.95,-119.58 78.14,-115.68"/>
 </g>
 <!-- module~jpl_ephemeris_module&#45;&gt;module~ephemeris_module -->
-<g id="module~~celestial_body_module~~UsedByGraph_edge9" class="edge">
+<g id="module~~celestial_body_module~~UsedByGraph_edge10" class="edge">
 <title>module~jpl_ephemeris_module&#45;&gt;module~ephemeris_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M398.79,-24.05C391.3,-26.58 383.82,-29.54 377,-33 337.94,-52.78 298.98,-85.9 276.34,-106.82"/>
-<polygon fill="#000000" stroke="#000000" points="273.66,-104.53 268.77,-113.92 278.45,-109.63 273.66,-104.53"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M647.87,-146.04C591.14,-161.16 493.85,-187.11 432.88,-203.37"/>
+<polygon fill="#000000" stroke="#000000" points="431.81,-200.03 423.05,-205.99 433.61,-206.79 431.81,-200.03"/>
 </g>
 <!-- module~spice_ephemeris_module -->
 <g id="module~~celestial_body_module~~UsedByGraph_node11" class="node">
 <title>module~spice_ephemeris_module</title>
-<g id="a_module~~celestial_body_module~~UsedByGraph_node11"><a xlink:href=".././module/spice_ephemeris_module.html" xlink:title="spice_ephemeris_module">
-<polygon fill="#337ab7" stroke="#337ab7" points="525,-108 377,-108 377,-84 525,-84 525,-108"/>
-<text text-anchor="middle" x="451" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">spice_ephemeris_module</text>
+<g id="a_module~~celestial_body_module~~UsedByGraph_node11"><a xlink:href="../module/spice_ephemeris_module.html" xlink:title="spice_ephemeris_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="768,-230 620,-230 620,-206 768,-206 768,-230"/>
+<text text-anchor="middle" x="694" y="-215.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">spice_ephemeris_module</text>
 </a>
 </g>
 </g>
 <!-- module~spice_ephemeris_module&#45;&gt;module~ephemeris_module -->
-<g id="module~~celestial_body_module~~UsedByGraph_edge10" class="edge">
+<g id="module~~celestial_body_module~~UsedByGraph_edge11" class="edge">
 <title>module~spice_ephemeris_module&#45;&gt;module~ephemeris_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M376.85,-107.34C359.22,-110.07 340.48,-112.98 323.17,-115.66"/>
-<polygon fill="#000000" stroke="#000000" points="322.51,-112.22 313.17,-117.21 323.58,-119.14 322.51,-112.22"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M619.94,-218C567.04,-218 496.08,-218 444.71,-218"/>
+<polygon fill="#000000" stroke="#000000" points="444.7,-214.5 434.7,-218 444.7,-221.5 444.7,-214.5"/>
 </g>
 <!-- proc~transformation_module_test -->
 <g id="module~~celestial_body_module~~UsedByGraph_node12" class="node">
 <title>proc~transformation_module_test</title>
-<g id="a_module~~celestial_body_module~~UsedByGraph_node12"><a xlink:href=".././proc/transformation_module_test.html" xlink:title="transformation_module_test">
-<polygon fill="#d9534f" stroke="#d9534f" points="727.5,-24 564.5,-24 564.5,0 727.5,0 727.5,-24"/>
-<text text-anchor="middle" x="646" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">transformation_module_test</text>
+<g id="a_module~~celestial_body_module~~UsedByGraph_node12"><a xlink:href="../proc/transformation_module_test.html" xlink:title="transformation_module::transformation_module_test">
+<polygon fill="#d9534f" stroke="#d9534f" points="1099,-146 804,-146 804,-122 1099,-122 1099,-146"/>
+<text text-anchor="middle" x="951.5" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">transformation_module::transformation_module_test</text>
 </a>
 </g>
 </g>
 <!-- proc~transformation_module_test&#45;&gt;module~jpl_ephemeris_module -->
-<g id="module~~celestial_body_module~~UsedByGraph_edge16" class="edge">
+<g id="module~~celestial_body_module~~UsedByGraph_edge17" class="edge">
 <title>proc~transformation_module_test&#45;&gt;module~jpl_ephemeris_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M564.27,-12C552.29,-12 539.97,-12 528.08,-12"/>
-<polygon fill="#000000" stroke="#000000" points="527.77,-8.5 517.77,-12 527.77,-15.5 527.77,-8.5"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M803.73,-134C792.47,-134 781.41,-134 770.91,-134"/>
+<polygon fill="#000000" stroke="#000000" points="770.61,-130.5 760.61,-134 770.61,-137.5 770.61,-130.5"/>
 </g>
 </g>
 </svg>
-</div><script>var panmodulecelestial_body_moduleUsedByGraph = svgPanZoom('#modulecelestial_body_moduleUsedByGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>                <script>
+                  var panmodulecelestial_body_moduleUsedByGraph = svgPanZoom('#modulecelestial_body_moduleUsedByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
@@ -585,222 +630,398 @@
 </g>
 </svg>
 
-    
-    <p>Solid arrows point from a submodule to the (sub)module which it is
-    descended from. Dashed arrows point from a module or program unit to 
-    modules which it uses.
-    </p>
-    </div></div></div></div>
-  </li>
-      </ul>
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
     </div>
 
-    <br>
+      <br>
 
-    <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_sun">body_sun</a>
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_mercury">body_mercury</a>
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_venus">body_venus</a>
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_earth">body_earth</a>
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_earth_moon_barycenter">body_earth_moon_barycenter</a>
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_moon">body_moon</a>
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_mars">body_mars</a>
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_jupiter">body_jupiter</a>
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_saturn">body_saturn</a>
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_uranus">body_uranus</a>
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_neptune">body_neptune</a>
-      <a class="list-group-item" href="../module/celestial_body_module.html#variable-body_pluto">body_pluto</a>
+
+        <section>
+          <h2>Variables</h2>
+            <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-body_sun"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>body_sun</strong></td>
+<td> =</td>
+                <td>celestial_body(10, &#39;Sun&#39;, 1.3271244004193938E+11_wp)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-body_mercury"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>body_mercury</strong></td>
+<td> =</td>
+                <td>celestial_body(199, &#39;Mercury&#39;, 2.2031780000000021E+04_wp)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-body_venus"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>body_venus</strong></td>
+<td> =</td>
+                <td>celestial_body(299, &#39;Venus&#39;, 3.2485859200000006E+05_wp)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-body_earth"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>body_earth</strong></td>
+<td> =</td>
+                <td>celestial_body(399, &#39;Earth&#39;, 3.9860043543609598E+05_wp)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-body_earth_moon_barycenter"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>body_earth_moon_barycenter</strong></td>
+<td> =</td>
+                <td>celestial_body(3, &#39;Earth-Moon Barycenter&#39;, 4.0350323550225981E+05_wp)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-body_moon"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>body_moon</strong></td>
+<td> =</td>
+                <td>celestial_body(301, &#39;Moon&#39;, 4.9028000661637961E+03_wp)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-body_mars"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>body_mars</strong></td>
+<td> =</td>
+                <td>celestial_body(499, &#39;Mars&#39;, 4.282837362069909E+04_wp)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-body_jupiter"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>body_jupiter</strong></td>
+<td> =</td>
+                <td>celestial_body(599, &#39;Jupiter&#39;, 1.266865349218008E+08_wp)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-body_saturn"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>body_saturn</strong></td>
+<td> =</td>
+                <td>celestial_body(699, &#39;Saturn&#39;, 3.793120749865224E+07_wp)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-body_uranus"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>body_uranus</strong></td>
+<td> =</td>
+                <td>celestial_body(799, &#39;Uranus&#39;, 5.793951322279009E+06_wp)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-body_neptune"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>body_neptune</strong></td>
+<td> =</td>
+                <td>celestial_body(899, &#39;Neptune&#39;, 6.835099502439672E+06_wp)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-body_pluto"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>body_pluto</strong></td>
+<td> =</td>
+                <td>celestial_body(999, &#39;Pluto&#39;, 8.696138177608748E+02_wp)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+        </section>
+        <br>
+
+
+
+
+        <section>
+          <h2>Derived Types</h2>
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-celestial_body"></span>
+      <h3>
+        type, public, extends(<a href='../type/base_class.html'>base_class</a>)&nbsp;::&nbsp;
+        <a href='../type/celestial_body.html'>celestial_body</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>A celestial body (Planet, moon, etc.)
+The <code>ID</code> from the <a href="base_class.html">base_class</a> is the NAIF SPICE ID code for the body</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-id"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>id</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+<p>a unique ID code that distinguishes a
+variable from other variables of the same type.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-name~3"></span>
+              character(len=name_len),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>name</strong></td>
+<td> =</td>
+                <td>&#39;&#39;</td>
+            <td>
+<p>the variable name</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~48"></span>
+              real(kind=wp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+<td> =</td>
+                <td>zero</td>
+            <td>
+<p>gravitational parameter <script type="math/tex"> \mu </script> [<script type="math/tex">km^3/s^2</script>]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>  generic, public ::
+  <strong><a href='../type/celestial_body.html#boundprocedure-operator%28%3D%3D%29~3'>operator(==)</a></strong> => <a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/type/base_class.html#boundprocedure-base_class_equal'>base_class_equal</a></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>  generic, public ::
+  <strong><a href='../type/celestial_body.html#boundprocedure-operator%28SLASH%3D%29~3'>operator(/=)</a></strong> => <a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/type/base_class.html#boundprocedure-base_class_not_equal'>base_class_not_equal</a></td>
+                <td></td>
+              </tr>
+          </tbody>
+        </table>
     </div>
   </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#types-1">Derived Types</a></h3></div>
-  <div id="types-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/celestial_body_module.html#type-celestial_body">celestial_body</a>
-    </div>
-  </div>
-</div>
 
-    </section>
-    <br class="visible-xs visible-sm hidden-md">
+        </section>
+        <br>
 
 
-    <section>
-    <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-body_sun"></span>type(<a href='../type/celestial_body.html'>celestial_body</a>),</td>
-<td>public,</td>  <td>parameter</td><td>::</td>
-  <td><strong>body_sun</strong></td><td> =</td><td>celestial_body(10, 'Sun', 1.3271244004193938E+11_wp)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-body_mercury"></span>type(<a href='../type/celestial_body.html'>celestial_body</a>),</td>
-<td>public,</td>  <td>parameter</td><td>::</td>
-  <td><strong>body_mercury</strong></td><td> =</td><td>celestial_body(199, 'Mercury', 2.2031780000000021E+04_wp)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-body_venus"></span>type(<a href='../type/celestial_body.html'>celestial_body</a>),</td>
-<td>public,</td>  <td>parameter</td><td>::</td>
-  <td><strong>body_venus</strong></td><td> =</td><td>celestial_body(299, 'Venus', 3.2485859200000006E+05_wp)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-body_earth"></span>type(<a href='../type/celestial_body.html'>celestial_body</a>),</td>
-<td>public,</td>  <td>parameter</td><td>::</td>
-  <td><strong>body_earth</strong></td><td> =</td><td>celestial_body(399, 'Earth', 3.9860043543609598E+05_wp)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-body_earth_moon_barycenter"></span>type(<a href='../type/celestial_body.html'>celestial_body</a>),</td>
-<td>public,</td>  <td>parameter</td><td>::</td>
-  <td><strong>body_earth_moon_barycenter</strong></td><td> =</td><td>celestial_body(3, 'Earth-Moon Barycenter', 4.0350323550225981E+05_wp)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-body_moon"></span>type(<a href='../type/celestial_body.html'>celestial_body</a>),</td>
-<td>public,</td>  <td>parameter</td><td>::</td>
-  <td><strong>body_moon</strong></td><td> =</td><td>celestial_body(301, 'Moon', 4.9028000661637961E+03_wp)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-body_mars"></span>type(<a href='../type/celestial_body.html'>celestial_body</a>),</td>
-<td>public,</td>  <td>parameter</td><td>::</td>
-  <td><strong>body_mars</strong></td><td> =</td><td>celestial_body(499, 'Mars', 4.282837362069909E+04_wp)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-body_jupiter"></span>type(<a href='../type/celestial_body.html'>celestial_body</a>),</td>
-<td>public,</td>  <td>parameter</td><td>::</td>
-  <td><strong>body_jupiter</strong></td><td> =</td><td>celestial_body(599, 'Jupiter', 1.266865349218008E+08_wp)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-body_saturn"></span>type(<a href='../type/celestial_body.html'>celestial_body</a>),</td>
-<td>public,</td>  <td>parameter</td><td>::</td>
-  <td><strong>body_saturn</strong></td><td> =</td><td>celestial_body(699, 'Saturn', 3.793120749865224E+07_wp)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-body_uranus"></span>type(<a href='../type/celestial_body.html'>celestial_body</a>),</td>
-<td>public,</td>  <td>parameter</td><td>::</td>
-  <td><strong>body_uranus</strong></td><td> =</td><td>celestial_body(799, 'Uranus', 5.793951322279009E+06_wp)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-body_neptune"></span>type(<a href='../type/celestial_body.html'>celestial_body</a>),</td>
-<td>public,</td>  <td>parameter</td><td>::</td>
-  <td><strong>body_neptune</strong></td><td> =</td><td>celestial_body(899, 'Neptune', 6.835099502439672E+06_wp)</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-body_pluto"></span>type(<a href='../type/celestial_body.html'>celestial_body</a>),</td>
-<td>public,</td>  <td>parameter</td><td>::</td>
-  <td><strong>body_pluto</strong></td><td> =</td><td>celestial_body(999, 'Pluto', 8.696138177608748E+02_wp)</td><td></td>
-</tr>
-</tbody>
-</table>
 
-    </section>
-    <br>
-    
-    
 
-    
-    <section>
-     <h2>Derived Types</h2>
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="type-celestial_body"></span><h3>type, public, extends(<a href='../type/base_class.html'>base_class</a>) :: <a href='../type/celestial_body.html'>celestial_body</a>  </h3></div>
-  <div class="panel-body">
-    <p>A celestial body (Planet, moon, etc.)
-The <code>ID</code> from the <a href="../type/base_class.html">base_class</a> is the NAIF SPICE ID code for the body</p>
-     <h4>Components</h4>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-id"></span>integer,</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>id</strong></td><td> =</td><td>0</td><td><p>a unique ID code that distinguishes a
-variable from other variables of the same type.</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-name~2"></span>character(len=name_len),</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>name</strong></td><td> =</td><td>''</td><td><p>the variable name</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-mu~2"></span>real(kind=wp),</td>
-<td>public</td>  <td></td><td>::</td>
-  <td><strong>mu</strong></td><td> =</td><td>zero</td><td><p>gravitational parameter <script type="math/tex"> \mu </script> [<script type="math/tex">km^3/s^2</script>]</p></td>
-</tr>
-</tbody>
-</table>
 
-     
-     <h4>Type-Bound Procedures</h4>
-      <table class="table table-striped varlist">
-      <tbody>
-       <tr><td>generic, public :: <strong><a href='../type/celestial_body.html#boundprocedure-operator%28%3D%3D%29~2'>operator(==)</a></strong>  => base_class_equal </td>
-       <td></td></tr>
-       <tr><td>generic, public :: <strong><a href='../type/celestial_body.html#boundprocedure-operator%28SLASH%3D%29~2'>operator(/=)</a></strong>  => base_class_not_equal </td>
-       <td></td></tr>
-       </tbody>
-       </table>
-  </div>
-</div>
-
-    </section>
-  <br>
-    
-
-    
     </div>
   </div>
 
-    <hr>    
+      <hr>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-      <div class="row">
-        <div class="col-xs-6 col-md-6"><p>fortran-astrodynamics-toolkit was developed by Jacob Williams<br>&copy; 2022 
+        <div class="row justify-content-between">
+          <div class="col"><p>fortran-astrodynamics-toolkit was developed by Jacob Williams<br>&copy; 2024 
 </p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
         </div>
-        <div class="col-xs-6 col-md-6">
-          <p class="text-right">
-            Documentation generated by 
-            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-          </p>
-        </div>
-      </div>
-      <br>
-      </div> <!-- /container -->    
+        <br>
+      </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
+    <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->
-<!--
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
--->
-    <script src="../js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
     <!-- MathJax JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-      });
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
-    
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
   </body>
 </html>

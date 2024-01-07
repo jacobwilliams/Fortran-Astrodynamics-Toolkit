@@ -1,311 +1,340 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta name="description" content="A modern Fortran library for Astrodynamics">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
     <title>rk_test_variable_step &ndash; fortran-astrodynamics-toolkit</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
-    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="../js/svg-pan-zoom.min.js"></script>
-
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-              data-toggle="dropdown" role="button"
-              aria-haspopup="true"
-     aria-expanded="false">Contents <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="../lists/files.html">Source Files</a></li>
-            <li><a href="../lists/modules.html">Modules</a></li>
-            <li><a href="../lists/procedures.html">Procedures</a></li>
-            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                   <li><a href="../lists/types.html">Derived Types</a></li>
-       
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
             </ul>
-        
-            </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-          </ul>
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
         </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
     <h1>rk_test_variable_step
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 1.2% of total for procedures.">151 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/rk_module_variable_step.f90"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/rk_module_variable_step.f90.html'>rk_module_variable_step.f90</a></li>
-     <li><a href='../module/rk_module_variable_step.html'>rk_module_variable_step</a></li>
-     <li class="active">rk_test_variable_step</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 1.2% of total for procedures.">151 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/rk_module_variable_step.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/rk_module_variable_step.f90.html'>rk_module_variable_step.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/rk_module_variable_step.html'>rk_module_variable_step</a></li>
+            <li class="breadcrumb-item active" aria-current="page">rk_test_variable_step</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/rk_test_variable_step.html#src">rk_test_variable_step</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/rk_test_variable_step.html#src">rk_test_variable_step</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine rk_test_variable_step()</h2>
-        <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Uses</h3>
-      </div>
-      <ul class="list-group">
-      <li class="list-group-item">
-  <ul class="list-inline">
-    <li><a href='../module/orbital_mechanics_module.html'>orbital_mechanics_module</a></li>
-    <li><a href='../module/conversion_module.html'>conversion_module</a></li>
-  </ul>
-      </li>
-      <li class="list-group-item">
-  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    <h2>public  subroutine rk_test_variable_step()  
+</h2>
+        <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='../module/orbital_mechanics_module.html'>orbital_mechanics_module</a></li>
+                  <li class="list-inline-item"><a href='../module/conversion_module.html'>conversion_module</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: proc~~rk_test_variable_step~~UsesGraph Pages: 1 -->
-<svg id="procrk_test_variable_stepUsesGraph" width="641pt" height="141pt"
- viewBox="0.00 0.00 641.00 141.09" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~rk_test_variable_step~~UsesGraph" class="graph" transform="scale(1.35 1.35) rotate(0) translate(4 186.61)">
+<svg id="procrk_test_variable_stepUsesGraph" width="641pt" height="124pt"
+ viewBox="0.00 0.00 641.00 123.57" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~rk_test_variable_step~~UsesGraph" class="graph" transform="scale(1.57 1.57) rotate(0) translate(4 190.13)">
 <title>proc~~rk_test_variable_step~~UsesGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-186.61 862,-186.61 862,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-190.13 1003,-190.13 1003,4 -4,4"/>
 <!-- proc~rk_test_variable_step -->
 <g id="proc~~rk_test_variable_step~~UsesGraph_node1" class="node">
 <title>proc~rk_test_variable_step</title>
-<polygon fill="none" stroke="black" points="858,-64 734,-64 734,-40 858,-40 858,-64"/>
-<text text-anchor="middle" x="796" y="-49.6" font-family="Helvetica,sans-Serif" font-size="10.50">rk_test_variable_step</text>
-</g>
-<!-- module~orbital_mechanics_module -->
-<g id="proc~~rk_test_variable_step~~UsesGraph_node2" class="node">
-<title>module~orbital_mechanics_module</title>
-<g id="a_proc~~rk_test_variable_step~~UsesGraph_node2"><a xlink:href=".././module/orbital_mechanics_module.html" xlink:title="orbital_mechanics_module">
-<polygon fill="#337ab7" stroke="#337ab7" points="698,-104 542,-104 542,-80 698,-80 698,-104"/>
-<text text-anchor="middle" x="620" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">orbital_mechanics_module</text>
-</a>
-</g>
-</g>
-<!-- proc~rk_test_variable_step&#45;&gt;module~orbital_mechanics_module -->
-<g id="proc~~rk_test_variable_step~~UsesGraph_edge1" class="edge">
-<title>proc~rk_test_variable_step&#45;&gt;module~orbital_mechanics_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M742.79,-64C724.13,-68.29 702.9,-73.17 683.45,-77.64"/>
-<polygon fill="#000000" stroke="#000000" points="682.43,-74.29 673.47,-79.94 684,-81.11 682.43,-74.29"/>
+<polygon fill="none" stroke="black" points="999,-124.13 734,-124.13 734,-100.13 999,-100.13 999,-124.13"/>
+<text text-anchor="middle" x="866.5" y="-109.73" font-family="Helvetica,sans-Serif" font-size="10.50">rk_module_variable_step::rk_test_variable_step</text>
 </g>
 <!-- module~conversion_module -->
-<g id="proc~~rk_test_variable_step~~UsesGraph_node3" class="node">
+<g id="proc~~rk_test_variable_step~~UsesGraph_node2" class="node">
 <title>module~conversion_module</title>
-<g id="a_proc~~rk_test_variable_step~~UsesGraph_node3"><a xlink:href=".././module/conversion_module.html" xlink:title="conversion_module">
-<polygon fill="#337ab7" stroke="#337ab7" points="506,-24 389,-24 389,0 506,0 506,-24"/>
-<text text-anchor="middle" x="447.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conversion_module</text>
+<g id="a_proc~~rk_test_variable_step~~UsesGraph_node2"><a xlink:href="../module/conversion_module.html" xlink:title="conversion_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="506,-186.13 389,-186.13 389,-162.13 506,-162.13 506,-186.13"/>
+<text text-anchor="middle" x="447.5" y="-171.73" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conversion_module</text>
 </a>
 </g>
 </g>
 <!-- proc~rk_test_variable_step&#45;&gt;module~conversion_module -->
-<g id="proc~~rk_test_variable_step~~UsesGraph_edge2" class="edge">
+<g id="proc~~rk_test_variable_step~~UsesGraph_edge1" class="edge">
 <title>proc~rk_test_variable_step&#45;&gt;module~conversion_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M733.85,-44.94C672.93,-37.91 579.61,-27.14 516.42,-19.84"/>
-<polygon fill="#000000" stroke="#000000" points="516.5,-16.33 506.16,-18.66 515.69,-23.28 516.5,-16.33"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M784.6,-124.16C706.45,-135.78 589.43,-153.18 516.1,-164.08"/>
+<polygon fill="#000000" stroke="#000000" points="515.43,-160.64 506.05,-165.57 516.46,-167.56 515.43,-160.64"/>
+</g>
+<!-- module~orbital_mechanics_module -->
+<g id="proc~~rk_test_variable_step~~UsesGraph_node3" class="node">
+<title>module~orbital_mechanics_module</title>
+<g id="a_proc~~rk_test_variable_step~~UsesGraph_node3"><a xlink:href="../module/orbital_mechanics_module.html" xlink:title="orbital_mechanics_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="698,-104.13 542,-104.13 542,-80.13 698,-80.13 698,-104.13"/>
+<text text-anchor="middle" x="620" y="-89.73" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">orbital_mechanics_module</text>
+</a>
+</g>
+</g>
+<!-- proc~rk_test_variable_step&#45;&gt;module~orbital_mechanics_module -->
+<g id="proc~~rk_test_variable_step~~UsesGraph_edge2" class="edge">
+<title>proc~rk_test_variable_step&#45;&gt;module~orbital_mechanics_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M733.95,-101.37C725.27,-100.66 716.65,-99.95 708.28,-99.27"/>
+<polygon fill="#000000" stroke="#000000" points="708.44,-95.77 698.19,-98.44 707.87,-102.75 708.44,-95.77"/>
 </g>
 <!-- module~kind_module -->
 <g id="proc~~rk_test_variable_step~~UsesGraph_node4" class="node">
 <title>module~kind_module</title>
-<g id="a_proc~~rk_test_variable_step~~UsesGraph_node4"><a xlink:href=".././module/kind_module.html" xlink:title="kind_module">
-<polygon fill="#337ab7" stroke="#337ab7" points="211,-94 130,-94 130,-70 211,-70 211,-94"/>
-<text text-anchor="middle" x="170.5" y="-79.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module</text>
+<g id="a_proc~~rk_test_variable_step~~UsesGraph_node4"><a xlink:href="../module/kind_module.html" xlink:title="kind_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="211,-124.13 130,-124.13 130,-100.13 211,-100.13 211,-124.13"/>
+<text text-anchor="middle" x="170.5" y="-109.73" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module</text>
 </a>
 </g>
 </g>
-<!-- module~orbital_mechanics_module&#45;&gt;module~kind_module -->
+<!-- module~conversion_module&#45;&gt;module~kind_module -->
 <g id="proc~~rk_test_variable_step~~UsesGraph_edge3" class="edge">
-<title>module~orbital_mechanics_module&#45;&gt;module~kind_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M602.4,-104.2C581.23,-119.06 542.9,-143.56 506,-155 418.6,-182.09 391.11,-189.87 301,-174"/>
+<title>module~conversion_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M388.91,-171.85C362.07,-170.26 329.79,-167.59 301,-163.13"/>
 </g>
 <!-- module~numbers_module -->
-<g id="proc~~rk_test_variable_step~~UsesGraph_node5" class="node">
-<title>module~numbers_module</title>
-<g id="a_proc~~rk_test_variable_step~~UsesGraph_node5"><a xlink:href=".././module/numbers_module.html" xlink:title="numbers_module">
-<polygon fill="#337ab7" stroke="#337ab7" points="353,-94 247,-94 247,-70 353,-70 353,-94"/>
-<text text-anchor="middle" x="300" y="-79.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module</text>
-</a>
-</g>
-</g>
-<!-- module~orbital_mechanics_module&#45;&gt;module~numbers_module -->
-<g id="proc~~rk_test_variable_step~~UsesGraph_edge4" class="edge">
-<title>module~orbital_mechanics_module&#45;&gt;module~numbers_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M565.54,-79.98C546.81,-76.33 525.57,-72.8 506,-71 454.22,-66.23 440.9,-67.77 389,-71 380.61,-71.52 371.79,-72.32 363.11,-73.26"/>
-<polygon fill="#000000" stroke="#000000" points="362.55,-69.8 353.02,-74.41 363.35,-76.75 362.55,-69.8"/>
-</g>
-<!-- module~vector_module -->
 <g id="proc~~rk_test_variable_step~~UsesGraph_node6" class="node">
-<title>module~vector_module</title>
-<g id="a_proc~~rk_test_variable_step~~UsesGraph_node6"><a xlink:href=".././module/vector_module.html" xlink:title="vector_module">
-<polygon fill="#337ab7" stroke="#337ab7" points="493.5,-146 401.5,-146 401.5,-122 493.5,-122 493.5,-146"/>
-<text text-anchor="middle" x="447.5" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_module</text>
+<title>module~numbers_module</title>
+<g id="a_proc~~rk_test_variable_step~~UsesGraph_node6"><a xlink:href="../module/numbers_module.html" xlink:title="numbers_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="353,-124.13 247,-124.13 247,-100.13 353,-100.13 353,-124.13"/>
+<text text-anchor="middle" x="300" y="-109.73" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module</text>
 </a>
 </g>
 </g>
-<!-- module~orbital_mechanics_module&#45;&gt;module~vector_module -->
+<!-- module~conversion_module&#45;&gt;module~numbers_module -->
+<g id="proc~~rk_test_variable_step~~UsesGraph_edge4" class="edge">
+<title>module~conversion_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M411.96,-162.06C404.35,-159.25 396.36,-156.18 389,-153.13 370.78,-145.57 350.83,-136.36 334.53,-128.58"/>
+<polygon fill="#000000" stroke="#000000" points="335.93,-125.37 325.4,-124.19 332.9,-131.68 335.93,-125.37"/>
+</g>
+<!-- module~orbital_mechanics_module&#45;&gt;module~kind_module -->
 <g id="proc~~rk_test_variable_step~~UsesGraph_edge5" class="edge">
-<title>module~orbital_mechanics_module&#45;&gt;module~vector_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M570.14,-104.04C549.33,-109.16 524.95,-115.17 503.51,-120.45"/>
-<polygon fill="#000000" stroke="#000000" points="502.44,-117.11 493.57,-122.9 504.12,-123.9 502.44,-117.11"/>
+<title>module~orbital_mechanics_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M601.97,-80.07C580.65,-65.68 542.49,-42.17 506,-31.13 418.42,-4.64 389.39,11.52 301,-12.13"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M299,-12.13C251.53,-24.41 209.6,-66.32 187.67,-91.82"/>
+<polygon fill="#000000" stroke="#000000" points="184.74,-89.86 181.02,-99.78 190.12,-94.35 184.74,-89.86"/>
 </g>
 <!-- module~math_module -->
-<g id="proc~~rk_test_variable_step~~UsesGraph_node7" class="node">
+<g id="proc~~rk_test_variable_step~~UsesGraph_node5" class="node">
 <title>module~math_module</title>
-<g id="a_proc~~rk_test_variable_step~~UsesGraph_node7"><a xlink:href=".././module/math_module.html" xlink:title="math_module">
-<polygon fill="#337ab7" stroke="#337ab7" points="490.5,-104 404.5,-104 404.5,-80 490.5,-80 490.5,-104"/>
-<text text-anchor="middle" x="447.5" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">math_module</text>
+<g id="a_proc~~rk_test_variable_step~~UsesGraph_node5"><a xlink:href="../module/math_module.html" xlink:title="math_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="490.5,-64.13 404.5,-64.13 404.5,-40.13 490.5,-40.13 490.5,-64.13"/>
+<text text-anchor="middle" x="447.5" y="-49.73" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">math_module</text>
 </a>
 </g>
 </g>
 <!-- module~orbital_mechanics_module&#45;&gt;module~math_module -->
 <g id="proc~~rk_test_variable_step~~UsesGraph_edge6" class="edge">
 <title>module~orbital_mechanics_module&#45;&gt;module~math_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M541.73,-92C527.83,-92 513.64,-92 500.66,-92"/>
-<polygon fill="#000000" stroke="#000000" points="500.54,-88.5 490.54,-92 500.54,-95.5 500.54,-88.5"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M567.84,-80.13C546.59,-75.14 521.95,-69.36 500.6,-64.35"/>
+<polygon fill="#000000" stroke="#000000" points="501.26,-60.91 490.73,-62.04 499.66,-67.73 501.26,-60.91"/>
 </g>
-<!-- module~conversion_module&#45;&gt;module~kind_module -->
+<!-- module~orbital_mechanics_module&#45;&gt;module~numbers_module -->
 <g id="proc~~rk_test_variable_step~~UsesGraph_edge7" class="edge">
-<title>module~conversion_module&#45;&gt;module~kind_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M395.55,-24.06C355.18,-33.73 297.37,-47.81 247,-61 238.49,-63.23 229.46,-65.67 220.72,-68.08"/>
-<polygon fill="#000000" stroke="#000000" points="219.72,-64.72 211.01,-70.76 221.59,-71.47 219.72,-64.72"/>
+<title>module~orbital_mechanics_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M541.62,-97C486.92,-100.44 414.55,-104.99 363.51,-108.2"/>
+<polygon fill="#000000" stroke="#000000" points="363.04,-104.72 353.28,-108.84 363.48,-111.71 363.04,-104.72"/>
 </g>
-<!-- module~conversion_module&#45;&gt;module~numbers_module -->
+<!-- module~vector_module -->
+<g id="proc~~rk_test_variable_step~~UsesGraph_node7" class="node">
+<title>module~vector_module</title>
+<g id="a_proc~~rk_test_variable_step~~UsesGraph_node7"><a xlink:href="../module/vector_module.html" xlink:title="vector_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="493.5,-144.13 401.5,-144.13 401.5,-120.13 493.5,-120.13 493.5,-144.13"/>
+<text text-anchor="middle" x="447.5" y="-129.73" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_module</text>
+</a>
+</g>
+</g>
+<!-- module~orbital_mechanics_module&#45;&gt;module~vector_module -->
 <g id="proc~~rk_test_variable_step~~UsesGraph_edge8" class="edge">
-<title>module~conversion_module&#45;&gt;module~numbers_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M419.2,-24.08C409.61,-28.4 398.79,-33.34 389,-38 370.56,-46.77 350.16,-56.95 333.64,-65.3"/>
-<polygon fill="#000000" stroke="#000000" points="331.74,-62.34 324.41,-69.98 334.91,-68.58 331.74,-62.34"/>
+<title>module~orbital_mechanics_module&#45;&gt;module~vector_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M567.84,-104.13C547.53,-108.9 524.12,-114.39 503.45,-119.24"/>
+<polygon fill="#000000" stroke="#000000" points="502.48,-115.87 493.54,-121.56 504.08,-122.69 502.48,-115.87"/>
 </g>
 <!-- iso_fortran_env -->
 <g id="proc~~rk_test_variable_step~~UsesGraph_node8" class="node">
 <title>iso_fortran_env</title>
-<g id="a_proc~~rk_test_variable_step~~UsesGraph_node8"><a xlink:href="https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html" xlink:title="iso_fortran_env">
-<polygon fill="#337ab7" stroke="#337ab7" points="94,-94 0,-94 0,-70 94,-70 94,-94"/>
-<text text-anchor="middle" x="47" y="-79.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
-</a>
-</g>
+<polygon fill="#337ab7" stroke="#337ab7" points="94,-124.13 0,-124.13 0,-100.13 94,-100.13 94,-124.13"/>
+<text text-anchor="middle" x="47" y="-109.73" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
 </g>
 <!-- module~kind_module&#45;&gt;iso_fortran_env -->
 <g id="proc~~rk_test_variable_step~~UsesGraph_edge9" class="edge">
 <title>module~kind_module&#45;&gt;iso_fortran_env</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M129.72,-82C121.56,-82 112.83,-82 104.21,-82"/>
-<polygon fill="#000000" stroke="#000000" points="104.2,-78.5 94.2,-82 104.2,-85.5 104.2,-78.5"/>
-</g>
-<!-- module~numbers_module&#45;&gt;module~kind_module -->
-<g id="proc~~rk_test_variable_step~~UsesGraph_edge10" class="edge">
-<title>module~numbers_module&#45;&gt;module~kind_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M246.77,-82C238.46,-82 229.87,-82 221.6,-82"/>
-<polygon fill="#000000" stroke="#000000" points="221.35,-78.5 211.35,-82 221.35,-85.5 221.35,-78.5"/>
-</g>
-<!-- module~vector_module&#45;&gt;module~kind_module -->
-<g id="proc~~rk_test_variable_step~~UsesGraph_edge11" class="edge">
-<title>module~vector_module&#45;&gt;module~kind_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M415.06,-146.05C379.23,-159.18 322.8,-177.84 301,-174"/>
-</g>
-<!-- module~vector_module&#45;&gt;module~numbers_module -->
-<g id="proc~~rk_test_variable_step~~UsesGraph_edge12" class="edge">
-<title>module~vector_module&#45;&gt;module~numbers_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M412.75,-121.94C392.44,-114.68 366.37,-105.36 344.52,-97.55"/>
-<polygon fill="#000000" stroke="#000000" points="345.41,-94.15 334.82,-94.09 343.05,-100.75 345.41,-94.15"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M129.72,-112.13C121.56,-112.13 112.83,-112.13 104.21,-112.13"/>
+<polygon fill="#000000" stroke="#000000" points="104.2,-108.63 94.2,-112.13 104.2,-115.63 104.2,-108.63"/>
 </g>
 <!-- module~math_module&#45;&gt;module~kind_module -->
-<g id="proc~~rk_test_variable_step~~UsesGraph_edge13" class="edge">
+<g id="proc~~rk_test_variable_step~~UsesGraph_edge10" class="edge">
 <title>module~math_module&#45;&gt;module~kind_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M409.09,-104.08C402.27,-106.72 395.32,-109.72 389,-113 346.75,-134.9 347.87,-182.25 301,-174"/>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M299,-174C252.39,-165.79 210.42,-126.49 188.2,-101.99"/>
-<polygon fill="#000000" stroke="#000000" points="190.67,-99.51 181.44,-94.31 185.42,-104.13 190.67,-99.51"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M416.5,-40.03C380.63,-26.25 322.7,-6.32 301,-12.13"/>
 </g>
 <!-- module~math_module&#45;&gt;module~numbers_module -->
-<g id="proc~~rk_test_variable_step~~UsesGraph_edge14" class="edge">
+<g id="proc~~rk_test_variable_step~~UsesGraph_edge11" class="edge">
 <title>module~math_module&#45;&gt;module~numbers_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M404.42,-89.11C391.52,-88.22 377.04,-87.23 363.1,-86.27"/>
-<polygon fill="#000000" stroke="#000000" points="363.29,-82.77 353.07,-85.58 362.81,-89.76 363.29,-82.77"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M417.06,-64.27C394.77,-73.46 363.96,-86.17 339.69,-96.18"/>
+<polygon fill="#000000" stroke="#000000" points="338.31,-92.96 330.4,-100.01 340.98,-99.43 338.31,-92.96"/>
+</g>
+<!-- module~numbers_module&#45;&gt;module~kind_module -->
+<g id="proc~~rk_test_variable_step~~UsesGraph_edge12" class="edge">
+<title>module~numbers_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M246.77,-112.13C238.46,-112.13 229.87,-112.13 221.6,-112.13"/>
+<polygon fill="#000000" stroke="#000000" points="221.35,-108.63 211.35,-112.13 221.35,-115.63 221.35,-108.63"/>
+</g>
+<!-- module~vector_module&#45;&gt;module~kind_module -->
+<g id="proc~~rk_test_variable_step~~UsesGraph_edge13" class="edge">
+<title>module~vector_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M406.01,-144.13C370.26,-154.11 320.84,-166.2 301,-163.13"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M299,-163.13C264.32,-157.76 227.37,-141.7 202.22,-129.02"/>
+<polygon fill="#000000" stroke="#000000" points="203.69,-125.84 193.19,-124.36 200.47,-132.06 203.69,-125.84"/>
+</g>
+<!-- module~vector_module&#45;&gt;module~numbers_module -->
+<g id="proc~~rk_test_variable_step~~UsesGraph_edge14" class="edge">
+<title>module~vector_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M401.26,-125.91C389.21,-124.25 375.99,-122.44 363.21,-120.68"/>
+<polygon fill="#000000" stroke="#000000" points="363.46,-117.18 353.08,-119.29 362.51,-124.12 363.46,-117.18"/>
 </g>
 </g>
 </svg>
-</div><script>var panprocrk_test_variable_stepUsesGraph = svgPanZoom('#procrk_test_variable_stepUsesGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>                <script>
+                  var panprocrk_test_variable_stepUsesGraph = svgPanZoom('#procrk_test_variable_stepUsesGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
@@ -355,91 +384,283 @@
 </g>
 </svg>
 
-    
-    <p>Solid arrows point from a submodule to the (sub)module which it is
-    descended from. Dashed arrows point from a module or program unit to 
-    modules which it uses.
-    </p>
-    </div></div></div></div>
-      </li>
-      </ul>
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
     </div>
 
 
     <p>Unit test of the <a href="../module/rk_module.html">rk_module</a>.
 Integrate a two-body orbit around the Earth.</p>
 
+
     <h3>Arguments</h3>
     <em>None</em>
     <br>
     <br>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Calls</h3>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
       </div>
-      <div class="panel-body">
+      <div class="card-body">
   <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: proc~~rk_test_variable_step~~CallsGraph Pages: 1 -->
-<svg id="procrk_test_variable_stepCallsGraph" width="411pt" height="32pt"
- viewBox="0.00 0.00 411.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~rk_test_variable_step~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<svg id="procrk_test_variable_stepCallsGraph" width="641pt" height="198pt"
+ viewBox="0.00 0.00 641.00 197.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~rk_test_variable_step~~CallsGraph" class="graph" transform="scale(1.65 1.65) rotate(0) translate(4 322)">
 <title>proc~~rk_test_variable_step~~CallsGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 407,-28 407,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-322 1054,-322 1054,4 -4,4"/>
 <!-- proc~rk_test_variable_step -->
 <g id="proc~~rk_test_variable_step~~CallsGraph_node1" class="node">
 <title>proc~rk_test_variable_step</title>
-<polygon fill="none" stroke="black" points="124,-24 0,-24 0,0 124,0 124,-24"/>
-<text text-anchor="middle" x="62" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">rk_test_variable_step</text>
+<polygon fill="none" stroke="black" points="265,-171 0,-171 0,-147 265,-147 265,-171"/>
+<text text-anchor="middle" x="132.5" y="-156.6" font-family="Helvetica,sans-Serif" font-size="10.50">rk_module_variable_step::rk_test_variable_step</text>
+</g>
+<!-- proc~integrate -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_node2" class="node">
+<title>proc~integrate</title>
+<g id="a_proc~~rk_test_variable_step~~CallsGraph_node2"><a xlink:href="../proc/integrate.html" xlink:title="rk_module_variable_step::rk_variable_step_class%integrate">
+<polygon fill="#d9534f" stroke="#d9534f" points="656.5,-234 326.5,-234 326.5,-210 656.5,-210 656.5,-234"/>
+<text text-anchor="middle" x="491.5" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rk_module_variable_step::rk_variable_step_class%integrate</text>
+</a>
+</g>
+</g>
+<!-- proc~rk_test_variable_step&#45;&gt;proc~integrate -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_edge1" class="edge">
+<title>proc~rk_test_variable_step&#45;&gt;proc~integrate</title>
+<path fill="none" stroke="#000000" d="M174.81,-171.02C208.5,-180.42 257.48,-193.17 301,-201 316.92,-203.86 333.66,-206.4 350.34,-208.63"/>
+<polygon fill="#000000" stroke="#000000" points="350.34,-212.16 360.7,-209.98 351.24,-205.22 350.34,-212.16"/>
+</g>
+<!-- proc~integrate_to_event -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_node3" class="node">
+<title>proc~integrate_to_event</title>
+<g id="a_proc~~rk_test_variable_step~~CallsGraph_node3"><a xlink:href="../proc/integrate_to_event.html" xlink:title="rk_module_variable_step::rk_variable_step_class%integrate_to_event">
+<polygon fill="#d9534f" stroke="#d9534f" points="682,-192 301,-192 301,-168 682,-168 682,-192"/>
+<text text-anchor="middle" x="491.5" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rk_module_variable_step::rk_variable_step_class%integrate_to_event</text>
+</a>
+</g>
+</g>
+<!-- proc~rk_test_variable_step&#45;&gt;proc~integrate_to_event -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_edge2" class="edge">
+<title>proc~rk_test_variable_step&#45;&gt;proc~integrate_to_event</title>
+<path fill="none" stroke="#000000" d="M265.17,-166.75C273.59,-167.24 282.17,-167.75 290.81,-168.25"/>
+<polygon fill="#000000" stroke="#000000" points="290.8,-171.76 300.99,-168.85 291.21,-164.77 290.8,-171.76"/>
 </g>
 <!-- proc~orbital_elements_to_rv -->
-<g id="proc~~rk_test_variable_step~~CallsGraph_node2" class="node">
+<g id="proc~~rk_test_variable_step~~CallsGraph_node4" class="node">
 <title>proc~orbital_elements_to_rv</title>
-<g id="a_proc~~rk_test_variable_step~~CallsGraph_node2"><a xlink:href=".././proc/orbital_elements_to_rv.html" xlink:title="orbital_elements_to_rv">
-<polygon fill="#d9534f" stroke="#d9534f" points="293,-24 160,-24 160,0 293,0 293,-24"/>
-<text text-anchor="middle" x="226.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">orbital_elements_to_rv</text>
+<g id="a_proc~~rk_test_variable_step~~CallsGraph_node4"><a xlink:href="../proc/orbital_elements_to_rv.html" xlink:title="orbital_mechanics_module::orbital_elements_to_rv">
+<polygon fill="#d9534f" stroke="#d9534f" points="633.5,-150 349.5,-150 349.5,-126 633.5,-126 633.5,-150"/>
+<text text-anchor="middle" x="491.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">orbital_mechanics_module::orbital_elements_to_rv</text>
 </a>
 </g>
 </g>
 <!-- proc~rk_test_variable_step&#45;&gt;proc~orbital_elements_to_rv -->
-<g id="proc~~rk_test_variable_step~~CallsGraph_edge1" class="edge">
+<g id="proc~~rk_test_variable_step~~CallsGraph_edge3" class="edge">
 <title>proc~rk_test_variable_step&#45;&gt;proc~orbital_elements_to_rv</title>
-<path fill="none" stroke="#000000" d="M124.43,-12C132.68,-12 141.21,-12 149.66,-12"/>
-<polygon fill="#000000" stroke="#000000" points="149.91,-15.5 159.91,-12 149.91,-8.5 149.91,-15.5"/>
+<path fill="none" stroke="#000000" d="M265.17,-151.25C289.27,-149.84 314.6,-148.35 339.22,-146.9"/>
+<polygon fill="#000000" stroke="#000000" points="339.57,-150.38 349.35,-146.3 339.16,-143.4 339.57,-150.38"/>
+</g>
+<!-- proc~stepsize_class_constructor -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_node5" class="node">
+<title>proc~stepsize_class_constructor</title>
+<g id="a_proc~~rk_test_variable_step~~CallsGraph_node5"><a xlink:href="../proc/stepsize_class_constructor.html" xlink:title="rk_module_variable_step::stepsize_class%stepsize_class_constructor">
+<polygon fill="#d9534f" stroke="#d9534f" points="680,-108 303,-108 303,-84 680,-84 680,-108"/>
+<text text-anchor="middle" x="491.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rk_module_variable_step::stepsize_class%stepsize_class_constructor</text>
+</a>
+</g>
+</g>
+<!-- proc~rk_test_variable_step&#45;&gt;proc~stepsize_class_constructor -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_edge4" class="edge">
+<title>proc~rk_test_variable_step&#45;&gt;proc~stepsize_class_constructor</title>
+<path fill="none" stroke="#000000" d="M174.81,-146.98C208.5,-137.58 257.48,-124.83 301,-117 316.92,-114.14 333.66,-111.6 350.34,-109.37"/>
+<polygon fill="#000000" stroke="#000000" points="351.24,-112.78 360.7,-108.02 350.34,-105.84 351.24,-112.78"/>
+</g>
+<!-- order -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_node6" class="node">
+<title>order</title>
+<polygon fill="#777777" stroke="#777777" points="911,-318 857,-318 857,-294 911,-294 911,-318"/>
+<text text-anchor="middle" x="884" y="-303.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">order</text>
+</g>
+<!-- proc~integrate&#45;&gt;order -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_edge5" class="edge">
+<title>proc~integrate&#45;&gt;order</title>
+<path fill="none" stroke="#000000" d="M529.21,-234.04C573.51,-248.15 650.47,-271.34 718,-285 761.8,-293.86 812.94,-299.68 846.54,-302.9"/>
+<polygon fill="#000000" stroke="#000000" points="846.52,-306.41 856.8,-303.85 847.17,-299.44 846.52,-306.41"/>
+</g>
+<!-- proc~compute_stepsize -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_node7" class="node">
+<title>proc~compute_stepsize</title>
+<g id="a_proc~~rk_test_variable_step~~CallsGraph_node7"><a xlink:href="../proc/compute_stepsize.html" xlink:title="rk_module_variable_step::stepsize_class%compute_stepsize">
+<polygon fill="#d9534f" stroke="#d9534f" points="1050,-276 718,-276 718,-252 1050,-252 1050,-276"/>
+<text text-anchor="middle" x="884" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rk_module_variable_step::stepsize_class%compute_stepsize</text>
+</a>
+</g>
+</g>
+<!-- proc~integrate&#45;&gt;proc~compute_stepsize -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_edge6" class="edge">
+<title>proc~integrate&#45;&gt;proc~compute_stepsize</title>
+<path fill="none" stroke="#000000" d="M604.14,-234.01C653.17,-239.28 710.87,-245.49 761.02,-250.88"/>
+<polygon fill="#000000" stroke="#000000" points="760.96,-254.39 771.28,-251.98 761.71,-247.43 760.96,-254.39"/>
+</g>
+<!-- proc~hinit -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_node8" class="node">
+<title>proc~hinit</title>
+<g id="a_proc~~rk_test_variable_step~~CallsGraph_node8"><a xlink:href="../proc/hinit.html" xlink:title="rk_module_variable_step::rk_variable_step_class%hinit">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="1036,-234 732,-234 732,-210 1036,-210 1036,-234"/>
+<text text-anchor="middle" x="884" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rk_module_variable_step::rk_variable_step_class%hinit</text>
+</a>
+</g>
+</g>
+<!-- proc~integrate&#45;&gt;proc~hinit -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_edge7" class="edge">
+<title>proc~integrate&#45;&gt;proc~hinit</title>
+<path fill="none" stroke="#000000" d="M656.69,-222C678.21,-222 700.24,-222 721.71,-222"/>
+<polygon fill="#000000" stroke="#000000" points="721.87,-225.5 731.87,-222 721.87,-218.5 721.87,-225.5"/>
+</g>
+<!-- proc~hstart -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_node9" class="node">
+<title>proc~hstart</title>
+<g id="a_proc~~rk_test_variable_step~~CallsGraph_node9"><a xlink:href="../proc/hstart.html" xlink:title="rk_module_variable_step::rk_variable_step_class%hstart">
+<polygon fill="#d9534f" stroke="#d9534f" points="1040,-192 728,-192 728,-168 1040,-168 1040,-192"/>
+<text text-anchor="middle" x="884" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rk_module_variable_step::rk_variable_step_class%hstart</text>
+</a>
+</g>
+</g>
+<!-- proc~integrate&#45;&gt;proc~hstart -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_edge8" class="edge">
+<title>proc~integrate&#45;&gt;proc~hstart</title>
+<path fill="none" stroke="#000000" d="M604.14,-209.99C653.17,-204.72 710.87,-198.51 761.02,-193.12"/>
+<polygon fill="#000000" stroke="#000000" points="761.71,-196.57 771.28,-192.02 760.96,-189.61 761.71,-196.57"/>
+</g>
+<!-- step -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_node13" class="node">
+<title>step</title>
+<polygon fill="#777777" stroke="#777777" points="911,-150 857,-150 857,-126 911,-126 911,-150"/>
+<text text-anchor="middle" x="884" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step</text>
+</g>
+<!-- proc~integrate&#45;&gt;step -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_edge9" class="edge">
+<title>proc~integrate&#45;&gt;step</title>
+<path fill="none" stroke="#000000" d="M656.68,-211.84C665.45,-208.84 673.95,-205.25 682,-201 703.74,-189.51 696.36,-170.67 718,-159 758.2,-137.33 811.7,-134.42 846.72,-135.36"/>
+<polygon fill="#000000" stroke="#000000" points="846.84,-138.87 856.97,-135.76 847.11,-131.87 846.84,-138.87"/>
+</g>
+<!-- proc~integrate_to_event&#45;&gt;order -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_edge10" class="edge">
+<title>proc~integrate_to_event&#45;&gt;order</title>
+<path fill="none" stroke="#000000" d="M668.22,-192.21C673,-194.83 677.61,-197.75 682,-201 714.62,-225.2 685.57,-260.54 718,-285 755.03,-312.94 810.56,-314.08 846.79,-311.06"/>
+<polygon fill="#000000" stroke="#000000" points="847.31,-314.52 856.92,-310.06 846.62,-307.56 847.31,-314.52"/>
+</g>
+<!-- proc~integrate_to_event&#45;&gt;proc~compute_stepsize -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_edge11" class="edge">
+<title>proc~integrate_to_event&#45;&gt;proc~compute_stepsize</title>
+<path fill="none" stroke="#000000" d="M661.9,-192.03C668.83,-194.62 675.56,-197.6 682,-201 703.74,-212.49 696.36,-231.33 718,-243 721.38,-244.82 724.85,-246.51 728.39,-248.07"/>
+<polygon fill="#000000" stroke="#000000" points="727.35,-251.43 737.94,-251.93 729.98,-244.94 727.35,-251.43"/>
+</g>
+<!-- proc~integrate_to_event&#45;&gt;proc~hinit -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_edge12" class="edge">
+<title>proc~integrate_to_event&#45;&gt;proc~hinit</title>
+<path fill="none" stroke="#000000" d="M604.14,-192.01C653.17,-197.28 710.87,-203.49 761.02,-208.88"/>
+<polygon fill="#000000" stroke="#000000" points="760.96,-212.39 771.28,-209.98 761.71,-205.43 760.96,-212.39"/>
+</g>
+<!-- proc~integrate_to_event&#45;&gt;proc~hstart -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_edge13" class="edge">
+<title>proc~integrate_to_event&#45;&gt;proc~hstart</title>
+<path fill="none" stroke="#000000" d="M682.03,-180C693.9,-180 705.81,-180 717.56,-180"/>
+<polygon fill="#000000" stroke="#000000" points="717.85,-183.5 727.85,-180 717.85,-176.5 717.85,-183.5"/>
+</g>
+<!-- proc~set_function -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_node11" class="node">
+<title>proc~set_function</title>
+<g id="a_proc~~rk_test_variable_step~~CallsGraph_node11"><a xlink:href="../proc/set_function.html" xlink:title="brent_module::brent_class%set_function">
+<polygon fill="#d9534f" stroke="#d9534f" points="997.5,-108 770.5,-108 770.5,-84 997.5,-84 997.5,-108"/>
+<text text-anchor="middle" x="884" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">brent_module::brent_class%set_function</text>
+</a>
+</g>
+</g>
+<!-- proc~integrate_to_event&#45;&gt;proc~set_function -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_edge14" class="edge">
+<title>proc~integrate_to_event&#45;&gt;proc~set_function</title>
+<path fill="none" stroke="#000000" d="M661.9,-167.97C668.83,-165.38 675.56,-162.4 682,-159 703.74,-147.51 696.36,-128.67 718,-117 731.14,-109.92 745.69,-104.84 760.56,-101.25"/>
+<polygon fill="#000000" stroke="#000000" points="761.35,-104.66 770.37,-99.09 759.85,-97.82 761.35,-104.66"/>
+</g>
+<!-- proc~zeroin -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_node12" class="node">
+<title>proc~zeroin</title>
+<g id="a_proc~~rk_test_variable_step~~CallsGraph_node12"><a xlink:href="../proc/zeroin.html" xlink:title="brent_module::brent_class%zeroin">
+<polygon fill="#d9534f" stroke="#d9534f" points="981.5,-66 786.5,-66 786.5,-42 981.5,-42 981.5,-66"/>
+<text text-anchor="middle" x="884" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">brent_module::brent_class%zeroin</text>
+</a>
+</g>
+</g>
+<!-- proc~integrate_to_event&#45;&gt;proc~zeroin -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_edge15" class="edge">
+<title>proc~integrate_to_event&#45;&gt;proc~zeroin</title>
+<path fill="none" stroke="#000000" d="M668.22,-167.79C673,-165.17 677.61,-162.25 682,-159 714.62,-134.8 685.57,-99.46 718,-75 734.82,-62.31 755.45,-55.15 776.35,-51.4"/>
+<polygon fill="#000000" stroke="#000000" points="776.94,-54.85 786.29,-49.86 775.87,-47.93 776.94,-54.85"/>
+</g>
+<!-- proc~integrate_to_event&#45;&gt;step -->
+<g id="proc~~rk_test_variable_step~~CallsGraph_edge16" class="edge">
+<title>proc~integrate_to_event&#45;&gt;step</title>
+<path fill="none" stroke="#000000" d="M604.14,-167.99C685.92,-159.2 791.82,-147.81 846.6,-141.92"/>
+<polygon fill="#000000" stroke="#000000" points="847.28,-145.36 856.85,-140.81 846.53,-138.4 847.28,-145.36"/>
 </g>
 <!-- proc~orbit_check -->
-<g id="proc~~rk_test_variable_step~~CallsGraph_node3" class="node">
+<g id="proc~~rk_test_variable_step~~CallsGraph_node10" class="node">
 <title>proc~orbit_check</title>
-<g id="a_proc~~rk_test_variable_step~~CallsGraph_node3"><a xlink:href=".././proc/orbit_check.html" xlink:title="orbit_check">
-<polygon fill="#d9534f" stroke="#d9534f" points="403,-24 329,-24 329,0 403,0 403,-24"/>
-<text text-anchor="middle" x="366" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">orbit_check</text>
+<g id="a_proc~~rk_test_variable_step~~CallsGraph_node10"><a xlink:href="../proc/orbit_check.html" xlink:title="orbital_mechanics_module::orbit_check">
+<polygon fill="#d9534f" stroke="#d9534f" points="996.5,-24 771.5,-24 771.5,0 996.5,0 996.5,-24"/>
+<text text-anchor="middle" x="884" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">orbital_mechanics_module::orbit_check</text>
 </a>
 </g>
 </g>
 <!-- proc~orbital_elements_to_rv&#45;&gt;proc~orbit_check -->
-<g id="proc~~rk_test_variable_step~~CallsGraph_edge2" class="edge">
+<g id="proc~~rk_test_variable_step~~CallsGraph_edge17" class="edge">
 <title>proc~orbital_elements_to_rv&#45;&gt;proc~orbit_check</title>
-<path fill="none" stroke="#000000" d="M293.03,-12C301.69,-12 310.41,-12 318.65,-12"/>
-<polygon fill="#000000" stroke="#000000" points="318.79,-15.5 328.79,-12 318.79,-8.5 318.79,-15.5"/>
+<path fill="none" stroke="#000000" d="M633.93,-139.17C651.22,-134.61 667.78,-127.55 682,-117 714.62,-92.8 685.57,-57.46 718,-33 730.79,-23.35 745.79,-16.9 761.44,-12.71"/>
+<polygon fill="#000000" stroke="#000000" points="762.32,-16.1 771.25,-10.39 760.71,-9.29 762.32,-16.1"/>
 </g>
 </g>
 </svg>
-</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>                <script>
+                  var panprocrk_test_variable_stepCallsGraph = svgPanZoom('#procrk_test_variable_stepCallsGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: Graph Key Pages: 1 -->
-<svg width="597pt" height="32pt"
- viewBox="0.00 0.00 596.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1.16 1.16) rotate(0) translate(4 28)">
 <title>Graph Key</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 592.5,-28 592.5,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
 <!-- Subroutine -->
 <g id="node1" class="node">
 <title>Subroutine</title>
@@ -458,169 +679,165 @@ Integrate a two-body orbit around the Earth.</p>
 <polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
 <text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
 </g>
-<!-- Unknown Procedure Type -->
+<!-- Type Bound Procedure -->
 <g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
 <title>Unknown Procedure Type</title>
-<polygon fill="#777777" stroke="#777777" points="388.5,-24 243.5,-24 243.5,0 388.5,0 388.5,-24"/>
-<text text-anchor="middle" x="316" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
 </g>
 <!-- Program -->
-<g id="node5" class="node">
+<g id="node6" class="node">
 <title>Program</title>
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="465,-24 407,-24 407,0 465,0 465,-24"/>
-<text text-anchor="middle" x="436" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
 </g>
 <!-- This Page&#39;s Entity -->
-<g id="node6" class="node">
+<g id="node7" class="node">
 <title>This Page&#39;s Entity</title>
-<polygon fill="none" stroke="black" points="588.5,-24 483.5,-24 483.5,0 588.5,0 588.5,-24"/>
-<text text-anchor="middle" x="536" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
 </g>
 </g>
 </svg>
 
-    
-    <p>Solid arrows point from a procedure to one which it calls. Dashed 
-    arrows point from an interface to procedures which implement that interface.
-    This could include the module procedures in a generic interface or the
-    implementation in a submodule of an interface in a parent module.
-    </p>
-    </div></div></div></div>
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <br>
 
-    <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/rk_test_variable_step.html#src">rk_test_variable_step</a>
-  </div>
-</div>
-
-    </section>
-    <br class="visible-xs visible-sm hidden-md">
-
 
     
     
 
     
     
+
 
 
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">rk_test_variable_step</span><span class="p">()</span><span class="w"></span>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">rk_test_variable_step</span><span class="p">()</span>
 
-<span class="w">    </span><span class="k">use </span><span class="n">orbital_mechanics_module</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">orbital_elements_to_rv</span><span class="w"></span>
-<span class="w">    </span><span class="k">use </span><span class="n">conversion_module</span><span class="p">,</span><span class="w">        </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">deg2rad</span><span class="w"></span>
+<span class="w">    </span><span class="k">use </span><span class="n">orbital_mechanics_module</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">orbital_elements_to_rv</span>
+<span class="w">    </span><span class="k">use </span><span class="n">conversion_module</span><span class="p">,</span><span class="w">        </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">deg2rad</span>
 
-<span class="w">    </span><span class="k">implicit none</span><span class="w"></span>
+<span class="w">    </span><span class="k">implicit none</span>
 
 <span class="w">    </span><span class="c">!type,extends(rkf78_class) :: spacecraft</span>
 <span class="w">    </span><span class="c">!type,extends(rkf89_class) :: spacecraft</span>
 <span class="w">    </span><span class="c">!type,extends(rkv89_class) :: spacecraft</span>
 <span class="w">    </span><span class="c">!type,extends(rkf108_class) :: spacecraft</span>
 <span class="w">    </span><span class="c">!type,extends(rkf1210_class) :: spacecraft</span>
-<span class="w">    </span><span class="k">type</span><span class="p">,</span><span class="k">extends</span><span class="p">(</span><span class="n">rkf1412_class</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">spacecraft</span><span class="w"></span>
+<span class="w">    </span><span class="k">type</span><span class="p">,</span><span class="k">extends</span><span class="p">(</span><span class="n">rkf1412_class</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">spacecraft</span>
 <span class="w">        </span><span class="c">!! spacecraft propagation type.</span>
 <span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mu</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w">     </span><span class="c">!! central body gravitational parameter (km3/s2)</span>
 <span class="w">        </span><span class="kt">integer</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">fevals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w">        </span><span class="c">!! number of function evaluations</span>
 <span class="w">        </span><span class="kt">logical</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">first</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w">   </span><span class="c">!! first point is being exported</span>
-<span class="w">    </span><span class="k">end type </span><span class="n">spacecraft</span><span class="w"></span>
+<span class="w">    </span><span class="k">end type </span><span class="n">spacecraft</span>
 
 <span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="w">            </span><span class="c">!! number of state variables</span>
 <span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0e-12_wp</span><span class="w"> </span><span class="c">!! event location tolerance</span>
 
-<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">spacecraft</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">s2</span><span class="w"></span>
-<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="n">tf</span><span class="p">,</span><span class="n">x0</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="n">dt</span><span class="p">,</span><span class="n">xf</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="n">x02</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="n">gf</span><span class="p">,</span><span class="n">tf_actual</span><span class="p">,</span><span class="n">rtol</span><span class="p">,</span><span class="n">atol</span><span class="w"></span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">spacecraft</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">s2</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="n">tf</span><span class="p">,</span><span class="n">x0</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="n">dt</span><span class="p">,</span><span class="n">xf</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="n">x02</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="n">gf</span><span class="p">,</span><span class="n">tf_actual</span><span class="p">,</span><span class="n">rtol</span><span class="p">,</span><span class="n">atol</span>
 <span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ierr</span><span class="w"> </span><span class="c">!! error flag</span>
-<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">stepsize_class</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sz</span><span class="w"></span>
-<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">icase</span><span class="w"></span>
-<span class="w">    </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">relative_err</span><span class="w"></span>
-<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">safety_factor</span><span class="p">,</span><span class="w"> </span><span class="n">hfactor_accept</span><span class="w"></span>
-<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p_exponent_offset</span><span class="w"></span>
-<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mu</span><span class="w"></span>
-<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">ecc</span><span class="p">,</span><span class="n">inc</span><span class="p">,</span><span class="n">raan</span><span class="p">,</span><span class="n">aop</span><span class="p">,</span><span class="n">tru</span><span class="w"></span>
-<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="n">v</span><span class="w"></span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">stepsize_class</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sz</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">icase</span>
+<span class="w">    </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">relative_err</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">safety_factor</span><span class="p">,</span><span class="w"> </span><span class="n">hfactor_accept</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p_exponent_offset</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mu</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">ecc</span><span class="p">,</span><span class="n">inc</span><span class="p">,</span><span class="n">raan</span><span class="p">,</span><span class="n">aop</span><span class="p">,</span><span class="n">tru</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="n">v</span>
 
-<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;---------------&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39; rk_variable_step_test&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;---------------&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;---------------&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39; rk_variable_step_test&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;---------------&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
 
 <span class="w">    </span><span class="c">!***************************************************************************</span>
 
-<span class="w">    </span><span class="k">do </span><span class="n">icase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="w">    </span><span class="k">do </span><span class="n">icase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span>
 
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"></span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;***************&#39;</span><span class="w"></span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39; case&#39;</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">icase</span><span class="w"></span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;***************&#39;</span><span class="w"></span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"></span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;***************&#39;</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39; case&#39;</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">icase</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;***************&#39;</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
 
 <span class="w">        </span><span class="c">! ... relative_err,safety_factor,p_exponent_offset don&#39;t</span>
 <span class="w">        </span><span class="c">!     seem to change the results at all ....</span>
 
-<span class="w">        </span><span class="k">select case</span><span class="w"> </span><span class="p">(</span><span class="n">icase</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">case</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">select case</span><span class="w"> </span><span class="p">(</span><span class="n">icase</span><span class="p">)</span>
+<span class="w">        </span><span class="k">case</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="w">            </span><span class="c">! defaults</span>
-<span class="w">            </span><span class="n">relative_err</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span><span class="w"></span>
-<span class="w">            </span><span class="n">safety_factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.8_wp</span><span class="w"></span>
-<span class="w">            </span><span class="n">p_exponent_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="n">relative_err</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
+<span class="w">            </span><span class="n">safety_factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.8_wp</span>
+<span class="w">            </span><span class="n">p_exponent_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">            </span><span class="n">hfactor_accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0_wp</span><span class="w">    </span><span class="c">! changing this does change result</span>
-<span class="w">        </span><span class="k">case</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">relative_err</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span><span class="w"></span>
-<span class="w">            </span><span class="n">safety_factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.9_wp</span><span class="w"></span>
-<span class="w">            </span><span class="n">p_exponent_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="n">hfactor_accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5.0_wp</span><span class="w"></span>
-<span class="w">        </span><span class="k">case</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">relative_err</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span><span class="w"></span>
-<span class="w">            </span><span class="n">safety_factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.95_wp</span><span class="w"></span>
-<span class="w">            </span><span class="n">p_exponent_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">            </span><span class="n">hfactor_accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="mf">0.0_wp</span><span class="w"></span>
-<span class="w">        </span><span class="k">case</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">relative_err</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span><span class="w"></span>
-<span class="w">            </span><span class="n">safety_factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.9_wp</span><span class="w"></span>
-<span class="w">            </span><span class="n">p_exponent_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">            </span><span class="n">hfactor_accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0_wp</span><span class="w"></span>
-<span class="w">        </span><span class="k">end select</span><span class="w"></span>
+<span class="w">        </span><span class="k">case</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">            </span><span class="n">relative_err</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
+<span class="w">            </span><span class="n">safety_factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.9_wp</span>
+<span class="w">            </span><span class="n">p_exponent_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="n">hfactor_accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">5.0_wp</span>
+<span class="w">        </span><span class="k">case</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">            </span><span class="n">relative_err</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
+<span class="w">            </span><span class="n">safety_factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.95_wp</span>
+<span class="w">            </span><span class="n">p_exponent_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="n">hfactor_accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="mf">0.0_wp</span>
+<span class="w">        </span><span class="k">case</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="w">            </span><span class="n">relative_err</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
+<span class="w">            </span><span class="n">safety_factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.9_wp</span>
+<span class="w">            </span><span class="n">p_exponent_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="n">hfactor_accept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0_wp</span>
+<span class="w">        </span><span class="k">end select</span>
 
 <span class="w">        </span><span class="c">!step size constructor:</span>
 <span class="w">        </span><span class="c">!call sz%initialize(hmin=1.0e-6_wp,hmax=1.0e6_wp)</span>
-<span class="w">        </span><span class="k">call </span><span class="n">sz</span><span class="p">%</span><span class="n">initialize</span><span class="p">(</span><span class="w"> </span><span class="n">hmin</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0e-6_wp</span><span class="p">,</span><span class="w">        </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                            </span><span class="n">hmax</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0e+6_wp</span><span class="p">,</span><span class="w">        </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                            </span><span class="n">hfactor_reject</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5_wp</span><span class="p">,</span><span class="w">           </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                            </span><span class="n">hfactor_accept</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">hfactor_accept</span><span class="p">,</span><span class="w">   </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                            </span><span class="n">max_attempts</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span><span class="w">              </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                            </span><span class="n">accept_mode</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">                </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                            </span><span class="n">norm</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="n">maxval_func</span><span class="p">,</span><span class="w">      </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                            </span><span class="n">relative_err</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">relative_err</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                            </span><span class="n">safety_factor</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">safety_factor</span><span class="p">,</span><span class="w">    </span><span class="p">&amp;</span><span class="w"></span>
-<span class="w">                            </span><span class="n">p_exponent_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p_exponent_offset</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">call </span><span class="n">sz</span><span class="p">%</span><span class="n">initialize</span><span class="p">(</span><span class="w"> </span><span class="n">hmin</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0e-6_wp</span><span class="p">,</span><span class="w">        </span><span class="p">&amp;</span>
+<span class="w">                            </span><span class="n">hmax</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0e+6_wp</span><span class="p">,</span><span class="w">        </span><span class="p">&amp;</span>
+<span class="w">                            </span><span class="n">hfactor_reject</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5_wp</span><span class="p">,</span><span class="w">           </span><span class="p">&amp;</span>
+<span class="w">                            </span><span class="n">hfactor_accept</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">hfactor_accept</span><span class="p">,</span><span class="w">   </span><span class="p">&amp;</span>
+<span class="w">                            </span><span class="n">max_attempts</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span><span class="w">              </span><span class="p">&amp;</span>
+<span class="w">                            </span><span class="n">accept_mode</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">                </span><span class="p">&amp;</span>
+<span class="w">                            </span><span class="n">norm</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="n">maxval_func</span><span class="p">,</span><span class="w">      </span><span class="p">&amp;</span>
+<span class="w">                            </span><span class="n">relative_err</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">relative_err</span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
+<span class="w">                            </span><span class="n">safety_factor</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">safety_factor</span><span class="p">,</span><span class="w">    </span><span class="p">&amp;</span>
+<span class="w">                            </span><span class="n">p_exponent_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p_exponent_offset</span><span class="w"> </span><span class="p">)</span>
 
 <span class="w">        </span><span class="c">!integrator constructor:</span>
-<span class="w">        </span><span class="k">call </span><span class="n">s</span><span class="p">%</span><span class="n">initialize</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span><span class="n">f</span><span class="o">=</span><span class="n">twobody</span><span class="p">,</span><span class="n">rtol</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0e-15_wp</span><span class="p">],</span><span class="n">atol</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0e-12_wp</span><span class="p">],&amp;</span><span class="w"></span>
-<span class="w">                            </span><span class="n">stepsize_method</span><span class="o">=</span><span class="n">sz</span><span class="p">,</span><span class="n">report</span><span class="o">=</span><span class="n">twobody_report</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">call </span><span class="n">s</span><span class="p">%</span><span class="n">initialize</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span><span class="n">f</span><span class="o">=</span><span class="n">twobody</span><span class="p">,</span><span class="n">rtol</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0e-15_wp</span><span class="p">],</span><span class="n">atol</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0e-12_wp</span><span class="p">],&amp;</span>
+<span class="w">                            </span><span class="n">stepsize_method</span><span class="o">=</span><span class="n">sz</span><span class="p">,</span><span class="n">report</span><span class="o">=</span><span class="n">twobody_report</span><span class="p">)</span>
 
 <span class="w">        </span><span class="c">!initial conditions:</span>
 <span class="w">        </span><span class="c">!write(*,*) &#39;general elliptical:&#39;</span>
 <span class="w">        </span><span class="n">mu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.9860043543609593E+05_wp</span><span class="w"> </span><span class="c">! for earth</span>
 <span class="w">        </span><span class="n">a</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">800</span><span class="mf">0.0_wp</span><span class="w"> </span><span class="c">! km</span>
-<span class="w">        </span><span class="n">ecc</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mf">0.1_wp</span><span class="w"></span>
-<span class="w">        </span><span class="n">inc</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="mf">5.0_wp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">deg2rad</span><span class="w"></span>
-<span class="w">        </span><span class="n">raan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="mf">5.0_wp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">deg2rad</span><span class="w"></span>
-<span class="w">        </span><span class="n">aop</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="mf">5.0_wp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">deg2rad</span><span class="w"></span>
-<span class="w">        </span><span class="n">tru</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="mf">5.0_wp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">deg2rad</span><span class="w"></span>
-<span class="w">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ecc</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">ecc</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mf">0.1_wp</span>
+<span class="w">        </span><span class="n">inc</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="mf">5.0_wp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">deg2rad</span>
+<span class="w">        </span><span class="n">raan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="mf">5.0_wp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">deg2rad</span>
+<span class="w">        </span><span class="n">aop</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="mf">5.0_wp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">deg2rad</span>
+<span class="w">        </span><span class="n">tru</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="mf">5.0_wp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">deg2rad</span>
+<span class="w">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ecc</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 
-<span class="w">        </span><span class="k">call </span><span class="n">orbital_elements_to_rv</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">ecc</span><span class="p">,</span><span class="w"> </span><span class="n">inc</span><span class="p">,</span><span class="w"> </span><span class="n">raan</span><span class="p">,</span><span class="w"> </span><span class="n">aop</span><span class="p">,</span><span class="w"> </span><span class="n">tru</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="n">x0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">r</span><span class="p">,</span><span class="n">v</span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="k">call </span><span class="n">orbital_elements_to_rv</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">ecc</span><span class="p">,</span><span class="w"> </span><span class="n">inc</span><span class="p">,</span><span class="w"> </span><span class="n">raan</span><span class="p">,</span><span class="w"> </span><span class="n">aop</span><span class="p">,</span><span class="w"> </span><span class="n">tru</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">)</span>
+<span class="w">        </span><span class="n">x0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">r</span><span class="p">,</span><span class="n">v</span><span class="p">]</span>
 
 <span class="w">        </span><span class="c">!x0   = [10000.0_wp,10000.0_wp,10000.0_wp,&amp;   ! initial state [r,v] (km,km/s)</span>
 <span class="w">        </span><span class="c">!        1.0_wp,2.0_wp,3.0_wp]</span>
@@ -630,142 +847,142 @@ Integrate a two-body orbit around the Earth.</p>
 <span class="w">        </span><span class="n">tf</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="mf">0.0_wp</span><span class="w">         </span><span class="c">! final time (sec)</span>
 <span class="w">        </span><span class="n">s</span><span class="p">%</span><span class="n">mu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">39860</span><span class="mf">0.436233_wp</span><span class="w">  </span><span class="c">! main body is Earth</span>
 
-<span class="w">        </span><span class="n">s</span><span class="p">%</span><span class="n">num_rejected_steps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">        </span><span class="n">s</span><span class="p">%</span><span class="n">fevals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">        </span><span class="n">s</span><span class="p">%</span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w"></span>
+<span class="w">        </span><span class="n">s</span><span class="p">%</span><span class="n">num_rejected_steps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="n">s</span><span class="p">%</span><span class="n">fevals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="n">s</span><span class="p">%</span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
 <span class="w">        </span><span class="k">call </span><span class="n">s</span><span class="p">%</span><span class="n">integrate</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span><span class="n">x0</span><span class="p">,</span><span class="n">dt</span><span class="p">,</span><span class="n">tf</span><span class="p">,</span><span class="n">xf</span><span class="p">,</span><span class="n">ierr</span><span class="p">)</span><span class="w">    </span><span class="c">!forward</span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"></span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;ierr = &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="w"></span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A/,*(F15.6/))&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Final state:&#39;</span><span class="p">,</span><span class="n">xf</span><span class="w"></span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,I5)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Function evaluations:&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">%</span><span class="n">fevals</span><span class="w"></span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;ierr = &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A/,*(F15.6/))&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Final state:&#39;</span><span class="p">,</span><span class="n">xf</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,I5)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Function evaluations:&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">%</span><span class="n">fevals</span>
 <span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,I5)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Number of rejected steps:&#39;</span><span class="p">,</span><span class="n">s</span><span class="p">%</span><span class="n">num_rejected_steps</span><span class="w">   </span><span class="c">! why is this 0 when ierr = -3 ???</span>
 
-<span class="w">        </span><span class="n">s</span><span class="p">%</span><span class="n">num_rejected_steps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">        </span><span class="n">s</span><span class="p">%</span><span class="n">fevals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">        </span><span class="n">s</span><span class="p">%</span><span class="n">num_rejected_steps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="n">s</span><span class="p">%</span><span class="n">fevals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
 <span class="w">        </span><span class="n">s</span><span class="p">%</span><span class="n">report</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">null</span><span class="p">()</span><span class="w">    </span><span class="c">!disable reporting</span>
 <span class="w">        </span><span class="k">call </span><span class="n">s</span><span class="p">%</span><span class="n">integrate</span><span class="p">(</span><span class="n">tf</span><span class="p">,</span><span class="n">xf</span><span class="p">,</span><span class="o">-</span><span class="n">dt</span><span class="p">,</span><span class="n">t0</span><span class="p">,</span><span class="n">x02</span><span class="p">,</span><span class="n">ierr</span><span class="p">)</span><span class="w">  </span><span class="c">!backwards</span>
 
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;ierr = &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="w"></span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A/,*(E20.12/))&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Error:&#39;</span><span class="p">,</span><span class="n">x02</span><span class="o">-</span><span class="n">x0</span><span class="w"></span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,I5)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Function evaluations:&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">%</span><span class="n">fevals</span><span class="w"></span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,I5)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Number of rejected steps:&#39;</span><span class="p">,</span><span class="n">s</span><span class="p">%</span><span class="n">num_rejected_steps</span><span class="w"></span>
-<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"></span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;ierr = &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A/,*(E20.12/))&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Error:&#39;</span><span class="p">,</span><span class="n">x02</span><span class="o">-</span><span class="n">x0</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,I5)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Function evaluations:&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">%</span><span class="n">fevals</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,I5)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Number of rejected steps:&#39;</span><span class="p">,</span><span class="n">s</span><span class="p">%</span><span class="n">num_rejected_steps</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
 
-<span class="w">    </span><span class="k">end do</span><span class="w"></span>
+<span class="w">    </span><span class="k">end do</span>
 
 <span class="w">    </span><span class="c">!***************************************************************************</span>
 <span class="w">    </span><span class="c">!event finding test:</span>
 
-<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39; Event test - integrate until z = 12,000&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39; Event test - integrate until z = 12,000&#39;</span>
 
 <span class="w">   </span><span class="c">! NOTE: the following causes an ICE in gfortran 7.1, but works with ifort:</span>
 <span class="w">   </span><span class="c">! s2 = spacecraft(n=n,f=twobody,g=twobody_event,mu=398600.436233_wp,&amp;</span>
 <span class="w">   </span><span class="c">!                  rtol=[1.0e-12_wp],atol=[1.0e-12_wp],&amp;</span>
 <span class="w">   </span><span class="c">!                  stepsize_method=sz,report=twobody_report)</span>
 <span class="w">   </span><span class="c">! do it this way instead:</span>
-<span class="w">   </span><span class="k">call </span><span class="n">s2</span><span class="p">%</span><span class="n">initialize</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span><span class="n">f</span><span class="o">=</span><span class="n">twobody</span><span class="p">,</span><span class="n">g</span><span class="o">=</span><span class="n">twobody_event</span><span class="p">,&amp;</span><span class="w"></span>
-<span class="w">                      </span><span class="n">rtol</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0e-12_wp</span><span class="p">],</span><span class="n">atol</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0e-12_wp</span><span class="p">],&amp;</span><span class="w"></span>
-<span class="w">                      </span><span class="n">stepsize_method</span><span class="o">=</span><span class="n">sz</span><span class="p">,&amp;</span><span class="w"></span>
-<span class="w">                      </span><span class="n">report</span><span class="o">=</span><span class="n">twobody_report</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="n">s2</span><span class="p">%</span><span class="n">mu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">39860</span><span class="mf">0.436233_wp</span><span class="w"></span>
+<span class="w">   </span><span class="k">call </span><span class="n">s2</span><span class="p">%</span><span class="n">initialize</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span><span class="n">f</span><span class="o">=</span><span class="n">twobody</span><span class="p">,</span><span class="n">g</span><span class="o">=</span><span class="n">twobody_event</span><span class="p">,&amp;</span>
+<span class="w">                      </span><span class="n">rtol</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0e-12_wp</span><span class="p">],</span><span class="n">atol</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0e-12_wp</span><span class="p">],&amp;</span>
+<span class="w">                      </span><span class="n">stepsize_method</span><span class="o">=</span><span class="n">sz</span><span class="p">,&amp;</span>
+<span class="w">                      </span><span class="n">report</span><span class="o">=</span><span class="n">twobody_report</span><span class="p">)</span>
+<span class="w">   </span><span class="n">s2</span><span class="p">%</span><span class="n">mu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">39860</span><span class="mf">0.436233_wp</span>
 
-<span class="w">   </span><span class="n">s2</span><span class="p">%</span><span class="n">fevals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">   </span><span class="n">s2</span><span class="p">%</span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w"></span>
+<span class="w">   </span><span class="n">s2</span><span class="p">%</span><span class="n">fevals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">   </span><span class="n">s2</span><span class="p">%</span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
 <span class="w">   </span><span class="n">x0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1000</span><span class="mf">0.0_wp</span><span class="p">,</span><span class="mi">1000</span><span class="mf">0.0_wp</span><span class="p">,</span><span class="mi">1000</span><span class="mf">0.0_wp</span><span class="p">,&amp;</span><span class="w">   </span><span class="c">!initial state [r,v] (km,km/s)</span>
-<span class="w">           </span><span class="mf">1.0_wp</span><span class="p">,</span><span class="mf">2.0_wp</span><span class="p">,</span><span class="mf">3.0_wp</span><span class="p">]</span><span class="w"></span>
+<span class="w">           </span><span class="mf">1.0_wp</span><span class="p">,</span><span class="mf">2.0_wp</span><span class="p">,</span><span class="mf">3.0_wp</span><span class="p">]</span>
 <span class="w">   </span><span class="n">t0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w">       </span><span class="c">!initial time (sec)</span>
 <span class="w">   </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="mf">0.0_wp</span><span class="w">    </span><span class="c">!time step (sec)</span>
 <span class="w">   </span><span class="n">tf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="mf">0.0_wp</span><span class="w">  </span><span class="c">!final time (sec)</span>
 
-<span class="w">   </span><span class="k">call </span><span class="n">s2</span><span class="p">%</span><span class="n">integrate_to_event</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span><span class="n">x0</span><span class="p">,</span><span class="n">dt</span><span class="p">,</span><span class="n">tf</span><span class="p">,</span><span class="n">tol</span><span class="p">,</span><span class="n">tf_actual</span><span class="p">,</span><span class="n">xf</span><span class="p">,</span><span class="n">gf</span><span class="p">,</span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,I5)&#39;</span><span class="p">)</span><span class="w">         </span><span class="s1">&#39;ierr:       &#39;</span><span class="p">,</span><span class="n">ierr</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A/,*(F15.6/))&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Final time: &#39;</span><span class="p">,</span><span class="n">tf_actual</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A/,*(F15.6/))&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Final state:&#39;</span><span class="p">,</span><span class="n">xf</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A/,*(F15.6/))&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Event func :&#39;</span><span class="p">,</span><span class="n">gf</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,I5)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Function evaluations:&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">s2</span><span class="p">%</span><span class="n">fevals</span><span class="w"></span>
-<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,I5)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Number of rejected steps:&#39;</span><span class="p">,</span><span class="n">s2</span><span class="p">%</span><span class="n">num_rejected_steps</span><span class="w"></span>
+<span class="w">   </span><span class="k">call </span><span class="n">s2</span><span class="p">%</span><span class="n">integrate_to_event</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span><span class="n">x0</span><span class="p">,</span><span class="n">dt</span><span class="p">,</span><span class="n">tf</span><span class="p">,</span><span class="n">tol</span><span class="p">,</span><span class="n">tf_actual</span><span class="p">,</span><span class="n">xf</span><span class="p">,</span><span class="n">gf</span><span class="p">,</span><span class="n">ierr</span><span class="p">)</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,I5)&#39;</span><span class="p">)</span><span class="w">         </span><span class="s1">&#39;ierr:       &#39;</span><span class="p">,</span><span class="n">ierr</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A/,*(F15.6/))&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Final time: &#39;</span><span class="p">,</span><span class="n">tf_actual</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A/,*(F15.6/))&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Final state:&#39;</span><span class="p">,</span><span class="n">xf</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A/,*(F15.6/))&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Event func :&#39;</span><span class="p">,</span><span class="n">gf</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,I5)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Function evaluations:&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">s2</span><span class="p">%</span><span class="n">fevals</span>
+<span class="w">   </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,I5)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Number of rejected steps:&#39;</span><span class="p">,</span><span class="n">s2</span><span class="p">%</span><span class="n">num_rejected_steps</span>
 
-<span class="w">    </span><span class="k">contains</span><span class="w"></span>
+<span class="w">    </span><span class="k">contains</span>
 <span class="c">!*****************************************************************************************</span>
 
 <span class="w">    </span><span class="c">!*********************************************************</span>
-<span class="w">        </span><span class="k">subroutine </span><span class="n">twobody</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">xdot</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">subroutine </span><span class="n">twobody</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">xdot</span><span class="p">)</span>
 
 <span class="w">        </span><span class="c">!! derivative routine for two-body orbit propagation</span>
 
 <span class="w">        </span><span class="k">implicit none</span>
 
-<span class="k">        class</span><span class="p">(</span><span class="n">rk_variable_step_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span><span class="w"></span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">t</span><span class="w"></span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w"></span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">xdot</span><span class="w"></span>
+<span class="k">        class</span><span class="p">(</span><span class="n">rk_variable_step_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">t</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">xdot</span>
 
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">a_grav</span><span class="w"></span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rmag</span><span class="w"></span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">a_grav</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rmag</span>
 
-<span class="w">        </span><span class="k">select type</span><span class="w"> </span><span class="p">(</span><span class="n">me</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">class is</span><span class="w"> </span><span class="p">(</span><span class="n">spacecraft</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">select type</span><span class="w"> </span><span class="p">(</span><span class="n">me</span><span class="p">)</span>
+<span class="w">        </span><span class="k">class is</span><span class="w"> </span><span class="p">(</span><span class="n">spacecraft</span><span class="p">)</span>
 
-<span class="w">            </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="n">rmag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">            </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">)</span>
+<span class="w">            </span><span class="n">rmag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
 <span class="w">            </span><span class="n">a_grav</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">me</span><span class="p">%</span><span class="n">mu</span><span class="o">/</span><span class="n">rmag</span><span class="o">**</span><span class="mi">3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="c">!acceleration due to gravity</span>
 
-<span class="w">            </span><span class="n">xdot</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="w"></span>
-<span class="w">            </span><span class="n">xdot</span><span class="p">(</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a_grav</span><span class="w"></span>
+<span class="w">            </span><span class="n">xdot</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span>
+<span class="w">            </span><span class="n">xdot</span><span class="p">(</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a_grav</span>
 
-<span class="w">            </span><span class="n">me</span><span class="p">%</span><span class="n">fevals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">fevals</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="n">me</span><span class="p">%</span><span class="n">fevals</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">fevals</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 
 <span class="w">        </span><span class="k">end select</span>
 
-<span class="k">        end subroutine </span><span class="n">twobody</span><span class="w"></span>
+<span class="k">        end subroutine </span><span class="n">twobody</span>
 <span class="w">    </span><span class="c">!*********************************************************</span>
 
 <span class="w">    </span><span class="c">!*********************************************************</span>
-<span class="w">        </span><span class="k">subroutine </span><span class="n">twobody_report</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">subroutine </span><span class="n">twobody_report</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
 
 <span class="w">        </span><span class="c">!! report function - write time,state to console</span>
 
 <span class="w">        </span><span class="k">implicit none</span>
 
-<span class="k">        class</span><span class="p">(</span><span class="n">rk_variable_step_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span><span class="w"></span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">t</span><span class="w"></span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w"></span>
+<span class="k">        class</span><span class="p">(</span><span class="n">rk_variable_step_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">t</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span>
 
-<span class="w">        </span><span class="k">select type</span><span class="w"> </span><span class="p">(</span><span class="n">me</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="k">class is</span><span class="w"> </span><span class="p">(</span><span class="n">spacecraft</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">select type</span><span class="w"> </span><span class="p">(</span><span class="n">me</span><span class="p">)</span>
+<span class="w">        </span><span class="k">class is</span><span class="w"> </span><span class="p">(</span><span class="n">spacecraft</span><span class="p">)</span>
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">first</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">  </span><span class="c">!print header</span>
-<span class="w">                </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"></span>
-<span class="w">                </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(*(A15,1X))&#39;</span><span class="p">)</span><span class="w">  </span><span class="s1">&#39;time (sec)&#39;</span><span class="p">,</span><span class="s1">&#39;x (km)&#39;</span><span class="p">,</span><span class="s1">&#39;y (km)&#39;</span><span class="p">,</span><span class="s1">&#39;z (km)&#39;</span><span class="p">,&amp;</span><span class="w"></span>
-<span class="w">                                        </span><span class="s1">&#39;vx (km/s)&#39;</span><span class="p">,</span><span class="s1">&#39;vy (km/s)&#39;</span><span class="p">,</span><span class="s1">&#39;vz (km/s)&#39;</span><span class="w"></span>
-<span class="w">                </span><span class="n">me</span><span class="p">%</span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span><span class="w"></span>
+<span class="w">                </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">                </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(*(A15,1X))&#39;</span><span class="p">)</span><span class="w">  </span><span class="s1">&#39;time (sec)&#39;</span><span class="p">,</span><span class="s1">&#39;x (km)&#39;</span><span class="p">,</span><span class="s1">&#39;y (km)&#39;</span><span class="p">,</span><span class="s1">&#39;z (km)&#39;</span><span class="p">,&amp;</span>
+<span class="w">                                        </span><span class="s1">&#39;vx (km/s)&#39;</span><span class="p">,</span><span class="s1">&#39;vy (km/s)&#39;</span><span class="p">,</span><span class="s1">&#39;vz (km/s)&#39;</span>
+<span class="w">                </span><span class="n">me</span><span class="p">%</span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
 <span class="w">            </span><span class="k">end if</span>
 <span class="k">        end select</span>
 
-<span class="k">        write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(*(F15.6,1X))&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="w"></span>
+<span class="k">        write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(*(F15.6,1X))&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">t</span><span class="p">,</span><span class="n">x</span>
 
-<span class="w">        </span><span class="k">end subroutine </span><span class="n">twobody_report</span><span class="w"></span>
+<span class="w">        </span><span class="k">end subroutine </span><span class="n">twobody_report</span>
 <span class="w">    </span><span class="c">!*********************************************************</span>
 
 <span class="w">    </span><span class="c">!*********************************************************</span>
-<span class="w">        </span><span class="k">subroutine </span><span class="n">twobody_event</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">g</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">subroutine </span><span class="n">twobody_event</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">g</span><span class="p">)</span>
 
 <span class="w">        </span><span class="c">!! event function (z = 12,000)</span>
 
 <span class="w">        </span><span class="k">implicit none</span>
 
-<span class="k">        class</span><span class="p">(</span><span class="n">rk_variable_step_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span><span class="w"></span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">t</span><span class="w"></span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w"></span>
-<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span><span class="w"></span>
+<span class="k">        class</span><span class="p">(</span><span class="n">rk_variable_step_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">t</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span>
 
-<span class="w">        </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1200</span><span class="mf">0.0_wp</span><span class="w"></span>
+<span class="w">        </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1200</span><span class="mf">0.0_wp</span>
 
-<span class="w">        </span><span class="k">end subroutine </span><span class="n">twobody_event</span><span class="w"></span>
+<span class="w">        </span><span class="k">end subroutine </span><span class="n">twobody_event</span>
 <span class="w">    </span><span class="c">!*********************************************************</span>
 
-<span class="w">    </span><span class="k">end subroutine </span><span class="n">rk_test_variable_step</span><span class="w"></span>
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">rk_test_variable_step</span>
 </pre></div>
 
     </section>
@@ -774,50 +991,45 @@ Integrate a two-body orbit around the Earth.</p>
     </div>
   </div>
 
-    <hr>    
+      <hr>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-      <div class="row">
-        <div class="col-xs-6 col-md-6"><p>fortran-astrodynamics-toolkit was developed by Jacob Williams<br>&copy; 2022 
+        <div class="row justify-content-between">
+          <div class="col"><p>fortran-astrodynamics-toolkit was developed by Jacob Williams<br>&copy; 2024 
 </p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
         </div>
-        <div class="col-xs-6 col-md-6">
-          <p class="text-right">
-            Documentation generated by 
-            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-          </p>
-        </div>
-      </div>
-      <br>
-      </div> <!-- /container -->    
+        <br>
+      </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
+    <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->
-<!--
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
--->
-    <script src="../js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
     <!-- MathJax JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-      });
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
-    
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
   </body>
 </html>

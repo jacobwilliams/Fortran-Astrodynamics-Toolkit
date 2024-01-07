@@ -1,197 +1,225 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta name="description" content="A modern Fortran library for Astrodynamics">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
     <title>vector_module &ndash; fortran-astrodynamics-toolkit</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
-    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="../js/svg-pan-zoom.min.js"></script>
-
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-              data-toggle="dropdown" role="button"
-              aria-haspopup="true"
-     aria-expanded="false">Contents <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="../lists/files.html">Source Files</a></li>
-            <li><a href="../lists/modules.html">Modules</a></li>
-            <li><a href="../lists/procedures.html">Procedures</a></li>
-            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                   <li><a href="../lists/types.html">Derived Types</a></li>
-       
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
             </ul>
-        
-            </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-          </ul>
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
         </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
-    <h1>vector_module 
-    <small>Module</small>
+    <h1>vector_module
+      <small>Module</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-pencil"></i> Jacob Williams</li>
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 2.4% of total for modules and submodules.">331 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/vector_module.f90"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/vector_module.f90.html'>vector_module.f90</a></li>
-     <li class="active">vector_module</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+            <li class="list-inline-item" id="meta-author"><i class="fa fa-pencil"></i> Jacob Williams</li>
 
-  </div>
-  
-  <div class="row">
-    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/vector_module.html#variable-x_axis">x_axis</a>
-      <a class="list-group-item" href="../module/vector_module.html#variable-y_axis">y_axis</a>
-      <a class="list-group-item" href="../module/vector_module.html#variable-z_axis">z_axis</a>
-      <a class="list-group-item" href="../module/vector_module.html#variable-x_unit">x_unit</a>
-      <a class="list-group-item" href="../module/vector_module.html#variable-y_unit">y_unit</a>
-      <a class="list-group-item" href="../module/vector_module.html#variable-z_unit">z_unit</a>
-    </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#inters-0">Interfaces</a></h3></div>
-  <div id="inters-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/vector_module.html#interface-fill_vector">fill_vector</a>
-      <a class="list-group-item" href="../module/vector_module.html#interface-extract_vector">extract_vector</a>
-    </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-0">Functions</a></h3></div>
-  <div id="funcs-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/vector_module.html#proc-cross">cross</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-unit">unit</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-uhat_dot">uhat_dot</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-ucross">ucross</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-cross_matrix">cross_matrix</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-outer_product">outer_product</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-box_product">box_product</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-vector_projection">vector_projection</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-spherical_to_cartesian">spherical_to_cartesian</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-rotation_matrix">rotation_matrix</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-rotation_matrix_dot">rotation_matrix_dot</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-angle_between_vectors">angle_between_vectors</a>
-    </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-0">Subroutines</a></h3></div>
-  <div class="list-group">
-    <div id="subs-0" class="panel-collapse collapse">
-      <a class="list-group-item" href="../module/vector_module.html#proc-axis_angle_rotation">axis_angle_rotation</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-vector_projection_on_plane">vector_projection_on_plane</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-axis_angle_rotation_to_rotation_matrix">axis_angle_rotation_to_rotation_matrix</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-cartesian_to_spherical">cartesian_to_spherical</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-fill_vector_with_vector">fill_vector_with_vector</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-fill_vector_with_scalar">fill_vector_with_scalar</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-fill_char_vector_with_vector">fill_char_vector_with_vector</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-fill_char_vector_with_scalar">fill_char_vector_with_scalar</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-extract_vector_from_vector">extract_vector_from_vector</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-extract_scalar_from_vector">extract_scalar_from_vector</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-vector_test">vector_test</a>
-    </div>
-  </div>
-</div>
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 2.4% of total for modules and submodules.">331 statements</a>
+            </li>
 
-</div>
-
-    </div>
-    
-    <div class="col-md-9" id='text'>
-    <p>Routines for the manipulation of vectors.</p>
-<br>        <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Uses</h3>
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/vector_module.f90"> Source File</a>
+            </li>
+        </ul>
       </div>
-      <ul class="list-group">
-      <li class="list-group-item">
-  <ul class="list-inline">
-    <li><a href='../module/kind_module.html'>kind_module</a></li>
-    <li><a href='../module/numbers_module.html'>numbers_module</a></li>
-  </ul>
-      </li>
-      <li class="list-group-item">
-  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/vector_module.f90.html'>vector_module.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">vector_module</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/vector_module.html#variable-x_axis">x_axis</a>
+            <a class="list-group-item" href="../module/vector_module.html#variable-y_axis">y_axis</a>
+            <a class="list-group-item" href="../module/vector_module.html#variable-z_axis">z_axis</a>
+            <a class="list-group-item" href="../module/vector_module.html#variable-x_unit">x_unit</a>
+            <a class="list-group-item" href="../module/vector_module.html#variable-y_unit">y_unit</a>
+            <a class="list-group-item" href="../module/vector_module.html#variable-z_unit">z_unit</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#inters-0"
+         aria-expanded="false" aria-controls="inters-0">
+         <h4 class="card-header bg-primary text-white">Interfaces</h4>
+      </a>
+      <div id="inters-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/vector_module.html#interface-fill_vector">fill_vector</a>
+            <a class="list-group-item" href="../module/vector_module.html#interface-extract_vector">extract_vector</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/vector_module.html#proc-cross">cross</a>
+            <a class="list-group-item" href="../module/vector_module.html#proc-unit">unit</a>
+            <a class="list-group-item" href="../module/vector_module.html#proc-uhat_dot">uhat_dot</a>
+            <a class="list-group-item" href="../module/vector_module.html#proc-ucross">ucross</a>
+            <a class="list-group-item" href="../module/vector_module.html#proc-cross_matrix">cross_matrix</a>
+            <a class="list-group-item" href="../module/vector_module.html#proc-outer_product">outer_product</a>
+            <a class="list-group-item" href="../module/vector_module.html#proc-box_product">box_product</a>
+            <a class="list-group-item" href="../module/vector_module.html#proc-vector_projection">vector_projection</a>
+            <a class="list-group-item" href="../module/vector_module.html#proc-spherical_to_cartesian">spherical_to_cartesian</a>
+            <a class="list-group-item" href="../module/vector_module.html#proc-rotation_matrix">rotation_matrix</a>
+            <a class="list-group-item" href="../module/vector_module.html#proc-rotation_matrix_dot">rotation_matrix_dot</a>
+            <a class="list-group-item" href="../module/vector_module.html#proc-angle_between_vectors">angle_between_vectors</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/vector_module.html#proc-axis_angle_rotation">axis_angle_rotation</a>
+            <a class="list-group-item" href="../module/vector_module.html#proc-vector_projection_on_plane">vector_projection_on_plane</a>
+            <a class="list-group-item" href="../module/vector_module.html#proc-axis_angle_rotation_to_rotation_matrix">axis_angle_rotation_to_rotation_matrix</a>
+            <a class="list-group-item" href="../module/vector_module.html#proc-cartesian_to_spherical">cartesian_to_spherical</a>
+            <a class="list-group-item" href="../module/vector_module.html#proc-fill_vector_with_vector">fill_vector_with_vector</a>
+            <a class="list-group-item" href="../module/vector_module.html#proc-fill_vector_with_scalar">fill_vector_with_scalar</a>
+            <a class="list-group-item" href="../module/vector_module.html#proc-fill_char_vector_with_vector">fill_char_vector_with_vector</a>
+            <a class="list-group-item" href="../module/vector_module.html#proc-fill_char_vector_with_scalar">fill_char_vector_with_scalar</a>
+            <a class="list-group-item" href="../module/vector_module.html#proc-extract_vector_from_vector">extract_vector_from_vector</a>
+            <a class="list-group-item" href="../module/vector_module.html#proc-extract_scalar_from_vector">extract_scalar_from_vector</a>
+            <a class="list-group-item" href="../module/vector_module.html#proc-vector_test">vector_test</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <p>Routines for the manipulation of vectors.</p>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='kind_module.html'>kind_module</a></li>
+                  <li class="list-inline-item"><a href='numbers_module.html'>numbers_module</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
@@ -211,7 +239,7 @@
 <!-- module~kind_module -->
 <g id="module~~vector_module~~UsesGraph_node2" class="node">
 <title>module~kind_module</title>
-<g id="a_module~~vector_module~~UsesGraph_node2"><a xlink:href=".././module/kind_module.html" xlink:title="kind_module">
+<g id="a_module~~vector_module~~UsesGraph_node2"><a xlink:href="../module/kind_module.html" xlink:title="kind_module">
 <polygon fill="#337ab7" stroke="#337ab7" points="211,-44 130,-44 130,-20 211,-20 211,-44"/>
 <text text-anchor="middle" x="170.5" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module</text>
 </a>
@@ -226,7 +254,7 @@
 <!-- module~numbers_module -->
 <g id="module~~vector_module~~UsesGraph_node3" class="node">
 <title>module~numbers_module</title>
-<g id="a_module~~vector_module~~UsesGraph_node3"><a xlink:href=".././module/numbers_module.html" xlink:title="numbers_module">
+<g id="a_module~~vector_module~~UsesGraph_node3"><a xlink:href="../module/numbers_module.html" xlink:title="numbers_module">
 <polygon fill="#337ab7" stroke="#337ab7" points="353,-24 247,-24 247,0 353,0 353,-24"/>
 <text text-anchor="middle" x="300" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module</text>
 </a>
@@ -241,11 +269,8 @@
 <!-- iso_fortran_env -->
 <g id="module~~vector_module~~UsesGraph_node4" class="node">
 <title>iso_fortran_env</title>
-<g id="a_module~~vector_module~~UsesGraph_node4"><a xlink:href="https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html" xlink:title="iso_fortran_env">
 <polygon fill="#337ab7" stroke="#337ab7" points="94,-44 0,-44 0,-20 94,-20 94,-44"/>
 <text text-anchor="middle" x="47" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
-</a>
-</g>
 </g>
 <!-- module~kind_module&#45;&gt;iso_fortran_env -->
 <g id="module~~vector_module~~UsesGraph_edge3" class="edge">
@@ -261,9 +286,19 @@
 </g>
 </g>
 </svg>
-</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
@@ -313,290 +348,306 @@
 </g>
 </svg>
 
-    
-    <p>Solid arrows point from a submodule to the (sub)module which it is
-    descended from. Dashed arrows point from a module or program unit to 
-    modules which it uses.
-    </p>
-    </div></div></div></div>
-      </li>
-      </ul>
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
     </div>
 
-        <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Used by</h3>
-      </div>
-      <ul class="list-group">
-  <li class="list-group-item">
-    <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: module~~vector_module~~UsedByGraph Pages: 1 -->
-<svg id="modulevector_moduleUsedByGraph" width="512pt" height="532pt"
- viewBox="0.00 0.00 512.00 532.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="module~~vector_module~~UsedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 528)">
+<svg id="modulevector_moduleUsedByGraph" width="641pt" height="492pt"
+ viewBox="0.00 0.00 641.00 491.68" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~vector_module~~UsedByGraph" class="graph" transform="scale(1.1 1.1) rotate(0) translate(4 539.08)">
 <title>module~~vector_module~~UsedByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-528 508,-528 508,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-539.08 704,-539.08 704,4 -4,4"/>
 <!-- module~vector_module -->
 <g id="module~~vector_module~~UsedByGraph_node1" class="node">
 <title>module~vector_module</title>
 <polygon fill="none" stroke="black" points="92,-276 0,-276 0,-252 92,-252 92,-276"/>
 <text text-anchor="middle" x="46" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50">vector_module</text>
 </g>
-<!-- proc~geopotential_module_test -->
-<g id="module~~vector_module~~UsedByGraph_node2" class="node">
-<title>proc~geopotential_module_test</title>
-<g id="a_module~~vector_module~~UsedByGraph_node2"><a xlink:href=".././proc/geopotential_module_test.html" xlink:title="geopotential_module_test">
-<polygon fill="#d9534f" stroke="#d9534f" points="288.5,-524 137.5,-524 137.5,-500 288.5,-500 288.5,-524"/>
-<text text-anchor="middle" x="213" y="-509.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geopotential_module_test</text>
-</a>
-</g>
-</g>
-<!-- proc~geopotential_module_test&#45;&gt;module~vector_module -->
-<g id="module~~vector_module~~UsedByGraph_edge1" class="edge">
-<title>proc~geopotential_module_test&#45;&gt;module~vector_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M149.64,-499.98C141.7,-496.45 134.19,-491.89 128,-486 69.91,-430.73 53.31,-330.46 48.7,-286.11"/>
-<polygon fill="#000000" stroke="#000000" points="52.18,-285.74 47.77,-276.11 45.21,-286.39 52.18,-285.74"/>
-</g>
-<!-- module~lambert_module -->
-<g id="module~~vector_module~~UsedByGraph_node3" class="node">
-<title>module~lambert_module</title>
-<g id="a_module~~vector_module~~UsedByGraph_node3"><a xlink:href=".././module/lambert_module.html" xlink:title="lambert_module">
-<polygon fill="#337ab7" stroke="#337ab7" points="263,-444 163,-444 163,-420 263,-420 263,-444"/>
-<text text-anchor="middle" x="213" y="-429.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lambert_module</text>
-</a>
-</g>
-</g>
-<!-- module~lambert_module&#45;&gt;module~vector_module -->
-<g id="module~~vector_module~~UsedByGraph_edge4" class="edge">
-<title>module~lambert_module&#45;&gt;module~vector_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M162.75,-426.73C150.49,-423.61 138.01,-418.7 128,-411 86.1,-378.74 62.9,-318.34 52.94,-285.91"/>
-<polygon fill="#000000" stroke="#000000" points="56.23,-284.69 50.07,-276.07 49.51,-286.65 56.23,-284.69"/>
-</g>
-<!-- module~modified_equinoctial_module -->
-<g id="module~~vector_module~~UsedByGraph_node4" class="node">
-<title>module~modified_equinoctial_module</title>
-<g id="a_module~~vector_module~~UsedByGraph_node4"><a xlink:href=".././module/modified_equinoctial_module.html" xlink:title="modified_equinoctial_module">
-<polygon fill="#337ab7" stroke="#337ab7" points="298,-402 128,-402 128,-378 298,-378 298,-402"/>
-<text text-anchor="middle" x="213" y="-387.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">modified_equinoctial_module</text>
-</a>
-</g>
-</g>
-<!-- module~modified_equinoctial_module&#45;&gt;module~vector_module -->
-<g id="module~~vector_module~~UsedByGraph_edge5" class="edge">
-<title>module~modified_equinoctial_module&#45;&gt;module~vector_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M145.55,-377.93C139.37,-375.48 133.41,-372.54 128,-369 95.66,-347.84 70.9,-309.28 57.69,-285.24"/>
-<polygon fill="#000000" stroke="#000000" points="60.68,-283.4 52.9,-276.21 54.5,-286.69 60.68,-283.4"/>
-</g>
-<!-- proc~from_ijk_to_lvlh_mat -->
-<g id="module~~vector_module~~UsedByGraph_node5" class="node">
-<title>proc~from_ijk_to_lvlh_mat</title>
-<g id="a_module~~vector_module~~UsedByGraph_node5"><a xlink:href=".././proc/from_ijk_to_lvlh_mat.html" xlink:title="from_ijk_to_lvlh_mat">
-<polygon fill="#d9534f" stroke="#d9534f" points="273.5,-192 152.5,-192 152.5,-168 273.5,-168 273.5,-192"/>
-<text text-anchor="middle" x="213" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_ijk_to_lvlh_mat</text>
-</a>
-</g>
-</g>
-<!-- proc~from_ijk_to_lvlh_mat&#45;&gt;module~vector_module -->
-<g id="module~~vector_module~~UsedByGraph_edge2" class="edge">
-<title>proc~from_ijk_to_lvlh_mat&#45;&gt;module~vector_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M152.16,-191.68C143.85,-194.24 135.57,-197.32 128,-201 104.81,-212.29 81.95,-230.96 66.45,-245.05"/>
-<polygon fill="#000000" stroke="#000000" points="63.99,-242.56 59.06,-251.94 68.76,-247.68 63.99,-242.56"/>
-</g>
-<!-- proc~from_ijk_to_rsw_mat -->
-<g id="module~~vector_module~~UsedByGraph_node6" class="node">
-<title>proc~from_ijk_to_rsw_mat</title>
-<g id="a_module~~vector_module~~UsedByGraph_node6"><a xlink:href=".././proc/from_ijk_to_rsw_mat.html" xlink:title="from_ijk_to_rsw_mat">
-<polygon fill="#d9534f" stroke="#d9534f" points="273,-150 153,-150 153,-126 273,-126 273,-150"/>
-<text text-anchor="middle" x="213" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_ijk_to_rsw_mat</text>
-</a>
-</g>
-</g>
-<!-- proc~from_ijk_to_rsw_mat&#45;&gt;module~vector_module -->
-<g id="module~~vector_module~~UsedByGraph_edge3" class="edge">
-<title>proc~from_ijk_to_rsw_mat&#45;&gt;module~vector_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M152.95,-147.4C144.17,-150.29 135.55,-154.06 128,-159 95.66,-180.16 70.9,-218.72 57.69,-242.76"/>
-<polygon fill="#000000" stroke="#000000" points="54.5,-241.31 52.9,-251.79 60.68,-244.6 54.5,-241.31"/>
-</g>
 <!-- module~bplane_module -->
-<g id="module~~vector_module~~UsedByGraph_node7" class="node">
+<g id="module~~vector_module~~UsedByGraph_node2" class="node">
 <title>module~bplane_module</title>
-<g id="a_module~~vector_module~~UsedByGraph_node7"><a xlink:href=".././module/bplane_module.html" xlink:title="bplane_module">
-<polygon fill="#337ab7" stroke="#337ab7" points="260.5,-360 165.5,-360 165.5,-336 260.5,-336 260.5,-360"/>
-<text text-anchor="middle" x="213" y="-345.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">bplane_module</text>
+<g id="a_module~~vector_module~~UsedByGraph_node2"><a xlink:href="../module/bplane_module.html" xlink:title="bplane_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="311,-486 216,-486 216,-462 311,-462 311,-486"/>
+<text text-anchor="middle" x="263.5" y="-471.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">bplane_module</text>
 </a>
 </g>
 </g>
 <!-- module~bplane_module&#45;&gt;module~vector_module -->
-<g id="module~~vector_module~~UsedByGraph_edge6" class="edge">
+<g id="module~~vector_module~~UsedByGraph_edge1" class="edge">
 <title>module~bplane_module&#45;&gt;module~vector_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M165.45,-340C152.92,-336.88 139.62,-332.66 128,-327 104.81,-315.71 81.95,-297.04 66.45,-282.95"/>
-<polygon fill="#000000" stroke="#000000" points="68.76,-280.32 59.06,-276.06 63.99,-285.44 68.76,-280.32"/>
-</g>
-<!-- module~orbital_mechanics_module -->
-<g id="module~~vector_module~~UsedByGraph_node8" class="node">
-<title>module~orbital_mechanics_module</title>
-<g id="a_module~~vector_module~~UsedByGraph_node8"><a xlink:href=".././module/orbital_mechanics_module.html" xlink:title="orbital_mechanics_module">
-<polygon fill="#337ab7" stroke="#337ab7" points="291,-234 135,-234 135,-210 291,-210 291,-234"/>
-<text text-anchor="middle" x="213" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">orbital_mechanics_module</text>
-</a>
-</g>
-</g>
-<!-- module~orbital_mechanics_module&#45;&gt;module~vector_module -->
-<g id="module~~vector_module~~UsedByGraph_edge7" class="edge">
-<title>module~orbital_mechanics_module&#45;&gt;module~vector_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M163.57,-234.03C151.91,-236.95 139.51,-240.07 128,-243 119.7,-245.11 110.93,-247.37 102.35,-249.58"/>
-<polygon fill="#000000" stroke="#000000" points="101.2,-246.26 92.39,-252.16 102.95,-253.04 101.2,-246.26"/>
-</g>
-<!-- proc~from_lvlh_to_ijk_mat -->
-<g id="module~~vector_module~~UsedByGraph_node9" class="node">
-<title>proc~from_lvlh_to_ijk_mat</title>
-<g id="a_module~~vector_module~~UsedByGraph_node9"><a xlink:href=".././proc/from_lvlh_to_ijk_mat.html" xlink:title="from_lvlh_to_ijk_mat">
-<polygon fill="#d9534f" stroke="#d9534f" points="273.5,-108 152.5,-108 152.5,-84 273.5,-84 273.5,-108"/>
-<text text-anchor="middle" x="213" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_lvlh_to_ijk_mat</text>
-</a>
-</g>
-</g>
-<!-- proc~from_lvlh_to_ijk_mat&#45;&gt;module~vector_module -->
-<g id="module~~vector_module~~UsedByGraph_edge8" class="edge">
-<title>proc~from_lvlh_to_ijk_mat&#45;&gt;module~vector_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M152.25,-104.4C143.56,-107.42 135.15,-111.5 128,-117 86.1,-149.26 62.9,-209.66 52.94,-242.09"/>
-<polygon fill="#000000" stroke="#000000" points="49.51,-241.35 50.07,-251.93 56.23,-243.31 49.51,-241.35"/>
-</g>
-<!-- proc~iau_rotation_matrix -->
-<g id="module~~vector_module~~UsedByGraph_node10" class="node">
-<title>proc~iau_rotation_matrix</title>
-<g id="a_module~~vector_module~~UsedByGraph_node10"><a xlink:href=".././proc/iau_rotation_matrix.html" xlink:title="iau_rotation_matrix">
-<polygon fill="#d94e8f" stroke="#d94e8f" points="270.5,-66 155.5,-66 155.5,-42 270.5,-42 270.5,-66"/>
-<text text-anchor="middle" x="213" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iau_rotation_matrix</text>
-</a>
-</g>
-</g>
-<!-- proc~iau_rotation_matrix&#45;&gt;module~vector_module -->
-<g id="module~~vector_module~~UsedByGraph_edge9" class="edge">
-<title>proc~iau_rotation_matrix&#45;&gt;module~vector_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M155.22,-60.62C145.36,-63.78 135.78,-68.37 128,-75 76.33,-119.01 56.73,-201.89 50.07,-241.64"/>
-<polygon fill="#000000" stroke="#000000" points="46.59,-241.22 48.51,-251.64 53.51,-242.29 46.59,-241.22"/>
-</g>
-<!-- proc~from_rsw_to_ijk_mat -->
-<g id="module~~vector_module~~UsedByGraph_node11" class="node">
-<title>proc~from_rsw_to_ijk_mat</title>
-<g id="a_module~~vector_module~~UsedByGraph_node11"><a xlink:href=".././proc/from_rsw_to_ijk_mat.html" xlink:title="from_rsw_to_ijk_mat">
-<polygon fill="#d9534f" stroke="#d9534f" points="273,-24 153,-24 153,0 273,0 273,-24"/>
-<text text-anchor="middle" x="213" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_rsw_to_ijk_mat</text>
-</a>
-</g>
-</g>
-<!-- proc~from_rsw_to_ijk_mat&#45;&gt;module~vector_module -->
-<g id="module~~vector_module~~UsedByGraph_edge10" class="edge">
-<title>proc~from_rsw_to_ijk_mat&#45;&gt;module~vector_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M152.69,-18.93C143.64,-22.11 135,-26.62 128,-33 66.2,-89.34 51.55,-195.55 48.08,-241.68"/>
-<polygon fill="#000000" stroke="#000000" points="44.58,-241.6 47.43,-251.8 51.56,-242.04 44.58,-241.6"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M215.74,-477.46C187.63,-477.12 152.64,-472.14 128,-453 74.14,-411.16 55.56,-326.52 49.6,-286.25"/>
+<polygon fill="#000000" stroke="#000000" points="53.04,-285.59 48.23,-276.14 46.1,-286.52 53.04,-285.59"/>
 </g>
 <!-- module~fortran_astrodynamics_toolkit -->
-<g id="module~~vector_module~~UsedByGraph_node12" class="node">
+<g id="module~~vector_module~~UsedByGraph_node3" class="node">
 <title>module~fortran_astrodynamics_toolkit</title>
-<g id="a_module~~vector_module~~UsedByGraph_node12"><a xlink:href=".././module/fortran_astrodynamics_toolkit.html" xlink:title="fortran_astrodynamics_toolkit">
-<polygon fill="#337ab7" stroke="#337ab7" points="504,-360 334,-360 334,-336 504,-336 504,-360"/>
-<text text-anchor="middle" x="419" y="-345.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fortran_astrodynamics_toolkit</text>
+<g id="a_module~~vector_module~~UsedByGraph_node3"><a xlink:href="../module/fortran_astrodynamics_toolkit.html" xlink:title="fortran_astrodynamics_toolkit">
+<polygon fill="#337ab7" stroke="#337ab7" points="652.5,-402 482.5,-402 482.5,-378 652.5,-378 652.5,-402"/>
+<text text-anchor="middle" x="567.5" y="-387.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fortran_astrodynamics_toolkit</text>
 </a>
 </g>
 </g>
 <!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~vector_module -->
-<g id="module~~vector_module~~UsedByGraph_edge11" class="edge">
+<g id="module~~vector_module~~UsedByGraph_edge2" class="edge">
 <title>module~fortran_astrodynamics_toolkit&#45;&gt;module~vector_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M409.14,-360.17C391.26,-383.55 348.27,-434.11 298,-453 227.27,-479.57 191.08,-494.59 128,-453 70.67,-415.2 53.76,-327.49 48.9,-286.22"/>
-<polygon fill="#000000" stroke="#000000" points="52.36,-285.7 47.84,-276.12 45.4,-286.43 52.36,-285.7"/>
-</g>
-<!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~lambert_module -->
-<g id="module~~vector_module~~UsedByGraph_edge14" class="edge">
-<title>module~fortran_astrodynamics_toolkit&#45;&gt;module~lambert_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M398.3,-360.22C375.07,-374.19 334.94,-396.92 298,-411 290.02,-414.04 281.45,-416.77 272.95,-419.16"/>
-<polygon fill="#000000" stroke="#000000" points="271.77,-415.86 263.03,-421.83 273.59,-422.62 271.77,-415.86"/>
-</g>
-<!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~modified_equinoctial_module -->
-<g id="module~~vector_module~~UsedByGraph_edge15" class="edge">
-<title>module~fortran_astrodynamics_toolkit&#45;&gt;module~modified_equinoctial_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M359.54,-360.04C335.43,-365 307.32,-370.79 282.26,-375.95"/>
-<polygon fill="#000000" stroke="#000000" points="281.56,-372.52 272.47,-377.96 282.97,-379.37 281.56,-372.52"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M553.04,-402.26C526.19,-425.79 462.99,-476.6 399,-495 283.25,-528.28 226.25,-564.67 128,-495 59.16,-446.19 48.38,-334.11 47.01,-286.28"/>
+<polygon fill="#000000" stroke="#000000" points="50.5,-286.03 46.83,-276.09 43.5,-286.14 50.5,-286.03"/>
 </g>
 <!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~bplane_module -->
-<g id="module~~vector_module~~UsedByGraph_edge16" class="edge">
+<g id="module~~vector_module~~UsedByGraph_edge14" class="edge">
 <title>module~fortran_astrodynamics_toolkit&#45;&gt;module~bplane_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M333.85,-348C312.64,-348 290.36,-348 270.85,-348"/>
-<polygon fill="#000000" stroke="#000000" points="270.62,-344.5 260.62,-348 270.62,-351.5 270.62,-344.5"/>
-</g>
-<!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~orbital_mechanics_module -->
-<g id="module~~vector_module~~UsedByGraph_edge18" class="edge">
-<title>module~fortran_astrodynamics_toolkit&#45;&gt;module~orbital_mechanics_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M407.78,-335.87C388.59,-313.89 344.85,-267.51 298,-243 294.25,-241.04 290.32,-239.26 286.28,-237.64"/>
-<polygon fill="#000000" stroke="#000000" points="287.29,-234.28 276.7,-234.14 284.89,-240.86 287.29,-234.28"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M539.78,-402C507.18,-416.19 450.08,-439.56 399,-453 373.8,-459.63 345.36,-464.45 321.15,-467.78"/>
+<polygon fill="#000000" stroke="#000000" points="320.5,-464.33 311.05,-469.12 321.42,-471.27 320.5,-464.33"/>
 </g>
 <!-- module~geometry_module -->
-<g id="module~~vector_module~~UsedByGraph_node13" class="node">
+<g id="module~~vector_module~~UsedByGraph_node4" class="node">
 <title>module~geometry_module</title>
-<g id="a_module~~vector_module~~UsedByGraph_node13"><a xlink:href=".././module/geometry_module.html" xlink:title="geometry_module">
-<polygon fill="#337ab7" stroke="#337ab7" points="268,-318 158,-318 158,-294 268,-294 268,-318"/>
-<text text-anchor="middle" x="213" y="-303.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geometry_module</text>
+<g id="a_module~~vector_module~~UsedByGraph_node4"><a xlink:href="../module/geometry_module.html" xlink:title="geometry_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="318.5,-444 208.5,-444 208.5,-420 318.5,-420 318.5,-444"/>
+<text text-anchor="middle" x="263.5" y="-429.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geometry_module</text>
 </a>
 </g>
 </g>
 <!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~geometry_module -->
-<g id="module~~vector_module~~UsedByGraph_edge19" class="edge">
+<g id="module~~vector_module~~UsedByGraph_edge15" class="edge">
 <title>module~fortran_astrodynamics_toolkit&#45;&gt;module~geometry_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M359.54,-335.96C334.18,-330.74 304.4,-324.61 278.4,-319.26"/>
-<polygon fill="#000000" stroke="#000000" points="278.77,-315.76 268.27,-317.17 277.36,-322.62 278.77,-315.76"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M482.38,-401.7C433.8,-408.45 373.65,-416.82 328.87,-423.05"/>
+<polygon fill="#000000" stroke="#000000" points="328.12,-419.62 318.7,-424.46 329.09,-426.55 328.12,-419.62"/>
+</g>
+<!-- module~lambert_module -->
+<g id="module~~vector_module~~UsedByGraph_node5" class="node">
+<title>module~lambert_module</title>
+<g id="a_module~~vector_module~~UsedByGraph_node5"><a xlink:href="../module/lambert_module.html" xlink:title="lambert_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="313.5,-402 213.5,-402 213.5,-378 313.5,-378 313.5,-402"/>
+<text text-anchor="middle" x="263.5" y="-387.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lambert_module</text>
+</a>
+</g>
+</g>
+<!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~lambert_module -->
+<g id="module~~vector_module~~UsedByGraph_edge16" class="edge">
+<title>module~fortran_astrodynamics_toolkit&#45;&gt;module~lambert_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M482.38,-390C432.02,-390 369.23,-390 324.01,-390"/>
+<polygon fill="#000000" stroke="#000000" points="323.78,-386.5 313.78,-390 323.78,-393.5 323.78,-386.5"/>
+</g>
+<!-- module~modified_equinoctial_module -->
+<g id="module~~vector_module~~UsedByGraph_node6" class="node">
+<title>module~modified_equinoctial_module</title>
+<g id="a_module~~vector_module~~UsedByGraph_node6"><a xlink:href="../module/modified_equinoctial_module.html" xlink:title="modified_equinoctial_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="348.5,-360 178.5,-360 178.5,-336 348.5,-336 348.5,-360"/>
+<text text-anchor="middle" x="263.5" y="-345.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">modified_equinoctial_module</text>
+</a>
+</g>
+</g>
+<!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~modified_equinoctial_module -->
+<g id="module~~vector_module~~UsedByGraph_edge17" class="edge">
+<title>module~fortran_astrodynamics_toolkit&#45;&gt;module~modified_equinoctial_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M482.38,-378.3C443.92,-372.95 398.22,-366.6 358.62,-361.09"/>
+<polygon fill="#000000" stroke="#000000" points="359.08,-357.62 348.7,-359.71 358.12,-364.55 359.08,-357.62"/>
+</g>
+<!-- module~orbital_mechanics_module -->
+<g id="module~~vector_module~~UsedByGraph_node7" class="node">
+<title>module~orbital_mechanics_module</title>
+<g id="a_module~~vector_module~~UsedByGraph_node7"><a xlink:href="../module/orbital_mechanics_module.html" xlink:title="orbital_mechanics_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="341.5,-276 185.5,-276 185.5,-252 341.5,-252 341.5,-276"/>
+<text text-anchor="middle" x="263.5" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">orbital_mechanics_module</text>
+</a>
+</g>
+</g>
+<!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~orbital_mechanics_module -->
+<g id="module~~vector_module~~UsedByGraph_edge18" class="edge">
+<title>module~fortran_astrodynamics_toolkit&#45;&gt;module~orbital_mechanics_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M551.9,-377.92C524.08,-355.59 460.73,-308.05 399,-285 384.06,-279.42 367.64,-275.32 351.58,-272.31"/>
+<polygon fill="#000000" stroke="#000000" points="352.09,-268.85 341.63,-270.58 350.88,-275.74 352.09,-268.85"/>
 </g>
 <!-- module~transformation_module -->
-<g id="module~~vector_module~~UsedByGraph_node14" class="node">
+<g id="module~~vector_module~~UsedByGraph_node8" class="node">
 <title>module~transformation_module</title>
-<g id="a_module~~vector_module~~UsedByGraph_node14"><a xlink:href=".././module/transformation_module.html" xlink:title="transformation_module">
-<polygon fill="#337ab7" stroke="#337ab7" points="282,-276 144,-276 144,-252 282,-252 282,-276"/>
-<text text-anchor="middle" x="213" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">transformation_module</text>
+<g id="a_module~~vector_module~~UsedByGraph_node8"><a xlink:href="../module/transformation_module.html" xlink:title="transformation_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="332.5,-318 194.5,-318 194.5,-294 332.5,-294 332.5,-318"/>
+<text text-anchor="middle" x="263.5" y="-303.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">transformation_module</text>
 </a>
 </g>
 </g>
 <!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~transformation_module -->
 <g id="module~~vector_module~~UsedByGraph_edge20" class="edge">
 <title>module~fortran_astrodynamics_toolkit&#45;&gt;module~transformation_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M398.3,-335.78C375.07,-321.81 334.94,-299.08 298,-285 292.19,-282.79 286.07,-280.74 279.89,-278.86"/>
-<polygon fill="#000000" stroke="#000000" points="280.73,-275.47 270.15,-276.06 278.79,-282.19 280.73,-275.47"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M539.78,-378C507.18,-363.81 450.08,-340.44 399,-327 380.98,-322.26 361.31,-318.45 342.7,-315.44"/>
+<polygon fill="#000000" stroke="#000000" points="343.21,-311.98 332.79,-313.9 342.14,-318.89 343.21,-311.98"/>
 </g>
 <!-- module~geometry_module&#45;&gt;module~vector_module -->
-<g id="module~~vector_module~~UsedByGraph_edge12" class="edge">
+<g id="module~~vector_module~~UsedByGraph_edge3" class="edge">
 <title>module~geometry_module&#45;&gt;module~vector_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M163.57,-293.97C151.91,-291.05 139.51,-287.93 128,-285 119.7,-282.89 110.93,-280.63 102.35,-278.42"/>
-<polygon fill="#000000" stroke="#000000" points="102.95,-274.96 92.39,-275.84 101.2,-281.74 102.95,-274.96"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M208.29,-434.28C181.98,-432.85 151.13,-427.2 128,-411 84.69,-380.66 62.08,-319.46 52.58,-286.4"/>
+<polygon fill="#000000" stroke="#000000" points="55.85,-285.09 49.86,-276.36 49.1,-286.92 55.85,-285.09"/>
+</g>
+<!-- module~lambert_module&#45;&gt;module~vector_module -->
+<g id="module~~vector_module~~UsedByGraph_edge4" class="edge">
+<title>module~lambert_module&#45;&gt;module~vector_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M213.18,-390.97C186.35,-389.45 153.53,-384.1 128,-369 94.56,-349.22 70.01,-309.89 57.16,-285.38"/>
+<polygon fill="#000000" stroke="#000000" points="60.15,-283.54 52.52,-276.19 53.9,-286.69 60.15,-283.54"/>
+</g>
+<!-- module~modified_equinoctial_module&#45;&gt;module~vector_module -->
+<g id="module~~vector_module~~UsedByGraph_edge5" class="edge">
+<title>module~modified_equinoctial_module&#45;&gt;module~vector_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M178.5,-341.58C161.34,-338.43 143.73,-333.8 128,-327 104.19,-316.71 81.26,-297.74 65.91,-283.3"/>
+<polygon fill="#000000" stroke="#000000" points="68.23,-280.67 58.61,-276.23 63.36,-285.7 68.23,-280.67"/>
+</g>
+<!-- module~orbital_mechanics_module&#45;&gt;module~vector_module -->
+<g id="module~~vector_module~~UsedByGraph_edge6" class="edge">
+<title>module~orbital_mechanics_module&#45;&gt;module~vector_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M185.31,-264C157.82,-264 127.43,-264 102.16,-264"/>
+<polygon fill="#000000" stroke="#000000" points="102.03,-260.5 92.03,-264 102.03,-267.5 102.03,-260.5"/>
 </g>
 <!-- module~transformation_module&#45;&gt;module~vector_module -->
-<g id="module~~vector_module~~UsedByGraph_edge13" class="edge">
+<g id="module~~vector_module~~UsedByGraph_edge7" class="edge">
 <title>module~transformation_module&#45;&gt;module~vector_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M143.94,-264C130.21,-264 115.93,-264 102.68,-264"/>
-<polygon fill="#000000" stroke="#000000" points="102.31,-260.5 92.31,-264 102.31,-267.5 102.31,-260.5"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M194.19,-296.67C172.9,-293.41 149.41,-289.43 128,-285 118.91,-283.12 109.31,-280.87 100.03,-278.55"/>
+<polygon fill="#000000" stroke="#000000" points="100.67,-275.1 90.11,-276.02 98.94,-281.88 100.67,-275.1"/>
+</g>
+<!-- proc~from_ijk_to_lvlh_mat -->
+<g id="module~~vector_module~~UsedByGraph_node9" class="node">
+<title>proc~from_ijk_to_lvlh_mat</title>
+<g id="a_module~~vector_module~~UsedByGraph_node9"><a xlink:href="../proc/from_ijk_to_lvlh_mat.html" xlink:title="relative_motion_module::from_ijk_to_lvlh_mat">
+<polygon fill="#d9534f" stroke="#d9534f" points="391.5,-234 135.5,-234 135.5,-210 391.5,-210 391.5,-234"/>
+<text text-anchor="middle" x="263.5" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">relative_motion_module::from_ijk_to_lvlh_mat</text>
+</a>
+</g>
+</g>
+<!-- proc~from_ijk_to_lvlh_mat&#45;&gt;module~vector_module -->
+<g id="module~~vector_module~~UsedByGraph_edge8" class="edge">
+<title>proc~from_ijk_to_lvlh_mat&#45;&gt;module~vector_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M177.25,-234.01C160.85,-236.69 143.85,-239.72 128,-243 118.91,-244.88 109.31,-247.13 100.03,-249.45"/>
+<polygon fill="#000000" stroke="#000000" points="98.94,-246.12 90.11,-251.98 100.67,-252.9 98.94,-246.12"/>
+</g>
+<!-- proc~from_ijk_to_rsw_mat -->
+<g id="module~~vector_module~~UsedByGraph_node10" class="node">
+<title>proc~from_ijk_to_rsw_mat</title>
+<g id="a_module~~vector_module~~UsedByGraph_node10"><a xlink:href="../proc/from_ijk_to_rsw_mat.html" xlink:title="relative_motion_module::from_ijk_to_rsw_mat">
+<polygon fill="#d9534f" stroke="#d9534f" points="391.5,-192 135.5,-192 135.5,-168 391.5,-168 391.5,-192"/>
+<text text-anchor="middle" x="263.5" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">relative_motion_module::from_ijk_to_rsw_mat</text>
+</a>
+</g>
+</g>
+<!-- proc~from_ijk_to_rsw_mat&#45;&gt;module~vector_module -->
+<g id="module~~vector_module~~UsedByGraph_edge9" class="edge">
+<title>proc~from_ijk_to_rsw_mat&#45;&gt;module~vector_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M153.59,-192.1C144.77,-194.55 136.14,-197.48 128,-201 104.19,-211.29 81.26,-230.26 65.91,-244.7"/>
+<polygon fill="#000000" stroke="#000000" points="63.36,-242.3 58.61,-251.77 68.23,-247.33 63.36,-242.3"/>
+</g>
+<!-- proc~from_lvlh_to_ijk_mat -->
+<g id="module~~vector_module~~UsedByGraph_node11" class="node">
+<title>proc~from_lvlh_to_ijk_mat</title>
+<g id="a_module~~vector_module~~UsedByGraph_node11"><a xlink:href="../proc/from_lvlh_to_ijk_mat.html" xlink:title="relative_motion_module::from_lvlh_to_ijk_mat">
+<polygon fill="#d9534f" stroke="#d9534f" points="391.5,-150 135.5,-150 135.5,-126 391.5,-126 391.5,-150"/>
+<text text-anchor="middle" x="263.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">relative_motion_module::from_lvlh_to_ijk_mat</text>
+</a>
+</g>
+</g>
+<!-- proc~from_lvlh_to_ijk_mat&#45;&gt;module~vector_module -->
+<g id="module~~vector_module~~UsedByGraph_edge10" class="edge">
+<title>proc~from_lvlh_to_ijk_mat&#45;&gt;module~vector_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M146.7,-150.02C140.19,-152.54 133.9,-155.51 128,-159 94.56,-178.78 70.01,-218.11 57.16,-242.62"/>
+<polygon fill="#000000" stroke="#000000" points="53.9,-241.31 52.52,-251.81 60.15,-244.46 53.9,-241.31"/>
+</g>
+<!-- proc~from_rsw_to_ijk_mat -->
+<g id="module~~vector_module~~UsedByGraph_node12" class="node">
+<title>proc~from_rsw_to_ijk_mat</title>
+<g id="a_module~~vector_module~~UsedByGraph_node12"><a xlink:href="../proc/from_rsw_to_ijk_mat.html" xlink:title="relative_motion_module::from_rsw_to_ijk_mat">
+<polygon fill="#d9534f" stroke="#d9534f" points="391.5,-108 135.5,-108 135.5,-84 391.5,-84 391.5,-108"/>
+<text text-anchor="middle" x="263.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">relative_motion_module::from_rsw_to_ijk_mat</text>
+</a>
+</g>
+</g>
+<!-- proc~from_rsw_to_ijk_mat&#45;&gt;module~vector_module -->
+<g id="module~~vector_module~~UsedByGraph_edge11" class="edge">
+<title>proc~from_rsw_to_ijk_mat&#45;&gt;module~vector_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M143.74,-108.01C138.22,-110.57 132.94,-113.54 128,-117 84.69,-147.34 62.08,-208.54 52.58,-241.6"/>
+<polygon fill="#000000" stroke="#000000" points="49.1,-241.08 49.86,-251.64 55.85,-242.91 49.1,-241.08"/>
+</g>
+<!-- proc~geopotential_module_test -->
+<g id="module~~vector_module~~UsedByGraph_node13" class="node">
+<title>proc~geopotential_module_test</title>
+<g id="a_module~~vector_module~~UsedByGraph_node13"><a xlink:href="../proc/geopotential_module_test.html" xlink:title="geopotential_module::geopotential_module_test">
+<polygon fill="#d9534f" stroke="#d9534f" points="399,-66 128,-66 128,-42 399,-42 399,-66"/>
+<text text-anchor="middle" x="263.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geopotential_module::geopotential_module_test</text>
+</a>
+</g>
+</g>
+<!-- proc~geopotential_module_test&#45;&gt;module~vector_module -->
+<g id="module~~vector_module~~UsedByGraph_edge12" class="edge">
+<title>proc~geopotential_module_test&#45;&gt;module~vector_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M142.05,-66.07C137.1,-68.63 132.39,-71.59 128,-75 74.14,-116.84 55.56,-201.48 49.6,-241.75"/>
+<polygon fill="#000000" stroke="#000000" points="46.1,-241.48 48.23,-251.86 53.04,-242.41 46.1,-241.48"/>
+</g>
+<!-- proc~iau_rotation_matrix -->
+<g id="module~~vector_module~~UsedByGraph_node14" class="node">
+<title>proc~iau_rotation_matrix</title>
+<g id="a_module~~vector_module~~UsedByGraph_node14"><a xlink:href="../proc/iau_rotation_matrix.html" xlink:title="iau_orientation_module::iau_rotation_matrix">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="388,-24 139,-24 139,0 388,0 388,-24"/>
+<text text-anchor="middle" x="263.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iau_orientation_module::iau_rotation_matrix</text>
+</a>
+</g>
+</g>
+<!-- proc~iau_rotation_matrix&#45;&gt;module~vector_module -->
+<g id="module~~vector_module~~UsedByGraph_edge13" class="edge">
+<title>proc~iau_rotation_matrix&#45;&gt;module~vector_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M141.13,-24.05C136.49,-26.63 132.09,-29.6 128,-33 63.58,-86.63 50.34,-194.74 47.66,-241.55"/>
+<polygon fill="#000000" stroke="#000000" points="44.15,-241.66 47.19,-251.81 51.14,-241.98 44.15,-241.66"/>
 </g>
 <!-- proc~rk_test_variable_step -->
 <g id="module~~vector_module~~UsedByGraph_node15" class="node">
 <title>proc~rk_test_variable_step</title>
-<g id="a_module~~vector_module~~UsedByGraph_node15"><a xlink:href=".././proc/rk_test_variable_step.html" xlink:title="rk_test_variable_step">
-<polygon fill="#d9534f" stroke="#d9534f" points="481,-234 357,-234 357,-210 481,-210 481,-234"/>
-<text text-anchor="middle" x="419" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rk_test_variable_step</text>
+<g id="a_module~~vector_module~~UsedByGraph_node15"><a xlink:href="../proc/rk_test_variable_step.html" xlink:title="rk_module_variable_step::rk_test_variable_step">
+<polygon fill="#d9534f" stroke="#d9534f" points="700,-276 435,-276 435,-252 700,-252 700,-276"/>
+<text text-anchor="middle" x="567.5" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rk_module_variable_step::rk_test_variable_step</text>
 </a>
 </g>
 </g>
 <!-- proc~rk_test_variable_step&#45;&gt;module~orbital_mechanics_module -->
-<g id="module~~vector_module~~UsedByGraph_edge17" class="edge">
+<g id="module~~vector_module~~UsedByGraph_edge19" class="edge">
 <title>proc~rk_test_variable_step&#45;&gt;module~orbital_mechanics_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M356.79,-222C339.28,-222 319.86,-222 301.11,-222"/>
-<polygon fill="#000000" stroke="#000000" points="301.09,-218.5 291.09,-222 301.09,-225.5 301.09,-218.5"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M434.92,-264C406.85,-264 377.88,-264 351.96,-264"/>
+<polygon fill="#000000" stroke="#000000" points="351.81,-260.5 341.81,-264 351.81,-267.5 351.81,-260.5"/>
 </g>
 </g>
 </svg>
-</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>                <script>
+                  var panmodulevector_moduleUsedByGraph = svgPanZoom('#modulevector_moduleUsedByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
@@ -646,1165 +697,2180 @@
 </g>
 </svg>
 
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      <br>
+
+
+        <section>
+          <h2>Variables</h2>
+            <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x_axis"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>x_axis</strong></td>
+<td> =</td>
+                <td>1</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-y_axis"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>y_axis</strong></td>
+<td> =</td>
+                <td>2</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-z_axis"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>z_axis</strong></td>
+<td> =</td>
+                <td>3</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x_unit"></span>
+              real(kind=wp),
+            </td>
+              <td>public,</td>
+            <td>
+parameter,               dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>x_unit</strong></td>
+<td> =</td>
+                <td>[one, zero, zero]</td>
+            <td>
+                <p>x-axis unit vector</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-y_unit"></span>
+              real(kind=wp),
+            </td>
+              <td>public,</td>
+            <td>
+parameter,               dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>y_unit</strong></td>
+<td> =</td>
+                <td>[zero, one, zero]</td>
+            <td>
+                <p>y-axis unit vector</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-z_unit"></span>
+              real(kind=wp),
+            </td>
+              <td>public,</td>
+            <td>
+parameter,               dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>z_unit</strong></td>
+<td> =</td>
+                <td>[zero, zero, one]</td>
+            <td>
+                <p>z-axis unit vector</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+        </section>
+        <br>
+
+
+        <section>
+          <h2>Interfaces</h2>
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-fill_vector"></span>
+      <h3>public        interface <a href='../interface/fill_vector.html'>fill_vector</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/fill_vector_with_vector.html'>fill_vector_with_vector</a>(x, vals, i)  
+
+    </h3>
     
-    <p>Solid arrows point from a submodule to the (sub)module which it is
-    descended from. Dashed arrows point from a module or program unit to 
-    modules which it uses.
-    </p>
-    </div></div></div></div>
-  </li>
-      </ul>
-    </div>
+  <p>Put the vector in the vector and update the index</p>
 
-    <br>
-
-    <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/vector_module.html#variable-x_axis">x_axis</a>
-      <a class="list-group-item" href="../module/vector_module.html#variable-y_axis">y_axis</a>
-      <a class="list-group-item" href="../module/vector_module.html#variable-z_axis">z_axis</a>
-      <a class="list-group-item" href="../module/vector_module.html#variable-x_unit">x_unit</a>
-      <a class="list-group-item" href="../module/vector_module.html#variable-y_unit">y_unit</a>
-      <a class="list-group-item" href="../module/vector_module.html#variable-z_unit">z_unit</a>
-    </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#inters-1">Interfaces</a></h3></div>
-  <div id="inters-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/vector_module.html#interface-fill_vector">fill_vector</a>
-      <a class="list-group-item" href="../module/vector_module.html#interface-extract_vector">extract_vector</a>
-    </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-1">Functions</a></h3></div>
-  <div id="funcs-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/vector_module.html#proc-cross">cross</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-unit">unit</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-uhat_dot">uhat_dot</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-ucross">ucross</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-cross_matrix">cross_matrix</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-outer_product">outer_product</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-box_product">box_product</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-vector_projection">vector_projection</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-spherical_to_cartesian">spherical_to_cartesian</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-rotation_matrix">rotation_matrix</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-rotation_matrix_dot">rotation_matrix_dot</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-angle_between_vectors">angle_between_vectors</a>
-    </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-1">Subroutines</a></h3></div>
-  <div class="list-group">
-    <div id="subs-1" class="panel-collapse collapse">
-      <a class="list-group-item" href="../module/vector_module.html#proc-axis_angle_rotation">axis_angle_rotation</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-vector_projection_on_plane">vector_projection_on_plane</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-axis_angle_rotation_to_rotation_matrix">axis_angle_rotation_to_rotation_matrix</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-cartesian_to_spherical">cartesian_to_spherical</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-fill_vector_with_vector">fill_vector_with_vector</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-fill_vector_with_scalar">fill_vector_with_scalar</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-fill_char_vector_with_vector">fill_char_vector_with_vector</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-fill_char_vector_with_scalar">fill_char_vector_with_scalar</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-extract_vector_from_vector">extract_vector_from_vector</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-extract_scalar_from_vector">extract_scalar_from_vector</a>
-      <a class="list-group-item" href="../module/vector_module.html#proc-vector_test">vector_test</a>
-    </div>
-  </div>
-</div>
-
-    </section>
-    <br class="visible-xs visible-sm hidden-md">
-
-
-    <section>
-    <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-x_axis"></span>integer,</td>
-<td>public,</td>  <td>parameter</td><td>::</td>
-  <td><strong>x_axis</strong></td><td> =</td><td>1</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-y_axis"></span>integer,</td>
-<td>public,</td>  <td>parameter</td><td>::</td>
-  <td><strong>y_axis</strong></td><td> =</td><td>2</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-z_axis"></span>integer,</td>
-<td>public,</td>  <td>parameter</td><td>::</td>
-  <td><strong>z_axis</strong></td><td> =</td><td>3</td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-x_unit"></span>real(kind=wp),</td>
-<td>public,</td>  <td>parameter, dimension(3)</td><td>::</td>
-  <td><strong>x_unit</strong></td><td> =</td><td>[one, zero, zero]</td><td><p>x-axis unit vector</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-y_unit"></span>real(kind=wp),</td>
-<td>public,</td>  <td>parameter, dimension(3)</td><td>::</td>
-  <td><strong>y_unit</strong></td><td> =</td><td>[zero, one, zero]</td><td><p>y-axis unit vector</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-z_unit"></span>real(kind=wp),</td>
-<td>public,</td>  <td>parameter, dimension(3)</td><td>::</td>
-  <td><strong>z_unit</strong></td><td> =</td><td>[zero, zero, one]</td><td><p>z-axis unit vector</p></td>
-</tr>
-</tbody>
-</table>
-
-    </section>
-    <br>
-    
-    
-    <section>
-   <h2>Interfaces</h2>
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="interface-fill_vector"></span><h3>public interface <a href='../interface/fill_vector.html'>fill_vector</a>  </h3></div>
-  <ul class="list-group">
-    <li class="list-group-item">
-    <h3>private subroutine <a href='../proc/fill_vector_with_vector.html'>fill_vector_with_vector</a>(x, vals, i)</h3>
-<p>Put the vector in the vector and update the index</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~92"></span>
+              real(kind=wp),
+            </td>
 <td>intent(inout),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>x</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vals~2"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>vals</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>vals</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i~60"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>i</strong></td><td><p>should be initialized to 0 before the first call</p></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+            <td>
+<p>should be initialized to 0 before the first call</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-    </li>
-    <li class="list-group-item">
-    <h3>private subroutine <a href='../proc/fill_vector_with_scalar.html'>fill_vector_with_scalar</a>(x, val, i)</h3>
-<p>Put the value in the vector and update the index</p>
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/fill_vector_with_scalar.html'>fill_vector_with_scalar</a>(x, val, i)  
+
+    </h3>
     
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <p>Put the value in the vector and update the index</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~93"></span>
+              real(kind=wp),
+            </td>
 <td>intent(inout),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>x</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-val~2"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>val</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>val</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i~61"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>i</strong></td><td><p>should be initialized to 0 before the first call</p></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+            <td>
+<p>should be initialized to 0 before the first call</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-    </li>
-    <li class="list-group-item">
-    <h3>private subroutine <a href='../proc/fill_char_vector_with_vector.html'>fill_char_vector_with_vector</a>(x, vals, i)</h3>
-<p>Put the vector in the vector and update the index (character version)</p>
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/fill_char_vector_with_vector.html'>fill_char_vector_with_vector</a>(x, vals, i)  
+
+    </h3>
     
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>character(len=*),</td>
+  <p>Put the vector in the vector and update the index (character version)</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~94"></span>
+              character(len=*),
+            </td>
 <td>intent(inout),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>x</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>character(len=*),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vals~3"></span>
+              character(len=*),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>vals</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>vals</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i~62"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>i</strong></td><td><p>should be initialized to 0 before the first call</p></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+            <td>
+<p>should be initialized to 0 before the first call</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-    </li>
-    <li class="list-group-item">
-    <h3>private subroutine <a href='../proc/fill_char_vector_with_scalar.html'>fill_char_vector_with_scalar</a>(x, val, i)</h3>
-<p>Put the value in the vector and update the index (character version)</p>
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/fill_char_vector_with_scalar.html'>fill_char_vector_with_scalar</a>(x, val, i)  
+
+    </h3>
     
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>character(len=*),</td>
+  <p>Put the value in the vector and update the index (character version)</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~95"></span>
+              character(len=*),
+            </td>
 <td>intent(inout),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>x</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>character(len=*),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-val~3"></span>
+              character(len=*),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>val</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>val</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i~63"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>i</strong></td><td><p>should be initialized to 0 before the first call</p></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+            <td>
+<p>should be initialized to 0 before the first call</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-    </li>
-  </ul>
-</div>
+          </li>
+    </ul>
+  </div>
 
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="interface-extract_vector"></span><h3>public interface <a href='../interface/extract_vector.html'>extract_vector</a>  </h3></div>
-  <ul class="list-group">
-    <li class="list-group-item">
-    <h3>private subroutine <a href='../proc/extract_vector_from_vector.html'>extract_vector_from_vector</a>(vals, x, i)</h3>
-<p>Extract a vector from the vector and update the index</p>
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-extract_vector"></span>
+      <h3>public        interface <a href='../interface/extract_vector.html'>extract_vector</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/extract_vector_from_vector.html'>extract_vector_from_vector</a>(vals, x, i)  
+
+    </h3>
     
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <p>Extract a vector from the vector and update the index</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vals~4"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>vals</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>vals</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~96"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>x</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i~64"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>i</strong></td><td><p>should be initialized to 0 before the first call</p></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+            <td>
+<p>should be initialized to 0 before the first call</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-    </li>
-    <li class="list-group-item">
-    <h3>private subroutine <a href='../proc/extract_scalar_from_vector.html'>extract_scalar_from_vector</a>(val, x, i)</h3>
-<p>Extract the value from the vector and update the index</p>
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/extract_scalar_from_vector.html'>extract_scalar_from_vector</a>(val, x, i)  
+
+    </h3>
     
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <p>Extract the value from the vector and update the index</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-val~4"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>val</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>val</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~97"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>x</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i~65"></span>
+              integer,
+            </td>
 <td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>i</strong></td><td><p>should be initialized to 0 before the first call</p></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+            <td>
+<p>should be initialized to 0 before the first call</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
 
-    </li>
-  </ul>
-</div>
+          </li>
+    </ul>
+  </div>
 
-    </section>
-  <br>
+        </section>
+        <br>
 
+
+
+        <section>
+          <h2>Functions</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-cross"></span> <h3>public pure function <a href='../proc/cross.html'>cross</a>(r, v) result(rxv)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+    </dl>
+
+  <p>Cross product of two 3x1 vectors</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~52"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v~25"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp), dimension(3)</small>
+    </h4>
     
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-unit"></span> <h3>public pure function <a href='../proc/unit.html'>unit</a>(r) result(u)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+    </dl>
+
+  <p>Unit vector</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~53"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp), dimension(size(r))</small>
+    </h4>
     
- 
-    <section>
-    <h2>Functions</h2>
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-cross"></span><h3>public pure function <a href='../proc/cross.html'>cross</a>(r, v) result(rxv)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-  </dl>
 
-<p>Cross product of two 3x1 vectors</p>
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-uhat_dot"></span> <h3>public pure function <a href='../proc/uhat_dot.html'>uhat_dot</a>(u, udot) result(uhatd)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+    </dl>
+
+  <p>Time derivative of a unit vector.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-u~14"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>u</strong></td>
+            <td>
+<p>vector [<code>u</code>]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-udot"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>udot</strong></td>
+            <td>
+<p>derivative of vector [<code>du/dt</code>]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp), dimension(3)</small>
+    </h4>
+    <p>derivative of unit vector [<code>d(uhat)/dt</code>]</p>
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-ucross"></span> <h3>public pure function <a href='../proc/ucross.html'>ucross</a>(v1, v2) result(u)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+    </dl>
+
+  <p>Unit vector of the cross product of two 3x1 vectors</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v1~5"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v1</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v2~5"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v2</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp), dimension(3)</small>
+    </h4>
     
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(3)</td><td>::</td>
-  <td><strong>r</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(3)</td><td>::</td>
-  <td><strong>v</strong></td><td></td>
-</tr>
-</tbody>
-</table>
 
-<h4>Return Value <small>real(kind=wp),dimension(3)</small></h4>  
-
-  </div>
+    </div>
   </div>
 
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-unit"></span><h3>public pure function <a href='../proc/unit.html'>unit</a>(r) result(u)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-  </dl>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-cross_matrix"></span> <h3>public pure function <a href='../proc/cross_matrix.html'>cross_matrix</a>(r) result(rcross)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>7/20/2014</dd>
+    </dl>
 
-<p>Unit vector</p>
+  <p>Computes the cross product matrix, where:
+<code>cross(a,b) == matmul(cross_matrix(a),b)</code></p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~54"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp), dimension(3,3)</small>
+    </h4>
     
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-outer_product"></span> <h3>public pure function <a href='../proc/outer_product.html'>outer_product</a>(a, b) result(c)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>7/21/2014</dd>
+    </dl>
+
+  <p>Computes the outer product of the two vectors.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~40"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>r</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
 
-<h4>Return Value <small>real(kind=wp),dimension(size(r))</small></h4>  
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~17"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
 
-  </div>
-  </div>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-uhat_dot"></span><h3>public pure function <a href='../proc/uhat_dot.html'>uhat_dot</a>(u, udot) result(uhatd)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-  </dl>
-
-<p>Time derivative of a unit vector.</p>
+    <h4>
+    Return Value
+    <small>real(kind=wp), dimension(size(a),size(b))</small>
+    </h4>
     
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(3)</td><td>::</td>
-  <td><strong>u</strong></td><td><p>vector [<code>u</code>]</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(3)</td><td>::</td>
-  <td><strong>udot</strong></td><td><p>derivative of vector [<code>du/dt</code>]</p></td>
-</tr>
-</tbody>
-</table>
 
-<h4>Return Value <small>real(kind=wp),dimension(3)</small></h4>  <p>derivative of unit vector [<code>d(uhat)/dt</code>]</p>
-
-  </div>
+    </div>
   </div>
 
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-ucross"></span><h3>public pure function <a href='../proc/ucross.html'>ucross</a>(v1, v2) result(u)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-  </dl>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-box_product"></span> <h3>public pure function <a href='../proc/box_product.html'>box_product</a>(a, b, c) result(d)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>7/21/2014</dd>
+    </dl>
 
-<p>Unit vector of the cross product of two 3x1 vectors</p>
+  <p>Computes the box product (scalar triple product) of the three vectors.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~41"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~18"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~41"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp)</small>
+    </h4>
     
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(3)</td><td>::</td>
-  <td><strong>v1</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(3)</td><td>::</td>
-  <td><strong>v2</strong></td><td></td>
-</tr>
-</tbody>
-</table>
 
-<h4>Return Value <small>real(kind=wp),dimension(3)</small></h4>  
-
-  </div>
+    </div>
   </div>
 
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-cross_matrix"></span><h3>public pure function <a href='../proc/cross_matrix.html'>cross_matrix</a>(r) result(rcross)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-    <dt>Date</dt><dd>7/20/2014</dd>
-  </dl>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-vector_projection"></span> <h3>public pure function <a href='../proc/vector_projection.html'>vector_projection</a>(a, b) result(c)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>7/21/2014</dd>
+    </dl>
 
-<p>Computes the cross product matrix, where:
- <code>cross(a,b) == matmul(cross_matrix(a),b)</code></p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <p>The projection of one vector onto another vector.</p><a href="../proc/vector_projection.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~42"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>dimension(3)</td><td>::</td>
-  <td><strong>r</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>real(kind=wp),dimension(3,3)</small></h4>  
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-outer_product"></span><h3>public pure function <a href='../proc/outer_product.html'>outer_product</a>(a, b) result(c)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-    <dt>Date</dt><dd>7/21/2014</dd>
-  </dl>
-
-<p>Computes the outer product of the two vectors.</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+<p>the original vector</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~19"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>a</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>b</strong></td><td></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              dimension(size(a))
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+<p>the vector to project on to</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
-<h4>Return Value <small>real(kind=wp),dimension(size(a),size(b))</small></h4>  
+    <h4>
+    Return Value
+    <small>real(kind=wp), dimension(size(a))</small>
+    </h4>
+    <p>the projection of a onto b</p>
 
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-box_product"></span><h3>public pure function <a href='../proc/box_product.html'>box_product</a>(a, b, c) result(d)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-    <dt>Date</dt><dd>7/21/2014</dd>
-  </dl>
-
-<p>Computes the box product (scalar triple product) of the three vectors.</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>a</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>b</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>c</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>real(kind=wp)</small></h4>  
-
-  </div>
+    </div>
   </div>
 
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-vector_projection"></span><h3>public pure function <a href='../proc/vector_projection.html'>vector_projection</a>(a, b) result(c)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-    <dt>Date</dt><dd>7/21/2014</dd>
-  </dl>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-spherical_to_cartesian"></span> <h3>public pure function <a href='../proc/spherical_to_cartesian.html'>spherical_to_cartesian</a>(r, alpha, beta) result(rvec)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>9/24/2014</dd>
+    </dl>
 
-<p>The projection of one vector onto another vector.</p><a href="../proc/vector_projection.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>a</strong></td><td><p>the original vector</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(size(a))</td><td>::</td>
-  <td><strong>b</strong></td><td><p>the vector to project on to</p></td>
-</tr>
-</tbody>
-</table>
+  <p>Convert spherical (r,alpha,beta) to Cartesian (x,y,z).</p>
 
-<h4>Return Value <small>real(kind=wp),dimension(size(a))</small></h4>  <p>the projection of a onto b</p>
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-spherical_to_cartesian"></span><h3>public pure function <a href='../proc/spherical_to_cartesian.html'>spherical_to_cartesian</a>(r, alpha, beta) result(rvec)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-    <dt>Date</dt><dd>9/24/2014</dd>
-  </dl>
-
-<p>Convert spherical (r,alpha,beta) to Cartesian (x,y,z).</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~55"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>r</strong></td><td><p>magnitude</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+<p>magnitude</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alpha~11"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>alpha</strong></td><td><p>right ascension [rad]</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>alpha</strong></td>
+            <td>
+<p>right ascension [rad]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-beta~4"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>beta</strong></td><td><p>declination [rad]</p></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>beta</strong></td>
+            <td>
+<p>declination [rad]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
-<h4>Return Value <small>real(kind=wp),dimension(3)</small></h4>  <p>[x,y,z] vector</p>
+    <h4>
+    Return Value
+    <small>real(kind=wp), dimension(3)</small>
+    </h4>
+    <p>[x,y,z] vector</p>
 
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-rotation_matrix"></span><h3>public pure function <a href='../proc/rotation_matrix.html'>rotation_matrix</a>(axis, angle) result(rotmat)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-    <dt>Date</dt><dd>2/3/2015</dd>
-  </dl>
-
-<p>The 3x3 rotation matrix for a rotation about the x, y, or z-axis.</p><a href="../proc/rotation_matrix.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>axis</strong></td><td><p>x_axis, y_axis, or z_axis</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>angle</strong></td><td><p>angle in radians</p></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>real(kind=wp),dimension(3,3)</small></h4>  <p>the rotation matrix</p>
-
-  </div>
+    </div>
   </div>
 
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-rotation_matrix_dot"></span><h3>public pure function <a href='../proc/rotation_matrix_dot.html'>rotation_matrix_dot</a>(axis, angle, angledot) result(rotmatdot)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-    <dt>Date</dt><dd>3/19/2016</dd>
-  </dl>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-rotation_matrix"></span> <h3>public pure function <a href='../proc/rotation_matrix.html'>rotation_matrix</a>(axis, angle) result(rotmat)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>2/3/2015</dd>
+    </dl>
 
-<p>Time derivative of the 3x3 rotation matrix
- for a rotation about the x, y, or z-axis.</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>axis</strong></td><td><p>x_axis, y_axis, or z_axis</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>angle</strong></td><td><p>angle in radians</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>angledot</strong></td><td><p>time derivative of angle in radians/sec</p></td>
-</tr>
-</tbody>
-</table>
+  <p>The 3x3 rotation matrix for a rotation about the x, y, or z-axis.</p><a href="../proc/rotation_matrix.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
-<h4>Return Value <small>real(kind=wp),dimension(3,3)</small></h4>  <p>the rotation matrix derivative <script type="math/tex"> d \mathbf{C} / d t </script>
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-axis"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>axis</strong></td>
+            <td>
+<p>x_axis, y_axis, or z_axis</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-angle~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>angle</strong></td>
+            <td>
+<p>angle in radians</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp), dimension(3,3)</small>
+    </h4>
+    <p>the rotation matrix</p>
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-rotation_matrix_dot"></span> <h3>public pure function <a href='../proc/rotation_matrix_dot.html'>rotation_matrix_dot</a>(axis, angle, angledot) result(rotmatdot)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>3/19/2016</dd>
+    </dl>
+
+  <p>Time derivative of the 3x3 rotation matrix
+for a rotation about the x, y, or z-axis.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-axis~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>axis</strong></td>
+            <td>
+<p>x_axis, y_axis, or z_axis</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-angle~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>angle</strong></td>
+            <td>
+<p>angle in radians</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-angledot"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>angledot</strong></td>
+            <td>
+<p>time derivative of angle in radians/sec</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp), dimension(3,3)</small>
+    </h4>
+    <p>the rotation matrix derivative <script type="math/tex"> d \mathbf{C} / d t </script>
 </p>
 
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-angle_between_vectors"></span><h3>public pure function <a href='../proc/angle_between_vectors.html'>angle_between_vectors</a>(v1, v2) result(ang)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-    <dt>Date</dt><dd>3/13/2015</dd>
-  </dl>
-
-<p>The angle between two vectors (in radians).</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(3)</td><td>::</td>
-  <td><strong>v1</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(3)</td><td>::</td>
-  <td><strong>v2</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>real(kind=wp)</small></h4>  <p>[rad]</p>
-
-  </div>
-  </div>
-
-    </section>
-    <br>
-
-    <section>
-    <h2>Subroutines</h2>
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-axis_angle_rotation"></span><h3>public pure subroutine <a href='../proc/axis_angle_rotation.html'>axis_angle_rotation</a>(v, k, theta, vrot)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-    <dt>Date</dt><dd>7/20/2014</dd>
-  </dl>
-
-<p>Rotate a 3x1 vector in space, given an axis and angle of rotation.</p><a href="../proc/axis_angle_rotation.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(3)</td><td>::</td>
-  <td><strong>v</strong></td><td><p>vector to rotate</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(3)</td><td>::</td>
-  <td><strong>k</strong></td><td><p>rotation axis</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>theta</strong></td><td><p>rotation angle [rad]</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(out),</td>
-  <td></td>  <td>dimension(3)</td><td>::</td>
-  <td><strong>vrot</strong></td><td><p>result</p></td>
-</tr>
-</tbody>
-</table>
-
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-vector_projection_on_plane"></span><h3>public pure subroutine <a href='../proc/vector_projection_on_plane.html'>vector_projection_on_plane</a>(a, b, c)</h3></div>
-  <div class="panel-body">
-       
-<p>Project a vector onto a plane.</p><a href="../proc/vector_projection_on_plane.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(3)</td><td>::</td>
-  <td><strong>a</strong></td><td><p>the original vector</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(3)</td><td>::</td>
-  <td><strong>b</strong></td><td><p>the plane to project on to (a normal vector)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(out),</td>
-  <td></td>  <td>dimension(3)</td><td>::</td>
-  <td><strong>c</strong></td><td><p>the projection of a onto the b plane</p></td>
-</tr>
-</tbody>
-</table>
-
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-axis_angle_rotation_to_rotation_matrix"></span><h3>public pure subroutine <a href='../proc/axis_angle_rotation_to_rotation_matrix.html'>axis_angle_rotation_to_rotation_matrix</a>(k, theta, rotmat)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-    <dt>Date</dt><dd>7/20/2014</dd>
-  </dl>
-
-<p>Computes the rotation matrix that corresponds to a
- rotation about the axis <code>k</code> by an angle <code>theta</code>.</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(3)</td><td>::</td>
-  <td><strong>k</strong></td><td><p>rotation axis</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>theta</strong></td><td><p>rotation angle [rad]</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(out),</td>
-  <td></td>  <td>dimension(3,3)</td><td>::</td>
-  <td><strong>rotmat</strong></td><td><p>rotation matrix</p></td>
-</tr>
-</tbody>
-</table>
-
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-cartesian_to_spherical"></span><h3>public pure subroutine <a href='../proc/cartesian_to_spherical.html'>cartesian_to_spherical</a>(rvec, r, alpha, beta)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-    <dt>Date</dt><dd>3/6/2016</dd>
-  </dl>
-
-<p>Convert Cartesian (x,y,z) to spherical (r,alpha,beta).</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(3)</td><td>::</td>
-  <td><strong>rvec</strong></td><td><p>[x,y,z] vector</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>r</strong></td><td><p>magnitude</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>alpha</strong></td><td><p>right ascension [rad]</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>beta</strong></td><td><p>declination [rad]</p></td>
-</tr>
-</tbody>
-</table>
-
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-fill_vector_with_vector"></span><h3>private subroutine <a href='../proc/fill_vector_with_vector.html'>fill_vector_with_vector</a>(x, vals, i)</h3></div>
-  <div class="panel-body">
-       
-<p>Put the vector in the vector and update the index</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(inout),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>x</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>vals</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>i</strong></td><td><p>should be initialized to 0 before the first call</p></td>
-</tr>
-</tbody>
-</table>
-
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-fill_vector_with_scalar"></span><h3>private subroutine <a href='../proc/fill_vector_with_scalar.html'>fill_vector_with_scalar</a>(x, val, i)</h3></div>
-  <div class="panel-body">
-       
-<p>Put the value in the vector and update the index</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(inout),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>x</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>val</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>i</strong></td><td><p>should be initialized to 0 before the first call</p></td>
-</tr>
-</tbody>
-</table>
-
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-fill_char_vector_with_vector"></span><h3>private subroutine <a href='../proc/fill_char_vector_with_vector.html'>fill_char_vector_with_vector</a>(x, vals, i)</h3></div>
-  <div class="panel-body">
-       
-<p>Put the vector in the vector and update the index (character version)</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>character(len=*),</td>
-<td>intent(inout),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>x</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>character(len=*),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>vals</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>i</strong></td><td><p>should be initialized to 0 before the first call</p></td>
-</tr>
-</tbody>
-</table>
-
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-fill_char_vector_with_scalar"></span><h3>private subroutine <a href='../proc/fill_char_vector_with_scalar.html'>fill_char_vector_with_scalar</a>(x, val, i)</h3></div>
-  <div class="panel-body">
-       
-<p>Put the value in the vector and update the index (character version)</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>character(len=*),</td>
-<td>intent(inout),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>x</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>character(len=*),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>val</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>i</strong></td><td><p>should be initialized to 0 before the first call</p></td>
-</tr>
-</tbody>
-</table>
-
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-extract_vector_from_vector"></span><h3>private subroutine <a href='../proc/extract_vector_from_vector.html'>extract_vector_from_vector</a>(vals, x, i)</h3></div>
-  <div class="panel-body">
-       
-<p>Extract a vector from the vector and update the index</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(out),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>vals</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>x</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>i</strong></td><td><p>should be initialized to 0 before the first call</p></td>
-</tr>
-</tbody>
-</table>
-
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-extract_scalar_from_vector"></span><h3>private subroutine <a href='../proc/extract_scalar_from_vector.html'>extract_scalar_from_vector</a>(val, x, i)</h3></div>
-  <div class="panel-body">
-       
-<p>Extract the value from the vector and update the index</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>val</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in),</td>
-  <td></td>  <td>dimension(:)</td><td>::</td>
-  <td><strong>x</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(inout)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>i</strong></td><td><p>should be initialized to 0 before the first call</p></td>
-</tr>
-</tbody>
-</table>
-
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-vector_test"></span><h3>public subroutine <a href='../proc/vector_test.html'>vector_test</a>()</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-    <dt>Date</dt><dd>7/20/2014</dd>
-  </dl>
-
-<p>Unit test routine for the <a href="../module/vector_module.html">vector_module</a>.</p>
-    
-<h4>Arguments</h4>      <em>None</em>
-
-  </div>
-  </div>
-
-    </section>    
-    <br>
-    
     </div>
   </div>
 
-    <hr>    
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-angle_between_vectors"></span> <h3>public pure function <a href='../proc/angle_between_vectors.html'>angle_between_vectors</a>(v1, v2) result(ang)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>3/13/2015</dd>
+    </dl>
+
+  <p>The angle between two vectors (in radians).</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v1~6"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v1</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v2~6"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v2</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp)</small>
+    </h4>
+    <p>[rad]</p>
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+        <section>
+          <h2>Subroutines</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-axis_angle_rotation"></span> <h3>public pure subroutine <a href='../proc/axis_angle_rotation.html'>axis_angle_rotation</a>(v, k, theta, vrot)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>7/20/2014</dd>
+    </dl>
+
+  <p>Rotate a 3x1 vector in space, given an axis and angle of rotation.</p><a href="../proc/axis_angle_rotation.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v~26"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v</strong></td>
+            <td>
+<p>vector to rotate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k~27"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
+            <td>
+<p>rotation axis</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-theta~7"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>theta</strong></td>
+            <td>
+<p>rotation angle [rad]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vrot"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>vrot</strong></td>
+            <td>
+<p>result</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-vector_projection_on_plane"></span> <h3>public pure subroutine <a href='../proc/vector_projection_on_plane.html'>vector_projection_on_plane</a>(a, b, c)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Project a vector onto a plane.</p><a href="../proc/vector_projection_on_plane.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~43"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+<p>the original vector</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~20"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+<p>the plane to project on to (a normal vector)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~43"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+<p>the projection of a onto the b plane</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-axis_angle_rotation_to_rotation_matrix"></span> <h3>public pure subroutine <a href='../proc/axis_angle_rotation_to_rotation_matrix.html'>axis_angle_rotation_to_rotation_matrix</a>(k, theta, rotmat)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>7/20/2014</dd>
+    </dl>
+
+  <p>Computes the rotation matrix that corresponds to a
+rotation about the axis <code>k</code> by an angle <code>theta</code>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-k~28"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>k</strong></td>
+            <td>
+<p>rotation axis</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-theta~8"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>theta</strong></td>
+            <td>
+<p>rotation angle [rad]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rotmat~6"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>rotmat</strong></td>
+            <td>
+<p>rotation matrix</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-cartesian_to_spherical"></span> <h3>public pure subroutine <a href='../proc/cartesian_to_spherical.html'>cartesian_to_spherical</a>(rvec, r, alpha, beta)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>3/6/2016</dd>
+    </dl>
+
+  <p>Convert Cartesian (x,y,z) to spherical (r,alpha,beta).</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rvec~5"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>rvec</strong></td>
+            <td>
+<p>[x,y,z] vector</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~56"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+<p>magnitude</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alpha~12"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>alpha</strong></td>
+            <td>
+<p>right ascension [rad]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-beta~5"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>beta</strong></td>
+            <td>
+<p>declination [rad]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-fill_vector_with_vector"></span> <h3>private  subroutine <a href='../proc/fill_vector_with_vector.html'>fill_vector_with_vector</a>(x, vals, i)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Put the vector in the vector and update the index</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~92"></span>
+              real(kind=wp),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vals~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>vals</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i~60"></span>
+              integer,
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+            <td>
+<p>should be initialized to 0 before the first call</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-fill_vector_with_scalar"></span> <h3>private  subroutine <a href='../proc/fill_vector_with_scalar.html'>fill_vector_with_scalar</a>(x, val, i)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Put the value in the vector and update the index</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~93"></span>
+              real(kind=wp),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-val~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>val</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i~61"></span>
+              integer,
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+            <td>
+<p>should be initialized to 0 before the first call</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-fill_char_vector_with_vector"></span> <h3>private  subroutine <a href='../proc/fill_char_vector_with_vector.html'>fill_char_vector_with_vector</a>(x, vals, i)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Put the vector in the vector and update the index (character version)</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~94"></span>
+              character(len=*),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vals~3"></span>
+              character(len=*),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>vals</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i~62"></span>
+              integer,
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+            <td>
+<p>should be initialized to 0 before the first call</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-fill_char_vector_with_scalar"></span> <h3>private  subroutine <a href='../proc/fill_char_vector_with_scalar.html'>fill_char_vector_with_scalar</a>(x, val, i)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Put the value in the vector and update the index (character version)</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~95"></span>
+              character(len=*),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-val~3"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>val</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i~63"></span>
+              integer,
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+            <td>
+<p>should be initialized to 0 before the first call</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-extract_vector_from_vector"></span> <h3>private  subroutine <a href='../proc/extract_vector_from_vector.html'>extract_vector_from_vector</a>(vals, x, i)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Extract a vector from the vector and update the index</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vals~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>vals</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~96"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i~64"></span>
+              integer,
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+            <td>
+<p>should be initialized to 0 before the first call</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-extract_scalar_from_vector"></span> <h3>private  subroutine <a href='../proc/extract_scalar_from_vector.html'>extract_scalar_from_vector</a>(val, x, i)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Extract the value from the vector and update the index</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-val~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>val</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~97"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i~65"></span>
+              integer,
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+            <td>
+<p>should be initialized to 0 before the first call</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-vector_test"></span> <h3>public  subroutine <a href='../proc/vector_test.html'>vector_test</a>()  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>7/20/2014</dd>
+    </dl>
+
+  <p>Unit test routine for the <a href="../module/vector_module.html">vector_module</a>.</p>
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+
+    </div>
+  </div>
+
+      <hr>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-      <div class="row">
-        <div class="col-xs-6 col-md-6"><p>fortran-astrodynamics-toolkit was developed by Jacob Williams<br>&copy; 2022 
+        <div class="row justify-content-between">
+          <div class="col"><p>fortran-astrodynamics-toolkit was developed by Jacob Williams<br>&copy; 2024 
 </p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
         </div>
-        <div class="col-xs-6 col-md-6">
-          <p class="text-right">
-            Documentation generated by 
-            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-          </p>
-        </div>
-      </div>
-      <br>
-      </div> <!-- /container -->    
+        <br>
+      </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
+    <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->
-<!--
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
--->
-    <script src="../js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
     <!-- MathJax JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-      });
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
-    
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
   </body>
 </html>

@@ -1,163 +1,180 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta name="description" content="A modern Fortran library for Astrodynamics">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
     <title>compute_real_eigenvalues_and_normalized_eigenvectors &ndash; fortran-astrodynamics-toolkit</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
-    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="../js/svg-pan-zoom.min.js"></script>
-
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-              data-toggle="dropdown" role="button"
-              aria-haspopup="true"
-     aria-expanded="false">Contents <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="../lists/files.html">Source Files</a></li>
-            <li><a href="../lists/modules.html">Modules</a></li>
-            <li><a href="../lists/procedures.html">Procedures</a></li>
-            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                   <li><a href="../lists/types.html">Derived Types</a></li>
-       
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
             </ul>
-        
-            </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-          </ul>
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
         </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
     <h1>compute_real_eigenvalues_and_normalized_eigenvectors
       <small>Subroutine</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 0.2% of total for procedures.">32 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/eispack_module.f90"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/eispack_module.f90.html'>eispack_module.f90</a></li>
-     <li><a href='../module/eispack_module.html'>eispack_module</a></li>
-     <li class="active">compute_real_eigenvalues_and_normalized_eigenvectors</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 0.2% of total for procedures.">32 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/eispack_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/eispack_module.f90.html'>eispack_module.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/eispack_module.html'>eispack_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">compute_real_eigenvalues_and_normalized_eigenvectors</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
 
   </div>
   
   <div class="row">
     <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/compute_real_eigenvalues_and_normalized_eigenvectors.html#src">compute_real_eigenvalues_and_normalized_eigenvectors</a>
-  </div>
-</div>
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/compute_real_eigenvalues_and_normalized_eigenvectors.html#src">compute_real_eigenvalues_and_normalized_eigenvectors</a>
+      </div>
+    </div>
 
-</div>
+
+  </div>
 
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public subroutine compute_real_eigenvalues_and_normalized_eigenvectors(n, a, e, v, n_results, ierr)</h2>
-        <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Uses</h3>
-      </div>
-      <ul class="list-group">
-      <li class="list-group-item">
-  <ul class="list-inline">
-    <li><a href='../module/numbers_module.html'>numbers_module</a></li>
-  </ul>
-      </li>
-      <li class="list-group-item">
-  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    <h2>public  subroutine compute_real_eigenvalues_and_normalized_eigenvectors(n, a, e, v, n_results, ierr)  
+</h2>
+        <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='../module/numbers_module.html'>numbers_module</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~UsesGraph Pages: 1 -->
-<svg id="proccompute_real_eigenvalues_and_normalized_eigenvectorsUsesGraph" width="641pt" height="29pt"
- viewBox="0.00 0.00 641.00 28.61" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~UsesGraph" class="graph" transform="scale(1.12 1.12) rotate(0) translate(4 28)">
+<svg id="proccompute_real_eigenvalues_and_normalized_eigenvectorsUsesGraph" width="641pt" height="25pt"
+ viewBox="0.00 0.00 641.00 25.29" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~UsesGraph" class="graph" transform="scale(1.27 1.27) rotate(0) translate(4 28)">
 <title>proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~UsesGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 713,-28 713,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 807,-28 807,4 -4,4"/>
 <!-- proc~compute_real_eigenvalues_and_normalized_eigenvectors -->
 <g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~UsesGraph_node1" class="node">
 <title>proc~compute_real_eigenvalues_and_normalized_eigenvectors</title>
-<polygon fill="none" stroke="black" points="709,-24 389,-24 389,0 709,0 709,-24"/>
-<text text-anchor="middle" x="549" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">compute_real_eigenvalues_and_normalized_eigenvectors</text>
+<polygon fill="none" stroke="black" points="803,-24 389,-24 389,0 803,0 803,-24"/>
+<text text-anchor="middle" x="596" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">eispack_module::compute_real_eigenvalues_and_normalized_eigenvectors</text>
 </g>
 <!-- module~numbers_module -->
 <g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~UsesGraph_node2" class="node">
 <title>module~numbers_module</title>
-<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~UsesGraph_node2"><a xlink:href=".././module/numbers_module.html" xlink:title="numbers_module">
+<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~UsesGraph_node2"><a xlink:href="../module/numbers_module.html" xlink:title="numbers_module">
 <polygon fill="#337ab7" stroke="#337ab7" points="353,-24 247,-24 247,0 353,0 353,-24"/>
 <text text-anchor="middle" x="300" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module</text>
 </a>
@@ -166,13 +183,13 @@
 <!-- proc~compute_real_eigenvalues_and_normalized_eigenvectors&#45;&gt;module~numbers_module -->
 <g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~UsesGraph_edge1" class="edge">
 <title>proc~compute_real_eigenvalues_and_normalized_eigenvectors&#45;&gt;module~numbers_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M388.78,-12C380.08,-12 371.64,-12 363.66,-12"/>
-<polygon fill="#000000" stroke="#000000" points="363.43,-8.5 353.43,-12 363.43,-15.5 363.43,-8.5"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M388.81,-12C379.99,-12 371.51,-12 363.53,-12"/>
+<polygon fill="#000000" stroke="#000000" points="363.34,-8.5 353.34,-12 363.34,-15.5 363.34,-8.5"/>
 </g>
 <!-- module~kind_module -->
 <g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~UsesGraph_node3" class="node">
 <title>module~kind_module</title>
-<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~UsesGraph_node3"><a xlink:href=".././module/kind_module.html" xlink:title="kind_module">
+<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~UsesGraph_node3"><a xlink:href="../module/kind_module.html" xlink:title="kind_module">
 <polygon fill="#337ab7" stroke="#337ab7" points="211,-24 130,-24 130,0 211,0 211,-24"/>
 <text text-anchor="middle" x="170.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module</text>
 </a>
@@ -187,11 +204,8 @@
 <!-- iso_fortran_env -->
 <g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~UsesGraph_node4" class="node">
 <title>iso_fortran_env</title>
-<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~UsesGraph_node4"><a xlink:href="https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html" xlink:title="iso_fortran_env">
 <polygon fill="#337ab7" stroke="#337ab7" points="94,-24 0,-24 0,0 94,0 94,-24"/>
 <text text-anchor="middle" x="47" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
-</a>
-</g>
 </g>
 <!-- module~kind_module&#45;&gt;iso_fortran_env -->
 <g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~UsesGraph_edge3" class="edge">
@@ -201,9 +215,23 @@
 </g>
 </g>
 </svg>
-</div><script>var panproccompute_real_eigenvalues_and_normalized_eigenvectorsUsesGraph = svgPanZoom('#proccompute_real_eigenvalues_and_normalized_eigenvectorsUsesGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>                <script>
+                  var panproccompute_real_eigenvalues_and_normalized_eigenvectorsUsesGraph = svgPanZoom('#proccompute_real_eigenvalues_and_normalized_eigenvectorsUsesGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
@@ -253,236 +281,315 @@
 </g>
 </svg>
 
-    
-    <p>Solid arrows point from a submodule to the (sub)module which it is
-    descended from. Dashed arrows point from a module or program unit to 
-    modules which it uses.
-    </p>
-    </div></div></div></div>
-      </li>
-      </ul>
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
     </div>
 
 
     <p>Returns only the real eigenvalues and the associated eigenvectors.
-Wrapper for <a href="../proc/compute_eigenvalues_and_eigenvectors.html">compute_eigenvalues_and_eigenvectors</a>.</p>
+Wrapper for <a href="compute_eigenvalues_and_eigenvectors.html">compute_eigenvalues_and_eigenvectors</a>.</p>
+
 
     <h3>Arguments</h3>
-      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-n~34"></span>integer,</td>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~52"></span>
+              integer,
+            </td>
 <td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>n</strong></td><td><p>the order of the matrix <code>a</code></p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-a~15"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                <p>the order of the matrix <code>a</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~36"></span>
+              real(kind=wp),
+            </td>
 <td>intent(in),</td>
-  <td></td>  <td>dimension(n,n)</td><td>::</td>
-  <td><strong>a</strong></td><td><p>contains the real general matrix</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-e~4"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              dimension(n,n)
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+                <p>contains the real general matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-e~29"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out),</td>
-  <td></td>  <td>dimension(:), allocatable</td><td>::</td>
-  <td><strong>e</strong></td><td><p>eigenvalues (size <code>n_results</code>)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-v~3"></span>real(kind=wp),</td>
+              <td></td>            <td>
+              dimension(:), allocatable
+            </td>
+            <td>::</td>
+            <td><strong>e</strong></td>
+            <td>
+                <p>eigenvalues (size <code>n_results</code>)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v~21"></span>
+              real(kind=wp),
+            </td>
 <td>intent(out),</td>
-  <td></td>  <td>dimension(:,:), allocatable</td><td>::</td>
-  <td><strong>v</strong></td><td><p>eigenvectors (size <code>n,n_results</code>)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-n_results"></span>integer,</td>
+              <td></td>            <td>
+              dimension(:,:), allocatable
+            </td>
+            <td>::</td>
+            <td><strong>v</strong></td>
+            <td>
+                <p>eigenvectors (size <code>n,n_results</code>)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n_results"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>n_results</strong></td><td><p>number of real eigenvalues</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" id="variable-ierr~4"></span>integer,</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n_results</strong></td>
+            <td>
+                <p>number of real eigenvalues</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ierr~5"></span>
+              integer,
+            </td>
 <td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>ierr</strong></td><td><p>output flag from <a href="../proc/rg.html">rg</a></p></td>
-</tr>
-</tbody>
-</table>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ierr</strong></td>
+            <td>
+                <p>output flag from <a href="rg.html">rg</a></p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
     <br>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Calls</h3>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
       </div>
-      <div class="panel-body">
+      <div class="card-body">
   <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph Pages: 1 -->
-<svg id="proccompute_real_eigenvalues_and_normalized_eigenvectorsCallsGraph" width="641pt" height="180pt"
- viewBox="0.00 0.00 641.00 179.75" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph" class="graph" transform="scale(1.35 1.35) rotate(0) translate(4 238)">
+<svg id="proccompute_real_eigenvalues_and_normalized_eigenvectorsCallsGraph" width="641pt" height="121pt"
+ viewBox="0.00 0.00 641.00 121.19" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph" class="graph" transform="scale(2 2) rotate(0) translate(4 238)">
 <title>proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-238 859,-238 859,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-238 1276,-238 1276,4 -4,4"/>
 <!-- proc~compute_real_eigenvalues_and_normalized_eigenvectors -->
 <g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node1" class="node">
 <title>proc~compute_real_eigenvalues_and_normalized_eigenvectors</title>
-<polygon fill="none" stroke="black" points="320,-129 0,-129 0,-105 320,-105 320,-129"/>
-<text text-anchor="middle" x="160" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50">compute_real_eigenvalues_and_normalized_eigenvectors</text>
+<polygon fill="none" stroke="black" points="414,-129 0,-129 0,-105 414,-105 414,-129"/>
+<text text-anchor="middle" x="207" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50">eispack_module::compute_real_eigenvalues_and_normalized_eigenvectors</text>
 </g>
 <!-- proc~compute_eigenvalues_and_eigenvectors -->
 <g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node2" class="node">
 <title>proc~compute_eigenvalues_and_eigenvectors</title>
-<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node2"><a xlink:href=".././proc/compute_eigenvalues_and_eigenvectors.html" xlink:title="compute_eigenvalues_and_eigenvectors">
-<polygon fill="#d9534f" stroke="#d9534f" points="585,-129 356,-129 356,-105 585,-105 585,-129"/>
-<text text-anchor="middle" x="470.5" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_eigenvalues_and_eigenvectors</text>
+<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node2"><a xlink:href="../proc/compute_eigenvalues_and_eigenvectors.html" xlink:title="eispack_module::compute_eigenvalues_and_eigenvectors">
+<polygon fill="#d9534f" stroke="#d9534f" points="773,-129 450,-129 450,-105 773,-105 773,-129"/>
+<text text-anchor="middle" x="611.5" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">eispack_module::compute_eigenvalues_and_eigenvectors</text>
 </a>
 </g>
 </g>
 <!-- proc~compute_real_eigenvalues_and_normalized_eigenvectors&#45;&gt;proc~compute_eigenvalues_and_eigenvectors -->
 <g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_edge1" class="edge">
 <title>proc~compute_real_eigenvalues_and_normalized_eigenvectors&#45;&gt;proc~compute_eigenvalues_and_eigenvectors</title>
-<path fill="none" stroke="#000000" d="M320.22,-117C328.7,-117 337.17,-117 345.51,-117"/>
-<polygon fill="#000000" stroke="#000000" points="345.62,-120.5 355.62,-117 345.62,-113.5 345.62,-120.5"/>
+<path fill="none" stroke="#000000" d="M414.26,-117C422.78,-117 431.28,-117 439.71,-117"/>
+<polygon fill="#000000" stroke="#000000" points="439.96,-120.5 449.96,-117 439.96,-113.5 439.96,-120.5"/>
 </g>
 <!-- proc~rg -->
 <g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node3" class="node">
 <title>proc~rg</title>
-<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node3"><a xlink:href=".././proc/rg.html" xlink:title="rg">
-<polygon fill="#d9534f" stroke="#d9534f" points="675,-129 621,-129 621,-105 675,-105 675,-129"/>
-<text text-anchor="middle" x="648" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rg</text>
+<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node3"><a xlink:href="../proc/rg.html" xlink:title="eispack_module::rg">
+<polygon fill="#d9534f" stroke="#d9534f" points="927,-129 809,-129 809,-105 927,-105 927,-129"/>
+<text text-anchor="middle" x="868" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">eispack_module::rg</text>
 </a>
 </g>
 </g>
 <!-- proc~compute_eigenvalues_and_eigenvectors&#45;&gt;proc~rg -->
 <g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_edge2" class="edge">
 <title>proc~compute_eigenvalues_and_eigenvectors&#45;&gt;proc~rg</title>
-<path fill="none" stroke="#000000" d="M585.13,-117C594.19,-117 602.84,-117 610.66,-117"/>
-<polygon fill="#000000" stroke="#000000" points="610.76,-120.5 620.76,-117 610.76,-113.5 610.76,-120.5"/>
+<path fill="none" stroke="#000000" d="M773.32,-117C782.08,-117 790.62,-117 798.75,-117"/>
+<polygon fill="#000000" stroke="#000000" points="798.81,-120.5 808.81,-117 798.81,-113.5 798.81,-120.5"/>
 </g>
 <!-- proc~balanc -->
 <g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node4" class="node">
 <title>proc~balanc</title>
-<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node4"><a xlink:href=".././proc/balanc.html" xlink:title="balanc">
-<polygon fill="#d9534f" stroke="#d9534f" points="765,-234 711,-234 711,-210 765,-210 765,-234"/>
-<text text-anchor="middle" x="738" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">balanc</text>
+<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node4"><a xlink:href="../proc/balanc.html" xlink:title="eispack_module::balanc">
+<polygon fill="#d9534f" stroke="#d9534f" points="1106.5,-234 964.5,-234 964.5,-210 1106.5,-210 1106.5,-234"/>
+<text text-anchor="middle" x="1035.5" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">eispack_module::balanc</text>
 </a>
 </g>
 </g>
 <!-- proc~rg&#45;&gt;proc~balanc -->
 <g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_edge3" class="edge">
 <title>proc~rg&#45;&gt;proc~balanc</title>
-<path fill="none" stroke="#000000" d="M656.55,-129.15C667.43,-146.19 688.69,-177.69 711,-201 711.65,-201.68 712.32,-202.36 713.01,-203.03"/>
-<polygon fill="#000000" stroke="#000000" points="710.97,-205.9 720.76,-209.95 715.64,-200.68 710.97,-205.9"/>
-</g>
-<!-- proc~hqr2 -->
-<g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node5" class="node">
-<title>proc~hqr2</title>
-<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node5"><a xlink:href=".././proc/hqr2.html" xlink:title="hqr2">
-<polygon fill="#d9534f" stroke="#d9534f" points="765,-192 711,-192 711,-168 765,-168 765,-192"/>
-<text text-anchor="middle" x="738" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hqr2</text>
-</a>
-</g>
-</g>
-<!-- proc~rg&#45;&gt;proc~hqr2 -->
-<g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_edge4" class="edge">
-<title>proc~rg&#45;&gt;proc~hqr2</title>
-<path fill="none" stroke="#000000" d="M665.97,-129.15C678.99,-138.47 697.18,-151.49 711.89,-162.02"/>
-<polygon fill="#000000" stroke="#000000" points="709.92,-164.91 720.08,-167.89 713.99,-159.22 709.92,-164.91"/>
+<path fill="none" stroke="#000000" d="M879.3,-129.15C895.36,-147.35 928.19,-181.64 963,-201 966.4,-202.89 969.99,-204.63 973.68,-206.22"/>
+<polygon fill="#000000" stroke="#000000" points="972.4,-209.48 982.98,-209.89 974.96,-202.97 972.4,-209.48"/>
 </g>
 <!-- proc~balbak -->
-<g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node6" class="node">
+<g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node5" class="node">
 <title>proc~balbak</title>
-<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node6"><a xlink:href=".././proc/balbak.html" xlink:title="balbak">
-<polygon fill="#d9534f" stroke="#d9534f" points="765,-150 711,-150 711,-126 765,-126 765,-150"/>
-<text text-anchor="middle" x="738" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">balbak</text>
+<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node5"><a xlink:href="../proc/balbak.html" xlink:title="eispack_module::balbak">
+<polygon fill="#d9534f" stroke="#d9534f" points="1106.5,-192 964.5,-192 964.5,-168 1106.5,-168 1106.5,-192"/>
+<text text-anchor="middle" x="1035.5" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">eispack_module::balbak</text>
 </a>
 </g>
 </g>
 <!-- proc~rg&#45;&gt;proc~balbak -->
-<g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_edge5" class="edge">
+<g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_edge4" class="edge">
 <title>proc~rg&#45;&gt;proc~balbak</title>
-<path fill="none" stroke="#000000" d="M675.4,-123.3C683.48,-125.23 692.51,-127.38 701.1,-129.43"/>
-<polygon fill="#000000" stroke="#000000" points="700.38,-132.86 710.92,-131.78 702,-126.05 700.38,-132.86"/>
+<path fill="none" stroke="#000000" d="M893.76,-129.16C912.5,-138.1 939.02,-150.16 963,-159 968.52,-161.03 974.34,-163.01 980.17,-164.88"/>
+<polygon fill="#000000" stroke="#000000" points="979.36,-168.29 989.95,-167.92 981.44,-161.61 979.36,-168.29"/>
 </g>
 <!-- proc~elmhes -->
-<g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node7" class="node">
+<g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node6" class="node">
 <title>proc~elmhes</title>
-<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node7"><a xlink:href=".././proc/elmhes.html" xlink:title="elmhes">
-<polygon fill="#d9534f" stroke="#d9534f" points="765,-108 711,-108 711,-84 765,-84 765,-108"/>
-<text text-anchor="middle" x="738" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">elmhes</text>
+<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node6"><a xlink:href="../proc/elmhes.html" xlink:title="eispack_module::elmhes">
+<polygon fill="#d9534f" stroke="#d9534f" points="1108,-150 963,-150 963,-126 1108,-126 1108,-150"/>
+<text text-anchor="middle" x="1035.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">eispack_module::elmhes</text>
 </a>
 </g>
 </g>
 <!-- proc~rg&#45;&gt;proc~elmhes -->
-<g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_edge7" class="edge">
+<g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_edge5" class="edge">
 <title>proc~rg&#45;&gt;proc~elmhes</title>
-<path fill="none" stroke="#000000" d="M675.4,-110.7C683.48,-108.77 692.51,-106.62 701.1,-104.57"/>
-<polygon fill="#000000" stroke="#000000" points="702,-107.95 710.92,-102.22 700.38,-101.14 702,-107.95"/>
+<path fill="none" stroke="#000000" d="M927.35,-124.4C935.58,-125.45 944.16,-126.54 952.72,-127.62"/>
+<polygon fill="#000000" stroke="#000000" points="952.39,-131.11 962.75,-128.9 953.27,-124.17 952.39,-131.11"/>
 </g>
 <!-- proc~eltran -->
-<g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node8" class="node">
+<g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node7" class="node">
 <title>proc~eltran</title>
-<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node8"><a xlink:href=".././proc/eltran.html" xlink:title="eltran">
-<polygon fill="#d9534f" stroke="#d9534f" points="765,-66 711,-66 711,-42 765,-42 765,-66"/>
-<text text-anchor="middle" x="738" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">eltran</text>
+<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node7"><a xlink:href="../proc/eltran.html" xlink:title="eispack_module::eltran">
+<polygon fill="#d9534f" stroke="#d9534f" points="1104.5,-108 966.5,-108 966.5,-84 1104.5,-84 1104.5,-108"/>
+<text text-anchor="middle" x="1035.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">eispack_module::eltran</text>
 </a>
 </g>
 </g>
 <!-- proc~rg&#45;&gt;proc~eltran -->
 <g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_edge6" class="edge">
 <title>proc~rg&#45;&gt;proc~eltran</title>
-<path fill="none" stroke="#000000" d="M665.97,-104.85C678.99,-95.53 697.18,-82.51 711.89,-71.98"/>
-<polygon fill="#000000" stroke="#000000" points="713.99,-74.78 720.08,-66.11 709.92,-69.09 713.99,-74.78"/>
+<path fill="none" stroke="#000000" d="M927.35,-109.6C936.74,-108.4 946.6,-107.15 956.37,-105.91"/>
+<polygon fill="#000000" stroke="#000000" points="957.01,-109.36 966.49,-104.63 956.13,-102.42 957.01,-109.36"/>
 </g>
 <!-- proc~hqr -->
-<g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node9" class="node">
+<g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node8" class="node">
 <title>proc~hqr</title>
-<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node9"><a xlink:href=".././proc/hqr.html" xlink:title="hqr">
-<polygon fill="#d9534f" stroke="#d9534f" points="765,-24 711,-24 711,0 765,0 765,-24"/>
-<text text-anchor="middle" x="738" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hqr</text>
+<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node8"><a xlink:href="../proc/hqr.html" xlink:title="eispack_module::hqr">
+<polygon fill="#d9534f" stroke="#d9534f" points="1097.5,-66 973.5,-66 973.5,-42 1097.5,-42 1097.5,-66"/>
+<text text-anchor="middle" x="1035.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">eispack_module::hqr</text>
 </a>
 </g>
 </g>
 <!-- proc~rg&#45;&gt;proc~hqr -->
-<g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_edge8" class="edge">
+<g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_edge7" class="edge">
 <title>proc~rg&#45;&gt;proc~hqr</title>
-<path fill="none" stroke="#000000" d="M656.55,-104.85C667.43,-87.81 688.69,-56.31 711,-33 711.65,-32.32 712.32,-31.64 713.01,-30.97"/>
-<polygon fill="#000000" stroke="#000000" points="715.64,-33.32 720.76,-24.05 710.97,-28.1 715.64,-33.32"/>
+<path fill="none" stroke="#000000" d="M893.76,-104.84C912.5,-95.9 939.02,-83.84 963,-75 968.52,-72.97 974.34,-70.99 980.17,-69.12"/>
+<polygon fill="#000000" stroke="#000000" points="981.44,-72.39 989.95,-66.08 979.36,-65.71 981.44,-72.39"/>
+</g>
+<!-- proc~hqr2 -->
+<g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node9" class="node">
+<title>proc~hqr2</title>
+<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node9"><a xlink:href="../proc/hqr2.html" xlink:title="eispack_module::hqr2">
+<polygon fill="#d9534f" stroke="#d9534f" points="1101,-24 970,-24 970,0 1101,0 1101,-24"/>
+<text text-anchor="middle" x="1035.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">eispack_module::hqr2</text>
+</a>
+</g>
+</g>
+<!-- proc~rg&#45;&gt;proc~hqr2 -->
+<g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_edge8" class="edge">
+<title>proc~rg&#45;&gt;proc~hqr2</title>
+<path fill="none" stroke="#000000" d="M879.3,-104.85C895.36,-86.65 928.19,-52.36 963,-33 966.4,-31.11 969.99,-29.37 973.68,-27.78"/>
+<polygon fill="#000000" stroke="#000000" points="974.96,-31.03 982.98,-24.11 972.4,-24.52 974.96,-31.03"/>
 </g>
 <!-- proc~cdiv -->
 <g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node10" class="node">
 <title>proc~cdiv</title>
-<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node10"><a xlink:href=".././proc/cdiv.html" xlink:title="cdiv">
-<polygon fill="#d9534f" stroke="#d9534f" points="855,-192 801,-192 801,-168 855,-168 855,-192"/>
-<text text-anchor="middle" x="828" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cdiv</text>
+<g id="a_proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_node10"><a xlink:href="../proc/cdiv.html" xlink:title="eispack_module::cdiv">
+<polygon fill="#d9534f" stroke="#d9534f" points="1272,-24 1144,-24 1144,0 1272,0 1272,-24"/>
+<text text-anchor="middle" x="1208" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">eispack_module::cdiv</text>
 </a>
 </g>
 </g>
 <!-- proc~hqr2&#45;&gt;proc~cdiv -->
 <g id="proc~~compute_real_eigenvalues_and_normalized_eigenvectors~~CallsGraph_edge9" class="edge">
 <title>proc~hqr2&#45;&gt;proc~cdiv</title>
-<path fill="none" stroke="#000000" d="M765.4,-180C773.39,-180 782.31,-180 790.82,-180"/>
-<polygon fill="#000000" stroke="#000000" points="790.92,-183.5 800.92,-180 790.92,-176.5 790.92,-183.5"/>
+<path fill="none" stroke="#000000" d="M1101.45,-12C1112,-12 1123,-12 1133.73,-12"/>
+<polygon fill="#000000" stroke="#000000" points="1133.92,-15.5 1143.92,-12 1133.92,-8.5 1133.92,-15.5"/>
 </g>
 </g>
 </svg>
-</div><script>var panproccompute_real_eigenvalues_and_normalized_eigenvectorsCallsGraph = svgPanZoom('#proccompute_real_eigenvalues_and_normalized_eigenvectorsCallsGraph', {zoomEnabled: true,controlIconsEnabled: true, fit: true, center: true,}); </script><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>                <script>
+                  var panproccompute_real_eigenvalues_and_normalized_eigenvectorsCallsGraph = svgPanZoom('#proccompute_real_eigenvalues_and_normalized_eigenvectorsCallsGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: Graph Key Pages: 1 -->
-<svg width="597pt" height="32pt"
- viewBox="0.00 0.00 596.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1.16 1.16) rotate(0) translate(4 28)">
 <title>Graph Key</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 592.5,-28 592.5,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
 <!-- Subroutine -->
 <g id="node1" class="node">
 <title>Subroutine</title>
@@ -501,65 +608,61 @@ Wrapper for <a href="../proc/compute_eigenvalues_and_eigenvectors.html">compute_
 <polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
 <text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
 </g>
-<!-- Unknown Procedure Type -->
+<!-- Type Bound Procedure -->
 <g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
 <title>Unknown Procedure Type</title>
-<polygon fill="#777777" stroke="#777777" points="388.5,-24 243.5,-24 243.5,0 388.5,0 388.5,-24"/>
-<text text-anchor="middle" x="316" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
 </g>
 <!-- Program -->
-<g id="node5" class="node">
+<g id="node6" class="node">
 <title>Program</title>
-<polygon fill="#f0ad4e" stroke="#f0ad4e" points="465,-24 407,-24 407,0 465,0 465,-24"/>
-<text text-anchor="middle" x="436" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
 </g>
 <!-- This Page&#39;s Entity -->
-<g id="node6" class="node">
+<g id="node7" class="node">
 <title>This Page&#39;s Entity</title>
-<polygon fill="none" stroke="black" points="588.5,-24 483.5,-24 483.5,0 588.5,0 588.5,-24"/>
-<text text-anchor="middle" x="536" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
 </g>
 </g>
 </svg>
 
-    
-    <p>Solid arrows point from a procedure to one which it calls. Dashed 
-    arrows point from an interface to procedures which implement that interface.
-    This could include the module procedures in a generic interface or the
-    implementation in a submodule of an interface in a parent module.
-    </p>
-    </div></div></div></div>
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <br>
 
-    <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/compute_real_eigenvalues_and_normalized_eigenvectors.html#src">compute_real_eigenvalues_and_normalized_eigenvectors</a>
-  </div>
-</div>
-
-    </section>
-    <br class="visible-xs visible-sm hidden-md">
-
 
     
     
 
     
     
+
 
 
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">compute_real_eigenvalues_and_normalized_eigenvectors</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">n_results</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">compute_real_eigenvalues_and_normalized_eigenvectors</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">n_results</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span>
 
-<span class="w">    </span><span class="k">use </span><span class="n">numbers_module</span><span class="w"></span>
+<span class="w">    </span><span class="k">use </span><span class="n">numbers_module</span>
 
 <span class="w">    </span><span class="k">implicit none</span>
 
@@ -575,29 +678,29 @@ Wrapper for <a href="../proc/compute_eigenvalues_and_eigenvectors.html">compute_
 <span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="c">!! counter</span>
 <span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="c">!! counter</span>
 
-<span class="w">    </span><span class="k">call </span><span class="n">compute_eigenvalues_and_eigenvectors</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">call </span><span class="n">compute_eigenvalues_and_eigenvectors</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span>
 
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
 
-<span class="k">        </span><span class="n">n_results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span><span class="p">(</span><span class="n">w</span><span class="p">(:,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mf">0.0_wp</span><span class="p">)</span><span class="w"></span>
+<span class="k">        </span><span class="n">n_results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span><span class="p">(</span><span class="n">w</span><span class="p">(:,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mf">0.0_wp</span><span class="p">)</span>
 <span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n_results</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<span class="k">            allocate</span><span class="p">(</span><span class="n">e</span><span class="p">(</span><span class="n">n_results</span><span class="p">))</span><span class="w"></span>
-<span class="w">            </span><span class="k">allocate</span><span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">n_results</span><span class="p">))</span><span class="w"></span>
-<span class="w">            </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"></span>
+<span class="k">            allocate</span><span class="p">(</span><span class="n">e</span><span class="p">(</span><span class="n">n_results</span><span class="p">))</span>
+<span class="w">            </span><span class="k">allocate</span><span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">n_results</span><span class="p">))</span>
+<span class="w">            </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span>
 <span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">w</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mf">0.0_wp</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="c">! real eigenvalue</span>
-<span class="w">                    </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
-<span class="w">                    </span><span class="n">e</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">w</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">                    </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">                    </span><span class="n">e</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">w</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="w">                    </span><span class="n">v</span><span class="p">(:,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">z</span><span class="p">(:,</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="n">z</span><span class="p">(:,</span><span class="n">i</span><span class="p">))</span><span class="w">  </span><span class="c">! normalized eigenvector</span>
 <span class="w">                </span><span class="k">end if</span>
 <span class="k">            end do</span>
 <span class="k">        end if</span>
 
 <span class="k">    else</span>
-<span class="k">        </span><span class="n">n_results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="k">        </span><span class="n">n_results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
 <span class="w">    </span><span class="k">end if</span>
 
-<span class="k">    end subroutine </span><span class="n">compute_real_eigenvalues_and_normalized_eigenvectors</span><span class="w"></span>
+<span class="k">    end subroutine </span><span class="n">compute_real_eigenvalues_and_normalized_eigenvectors</span>
 </pre></div>
 
     </section>
@@ -606,50 +709,45 @@ Wrapper for <a href="../proc/compute_eigenvalues_and_eigenvectors.html">compute_
     </div>
   </div>
 
-    <hr>    
+      <hr>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-      <div class="row">
-        <div class="col-xs-6 col-md-6"><p>fortran-astrodynamics-toolkit was developed by Jacob Williams<br>&copy; 2022 
+        <div class="row justify-content-between">
+          <div class="col"><p>fortran-astrodynamics-toolkit was developed by Jacob Williams<br>&copy; 2024 
 </p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
         </div>
-        <div class="col-xs-6 col-md-6">
-          <p class="text-right">
-            Documentation generated by 
-            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-          </p>
-        </div>
-      </div>
-      <br>
-      </div> <!-- /container -->    
+        <br>
+      </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
+    <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->
-<!--
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
--->
-    <script src="../js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
     <!-- MathJax JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-      });
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
-    
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
   </body>
 </html>

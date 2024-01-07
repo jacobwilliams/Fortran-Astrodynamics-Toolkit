@@ -1,177 +1,205 @@
+<!-- -*- mode: jinja2 -*- -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <meta name="description" content="A modern Fortran library for Astrodynamics">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
     <meta name="author" content="Jacob Williams" >
     <link rel="icon" href="../favicon.png">
 
     <title>time_module &ndash; fortran-astrodynamics-toolkit</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="../css/pygments.css" rel="stylesheet">
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/local.css" rel="stylesheet">
-    <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    
-    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="../js/svg-pan-zoom.min.js"></script>
-
   </head>
 
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
           <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
-              <a href="#" class="dropdown-toggle"
-              data-toggle="dropdown" role="button"
-              aria-haspopup="true"
-     aria-expanded="false">Contents <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li><a href="../lists/files.html">Source Files</a></li>
-            <li><a href="../lists/modules.html">Modules</a></li>
-            <li><a href="../lists/procedures.html">Procedures</a></li>
-            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                   <li><a href="../lists/types.html">Derived Types</a></li>
-       
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
             </ul>
-        
-            </li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
-<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
-                             <li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
-          </ul>
-        <form action="../search.html" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
         </div>
-<!--
-        <button type="submit" class="btn btn-default">Submit</button>
--->
-        </form>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+      </nav>
+    </div>
 
     <div class="container">
   <div class="row">
-    <h1>time_module 
-    <small>Module</small>
+    <h1>time_module
+      <small>Module</small>
+      
     </h1>
-    <div class="row">
-  <div class="col-lg-12">
-<div class="well well-sm">
-  <ul class="list-inline" style="margin-bottom:0px;display:inline">
-     <li><i class="fa fa-pencil"></i> Jacob Williams</li>
-     <li><i class="fa fa-list-ol"></i>
-       <a data-toggle="tooltip"
-    data-placement="bottom" data-html="true"
-    title=" 1.0% of total for modules and submodules.">142 statements</a>
-     </li> 
-    <li><i class="fa fa-code"></i><a href="../src/time_module.f90"> Source File</a></li>
-  </ul>
-  <ol class="breadcrumb in-well text-right">
-     <li><a href='../sourcefile/time_module.f90.html'>time_module.f90</a></li>
-     <li class="active">time_module</li>
-  </ol>
-</div>
-</div>
-</div>
-<script>
-  $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-  })
-</script>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+            <li class="list-inline-item" id="meta-author"><i class="fa fa-pencil"></i> Jacob Williams</li>
 
-  </div>
-  
-  <div class="row">
-    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
-    <div id="sidebar">
-  <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
-  <div id="vars-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/time_module.html#variable-jd_j2000">jd_j2000</a>
-    </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#inters-0">Interfaces</a></h3></div>
-  <div id="inters-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/time_module.html#interface-julian_date">julian_date</a>
-      <a class="list-group-item" href="../module/time_module.html#interface-julian_date_to_calendar_date">julian_date_to_calendar_date</a>
-    </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-0">Functions</a></h3></div>
-  <div id="funcs-0" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/time_module.html#proc-et_to_jd">et_to_jd</a>
-      <a class="list-group-item" href="../module/time_module.html#proc-jd_to_et">jd_to_et</a>
-      <a class="list-group-item" href="../module/time_module.html#proc-jd_to_mjd">jd_to_mjd</a>
-      <a class="list-group-item" href="../module/time_module.html#proc-mjd_to_jd">mjd_to_jd</a>
-      <a class="list-group-item" href="../module/time_module.html#proc-julian_day">julian_day</a>
-      <a class="list-group-item" href="../module/time_module.html#proc-julian_date_intsec">julian_date_intsec</a>
-      <a class="list-group-item" href="../module/time_module.html#proc-julian_date_realsec">julian_date_realsec</a>
-    </div>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-0">Subroutines</a></h3></div>
-  <div class="list-group">
-    <div id="subs-0" class="panel-collapse collapse">
-      <a class="list-group-item" href="../module/time_module.html#proc-calendar_date_realsec">calendar_date_realsec</a>
-      <a class="list-group-item" href="../module/time_module.html#proc-time_module_test">time_module_test</a>
-    </div>
-  </div>
-</div>
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip"
+                 data-bs-placement="bottom" data-html="true"
+                 title=" 1.0% of total for modules and submodules.">142 statements</a>
+            </li>
 
-</div>
-
-    </div>
-    
-    <div class="col-md-9" id='text'>
-    <p>Time conversion routines.</p>
-<br>        <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Uses</h3>
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/time_module.f90"> Source File</a>
+            </li>
+        </ul>
       </div>
-      <ul class="list-group">
-      <li class="list-group-item">
-  <ul class="list-inline">
-    <li><a href='../module/kind_module.html'>kind_module</a></li>
-  </ul>
-      </li>
-      <li class="list-group-item">
-  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/time_module.f90.html'>time_module.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">time_module</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/time_module.html#variable-jd_j2000">jd_j2000</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#inters-0"
+         aria-expanded="false" aria-controls="inters-0">
+         <h4 class="card-header bg-primary text-white">Interfaces</h4>
+      </a>
+      <div id="inters-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/time_module.html#interface-julian_date">julian_date</a>
+            <a class="list-group-item" href="../module/time_module.html#interface-julian_date_to_calendar_date">julian_date_to_calendar_date</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/time_module.html#proc-et_to_jd">et_to_jd</a>
+            <a class="list-group-item" href="../module/time_module.html#proc-jd_to_et">jd_to_et</a>
+            <a class="list-group-item" href="../module/time_module.html#proc-jd_to_mjd">jd_to_mjd</a>
+            <a class="list-group-item" href="../module/time_module.html#proc-mjd_to_jd">mjd_to_jd</a>
+            <a class="list-group-item" href="../module/time_module.html#proc-julian_day">julian_day</a>
+            <a class="list-group-item" href="../module/time_module.html#proc-julian_date_intsec">julian_date_intsec</a>
+            <a class="list-group-item" href="../module/time_module.html#proc-julian_date_realsec">julian_date_realsec</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/time_module.html#proc-calendar_date_realsec">calendar_date_realsec</a>
+            <a class="list-group-item" href="../module/time_module.html#proc-time_module_test">time_module_test</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <p>Time conversion routines.</p>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='kind_module.html'>kind_module</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
@@ -191,7 +219,7 @@
 <!-- module~kind_module -->
 <g id="module~~time_module~~UsesGraph_node2" class="node">
 <title>module~kind_module</title>
-<g id="a_module~~time_module~~UsesGraph_node2"><a xlink:href=".././module/kind_module.html" xlink:title="kind_module">
+<g id="a_module~~time_module~~UsesGraph_node2"><a xlink:href="../module/kind_module.html" xlink:title="kind_module">
 <polygon fill="#337ab7" stroke="#337ab7" points="211,-24 130,-24 130,0 211,0 211,-24"/>
 <text text-anchor="middle" x="170.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module</text>
 </a>
@@ -206,11 +234,8 @@
 <!-- iso_fortran_env -->
 <g id="module~~time_module~~UsesGraph_node3" class="node">
 <title>iso_fortran_env</title>
-<g id="a_module~~time_module~~UsesGraph_node3"><a xlink:href="https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html" xlink:title="iso_fortran_env">
 <polygon fill="#337ab7" stroke="#337ab7" points="94,-24 0,-24 0,0 94,0 94,-24"/>
 <text text-anchor="middle" x="47" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
-</a>
-</g>
 </g>
 <!-- module~kind_module&#45;&gt;iso_fortran_env -->
 <g id="module~~time_module~~UsesGraph_edge2" class="edge">
@@ -220,9 +245,19 @@
 </g>
 </g>
 </svg>
-</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
@@ -272,116 +307,132 @@
 </g>
 </svg>
 
-    
-    <p>Solid arrows point from a submodule to the (sub)module which it is
-    descended from. Dashed arrows point from a module or program unit to 
-    modules which it uses.
-    </p>
-    </div></div></div></div>
-      </li>
-      </ul>
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
     </div>
 
-        <div class="panel panel-default">
-      <div class="panel-heading">
-  <h3 class="panel-title">Used by</h3>
-      </div>
-      <ul class="list-group">
-  <li class="list-group-item">
-    <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
  -->
 <!-- Title: module~~time_module~~UsedByGraph Pages: 1 -->
-<svg id="moduletime_moduleUsedByGraph" width="488pt" height="154pt"
- viewBox="0.00 0.00 488.00 154.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="module~~time_module~~UsedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 150)">
+<svg id="moduletime_moduleUsedByGraph" width="641pt" height="134pt"
+ viewBox="0.00 0.00 641.00 134.35" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~time_module~~UsedByGraph" class="graph" transform="scale(1.09 1.09) rotate(0) translate(4 142.92)">
 <title>module~~time_module~~UsedByGraph</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-150 484,-150 484,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-142.92 697,-142.92 697,4 -4,4"/>
 <!-- module~time_module -->
 <g id="module~~time_module~~UsedByGraph_node1" class="node">
 <title>module~time_module</title>
-<polygon fill="none" stroke="black" points="82,-86 0,-86 0,-62 82,-62 82,-86"/>
-<text text-anchor="middle" x="41" y="-71.6" font-family="Helvetica,sans-Serif" font-size="10.50">time_module</text>
-</g>
-<!-- proc~get_rv_from_jpl_ephemeris -->
-<g id="module~~time_module~~UsedByGraph_node2" class="node">
-<title>proc~get_rv_from_jpl_ephemeris</title>
-<g id="a_module~~time_module~~UsedByGraph_node2"><a xlink:href=".././proc/get_rv_from_jpl_ephemeris.html" xlink:title="get_rv_from_jpl_ephemeris">
-<polygon fill="#d9534f" stroke="#d9534f" points="274,-146 118,-146 118,-122 274,-122 274,-146"/>
-<text text-anchor="middle" x="196" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_rv_from_jpl_ephemeris</text>
-</a>
-</g>
-</g>
-<!-- proc~get_rv_from_jpl_ephemeris&#45;&gt;module~time_module -->
-<g id="module~~time_module~~UsedByGraph_edge1" class="edge">
-<title>proc~get_rv_from_jpl_ephemeris&#45;&gt;module~time_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M156.75,-121.88C144.3,-117.73 130.48,-112.89 118,-108 104.38,-102.67 89.65,-96.24 76.82,-90.41"/>
-<polygon fill="#000000" stroke="#000000" points="77.97,-87.09 67.42,-86.1 75.05,-93.45 77.97,-87.09"/>
-</g>
-<!-- module~standish_module -->
-<g id="module~~time_module~~UsedByGraph_node3" class="node">
-<title>module~standish_module</title>
-<g id="a_module~~time_module~~UsedByGraph_node3"><a xlink:href=".././module/standish_module.html" xlink:title="standish_module">
-<polygon fill="#337ab7" stroke="#337ab7" points="247.5,-66 144.5,-66 144.5,-42 247.5,-42 247.5,-66"/>
-<text text-anchor="middle" x="196" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">standish_module</text>
-</a>
-</g>
-</g>
-<!-- module~standish_module&#45;&gt;module~time_module -->
-<g id="module~~time_module~~UsedByGraph_edge3" class="edge">
-<title>module~standish_module&#45;&gt;module~time_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M144.48,-60.6C127.76,-62.79 109.15,-65.22 92.44,-67.41"/>
-<polygon fill="#000000" stroke="#000000" points="91.77,-63.96 82.31,-68.73 92.67,-70.91 91.77,-63.96"/>
-</g>
-<!-- module~transformation_module -->
-<g id="module~~time_module~~UsedByGraph_node4" class="node">
-<title>module~transformation_module</title>
-<g id="a_module~~time_module~~UsedByGraph_node4"><a xlink:href=".././module/transformation_module.html" xlink:title="transformation_module">
-<polygon fill="#337ab7" stroke="#337ab7" points="265,-24 127,-24 127,0 265,0 265,-24"/>
-<text text-anchor="middle" x="196" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">transformation_module</text>
-</a>
-</g>
-</g>
-<!-- module~transformation_module&#45;&gt;module~time_module -->
-<g id="module~~time_module~~UsedByGraph_edge4" class="edge">
-<title>module~transformation_module&#45;&gt;module~time_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M144.34,-24.04C135.44,-26.66 126.36,-29.66 118,-33 101.56,-39.58 84.11,-48.81 70.08,-56.86"/>
-<polygon fill="#000000" stroke="#000000" points="68.27,-53.86 61.4,-61.93 71.8,-59.9 68.27,-53.86"/>
+<polygon fill="none" stroke="black" points="82,-87 0,-87 0,-63 82,-63 82,-87"/>
+<text text-anchor="middle" x="41" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50">time_module</text>
 </g>
 <!-- module~fortran_astrodynamics_toolkit -->
-<g id="module~~time_module~~UsedByGraph_node5" class="node">
+<g id="module~~time_module~~UsedByGraph_node2" class="node">
 <title>module~fortran_astrodynamics_toolkit</title>
-<g id="a_module~~time_module~~UsedByGraph_node5"><a xlink:href=".././module/fortran_astrodynamics_toolkit.html" xlink:title="fortran_astrodynamics_toolkit">
-<polygon fill="#337ab7" stroke="#337ab7" points="480,-66 310,-66 310,-42 480,-42 480,-66"/>
-<text text-anchor="middle" x="395" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fortran_astrodynamics_toolkit</text>
+<g id="a_module~~time_module~~UsedByGraph_node2"><a xlink:href="../module/fortran_astrodynamics_toolkit.html" xlink:title="fortran_astrodynamics_toolkit">
+<polygon fill="#337ab7" stroke="#337ab7" points="693,-108 523,-108 523,-84 693,-84 693,-108"/>
+<text text-anchor="middle" x="608" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fortran_astrodynamics_toolkit</text>
 </a>
 </g>
 </g>
 <!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~time_module -->
-<g id="module~~time_module~~UsedByGraph_edge2" class="edge">
+<g id="module~~time_module~~UsedByGraph_edge1" class="edge">
 <title>module~fortran_astrodynamics_toolkit&#45;&gt;module~time_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M337.19,-66.02C317.3,-69.67 294.75,-73.2 274,-75 204.93,-81 187.33,-75.46 118,-75 109.74,-74.95 100.99,-74.86 92.46,-74.76"/>
-<polygon fill="#000000" stroke="#000000" points="92.27,-71.25 82.23,-74.63 92.19,-78.25 92.27,-71.25"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M550.19,-108.02C530.3,-111.67 507.75,-115.2 487,-117 323.61,-131.19 276.8,-157.96 118,-117 99.68,-112.27 81.06,-102.09 66.83,-92.93"/>
+<polygon fill="#000000" stroke="#000000" points="68.42,-89.78 58.16,-87.13 64.53,-95.6 68.42,-89.78"/>
+</g>
+<!-- module~standish_module -->
+<g id="module~~time_module~~UsedByGraph_node3" class="node">
+<title>module~standish_module</title>
+<g id="a_module~~time_module~~UsedByGraph_node3"><a xlink:href="../module/standish_module.html" xlink:title="standish_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="354,-108 251,-108 251,-84 354,-84 354,-108"/>
+<text text-anchor="middle" x="302.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">standish_module</text>
+</a>
+</g>
 </g>
 <!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~standish_module -->
 <g id="module~~time_module~~UsedByGraph_edge5" class="edge">
 <title>module~fortran_astrodynamics_toolkit&#45;&gt;module~standish_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M309.88,-54C292.3,-54 274.1,-54 257.57,-54"/>
-<polygon fill="#000000" stroke="#000000" points="257.52,-50.5 247.52,-54 257.52,-57.5 257.52,-50.5"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M522.86,-96C472.47,-96 409.56,-96 364.06,-96"/>
+<polygon fill="#000000" stroke="#000000" points="364.04,-92.5 354.04,-96 364.04,-99.5 364.04,-92.5"/>
+</g>
+<!-- module~transformation_module -->
+<g id="module~~time_module~~UsedByGraph_node4" class="node">
+<title>module~transformation_module</title>
+<g id="a_module~~time_module~~UsedByGraph_node4"><a xlink:href="../module/transformation_module.html" xlink:title="transformation_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="371.5,-66 233.5,-66 233.5,-42 371.5,-42 371.5,-66"/>
+<text text-anchor="middle" x="302.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">transformation_module</text>
+</a>
+</g>
 </g>
 <!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~transformation_module -->
 <g id="module~~time_module~~UsedByGraph_edge6" class="edge">
 <title>module~fortran_astrodynamics_toolkit&#45;&gt;module~transformation_module</title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M337.55,-41.96C314.36,-37.02 287.35,-31.26 263.24,-26.12"/>
-<polygon fill="#000000" stroke="#000000" points="263.97,-22.7 253.46,-24.04 262.51,-29.55 263.97,-22.7"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M542.34,-83.96C524.45,-80.83 505,-77.6 487,-75 452.64,-70.03 414.51,-65.51 381.96,-61.94"/>
+<polygon fill="#000000" stroke="#000000" points="381.92,-58.42 371.6,-60.82 381.16,-65.38 381.92,-58.42"/>
+</g>
+<!-- module~standish_module&#45;&gt;module~time_module -->
+<g id="module~~time_module~~UsedByGraph_edge2" class="edge">
+<title>module~standish_module&#45;&gt;module~time_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M250.85,-91.9C205.05,-88.19 137.98,-82.77 92.29,-79.07"/>
+<polygon fill="#000000" stroke="#000000" points="92.56,-75.58 82.31,-78.26 92,-82.56 92.56,-75.58"/>
+</g>
+<!-- module~transformation_module&#45;&gt;module~time_module -->
+<g id="module~~time_module~~UsedByGraph_edge3" class="edge">
+<title>module~transformation_module&#45;&gt;module~time_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M233.32,-59.52C189.11,-63.09 132.5,-67.68 92.35,-70.93"/>
+<polygon fill="#000000" stroke="#000000" points="91.95,-67.45 82.26,-71.74 92.51,-74.42 91.95,-67.45"/>
+</g>
+<!-- proc~get_rv_from_jpl_ephemeris -->
+<g id="module~~time_module~~UsedByGraph_node5" class="node">
+<title>proc~get_rv_from_jpl_ephemeris</title>
+<g id="a_module~~time_module~~UsedByGraph_node5"><a xlink:href="../proc/get_rv_from_jpl_ephemeris.html" xlink:title="jpl_ephemeris_module::jpl_ephemeris%get_rv_from_jpl_ephemeris">
+<polygon fill="#d9534f" stroke="#d9534f" points="487,-24 118,-24 118,0 487,0 487,-24"/>
+<text text-anchor="middle" x="302.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">jpl_ephemeris_module::jpl_ephemeris%get_rv_from_jpl_ephemeris</text>
+</a>
+</g>
+</g>
+<!-- proc~get_rv_from_jpl_ephemeris&#45;&gt;module~time_module -->
+<g id="module~~time_module~~UsedByGraph_edge4" class="edge">
+<title>proc~get_rv_from_jpl_ephemeris&#45;&gt;module~time_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M152.23,-24.08C140.53,-26.54 129,-29.49 118,-33 100.33,-38.65 82.09,-48.57 67.91,-57.35"/>
+<polygon fill="#000000" stroke="#000000" points="65.76,-54.57 59.22,-62.9 69.53,-60.47 65.76,-54.57"/>
 </g>
 </g>
 </svg>
-</div><div><a type="button" class="graph-help" data-toggle="modal" href="#graph-help-text">Help</a></div><div class="modal fade" id="graph-help-text" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="-graph-help-label">Graph Key</h4></div><div class="modal-body">
-    <p>Nodes of different colours represent the following: </p>
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+</div>                <script>
+                  var panmoduletime_moduleUsedByGraph = svgPanZoom('#moduletime_moduleUsedByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generated by graphviz version 2.43.0 (0)
@@ -431,663 +482,1210 @@
 </g>
 </svg>
 
-    
-    <p>Solid arrows point from a submodule to the (sub)module which it is
-    descended from. Dashed arrows point from a module or program unit to 
-    modules which it uses.
-    </p>
-    </div></div></div></div>
-  </li>
-      </ul>
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
     </div>
 
-    <br>
+      <br>
 
-    <section class="visible-xs visible-sm hidden-md">
-      <h3>Contents</h3>
- 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
-  <div id="vars-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/time_module.html#variable-jd_j2000">jd_j2000</a>
+
+        <section>
+          <h2>Variables</h2>
+            <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-jd_j2000"></span>
+              real(kind=wp),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>jd_j2000</strong></td>
+<td> =</td>
+                <td>2451545.0_wp</td>
+            <td>
+                <p>julian date of J2000 epoch</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+        </section>
+        <br>
+
+
+        <section>
+          <h2>Interfaces</h2>
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-julian_date"></span>
+      <h3>public        interface <a href='../interface/julian_date.html'>julian_date</a> 
+      </h3>
+    </div>
+      <div class="card-body">
+        <p>calendar date to julian date</p>
+      </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private pure function <a href='../proc/julian_date_realsec.html'>julian_date_realsec</a>(y, m, d, hour, minute, second) result(julian_date)  
+
+    </h3>
+        <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>1/21/2015</dd>
+    </dl>
+
+  <p>Returns the Julian date for the specified YEAR, MONTH, DAY, HR, MIN, SEC.</p>
+<p>Valid for any Gregorian calendar date producing a
+  Julian date greater than zero.</p>
+<h3>History</h3>
+<ul>
+<li>JW : 10/4/2017 : made <code>second</code> a real value &amp; renamed routine.</li>
+</ul>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-y~20"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>y</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m~30"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-d~21"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>d</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-hour~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>hour</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-minute~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>minute</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-second~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>second</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp)</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private pure function <a href='../proc/julian_date_intsec.html'>julian_date_intsec</a>(y, m, d, hour, minute, second) result(julian_date)  
+
+    </h3>
+        <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>1/21/2015</dd>
+    </dl>
+
+  <p>Returns the Julian date for the specified YEAR, MONTH, DAY, HR, MIN, SEC.</p>
+<p>Valid for any Gregorian calendar date producing a
+  Julian date greater than zero.</p>
+<h3>History</h3>
+<ul>
+<li>JW : 10/4/2017 : moved main code to <a href="julian_date_realsec.html">julian_date_realsec</a> routine.</li>
+</ul>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-y~19"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>y</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m~29"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-d~20"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>d</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-hour"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>hour</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-minute"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>minute</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-second"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>second</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp)</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-julian_date_to_calendar_date"></span>
+      <h3>public        interface <a href='../interface/julian_date_to_calendar_date.html'>julian_date_to_calendar_date</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private pure subroutine <a href='../proc/calendar_date_realsec.html'>calendar_date_realsec</a>(julian_date, year, month, day, hrs, min, sec)  
+
+    </h3>
+        <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+    </dl>
+
+  <p>Returns the year, month, day, hr, min, sec for the specified Julian date.</p>
+<h3>See also</h3>
+<ul>
+<li>https://aa.usno.navy.mil/faq/JD_formula.html</li>
+<li>http://www.davidgsimpson.com/software/jd2greg_f90.txt</li>
+</ul>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-julian_date~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>julian_date</strong></td>
+            <td>
+<p>julian date</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-year"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>year</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-month"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>month</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-day"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>day</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-hrs"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>hrs</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-min"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>min</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sec"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sec</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+    </ul>
+  </div>
+
+        </section>
+        <br>
+
+
+
+        <section>
+          <h2>Functions</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-et_to_jd"></span> <h3>public pure function <a href='../proc/et_to_jd.html'>et_to_jd</a>(et) result(jd)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>2/3/2015</dd>
+    </dl>
+
+  <p>Convert ephemeris time (seconds from J2000 epoch) to Julian date.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-et~19"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>et</strong></td>
+            <td>
+<p>ephemeris time [sec from J2000 epoch]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp)</small>
+    </h4>
+    <p>Julian date [days]</p>
+
     </div>
   </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#inters-1">Interfaces</a></h3></div>
-  <div id="inters-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/time_module.html#interface-julian_date">julian_date</a>
-      <a class="list-group-item" href="../module/time_module.html#interface-julian_date_to_calendar_date">julian_date_to_calendar_date</a>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-jd_to_et"></span> <h3>public pure function <a href='../proc/jd_to_et.html'>jd_to_et</a>(jd) result(et)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>3/19/2016</dd>
+    </dl>
+
+  <p>Convert Julian date to ephemeris time (seconds from J2000 epoch).</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-jd~11"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>jd</strong></td>
+            <td>
+<p>Julian date [days]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp)</small>
+    </h4>
+    <p>ephemeris time [sec from J2000 epoch]</p>
+
     </div>
   </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-1">Functions</a></h3></div>
-  <div id="funcs-1" class="panel-collapse collapse">
-    <div class="list-group">
-      <a class="list-group-item" href="../module/time_module.html#proc-et_to_jd">et_to_jd</a>
-      <a class="list-group-item" href="../module/time_module.html#proc-jd_to_et">jd_to_et</a>
-      <a class="list-group-item" href="../module/time_module.html#proc-jd_to_mjd">jd_to_mjd</a>
-      <a class="list-group-item" href="../module/time_module.html#proc-mjd_to_jd">mjd_to_jd</a>
-      <a class="list-group-item" href="../module/time_module.html#proc-julian_day">julian_day</a>
-      <a class="list-group-item" href="../module/time_module.html#proc-julian_date_intsec">julian_date_intsec</a>
-      <a class="list-group-item" href="../module/time_module.html#proc-julian_date_realsec">julian_date_realsec</a>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-jd_to_mjd"></span> <h3>public pure function <a href='../proc/jd_to_mjd.html'>jd_to_mjd</a>(jd) result(mjd)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>3/15/2015</dd>
+    </dl>
+
+  <p>Converts Julian date to Modified Julian date.</p><a href="../proc/jd_to_mjd.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-jd~12"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>jd</strong></td>
+            <td>
+<p>julian date</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp)</small>
+    </h4>
+    <p>modified julian date</p>
+
     </div>
   </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-1">Subroutines</a></h3></div>
-  <div class="list-group">
-    <div id="subs-1" class="panel-collapse collapse">
-      <a class="list-group-item" href="../module/time_module.html#proc-calendar_date_realsec">calendar_date_realsec</a>
-      <a class="list-group-item" href="../module/time_module.html#proc-time_module_test">time_module_test</a>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mjd_to_jd"></span> <h3>public pure function <a href='../proc/mjd_to_jd.html'>mjd_to_jd</a>(mjd) result(jd)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>3/15/2015</dd>
+    </dl>
+
+  <p>Converts Modified Julian date to Julian date.</p><a href="../proc/mjd_to_jd.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mjd~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mjd</strong></td>
+            <td>
+<p>modified julian date</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp)</small>
+    </h4>
+    <p>julian date</p>
+
     </div>
   </div>
-</div>
 
-    </section>
-    <br class="visible-xs visible-sm hidden-md">
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-julian_day"></span> <h3>public pure function <a href='../proc/julian_day.html'>julian_day</a>(y, m, d)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+    </dl>
 
-
-    <section>
-    <h2>Variables</h2>
-    <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Visibility</th><th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" id="variable-jd_j2000"></span>real(kind=wp),</td>
-<td>private,</td>  <td>parameter</td><td>::</td>
-  <td><strong>jd_j2000</strong></td><td> =</td><td>2451545.0_wp</td><td><p>julian date of J2000 epoch</p></td>
-</tr>
-</tbody>
-</table>
-
-    </section>
-    <br>
-    
-    
-    <section>
-   <h2>Interfaces</h2>
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="interface-julian_date"></span><h3>public interface <a href='../interface/julian_date.html'>julian_date</a>  </h3></div>
-  <div class="panel-body">
-    <p>calendar date to julian date</p>
-  </div>
-  <ul class="list-group">
-    <li class="list-group-item">
-    <h3>private pure function <a href='../proc/julian_date_realsec.html'>julian_date_realsec</a>(y, m, d, hour, minute, second) result(julian_date)</h3>  <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-    <dt>Date</dt><dd>1/21/2015</dd>
-  </dl>
-
-<p>Returns the Julian date for the specified YEAR, MONTH, DAY, HR, MIN, SEC.</p><a href="../proc/julian_date_realsec.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>y</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>m</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>d</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>hour</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>minute</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>second</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>real(kind=wp)</small></h4>  
-
-    </li>
-    <li class="list-group-item">
-    <h3>private pure function <a href='../proc/julian_date_intsec.html'>julian_date_intsec</a>(y, m, d, hour, minute, second) result(julian_date)</h3>  <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-    <dt>Date</dt><dd>1/21/2015</dd>
-  </dl>
-
-<p>Returns the Julian date for the specified YEAR, MONTH, DAY, HR, MIN, SEC.</p><a href="../proc/julian_date_intsec.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>y</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>m</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>d</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>hour</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>minute</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>second</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>real(kind=wp)</small></h4>  
-
-    </li>
-  </ul>
-</div>
-
-     <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="interface-julian_date_to_calendar_date"></span><h3>public interface <a href='../interface/julian_date_to_calendar_date.html'>julian_date_to_calendar_date</a>  </h3></div>
-  <ul class="list-group">
-    <li class="list-group-item">
-    <h3>private pure subroutine <a href='../proc/calendar_date_realsec.html'>calendar_date_realsec</a>(julian_date, year, month, day, hrs, min, sec)</h3>  <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-  </dl>
-
-<p>Returns the year, month, day, hr, min, sec for the specified Julian date.</p><a href="../proc/calendar_date_realsec.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>julian_date</strong></td><td><p>julian date</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>year</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>month</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>day</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>hrs</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>min</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>sec</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-
-    </li>
-  </ul>
-</div>
-
-    </section>
-  <br>
-
-    
-    
- 
-    <section>
-    <h2>Functions</h2>
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-et_to_jd"></span><h3>public pure function <a href='../proc/et_to_jd.html'>et_to_jd</a>(et) result(jd)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-    <dt>Date</dt><dd>2/3/2015</dd>
-  </dl>
-
-<p>Convert ephemeris time (seconds from J2000 epoch) to Julian date.</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>et</strong></td><td><p>ephemeris time [sec from J2000 epoch]</p></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>real(kind=wp)</small></h4>  <p>Julian date [days]</p>
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-jd_to_et"></span><h3>public pure function <a href='../proc/jd_to_et.html'>jd_to_et</a>(jd) result(et)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-    <dt>Date</dt><dd>3/19/2016</dd>
-  </dl>
-
-<p>Convert Julian date to ephemeris time (seconds from J2000 epoch).</p>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>jd</strong></td><td><p>Julian date [days]</p></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>real(kind=wp)</small></h4>  <p>ephemeris time [sec from J2000 epoch]</p>
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-jd_to_mjd"></span><h3>public pure function <a href='../proc/jd_to_mjd.html'>jd_to_mjd</a>(jd) result(mjd)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-    <dt>Date</dt><dd>3/15/2015</dd>
-  </dl>
-
-<p>Converts Julian date to Modified Julian date.</p><a href="../proc/jd_to_mjd.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>jd</strong></td><td><p>julian date</p></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>real(kind=wp)</small></h4>  <p>modified julian date</p>
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mjd_to_jd"></span><h3>public pure function <a href='../proc/mjd_to_jd.html'>mjd_to_jd</a>(mjd) result(jd)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-    <dt>Date</dt><dd>3/15/2015</dd>
-  </dl>
-
-<p>Converts Modified Julian date to Julian date.</p><a href="../proc/mjd_to_jd.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>mjd</strong></td><td><p>modified julian date</p></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>real(kind=wp)</small></h4>  <p>julian date</p>
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-julian_day"></span><h3>public pure function <a href='../proc/julian_day.html'>julian_day</a>(y, m, d)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-  </dl>
-
-<p>Returns the Julian day number (i.e., the Julian date at Greenwich noon)
+  <p>Returns the Julian day number (i.e., the Julian date at Greenwich noon)
   on the specified YEAR, MONTH, and DAY.</p><a href="../proc/julian_day.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-y~18"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>y</strong></td>
+            <td>
+<p>year (YYYY)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m~28"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m</strong></td>
+            <td>
+<p>month (MM)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-d~19"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>d</strong></td>
+            <td>
+<p>day (DD)</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
     
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>y</strong></td><td><p>year (YYYY)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>m</strong></td><td><p>month (MM)</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>d</strong></td><td><p>day (DD)</p></td>
-</tr>
-</tbody>
-</table>
 
-<h4>Return Value <small>integer</small></h4>  
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-julian_date_intsec"></span><h3>private pure function <a href='../proc/julian_date_intsec.html'>julian_date_intsec</a>(y, m, d, hour, minute, second) result(julian_date)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-    <dt>Date</dt><dd>1/21/2015</dd>
-  </dl>
-
-<p>Returns the Julian date for the specified YEAR, MONTH, DAY, HR, MIN, SEC.</p><a href="../proc/julian_date_intsec.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>y</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>m</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>d</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>hour</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>minute</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>second</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>real(kind=wp)</small></h4>  
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-julian_date_realsec"></span><h3>private pure function <a href='../proc/julian_date_realsec.html'>julian_date_realsec</a>(y, m, d, hour, minute, second) result(julian_date)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-    <dt>Date</dt><dd>1/21/2015</dd>
-  </dl>
-
-<p>Returns the Julian date for the specified YEAR, MONTH, DAY, HR, MIN, SEC.</p><a href="../proc/julian_date_realsec.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>y</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>m</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>d</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>hour</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>minute</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>second</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-<h4>Return Value <small>real(kind=wp)</small></h4>  
-
-  </div>
-  </div>
-
-    </section>
-    <br>
-
-    <section>
-    <h2>Subroutines</h2>
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-calendar_date_realsec"></span><h3>private pure subroutine <a href='../proc/calendar_date_realsec.html'>calendar_date_realsec</a>(julian_date, year, month, day, hrs, min, sec)</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-  </dl>
-
-<p>Returns the year, month, day, hr, min, sec for the specified Julian date.</p><a href="../proc/calendar_date_realsec.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-<h4>Arguments</h4>      <table class="table table-striped varlist">
-<thead><tr><th>Type</th><th>Intent</th><th>Optional</th><th>Attributes</th><th></th><th>Name</th><th></th></thead>
-<tbody>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(in)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>julian_date</strong></td><td><p>julian date</p></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>year</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>month</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>day</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>hrs</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>integer,</td>
-<td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>min</strong></td><td></td>
-</tr>
-<tr>
-  <td><span class="anchor" ></span>real(kind=wp),</td>
-<td>intent(out)</td>
-  <td></td>  <td></td><td>::</td>
-  <td><strong>sec</strong></td><td></td>
-</tr>
-</tbody>
-</table>
-
-
-  </div>
-  </div>
-
-      <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-time_module_test"></span><h3>public subroutine <a href='../proc/time_module_test.html'>time_module_test</a>()</h3></div>
-  <div class="panel-body">
-         <dl class="dl-horizontal">
-    <dt>Author</dt><dd>Jacob Williams</dd>
-    <dt>Date</dt><dd>1/21/2015</dd>
-  </dl>
-
-<p>Test routine for the Julian date routines.</p>
-    
-<h4>Arguments</h4>      <em>None</em>
-
-  </div>
-  </div>
-
-    </section>    
-    <br>
-    
     </div>
   </div>
 
-    <hr>    
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-julian_date_intsec"></span> <h3>private pure function <a href='../proc/julian_date_intsec.html'>julian_date_intsec</a>(y, m, d, hour, minute, second) result(julian_date)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>1/21/2015</dd>
+    </dl>
+
+  <p>Returns the Julian date for the specified YEAR, MONTH, DAY, HR, MIN, SEC.</p><a href="../proc/julian_date_intsec.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-y~19"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>y</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m~29"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-d~20"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>d</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-hour"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>hour</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-minute"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>minute</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-second"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>second</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-julian_date_realsec"></span> <h3>private pure function <a href='../proc/julian_date_realsec.html'>julian_date_realsec</a>(y, m, d, hour, minute, second) result(julian_date)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>1/21/2015</dd>
+    </dl>
+
+  <p>Returns the Julian date for the specified YEAR, MONTH, DAY, HR, MIN, SEC.</p><a href="../proc/julian_date_realsec.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-y~20"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>y</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m~30"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-d~21"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>d</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-hour~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>hour</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-minute~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>minute</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-second~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>second</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+        <section>
+          <h2>Subroutines</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-calendar_date_realsec"></span> <h3>private pure subroutine <a href='../proc/calendar_date_realsec.html'>calendar_date_realsec</a>(julian_date, year, month, day, hrs, min, sec)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+    </dl>
+
+  <p>Returns the year, month, day, hr, min, sec for the specified Julian date.</p><a href="../proc/calendar_date_realsec.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-julian_date~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>julian_date</strong></td>
+            <td>
+<p>julian date</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-year"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>year</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-month"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>month</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-day"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>day</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-hrs"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>hrs</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-min"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>min</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sec"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sec</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-time_module_test"></span> <h3>public  subroutine <a href='../proc/time_module_test.html'>time_module_test</a>()  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>1/21/2015</dd>
+    </dl>
+
+  <p>Test routine for the Julian date routines.</p>
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+
+    </div>
+  </div>
+
+      <hr>
     </div> <!-- /container -->
     <footer>
       <div class="container">
-      <div class="row">
-        <div class="col-xs-6 col-md-6"><p>fortran-astrodynamics-toolkit was developed by Jacob Williams<br>&copy; 2022 
+        <div class="row justify-content-between">
+          <div class="col"><p>fortran-astrodynamics-toolkit was developed by Jacob Williams<br>&copy; 2024 
 </p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
         </div>
-        <div class="col-xs-6 col-md-6">
-          <p class="text-right">
-            Documentation generated by 
-            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
-          </p>
-        </div>
-      </div>
-      <br>
-      </div> <!-- /container -->    
+        <br>
+      </div> <!-- /container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
+    <!-- Bootstrap core JavaScript -->
     <!-- Placed at the end of the document so the pages load faster -->
-<!--
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
--->
-    <script src="../js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 
     <!-- MathJax JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-      });
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script src="../tipuesearch/tipuesearch_content.js"></script>
-    <script src="../tipuesearch/tipuesearch_set.js"></script>
-    <script src="../tipuesearch/tipuesearch.js"></script>
-    
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
   </body>
 </html>
