@@ -56,7 +56,7 @@ The goal of the Fortran Astrodynamics Toolkit is to produce a comprehensive libr
 
 ## Building
 
-The Fortran Astrodynamics Toolkit and the test programs will build with any modern Fortran compiler. A [Fortran Package Manager](https://github.com/fortran-lang/fpm) manifest file (`fmp.toml`) is included, so that the library and tests cases can be compiled with FPM. For example:
+The Fortran Astrodynamics Toolkit and the test programs will build with any modern Fortran compiler. A [Fortran Package Manager](https://github.com/fortran-lang/fpm) manifest file (`fpm.toml`) is included, so that the library and tests cases can be compiled with FPM. For example:
 
 ```
 fpm build --profile release
@@ -77,7 +77,7 @@ or, to use a specific version:
 fortran-astrodynamics-toolkit = { git="https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit.git", tag = "0.3" }
 ```
 
-To generate the documentation using [ford](https://github.com/Fortran-FOSS-Programmers/ford), run: `ford fortran-astrodynamics-toolkit.md`
+To generate the documentation using [ford](https://github.com/Fortran-FOSS-Programmers/ford), run: `ford ford.md`
 
 ## Third-Party Requirements
 
