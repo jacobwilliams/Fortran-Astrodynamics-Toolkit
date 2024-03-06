@@ -9,6 +9,7 @@
 
     use iso_c_binding
     use geopotential_module
+    use kind_module, only: wp
 
     implicit none
 
@@ -142,13 +143,19 @@
 
     type(container),pointer :: grav_container  !! Fortran version of `cp`
 
+    ! just in case wp /= c_double, we have to make a copy here
+    real(wp),dimension(3) :: rvec_f !! position vector
+    real(wp),dimension(3) :: acc_f !! acceleration vector
+
     ! convert cp to fortran:
     call c_f_pointer(cp,grav_container)
 
     if (associated(grav_container)) then
         select type (g => grav_container%data)
         class is (geopotential_model)
-            call g%get_acc(rvec,n,m,acc)
+            rvec_f = rvec
+            call g%get_acc(rvec_f,n,m,acc_f)
+            acc = acc_f
         end select
     else
         error stop 'error: pointer is not associated'

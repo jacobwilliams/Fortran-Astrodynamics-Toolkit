@@ -27,9 +27,9 @@
     real(wp),parameter :: tolerance = 1.0e-9_wp
     integer,parameter :: max_iterations = 1000
 
-    r1 = [20.0d3, 20.0d3, zero]
-    r2 = [-20.0d3, 10.0d3, zero]
-    tof = 1.0d0 * day2sec
+    r1 = [20.0e3_wp, 20.0e3_wp, zero]
+    r2 = [-20.0e3_wp, 10.0e3_wp, zero]
+    tof = 1.0_wp * day2sec
     mu = 398600.0_wp
 
     do icase = 1, 2 ! Gooding, Izzo

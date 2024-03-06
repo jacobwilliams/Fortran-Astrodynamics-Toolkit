@@ -817,7 +817,7 @@
           ncfail = 0
           ncsuc = ncsuc + 1
           if ( ratio>=p5 .or. ncsuc>1 ) delta = dmax1(delta,pnorm/p5)
-          if ( dabs(ratio-one)<=p1 ) delta = pnorm/p5
+          if ( abs(ratio-one)<=p1 ) delta = pnorm/p5
        else
           ncsuc = 0
           ncfail = ncfail + 1
