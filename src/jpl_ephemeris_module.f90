@@ -44,10 +44,15 @@
 !### History
 !  * [Original code from JPL](ftp://ssd.jpl.nasa.gov/pub/eph/planets/fortran/) Version : March 25, 2013
 !  * Extensive modifications by Jacob Williams for the Fortran Astrodynamics Toolkit.
+!
+!@note Warning: all calculations here are done with 64 bit reals. if using 128-bit reals
+!      the state is just copied into a 128-bit variable. Perhaps we should do the interpolations
+!      in 128-bit? (the data from the file must be read as 64-bit)
 
     module jpl_ephemeris_module
 
-    use, intrinsic :: iso_fortran_env, only: real64,error_unit
+    use kind_module, only: fat_wp => wp
+    use, intrinsic :: iso_fortran_env, only: real64, error_unit
     use ephemeris_module
 
     implicit none
@@ -177,16 +182,17 @@
 
     implicit none
 
-    class(jpl_ephemeris),intent(inout) :: me
-    real(wp),intent(in)                :: et         !! ephemeris time [sec]
-    type(celestial_body),intent(in)    :: targ       !! target body
-    type(celestial_body),intent(in)    :: obs        !! observer body
-    real(wp),dimension(6),intent(out)  :: rv         !! state of targ w.r.t. obs [km,km/s] in ICRF frame
-    logical,intent(out)                :: status_ok  !! true if there were no problems
+    class(jpl_ephemeris),intent(inout)    :: me
+    real(fat_wp),intent(in)               :: et         !! ephemeris time [sec]
+    type(celestial_body),intent(in)       :: targ       !! target body
+    type(celestial_body),intent(in)       :: obs        !! observer body
+    real(fat_wp),dimension(6),intent(out) :: rv         !! state of targ w.r.t. obs [km,km/s] in ICRF frame
+    logical,intent(out)                   :: status_ok  !! true if there were no problems
 
     real(wp) :: jd     !! julian date for input to [[get_state]].
     integer :: ntarg   !! id code for target body
     integer :: ncent   !! id code for observer body
+    real(wp),dimension(6) :: rv_ !! in case `wp /= fat_wp` we need a copy
 
     if (targ==obs) then
         !don't bother if target and observer are the same body
@@ -200,7 +206,8 @@
         ncent = spice_id_to_old_id(obs%id)
 
         if (ntarg>0 .and. ncent>0) then
-            call me%get_state(jd,ntarg,ncent,rv,status_ok)
+            call me%get_state(jd,ntarg,ncent,rv_,status_ok)
+            rv = rv_
             if (status_ok) then
                 if (.not. me%km) then
                     !we must return in units of km/s
@@ -776,7 +783,7 @@
     ! error return for epoch out of range
 
     if (pjd(1)+pjd(4)<me%ss(1) .or. pjd(1)+pjd(4)>me%ss(2)) then
-        write(error_unit,'(A,F12.2,A,2F12.2)') &
+        write(error_unit,'(A,F12.2,A,2F22.2)') &
                 'Error: requested jed,',&
                 et2(1)+et2(2),&
                 ' not within ephemeris limits,',&

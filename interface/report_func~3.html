@@ -77,20 +77,20 @@
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip"
                  data-bs-placement="bottom" data-html="true"
-                 title=" 0.1% of total for procedures.">8 statements</a>
+                 title=" 0.3% of total for procedures.">34 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/relative_motion_module.f90"> Source File</a>
+              <a href="../src/rk_module.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/relative_motion_module.f90.html'>relative_motion_module.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/relative_motion_module.html'>relative_motion_module</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/rk_module.f90.html'>rk_module.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/rk_module.html'>rk_module</a></li>
             <li class="breadcrumb-item active" aria-current="page">report_func</li>
           </ol>
         </nav>
@@ -138,7 +138,7 @@
     
     <div class="col-md-9" id='text'>
       <h2>interface <br>
-      private  subroutine report_func(t, rv)  
+      private  subroutine report_func(me, t, x)  
 </h2>    
 
     
@@ -156,7 +156,22 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-t~54"></span>
+              <span class="anchor" id="variable-me~67"></span>
+              class(<a href='../type/rk_class.html'>rk_class</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t~45"></span>
               real(kind=wp),
             </td>
 <td>intent(in)</td>
@@ -166,29 +181,29 @@
             <td>::</td>
             <td><strong>t</strong></td>
             <td>
-                <p>time [sec]</p>
+                <p>time</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rv~18"></span>
+              <span class="anchor" id="variable-x~116"></span>
               real(kind=wp),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              dimension(6)
+              dimension(me%n)
             </td>
             <td>::</td>
-            <td><strong>rv</strong></td>
+            <td><strong>x</strong></td>
             <td>
-                <p>state [km,km/s]</p>
+                <p>state vector</p>
             </td>
         </tr>
     </tbody>
   </table>
 
     <h3>Description</h3>
-    <p>for reporting the points in the <a href="../proc/cw_propagator.html">cw_propagator</a>.</p>
+    <p>report function</p>
     <br>
 
  </div>

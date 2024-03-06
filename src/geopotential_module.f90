@@ -1133,8 +1133,6 @@
 
     pure function pinesnorm(mu,req,r_f,cnm,snm,nmax,mmax) result(accel)
 
-    use iso_fortran_env, only: wp => real64
-
     implicit none
 
     real(wp),intent(in)                 :: mu     !! gravitational constant [km^3/s^2]
