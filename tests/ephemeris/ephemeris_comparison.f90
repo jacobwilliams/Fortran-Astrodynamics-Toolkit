@@ -5,12 +5,13 @@
     program ephemeris_comparison
 
     use fortran_astrodynamics_toolkit, wp => fat_wp
+    use iso_fortran_env, only: real64
 
     implicit none
 
     real(wp)              :: jd
     real(wp)              :: jd0
-    real(wp),dimension(6) :: rv
+    real(real64),dimension(6) :: rv
     real(wp),dimension(3) :: r_s,v_s
     real(wp)              :: max_err_s,err_s
     integer               :: ntarg,nctr
@@ -43,7 +44,7 @@
 
             jd = real(i,wp)
 
-            call eph405%get_state(jd, ntarg, nctr, rv, status_ok)
+            call eph405%get_state(real(jd,real64), ntarg, nctr, rv, status_ok)
             if (.not.status_ok) error stop 'error computing state.'
 
             call simpson_lunar_ephemeris(jd, r_s, v_s)

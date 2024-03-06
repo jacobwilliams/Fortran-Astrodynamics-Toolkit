@@ -10,7 +10,8 @@
 
     module halo_orbit_module
 
-    use iso_fortran_env, only: wp => real64, error_unit
+    use kind_module
+    use iso_fortran_env, only: error_unit
     use numbers_module
     use crtbp_module
 

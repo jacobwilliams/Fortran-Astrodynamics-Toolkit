@@ -26,8 +26,8 @@
     open(newunit=iunit_short,file='test2_short.csv',status='REPLACE')
     open(newunit=iunit_long, file='test2_long.csv', status='REPLACE')
 
-    r1 = [20.0d3, 20.0d3, zero]  ! initial position
-    r2 = [-20.0d3, 10.0d3, zero] ! final position
+    r1 = [20.0e3_wp, 20.0e3_wp, zero]  ! initial position
+    r2 = [-20.0e3_wp, 10.0e3_wp, zero] ! final position
     mu = 398600.0_wp             ! earth
     multi_revs = 5               ! try up to 5 revs
     n = 2*day2sec                ! 2 days
