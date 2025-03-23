@@ -63,20 +63,20 @@ jobs:
     - name: Run tests
       run: fpm test --profile debug --flag -coverage
 
-    - name: Create coverage report
-      run: |
-        mkdir -p ${{ env.COV_DIR }}
-        mv ./build/gfortran_*/*/* ${{ env.COV_DIR }}
-        lcov --capture --initial --base-directory . --directory ${{ env.COV_DIR }} --output-file ${{ env.COV_DIR }}/coverage.base
-        lcov --capture           --base-directory . --directory ${{ env.COV_DIR }} --output-file ${{ env.COV_DIR }}/coverage.capture
-        lcov --add-tracefile ${{ env.COV_DIR }}/coverage.base --add-tracefile ${{ env.COV_DIR }}/coverage.capture --output-file ${{ env.COV_DIR }}/coverage.info
-      env:
-        COV_DIR: build/coverage
+    # - name: Create coverage report
+    #   run: |
+    #     mkdir -p ${{ env.COV_DIR }}
+    #     mv ./build/gfortran_*/*/* ${{ env.COV_DIR }}
+    #     lcov --capture --initial --base-directory . --directory ${{ env.COV_DIR }} --output-file ${{ env.COV_DIR }}/coverage.base
+    #     lcov --capture           --base-directory . --directory ${{ env.COV_DIR }} --output-file ${{ env.COV_DIR }}/coverage.capture
+    #     lcov --add-tracefile ${{ env.COV_DIR }}/coverage.base --add-tracefile ${{ env.COV_DIR }}/coverage.capture --output-file ${{ env.COV_DIR }}/coverage.info
+    #   env:
+    #     COV_DIR: build/coverage
 
-    - name: Upload coverage report
-      uses: codecov/codecov-action@v3
-      with:
-        files: build/coverage/coverage.info
+    # - name: Upload coverage report
+    #   uses: codecov/codecov-action@v3
+    #   with:
+    #     files: build/coverage/coverage.info
 
     - name: Build documentation
       run: ford ./ford.md --externalize
