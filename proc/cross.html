@@ -1,0 +1,924 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>cross &ndash; fortran-astrodynamics-toolkit</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>cross
+      <small>Function</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+            <li class="list-inline-item" id="meta-author"><i class="fa fa-pencil"></i> Jacob Williams</li>
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.1% of total for procedures.">7 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/vector_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/vector_module.f90.html'>vector_module.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/vector_module.html'>vector_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">cross</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip()
+    })
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/cross.html#src">cross</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public pure function cross(r, v) result(rxv)  
+</h2>
+    
+
+    <p>Cross product of two 3x1 vectors</p>
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~48"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v~26"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <h3>Return Value
+        <small>
+          <span class="anchor" id="variable-rxv"></span>
+          real(kind=wp), dimension(3)
+        </small>
+      </h3>
+      
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~cross~~CalledByGraph Pages: 1 -->
+<svg id="proccrossCalledByGraph" width="641pt" height="357pt"
+ viewBox="0.00 0.00 641.00 356.66" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~cross~~CalledByGraph" class="graph" transform="scale(0.55 0.55) rotate(0) translate(4 642)">
+<title>proc~~cross~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-642 1157,-642 1157,4 -4,4"/>
+<!-- proc~cross -->
+<g id="proc~~cross~~CalledByGraph_node1" class="node">
+<title>proc~cross</title>
+<polygon fill="none" stroke="black" points="1153,-377 1099,-377 1099,-353 1153,-353 1153,-377"/>
+<text text-anchor="middle" x="1126" y="-362.6" font-family="Helvetica,sans-Serif" font-size="10.50">cross</text>
+</g>
+<!-- proc~angle_between_vectors -->
+<g id="proc~~cross~~CalledByGraph_node2" class="node">
+<title>proc~angle_between_vectors</title>
+<g id="a_proc~~cross~~CalledByGraph_node2"><a xlink:href="../proc/angle_between_vectors.html" xlink:title="angle_between_vectors">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="974,-638 836,-638 836,-614 974,-614 974,-638"/>
+<text text-anchor="middle" x="905" y="-623.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">angle_between_vectors</text>
+</a>
+</g>
+</g>
+<!-- proc~angle_between_vectors&#45;&gt;proc~cross -->
+<g id="proc~~cross~~CalledByGraph_edge1" class="edge">
+<title>proc~angle_between_vectors&#45;&gt;proc~cross</title>
+<path fill="none" stroke="#000000" d="M974.09,-633.02C1004.66,-632.46 1039.13,-626.17 1063,-605 1095.76,-575.94 1115.62,-441.4 1122.38,-387.46"/>
+<polygon fill="#000000" stroke="#000000" points="1125.89,-387.59 1123.63,-377.24 1118.94,-386.74 1125.89,-387.59"/>
+</g>
+<!-- proc~axis_angle_rotation -->
+<g id="proc~~cross~~CalledByGraph_node3" class="node">
+<title>proc~axis_angle_rotation</title>
+<g id="a_proc~~cross~~CalledByGraph_node3"><a xlink:href="../proc/axis_angle_rotation.html" xlink:title="axis_angle_rotation">
+<polygon fill="#d9534f" stroke="#d9534f" points="962.5,-596 847.5,-596 847.5,-572 962.5,-572 962.5,-596"/>
+<text text-anchor="middle" x="905" y="-581.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">axis_angle_rotation</text>
+</a>
+</g>
+</g>
+<!-- proc~axis_angle_rotation&#45;&gt;proc~cross -->
+<g id="proc~~cross~~CalledByGraph_edge2" class="edge">
+<title>proc~axis_angle_rotation&#45;&gt;proc~cross</title>
+<path fill="none" stroke="#000000" d="M962.79,-590.49C995.6,-591.09 1035.66,-586.03 1063,-563 1115.99,-518.35 1124.35,-429.01 1125.23,-387.35"/>
+<polygon fill="#000000" stroke="#000000" points="1128.74,-387.19 1125.32,-377.16 1121.74,-387.13 1128.74,-387.19"/>
+</g>
+<!-- proc~box_product -->
+<g id="proc~~cross~~CalledByGraph_node4" class="node">
+<title>proc~box_product</title>
+<g id="a_proc~~cross~~CalledByGraph_node4"><a xlink:href="../proc/box_product.html" xlink:title="box_product">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="943.5,-554 866.5,-554 866.5,-530 943.5,-530 943.5,-554"/>
+<text text-anchor="middle" x="905" y="-539.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">box_product</text>
+</a>
+</g>
+</g>
+<!-- proc~box_product&#45;&gt;proc~cross -->
+<g id="proc~~cross~~CalledByGraph_edge3" class="edge">
+<title>proc~box_product&#45;&gt;proc~cross</title>
+<path fill="none" stroke="#000000" d="M943.72,-545.49C978.36,-546.63 1029.29,-542.85 1063,-516 1103.43,-483.8 1117.72,-420.84 1122.6,-387.29"/>
+<polygon fill="#000000" stroke="#000000" points="1126.1,-387.49 1123.91,-377.13 1119.16,-386.59 1126.1,-387.49"/>
+</g>
+<!-- proc~bplane -->
+<g id="proc~~cross~~CalledByGraph_node5" class="node">
+<title>proc~bplane</title>
+<g id="a_proc~~cross~~CalledByGraph_node5"><a xlink:href="../proc/bplane.html" xlink:title="bplane">
+<polygon fill="#d9534f" stroke="#d9534f" points="526,-438 472,-438 472,-414 526,-414 526,-438"/>
+<text text-anchor="middle" x="499" y="-423.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">bplane</text>
+</a>
+</g>
+</g>
+<!-- proc~bplane&#45;&gt;proc~cross -->
+<g id="proc~~cross~~CalledByGraph_edge4" class="edge">
+<title>proc~bplane&#45;&gt;proc~cross</title>
+<path fill="none" stroke="#000000" d="M526.1,-426.3C606.8,-426.77 859.07,-424.72 1063,-385 1071.62,-383.32 1080.71,-380.82 1089.2,-378.15"/>
+<polygon fill="#000000" stroke="#000000" points="1090.41,-381.44 1098.82,-374.98 1088.22,-374.79 1090.41,-381.44"/>
+</g>
+<!-- proc~ucross -->
+<g id="proc~~cross~~CalledByGraph_node15" class="node">
+<title>proc~ucross</title>
+<g id="a_proc~~cross~~CalledByGraph_node15"><a xlink:href="../proc/ucross.html" xlink:title="ucross">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="932,-474 878,-474 878,-450 932,-450 932,-474"/>
+<text text-anchor="middle" x="905" y="-459.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ucross</text>
+</a>
+</g>
+</g>
+<!-- proc~bplane&#45;&gt;proc~ucross -->
+<g id="proc~~cross~~CalledByGraph_edge25" class="edge">
+<title>proc~bplane&#45;&gt;proc~ucross</title>
+<path fill="none" stroke="#000000" d="M526.2,-428.33C596.14,-434.57 787.43,-451.61 867.74,-458.77"/>
+<polygon fill="#000000" stroke="#000000" points="867.59,-462.27 877.86,-459.67 868.21,-455.3 867.59,-462.27"/>
+</g>
+<!-- proc~calculate_bplane_data -->
+<g id="proc~~cross~~CalledByGraph_node6" class="node">
+<title>proc~calculate_bplane_data</title>
+<g id="a_proc~~cross~~CalledByGraph_node6"><a xlink:href="../proc/calculate_bplane_data.html" xlink:title="calculate_bplane_data">
+<polygon fill="#d9534f" stroke="#d9534f" points="565.5,-396 432.5,-396 432.5,-372 565.5,-372 565.5,-396"/>
+<text text-anchor="middle" x="499" y="-381.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">calculate_bplane_data</text>
+</a>
+</g>
+</g>
+<!-- proc~calculate_bplane_data&#45;&gt;proc~cross -->
+<g id="proc~~cross~~CalledByGraph_edge5" class="edge">
+<title>proc~calculate_bplane_data&#45;&gt;proc~cross</title>
+<path fill="none" stroke="#000000" d="M565.7,-382C696.77,-378.02 986.87,-369.2 1088.76,-366.1"/>
+<polygon fill="#000000" stroke="#000000" points="1088.97,-369.6 1098.86,-365.79 1088.75,-362.6 1088.97,-369.6"/>
+</g>
+<!-- proc~cartesian_to_equinoctial -->
+<g id="proc~~cross~~CalledByGraph_node7" class="node">
+<title>proc~cartesian_to_equinoctial</title>
+<g id="a_proc~~cross~~CalledByGraph_node7"><a xlink:href="../proc/cartesian_to_equinoctial.html" xlink:title="cartesian_to_equinoctial">
+<polygon fill="#d9534f" stroke="#d9534f" points="976,-318 834,-318 834,-294 976,-294 976,-318"/>
+<text text-anchor="middle" x="905" y="-303.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cartesian_to_equinoctial</text>
+</a>
+</g>
+</g>
+<!-- proc~cartesian_to_equinoctial&#45;&gt;proc~cross -->
+<g id="proc~~cross~~CalledByGraph_edge6" class="edge">
+<title>proc~cartesian_to_equinoctial&#45;&gt;proc~cross</title>
+<path fill="none" stroke="#000000" d="M976.36,-312.7C1003.88,-316.59 1035.39,-322.65 1063,-332 1074.79,-335.99 1087.04,-342.05 1097.5,-347.89"/>
+<polygon fill="#000000" stroke="#000000" points="1095.77,-350.93 1106.18,-352.91 1099.28,-344.87 1095.77,-350.93"/>
+</g>
+<!-- proc~compute_vinf_vectors -->
+<g id="proc~~cross~~CalledByGraph_node8" class="node">
+<title>proc~compute_vinf_vectors</title>
+<g id="a_proc~~cross~~CalledByGraph_node8"><a xlink:href="../proc/compute_vinf_vectors.html" xlink:title="compute_vinf_vectors">
+<polygon fill="#d9534f" stroke="#d9534f" points="563.5,-354 434.5,-354 434.5,-330 563.5,-330 563.5,-354"/>
+<text text-anchor="middle" x="499" y="-339.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_vinf_vectors</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_vinf_vectors&#45;&gt;proc~cross -->
+<g id="proc~~cross~~CalledByGraph_edge7" class="edge">
+<title>proc~compute_vinf_vectors&#45;&gt;proc~cross</title>
+<path fill="none" stroke="#000000" d="M563.76,-344C668.13,-347.33 881.98,-354.41 1063,-362 1071.25,-362.35 1080.12,-362.75 1088.5,-363.16"/>
+<polygon fill="#000000" stroke="#000000" points="1088.6,-366.66 1098.76,-363.66 1088.94,-359.67 1088.6,-366.66"/>
+</g>
+<!-- proc~distance_from_point_to_line -->
+<g id="proc~~cross~~CalledByGraph_node9" class="node">
+<title>proc~distance_from_point_to_line</title>
+<g id="a_proc~~cross~~CalledByGraph_node9"><a xlink:href="../proc/distance_from_point_to_line.html" xlink:title="distance_from_point_to_line">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="985,-276 825,-276 825,-252 985,-252 985,-276"/>
+<text text-anchor="middle" x="905" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">distance_from_point_to_line</text>
+</a>
+</g>
+</g>
+<!-- proc~distance_from_point_to_line&#45;&gt;proc~cross -->
+<g id="proc~~cross~~CalledByGraph_edge8" class="edge">
+<title>proc~distance_from_point_to_line&#45;&gt;proc~cross</title>
+<path fill="none" stroke="#000000" d="M985.3,-262.8C1011.45,-265.39 1039.76,-271.63 1063,-285 1086.6,-298.58 1104.35,-325.04 1114.68,-343.81"/>
+<polygon fill="#000000" stroke="#000000" points="1111.66,-345.58 1119.4,-352.81 1117.86,-342.33 1111.66,-345.58"/>
+</g>
+<!-- proc~from_ijk_to_lvlh_mat -->
+<g id="proc~~cross~~CalledByGraph_node10" class="node">
+<title>proc~from_ijk_to_lvlh_mat</title>
+<g id="a_proc~~cross~~CalledByGraph_node10"><a xlink:href="../proc/from_ijk_to_lvlh_mat.html" xlink:title="from_ijk_to_lvlh_mat">
+<polygon fill="#d9534f" stroke="#d9534f" points="965.5,-234 844.5,-234 844.5,-210 965.5,-210 965.5,-234"/>
+<text text-anchor="middle" x="905" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_ijk_to_lvlh_mat</text>
+</a>
+</g>
+</g>
+<!-- proc~from_ijk_to_lvlh_mat&#45;&gt;proc~cross -->
+<g id="proc~~cross~~CalledByGraph_edge9" class="edge">
+<title>proc~from_ijk_to_lvlh_mat&#45;&gt;proc~cross</title>
+<path fill="none" stroke="#000000" d="M965.61,-217.25C997.17,-217.69 1035.07,-223.2 1063,-243 1096.71,-266.9 1113.23,-314.63 1120.36,-342.79"/>
+<polygon fill="#000000" stroke="#000000" points="1117.03,-343.92 1122.72,-352.86 1123.85,-342.33 1117.03,-343.92"/>
+</g>
+<!-- proc~from_ijk_to_rsw_mat -->
+<g id="proc~~cross~~CalledByGraph_node11" class="node">
+<title>proc~from_ijk_to_rsw_mat</title>
+<g id="a_proc~~cross~~CalledByGraph_node11"><a xlink:href="../proc/from_ijk_to_rsw_mat.html" xlink:title="from_ijk_to_rsw_mat">
+<polygon fill="#d9534f" stroke="#d9534f" points="965,-150 845,-150 845,-126 965,-126 965,-150"/>
+<text text-anchor="middle" x="905" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_ijk_to_rsw_mat</text>
+</a>
+</g>
+</g>
+<!-- proc~from_ijk_to_rsw_mat&#45;&gt;proc~cross -->
+<g id="proc~~cross~~CalledByGraph_edge10" class="edge">
+<title>proc~from_ijk_to_rsw_mat&#45;&gt;proc~cross</title>
+<path fill="none" stroke="#000000" d="M965.17,-131.37C997.57,-131 1036.42,-136.35 1063,-159 1118.06,-205.92 1125.3,-299.76 1125.55,-342.67"/>
+<polygon fill="#000000" stroke="#000000" points="1122.05,-342.86 1125.49,-352.88 1129.05,-342.9 1122.05,-342.86"/>
+</g>
+<!-- proc~get_c_cdot_two_body_rotating -->
+<g id="proc~~cross~~CalledByGraph_node12" class="node">
+<title>proc~get_c_cdot_two_body_rotating</title>
+<g id="a_proc~~cross~~CalledByGraph_node12"><a xlink:href="../proc/get_c_cdot_two_body_rotating.html" xlink:title="two_body_rotating_frame%get_c_cdot_two_body_rotating">
+<polygon fill="#d9534f" stroke="#d9534f" points="1063,-66 747,-66 747,-42 1063,-42 1063,-66"/>
+<text text-anchor="middle" x="905" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">two_body_rotating_frame%get_c_cdot_two_body_rotating</text>
+</a>
+</g>
+</g>
+<!-- proc~get_c_cdot_two_body_rotating&#45;&gt;proc~cross -->
+<g id="proc~~cross~~CalledByGraph_edge11" class="edge">
+<title>proc~get_c_cdot_two_body_rotating&#45;&gt;proc~cross</title>
+<path fill="none" stroke="#000000" d="M1051.7,-66.21C1055.68,-68.81 1059.47,-71.73 1063,-75 1102.4,-111.45 1118.75,-280.93 1123.46,-342.54"/>
+<polygon fill="#000000" stroke="#000000" points="1119.98,-343.01 1124.21,-352.73 1126.97,-342.5 1119.98,-343.01"/>
+</g>
+<!-- proc~rv_to_orbital_elements -->
+<g id="proc~~cross~~CalledByGraph_node13" class="node">
+<title>proc~rv_to_orbital_elements</title>
+<g id="a_proc~~cross~~CalledByGraph_node13"><a xlink:href="../proc/rv_to_orbital_elements.html" xlink:title="rv_to_orbital_elements">
+<polygon fill="#d9534f" stroke="#d9534f" points="971.5,-24 838.5,-24 838.5,0 971.5,0 971.5,-24"/>
+<text text-anchor="middle" x="905" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rv_to_orbital_elements</text>
+</a>
+</g>
+</g>
+<!-- proc~rv_to_orbital_elements&#45;&gt;proc~cross -->
+<g id="proc~~cross~~CalledByGraph_edge12" class="edge">
+<title>proc~rv_to_orbital_elements&#45;&gt;proc~cross</title>
+<path fill="none" stroke="#000000" d="M971.59,-4.24C1003.08,-4.24 1039.07,-10.28 1063,-33 1108.02,-75.75 1120.98,-274.92 1124.12,-342.5"/>
+<polygon fill="#000000" stroke="#000000" points="1120.64,-343.02 1124.57,-352.85 1127.63,-342.71 1120.64,-343.02"/>
+</g>
+<!-- proc~solve_lambert_gooding -->
+<g id="proc~~cross~~CalledByGraph_node14" class="node">
+<title>proc~solve_lambert_gooding</title>
+<g id="a_proc~~cross~~CalledByGraph_node14"><a xlink:href="../proc/solve_lambert_gooding.html" xlink:title="solve_lambert_gooding">
+<polygon fill="#d9534f" stroke="#d9534f" points="567,-522 431,-522 431,-498 567,-498 567,-522"/>
+<text text-anchor="middle" x="499" y="-507.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">solve_lambert_gooding</text>
+</a>
+</g>
+</g>
+<!-- proc~solve_lambert_gooding&#45;&gt;proc~cross -->
+<g id="proc~~cross~~CalledByGraph_edge13" class="edge">
+<title>proc~solve_lambert_gooding&#45;&gt;proc~cross</title>
+<path fill="none" stroke="#000000" d="M567.05,-510.48C707.3,-510.95 1022.13,-509.05 1063,-483 1096.94,-461.37 1113.38,-414.67 1120.43,-386.94"/>
+<polygon fill="#000000" stroke="#000000" points="1123.89,-387.54 1122.76,-377.01 1117.07,-385.94 1123.89,-387.54"/>
+</g>
+<!-- proc~ucross&#45;&gt;proc~cross -->
+<g id="proc~~cross~~CalledByGraph_edge14" class="edge">
+<title>proc~ucross&#45;&gt;proc~cross</title>
+<path fill="none" stroke="#000000" d="M932.21,-462.91C964.89,-462.92 1021.49,-459.14 1063,-436 1084.15,-424.21 1101.56,-402.33 1112.49,-385.96"/>
+<polygon fill="#000000" stroke="#000000" points="1115.73,-387.39 1118.16,-377.08 1109.83,-383.63 1115.73,-387.39"/>
+</g>
+<!-- interface~from_ijk_to_lvlh -->
+<g id="proc~~cross~~CalledByGraph_node16" class="node">
+<title>interface~from_ijk_to_lvlh</title>
+<g id="a_proc~~cross~~CalledByGraph_node16"><a xlink:href="../interface/from_ijk_to_lvlh.html" xlink:title="from_ijk_to_lvlh">
+<polygon fill="#a7506f" stroke="#a7506f" points="546,-192 452,-192 452,-168 546,-168 546,-192"/>
+<text text-anchor="middle" x="499" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_ijk_to_lvlh</text>
+</a>
+</g>
+</g>
+<!-- interface~from_ijk_to_lvlh&#45;&gt;proc~from_ijk_to_lvlh_mat -->
+<g id="proc~~cross~~CalledByGraph_edge21" class="edge">
+<title>interface~from_ijk_to_lvlh&#45;&gt;proc~from_ijk_to_lvlh_mat</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M546.34,-184.82C616.98,-192.16 752.03,-206.2 834.46,-214.77"/>
+<polygon fill="#000000" stroke="#000000" points="834.18,-218.26 844.49,-215.81 834.91,-211.3 834.18,-218.26"/>
+</g>
+<!-- proc~from_ijk_to_lvlh_rv -->
+<g id="proc~~cross~~CalledByGraph_node25" class="node">
+<title>proc~from_ijk_to_lvlh_rv</title>
+<g id="a_proc~~cross~~CalledByGraph_node25"><a xlink:href="../proc/from_ijk_to_lvlh_rv.html" xlink:title="from_ijk_to_lvlh_rv">
+<polygon fill="#d9534f" stroke="#d9534f" points="960,-192 850,-192 850,-168 960,-168 960,-192"/>
+<text text-anchor="middle" x="905" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_ijk_to_lvlh_rv</text>
+</a>
+</g>
+</g>
+<!-- interface~from_ijk_to_lvlh&#45;&gt;proc~from_ijk_to_lvlh_rv -->
+<g id="proc~~cross~~CalledByGraph_edge34" class="edge">
+<title>interface~from_ijk_to_lvlh&#45;&gt;proc~from_ijk_to_lvlh_rv</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M546.34,-175.51C618.49,-172.71 757.87,-172.51 839.7,-174.9"/>
+<polygon fill="#000000" stroke="#000000" points="839.77,-178.41 849.88,-175.22 839.99,-171.41 839.77,-178.41"/>
+</g>
+<!-- interface~from_ijk_to_rsw -->
+<g id="proc~~cross~~CalledByGraph_node17" class="node">
+<title>interface~from_ijk_to_rsw</title>
+<g id="a_proc~~cross~~CalledByGraph_node17"><a xlink:href="../interface/from_ijk_to_rsw.html" xlink:title="from_ijk_to_rsw">
+<polygon fill="#a7506f" stroke="#a7506f" points="546,-108 452,-108 452,-84 546,-84 546,-108"/>
+<text text-anchor="middle" x="499" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_ijk_to_rsw</text>
+</a>
+</g>
+</g>
+<!-- interface~from_ijk_to_rsw&#45;&gt;proc~from_ijk_to_rsw_mat -->
+<g id="proc~~cross~~CalledByGraph_edge22" class="edge">
+<title>interface~from_ijk_to_rsw&#45;&gt;proc~from_ijk_to_rsw_mat</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M546.34,-100.82C617.08,-108.17 752.41,-122.24 834.81,-130.81"/>
+<polygon fill="#000000" stroke="#000000" points="834.52,-134.3 844.83,-131.85 835.25,-127.33 834.52,-134.3"/>
+</g>
+<!-- proc~from_ijk_to_rsw_rv -->
+<g id="proc~~cross~~CalledByGraph_node26" class="node">
+<title>proc~from_ijk_to_rsw_rv</title>
+<g id="a_proc~~cross~~CalledByGraph_node26"><a xlink:href="../proc/from_ijk_to_rsw_rv.html" xlink:title="from_ijk_to_rsw_rv">
+<polygon fill="#d9534f" stroke="#d9534f" points="959.5,-108 850.5,-108 850.5,-84 959.5,-84 959.5,-108"/>
+<text text-anchor="middle" x="905" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_ijk_to_rsw_rv</text>
+</a>
+</g>
+</g>
+<!-- interface~from_ijk_to_rsw&#45;&gt;proc~from_ijk_to_rsw_rv -->
+<g id="proc~~cross~~CalledByGraph_edge35" class="edge">
+<title>interface~from_ijk_to_rsw&#45;&gt;proc~from_ijk_to_rsw_rv</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M546.34,-91.51C618.59,-88.71 758.25,-88.51 840.04,-90.91"/>
+<polygon fill="#000000" stroke="#000000" points="840.1,-94.42 850.21,-91.23 840.32,-87.42 840.1,-94.42"/>
+</g>
+<!-- proc~bplane_test -->
+<g id="proc~~cross~~CalledByGraph_node18" class="node">
+<title>proc~bplane_test</title>
+<g id="a_proc~~cross~~CalledByGraph_node18"><a xlink:href="../proc/bplane_test.html" xlink:title="bplane_test">
+<polygon fill="#d9534f" stroke="#d9534f" points="227.5,-396 153.5,-396 153.5,-372 227.5,-372 227.5,-396"/>
+<text text-anchor="middle" x="190.5" y="-381.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">bplane_test</text>
+</a>
+</g>
+</g>
+<!-- proc~bplane_test&#45;&gt;proc~bplane -->
+<g id="proc~~cross~~CalledByGraph_edge17" class="edge">
+<title>proc~bplane_test&#45;&gt;proc~bplane</title>
+<path fill="none" stroke="#000000" d="M227.59,-392.98C245.38,-397.14 267.22,-401.85 287,-405 348,-414.71 419.67,-420.71 461.83,-423.7"/>
+<polygon fill="#000000" stroke="#000000" points="461.67,-427.19 471.89,-424.39 462.15,-420.21 461.67,-427.19"/>
+</g>
+<!-- proc~bplane_test&#45;&gt;proc~calculate_bplane_data -->
+<g id="proc~~cross~~CalledByGraph_edge18" class="edge">
+<title>proc~bplane_test&#45;&gt;proc~calculate_bplane_data</title>
+<path fill="none" stroke="#000000" d="M227.56,-384C275.15,-384 360.15,-384 422.18,-384"/>
+<polygon fill="#000000" stroke="#000000" points="422.32,-387.5 432.32,-384 422.32,-380.5 422.32,-387.5"/>
+</g>
+<!-- proc~bplane_test&#45;&gt;proc~compute_vinf_vectors -->
+<g id="proc~~cross~~CalledByGraph_edge20" class="edge">
+<title>proc~bplane_test&#45;&gt;proc~compute_vinf_vectors</title>
+<path fill="none" stroke="#000000" d="M227.59,-375.02C245.38,-370.86 267.22,-366.15 287,-363 332.25,-355.8 383.37,-350.64 423.96,-347.23"/>
+<polygon fill="#000000" stroke="#000000" points="424.36,-350.71 434.04,-346.4 423.79,-343.73 424.36,-350.71"/>
+</g>
+<!-- proc~get_c_cdot_two_body_rotating_pulsating -->
+<g id="proc~~cross~~CalledByGraph_node19" class="node">
+<title>proc~get_c_cdot_two_body_rotating_pulsating</title>
+<g id="a_proc~~cross~~CalledByGraph_node19"><a xlink:href="../proc/get_c_cdot_two_body_rotating_pulsating.html" xlink:title="two_body_rotating_pulsating_frame%get_c_cdot_two_body_rotating_pulsating">
+<polygon fill="#d9534f" stroke="#d9534f" points="711,-66 287,-66 287,-42 711,-42 711,-66"/>
+<text text-anchor="middle" x="499" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">two_body_rotating_pulsating_frame%get_c_cdot_two_body_rotating_pulsating</text>
+</a>
+</g>
+</g>
+<!-- proc~get_c_cdot_two_body_rotating_pulsating&#45;&gt;proc~get_c_cdot_two_body_rotating -->
+<g id="proc~~cross~~CalledByGraph_edge23" class="edge">
+<title>proc~get_c_cdot_two_body_rotating_pulsating&#45;&gt;proc~get_c_cdot_two_body_rotating</title>
+<path fill="none" stroke="#000000" d="M711.17,-54C719.73,-54 728.27,-54 736.72,-54"/>
+<polygon fill="#000000" stroke="#000000" points="736.99,-57.5 746.99,-54 736.99,-50.5 736.99,-57.5"/>
+</g>
+<!-- proc~lambert_test -->
+<g id="proc~~cross~~CalledByGraph_node20" class="node">
+<title>proc~lambert_test</title>
+<g id="a_proc~~cross~~CalledByGraph_node20"><a xlink:href="../proc/lambert_test.html" xlink:title="lambert_test">
+<polygon fill="#d9534f" stroke="#d9534f" points="230,-501 151,-501 151,-477 230,-477 230,-501"/>
+<text text-anchor="middle" x="190.5" y="-486.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lambert_test</text>
+</a>
+</g>
+</g>
+<!-- proc~lambert_test&#45;&gt;proc~solve_lambert_gooding -->
+<g id="proc~~cross~~CalledByGraph_edge24" class="edge">
+<title>proc~lambert_test&#45;&gt;proc~solve_lambert_gooding</title>
+<path fill="none" stroke="#000000" d="M230.01,-491.64C277.58,-494.9 359.67,-500.52 420.49,-504.69"/>
+<polygon fill="#000000" stroke="#000000" points="420.61,-508.21 430.82,-505.4 421.09,-501.22 420.61,-508.21"/>
+</g>
+<!-- proc~solve_lambert_izzo -->
+<g id="proc~~cross~~CalledByGraph_node22" class="node">
+<title>proc~solve_lambert_izzo</title>
+<g id="a_proc~~cross~~CalledByGraph_node22"><a xlink:href="../proc/solve_lambert_izzo.html" xlink:title="solve_lambert_izzo">
+<polygon fill="#d9534f" stroke="#d9534f" points="555.5,-480 442.5,-480 442.5,-456 555.5,-456 555.5,-480"/>
+<text text-anchor="middle" x="499" y="-465.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">solve_lambert_izzo</text>
+</a>
+</g>
+</g>
+<!-- proc~lambert_test&#45;&gt;proc~solve_lambert_izzo -->
+<g id="proc~~cross~~CalledByGraph_edge33" class="edge">
+<title>proc~lambert_test&#45;&gt;proc~solve_lambert_izzo</title>
+<path fill="none" stroke="#000000" d="M230.01,-486.36C280.72,-482.89 370.67,-476.72 432.26,-472.5"/>
+<polygon fill="#000000" stroke="#000000" points="432.53,-475.99 442.27,-471.82 432.05,-469.01 432.53,-475.99"/>
+</g>
+<!-- proc~modified_equinoctial_test -->
+<g id="proc~~cross~~CalledByGraph_node21" class="node">
+<title>proc~modified_equinoctial_test</title>
+<g id="a_proc~~cross~~CalledByGraph_node21"><a xlink:href="../proc/modified_equinoctial_test.html" xlink:title="modified_equinoctial_test">
+<polygon fill="#d9534f" stroke="#d9534f" points="573.5,-312 424.5,-312 424.5,-288 573.5,-288 573.5,-312"/>
+<text text-anchor="middle" x="499" y="-297.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">modified_equinoctial_test</text>
+</a>
+</g>
+</g>
+<!-- proc~modified_equinoctial_test&#45;&gt;proc~cartesian_to_equinoctial -->
+<g id="proc~~cross~~CalledByGraph_edge19" class="edge">
+<title>proc~modified_equinoctial_test&#45;&gt;proc~cartesian_to_equinoctial</title>
+<path fill="none" stroke="#000000" d="M573.63,-301.09C644.38,-302.14 751.01,-303.73 823.87,-304.81"/>
+<polygon fill="#000000" stroke="#000000" points="823.87,-308.31 833.92,-304.96 823.97,-301.31 823.87,-308.31"/>
+</g>
+<!-- proc~solve_lambert_izzo&#45;&gt;proc~ucross -->
+<g id="proc~~cross~~CalledByGraph_edge26" class="edge">
+<title>proc~solve_lambert_izzo&#45;&gt;proc~ucross</title>
+<path fill="none" stroke="#000000" d="M555.75,-467.17C639.75,-465.92 796.49,-463.6 867.44,-462.54"/>
+<polygon fill="#000000" stroke="#000000" points="867.72,-466.04 877.66,-462.39 867.61,-459.04 867.72,-466.04"/>
+</g>
+<!-- proc~sphere_of_influence_earth_moon -->
+<g id="proc~~cross~~CalledByGraph_node23" class="node">
+<title>proc~sphere_of_influence_earth_moon</title>
+<g id="a_proc~~cross~~CalledByGraph_node23"><a xlink:href="../proc/sphere_of_influence_earth_moon.html" xlink:title="sphere_of_influence_earth_moon">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="593.5,-638 404.5,-638 404.5,-614 593.5,-614 593.5,-638"/>
+<text text-anchor="middle" x="499" y="-623.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">sphere_of_influence_earth_moon</text>
+</a>
+</g>
+</g>
+<!-- proc~sphere_of_influence_earth_moon&#45;&gt;proc~angle_between_vectors -->
+<g id="proc~~cross~~CalledByGraph_edge15" class="edge">
+<title>proc~sphere_of_influence_earth_moon&#45;&gt;proc~angle_between_vectors</title>
+<path fill="none" stroke="#000000" d="M593.7,-626C663.95,-626 759.01,-626 825.33,-626"/>
+<polygon fill="#000000" stroke="#000000" points="825.72,-629.5 835.72,-626 825.72,-622.5 825.72,-629.5"/>
+</g>
+<!-- proc~vector_test -->
+<g id="proc~~cross~~CalledByGraph_node24" class="node">
+<title>proc~vector_test</title>
+<g id="a_proc~~cross~~CalledByGraph_node24"><a xlink:href="../proc/vector_test.html" xlink:title="vector_test">
+<polygon fill="#d9534f" stroke="#d9534f" points="534.5,-596 463.5,-596 463.5,-572 534.5,-572 534.5,-596"/>
+<text text-anchor="middle" x="499" y="-581.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_test</text>
+</a>
+</g>
+</g>
+<!-- proc~vector_test&#45;&gt;proc~axis_angle_rotation -->
+<g id="proc~~cross~~CalledByGraph_edge16" class="edge">
+<title>proc~vector_test&#45;&gt;proc~axis_angle_rotation</title>
+<path fill="none" stroke="#000000" d="M534.79,-584C601.99,-584 750.65,-584 837.44,-584"/>
+<polygon fill="#000000" stroke="#000000" points="837.45,-587.5 847.45,-584 837.45,-580.5 837.45,-587.5"/>
+</g>
+<!-- proc~from_ijk_to_lvlh_rv&#45;&gt;interface~from_ijk_to_lvlh -->
+<g id="proc~~cross~~CalledByGraph_edge27" class="edge">
+<title>proc~from_ijk_to_lvlh_rv&#45;&gt;interface~from_ijk_to_lvlh</title>
+<path fill="none" stroke="#000000" d="M849.88,-184.78C773.35,-187.38 634.2,-187.41 556.44,-184.85"/>
+<polygon fill="#000000" stroke="#000000" points="556.46,-181.35 546.34,-184.49 556.21,-188.35 556.46,-181.35"/>
+</g>
+<!-- proc~from_ijk_to_rsw_rv&#45;&gt;interface~from_ijk_to_rsw -->
+<g id="proc~~cross~~CalledByGraph_edge30" class="edge">
+<title>proc~from_ijk_to_rsw_rv&#45;&gt;interface~from_ijk_to_rsw</title>
+<path fill="none" stroke="#000000" d="M850.21,-100.77C773.75,-103.38 634.33,-103.41 556.45,-100.85"/>
+<polygon fill="#000000" stroke="#000000" points="556.46,-97.35 546.34,-100.49 556.21,-104.35 556.46,-97.35"/>
+</g>
+<!-- proc~from_lvlh_to_ijk_mat -->
+<g id="proc~~cross~~CalledByGraph_node27" class="node">
+<title>proc~from_lvlh_to_ijk_mat</title>
+<g id="a_proc~~cross~~CalledByGraph_node27"><a xlink:href="../proc/from_lvlh_to_ijk_mat.html" xlink:title="from_lvlh_to_ijk_mat">
+<polygon fill="#d9534f" stroke="#d9534f" points="251,-213 130,-213 130,-189 251,-189 251,-213"/>
+<text text-anchor="middle" x="190.5" y="-198.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_lvlh_to_ijk_mat</text>
+</a>
+</g>
+</g>
+<!-- proc~from_lvlh_to_ijk_mat&#45;&gt;interface~from_ijk_to_lvlh -->
+<g id="proc~~cross~~CalledByGraph_edge28" class="edge">
+<title>proc~from_lvlh_to_ijk_mat&#45;&gt;interface~from_ijk_to_lvlh</title>
+<path fill="none" stroke="#000000" d="M251.32,-196.9C306.48,-193.12 387.74,-187.55 441.74,-183.85"/>
+<polygon fill="#000000" stroke="#000000" points="442.08,-187.34 451.82,-183.16 441.61,-180.36 442.08,-187.34"/>
+</g>
+<!-- proc~from_rsw_to_ijk_mat -->
+<g id="proc~~cross~~CalledByGraph_node28" class="node">
+<title>proc~from_rsw_to_ijk_mat</title>
+<g id="a_proc~~cross~~CalledByGraph_node28"><a xlink:href="../proc/from_rsw_to_ijk_mat.html" xlink:title="from_rsw_to_ijk_mat">
+<polygon fill="#d9534f" stroke="#d9534f" points="250.5,-87 130.5,-87 130.5,-63 250.5,-63 250.5,-87"/>
+<text text-anchor="middle" x="190.5" y="-72.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_rsw_to_ijk_mat</text>
+</a>
+</g>
+</g>
+<!-- proc~from_rsw_to_ijk_mat&#45;&gt;interface~from_ijk_to_rsw -->
+<g id="proc~~cross~~CalledByGraph_edge31" class="edge">
+<title>proc~from_rsw_to_ijk_mat&#45;&gt;interface~from_ijk_to_rsw</title>
+<path fill="none" stroke="#000000" d="M250.6,-79.05C305.67,-82.82 387.23,-88.41 441.46,-92.13"/>
+<polygon fill="#000000" stroke="#000000" points="441.38,-95.63 451.59,-92.82 441.86,-88.65 441.38,-95.63"/>
+</g>
+<!-- proc~relative_motion_test -->
+<g id="proc~~cross~~CalledByGraph_node29" class="node">
+<title>proc~relative_motion_test</title>
+<g id="a_proc~~cross~~CalledByGraph_node29"><a xlink:href="../proc/relative_motion_test.html" xlink:title="relative_motion_test">
+<polygon fill="#d9534f" stroke="#d9534f" points="250.5,-129 130.5,-129 130.5,-105 250.5,-105 250.5,-129"/>
+<text text-anchor="middle" x="190.5" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">relative_motion_test</text>
+</a>
+</g>
+</g>
+<!-- proc~relative_motion_test&#45;&gt;interface~from_ijk_to_lvlh -->
+<g id="proc~~cross~~CalledByGraph_edge29" class="edge">
+<title>proc~relative_motion_test&#45;&gt;interface~from_ijk_to_lvlh</title>
+<path fill="none" stroke="#000000" d="M250.23,-129.07C305.54,-140.44 387.8,-157.35 442.15,-168.52"/>
+<polygon fill="#000000" stroke="#000000" points="441.46,-171.95 451.96,-170.54 442.87,-165.09 441.46,-171.95"/>
+</g>
+<!-- proc~relative_motion_test&#45;&gt;interface~from_ijk_to_rsw -->
+<g id="proc~~cross~~CalledByGraph_edge32" class="edge">
+<title>proc~relative_motion_test&#45;&gt;interface~from_ijk_to_rsw</title>
+<path fill="none" stroke="#000000" d="M250.6,-112.95C305.67,-109.18 387.23,-103.59 441.46,-99.87"/>
+<polygon fill="#000000" stroke="#000000" points="441.86,-103.35 451.59,-99.18 441.38,-96.37 441.86,-103.35"/>
+</g>
+<!-- interface~from_lvlh_to_ijk -->
+<g id="proc~~cross~~CalledByGraph_node30" class="node">
+<title>interface~from_lvlh_to_ijk</title>
+<g id="a_proc~~cross~~CalledByGraph_node30"><a xlink:href="../interface/from_lvlh_to_ijk.html" xlink:title="from_lvlh_to_ijk">
+<polygon fill="#a7506f" stroke="#a7506f" points="94,-171 0,-171 0,-147 94,-147 94,-171"/>
+<text text-anchor="middle" x="47" y="-156.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_lvlh_to_ijk</text>
+</a>
+</g>
+</g>
+<!-- interface~from_lvlh_to_ijk&#45;&gt;proc~from_lvlh_to_ijk_mat -->
+<g id="proc~~cross~~CalledByGraph_edge36" class="edge">
+<title>interface~from_lvlh_to_ijk&#45;&gt;proc~from_lvlh_to_ijk_mat</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M88.55,-171.04C104.24,-175.69 122.37,-181.07 138.9,-185.98"/>
+<polygon fill="#000000" stroke="#000000" points="138.36,-189.47 148.95,-188.96 140.36,-182.76 138.36,-189.47"/>
+</g>
+<!-- proc~from_lvlh_to_ijk_rv -->
+<g id="proc~~cross~~CalledByGraph_node32" class="node">
+<title>proc~from_lvlh_to_ijk_rv</title>
+<g id="a_proc~~cross~~CalledByGraph_node32"><a xlink:href="../proc/from_lvlh_to_ijk_rv.html" xlink:title="from_lvlh_to_ijk_rv">
+<polygon fill="#d9534f" stroke="#d9534f" points="245.5,-171 135.5,-171 135.5,-147 245.5,-147 245.5,-171"/>
+<text text-anchor="middle" x="190.5" y="-156.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_lvlh_to_ijk_rv</text>
+</a>
+</g>
+</g>
+<!-- interface~from_lvlh_to_ijk&#45;&gt;proc~from_lvlh_to_ijk_rv -->
+<g id="proc~~cross~~CalledByGraph_edge40" class="edge">
+<title>interface~from_lvlh_to_ijk&#45;&gt;proc~from_lvlh_to_ijk_rv</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M94.33,-152.62C104.13,-152.31 114.63,-152.2 124.96,-152.27"/>
+<polygon fill="#000000" stroke="#000000" points="125.14,-155.78 135.19,-152.41 125.24,-148.78 125.14,-155.78"/>
+</g>
+<!-- interface~from_rsw_to_ijk -->
+<g id="proc~~cross~~CalledByGraph_node31" class="node">
+<title>interface~from_rsw_to_ijk</title>
+<g id="a_proc~~cross~~CalledByGraph_node31"><a xlink:href="../interface/from_rsw_to_ijk.html" xlink:title="from_rsw_to_ijk">
+<polygon fill="#a7506f" stroke="#a7506f" points="94,-45 0,-45 0,-21 94,-21 94,-45"/>
+<text text-anchor="middle" x="47" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_rsw_to_ijk</text>
+</a>
+</g>
+</g>
+<!-- interface~from_rsw_to_ijk&#45;&gt;proc~from_rsw_to_ijk_mat -->
+<g id="proc~~cross~~CalledByGraph_edge37" class="edge">
+<title>interface~from_rsw_to_ijk&#45;&gt;proc~from_rsw_to_ijk_mat</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M88.55,-45.04C104.24,-49.69 122.37,-55.07 138.9,-59.98"/>
+<polygon fill="#000000" stroke="#000000" points="138.36,-63.47 148.95,-62.96 140.36,-56.76 138.36,-63.47"/>
+</g>
+<!-- proc~from_rsw_to_ijk_rv -->
+<g id="proc~~cross~~CalledByGraph_node33" class="node">
+<title>proc~from_rsw_to_ijk_rv</title>
+<g id="a_proc~~cross~~CalledByGraph_node33"><a xlink:href="../proc/from_rsw_to_ijk_rv.html" xlink:title="from_rsw_to_ijk_rv">
+<polygon fill="#d9534f" stroke="#d9534f" points="245,-45 136,-45 136,-21 245,-21 245,-45"/>
+<text text-anchor="middle" x="190.5" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_rsw_to_ijk_rv</text>
+</a>
+</g>
+</g>
+<!-- interface~from_rsw_to_ijk&#45;&gt;proc~from_rsw_to_ijk_rv -->
+<g id="proc~~cross~~CalledByGraph_edge41" class="edge">
+<title>interface~from_rsw_to_ijk&#45;&gt;proc~from_rsw_to_ijk_rv</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M94.33,-26.62C104.35,-26.3 115.11,-26.19 125.67,-26.28"/>
+<polygon fill="#000000" stroke="#000000" points="125.64,-29.78 135.69,-26.42 125.74,-22.78 125.64,-29.78"/>
+</g>
+<!-- proc~from_lvlh_to_ijk_rv&#45;&gt;interface~from_lvlh_to_ijk -->
+<g id="proc~~cross~~CalledByGraph_edge38" class="edge">
+<title>proc~from_lvlh_to_ijk_rv&#45;&gt;interface~from_lvlh_to_ijk</title>
+<path fill="none" stroke="#000000" d="M135.19,-165.59C125.08,-165.79 114.5,-165.8 104.33,-165.62"/>
+<polygon fill="#000000" stroke="#000000" points="104.42,-162.12 94.33,-165.38 104.24,-169.12 104.42,-162.12"/>
+</g>
+<!-- proc~from_rsw_to_ijk_rv&#45;&gt;interface~from_rsw_to_ijk -->
+<g id="proc~~cross~~CalledByGraph_edge39" class="edge">
+<title>proc~from_rsw_to_ijk_rv&#45;&gt;interface~from_rsw_to_ijk</title>
+<path fill="none" stroke="#000000" d="M135.69,-39.58C125.47,-39.79 114.75,-39.81 104.46,-39.63"/>
+<polygon fill="#000000" stroke="#000000" points="104.41,-36.12 94.33,-39.38 104.24,-43.12 104.41,-36.12"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panproccrossCalledByGraph = svgPanZoom('#proccrossCalledByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">pure function </span><span class="n">cross</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">rxv</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">v</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">rxv</span>
+
+<span class="w">    </span><span class="n">rxv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">r</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">v</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">r</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">           </span><span class="n">r</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">r</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">           </span><span class="n">r</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">v</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">r</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">]</span>
+
+<span class="w">    </span><span class="k">end function </span><span class="n">cross</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
+
+    <!-- MathJax JavaScript
+             ================================================== -->
+             <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+          });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+          <script src="../tipuesearch/tipuesearch_content.js"></script>
+          <script src="../tipuesearch/tipuesearch_set.js"></script>
+          <script src="../tipuesearch/tipuesearch.js"></script>
+
+  </body>
+</html>
