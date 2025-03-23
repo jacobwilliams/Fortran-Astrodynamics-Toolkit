@@ -31,7 +31,7 @@ jobs:
       uses: ts-graphviz/setup-graphviz@v1
 
     - name: Setup Fortran Package Manager
-      uses: fortran-lang/setup-fpm@v5
+      uses: fortran-lang/setup-fpm@v7
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -79,11 +79,12 @@ jobs:
         files: build/coverage/coverage.info
 
     - name: Build documentation
-      run: ford ./ford.md
+      run: ford ./ford.md --externalize
 
     - name: Deploy Documentation
       if: github.ref == 'refs/heads/master'
-      uses: JamesIves/github-pages-deploy-action@v4.4.1
+      uses: JamesIves/github-pages-deploy-action@v4.7.3
       with:
         branch: gh-pages # The branch the action should deploy to.
         folder: doc  # The folder the action should deploy.
+        single-commit: true
