@@ -28,7 +28,7 @@ mv JPLEPH ../eph/JPLEPH.421
 
 ### Geopotential file for Earth:
 
-wget http://download.csr.utexas.edu/pub/grace/GGM03/GGM03_Archive.zip
+wget https://download.csr.utexas.edu/pub/grace/GGM03/GGM03_Archive.zip
 unzip GGM03_Archive.zip
 mkdir ../grav
 cp GGM03_Archive/GGM03C.GEO ../grav
