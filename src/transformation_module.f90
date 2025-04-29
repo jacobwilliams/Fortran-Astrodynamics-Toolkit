@@ -60,6 +60,7 @@
         type(celestial_body) :: secondary_body = body_moon  !! the secondary body used to construct the frame
         integer :: center = center_at_barycenter  !! the frame center (can be primary_body,secondary_body, or barycenter)
         real(wp),dimension(6) :: rv12 = zero  !! [r,v] of secondary body w.r.t. primary body
+        logical :: inertial = .false. !! to make it a quasi-inertial frame (cdot is zero)
     contains
         procedure :: from_primary_to_center
         procedure :: get_c_cdot => get_c_cdot_two_body_rotating
@@ -149,7 +150,7 @@
 !  Constructor for a [[two_body_rotating_frame]]
 
     pure function two_body_rotating_frame_constructor(&
-                primary_body,secondary_body,center,et) result(f)
+                primary_body,secondary_body,center,et,inertial) result(f)
 
     implicit none
 
@@ -164,11 +165,14 @@
                                                       !! `barycenter`)
     real(wp),intent(in)             :: et             !! epoch at which the
                                                       !! frame is defined [sec]
+    logical,intent(in),optional     :: inertial       !! if true, it's a quasi-inertial frame
+                                                      !! [default is false]
 
     f%primary_body   = primary_body
     f%secondary_body = secondary_body
     f%center         = center
     f%et             = et
+    if (present(inertial)) f%inertial = inertial
 
     end function two_body_rotating_frame_constructor
 !********************************************************************************
@@ -499,8 +503,13 @@
         c(2,:) = cross(hhat,rhat)
 
         if (need_cdot) then
-            w = h / dot_product(r,r)            ! see: https://en.wikipedia.org/wiki/Angular_velocity
-            cdot = -matmul(c,cross_matrix(w))   ! see: http://arxiv.org/pdf/1311.6010.pdf
+            if (me%inertial) then
+                ! quasi inertial frame
+                cdot = zero
+            else
+                w = h / dot_product(r,r)            ! see: https://en.wikipedia.org/wiki/Angular_velocity
+                cdot = -matmul(c,cross_matrix(w))   ! see: http://arxiv.org/pdf/1311.6010.pdf
+            end if
         end if
 
         if (to_icrf) then
