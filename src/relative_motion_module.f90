@@ -22,6 +22,12 @@
 !     * y-axis : completes the right handed system
 !       (for a perfectly-circular orbit, the y-axis is \( \hat{\mathbf{v}} \))
 !     * z-axis : \( \hat{\mathbf{h}} \)
+!
+!  * The **VUW** frame, defined by:
+!
+!     * x-axis : \( \hat{\mathbf{v}} \)
+!     * y-axis : completes the right handed system
+!     * z-axis : \( \hat{\mathbf{h}} \)
 
     module relative_motion_module
 
@@ -39,6 +45,17 @@
         real(wp),intent(in)              :: t   !! time [sec]
         real(wp),dimension(6),intent(in) :: rv  !! state [km,km/s]
         end subroutine report_func
+        subroutine frame_transform_func(mu,r,v,a,c,cdot)
+            import
+            implicit none
+            real(wp),intent(in)                          :: mu    !! gravitational parameter [km^3/s^2] [not used by all algorithms]
+            real(wp),dimension(3),intent(in)             :: r     !! position vector of target [km]
+            real(wp),dimension(3),intent(in)             :: v     !! velocity vector of target [km/s]
+            real(wp),dimension(3),intent(in),optional    :: a     !! acceleration vector of target [km/s^2]
+                                                                  !! (if not present, then a torque-free force model is assumed)
+            real(wp),dimension(3,3),intent(out)          :: c     !! C transformation matrix
+            real(wp),dimension(3,3),intent(out),optional :: cdot  !! CDOT transformation matrix
+        end subroutine frame_transform_func
     end interface
 
     interface from_ijk_to_lvlh  !! Conversion from IJK to LVLH
@@ -74,6 +91,18 @@
         procedure :: from_rsw_to_lvlh_rv   !! transforms the r,v vectors
     end interface from_rsw_to_lvlh
     public :: from_rsw_to_lvlh
+
+    interface from_ijk_to_vuw !! Conversion from IJK to vuw
+        procedure :: from_ijk_to_vuw_mat  !! just returns matrices
+        procedure :: from_ijk_to_vuw_rv   !! transforms the r,v vectors
+    end interface from_ijk_to_vuw
+    public :: from_ijk_to_vuw
+
+    interface from_vuw_to_ijk  !! Conversion from vuw to IJK
+        procedure :: from_vuw_to_ijk_mat  !! just returns matrices
+        procedure :: from_vuw_to_ijk_rv   !! transforms the r,v vectors
+    end interface from_vuw_to_ijk
+    public :: from_vuw_to_ijk
 
     public :: cw_equations
     public :: cw_propagator
@@ -187,6 +216,89 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
+!>
+!  Transform a position (and optionally velocity) vector from IJK to a specified relative frame.
+
+    subroutine from_ijk_to_frame_rv(mu,from_ijk_to_frame,rt_ijk,vt_ijk,r_ijk,v_ijk,dr_frame,dv_frame)
+
+    implicit none
+
+    real(wp),intent(in)                        :: mu       !! gravitational parameter [km^3/s^2]
+    procedure(frame_transform_func)            :: from_ijk_to_frame !! function to compute the transformation matrices
+    real(wp),dimension(3),intent(in)           :: rt_ijk   !! Target IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)           :: vt_ijk   !! Target IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)           :: r_ijk    !! Chaser IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)           :: v_ijk    !! Chaser IJK absolute position vector [km]
+    real(wp),dimension(3),intent(out)          :: dr_frame !! Chaser frame position vector relative to target [km]
+    real(wp),dimension(3),intent(out),optional :: dv_frame !! Chaser frame position vector relative to target [km]
+
+    real(wp),dimension(3,3) :: c
+    real(wp),dimension(3,3) :: cdot
+    real(wp),dimension(3) :: dr_ijk, dv_ijk
+
+    !IJK state of chaser relative to target:
+    dr_ijk = r_ijk - rt_ijk    ! [target + delta = chaser]
+
+    if (present(dv_frame)) then
+
+        dv_ijk = v_ijk - vt_ijk ! [target + delta = chaser]
+
+        call from_ijk_to_frame(mu,rt_ijk,vt_ijk,c=c,cdot=cdot)
+
+        dr_frame = matmul( c, dr_ijk )
+        dv_frame = matmul( cdot, dr_ijk ) + matmul( c, dv_ijk )
+
+    else
+
+        call from_ijk_to_frame(mu,r_ijk,v_ijk,c=c)
+
+        dr_frame = matmul( c, dr_ijk )
+
+    end if
+
+    end subroutine from_ijk_to_frame_rv
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Transform a position (and optionally velocity) vector from a specified relative frame to IJK.
+
+    subroutine from_frame_to_ijk_rv(mu,from_frame_to_ijk,rt_ijk,vt_ijk,dr_frame,dv_frame,r_ijk,v_ijk)
+
+    implicit none
+
+    real(wp),intent(in)                         :: mu       !! gravitational parameter [km^3/s^2]
+    procedure(frame_transform_func)             :: from_frame_to_ijk !! function to compute the transformation matrices
+    real(wp),dimension(3),intent(in)            :: rt_ijk    !! Target IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)            :: vt_ijk    !! Target IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)            :: dr_frame  !! Chaser frame position vector relative to target [km]
+    real(wp),dimension(3),intent(in)            :: dv_frame  !! Chaser frame position vector relative to target [km]
+    real(wp),dimension(3),intent(out)           :: r_ijk     !! Chaser IJK absolute position vector [km]
+    real(wp),dimension(3),intent(out),optional  :: v_ijk     !! Chaser IJK absolute position vector [km]
+
+    real(wp),dimension(3,3) :: c
+    real(wp),dimension(3,3) :: cdot
+
+    if (present(v_ijk)) then
+
+        call from_frame_to_ijk(mu,rt_ijk,vt_ijk,c=c,cdot=cdot)
+
+        !chaser = target + delta:
+        r_ijk = rt_ijk + matmul( c, dr_frame )
+        v_ijk = vt_ijk + matmul( cdot, dr_frame ) + matmul( c, dv_frame )
+
+    else
+
+        call from_frame_to_ijk(mu,rt_ijk,vt_ijk,c=c)
+
+        r_ijk = rt_ijk + matmul( c, dr_frame )
+
+    end if
+
+    end subroutine from_frame_to_ijk_rv
+!*****************************************************************************************
+
+!*****************************************************************************************
 !> author: Jacob Williams
 !  date: 4/19/2014
 !
@@ -195,12 +307,13 @@
 !# See also
 !   * [LVLH Transformations](http://degenerateconic.com/wp-content/uploads/2015/03/lvlh.pdf)
 
-    subroutine from_ijk_to_lvlh_mat(r,v,a,c,cdot)
+    subroutine from_ijk_to_lvlh_mat(mu,r,v,a,c,cdot)
 
     use vector_module, only: unit, cross, uhat_dot
 
     implicit none
 
+    real(wp),intent(in)                          :: mu     !! gravitational parameter [km^3/s^2]
     real(wp),dimension(3),intent(in)             :: r      !! position vector of target [km]
     real(wp),dimension(3),intent(in)             :: v      !! velocity vector of target [km/s]
     real(wp),dimension(3),intent(in),optional    :: a      !! acceleration vector of target [km/s^2]
@@ -251,40 +364,19 @@
 !
 !  Transform a position (and optionally velocity) vector from IJK to LVLH.
 
-    subroutine from_ijk_to_lvlh_rv(rt_ijk,vt_ijk,r_ijk,v_ijk,dr_lvlh,dv_lvlh)
+    subroutine from_ijk_to_lvlh_rv(mu,rt_ijk,vt_ijk,r_ijk,v_ijk,dr_lvlh,dv_lvlh)
 
     implicit none
 
-    real(wp),dimension(3),intent(in)           :: rt_ijk  !! Target IJK absolute position vector [km]
-    real(wp),dimension(3),intent(in)           :: vt_ijk  !! Target IJK absolute position vector [km]
-    real(wp),dimension(3),intent(in)           :: r_ijk   !! Chaser IJK absolute position vector [km]
-    real(wp),dimension(3),intent(in)           :: v_ijk   !! Chaser IJK absolute position vector [km]
-    real(wp),dimension(3),intent(out)          :: dr_lvlh !! Chaser LVLH position vector relative to target [km]
-    real(wp),dimension(3),intent(out),optional :: dv_lvlh !! Chaser LVLH position vector relative to target [km]
+    real(wp),intent(in)                        :: mu       !! gravitational parameter [km^3/s^2]
+    real(wp),dimension(3),intent(in)           :: rt_ijk   !! Target IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)           :: vt_ijk   !! Target IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)           :: r_ijk    !! Chaser IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)           :: v_ijk    !! Chaser IJK absolute position vector [km]
+    real(wp),dimension(3),intent(out)          :: dr_lvlh  !! Chaser LVLH position vector relative to target [km]
+    real(wp),dimension(3),intent(out),optional :: dv_lvlh  !! Chaser LVLH position vector relative to target [km]
 
-    real(wp),dimension(3,3) :: c
-    real(wp),dimension(3,3) :: cdot
-    real(wp),dimension(3) :: dr_ijk, dv_ijk
-
-    !IJK state of chaser relative to target:
-    dr_ijk = r_ijk - rt_ijk    ! [target + delta = chaser]
-
-    if (present(dv_lvlh)) then
-
-        dv_ijk = v_ijk - vt_ijk ! [target + delta = chaser]
-
-        call from_ijk_to_lvlh(rt_ijk,vt_ijk,c=c,cdot=cdot)
-
-        dr_lvlh = matmul( c, dr_ijk )
-        dv_lvlh = matmul( cdot, dr_ijk ) + matmul( c, dv_ijk )
-
-    else
-
-        call from_ijk_to_lvlh(r_ijk,v_ijk,c=c)
-
-        dr_lvlh = matmul( c, dr_ijk )
-
-    end if
+    call from_ijk_to_frame_rv(mu,from_ijk_to_lvlh_mat,rt_ijk,vt_ijk,r_ijk,v_ijk,dr_lvlh,dv_lvlh)
 
     end subroutine from_ijk_to_lvlh_rv
 !*****************************************************************************************
@@ -298,12 +390,13 @@
 !# See also
 !   * [LVLH Transformations](http://degenerateconic.com/wp-content/uploads/2015/03/lvlh.pdf)
 
-    subroutine from_lvlh_to_ijk_mat(r,v,a,c,cdot)
+    subroutine from_lvlh_to_ijk_mat(mu,r,v,a,c,cdot)
 
     use vector_module, only: unit, cross
 
     implicit none
 
+    real(wp),intent(in)                          :: mu    !! gravitational parameter [km^3/s^2]
     real(wp),dimension(3),intent(in)             :: r     !! position vector of target [km]
     real(wp),dimension(3),intent(in)             :: v     !! velocity vector of target [km/s]
     real(wp),dimension(3),intent(in),optional    :: a     !! acceleration vector of target [km/s^2]
@@ -311,7 +404,7 @@
     real(wp),dimension(3,3),intent(out)          :: c     !! C transformation matrix
     real(wp),dimension(3,3),intent(out),optional :: cdot  !! CDOT transformation matrix
 
-    call from_ijk_to_lvlh(r,v,a,c,cdot)
+    call from_ijk_to_lvlh(mu,r,v,a,c,cdot)
 
     c = transpose(c)
 
@@ -326,10 +419,11 @@
 !
 !  Transform a position (and optionally velocity) vector from LVLH to IJK.
 
-    subroutine from_lvlh_to_ijk_rv(rt_ijk,vt_ijk,dr_lvlh,dv_lvlh,r_ijk,v_ijk)
+    subroutine from_lvlh_to_ijk_rv(mu,rt_ijk,vt_ijk,dr_lvlh,dv_lvlh,r_ijk,v_ijk)
 
     implicit none
 
+    real(wp),intent(in)                         :: mu       !! gravitational parameter [km^3/s^2]
     real(wp),dimension(3),intent(in)            :: rt_ijk   !! Target IJK absolute position vector [km]
     real(wp),dimension(3),intent(in)            :: vt_ijk   !! Target IJK absolute position vector [km]
     real(wp),dimension(3),intent(in)            :: dr_lvlh  !! Chaser LVLH position vector relative to target [km]
@@ -337,26 +431,140 @@
     real(wp),dimension(3),intent(out)           :: r_ijk    !! Chaser IJK absolute position vector [km]
     real(wp),dimension(3),intent(out),optional  :: v_ijk    !! Chaser IJK absolute position vector [km]
 
-    real(wp),dimension(3,3) :: c
-    real(wp),dimension(3,3) :: cdot
+    call from_frame_to_ijk_rv(mu,from_lvlh_to_ijk_mat,rt_ijk,vt_ijk,dr_lvlh,dv_lvlh,r_ijk,v_ijk)
 
-    if (present(v_ijk)) then
+    end subroutine from_lvlh_to_ijk_rv
+!*****************************************************************************************
 
-        call from_lvlh_to_ijk(rt_ijk,vt_ijk,c=c,cdot=cdot)
+!*****************************************************************************************
+!>
+!  Compute the transformation matrices to convert IJK to vuw.
 
-        !chaser = target + delta:
-        r_ijk = rt_ijk + matmul( c, dr_lvlh )
-        v_ijk = vt_ijk + matmul( cdot, dr_lvlh ) + matmul( c, dv_lvlh )
+    subroutine from_ijk_to_vuw_mat(mu,r,v,a,c,cdot)
 
-    else
+    use vector_module, only: unit, cross, uhat_dot
 
-        call from_lvlh_to_ijk(rt_ijk,vt_ijk,c=c)
+    implicit none
 
-        r_ijk = rt_ijk + matmul( c, dr_lvlh )
+    real(wp),intent(in)                          :: mu     !! gravitational parameter [km^3/s^2]
+                                                           !! this is used here to assume instantaneous conic motion if `a` is not present.
+    real(wp),dimension(3),intent(in)             :: r      !! position vector of target [km]
+    real(wp),dimension(3),intent(in)             :: v      !! velocity vector of target [km/s]
+    real(wp),dimension(3),intent(in),optional    :: a      !! acceleration vector of target [km/s^2]
+                                                           !! (if not present, then a torque-free force model is assumed)
+    real(wp),dimension(3,3),intent(out)          :: c      !! C transformation matrix
+    real(wp),dimension(3,3),intent(out),optional :: cdot   !! CDOT transformation matrix
+
+    real(wp),dimension(3) :: ex_hat,ex_hat_dot
+    real(wp),dimension(3) :: ey_hat,ey_hat_dot
+    real(wp),dimension(3) :: ez_hat,ez_hat_dot
+    real(wp),dimension(3) :: h,h_hat,h_dot,v_hat,a_conic
+    real(wp) :: rmag !! position vector magniude
+
+    h      = cross(r,v)
+    h_hat  = unit(h)
+    v_hat  = unit(v)
+
+    ex_hat = v_hat
+    ez_hat = h_hat
+    ey_hat = cross(ez_hat,ex_hat)
+
+    c(1,:) = ex_hat
+    c(2,:) = ey_hat
+    c(3,:) = ez_hat
+
+    if (present(cdot)) then
+
+        if (present(a)) then
+            ex_hat_dot = uhat_dot(v,a)
+            h_dot = cross(r,a)
+        else
+            rmag = norm2(r)
+            ! is this as simple as we can make this?
+            ! here we assume instantaneous conic motion
+            a_conic = -mu/rmag**3 * r  ! accceleration for conic motion
+            ex_hat_dot = uhat_dot(v,a_conic)
+            h_dot = zero
+        end if
+        ez_hat_dot = uhat_dot(h,h_dot)
+        ey_hat_dot = cross(ez_hat_dot,ex_hat) + cross(ez_hat,ex_hat_dot)
+
+        cdot(1,:) = ex_hat_dot
+        cdot(2,:) = ey_hat_dot
+        cdot(3,:) = ez_hat_dot
 
     end if
 
-    end subroutine from_lvlh_to_ijk_rv
+    end subroutine from_ijk_to_vuw_mat
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Transform a position (and optionally velocity) vector from IJK to VUW.
+
+    subroutine from_ijk_to_vuw_rv(mu,rt_ijk,vt_ijk,r_ijk,v_ijk,dr_vuw,dv_vuw)
+
+    implicit none
+
+    real(wp),intent(in)                        :: mu       !! gravitational parameter [km^3/s^2]
+    real(wp),dimension(3),intent(in)           :: rt_ijk   !! Target IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)           :: vt_ijk   !! Target IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)           :: r_ijk    !! Chaser IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)           :: v_ijk    !! Chaser IJK absolute position vector [km]
+    real(wp),dimension(3),intent(out)          :: dr_vuw  !! Chaser vuw position vector relative to target [km]
+    real(wp),dimension(3),intent(out),optional :: dv_vuw  !! Chaser vuw position vector relative to target [km]
+
+    call from_ijk_to_frame_rv(mu,from_ijk_to_vuw_mat,rt_ijk,vt_ijk,r_ijk,v_ijk,dr_vuw,dv_vuw)
+
+    end subroutine from_ijk_to_vuw_rv
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Compute the transformation matrices to convert VUW to IJK.
+
+    subroutine from_vuw_to_ijk_mat(mu,r,v,a,c,cdot)
+
+    use vector_module, only: unit, cross
+
+    implicit none
+
+    real(wp),intent(in)                          :: mu    !! gravitational parameter [km^3/s^2]
+    real(wp),dimension(3),intent(in)             :: r     !! position vector of target [km]
+    real(wp),dimension(3),intent(in)             :: v     !! velocity vector of target [km/s]
+    real(wp),dimension(3),intent(in),optional    :: a     !! acceleration vector of target [km/s^2]
+                                                          !! (if not present, then a torque-free force model is assumed)
+    real(wp),dimension(3,3),intent(out)          :: c     !! C transformation matrix
+    real(wp),dimension(3,3),intent(out),optional :: cdot  !! CDOT transformation matrix
+
+    call from_ijk_to_vuw(mu,r,v,a,c,cdot)
+
+    c = transpose(c)
+
+    if (present(cdot)) cdot = transpose(cdot)
+
+    end subroutine from_vuw_to_ijk_mat
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Transform a position (and optionally velocity) vector from VUW to IJK.
+
+    subroutine from_vuw_to_ijk_rv(mu,rt_ijk,vt_ijk,dr_vuw,dv_vuw,r_ijk,v_ijk)
+
+    implicit none
+
+    real(wp),intent(in)                         :: mu       !! gravitational parameter [km^3/s^2]
+    real(wp),dimension(3),intent(in)            :: rt_ijk   !! Target IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)            :: vt_ijk   !! Target IJK absolute position vector [km]
+    real(wp),dimension(3),intent(in)            :: dr_vuw   !! Chaser vuw position vector relative to target [km]
+    real(wp),dimension(3),intent(in)            :: dv_vuw   !! Chaser vuw position vector relative to target [km]
+    real(wp),dimension(3),intent(out)           :: r_ijk    !! Chaser IJK absolute position vector [km]
+    real(wp),dimension(3),intent(out),optional  :: v_ijk    !! Chaser IJK absolute position vector [km]
+
+    call from_frame_to_ijk_rv(mu,from_vuw_to_ijk_mat,rt_ijk,vt_ijk,dr_vuw,dv_vuw,r_ijk,v_ijk)
+
+    end subroutine from_vuw_to_ijk_rv
 !*****************************************************************************************
 
 !*****************************************************************************************
@@ -365,12 +573,13 @@
 !
 !  Compute the transformation matrices to convert IJK to RSW.
 
-    subroutine from_ijk_to_rsw_mat(r,v,a,c,cdot)
+    subroutine from_ijk_to_rsw_mat(mu,r,v,a,c,cdot)
 
     use vector_module, only: unit, cross, uhat_dot
 
     implicit none
 
+    real(wp),intent(in)                          :: mu     !! gravitational parameter [km^3/s^2]
     real(wp),dimension(3),intent(in)             :: r      !! position vector of target [km]
     real(wp),dimension(3),intent(in)             :: v      !! velocity vector of target [km/s]
     real(wp),dimension(3),intent(in),optional    :: a      !! acceleration vector of target [km/s^2]
@@ -423,10 +632,11 @@
 !
 !  Transform a position (and optionally velocity) vector from IJK to RSW.
 
-    subroutine from_ijk_to_rsw_rv(rt_ijk,vt_ijk,r_ijk,v_ijk,dr_rsw,dv_rsw)
+    subroutine from_ijk_to_rsw_rv(mu,rt_ijk,vt_ijk,r_ijk,v_ijk,dr_rsw,dv_rsw)
 
     implicit none
 
+    real(wp),intent(in)                        :: mu       !! gravitational parameter [km^3/s^2]
     real(wp),dimension(3),intent(in)           :: rt_ijk   !! Target IJK absolute position vector [km]
     real(wp),dimension(3),intent(in)           :: vt_ijk   !! Target IJK absolute position vector [km]
     real(wp),dimension(3),intent(in)           :: r_ijk    !! Chaser IJK absolute position vector [km]
@@ -434,28 +644,7 @@
     real(wp),dimension(3),intent(out)          :: dr_rsw   !! Chaser RSW position vector relative to target [km]
     real(wp),dimension(3),intent(out),optional :: dv_rsw   !! Chaser RSW position vector relative to target [km]
 
-    real(wp),dimension(3,3) :: c
-    real(wp),dimension(3,3) :: cdot
-    real(wp),dimension(3) :: dr_ijk, dv_ijk
-
-    dr_ijk = r_ijk - rt_ijk  ! delta = chaser - target
-
-    if (present(dv_rsw)) then
-
-        dv_ijk = v_ijk - vt_ijk  ! delta = chaser - target
-
-        call from_ijk_to_rsw(rt_ijk,vt_ijk,c=c,cdot=cdot)
-
-        dr_rsw = matmul( c, dr_ijk )
-        dv_rsw = matmul( cdot, dr_ijk ) + matmul( c, dv_ijk )
-
-    else
-
-        call from_ijk_to_rsw(rt_ijk,vt_ijk,c=c)
-
-        dr_rsw = matmul( c, dr_ijk )
-
-    end if
+    call from_ijk_to_frame_rv(mu,from_ijk_to_rsw_mat,rt_ijk,vt_ijk,r_ijk,v_ijk,dr_rsw,dv_rsw)
 
     end subroutine from_ijk_to_rsw_rv
 !*****************************************************************************************
@@ -466,12 +655,13 @@
 !
 !  Compute the transformation matrices to convert RSW to IJK.
 
-    subroutine from_rsw_to_ijk_mat(r,v,a,c,cdot)
+    subroutine from_rsw_to_ijk_mat(mu,r,v,a,c,cdot)
 
     use vector_module, only: unit, cross
 
     implicit none
 
+    real(wp),intent(in)                          :: mu    !! gravitational parameter [km^3/s^2]
     real(wp),dimension(3),intent(in)             :: r     !! position vector of target [km]
     real(wp),dimension(3),intent(in)             :: v     !! velocity vector of target [km/s]
     real(wp),dimension(3),intent(in),optional    :: a     !! acceleration vector of target [km/s^2]
@@ -479,7 +669,7 @@
     real(wp),dimension(3,3),intent(out)          :: c     !! C transformation matrix
     real(wp),dimension(3,3),intent(out),optional :: cdot  !! CDOT transformation matrix
 
-    call from_ijk_to_rsw(r,v,a,c,cdot)
+    call from_ijk_to_rsw(mu,r,v,a,c,cdot)
 
     c = transpose(c)
 
@@ -494,10 +684,11 @@
 !
 !  Transform a position (and optionally velocity) vector from RSW to IJK.
 
-    subroutine from_rsw_to_ijk_rv(rt_ijk,vt_ijk,dr_rsw,dv_rsw,r_ijk,v_ijk)
+    subroutine from_rsw_to_ijk_rv(mu,rt_ijk,vt_ijk,dr_rsw,dv_rsw,r_ijk,v_ijk)
 
     implicit none
 
+    real(wp),intent(in)                         :: mu       !! gravitational parameter [km^3/s^2]
     real(wp),dimension(3),intent(in)            :: rt_ijk   !! Target IJK absolute position vector [km]
     real(wp),dimension(3),intent(in)            :: vt_ijk   !! Target IJK absolute position vector [km]
     real(wp),dimension(3),intent(in)            :: dr_rsw   !! Chaser RSW position vector [km]
@@ -505,23 +696,7 @@
     real(wp),dimension(3),intent(out)           :: r_ijk    !! Chaser IJK absolute position vector [km]
     real(wp),dimension(3),intent(out),optional  :: v_ijk    !! Chaser IJK absolute velocity vector [km/s]
 
-    real(wp),dimension(3,3) :: c
-    real(wp),dimension(3,3) :: cdot
-
-    if (present(v_ijk)) then
-
-        call from_rsw_to_ijk(rt_ijk,vt_ijk,c=c,cdot=cdot)
-
-        r_ijk = rt_ijk + matmul( c, dr_rsw )
-        v_ijk = vt_ijk + matmul( cdot, dr_rsw ) + matmul( c, dv_rsw )
-
-    else
-
-        call from_rsw_to_ijk(rt_ijk,vt_ijk,c=c)
-
-        r_ijk = rt_ijk + matmul( c, dr_rsw )
-
-    end if
+    call from_frame_to_ijk_rv(mu,from_rsw_to_ijk_mat,rt_ijk,vt_ijk,dr_rsw,dv_rsw,r_ijk,v_ijk)
 
     end subroutine from_rsw_to_ijk_rv
 !*****************************************************************************************
@@ -611,6 +786,8 @@
     real(wp),dimension(3) :: r_12_R, v_12_R
     real(wp),dimension(3,3) :: c,cdot
 
+    real(wp),parameter :: mu = 398600.4418_wp  ! gravitational parameter [km^3/s^2]
+
     write(*,*) ''
     write(*,*) '---------------'
     write(*,*) ' relative_motion_test'
@@ -624,7 +801,7 @@
     r_12_I = r2_I - r1_I
     v_12_I = v2_I - v1_I
 
-    call from_ijk_to_lvlh(r1_I,v1_I,c=c,cdot=cdot)
+    call from_ijk_to_lvlh(mu,r1_I,v1_I,c=c,cdot=cdot)
 
     r_12_R = matmul( c, r_12_I )
     v_12_R = matmul( cdot, r_12_I ) + matmul( c, v_12_I )
@@ -633,7 +810,7 @@
     write(*,'(A,*(D30.16,1X))') 'v_12_LVLH : ', v_12_R
     write(*,*) ''
 
-    call from_ijk_to_rsw(r1_I,v1_I,c=c,cdot=cdot)
+    call from_ijk_to_rsw(mu,r1_I,v1_I,c=c,cdot=cdot)
 
     r_12_R = matmul( c, r_12_I )
     v_12_R = matmul( cdot, r_12_I ) + matmul( c, v_12_I )
