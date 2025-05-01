@@ -71,7 +71,8 @@
     mean_motion = sqrt(mu_earth / orbit_sma**3) ! mean motion of target orbit
 
     !convert chaser state to eci frame (for integration):
-    call from_lvlh_to_ijk(rt_ijk  = rv_target_eci_t0(1:3),&
+    call from_lvlh_to_ijk(mu = mu_earth, &
+                          rt_ijk  = rv_target_eci_t0(1:3),&
                           vt_ijk  = rv_target_eci_t0(4:6),&
                           dr_lvlh = r_chaser_lvlh,&
                           dv_lvlh = v_chaser_lvlh,&
