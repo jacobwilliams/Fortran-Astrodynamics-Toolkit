@@ -303,7 +303,8 @@
 
             !chaser in LVLH relative to target:
 
-            call from_ijk_to_lvlh(rt_ijk  = x(1:3),&
+            call from_ijk_to_lvlh(mu = mu_earth,&
+                                  rt_ijk  = x(1:3),&
                                   vt_ijk  = x(4:6),&
                                   r_ijk   = x(7:9),&
                                   v_ijk   = x(10:12),&
