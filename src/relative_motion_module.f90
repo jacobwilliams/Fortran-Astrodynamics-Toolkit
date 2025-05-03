@@ -602,8 +602,6 @@
     c(2,:) = ey_hat
     c(3,:) = ez_hat
 
-    !... need to verify the following ...
-
     if (present(cdot)) then
 
         ex_hat_dot = uhat_dot(r,v)
