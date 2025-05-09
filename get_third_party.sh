@@ -1,14 +1,26 @@
 #!/bin/bash
 
 # Get some third-party files
+# Axel Z. : replace wget with curl to prevent 'Unsupported scheme' error
 
 ### Ephemeris files from JPL:
 
+rm -rf ./tmp
+
 mkdir tmp
 cd tmp
-wget ftp://ssd.jpl.nasa.gov/pub/eph/planets/fortran/*
-wget ftp://ssd.jpl.nasa.gov/pub/eph/planets/ascii/de405/*
-wget ftp://ssd.jpl.nasa.gov/pub/eph/planets/ascii/de421/*
+while read d
+do
+curl -s ftp://ssd.jpl.nasa.gov/${d}/ | gawk -e '//{print $9}' | while read f
+do
+  echo "=== $d/$f"
+  curl -s -o ./${f} ftp://ssd.jpl.nasa.gov/${d}/${f}
+done
+done<<EOF
+pub/eph/planets/fortran
+pub/eph/planets/ascii/de405
+pub/eph/planets/ascii/de421
+EOF
 
 # edit asc2eph.f file to set NRECL = 4:
 # seems that -i only works on mac?
@@ -28,7 +40,7 @@ mv JPLEPH ../eph/JPLEPH.421
 
 ### Geopotential file for Earth:
 
-wget https://download.csr.utexas.edu/pub/grace/GGM03/GGM03_Archive.zip --no-check-certificate
-unzip GGM03_Archive.zip
+curl -kL -o ./GGM03_Archive.zip https://download.csr.utexas.edu/pub/grace/GGM03/GGM03_Archive.zip
+unzip ./GGM03_Archive.zip
 mkdir ../grav
 cp GGM03_Archive/GGM03C.GEO ../grav

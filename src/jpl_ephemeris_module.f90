@@ -895,19 +895,9 @@
 !  This routine requires the DE405 and DE421 JPL binary ephemeris files
 !  to be present in the `./eph` directory.
 !  These can be built by using the instructions
-!  [here](ftp://ssd.jpl.nasa.gov/pub/eph/planets/fortran/userguide.txt).
+!  [here](https://ssd.jpl.nasa.gov/ftp/eph/planets/fortran/userguide.txt).
 !
-!  For example (on Linux):
-!```bash
-!  wget ftp://ssd.jpl.nasa.gov/pub/eph/planets/fortran/*
-!  wget ftp://ssd.jpl.nasa.gov/pub/eph/planets/ascii/de405/*
-!  #edit asc2eph.f file to set NRECL = 4:
-!  sed -i '_original' '/^C.*PARAMETER ( NRECL = 4 )/s/^C//' asc2eph.f
-!  gfortran asc2eph.f -o asc2eph
-!  cat header.405 ascp*.405 | ./asc2eph
-!  mkdir Fortran-Astrodynamics-Toolkit/eph
-!  mv JPLEPH Fortran-Astrodynamics-Toolkit/eph/JPLEPH.405
-!```
+!  See also `get_third_party.sh` script in the repo.
 
     subroutine ephemeris_test()
 
