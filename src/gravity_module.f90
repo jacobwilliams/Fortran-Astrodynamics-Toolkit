@@ -16,6 +16,7 @@
     private
 
     public :: third_body_gravity
+    public :: third_body_gravity_alt
     public :: gravity_j2_j3_j4
 
     contains
@@ -44,6 +45,29 @@
     acc        = (mu/r_sc_b_mag**3)*r_sc_b - (mu/rb_mag**3)*rb
 
     end subroutine third_body_gravity
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Third-body (pointmass) gravitational acceleration (alternate Battin formulation).
+!  See Equation 8.61 in Battin.
+
+    subroutine third_body_gravity_alt(r,rb,mu,acc)
+
+    real(wp),dimension(3),intent(in)  :: r   !! satellite position vector [km]
+    real(wp),dimension(3),intent(in)  :: rb  !! third-body position vector [km]
+    real(wp),intent(in)               :: mu  !! third-body gravitational parameter [km^3/s^2]
+    real(wp),dimension(3),intent(out) :: acc !! gravity acceleration vector [km/s^2]
+
+    real(wp) :: rb2, q, f, tmp
+
+    rb2  = dot_product(rb,rb)
+    q    = dot_product(r,r-two*rb)/rb2
+    tmp  = (one+q)**1.5_wp
+    f    = q*(three+three*q+q*q)/(one+tmp)
+    acc  = -mu*(r+f*rb)/tmp/rb2**1.5_wp
+
+    end subroutine third_body_gravity_alt
 !*****************************************************************************************
 
 !*****************************************************************************************
