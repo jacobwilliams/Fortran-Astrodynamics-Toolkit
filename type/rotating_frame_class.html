@@ -1,0 +1,637 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>rotating_frame_class &ndash; fortran-astrodynamics-toolkit </title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>rotating_frame_class
+      <small>Derived Type</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title="<p> 0.7% of total for derived types.</p>Including implementation: 40 statements,  0.6% of total for derived types.">2 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/transformation_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/transformation_module.f90.html'>transformation_module.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/transformation_module.html'>transformation_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">rotating_frame_class</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#boundprocs-0"
+         aria-expanded="false" aria-controls="boundprocs-0">
+         <h4 class="card-header bg-primary text-white">Type-Bound Procedures</h4>
+      </a>
+      <div id="boundprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/rotating_frame_class.html#boundprocedure-transform">transform</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../type/rotating_frame_class.html#src">rotating_frame_class</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+      <h2 id="type-def-statement">
+        type, public, abstract, extends(<a href='reference_frame.html'>reference_frame</a>) :: rotating_frame_class</h2>
+    <p>a rotating frame (a frame where the orientation axes vary with time)</p>
+<br>      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Inherits</h3>
+        </div>
+        <div class="card-body">
+          <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: type~~rotating_frame_class~~InheritsGraph Pages: 1 -->
+<svg id="typerotating_frame_classInheritsGraph" width="565pt" height="32pt"
+ viewBox="0.00 0.00 565.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="type~~rotating_frame_class~~InheritsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>type~~rotating_frame_class~~InheritsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 561,-28 561,4 -4,4"/>
+<!-- type~rotating_frame_class -->
+<g id="type~~rotating_frame_class~~InheritsGraph_node1" class="node">
+<title>type~rotating_frame_class</title>
+<polygon fill="none" stroke="black" points="557,-24 434,-24 434,0 557,0 557,-24"/>
+<text text-anchor="middle" x="495.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">rotating_frame_class</text>
+</g>
+<!-- type~reference_frame -->
+<g id="type~~rotating_frame_class~~InheritsGraph_node2" class="node">
+<title>type~reference_frame</title>
+<g id="a_type~~rotating_frame_class~~InheritsGraph_node2"><a xlink:href="../type/reference_frame.html" xlink:title="reference_frame">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="397,-24 296,-24 296,0 397,0 397,-24"/>
+<text text-anchor="middle" x="346.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">reference_frame</text>
+</a>
+</g>
+</g>
+<!-- type~rotating_frame_class&#45;&gt;type~reference_frame -->
+<g id="type~~rotating_frame_class~~InheritsGraph_edge1" class="edge">
+<title>type~rotating_frame_class&#45;&gt;type~reference_frame</title>
+<path fill="none" stroke="#000000" d="M433.86,-12C425.11,-12 416.1,-12 407.36,-12"/>
+<polygon fill="#000000" stroke="#000000" points="407.26,-8.5 397.26,-12 407.26,-15.5 407.26,-8.5"/>
+</g>
+<!-- type~celestial_body -->
+<g id="type~~rotating_frame_class~~InheritsGraph_node3" class="node">
+<title>type~celestial_body</title>
+<g id="a_type~~rotating_frame_class~~InheritsGraph_node3"><a xlink:href="../type/celestial_body.html" xlink:title="celestial_body">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="195,-24 107,-24 107,0 195,0 195,-24"/>
+<text text-anchor="middle" x="151" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">celestial_body</text>
+</a>
+</g>
+</g>
+<!-- type~reference_frame&#45;&gt;type~celestial_body -->
+<g id="type~~rotating_frame_class~~InheritsGraph_edge2" class="edge">
+<title>type~reference_frame&#45;&gt;type~celestial_body</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M295.92,-12C268.2,-12 233.63,-12 205.32,-12"/>
+<polygon fill="#000000" stroke="#000000" points="205.2,-8.5 195.2,-12 205.2,-15.5 205.2,-8.5"/>
+<text text-anchor="middle" x="245.5" y="-14.4" font-family="Helvetica,sans-Serif" font-size="9.50">primary_body</text>
+</g>
+<!-- type~base_class -->
+<g id="type~~rotating_frame_class~~InheritsGraph_node4" class="node">
+<title>type~base_class</title>
+<g id="a_type~~rotating_frame_class~~InheritsGraph_node4"><a xlink:href="../type/base_class.html" xlink:title="base_class">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">base_class</text>
+</a>
+</g>
+</g>
+<!-- type~celestial_body&#45;&gt;type~base_class -->
+<g id="type~~rotating_frame_class~~InheritsGraph_edge3" class="edge">
+<title>type~celestial_body&#45;&gt;type~base_class</title>
+<path fill="none" stroke="#000000" d="M106.9,-12C98.2,-12 89.04,-12 80.3,-12"/>
+<polygon fill="#000000" stroke="#000000" points="80.28,-8.5 70.28,-12 80.28,-15.5 80.28,-8.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#InheritsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="InheritsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="186pt" height="32pt"
+ viewBox="0.00 0.00 185.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 181.5,-28 181.5,4 -4,4"/>
+<!-- Type -->
+<g id="node1" class="node">
+<title>Type</title>
+<polygon fill="#5cb85c" stroke="#5cb85c" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="177.5,-24 72.5,-24 72.5,0 177.5,0 177.5,-24"/>
+<text text-anchor="middle" x="125" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a derived type to the parent type which it
+extends. Dashed arrows point from a derived type to the other
+types it contains as a components, with a label listing the name(s) of
+said component(s).
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Inherited by</h3>
+        </div>
+        <div class="card-body">
+          <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: type~~rotating_frame_class~~InheritedByGraph Pages: 1 -->
+<svg id="typerotating_frame_classInheritedByGraph" width="551pt" height="116pt"
+ viewBox="0.00 0.00 551.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="type~~rotating_frame_class~~InheritedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>type~~rotating_frame_class~~InheritedByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 547,-112 547,4 -4,4"/>
+<!-- type~rotating_frame_class -->
+<g id="type~~rotating_frame_class~~InheritedByGraph_node1" class="node">
+<title>type~rotating_frame_class</title>
+<polygon fill="none" stroke="black" points="123,-45 0,-45 0,-21 123,-21 123,-45"/>
+<text text-anchor="middle" x="61.5" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">rotating_frame_class</text>
+</g>
+<!-- type~iau_rotating_frame_class -->
+<g id="type~~rotating_frame_class~~InheritedByGraph_node2" class="node">
+<title>type~iau_rotating_frame_class</title>
+<g id="a_type~~rotating_frame_class~~InheritedByGraph_node2"><a xlink:href="../type/iau_rotating_frame_class.html" xlink:title="iau_rotating_frame_class">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="305,-66 160,-66 160,-42 305,-42 305,-66"/>
+<text text-anchor="middle" x="232.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iau_rotating_frame_class</text>
+</a>
+</g>
+</g>
+<!-- type~iau_rotating_frame_class&#45;&gt;type~rotating_frame_class -->
+<g id="type~~rotating_frame_class~~InheritedByGraph_edge2" class="edge">
+<title>type~iau_rotating_frame_class&#45;&gt;type~rotating_frame_class</title>
+<path fill="none" stroke="#000000" d="M159.83,-45.09C151.03,-44 142.05,-42.89 133.27,-41.79"/>
+<polygon fill="#000000" stroke="#000000" points="133.44,-38.29 123.08,-40.53 132.57,-45.23 133.44,-38.29"/>
+</g>
+<!-- type~two_body_rotating_frame -->
+<g id="type~~rotating_frame_class~~InheritedByGraph_node3" class="node">
+<title>type~two_body_rotating_frame</title>
+<g id="a_type~~rotating_frame_class~~InheritedByGraph_node3"><a xlink:href="../type/two_body_rotating_frame.html" xlink:title="two_body_rotating_frame">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="306,-24 159,-24 159,0 306,0 306,-24"/>
+<text text-anchor="middle" x="232.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">two_body_rotating_frame</text>
+</a>
+</g>
+</g>
+<!-- type~two_body_rotating_frame&#45;&gt;type~rotating_frame_class -->
+<g id="type~~rotating_frame_class~~InheritedByGraph_edge1" class="edge">
+<title>type~two_body_rotating_frame&#45;&gt;type~rotating_frame_class</title>
+<path fill="none" stroke="#000000" d="M158.85,-21.03C150.39,-22.08 141.77,-23.15 133.33,-24.2"/>
+<polygon fill="#000000" stroke="#000000" points="132.65,-20.76 123.16,-25.46 133.52,-27.7 132.65,-20.76"/>
+</g>
+<!-- type~iau_earth_rotating_frame -->
+<g id="type~~rotating_frame_class~~InheritedByGraph_node4" class="node">
+<title>type~iau_earth_rotating_frame</title>
+<g id="a_type~~rotating_frame_class~~InheritedByGraph_node4"><a xlink:href="../type/iau_earth_rotating_frame.html" xlink:title="iau_earth_rotating_frame">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="516,-108 369,-108 369,-84 516,-84 516,-108"/>
+<text text-anchor="middle" x="442.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iau_earth_rotating_frame</text>
+</a>
+</g>
+</g>
+<!-- type~iau_earth_rotating_frame&#45;&gt;type~iau_rotating_frame_class -->
+<g id="type~~rotating_frame_class~~InheritedByGraph_edge3" class="edge">
+<title>type~iau_earth_rotating_frame&#45;&gt;type~iau_rotating_frame_class</title>
+<path fill="none" stroke="#000000" d="M381.9,-83.96C357.31,-79 328.65,-73.21 303.1,-68.05"/>
+<polygon fill="#000000" stroke="#000000" points="303.61,-64.59 293.11,-66.04 302.22,-71.45 303.61,-64.59"/>
+</g>
+<!-- type~iau_moon_rotating_frame -->
+<g id="type~~rotating_frame_class~~InheritedByGraph_node5" class="node">
+<title>type~iau_moon_rotating_frame</title>
+<g id="a_type~~rotating_frame_class~~InheritedByGraph_node5"><a xlink:href="../type/iau_moon_rotating_frame.html" xlink:title="iau_moon_rotating_frame">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="517,-66 368,-66 368,-42 517,-42 517,-66"/>
+<text text-anchor="middle" x="442.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iau_moon_rotating_frame</text>
+</a>
+</g>
+</g>
+<!-- type~iau_moon_rotating_frame&#45;&gt;type~iau_rotating_frame_class -->
+<g id="type~~rotating_frame_class~~InheritedByGraph_edge4" class="edge">
+<title>type~iau_moon_rotating_frame&#45;&gt;type~iau_rotating_frame_class</title>
+<path fill="none" stroke="#000000" d="M367.87,-54C350.88,-54 332.69,-54 315.36,-54"/>
+<polygon fill="#000000" stroke="#000000" points="315.28,-50.5 305.28,-54 315.28,-57.5 315.28,-50.5"/>
+</g>
+<!-- type~two_body_rotating_pulsating_frame -->
+<g id="type~~rotating_frame_class~~InheritedByGraph_node6" class="node">
+<title>type~two_body_rotating_pulsating_frame</title>
+<g id="a_type~~rotating_frame_class~~InheritedByGraph_node6"><a xlink:href="../type/two_body_rotating_pulsating_frame.html" xlink:title="two_body_rotating_pulsating_frame">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="543,-24 342,-24 342,0 543,0 543,-24"/>
+<text text-anchor="middle" x="442.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">two_body_rotating_pulsating_frame</text>
+</a>
+</g>
+</g>
+<!-- type~two_body_rotating_pulsating_frame&#45;&gt;type~two_body_rotating_frame -->
+<g id="type~~rotating_frame_class~~InheritedByGraph_edge5" class="edge">
+<title>type~two_body_rotating_pulsating_frame&#45;&gt;type~two_body_rotating_frame</title>
+<path fill="none" stroke="#000000" d="M341.76,-12C333.24,-12 324.68,-12 316.31,-12"/>
+<polygon fill="#000000" stroke="#000000" points="316.21,-8.5 306.21,-12 316.21,-15.5 316.21,-8.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#InheritedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="InheritedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="186pt" height="32pt"
+ viewBox="0.00 0.00 185.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 181.5,-28 181.5,4 -4,4"/>
+<!-- Type -->
+<g id="node1" class="node">
+<title>Type</title>
+<polygon fill="#5cb85c" stroke="#5cb85c" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="177.5,-24 72.5,-24 72.5,0 177.5,0 177.5,-24"/>
+<text text-anchor="middle" x="125" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a derived type to the parent type which it
+extends. Dashed arrows point from a derived type to the other
+types it contains as a components, with a label listing the name(s) of
+said component(s).
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    <br>
+
+    
+
+
+      <section>
+        <h2>Type-Bound Procedures</h2>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-transform"></span>
+      <h3>
+          procedure, public, pass(from) ::
+  <strong>transform</strong>
+        
+      </h3>
+    </div>
+        <div class="card-body">
+          
+          <p>coordinate transformation routine</p>
+        </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  subroutine <a href='../proc/transform.html'>transform</a>(from, rv, to, et, eph, rv_out, status_ok)  
+</h3>
+    
+
+  <p>Transform a Cartesian state from one reference frame to another at
+a specified epoch. The <code>from</code> and <code>to</code> <a href="../type/reference_frame.html">reference_frame</a>s may each
+be defined at a different epoch. The <code>et</code> ephemeris time is the time
+the transformation is to be done, and accounts for the motion of the two
+frame centers from <code>from%et</code> and <code>to%et</code> to <code>et</code>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='reference_frame.html'>reference_frame</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>from</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>rv</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='reference_frame.html'>reference_frame</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>to</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>et</strong></td>
+            <td>
+<p>the time of the transformation [sec]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='ephemeris_class.html'>ephemeris_class</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eph</strong></td>
+            <td>
+<p>for ephemeris computations (assumed to have already been initialized)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>rv_out</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status_ok</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+      </section>
+
+    <section>
+    <h3><span class="anchor" id="src"></span>Source Code</h3>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">type</span><span class="p">,</span><span class="k">abstract</span><span class="p">,</span><span class="k">extends</span><span class="p">(</span><span class="n">reference_frame</span><span class="p">),</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rotating_frame_class</span>
+<span class="w">        </span><span class="c">!! a rotating frame (a frame where the orientation axes vary with time)</span>
+<span class="w">    </span><span class="k">end type </span><span class="n">rotating_frame_class</span>
+</pre></div>
+
+    </section>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>
