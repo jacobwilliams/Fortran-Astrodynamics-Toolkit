@@ -63,6 +63,7 @@
         !! approximate positions of the major planets.
     contains
         procedure,public :: get_rv => standish_rv_func
+        procedure,public :: get_r => standish_r_func
     end type standish_ephemeris
 
     ! constants
@@ -324,6 +325,35 @@
     end if
 
     end subroutine standish_rv_func
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Return the position of the `targ` body relative to
+!  the `obs` body, in the inertial frame [ICRF].
+!
+!  This is the function that can be used in the [[ephemeris_class]].
+
+    subroutine standish_r_func(me,et,targ,obs,r,status_ok)
+
+    implicit none
+
+    class(standish_ephemeris),intent(inout) :: me
+    real(wp),intent(in)                     :: et         !! ephemeris time [sec]
+    type(celestial_body),intent(in)         :: targ       !! target body
+    type(celestial_body),intent(in)         :: obs        !! observer body
+    real(wp),dimension(3),intent(out)       :: r          !! position of targ w.r.t. obs [km]
+    logical,intent(out)                     :: status_ok  !! true if there were no problems
+
+    real(wp),dimension(6) :: rv  !! full state vector [km, km/s]
+
+    call me%get_rv(et,targ,obs,rv,status_ok)
+    if (status_ok) then
+        r = rv(1:3)  !! position of targ w.r.t. obs [km]
+    else
+        r = zero
+    end if
+    end subroutine standish_r_func
 !*****************************************************************************************
 
 !*****************************************************************************************

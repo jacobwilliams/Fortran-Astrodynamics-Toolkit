@@ -133,6 +133,7 @@
     contains
 
         procedure,public :: get_rv => get_rv_from_jpl_ephemeris
+        procedure,public :: get_r => get_r_from_jpl_ephemeris
 
         procedure,public :: initialize => initialize_ephemeris
         procedure,public :: get_state
@@ -231,6 +232,66 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
+!>
+!  Interface for the [[ephemeris_module]].
+
+    subroutine get_r_from_jpl_ephemeris(me,et,targ,obs,r,status_ok)
+
+    use time_module,           only: et_to_jd
+    use conversion_module,     only: day2sec
+    use celestial_body_module, only: celestial_body
+    use numbers_module,        only: zero
+
+    implicit none
+
+    class(jpl_ephemeris),intent(inout)    :: me
+    real(fat_wp),intent(in)               :: et         !! ephemeris time [sec]
+    type(celestial_body),intent(in)       :: targ       !! target body
+    type(celestial_body),intent(in)       :: obs        !! observer body
+    real(fat_wp),dimension(3),intent(out) :: r          !! position of targ w.r.t. obs [km] in ICRF frame
+    logical,intent(out)                   :: status_ok  !! true if there were no problems
+
+    real(wp) :: jd     !! julian date for input to [[get_state]].
+    integer :: ntarg   !! id code for target body
+    integer :: ncent   !! id code for observer body
+    real(wp),dimension(6) :: rv_ !! in case `wp /= fat_wp` we need a copy
+
+    if (targ==obs) then
+        !don't bother if target and observer are the same body
+        r = zero
+        status_ok = .true.
+    else
+
+        !convert to expected inputs:
+        jd    = et_to_jd(et)
+        ntarg = spice_id_to_old_id(targ%id)
+        ncent = spice_id_to_old_id(obs%id)
+
+        if (ntarg>0 .and. ncent>0) then
+            call me%get_state(jd,ntarg,ncent,rv_,status_ok,pos_only=.true.) ! only return position
+            r = rv_(1:3)
+            if (status_ok) then
+                if (.not. me%km) then
+                    !we must return in units of km
+                    !so, convert from AU to km
+                    r = r * me%au
+                end if
+            else
+                write(error_unit,'(A)') 'Error in get_r_from_jpl_ephemeris: '//&
+                                        'Error calling ephemeris.'
+            end if
+        else
+            write(error_unit,'(A)') 'Error in get_r_from_jpl_ephemeris: '//&
+                                    'No ephemeris for this body.'
+            status_ok = .false.
+        end if
+
+    end if
+
+    end subroutine get_r_from_jpl_ephemeris
+!*****************************************************************************************
+
+!*****************************************************************************************
 !> author: Jacob Williams
 !  date: 3/20/2016
 !
@@ -301,7 +362,7 @@
 !  (if nutations are wanted, set ntarg = 14.
 !  for librations, set ntarg = 15. set ncent=0.)
 
-    subroutine get_state(me,jd,ntarg,ncent,rrd,status_ok)
+    subroutine get_state(me,jd,ntarg,ncent,rrd,status_ok,pos_only)
 
     implicit none
 
@@ -317,6 +378,7 @@
                                                      !! `rrd` will be set to nutations and rates, having units of
                                                      !! radians and radians/day.
     logical,intent(out)                :: status_ok  !! true if there were no problems
+    logical,intent(in),optional        :: pos_only    !! if .true. only the position components are returned, not the velocity
 
     real(wp),dimension(2)    :: et2
     real(wp),dimension(6,13) :: pv
@@ -325,8 +387,21 @@
     integer,dimension(12)    :: list
     integer                  :: i,j,k
     logical                  :: bsave
+    logical                  :: full_state !! if .true. then we return the full state, otherwise only the position
+    integer                  :: ilist !! for the `list` array
 
     status_ok = .false.
+
+    if (present(pos_only)) then
+        full_state = .not. pos_only
+    else
+        full_state = .true.
+    end if
+    if (.not. full_state) then
+        ilist = 1   ! only return the position
+    else
+        ilist = 2   ! return position and velocity
+    end if
 
     if (me%initialized) then
 
@@ -375,7 +450,7 @@
                     return
                 endif
 
-               case default
+            case default
 
                 ! force barycentric output by 'state'
 
@@ -385,12 +460,15 @@
                 ! set up proper entries in 'list' array for state call
 
                 do i=1,2
-                    k=ntarg
-                    if (i == 2)  k = ncent
-                    if (k <= 10) list(k)  = 2
-                    if (k == 10) list(3)  = 2
-                    if (k == 3)  list(10) = 2
-                    if (k == 13) list(3)  = 2
+                    if (i==1) then
+                        k = ntarg
+                    else
+                        k = ncent
+                    end if
+                    if (k <= 10) list(k)  = ilist  ! can we set all these to 1 for position only?
+                    if (k == 10) list(3)  = ilist
+                    if (k == 3)  list(10) = ilist
+                    if (k == 13) list(3)  = ilist
                 enddo
 
                 ! make call to state
@@ -901,12 +979,15 @@
 
     subroutine ephemeris_test()
 
+    use time_module, only: jd_to_et
+    use celestial_body_module
+
     implicit none
 
     character(len=6),dimension(nmax) :: nams
-    real(wp) :: jd
+    real(wp) :: jd, et
     real(wp),dimension(6) :: rv,rv1,rv2,diffrv
-    real(wp),dimension(3) :: ss
+    real(wp),dimension(3) :: ss, r
     real(wp),dimension(nmax) :: vals
     integer :: nvs,ntarg,nctr,i,j
     type(jpl_ephemeris) :: eph405, eph421
@@ -938,7 +1019,8 @@
             write(*,'(A,1X,D25.16)') nams(i), vals(i)
         end do
 
-        jd = 2451536.5d0       ! julian date
+        jd = 2451536.5d0   ! julian date
+        et = jd_to_et(jd)  ! ephemeris time
 
         if (jd < ss(1) .or. jd > ss(2)) then
 
@@ -1006,6 +1088,14 @@
             end do
 
         end do
+
+        ! compare get_rv with get_r
+        call eph405%get_rv(et,body_earth,body_moon,rv,status_ok_405)
+        call eph405%get_r(et,body_earth,body_moon,r,status_ok_405)
+        write(*,*) ''
+        write(*,*) 'r - rv(1:3) = ', r - rv(1:3)
+        if (.not. all(r - rv(1:3) == zero)) error stop 'error in ephemeris'
+        write(*,*) ''
 
     else
         write(*,*) 'Error opening DE421 ephemeris file'

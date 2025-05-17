@@ -30,6 +30,7 @@
     contains
 
         procedure,public :: get_rv     => get_rv_from_spice_ephemeris
+        procedure,public :: get_r      => get_r_from_spice_ephemeris
         procedure,public :: initialize => initialize_spice_ephemeris
         procedure,public :: close      => close_spice_ephemeris
 
@@ -70,6 +71,17 @@
             real(wp),dimension(6) :: state
             real(wp)              :: lt
         end subroutine spkgeo
+        subroutine spkgps ( targ, et, ref, obs, pos, lt )
+            !! see: https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/FORTRAN/spicelib/spkgps.html
+            import :: wp
+            implicit none
+            integer               :: targ
+            real(wp)              :: et
+            character(len=*)      :: ref
+            integer               :: obs
+            real(wp),dimension(3) :: pos
+            real(wp)              :: lt
+        end subroutine spkgps
     end interface
 
     contains
@@ -157,6 +169,35 @@
     status_ok = .not. failed()
 
     end subroutine get_rv_from_spice_ephemeris
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Interface for the [[ephemeris_module]].
+!
+!  Return the Cartesian position vector of `targ` relative to `obs` in the `J2000` frame.
+
+    subroutine get_r_from_spice_ephemeris(me,et,targ,obs,r,status_ok)
+
+    use celestial_body_module, only: celestial_body
+    use numbers_module,        only: zero
+
+    implicit none
+
+    class(spice_ephemeris),intent(inout) :: me
+    real(wp),intent(in)                :: et         !! ephemeris time [sec]
+    type(celestial_body),intent(in)    :: targ       !! target body
+    type(celestial_body),intent(in)    :: obs        !! observer body
+    real(wp),dimension(3),intent(out)  :: r          !! position of targ w.r.t. obs [km] in ICRF frame
+    logical,intent(out)                :: status_ok  !! true if there were no problems
+
+    real(wp) :: lt  !! light time output from spkgeo
+
+    call spkgps ( targ%id, et, 'J2000', obs%id, r, lt )
+
+    status_ok = .not. failed()
+
+    end subroutine get_r_from_spice_ephemeris
 !*****************************************************************************************
 
 !*****************************************************************************************
