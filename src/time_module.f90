@@ -32,6 +32,8 @@
     public :: jd_to_mjd
     public :: mjd_to_jd
     public :: julian_date_to_calendar_date
+    public :: calendar_date_to_et
+    public :: is_leap_year
 
     !test routine:
     public :: time_module_test
@@ -274,6 +276,66 @@
 !*****************************************************************************************
 
 !*****************************************************************************************
+!>
+!  Return true if the specified year is a leap year.
+
+    pure logical function is_leap_year(y)
+    integer, intent(in) :: y !! year
+    is_leap_year = (mod(y, 4) == 0 .and. (mod(y, 100) /= 0 .or. mod(y, 400) == 0))
+    end function is_leap_year
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Directly converts a calendar date to seconds since the J2000 epoch.
+
+    function calendar_date_to_et(year, month, day, hour, minute, second) result(et)
+
+    use conversion_module, only: hr2sec, min2sec, day2sec
+
+    integer, intent(in) :: year, month, day, hour, minute
+    real(wp), intent(in) :: second
+    real(wp) :: et
+
+    ! Constants for the J2000 epoch: January 1, 2000, 12:00:00
+    integer, parameter :: j2000_year = 2000
+    integer, parameter :: j2000_month = 1
+    integer, parameter :: j2000_day = 1
+    integer, parameter :: j2000_hour = 12
+    integer, parameter :: j2000_minute = 0
+    real(wp), parameter :: j2000_second = 0.0_wp
+
+    ! Days in each month (non-leap year)
+    integer, dimension(12), parameter :: days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+    integer :: y, m
+    integer :: total_days
+
+    ! first do time of day:
+    et = real(hour - j2000_hour, wp) * hr2sec + &
+         real(minute - j2000_minute, wp) * min2sec + &
+         (second - j2000_second)
+
+    ! now, calculate the total number of days from J2000 to the given date
+    total_days = 0
+    do y = j2000_year, year - 1
+        total_days = total_days + 365 + merge(1, 0, is_leap_year(y))
+    end do
+    do m = 1, month - 1
+        if (m == 2) then
+            total_days = total_days + days_in_month(m) + merge(1, 0, is_leap_year(year))
+        else
+            total_days = total_days + days_in_month(m)
+        end if
+    end do
+
+    ! add days:
+    et = et + real(total_days + (day - j2000_day), wp) * day2sec
+
+    end function calendar_date_to_et
+!*****************************************************************************************
+
+!*****************************************************************************************
 !> author: Jacob Williams
 !  date: 1/21/2015
 !
@@ -285,6 +347,7 @@
 
     real(wp) :: jd, sec
     integer :: year,month,day,hrs,min
+    real(wp) :: et1, et2
 
     write(*,*) ''
     write(*,*) '---------------'
@@ -312,6 +375,16 @@
     if (min/=0)      error stop 'error: incorrect min'
     if (sec/=0.0_wp) error stop 'error: incorrect sec'
 
+    ! compare two ways to convert calendar date to ephemeris time:
+    ! et1 should be more accurate since it doesn't go through jd
+    write(*,*) ''
+    et1 = calendar_date_to_et(2026,3,4,8,9,10.12345678_wp)
+    et2 = jd_to_et(julian_date(2026,3,4,8,9,10.12345678_wp))
+    write(*,*) 'et1   ', et1
+    write(*,*) 'et2   ', et2
+    write(*,*) 'et diff: ', abs(et1-et2)
+
+    write(*,*) ''
     write(*,*) 'PASSED'
 
     end subroutine time_module_test
