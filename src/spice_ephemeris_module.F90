@@ -36,6 +36,7 @@
 
     end type spice_ephemeris
 
+#ifdef HAS_SPICELIB
     !these routines are in the SPICELIB:
     interface
         subroutine trcoff()
@@ -83,6 +84,7 @@
             real(wp)              :: lt
         end subroutine spkgps
     end interface
+#endif
 
     contains
 !*****************************************************************************************
@@ -99,6 +101,8 @@
 
     integer :: i  !! counter
 
+#ifdef HAS_SPICELIB
+
     !unload all the kernels:
     if (allocated(me%kernels)) then
         do i=1,size(me%kernels)
@@ -109,6 +113,10 @@
 
     !clear the system:
     call kclear()
+
+#else
+    error stop 'this library was not built with SPICELIB support'
+#endif
 
     end subroutine close_spice_ephemeris
 !*****************************************************************************************
@@ -126,6 +134,8 @@
 
     integer :: i !! counter
 
+#ifdef HAS_SPICELIB
+
     ! disable the SPICE traceback system to speed it up.
     call trcoff()
 
@@ -138,6 +148,10 @@
     do i=1,size(kernels)
         call furnsh(trim(kernels(i)))
     end do
+
+#else
+    error stop 'this library was not built with SPICELIB support'
+#endif
 
     end subroutine initialize_spice_ephemeris
 !*****************************************************************************************
@@ -164,9 +178,15 @@
 
     real(wp) :: lt  !! light time output from spkgeo
 
+#ifdef HAS_SPICELIB
+
     call spkgeo ( targ%id, et, 'J2000', obs%id, rv, lt )
 
     status_ok = .not. failed()
+
+#else
+    error stop 'this library was not built with SPICELIB support'
+#endif
 
     end subroutine get_rv_from_spice_ephemeris
 !*****************************************************************************************
@@ -193,9 +213,15 @@
 
     real(wp) :: lt  !! light time output from spkgeo
 
+#ifdef HAS_SPICELIB
+
     call spkgps ( targ%id, et, 'J2000', obs%id, r, lt )
 
     status_ok = .not. failed()
+
+#else
+    error stop 'this library was not built with SPICELIB support'
+#endif
 
     end subroutine get_r_from_spice_ephemeris
 !*****************************************************************************************
