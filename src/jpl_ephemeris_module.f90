@@ -378,7 +378,7 @@
                                                      !! `rrd` will be set to nutations and rates, having units of
                                                      !! radians and radians/day.
     logical,intent(out)                :: status_ok  !! true if there were no problems
-    logical,intent(in),optional        :: pos_only    !! if .true. only the position components are returned, not the velocity
+    logical,intent(in),optional        :: pos_only    !! if .true. only the position components are returned, not the velocity. [doesn't work yet]
 
     real(wp),dimension(2)    :: et2
     real(wp),dimension(6,13) :: pv
@@ -397,11 +397,13 @@
     else
         full_state = .true.
     end if
-    if (.not. full_state) then
-        ilist = 1   ! only return the position
-    else
-        ilist = 2   ! return position and velocity
-    end if
+    ! if (.not. full_state) then
+    !     ilist = 1   ! only return the position
+    ! else
+    !     ilist = 2   ! return position and velocity
+    ! end if
+    ilist = 2 ! note: setting to 1 doesn't seem to work. need to figure out why.
+              ! for now, will always interpolate the full state.
 
     if (me%initialized) then
 
@@ -465,7 +467,7 @@
                     else
                         k = ncent
                     end if
-                    if (k <= 10) list(k)  = ilist  ! can we set all these to 1 for position only?
+                    if (k <= 10) list(k)  = ilist  ! can we set all these to 1 for position only? doesn't seem to work?
                     if (k == 10) list(3)  = ilist
                     if (k == 3)  list(10) = ilist
                     if (k == 13) list(3)  = ilist
