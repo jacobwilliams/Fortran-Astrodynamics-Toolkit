@@ -1,0 +1,536 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>eispack_test &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>eispack_test
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.3% of total for procedures.">45 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/eispack_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/eispack_module.f90.html'>eispack_module.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/eispack_module.html'>eispack_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">eispack_test</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/eispack_test.html#src">eispack_test</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public  subroutine eispack_test()  
+</h2>
+    
+
+    <p>Unit test</p>
+
+
+    <h3>Arguments</h3>
+    <em>None</em>
+    <br>
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~eispack_test~~CallsGraph Pages: 1 -->
+<svg id="proceispack_testCallsGraph" width="621pt" height="242pt"
+ viewBox="0.00 0.00 621.00 242.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~eispack_test~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 238)">
+<title>proc~~eispack_test~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-238 617,-238 617,4 -4,4"/>
+<!-- proc~eispack_test -->
+<g id="proc~~eispack_test~~CallsGraph_node1" class="node">
+<title>proc~eispack_test</title>
+<polygon fill="none" stroke="black" points="78,-129 0,-129 0,-105 78,-105 78,-129"/>
+<text text-anchor="middle" x="39" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50">eispack_test</text>
+</g>
+<!-- proc~compute_eigenvalues_and_eigenvectors -->
+<g id="proc~~eispack_test~~CallsGraph_node2" class="node">
+<title>proc~compute_eigenvalues_and_eigenvectors</title>
+<g id="a_proc~~eispack_test~~CallsGraph_node2"><a xlink:href="../proc/compute_eigenvalues_and_eigenvectors.html" xlink:title="compute_eigenvalues_and_eigenvectors">
+<polygon fill="#d9534f" stroke="#d9534f" points="343,-129 114,-129 114,-105 343,-105 343,-129"/>
+<text text-anchor="middle" x="228.5" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_eigenvalues_and_eigenvectors</text>
+</a>
+</g>
+</g>
+<!-- proc~eispack_test&#45;&gt;proc~compute_eigenvalues_and_eigenvectors -->
+<g id="proc~~eispack_test~~CallsGraph_edge1" class="edge">
+<title>proc~eispack_test&#45;&gt;proc~compute_eigenvalues_and_eigenvectors</title>
+<path fill="none" stroke="#000000" d="M78.4,-117C86.1,-117 94.59,-117 103.48,-117"/>
+<polygon fill="#000000" stroke="#000000" points="103.67,-120.5 113.67,-117 103.67,-113.5 103.67,-120.5"/>
+</g>
+<!-- proc~rg -->
+<g id="proc~~eispack_test~~CallsGraph_node3" class="node">
+<title>proc~rg</title>
+<g id="a_proc~~eispack_test~~CallsGraph_node3"><a xlink:href="../proc/rg.html" xlink:title="rg">
+<polygon fill="#d9534f" stroke="#d9534f" points="433,-129 379,-129 379,-105 433,-105 433,-129"/>
+<text text-anchor="middle" x="406" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rg</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_eigenvalues_and_eigenvectors&#45;&gt;proc~rg -->
+<g id="proc~~eispack_test~~CallsGraph_edge2" class="edge">
+<title>proc~compute_eigenvalues_and_eigenvectors&#45;&gt;proc~rg</title>
+<path fill="none" stroke="#000000" d="M343.13,-117C352.19,-117 360.84,-117 368.66,-117"/>
+<polygon fill="#000000" stroke="#000000" points="368.76,-120.5 378.76,-117 368.76,-113.5 368.76,-120.5"/>
+</g>
+<!-- proc~balanc -->
+<g id="proc~~eispack_test~~CallsGraph_node4" class="node">
+<title>proc~balanc</title>
+<g id="a_proc~~eispack_test~~CallsGraph_node4"><a xlink:href="../proc/balanc.html" xlink:title="balanc">
+<polygon fill="#d9534f" stroke="#d9534f" points="523,-234 469,-234 469,-210 523,-210 523,-234"/>
+<text text-anchor="middle" x="496" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">balanc</text>
+</a>
+</g>
+</g>
+<!-- proc~rg&#45;&gt;proc~balanc -->
+<g id="proc~~eispack_test~~CallsGraph_edge3" class="edge">
+<title>proc~rg&#45;&gt;proc~balanc</title>
+<path fill="none" stroke="#000000" d="M414.55,-129.15C425.43,-146.19 446.69,-177.69 469,-201 469.65,-201.68 470.32,-202.36 471.01,-203.03"/>
+<polygon fill="#000000" stroke="#000000" points="468.97,-205.9 478.76,-209.95 473.64,-200.68 468.97,-205.9"/>
+</g>
+<!-- proc~balbak -->
+<g id="proc~~eispack_test~~CallsGraph_node5" class="node">
+<title>proc~balbak</title>
+<g id="a_proc~~eispack_test~~CallsGraph_node5"><a xlink:href="../proc/balbak.html" xlink:title="balbak">
+<polygon fill="#d9534f" stroke="#d9534f" points="523,-192 469,-192 469,-168 523,-168 523,-192"/>
+<text text-anchor="middle" x="496" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">balbak</text>
+</a>
+</g>
+</g>
+<!-- proc~rg&#45;&gt;proc~balbak -->
+<g id="proc~~eispack_test~~CallsGraph_edge4" class="edge">
+<title>proc~rg&#45;&gt;proc~balbak</title>
+<path fill="none" stroke="#000000" d="M423.97,-129.15C436.99,-138.47 455.18,-151.49 469.89,-162.02"/>
+<polygon fill="#000000" stroke="#000000" points="467.92,-164.91 478.08,-167.89 471.99,-159.22 467.92,-164.91"/>
+</g>
+<!-- proc~elmhes -->
+<g id="proc~~eispack_test~~CallsGraph_node6" class="node">
+<title>proc~elmhes</title>
+<g id="a_proc~~eispack_test~~CallsGraph_node6"><a xlink:href="../proc/elmhes.html" xlink:title="elmhes">
+<polygon fill="#d9534f" stroke="#d9534f" points="523,-150 469,-150 469,-126 523,-126 523,-150"/>
+<text text-anchor="middle" x="496" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">elmhes</text>
+</a>
+</g>
+</g>
+<!-- proc~rg&#45;&gt;proc~elmhes -->
+<g id="proc~~eispack_test~~CallsGraph_edge5" class="edge">
+<title>proc~rg&#45;&gt;proc~elmhes</title>
+<path fill="none" stroke="#000000" d="M433.4,-123.3C441.48,-125.23 450.51,-127.38 459.1,-129.43"/>
+<polygon fill="#000000" stroke="#000000" points="458.38,-132.86 468.92,-131.78 460,-126.05 458.38,-132.86"/>
+</g>
+<!-- proc~eltran -->
+<g id="proc~~eispack_test~~CallsGraph_node7" class="node">
+<title>proc~eltran</title>
+<g id="a_proc~~eispack_test~~CallsGraph_node7"><a xlink:href="../proc/eltran.html" xlink:title="eltran">
+<polygon fill="#d9534f" stroke="#d9534f" points="523,-108 469,-108 469,-84 523,-84 523,-108"/>
+<text text-anchor="middle" x="496" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">eltran</text>
+</a>
+</g>
+</g>
+<!-- proc~rg&#45;&gt;proc~eltran -->
+<g id="proc~~eispack_test~~CallsGraph_edge6" class="edge">
+<title>proc~rg&#45;&gt;proc~eltran</title>
+<path fill="none" stroke="#000000" d="M433.4,-110.7C441.48,-108.77 450.51,-106.62 459.1,-104.57"/>
+<polygon fill="#000000" stroke="#000000" points="460,-107.95 468.92,-102.22 458.38,-101.14 460,-107.95"/>
+</g>
+<!-- proc~hqr -->
+<g id="proc~~eispack_test~~CallsGraph_node8" class="node">
+<title>proc~hqr</title>
+<g id="a_proc~~eispack_test~~CallsGraph_node8"><a xlink:href="../proc/hqr.html" xlink:title="hqr">
+<polygon fill="#d9534f" stroke="#d9534f" points="523,-66 469,-66 469,-42 523,-42 523,-66"/>
+<text text-anchor="middle" x="496" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hqr</text>
+</a>
+</g>
+</g>
+<!-- proc~rg&#45;&gt;proc~hqr -->
+<g id="proc~~eispack_test~~CallsGraph_edge7" class="edge">
+<title>proc~rg&#45;&gt;proc~hqr</title>
+<path fill="none" stroke="#000000" d="M423.97,-104.85C436.99,-95.53 455.18,-82.51 469.89,-71.98"/>
+<polygon fill="#000000" stroke="#000000" points="471.99,-74.78 478.08,-66.11 467.92,-69.09 471.99,-74.78"/>
+</g>
+<!-- proc~hqr2 -->
+<g id="proc~~eispack_test~~CallsGraph_node9" class="node">
+<title>proc~hqr2</title>
+<g id="a_proc~~eispack_test~~CallsGraph_node9"><a xlink:href="../proc/hqr2.html" xlink:title="hqr2">
+<polygon fill="#d9534f" stroke="#d9534f" points="523,-24 469,-24 469,0 523,0 523,-24"/>
+<text text-anchor="middle" x="496" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hqr2</text>
+</a>
+</g>
+</g>
+<!-- proc~rg&#45;&gt;proc~hqr2 -->
+<g id="proc~~eispack_test~~CallsGraph_edge8" class="edge">
+<title>proc~rg&#45;&gt;proc~hqr2</title>
+<path fill="none" stroke="#000000" d="M414.55,-104.85C425.43,-87.81 446.69,-56.31 469,-33 469.65,-32.32 470.32,-31.64 471.01,-30.97"/>
+<polygon fill="#000000" stroke="#000000" points="473.64,-33.32 478.76,-24.05 468.97,-28.1 473.64,-33.32"/>
+</g>
+<!-- proc~cdiv -->
+<g id="proc~~eispack_test~~CallsGraph_node10" class="node">
+<title>proc~cdiv</title>
+<g id="a_proc~~eispack_test~~CallsGraph_node10"><a xlink:href="../proc/cdiv.html" xlink:title="cdiv">
+<polygon fill="#d9534f" stroke="#d9534f" points="613,-24 559,-24 559,0 613,0 613,-24"/>
+<text text-anchor="middle" x="586" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cdiv</text>
+</a>
+</g>
+</g>
+<!-- proc~hqr2&#45;&gt;proc~cdiv -->
+<g id="proc~~eispack_test~~CallsGraph_edge9" class="edge">
+<title>proc~hqr2&#45;&gt;proc~cdiv</title>
+<path fill="none" stroke="#000000" d="M523.4,-12C531.39,-12 540.31,-12 548.82,-12"/>
+<polygon fill="#000000" stroke="#000000" points="548.92,-15.5 558.92,-12 548.92,-8.5 548.92,-15.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">eispack_test</span><span class="p">()</span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">reshape</span><span class="p">([</span><span class="mf">1.0_wp</span><span class="p">,</span><span class="mf">4.0_wp</span><span class="p">,</span><span class="o">-</span><span class="mf">3.0_wp</span><span class="p">,&amp;</span>
+<span class="w">                                                      </span><span class="mf">2.0_wp</span><span class="p">,</span><span class="mf">3.0_wp</span><span class="p">,</span><span class="o">-</span><span class="mf">8.0_wp</span><span class="p">,&amp;</span>
+<span class="w">                                                      </span><span class="mf">3.0_wp</span><span class="p">,</span><span class="mf">2.0_wp</span><span class="p">,</span><span class="mf">1.001_wp</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">w</span><span class="w">    </span><span class="c">!! real and imaginary parts of the eigenvalues</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">z</span><span class="w">    </span><span class="c">!! real and imaginary parts of the eigenvectors</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ierr</span><span class="w"> </span><span class="c">!! output flag</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="c">!! counter</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="c">!! counter</span>
+<span class="w">    </span><span class="kt">complex</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">v</span>
+
+<span class="w">    </span><span class="k">call </span><span class="n">compute_eigenvalues_and_eigenvectors</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;---------------&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39; eispack_test&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;---------------&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;ierr = &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;eigenvalues:&#39;</span>
+<span class="w">    </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">w</span><span class="p">(</span><span class="n">i</span><span class="p">,:)</span>
+<span class="w">    </span><span class="k">end do</span>
+<span class="k">    write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;eigenvectors (normalized):&#39;</span>
+
+<span class="w">    </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">w</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mf">0.0_wp</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="c">! If the J-th eigenvalue is real, the</span>
+<span class="w">            </span><span class="c">! J-th column of Z contains its eigenvector</span>
+<span class="w">            </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">                </span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">cmplx</span><span class="p">(</span><span class="n">z</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="p">,</span><span class="w"> </span><span class="n">wp</span><span class="p">)</span>
+<span class="w">            </span><span class="k">end do</span>
+<span class="k">        elseif</span><span class="w"> </span><span class="p">(</span><span class="n">w</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">&gt;</span><span class="mf">0.0_wp</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="c">! If the J-th eigenvalue is complex with positive imaginary part, the</span>
+<span class="w">            </span><span class="c">! J-th and (J+1)-th columns of Z contain the real and</span>
+<span class="w">            </span><span class="c">! imaginary parts of its eigenvector.</span>
+<span class="w">            </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">                </span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">cmplx</span><span class="p">(</span><span class="n">z</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">z</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">wp</span><span class="p">)</span>
+<span class="w">            </span><span class="k">end do</span>
+<span class="k">        else</span>
+<span class="k">            do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">                </span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">cmplx</span><span class="p">(</span><span class="n">z</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="o">-</span><span class="n">z</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">wp</span><span class="p">)</span>
+<span class="w">            </span><span class="k">end do</span>
+<span class="k">        end if</span>
+<span class="k">        </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="nb">dot_product</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="n">v</span><span class="p">))</span>
+<span class="w">        </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">            </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(F16.6,F16.6)&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">)%</span><span class="n">re</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">)%</span><span class="n">im</span>
+<span class="w">        </span><span class="k">end do</span>
+<span class="k">        write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+
+<span class="w">    </span><span class="k">end do</span>
+
+<span class="w">   </span><span class="c">! ... results:</span>
+<span class="w">   </span><span class="c">! eigenvalues:</span>
+<span class="w">   </span><span class="c">! -1.89041207397761       0.000000000000000E+000</span>
+<span class="w">   </span><span class="c">! 3.44570603698881        5.01584673789593</span>
+<span class="w">   </span><span class="c">! 3.44570603698881       -5.01584673789593</span>
+<span class="w">   </span><span class="c">!</span>
+<span class="w">   </span><span class="c">! eigenvectors:</span>
+<span class="w">   </span><span class="c">! 0.650411095383963      -0.379058329718174      -0.373946474570154</span>
+<span class="w">   </span><span class="c">! 0.605673686824173       0.640277015571315      -7.629236177444867E-002</span>
+<span class="w">   </span><span class="c">! 8.565310483790509E-002 -0.395692850335186        1.34627813418190</span>
+
+<span class="w">   </span><span class="c">! ... from numpy:</span>
+<span class="w">   </span><span class="c">! eigenvalues:</span>
+<span class="w">   </span><span class="c">! array([-1.89041207+0.j        ,  3.44570604+5.01584674j, 3.44570604-5.01584674j])</span>
+<span class="w">   </span><span class="c">!</span>
+<span class="w">   </span><span class="c">! eigenvectors:</span>
+<span class="w">   </span><span class="c">! array([[ 0.77377504  ,  0.03085326-0.3669729j  ,  0.03085326+0.3669729j ],</span>
+<span class="w">   </span><span class="c">!        [-0.4509546   , -0.25965047-0.37137631j , -0.25965047+0.37137631j],</span>
+<span class="w">   </span><span class="c">!        [-0.44487317  ,  0.81181293             ,  0.81181293            ] ])</span>
+
+<span class="w">   </span><span class="k">end subroutine </span><span class="n">eispack_test</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>
