@@ -30,6 +30,7 @@
     use kepler_module
     use kind_module
     use lambert_module
+    use lighting_module
     use math_module
     use matrix_module
     use minpack_module
