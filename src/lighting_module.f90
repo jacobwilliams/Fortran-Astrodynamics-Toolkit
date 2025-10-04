@@ -27,6 +27,8 @@
     public :: solar_fraction_alt ! low-level routine
     public :: cubic_shadow_model ! low-level routine
 
+    public :: lighting_module_test
+
     contains
 !*****************************************************************************************
 
@@ -34,7 +36,7 @@
 !>
 !  Compute the "sun fraction" using the selected shadow model.
 
-    function get_sun_fraction(b, rad_body, rad_sun, eph, et, rv, model, rbubble, use_geometric) result (phi)
+    function get_sun_fraction(b, rad_body, rad_sun, eph, et, rv, model, rbubble, use_geometric, info) result (phi)
 
     type(celestial_body),intent(in)      :: b           !! eclipsing body
     real(wp),intent(in)                  :: rad_body    !! radius of the eclipsing body [km]
@@ -50,6 +52,7 @@
     logical,intent(in),optional          :: use_geometric  !! if true, use geometric positions
                                                            !! (no light time or stellar aberration correction)
                                                            !! default = false
+    character(len=:),allocatable,intent(out),optional :: info !! info string
     real(wp) :: phi !! if `model=1`, circular cubic sun frac value:
                     !!
                     !!  * >0 no eclipse,
@@ -90,8 +93,8 @@
     ! compute sun fraction value
     select case(model)
     case(1); call cubic_shadow_model(r_sun, rad_sun, r_body, rad_body, phi, rbubble)
-    case(2); call solar_fraction(    r_sun, rad_sun, r_body, rad_body, phi)
-    case(3); call solar_fraction_alt(r_sun, rad_sun, r_body, rad_body, phi)
+    case(2); call solar_fraction(    r_sun, rad_sun, r_body, rad_body, phi, info)
+    case(3); call solar_fraction_alt(r_sun, rad_sun, r_body, rad_body, phi, info)
     case default
         error stop 'invalid sun fraction model'
     end select
@@ -107,13 +110,14 @@
 !  * J. Wertz, "Spacecraft Attitude Determination and Control", 1978.
 !    See Chapter 3 and Appendix A.
 
-    subroutine solar_fraction(d_s, rs, d_p, rp, fraction)
+    subroutine solar_fraction(d_s, rs, d_p, rp, fraction, info)
 
     real(wp),dimension(3),intent(in) :: d_s !! vector from the spacecraft to the Sun
     real(wp),intent(in)              :: rs  !! radius of the Sun
     real(wp),dimension(3),intent(in) :: d_p !! vector from the spacecraft to the planet
     real(wp),intent(in)              :: rp  !! radius of the planet
     real(wp),intent(out)             :: fraction !! fraction of the Sun visible [0=total eclipse, 1=no eclipse]
+    character(len=:),allocatable,intent(out),optional :: info !! info string
 
     real(wp) :: s !! distance from the planet to the Sun
     real(wp) :: c !! distance from the center of the planet to the apex of the shadow cone
@@ -127,6 +131,7 @@
     real(wp) :: crp, crs, srp, srs, cth, sth, t1, t2, t3 !! temp variables
 
     if (rp<=zero) then ! no eclipse possible if the planet has no radius
+        if (present(info)) info = 'no eclipse: planet radius <= 0'
         fraction = one
         return
     end if
@@ -135,9 +140,11 @@
     dp = norm2(d_p)
 
     if (ds<=rs) then ! inside the Sun
+        if (present(info)) info = 'inside Sun'
         fraction = one
         return
     else if (dp<=rp) then ! inside the planet
+        if (present(info)) info = 'inside Planet'
         fraction = zero
         return
     end if
@@ -158,18 +165,22 @@
 
     if ( (ds>s) .and. (rho_p+rho_s>theta) .and. (theta>abs(drho)) ) then
         ! partial eclipse
+        if (present(info)) info = 'partial eclipse'
         t1 = pi - crs * acos( (crp-crs*cth)/(srs*sth) )
         t2 =     -crp * acos( (crs-crp*cth)/(srp*sth) )
         t3 =           -acos( (cth-crs*crp)/(srs*srp) )
-        fraction = (t1 + t2 + t3) / (pi*(one-crs))
+        fraction = one - (t1 + t2 + t3) / (pi*(one-crs))
     else if ( (s<ds) .and. (ds<s+c) .and. (drho>theta) ) then
         ! total eclipse
+        if (present(info)) info = 'total eclipse'
         fraction = zero
     else if ( (s+c<ds) .and. (drho>theta) ) then
         ! annular eclipse
-        fraction = (one-crp) / (one-crs)
+        if (present(info)) info = 'annular eclipse'
+        fraction = one - (one-crp) / (one-crs)
     else
         ! no eclipse
+        if (present(info)) info = 'no eclipse'
         fraction = one
     end if
 
@@ -352,13 +363,14 @@
 !  * Montenbruck and Gill, "Satellite Orbits".
 !  * The GMAT routine `ShadowState::FindShadowState`.
 
-    subroutine solar_fraction_alt(d_s, rs, d_p, rp, percentsun)
+    subroutine solar_fraction_alt(d_s, rs, d_p, rp, percentsun, info)
 
     real(wp),dimension(3),intent(in) :: d_s !! vector from the spacecraft to the Sun
     real(wp),intent(in)              :: rs  !! radius of the Sun
     real(wp),dimension(3),intent(in) :: d_p !! vector from the spacecraft to the planet
     real(wp),intent(in)              :: rp  !! radius of the planet
     real(wp),intent(out)             :: percentsun !! fraction of the Sun visible [0=total eclipse, 1=no eclipse]
+    character(len=:),allocatable,intent(out),optional :: info !! info string
 
     real(wp),dimension(3) :: unitsun, d_s_hat, d_p_hat
     real(wp) :: rho_s, rho_p, theta, rdotsun, d_s_mag, d_p_mag, c, a2, b2, x, y, area
@@ -373,14 +385,17 @@
     rdotsun = dot_product(-d_p,unitsun)
 
     if (rdotsun > zero) then ! sunny side of central body is always fully lit
+        if (present(info)) info = 'sunny side of body'
         percentsun = one
     else
 
         d_s_mag = norm2(d_s)
         d_p_mag = norm2(d_p)
         if (rs >= d_s_mag) then ! inside the Sun
+            if (present(info)) info = 'inside Sun'
             percentsun = one
         else if (rp >= d_p_mag) then ! inside the planet
+            if (present(info)) info = 'inside Planet'
             percentsun = zero
         else
             rho_s   = asin(rs/d_s_mag)
@@ -390,10 +405,13 @@
             theta   = acos(dot_product(d_p_hat,d_s_hat)) ! apparant distance from sun to body
 
             if (rho_s + rho_p <= theta) then ! full sunlight
+                if (present(info)) info = 'full sunlight'
                 percentsun = one
             else if (theta <= rho_p-rho_s) then ! umbra
+                if (present(info)) info = 'umbra'
                 percentsun = zero
             else if ( (abs(rho_s-rho_p)<theta) .and. (theta < rho_s + rho_p) ) then ! penumbra
+                if (present(info)) info = 'penumbra'
                 ! see montenbruck and gill, eq. 3.87-3.94
                 c          = acos(dot_product(d_p_hat,d_s_hat))
                 a2         = rho_s*rho_s
@@ -403,12 +421,86 @@
                 area       = a2*acos(x/rho_s) + b2*acos((c-x)/rho_p) - c*y
                 percentsun = one - area / (pi * a2)
             else ! antumbra
+                if (present(info)) info = 'antumbra'
                 percentsun =  one - rho_p*rho_p/(rho_s*rho_s)
             end if
         end if
     end if
 
     end subroutine solar_fraction_alt
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Unit tests for the listing module.
+
+    subroutine lighting_module_test()
+
+    real(wp) :: rs, rp
+    real(wp),dimension(3) :: d_s, d_p
+    real(wp) :: phi1, phi2
+    character(len=:),allocatable :: info1, info2
+    Real(wp) :: RSun(3)       !! Position vector of Sun
+    Real(wp) :: RPlanet(3)    !! Position vector of planet
+    Real(wp) :: RSpcraft(3)   !! Position vector of spacecraft
+
+    rs = 1.0_wp
+    rp = 1.0_wp
+
+    ! sun -- body -- sc  -> 0.0
+    d_s = [-100.0_wp, 0.0_wp, 0.0_wp]
+    d_p = [-10.0_wp, 0.0_wp, 0.0_wp]
+    call solar_fraction(    d_s, rs, d_p, rp, phi1, info1)   ! this one is wrong
+    call solar_fraction_alt(d_s, rs, d_p, rp, phi2, info2)
+    write(*,*) ''
+    write(*,*) 'phi1 = ', phi1, info1
+    write(*,*) 'phi2 = ', phi2, info2
+    write(*,*) 'diff = ', abs(phi1-phi2)
+
+    ! sc -- sun -- body  -> 1.0
+    d_s = [10.0_wp, 0.0_wp, 0.0_wp]
+    d_p = [100.0_wp, 0.0_wp, 0.0_wp]
+    call solar_fraction(    d_s, rs, d_p, rp, phi1, info1)
+    call solar_fraction_alt(d_s, rs, d_p, rp, phi2, info2)
+    write(*,*) ''
+    write(*,*) 'phi1 = ', phi1, info1
+    write(*,*) 'phi2 = ', phi2, info2
+    write(*,*) 'diff = ', abs(phi1-phi2)
+
+    ! sc -- body -- sun  -> 0.0
+    d_s = [100.0_wp, 0.0_wp, 0.0_wp]
+    d_p = [10.0_wp, 0.0_wp, 0.0_wp]
+    call solar_fraction(    d_s, rs, d_p, rp, phi1, info1)
+    call solar_fraction_alt(d_s, rs, d_p, rp, phi2, info2)
+    write(*,*) ''
+    write(*,*) 'phi1 = ', phi1, info1
+    write(*,*) 'phi2 = ', phi2, info2
+    write(*,*) 'diff = ', abs(phi1-phi2)
+
+    ! sc -- body -- sun  -> penumbra
+    d_s = [100.0_wp, 0.0_wp, 0.0_wp]
+    d_p = [10.0_wp, 1.0_wp, 0.0_wp]
+    call solar_fraction(    d_s, rs, d_p, rp, phi1, info1)
+    call solar_fraction_alt(d_s, rs, d_p, rp, phi2, info2)
+    write(*,*) ''
+    write(*,*) 'phi1 = ', phi1, info1
+    write(*,*) 'phi2 = ', phi2, info2
+    write(*,*) 'diff = ', abs(phi1-phi2)
+
+    ! realistic sun/earth case:
+    !  sun -- earth -- sc
+    rs = 696000.0_wp
+    rp = 6378.0_wp
+    d_s = [-149597870.7_wp, 0.0_wp, 0.0_wp]
+    d_p = [-6778.0_wp, 6400.0_wp, 0.0_wp]
+    call solar_fraction(    d_s, rs, d_p, rp, phi1, info1)
+    call solar_fraction_alt(d_s, rs, d_p, rp, phi2, info2)
+    write(*,*) ''
+    write(*,*) 'phi1 = ', phi1, info1
+    write(*,*) 'phi2 = ', phi2, info2
+    write(*,*) 'diff = ', abs(phi1-phi2)
+
+    end subroutine lighting_module_test
 !*****************************************************************************************
 
 !*****************************************************************************************
