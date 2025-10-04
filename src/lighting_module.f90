@@ -5,34 +5,113 @@
 
     module lighting_module
 
-    use kind_module,      only: wp
-    use numbers_module,   only: pi, zero, one
-    use vector_module,    only: unit
+    use kind_module,           only: wp
+    use numbers_module,        only: pi, zero, one
+    use vector_module,         only: unit, cross, axis_angle_rotation
+    use ephemeris_module,      only: ephemeris_class
+    use transformation_module, only: icrf_frame
+    use celestial_body_module, only: celestial_body, body_sun, body_ssb
+    use conversion_module,     only: deg2rad, rad2deg
+    use math_module,           only: wrap_angle
 
     implicit none
 
     private
 
-    public :: solar_fraction
+    real(wp),parameter :: c = 299792.458_wp !! speed of light in km/s
 
-    contains 
+    public :: from_j2000body_to_j2000ssb
+    public :: apparent_position
+    public :: get_sun_fraction   ! high-level routine
+    public :: solar_fraction     ! low-leve routine
+    public :: cubic_shadow_model ! low-level routine
+
+    contains
 !*****************************************************************************************
+
+!********************************************************************************
+!>
+!  Compute the "sun fraction" using the selected shadow model.
+
+    function get_sun_fraction(b, rad_body, rad_sun, eph, et, rv, model, rbubble, use_geometric) result (phi)
+
+    type(celestial_body),intent(in)      :: b           !! eclipsing body
+    real(wp),intent(in)                  :: rad_body    !! radius of the eclipsing body [km]
+    real(wp),intent(in)                  :: rad_sun     !! radius of the Sun [km]
+    class(ephemeris_class),intent(inout) :: eph         !! the ephemeris to use for sun and ssb (if necessary)
+    real(wp),intent(in)                  :: et          !! observer ephemeris time (sec)
+    real(wp),dimension(6),intent(in)     :: rv          !! state of the spacecraft (j2000-body frame)
+    integer,intent(in)                   :: model       !! 1=circular cubic shadow model
+                                                        !! 2=solar fraction model
+    real(wp),intent(in)                  :: rbubble     !! eclipse bubble [km]. see the reference.
+                                                        !! if rbubble=0, then no bubble is used.
+                                                        !! only used if model=1
+    logical,intent(in),optional          :: use_geometric  !! if true, use geometric positions
+                                                           !! (no light time or stellar aberration correction)
+                                                           !! default = false
+    real(wp) :: phi !! if `model=1`, circular cubic sun frac value:
+                    !!
+                    !!  * >0 no eclipse,
+                    !!  * <0 eclipse,
+                    !!  * =0 on the eclipse line
+                    !!
+                    !! if `model=2`, true solar fraction value [0=total eclipse, 1=no eclipse],
+                    !! with model of umbra/penumbra/antumbra (Wertz, 1978)
+
+    logical :: status_ok !! true if no problems
+    real(wp),dimension(3) :: r_sun !! apparent state of the sun (j2000-ssb frame)
+    real(wp),dimension(3) :: r_body !! apparent state of the eclipsing body (j2000-ssb frame)
+    real(wp),dimension(6) :: rv_ssb !! state of the spacecraft !! (j2000-ssb frame)
+    logical :: use_apparent
+
+    if (present(use_geometric)) then
+        use_apparent = .not. use_geometric
+    else
+        use_apparent = .true.
+    end if
+
+    if (use_apparent) then
+        call from_j2000body_to_j2000ssb(b, eph, et, rv, rv_ssb) ! state of spacecraft in j2000-ssb
+        call apparent_position(eph, body_sun, et, rv_ssb, r_sun,  status_ok) ! apparent position of sun in j2000
+        if (.not. status_ok) error stop 'error getting apparent sun position'
+        call apparent_position(eph, b,        et, rv_ssb, r_body, status_ok) ! apparent position of body in j2000
+        if (.not. status_ok) error stop 'error getting apparent body position'
+    else
+        ! use geometric positions
+        r_body = -rv(1:3) ! geometric position of body wrt spacecraft in j2000
+        call eph%get_r(et, body_sun, b, r_sun, status_ok) ! geometric position of sun wrt body in j2000
+        if (.not. status_ok) error stop 'error getting geometric sun position'
+        r_sun = r_body + r_sun ! geometric position of sun wrt spacecraft in j2000
+    end if
+
+    ! compute sun fraction value
+    select case(model)
+    case(1)
+        call cubic_shadow_model(r_sun, rad_sun, r_body, rad_body, phi, rbubble)
+    case(2)
+        call solar_fraction(r_sun, rad_sun, r_body, rad_body, phi)
+    case default
+        error stop 'invalid sun fraction model'
+    end select
+
+    end function get_sun_fraction
+!********************************************************************************
 
 !*****************************************************************************************
 !>
 !  Compute the solar fraction visible due to an eclipse by another body.
 !
 !### Reference
-!  * J. Wertz, "Spacecraft Attitude Determination and Control", 1978. 
+!  * J. Wertz, "Spacecraft Attitude Determination and Control", 1978.
 !    See Chapter 3 and Appendix A.
 
-    function solar_fraction(rp, rs, d_s, d_p) result(fraction)
+    subroutine solar_fraction(d_s, rs, d_p, rp, fraction)
 
-    real(wp),intent(in) :: rp !! radius of the planet
-    real(wp),intent(in) :: rs !! radius of the Sun
-    real(wp),dimension(3),intent(in)  :: d_s !! vector from the spacecraft to the Sun
-    real(wp),dimension(3),intent(in)  :: d_p !! vector from the spacecraft to the planet
-    real(wp) :: fraction !! fraction of the Sun visible [0=total eclipse, 1=no eclipse]
+    real(wp),dimension(3),intent(in) :: d_s !! vector from the spacecraft to the Sun
+    real(wp),intent(in)              :: rs  !! radius of the Sun
+    real(wp),dimension(3),intent(in) :: d_p !! vector from the spacecraft to the planet
+    real(wp),intent(in)              :: rp  !! radius of the planet
+    real(wp),intent(out)             :: fraction !! fraction of the Sun visible [0=total eclipse, 1=no eclipse]
 
     real(wp) :: s !! distance from the planet to the Sun
     real(wp) :: c !! distance from the center of the planet to the apex of the shadow cone
@@ -50,7 +129,7 @@
         return
     end if
 
-    ds = norm2(d_s) 
+    ds = norm2(d_s)
     dp = norm2(d_p)
 
     if (ds<=rs) then ! inside the Sun
@@ -80,20 +159,188 @@
         t1 = pi - crs * acos( (crp-crs*cth)/(srs*sth) )
         t2 =     -crp * acos( (crs-crp*cth)/(srp*sth) )
         t3 =           -acos( (cth-crs*crp)/(srs*srp) )
-        fraction = (t1 + t2 + t3) / (pi*(one-crs)) 
-    else if ( (s<ds) .and. (ds<s+c) .and. (drho>theta) ) then 
-        ! total eclipse 
-        fraction = 0.0_wp
-    else if ( (s+c<ds) .and. (drho>theta) ) then 
+        fraction = (t1 + t2 + t3) / (pi*(one-crs))
+    else if ( (s<ds) .and. (ds<s+c) .and. (drho>theta) ) then
+        ! total eclipse
+        fraction = zero
+    else if ( (s+c<ds) .and. (drho>theta) ) then
         ! annular eclipse
         fraction = (one-crp) / (one-crs)
-    else 
-        ! no eclipse 
-        fraction = 1.0_wp
+    else
+        ! no eclipse
+        fraction = one
     end if
 
-    end function solar_fraction
+    end subroutine solar_fraction
 !*****************************************************************************************
 
+!********************************************************************************
+    subroutine from_j2000body_to_j2000ssb(b, eph, et, rv, rv_ssb)
+
+    !! convert from a j2000-body frame to a j2000-ssb frame.
+
+    type(celestial_body),intent(in) :: b !! eclipsing body
+    class(ephemeris_class),intent(inout) :: eph
+    real(wp),intent(in) :: et !! ephemeris time (sec)
+    real(wp),dimension(6),intent(in) :: rv !! j2000-body state (km, km/s)
+    real(wp),dimension(6),intent(out) :: rv_ssb !! j2000-ssb state (km, km/s)
+
+    type(icrf_frame) :: f1, f2
+    logical :: status_ok
+
+    f1 = icrf_frame(b=b)
+    f2 = icrf_frame(b=body_ssb)
+    call f1%transform(rv,f2,et,eph,rv_ssb,status_ok) ! from f1 to f2
+    if (.not. status_ok) error stop 'transformation error in from_j2000body_to_j2000ssb'
+
+    end subroutine from_j2000body_to_j2000ssb
+!********************************************************************************
+
+!********************************************************************************
+    subroutine apparent_position(eph, b_target, et, rv_obs_ssb, r_target, status_ok)
+
+    !! Return the position of a target body relative to an observer,
+    !! corrected for light time and stellar aberration.
+    !!
+    !! see the SPICELIB routine `spkapo` (with 'lt+s')
+
+    class(ephemeris_class),intent(inout) :: eph !! the ephemeris
+    type(celestial_body),intent(in) :: b_target !! target body
+    real(wp),dimension(6),intent(in) :: rv_obs_ssb !! state of the observer
+                                                    !! (j2000 frame w.r.t. solar system barycenter)
+    real(wp),intent(in) :: et !! observer ephemeris time (sec)
+    real(wp),dimension(3),intent(out) :: r_target !! apparant state of the target (j2000 frame)
+                                                    !! Corrected for one-way light time and stellar aberration
+    logical,intent(out) :: status_ok !! true if no problems
+
+    real(wp),dimension(3) :: r_targ_ssb !! target body r wrt. ssb
+    real(wp),dimension(6) :: rv_targ_ssb !! target body rv wrt. ssb
+    real(wp) :: lt !! one-way light time [sec]
+
+    ! Find the geometric position of the target body with respect to the
+    ! solar system barycenter. Subtract the position of the observer
+    ! to get the relative position. Use this to compute the one-way
+    ! light time.
+    call eph%get_r(et,b_target,body_ssb,r_targ_ssb,status_ok)
+    if (.not. status_ok) return
+    r_targ_ssb = r_targ_ssb - rv_obs_ssb(1:3) ! relative pos of target
+    lt = norm2(r_targ_ssb) / c ! light time
+
+    ! To correct for light time, find the position of the target body
+    ! at the current epoch minus the one-way light time. Note that
+    ! the observer remains where he is.
+    call eph%get_r(et-lt,b_target,body_ssb,r_targ_ssb,status_ok)
+    if (.not. status_ok) return
+    r_targ_ssb = r_targ_ssb - rv_obs_ssb(1:3)
+
+    ! At this point, r_targ_ssb contains the geometric or light-time
+    ! corrected position of the target relative to the observer
+
+    ! stellar aberration correction
+    r_target = stellar_aberration(r_targ_ssb,rv_obs_ssb(4:6))
+
+    contains
+
+        function stellar_aberration ( pobj, vobs ) result(appobj)
+            !!  Correct the apparent position of an object for stellar aberration.
+            !!  see SPICELIB routine `STELAB`
+
+            real(wp),dimension(3),intent(in) :: pobj
+            real(wp),dimension(3),intent(in) :: vobs
+            real(wp),dimension(3) :: appobj
+
+            real(wp),dimension(3) :: u, vbyc,h
+            real(wp) :: lensqr, sinphi, phi
+            real(wp),parameter :: zero_tol = epsilon(1.0_wp) !! tolerance for zero
+
+            u = unit(pobj)
+            vbyc = vobs / c
+            lensqr = dot_product ( vbyc, vbyc )
+            if ( lensqr >= 1.0_wp) error stop 'velocity > speed of light'
+            h = cross(u, vbyc)
+            sinphi  = norm2 ( h )
+            if ( abs(sinphi) > zero_tol ) then  ! if (sinphi /= 0)
+                ! rotate the position of the object by phi
+                ! radians about h to obtain the apparent position.
+                phi = asin ( sinphi )
+                call axis_angle_rotation ( pobj, h, phi, appobj )
+            else
+                ! observer is moving along the line of sight to the object,
+                ! and no correction is required
+                appobj = pobj
+            end if
+
+        end function stellar_aberration
+
+    end subroutine apparent_position
+!********************************************************************************
+
+!********************************************************************************
+!>
+!  The "circular cubic" shadow model.
+!
+!### Reference
+!  * J. Williams, et. al, "A new eclipse algorithm for use in
+!    spacecraft trajectory optimization", 2023, AAS 23-243
+
+    subroutine cubic_shadow_model(rsun, radsun, rplanet, radplanet, sunfrac, rbubble)
+
+    real(wp),dimension(3),intent(in)   :: rsun      !! apparent position vector of sun wrt spacecraft [km]
+    real(wp), intent(in)               :: radsun    !! radius of sun [km]
+    real(wp),dimension(3), intent(in)  :: rplanet   !! apparent position vector of eclipsing body wrt spacecraft [km]
+    real(wp), intent(in)               :: radplanet !! radius of the eclipsing body [km]
+    real(wp), intent(out)              :: sunfrac   !! value of the function (>0 no eclipse,
+                                                    !! <0 eclipse, =0 on the shadow line)
+    real(wp),intent(in),optional       :: rbubble   !! eclipse bubble radius. if present, then `sunfrac` is
+                                                    !! the value along an arc length of `rbubble`
+                                                    !! in the direction of the max eclipse line.
+
+    real(wp),dimension(3) :: r   !! radius vector from eclipsing body to spacecraft
+    real(wp),dimension(3) :: rsb !! radius vector from the sun to the eclipsing body
+    real(wp) :: tmp              !! temp value
+    real(wp) :: alpha            !! [deg]
+    real(wp) :: alpha0           !! [deg]
+    real(wp) :: sin_alpha0       !! `sin(alpha0)`
+    real(wp) :: rsbmag           !! magnitude of radius vector from the sun to the eclipsing body
+    real(wp) :: rmag             !! magnitude of `r`
+    logical :: compute_bubble    !! use the `rbubble` inputs to adjust `alpha`
+
+    compute_bubble = present(rbubble)
+    if (compute_bubble) compute_bubble = rbubble > zero
+
+    r      = -rplanet
+    rmag   = norm2(r)
+    if (rmag<radplanet) then
+        ! if inside the body, just return value from the surface
+        r    = radplanet * unit(r)
+        rmag = radplanet
+    end if
+    rsb        = rplanet - rsun
+    alpha      = safe_acosd(dot_product(unit(r),unit(rsb)))
+    if (compute_bubble) alpha = rad2deg*abs(wrap_angle(alpha*deg2rad-abs(rbubble)/rmag))
+    rsbmag     = norm2(rsb)
+    tmp        = (radsun + radplanet) / rsbmag
+    sin_alpha0 = (one/rmag)*(radplanet*sqrt((one/tmp)**2-one)+sqrt(rmag**2-radplanet**2))*tmp
+    alpha0     = safe_asind(sin_alpha0)
+    sunfrac    = (alpha**2/(alpha0**2-alpha0**3/270.0_wp))*(one-alpha/270.0_wp)-one
+
+    contains
+
+        pure real(wp) function safe_asind(x)
+            !! `asind` with range checking
+            real(wp),intent(in) :: x
+            safe_asind = asind(min(one,max(-one,x)))
+        end function safe_asind
+
+        pure real(wp) function safe_acosd(x)
+            !! `acosd` with range checking
+            real(wp),intent(in) :: x
+            safe_acosd = acosd(min(one,max(-one,x)))
+        end function safe_acosd
+
+    end subroutine cubic_shadow_model
+!*****************************************************************************************
+
+!*****************************************************************************************
     end module lighting_module
 !*****************************************************************************************
