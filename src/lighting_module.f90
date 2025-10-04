@@ -6,7 +6,7 @@
     module lighting_module
 
     use kind_module,           only: wp
-    use numbers_module,        only: pi, zero, one
+    use numbers_module,        only: pi, zero, one, two
     use vector_module,         only: unit, cross, axis_angle_rotation
     use ephemeris_module,      only: ephemeris_class
     use transformation_module, only: icrf_frame
@@ -18,12 +18,13 @@
 
     private
 
-    real(wp),parameter :: c = 299792.458_wp !! speed of light in km/s
+    real(wp),parameter :: c_light = 299792.458_wp !! speed of light in km/s
 
     public :: from_j2000body_to_j2000ssb
     public :: apparent_position
     public :: get_sun_fraction   ! high-level routine
-    public :: solar_fraction     ! low-leve routine
+    public :: solar_fraction     ! low-level routine
+    public :: solar_fraction_alt ! low-level routine
     public :: cubic_shadow_model ! low-level routine
 
     contains
@@ -57,6 +58,7 @@
                     !!
                     !! if `model=2`, true solar fraction value [0=total eclipse, 1=no eclipse],
                     !! with model of umbra/penumbra/antumbra (Wertz, 1978)
+                    !! if `model=3`, alternate version of solar fraction (Montenbruck and Gill)
 
     logical :: status_ok !! true if no problems
     real(wp),dimension(3) :: r_sun !! apparent state of the sun (j2000-ssb frame)
@@ -87,10 +89,9 @@
 
     ! compute sun fraction value
     select case(model)
-    case(1)
-        call cubic_shadow_model(r_sun, rad_sun, r_body, rad_body, phi, rbubble)
-    case(2)
-        call solar_fraction(r_sun, rad_sun, r_body, rad_body, phi)
+    case(1); call cubic_shadow_model(r_sun, rad_sun, r_body, rad_body, phi, rbubble)
+    case(2); call solar_fraction(    r_sun, rad_sun, r_body, rad_body, phi)
+    case(3); call solar_fraction_alt(r_sun, rad_sun, r_body, rad_body, phi)
     case default
         error stop 'invalid sun fraction model'
     end select
@@ -210,10 +211,10 @@
     class(ephemeris_class),intent(inout) :: eph !! the ephemeris
     type(celestial_body),intent(in) :: b_target !! target body
     real(wp),dimension(6),intent(in) :: rv_obs_ssb !! state of the observer
-                                                    !! (j2000 frame w.r.t. solar system barycenter)
+                                                   !! (j2000 frame w.r.t. solar system barycenter)
     real(wp),intent(in) :: et !! observer ephemeris time (sec)
     real(wp),dimension(3),intent(out) :: r_target !! apparant state of the target (j2000 frame)
-                                                    !! Corrected for one-way light time and stellar aberration
+                                                  !! Corrected for one-way light time and stellar aberration
     logical,intent(out) :: status_ok !! true if no problems
 
     real(wp),dimension(3) :: r_targ_ssb !! target body r wrt. ssb
@@ -226,7 +227,7 @@
     call eph%get_r(et,b_target,body_ssb,r_targ_ssb,status_ok)
     if (.not. status_ok) return
     r_targ_ssb = r_targ_ssb - rv_obs_ssb(1:3) ! relative pos of target
-    lt = norm2(r_targ_ssb) / c ! light time
+    lt = norm2(r_targ_ssb) / c_light ! light time
 
     ! To correct for light time, find the position of the target body
     ! at the current epoch minus the one-way light time. Note that
@@ -256,7 +257,7 @@
             real(wp),parameter :: zero_tol = epsilon(1.0_wp) !! tolerance for zero
 
             u = unit(pobj)
-            vbyc = vobs / c
+            vbyc = vobs / c_light
             lensqr = dot_product ( vbyc, vbyc )
             if ( lensqr >= 1.0_wp) error stop 'velocity > speed of light'
             h = cross(u, vbyc)
@@ -341,6 +342,73 @@
         end function safe_acosd
 
     end subroutine cubic_shadow_model
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Another eclipse model, using flat plate-assumptions.
+!
+!### References
+!  * Montenbruck and Gill, "Satellite Orbits".
+!  * The GMAT routine `ShadowState::FindShadowState`.
+
+    subroutine solar_fraction_alt(d_s, rs, d_p, rp, percentsun)
+
+    real(wp),dimension(3),intent(in) :: d_s !! vector from the spacecraft to the Sun
+    real(wp),intent(in)              :: rs  !! radius of the Sun
+    real(wp),dimension(3),intent(in) :: d_p !! vector from the spacecraft to the planet
+    real(wp),intent(in)              :: rp  !! radius of the planet
+    real(wp),intent(out)             :: percentsun !! fraction of the Sun visible [0=total eclipse, 1=no eclipse]
+
+    real(wp),dimension(3) :: unitsun, d_s_hat, d_p_hat
+    real(wp) :: rho_s, rho_p, theta, rdotsun, d_s_mag, d_p_mag, c, a2, b2, x, y, area
+
+    !              [sc]
+    !            /     \
+    !        d_s       d_p
+    !      /              \
+    !  [sun] ---------- [body]
+
+    unitsun = unit(d_s - d_p) ! body to sun unit vector
+    rdotsun = dot_product(-d_p,unitsun)
+
+    if (rdotsun > zero) then ! sunny side of central body is always fully lit
+        percentsun = one
+    else
+
+        d_s_mag = norm2(d_s)
+        d_p_mag = norm2(d_p)
+        if (rs >= d_s_mag) then ! inside the Sun
+            percentsun = one
+        else if (rp >= d_p_mag) then ! inside the planet
+            percentsun = zero
+        else
+            rho_s   = asin(rs/d_s_mag)
+            rho_p   = asin(rp/d_p_mag)
+            d_p_hat = unit(d_p)
+            d_s_hat = unit(d_s)
+            theta   = acos(dot_product(d_p_hat,d_s_hat)) ! apparant distance from sun to body
+
+            if (rho_s + rho_p <= theta) then ! full sunlight
+                percentsun = one
+            else if (theta <= rho_p-rho_s) then ! umbra
+                percentsun = zero
+            else if ( (abs(rho_s-rho_p)<theta) .and. (theta < rho_s + rho_p) ) then ! penumbra
+                ! see montenbruck and gill, eq. 3.87-3.94
+                c          = acos(dot_product(d_p_hat,d_s_hat))
+                a2         = rho_s*rho_s
+                b2         = rho_p*rho_p
+                x          = (c*c + a2 - b2) / (two * c)
+                y          = sqrt(a2 - x*x)
+                area       = a2*acos(x/rho_s) + b2*acos((c-x)/rho_p) - c*y
+                percentsun = one - area / (pi * a2)
+            else ! antumbra
+                percentsun =  one - rho_p*rho_p/(rho_s*rho_s)
+            end if
+        end if
+    end if
+
+    end subroutine solar_fraction_alt
 !*****************************************************************************************
 
 !*****************************************************************************************
