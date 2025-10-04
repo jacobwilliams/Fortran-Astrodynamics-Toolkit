@@ -71,6 +71,7 @@
     end if
 
     if (use_apparent) then
+        ! apparent position of sun and body wrt to the spacecraft
         call from_j2000body_to_j2000ssb(b, eph, et, rv, rv_ssb) ! state of spacecraft in j2000-ssb
         call apparent_position(eph, body_sun, et, rv_ssb, r_sun,  status_ok) ! apparent position of sun in j2000
         if (.not. status_ok) error stop 'error getting apparent sun position'
@@ -175,12 +176,13 @@
 !*****************************************************************************************
 
 !********************************************************************************
+!>
+!  convert from a j2000-body frame to a j2000-ssb frame.
+
     subroutine from_j2000body_to_j2000ssb(b, eph, et, rv, rv_ssb)
 
-    !! convert from a j2000-body frame to a j2000-ssb frame.
-
     type(celestial_body),intent(in) :: b !! eclipsing body
-    class(ephemeris_class),intent(inout) :: eph
+    class(ephemeris_class),intent(inout) :: eph !! the ephemeris to use for body and ssb
     real(wp),intent(in) :: et !! ephemeris time (sec)
     real(wp),dimension(6),intent(in) :: rv !! j2000-body state (km, km/s)
     real(wp),dimension(6),intent(out) :: rv_ssb !! j2000-ssb state (km, km/s)
@@ -197,12 +199,13 @@
 !********************************************************************************
 
 !********************************************************************************
-    subroutine apparent_position(eph, b_target, et, rv_obs_ssb, r_target, status_ok)
+!>
+!  Return the position of a target body relative to an observer,
+!  corrected for light time and stellar aberration.
+!
+!  see the SPICELIB routine `spkapo` (with 'lt+s')
 
-    !! Return the position of a target body relative to an observer,
-    !! corrected for light time and stellar aberration.
-    !!
-    !! see the SPICELIB routine `spkapo` (with 'lt+s')
+    subroutine apparent_position(eph, b_target, et, rv_obs_ssb, r_target, status_ok)
 
     class(ephemeris_class),intent(inout) :: eph !! the ephemeris
     type(celestial_body),intent(in) :: b_target !! target body
@@ -214,7 +217,6 @@
     logical,intent(out) :: status_ok !! true if no problems
 
     real(wp),dimension(3) :: r_targ_ssb !! target body r wrt. ssb
-    real(wp),dimension(6) :: rv_targ_ssb !! target body rv wrt. ssb
     real(wp) :: lt !! one-way light time [sec]
 
     ! Find the geometric position of the target body with respect to the
