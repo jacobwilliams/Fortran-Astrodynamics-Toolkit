@@ -489,13 +489,12 @@
     rep = asin(Re/r_e_mag)
     dp  = acos(dot_product(r_l,r_e)/(r_l_mag*r_e_mag))
 
-    ! modified these two checks:
+    ! modified this check:
     !if (dp-rlp<rep) then  ! original
     if (rlp+rep<=dp) then  ! corrected
         if (present(info)) info = 'full sun'
         percentsun = one ! full sun
-    !else if (rep>dp+rlp) then  ! original
-    else if (dp<=rep-rlp) then  ! corrected
+    else if (rep>dp+rlp) then
         if (present(info)) info = 'umbra'
         percentsun = zero ! umbra
     else if (rlp-rep>=dp .or. dp>=rlp+rep) then ! antumbra
