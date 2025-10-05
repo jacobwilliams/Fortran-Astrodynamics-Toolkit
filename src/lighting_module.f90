@@ -108,7 +108,8 @@
 !
 !### Reference
 !  * J. Wertz, "Spacecraft Attitude Determination and Control", 1978.
-!    See Chapter 3 and Appendix A.
+!    See Chapter 3 and Appendix A. Note that the implementation here corrects
+!    a typo in this reference, and also protects for a division by zero.
 
     subroutine solar_fraction(d_s, rs, d_p, rp, fraction, info)
 
@@ -128,7 +129,7 @@
     real(wp) :: ds !! distance from the spacecraft to the Sun
     real(wp) :: dp !! distance from the spacecraft to the planet
     real(wp) :: drho !! difference in angular radii of the planet and Sun
-    real(wp) :: crp, crs, srp, srs, cth, sth, t1, t2, t3 !! temp variables
+    real(wp) :: crp, crs, srp, srs, cth, sth, t1, t2, t3, delr !! temp variables
 
     if (rp<=zero) then ! no eclipse possible if the planet has no radius
         if (present(info)) info = 'no eclipse: planet radius <= 0'
@@ -149,9 +150,16 @@
         return
     end if
 
-    s     = norm2(d_s - d_p)
-    c     = (rp*s) / (rs - rp)
-    rho_c = asin((rs - rp) / s)  ! appx = asin(rs/s)
+    s    = norm2(d_s - d_p)
+    delr = rs - rp
+    if (delr==zero) then
+        ! special case when the bodies are the same size,
+        ! to avoid division by zero
+        c = huge(1.0_wp)
+    else
+        c = (rp*s) / delr
+    end if
+    rho_c = asin(delr / s)  ! appx = asin(rs/s)
     rho_s = asin(rs/ds)
     rho_p = asin(rp/dp)
     theta = acos(dot_product(unit(d_s), unit(d_p)))
@@ -165,22 +173,22 @@
 
     if ( (ds>s) .and. (rho_p+rho_s>theta) .and. (theta>abs(drho)) ) then
         ! partial eclipse
-        if (present(info)) info = 'partial eclipse'
+        if (present(info)) info = 'penumbra'
         t1 = pi - crs * acos( (crp-crs*cth)/(srs*sth) )
         t2 =     -crp * acos( (crs-crp*cth)/(srp*sth) )
         t3 =           -acos( (cth-crs*crp)/(srs*srp) )
         fraction = one - (t1 + t2 + t3) / (pi*(one-crs))
     else if ( (s<ds) .and. (ds<s+c) .and. (drho>theta) ) then
         ! total eclipse
-        if (present(info)) info = 'total eclipse'
+        if (present(info)) info = 'umbra'
         fraction = zero
-    else if ( (s+c<ds) .and. (drho>theta) ) then
+    else if ( (s+c<ds) .and. (drho<theta) ) then   ! JW : typo in original reference
         ! annular eclipse
-        if (present(info)) info = 'annular eclipse'
+        if (present(info)) info = 'antumbra'
         fraction = one - (one-crp) / (one-crs)
     else
         ! no eclipse
-        if (present(info)) info = 'no eclipse'
+        if (present(info)) info = 'full sun'
         fraction = one
     end if
 
@@ -385,7 +393,7 @@
     rdotsun = dot_product(-d_p,unitsun)
 
     if (rdotsun > zero) then ! sunny side of central body is always fully lit
-        if (present(info)) info = 'sunny side of body'
+        if (present(info)) info = 'full sun'
         percentsun = one
     else
 
@@ -440,52 +448,46 @@
     real(wp),dimension(3) :: d_s, d_p
     real(wp) :: phi1, phi2
     character(len=:),allocatable :: info1, info2
-    Real(wp) :: RSun(3)       !! Position vector of Sun
-    Real(wp) :: RPlanet(3)    !! Position vector of planet
-    Real(wp) :: RSpcraft(3)   !! Position vector of spacecraft
 
-    rs = 1.0_wp
-    rp = 1.0_wp
+    rs = 1.0_wp ! sun radius
+    rp = 1.0_wp ! planet radius
 
     ! sun -- body -- sc  -> 0.0
     d_s = [-100.0_wp, 0.0_wp, 0.0_wp]
     d_p = [-10.0_wp, 0.0_wp, 0.0_wp]
-    call solar_fraction(    d_s, rs, d_p, rp, phi1, info1)   ! this one is wrong
-    call solar_fraction_alt(d_s, rs, d_p, rp, phi2, info2)
-    write(*,*) ''
-    write(*,*) 'phi1 = ', phi1, info1
-    write(*,*) 'phi2 = ', phi2, info2
-    write(*,*) 'diff = ', abs(phi1-phi2)
+    call go()
 
     ! sc -- sun -- body  -> 1.0
     d_s = [10.0_wp, 0.0_wp, 0.0_wp]
     d_p = [100.0_wp, 0.0_wp, 0.0_wp]
-    call solar_fraction(    d_s, rs, d_p, rp, phi1, info1)
-    call solar_fraction_alt(d_s, rs, d_p, rp, phi2, info2)
-    write(*,*) ''
-    write(*,*) 'phi1 = ', phi1, info1
-    write(*,*) 'phi2 = ', phi2, info2
-    write(*,*) 'diff = ', abs(phi1-phi2)
+    call go()
 
     ! sc -- body -- sun  -> 0.0
     d_s = [100.0_wp, 0.0_wp, 0.0_wp]
     d_p = [10.0_wp, 0.0_wp, 0.0_wp]
-    call solar_fraction(    d_s, rs, d_p, rp, phi1, info1)
-    call solar_fraction_alt(d_s, rs, d_p, rp, phi2, info2)
-    write(*,*) ''
-    write(*,*) 'phi1 = ', phi1, info1
-    write(*,*) 'phi2 = ', phi2, info2
-    write(*,*) 'diff = ', abs(phi1-phi2)
+    call go()
 
     ! sc -- body -- sun  -> penumbra
     d_s = [100.0_wp, 0.0_wp, 0.0_wp]
     d_p = [10.0_wp, 1.0_wp, 0.0_wp]
-    call solar_fraction(    d_s, rs, d_p, rp, phi1, info1)
-    call solar_fraction_alt(d_s, rs, d_p, rp, phi2, info2)
-    write(*,*) ''
-    write(*,*) 'phi1 = ', phi1, info1
-    write(*,*) 'phi2 = ', phi2, info2
-    write(*,*) 'diff = ', abs(phi1-phi2)
+    call go()
+
+    ! body -- sc -- sun
+    d_s = [-100.0_wp, 0.0_wp, 0.0_wp]
+    d_p = [100.0_wp, 0.0_wp, 0.0_wp]
+    call go()
+
+    !....................................
+    ! sc -- body -- sun  -> antumbra
+    rs = 100.0_wp
+    d_s = [20000.0_wp, 0.0_wp, 0.0_wp]
+    d_p = [400.0_wp,  0.0_wp, 0.0_wp]
+    call go()
+
+    rs = 100.0_wp  ! umbra
+    d_s = [20000.0_wp, 0.0_wp, 0.0_wp]
+    d_p = [100.0_wp,  0.0_wp, 0.0_wp]
+    call go()
 
     ! realistic sun/earth case:
     !  sun -- earth -- sc
@@ -493,13 +495,21 @@
     rp = 6378.0_wp
     d_s = [-149597870.7_wp, 0.0_wp, 0.0_wp]
     d_p = [-6778.0_wp, 6400.0_wp, 0.0_wp]
-    call solar_fraction(    d_s, rs, d_p, rp, phi1, info1)
-    call solar_fraction_alt(d_s, rs, d_p, rp, phi2, info2)
-    write(*,*) ''
-    write(*,*) 'phi1 = ', phi1, info1
-    write(*,*) 'phi2 = ', phi2, info2
-    write(*,*) 'diff = ', abs(phi1-phi2)
+    call go()
 
+    contains
+
+        subroutine go()
+            print*, '----------------------------------'
+            call solar_fraction(    d_s, rs, d_p, rp, phi1, info1)
+            call solar_fraction_alt(d_s, rs, d_p, rp, phi2, info2)
+            write(*,*) ''
+            write(*,*) 'phi1 = ', phi1, info1
+            write(*,*) 'phi2 = ', phi2, info2
+            write(*,*) 'diff = ', abs(phi1-phi2)
+            if (abs(phi1-phi2)>1.0e-4_wp) error stop 'WARNING: large difference between models'
+            print*, ''
+        end subroutine go
     end subroutine lighting_module_test
 !*****************************************************************************************
 
