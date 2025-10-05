@@ -62,6 +62,7 @@
                     !! if `model=2`, true solar fraction value [0=total eclipse, 1=no eclipse],
                     !! with model of umbra/penumbra/antumbra (Wertz, 1978)
                     !! if `model=3`, alternate version of solar fraction (Montenbruck and Gill)
+                    !! if `model=4`, alternate version of solar fraction (nyxspace)
 
     logical :: status_ok !! true if no problems
     real(wp),dimension(3) :: r_sun !! apparent state of the sun (j2000-ssb frame)
@@ -92,9 +93,10 @@
 
     ! compute sun fraction value
     select case(model)
-    case(1); call cubic_shadow_model(r_sun, rad_sun, r_body, rad_body, phi, rbubble)
-    case(2); call solar_fraction(    r_sun, rad_sun, r_body, rad_body, phi, info)
-    case(3); call solar_fraction_alt(r_sun, rad_sun, r_body, rad_body, phi, info)
+    case(1); call cubic_shadow_model( r_sun, rad_sun, r_body, rad_body, phi, rbubble)
+    case(2); call solar_fraction(     r_sun, rad_sun, r_body, rad_body, phi, info)
+    case(3); call solar_fraction_alt( r_sun, rad_sun, r_body, rad_body, phi, info)
+    case(4); call solar_fraction_alt2(r_sun, rad_sun, r_body, rad_body, phi)
     case default
         error stop 'invalid sun fraction model'
     end select
@@ -365,7 +367,7 @@
 
 !*****************************************************************************************
 !>
-!  Another eclipse model, using flat plate-assumptions.
+!  Another eclipse model, using circular area assumptions.
 !
 !### References
 !  * Montenbruck and Gill, "Satellite Orbits".
@@ -392,7 +394,9 @@
     unitsun = unit(d_s - d_p) ! body to sun unit vector
     rdotsun = dot_product(-d_p,unitsun)
 
-    if (rdotsun > zero) then ! sunny side of central body is always fully lit
+    if (rdotsun > zero) then
+        ! sunny side of central body is always fully lit
+        ! [the assumption here is the sun is always bigger than the body?]
         if (present(info)) info = 'full sun'
         percentsun = one
     else
@@ -440,14 +444,91 @@
 
 !*****************************************************************************************
 !>
+!  Another eclipse model, using circular area assumptions,
+!  coded up based on the nixspace documentation.
+!  The results are very similar to `solar_fraction_alt`.
+!
+!### References
+!  * https://nyxspace.com/nyxspace/MathSpec/celestial/eclipse/#nomenclature
+
+    subroutine solar_fraction_alt2(r_l, Rl, r_e, Re, percentsun, info)
+
+    real(wp),dimension(3),intent(in) :: r_l !! vector from the spacecraft to the Sun
+    real(wp),intent(in)              :: Rl  !! radius of the Sun
+    real(wp),dimension(3),intent(in) :: r_e !! vector from the spacecraft to the planet
+    real(wp),intent(in)              :: Re  !! radius of the planet
+    real(wp),intent(out)             :: percentsun !! fraction of the Sun visible [0=total eclipse, 1=no eclipse]
+    character(len=:),allocatable,intent(out),optional :: info !! info string
+
+    real(wp) :: rlp, rep, dp, r_l_mag, r_e_mag, &
+                d1, d2, dp2, rlp2, rep2, At, Astar
+
+    ! this check isn't mentioned in the reference, but needed
+    ! for sc -- sun -- body case
+    if (dot_product(-r_e,unit(r_l-r_e)) > zero) then
+        ! sunny side of body is always fully lit
+        ! [the assumption here is the sun is always bigger than the body?]
+        if (present(info)) info = 'full sun'
+        percentsun = one
+        return
+    end if
+
+    r_l_mag = norm2(r_l)
+    r_e_mag = norm2(r_e)
+
+    ! these checks also aren't in the writeup:
+    if (Rl >= r_l_mag) then ! inside the Sun
+        if (present(info)) info = 'inside Sun'
+        percentsun = one; return
+    else if (Re >= r_e_mag) then ! inside the planet
+        if (present(info)) info = 'inside Planet'
+        percentsun = zero; return
+    end if
+
+    rlp = asin(Rl/r_l_mag)
+    rep = asin(Re/r_e_mag)
+    dp  = acos(dot_product(r_l,r_e)/(r_l_mag*r_e_mag))
+
+    ! modified these two checks:
+    !if (dp-rlp<rep) then  ! original
+    if (rlp+rep<=dp) then  ! corrected
+        if (present(info)) info = 'full sun'
+        percentsun = one ! full sun
+    !else if (rep>dp+rlp) then  ! original
+    else if (dp<=rep-rlp) then  ! corrected
+        if (present(info)) info = 'umbra'
+        percentsun = zero ! umbra
+    else if (rlp-rep>=dp .or. dp>=rlp+rep) then ! antumbra
+        if (present(info)) info = 'antumbra'
+        percentsun = one - rep*rep/(rlp*rlp)
+    else ! penumbra
+        if (present(info)) info = 'penumbra'
+        dp2   = dp*dp
+        rlp2  = rlp*rlp
+        rep2  = rep*rep
+        d1    = (dp2 - rlp2 + rep2) / (two*dp)
+        d2    = (dp2 + rlp2 - rep2) / (two*dp)
+        At    = A(rep, rep2, d1) + A(rlp, rlp2, d2)
+        Astar = pi*rlp2
+        percentsun = (Astar - At) / Astar
+    end if
+
+    contains
+        pure real(wp) function A(r,r2,d)
+            real(wp),intent(in) :: r, r2, d
+            A = r2*acos(d/r) - d*sqrt(r2 - d*d)
+        end function A
+    end subroutine solar_fraction_alt2
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
 !  Unit tests for the listing module.
 
     subroutine lighting_module_test()
 
     real(wp) :: rs, rp
     real(wp),dimension(3) :: d_s, d_p
-    real(wp) :: phi1, phi2
-    character(len=:),allocatable :: info1, info2
 
     rs = 1.0_wp ! sun radius
     rp = 1.0_wp ! planet radius
@@ -497,16 +578,29 @@
     d_p = [-6778.0_wp, 6400.0_wp, 0.0_wp]
     call go()
 
+    ! ! an edge case, a very small sun very close to the body on x-axis,
+    ! ! sc on y-axis very close to body    .. i don't think any properly handle this .. .double check...
+    ! rs = 0.0001_wp ! sun radius
+    ! rp = 10.0_wp ! planet radius
+    ! d_p = [0.0001_wp, -rp-0.01_wp, 0.0_wp]
+    ! d_s = d_p + [-rp-0.01_wp, 0.0_wp, 0.0_wp]
+    ! call go()
+
     contains
 
         subroutine go()
+            real(wp) :: phi1, phi2, phi3
+            character(len=:),allocatable :: info1, info2, info3
             print*, '----------------------------------'
-            call solar_fraction(    d_s, rs, d_p, rp, phi1, info1)
-            call solar_fraction_alt(d_s, rs, d_p, rp, phi2, info2)
             write(*,*) ''
+            call solar_fraction(     d_s, rs, d_p, rp, phi1, info1)
+            call solar_fraction_alt( d_s, rs, d_p, rp, phi2, info2)
+            call solar_fraction_alt2(d_s, rs, d_p, rp, phi3, info3)
             write(*,*) 'phi1 = ', phi1, info1
             write(*,*) 'phi2 = ', phi2, info2
-            write(*,*) 'diff = ', abs(phi1-phi2)
+            write(*,*) 'phi3 = ', phi3, info3
+            write(*,*) 'diff 1= ', abs(phi1-phi2) ! spherical vs circular
+            write(*,*) 'diff 2= ', abs(phi2-phi3) ! two circular models
             if (abs(phi1-phi2)>1.0e-4_wp) error stop 'WARNING: large difference between models'
             print*, ''
         end subroutine go
