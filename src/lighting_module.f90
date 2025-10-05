@@ -495,7 +495,7 @@
     if (rlp+rep<=dp) then  ! corrected
         if (present(info)) info = 'full sun'
         percentsun = one ! full sun
-    else if (rep>dp+rlp) then
+    else if (rep>=dp+rlp) then
         if (present(info)) info = 'umbra'
         percentsun = zero ! umbra
     else if (rlp-rep>=dp .or. dp>=rlp+rep) then ! antumbra
