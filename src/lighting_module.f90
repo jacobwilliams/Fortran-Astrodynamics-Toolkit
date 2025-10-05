@@ -23,9 +23,10 @@
     public :: from_j2000body_to_j2000ssb
     public :: apparent_position
     public :: get_sun_fraction   ! high-level routine
-    public :: solar_fraction     ! low-level routine
-    public :: solar_fraction_alt ! low-level routine
-    public :: cubic_shadow_model ! low-level routine
+    public :: solar_fraction      ! low-level routine
+    public :: solar_fraction_alt  ! low-level routine
+    public :: solar_fraction_alt2 ! low-level routine
+    public :: cubic_shadow_model  ! low-level routine
 
     public :: lighting_module_test
 
