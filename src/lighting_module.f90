@@ -45,8 +45,10 @@
     class(ephemeris_class),intent(inout) :: eph         !! the ephemeris to use for sun and ssb (if necessary)
     real(wp),intent(in)                  :: et          !! observer ephemeris time (sec)
     real(wp),dimension(6),intent(in)     :: rv          !! state of the spacecraft (j2000-body frame)
-    integer,intent(in)                   :: model       !! 1=circular cubic shadow model
-                                                        !! 2=solar fraction model
+    integer,intent(in)                   :: model       !! algorithm to use:
+                                                        !!
+                                                        !!  * 1: circular cubic shadow model
+                                                        !!  * 2-4: solar fraction model
     real(wp),intent(in)                  :: rbubble     !! eclipse bubble [km]. see the reference.
                                                         !! if rbubble=0, then no bubble is used.
                                                         !! only used if model=1
@@ -54,16 +56,16 @@
                                                            !! (no light time or stellar aberration correction)
                                                            !! default = false
     character(len=:),allocatable,intent(out),optional :: info !! info string
-    real(wp) :: phi !! if `model=1`, circular cubic sun frac value:
+    real(wp) :: phi !! solar fraction returned:
                     !!
-                    !!  * >0 no eclipse,
-                    !!  * <0 eclipse,
-                    !!  * =0 on the eclipse line
-                    !!
-                    !! if `model=2`, true solar fraction value [0=total eclipse, 1=no eclipse],
-                    !! with model of umbra/penumbra/antumbra (Wertz, 1978)
-                    !! if `model=3`, alternate version of solar fraction (Montenbruck and Gill)
-                    !! if `model=4`, alternate version of solar fraction (nyxspace)
+                    !!  * if `model=1`, circular cubic sun frac value:
+                    !!     * `>0` no eclipse
+                    !!     * `<0` eclipse
+                    !!     * `=0` on the eclipse line
+                    !!  * if `model=2`, true solar fraction value [0=total eclipse, 1=no eclipse],
+                    !!    with model of umbra/penumbra/antumbra (Wertz, 1978)
+                    !!  * if `model=3`, alternate version of solar fraction (Montenbruck and Gill)
+                    !!  * if `model=4`, alternate version of solar fraction (nyxspace)
 
     logical :: status_ok !! true if no problems
     real(wp),dimension(3) :: r_sun !! apparent state of the sun (j2000-ssb frame)
