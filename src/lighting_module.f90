@@ -6,7 +6,7 @@
     module lighting_module
 
     use kind_module,           only: wp
-    use numbers_module,        only: pi, zero, one, two
+    use numbers_module,        only: pi, zero, one, two, c_light
     use vector_module,         only: unit, cross, axis_angle_rotation
     use ephemeris_module,      only: ephemeris_class
     use transformation_module, only: icrf_frame
@@ -17,8 +17,6 @@
     implicit none
 
     private
-
-    real(wp),parameter :: c_light = 299792.458_wp !! speed of light in km/s
 
     public :: from_j2000body_to_j2000ssb
     public :: apparent_position
