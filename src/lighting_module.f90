@@ -183,11 +183,11 @@
         t2 =     -crp * acos( (crs-crp*cth)/(srp*sth) )
         t3 =           -acos( (cth-crs*crp)/(srs*srp) )
         fraction = one - (t1 + t2 + t3) / (pi*(one-crs))
-    else if ( (s<ds) .and. (ds<s+c) .and. (drho>theta) ) then
+    else if ( (s<ds) .and. (ds-s<c) .and. (drho>theta) ) then
         ! total eclipse
         if (present(info)) info = 'umbra'
         fraction = zero
-    else if ( (s+c<ds) .and. (drho<theta) ) then   ! JW : typo in original reference
+    else if ( (c<ds-s) .and. (drho<theta) ) then   ! JW : typo in original reference
         ! annular eclipse
         if (present(info)) info = 'antumbra'
         fraction = one - (one-crp) / (one-crs)
