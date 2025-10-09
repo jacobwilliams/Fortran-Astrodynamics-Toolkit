@@ -982,18 +982,23 @@
     subroutine ephemeris_test()
 
     use time_module, only: jd_to_et
-    use celestial_body_module
+    use celestial_body_module, fat_wp => wp
 
     implicit none
 
+    ! note: the low-level functions use real64 variables.
     character(len=6),dimension(nmax) :: nams
-    real(wp) :: jd, et
-    real(wp),dimension(6) :: rv,rv1,rv2,diffrv
-    real(wp),dimension(3) :: ss, r
+    real(wp),dimension(6) :: diffrv
+    real(wp),dimension(3) :: ss
     real(wp),dimension(nmax) :: vals
     integer :: nvs,ntarg,nctr,i,j
     type(jpl_ephemeris) :: eph405, eph421
     logical :: status_ok_405,status_ok_421
+    real(wp) :: jd_64, rv_64(6), rv1_64(6), rv2_64(6)
+    real(fat_wp) :: et
+    real(fat_wp),dimension(3) :: r
+    real(fat_wp),dimension(6) :: rv,rv1,rv2
+    real(fat_wp) :: jd
 
     character(len=*),parameter :: ephemeris_file_405 = './eph/JPLEPH.405' !! JPL DE405 ephemeris file
     character(len=*),parameter :: ephemeris_file_421 = './eph/JPLEPH.421' !! JPL DE421 ephemeris file
@@ -1021,7 +1026,7 @@
             write(*,'(A,1X,D25.16)') nams(i), vals(i)
         end do
 
-        jd = 2451536.5d0   ! julian date
+        jd = 2451536.5_wp   ! julian date
         et = jd_to_et(jd)  ! ephemeris time
 
         if (jd < ss(1) .or. jd > ss(2)) then
@@ -1051,7 +1056,9 @@
                             '" wrt "'//trim(list_of_bodies(nctr))//'"'
 
                 do i=1,10
-                    call eph405%get_state( jd, ntarg, nctr, rv, status_ok_405)
+                    jd_64 = jd
+                    call eph405%get_state( jd_64, ntarg, nctr, rv_64, status_ok_405)
+                    rv = rv_64
                     write(*,'(F15.2,1X,*(E25.16,1X))') jd, norm2(rv(1:3)), rv
                     jd = jd + 10.0_wp
                 end do
@@ -1082,8 +1089,12 @@
                         '" wrt "'//trim(list_of_bodies(nctr))//'"'
 
             do i=1,10
-                call eph405%get_state( jd, ntarg, nctr, rv1, status_ok_405)
-                call eph421%get_state( jd, ntarg, nctr, rv2, status_ok_421)
+                jd_64 = jd
+                call eph405%get_state( jd_64, ntarg, nctr, rv1_64, status_ok_405)
+                rv1 = rv1_64
+                jd_64 = jd
+                call eph421%get_state( jd_64, ntarg, nctr, rv2_64, status_ok_421)
+                rv2 = rv2_64
                 diffrv = rv2 - rv1
                 write(*,'(F15.2,1X,*(E25.16,1X))') jd, norm2(diffrv(1:3)), norm2(diffrv(4:6))
                 jd = jd + 10.0_wp

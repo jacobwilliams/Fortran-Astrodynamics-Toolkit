@@ -29,6 +29,7 @@
     call standish_module_test()
     call halo_orbit_test()
     call eispack_test()
+    call lighting_module_test()
 
     end program fat_tests
 !*****************************************************************************************

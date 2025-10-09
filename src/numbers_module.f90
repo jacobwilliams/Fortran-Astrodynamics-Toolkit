@@ -29,6 +29,8 @@
     real(wp),parameter,public :: universal_grav_constant = 6.67408e-20_wp !! CODATA-recommended universal gravitational
                                                                           !! constant \( km^3/kg-s^2  \)
 
+    real(wp),parameter,public :: c_light = 299792.458_wp !! speed of light in km/s
+
     !> 3x3 identity matrix:
     real(wp),dimension(3,3),parameter,public :: identity_3x3 = reshape(&
                                                     [[one,zero,zero],&

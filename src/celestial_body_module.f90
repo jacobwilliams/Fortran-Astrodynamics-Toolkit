@@ -15,11 +15,14 @@
         !! A celestial body (Planet, moon, etc.)
         !! The `ID` from the [[base_class]] is the NAIF SPICE ID code for the body
         real(wp) :: mu = zero   !! gravitational parameter \( \mu \) [\(km^3/s^2\)]
+        !note: also should add radius, etc.
     end type celestial_body
+
+    type(celestial_body),parameter,public :: body_ssb = &
+                    celestial_body(0, 'SSB', 0.0_wp ) !! solar-system barycenter [note: don't have mu defined here yet]
 
     !define some bodies:
     ! MU values from: https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/gm_de431.tpc
-
     type(celestial_body),parameter,public :: body_sun = &
                     celestial_body(10, 'Sun',1.3271244004193938E+11_wp )
     type(celestial_body),parameter,public :: body_mercury = &
