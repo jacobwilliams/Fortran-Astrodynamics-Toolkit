@@ -6,12 +6,12 @@
     module lighting_module
 
     use kind_module,           only: wp
-    use numbers_module,        only: pi, zero, one, two, c_light
+    use numbers_module,        only: pi, zero, one, two, c_light, fourpi, solar_luminosity
     use vector_module,         only: unit, cross, axis_angle_rotation
     use ephemeris_module,      only: ephemeris_class
     use transformation_module, only: icrf_frame
     use celestial_body_module, only: celestial_body, body_sun, body_ssb
-    use conversion_module,     only: deg2rad, rad2deg
+    use conversion_module,     only: deg2rad, rad2deg, km2m
     use math_module,           only: wrap_angle
 
     implicit none
@@ -25,11 +25,38 @@
     public :: solar_fraction_alt  ! low-level routine
     public :: solar_fraction_alt2 ! low-level routine
     public :: cubic_shadow_model  ! low-level routine
+    public :: solar_radiation_pressure
 
     public :: lighting_module_test
 
     contains
 !*****************************************************************************************
+
+!********************************************************************************
+!>
+!  Compute the solar radiation pressure force vector on a spacecraft.
+
+    function solar_radiation_pressure(area, cr, r_sc_sun, sunfrac) result (srp)
+
+    real(wp),intent(in)              :: area      !! cross-sectional area of spacecraft [m^2]
+    real(wp),intent(in)              :: cr        !! coefficient of reflectivity
+    real(wp),dimension(3),intent(in) :: r_sc_sun  !! vector from spacecraft to sun [km]
+    real(wp),intent(in)              :: sunfrac   !! sun fraction [0=total eclipse, 1=no eclipse]
+    real(wp),dimension(3)            :: srp       !! solar radiation pressure force vector [N]
+
+    real(wp) :: mag   !! srp magnitude
+    real(wp) :: r_mag !! magnitude of `r_sc_sun`
+
+    if (sunfrac==zero) then
+        srp = zero
+    else
+        r_mag = norm2(r_sc_sun) * km2m ! (m)
+        mag = sunfrac * cr * solar_luminosity * area / (c_light * km2m * fourpi * r_mag**2)
+        srp = -mag * r_sc_sun * km2m / r_mag   ! (N)
+    end if
+
+    end function solar_radiation_pressure
+!********************************************************************************
 
 !********************************************************************************
 !>

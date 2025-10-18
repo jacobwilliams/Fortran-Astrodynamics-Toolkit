@@ -27,7 +27,7 @@ The goal of the Fortran Astrodynamics Toolkit is to produce a comprehensive libr
  * Force models
    - [ ] point mass gravity field
    - [x] geopotential gravity
-   - [ ] solar radiation pressure
+   - [x] solar radiation pressure
    - [ ] atmospheric drag
    - [ ] relativistic effects
  * Reference frames
@@ -45,6 +45,7 @@ The goal of the Fortran Astrodynamics Toolkit is to produce a comprehensive libr
  * Misc
    - [x] orbital element conversions
    - [x] halo orbits
+   - [x] solar eclipsing
    - [ ] targeting and optimization
    - [ ] spacecraft engine models
 
