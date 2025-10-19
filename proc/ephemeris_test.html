@@ -1,0 +1,868 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>ephemeris_test &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>ephemeris_test
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.8% of total for procedures.">102 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/jpl_ephemeris_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/jpl_ephemeris_module.f90.html'>jpl_ephemeris_module.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/jpl_ephemeris_module.html'>jpl_ephemeris_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">ephemeris_test</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/ephemeris_test.html#src">ephemeris_test</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public  subroutine ephemeris_test()  
+</h2>
+        <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='../module/time_module.html'>time_module</a></li>
+                  <li class="list-inline-item"><a href='../module/celestial_body_module.html'>celestial_body_module</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~ephemeris_test~~UsesGraph Pages: 1 -->
+<svg id="procephemeris_testUsesGraph" width="641pt" height="127pt"
+ viewBox="0.00 0.00 641.00 127.24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~ephemeris_test~~UsesGraph" class="graph" transform="scale(0.96 0.96) rotate(0) translate(4 129)">
+<title>proc~~ephemeris_test~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-129 666,-129 666,4 -4,4"/>
+<!-- proc~ephemeris_test -->
+<g id="proc~~ephemeris_test~~UsesGraph_node1" class="node">
+<title>proc~ephemeris_test</title>
+<polygon fill="none" stroke="black" points="662,-45 568,-45 568,-21 662,-21 662,-45"/>
+<text text-anchor="middle" x="615" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">ephemeris_test</text>
+</g>
+<!-- module~celestial_body_module -->
+<g id="proc~~ephemeris_test~~UsesGraph_node2" class="node">
+<title>module~celestial_body_module</title>
+<g id="a_proc~~ephemeris_test~~UsesGraph_node2"><a xlink:href="../module/celestial_body_module.html" xlink:title="celestial_body_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="532,-75 398,-75 398,-51 532,-51 532,-75"/>
+<text text-anchor="middle" x="465" y="-60.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">celestial_body_module</text>
+</a>
+</g>
+</g>
+<!-- proc~ephemeris_test&#45;&gt;module~celestial_body_module -->
+<g id="proc~~ephemeris_test~~UsesGraph_edge1" class="edge">
+<title>proc~ephemeris_test&#45;&gt;module~celestial_body_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M567.98,-42.33C557.65,-44.42 546.47,-46.69 535.42,-48.93"/>
+<polygon fill="#000000" stroke="#000000" points="534.45,-45.55 525.35,-50.97 535.84,-52.41 534.45,-45.55"/>
+</g>
+<!-- module~time_module -->
+<g id="proc~~ephemeris_test~~UsesGraph_node3" class="node">
+<title>module~time_module</title>
+<g id="a_proc~~ephemeris_test~~UsesGraph_node3"><a xlink:href="../module/time_module.html" xlink:title="time_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="506,-24 424,-24 424,0 506,0 506,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">time_module</text>
+</a>
+</g>
+</g>
+<!-- proc~ephemeris_test&#45;&gt;module~time_module -->
+<g id="proc~~ephemeris_test~~UsesGraph_edge2" class="edge">
+<title>proc~ephemeris_test&#45;&gt;module~time_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M567.98,-26.47C551.68,-24.16 533.25,-21.54 516.59,-19.18"/>
+<polygon fill="#000000" stroke="#000000" points="516.87,-15.68 506.48,-17.74 515.89,-22.61 516.87,-15.68"/>
+</g>
+<!-- module~base_class_module -->
+<g id="proc~~ephemeris_test~~UsesGraph_node4" class="node">
+<title>module~base_class_module</title>
+<g id="a_proc~~ephemeris_test~~UsesGraph_node4"><a xlink:href="../module/base_class_module.html" xlink:title="base_class_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="362,-125 247,-125 247,-101 362,-101 362,-125"/>
+<text text-anchor="middle" x="304.5" y="-110.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">base_class_module</text>
+</a>
+</g>
+</g>
+<!-- module~celestial_body_module&#45;&gt;module~base_class_module -->
+<g id="proc~~ephemeris_test~~UsesGraph_edge3" class="edge">
+<title>module~celestial_body_module&#45;&gt;module~base_class_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M425.63,-75.1C403.91,-81.96 376.54,-90.59 353.41,-97.89"/>
+<polygon fill="#000000" stroke="#000000" points="352.27,-94.57 343.79,-100.92 354.38,-101.25 352.27,-94.57"/>
+</g>
+<!-- module~kind_module -->
+<g id="proc~~ephemeris_test~~UsesGraph_node5" class="node">
+<title>module~kind_module</title>
+<g id="a_proc~~ephemeris_test~~UsesGraph_node5"><a xlink:href="../module/kind_module.html" xlink:title="kind_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="211,-45 130,-45 130,-21 211,-21 211,-45"/>
+<text text-anchor="middle" x="170.5" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module</text>
+</a>
+</g>
+</g>
+<!-- module~celestial_body_module&#45;&gt;module~kind_module -->
+<g id="proc~~ephemeris_test~~UsesGraph_edge4" class="edge">
+<title>module~celestial_body_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M397.61,-64.18C354.45,-63.98 297.1,-61.9 247,-54 237.52,-52.51 227.54,-50.24 218.05,-47.75"/>
+<polygon fill="#000000" stroke="#000000" points="218.95,-44.36 208.38,-45.08 217.09,-51.11 218.95,-44.36"/>
+</g>
+<!-- module~numbers_module -->
+<g id="proc~~ephemeris_test~~UsesGraph_node6" class="node">
+<title>module~numbers_module</title>
+<g id="a_proc~~ephemeris_test~~UsesGraph_node6"><a xlink:href="../module/numbers_module.html" xlink:title="numbers_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="357.5,-45 251.5,-45 251.5,-21 357.5,-21 357.5,-45"/>
+<text text-anchor="middle" x="304.5" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module</text>
+</a>
+</g>
+</g>
+<!-- module~celestial_body_module&#45;&gt;module~numbers_module -->
+<g id="proc~~ephemeris_test~~UsesGraph_edge5" class="edge">
+<title>module~celestial_body_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M400.45,-50.97C389.74,-48.94 378.64,-46.84 367.96,-44.82"/>
+<polygon fill="#000000" stroke="#000000" points="368.36,-41.34 357.89,-42.92 367.06,-48.21 368.36,-41.34"/>
+</g>
+<!-- module~time_module&#45;&gt;module~kind_module -->
+<g id="proc~~ephemeris_test~~UsesGraph_edge6" class="edge">
+<title>module~time_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M423.79,-8.76C380.06,-5.99 308.22,-3.64 247,-12 237.2,-13.34 226.87,-15.61 217.1,-18.18"/>
+<polygon fill="#000000" stroke="#000000" points="215.88,-14.89 207.18,-20.94 217.75,-21.63 215.88,-14.89"/>
+</g>
+<!-- iso_fortran_env -->
+<g id="proc~~ephemeris_test~~UsesGraph_node7" class="node">
+<title>iso_fortran_env</title>
+<g id="a_proc~~ephemeris_test~~UsesGraph_node7"><a xlink:href="http://fortranwiki.org/fortran/show/iso_fortran_env" xlink:title="iso_fortran_env">
+<polygon fill="#337ab7" stroke="#337ab7" points="94,-45 0,-45 0,-21 94,-21 94,-45"/>
+<text text-anchor="middle" x="47" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
+</a>
+</g>
+</g>
+<!-- module~kind_module&#45;&gt;iso_fortran_env -->
+<g id="proc~~ephemeris_test~~UsesGraph_edge7" class="edge">
+<title>module~kind_module&#45;&gt;iso_fortran_env</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M129.72,-33C121.56,-33 112.83,-33 104.21,-33"/>
+<polygon fill="#000000" stroke="#000000" points="104.2,-29.5 94.2,-33 104.2,-36.5 104.2,-29.5"/>
+</g>
+<!-- module~numbers_module&#45;&gt;module~kind_module -->
+<g id="proc~~ephemeris_test~~UsesGraph_edge8" class="edge">
+<title>module~numbers_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M251.33,-33C241.38,-33 231,-33 221.13,-33"/>
+<polygon fill="#000000" stroke="#000000" points="221.08,-29.5 211.08,-33 221.08,-36.5 221.08,-29.5"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panprocephemeris_testUsesGraph = svgPanZoom('#procephemeris_testUsesGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+
+    <p>Ephemeris test routine.</p>
+<h3>Ephemeris files</h3>
+<p>This routine requires the DE405 and DE421 JPL binary ephemeris files
+  to be present in the <code>./eph</code> directory.
+  These can be built by using the instructions
+  <a href="https://ssd.jpl.nasa.gov/ftp/eph/planets/fortran/userguide.txt">here</a>.</p>
+<p>See also <code>get_third_party.sh</code> script in the repo.</p>
+
+
+    <h3>Arguments</h3>
+    <em>None</em>
+    <br>
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~ephemeris_test~~CallsGraph Pages: 1 -->
+<svg id="procephemeris_testCallsGraph" width="641pt" height="172pt"
+ viewBox="0.00 0.00 641.00 172.19" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~ephemeris_test~~CallsGraph" class="graph" transform="scale(0.72 0.72) rotate(0) translate(4 234)">
+<title>proc~~ephemeris_test~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-234 882,-234 882,4 -4,4"/>
+<!-- proc~ephemeris_test -->
+<g id="proc~~ephemeris_test~~CallsGraph_node1" class="node">
+<title>proc~ephemeris_test</title>
+<polygon fill="none" stroke="black" points="94,-129 0,-129 0,-105 94,-105 94,-129"/>
+<text text-anchor="middle" x="47" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50">ephemeris_test</text>
+</g>
+<!-- proc~get_constants -->
+<g id="proc~~ephemeris_test~~CallsGraph_node2" class="node">
+<title>proc~get_constants</title>
+<g id="a_proc~~ephemeris_test~~CallsGraph_node2"><a xlink:href="../proc/get_constants.html" xlink:title="jpl_ephemeris%get_constants">
+<polygon fill="#d9534f" stroke="#d9534f" points="336,-230 165,-230 165,-206 336,-206 336,-230"/>
+<text text-anchor="middle" x="250.5" y="-215.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">jpl_ephemeris%get_constants</text>
+</a>
+</g>
+</g>
+<!-- proc~ephemeris_test&#45;&gt;proc~get_constants -->
+<g id="proc~~ephemeris_test~~CallsGraph_edge1" class="edge">
+<title>proc~ephemeris_test&#45;&gt;proc~get_constants</title>
+<path fill="none" stroke="#000000" d="M57.7,-129.25C71.77,-146.12 99.5,-176.22 130,-192 138.47,-196.38 147.64,-200.03 157.01,-203.06"/>
+<polygon fill="#000000" stroke="#000000" points="156.24,-206.48 166.83,-206 158.25,-199.78 156.24,-206.48"/>
+</g>
+<!-- proc~get_r_from_jpl_ephemeris -->
+<g id="proc~~ephemeris_test~~CallsGraph_node3" class="node">
+<title>proc~get_r_from_jpl_ephemeris</title>
+<g id="a_proc~~ephemeris_test~~CallsGraph_node3"><a xlink:href="../proc/get_r_from_jpl_ephemeris.html" xlink:title="jpl_ephemeris%get_r_from_jpl_ephemeris">
+<polygon fill="#d9534f" stroke="#d9534f" points="368,-150 133,-150 133,-126 368,-126 368,-150"/>
+<text text-anchor="middle" x="250.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">jpl_ephemeris%get_r_from_jpl_ephemeris</text>
+</a>
+</g>
+</g>
+<!-- proc~ephemeris_test&#45;&gt;proc~get_r_from_jpl_ephemeris -->
+<g id="proc~~ephemeris_test~~CallsGraph_edge2" class="edge">
+<title>proc~ephemeris_test&#45;&gt;proc~get_r_from_jpl_ephemeris</title>
+<path fill="none" stroke="#000000" d="M94.23,-121.82C103.47,-122.78 113.6,-123.84 124.1,-124.93"/>
+<polygon fill="#000000" stroke="#000000" points="123.96,-128.44 134.27,-125.99 124.68,-121.47 123.96,-128.44"/>
+</g>
+<!-- proc~get_rv_from_jpl_ephemeris -->
+<g id="proc~~ephemeris_test~~CallsGraph_node4" class="node">
+<title>proc~get_rv_from_jpl_ephemeris</title>
+<g id="a_proc~~ephemeris_test~~CallsGraph_node4"><a xlink:href="../proc/get_rv_from_jpl_ephemeris.html" xlink:title="jpl_ephemeris%get_rv_from_jpl_ephemeris">
+<polygon fill="#d9534f" stroke="#d9534f" points="371,-108 130,-108 130,-84 371,-84 371,-108"/>
+<text text-anchor="middle" x="250.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">jpl_ephemeris%get_rv_from_jpl_ephemeris</text>
+</a>
+</g>
+</g>
+<!-- proc~ephemeris_test&#45;&gt;proc~get_rv_from_jpl_ephemeris -->
+<g id="proc~~ephemeris_test~~CallsGraph_edge3" class="edge">
+<title>proc~ephemeris_test&#45;&gt;proc~get_rv_from_jpl_ephemeris</title>
+<path fill="none" stroke="#000000" d="M94.23,-112.18C103.47,-111.22 113.6,-110.16 124.1,-109.07"/>
+<polygon fill="#000000" stroke="#000000" points="124.68,-112.53 134.27,-108.01 123.96,-105.56 124.68,-112.53"/>
+</g>
+<!-- proc~get_state -->
+<g id="proc~~ephemeris_test~~CallsGraph_node5" class="node">
+<title>proc~get_state</title>
+<g id="a_proc~~ephemeris_test~~CallsGraph_node5"><a xlink:href="../proc/get_state.html" xlink:title="jpl_ephemeris%get_state">
+<polygon fill="#d9534f" stroke="#d9534f" points="553,-190 407,-190 407,-166 553,-166 553,-190"/>
+<text text-anchor="middle" x="480" y="-175.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">jpl_ephemeris%get_state</text>
+</a>
+</g>
+</g>
+<!-- proc~ephemeris_test&#45;&gt;proc~get_state -->
+<g id="proc~~ephemeris_test~~CallsGraph_edge4" class="edge">
+<title>proc~ephemeris_test&#45;&gt;proc~get_state</title>
+<path fill="none" stroke="#000000" d="M65.98,-129.02C82.02,-139.04 106.53,-152.66 130,-159 218.78,-182.98 324.75,-185.23 396.45,-183.07"/>
+<polygon fill="#000000" stroke="#000000" points="396.89,-186.56 406.77,-182.72 396.66,-179.56 396.89,-186.56"/>
+</g>
+<!-- proc~initialize_ephemeris -->
+<g id="proc~~ephemeris_test~~CallsGraph_node6" class="node">
+<title>proc~initialize_ephemeris</title>
+<g id="a_proc~~ephemeris_test~~CallsGraph_node6"><a xlink:href="../proc/initialize_ephemeris.html" xlink:title="jpl_ephemeris%initialize_ephemeris">
+<polygon fill="#d9534f" stroke="#d9534f" points="352.5,-66 148.5,-66 148.5,-42 352.5,-42 352.5,-66"/>
+<text text-anchor="middle" x="250.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">jpl_ephemeris%initialize_ephemeris</text>
+</a>
+</g>
+</g>
+<!-- proc~ephemeris_test&#45;&gt;proc~initialize_ephemeris -->
+<g id="proc~~ephemeris_test~~CallsGraph_edge5" class="edge">
+<title>proc~ephemeris_test&#45;&gt;proc~initialize_ephemeris</title>
+<path fill="none" stroke="#000000" d="M67.49,-104.9C83.66,-95.39 107.56,-82.53 130,-75 137.37,-72.53 145.1,-70.33 152.94,-68.38"/>
+<polygon fill="#000000" stroke="#000000" points="153.96,-71.74 162.89,-66.05 152.36,-64.92 153.96,-71.74"/>
+</g>
+<!-- proc~jd_to_et -->
+<g id="proc~~ephemeris_test~~CallsGraph_node7" class="node">
+<title>proc~jd_to_et</title>
+<g id="a_proc~~ephemeris_test~~CallsGraph_node7"><a xlink:href="../proc/jd_to_et.html" xlink:title="jd_to_et">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="277.5,-24 223.5,-24 223.5,0 277.5,0 277.5,-24"/>
+<text text-anchor="middle" x="250.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">jd_to_et</text>
+</a>
+</g>
+</g>
+<!-- proc~ephemeris_test&#45;&gt;proc~jd_to_et -->
+<g id="proc~~ephemeris_test~~CallsGraph_edge6" class="edge">
+<title>proc~ephemeris_test&#45;&gt;proc~jd_to_et</title>
+<path fill="none" stroke="#000000" d="M55.94,-104.96C68.98,-86.24 96.84,-50.51 130,-33 155.75,-19.41 188.54,-14.37 213.26,-12.61"/>
+<polygon fill="#000000" stroke="#000000" points="213.52,-16.1 223.31,-12.05 213.13,-9.11 213.52,-16.1"/>
+</g>
+<!-- proc~get_r_from_jpl_ephemeris&#45;&gt;proc~get_state -->
+<g id="proc~~ephemeris_test~~CallsGraph_edge8" class="edge">
+<title>proc~get_r_from_jpl_ephemeris&#45;&gt;proc~get_state</title>
+<path fill="none" stroke="#000000" d="M319.76,-150C345.17,-154.47 374.22,-159.58 400.48,-164.19"/>
+<polygon fill="#000000" stroke="#000000" points="399.94,-167.65 410.4,-165.94 401.16,-160.76 399.94,-167.65"/>
+</g>
+<!-- proc~et_to_jd -->
+<g id="proc~~ephemeris_test~~CallsGraph_node8" class="node">
+<title>proc~et_to_jd</title>
+<g id="a_proc~~ephemeris_test~~CallsGraph_node8"><a xlink:href="../proc/et_to_jd.html" xlink:title="et_to_jd">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="507,-106 453,-106 453,-82 507,-82 507,-106"/>
+<text text-anchor="middle" x="480" y="-91.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">et_to_jd</text>
+</a>
+</g>
+</g>
+<!-- proc~get_r_from_jpl_ephemeris&#45;&gt;proc~et_to_jd -->
+<g id="proc~~ephemeris_test~~CallsGraph_edge7" class="edge">
+<title>proc~get_r_from_jpl_ephemeris&#45;&gt;proc~et_to_jd</title>
+<path fill="none" stroke="#000000" d="M322.35,-125.98C338.37,-123.14 355.28,-120.05 371,-117 395.1,-112.32 422.11,-106.57 443.09,-101.99"/>
+<polygon fill="#000000" stroke="#000000" points="443.85,-105.4 452.87,-99.84 442.35,-98.56 443.85,-105.4"/>
+</g>
+<!-- proc~spice_id_to_old_id -->
+<g id="proc~~ephemeris_test~~CallsGraph_node9" class="node">
+<title>proc~spice_id_to_old_id</title>
+<g id="a_proc~~ephemeris_test~~CallsGraph_node9"><a xlink:href="../proc/spice_id_to_old_id.html" xlink:title="spice_id_to_old_id">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="534,-148 426,-148 426,-124 534,-124 534,-148"/>
+<text text-anchor="middle" x="480" y="-133.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">spice_id_to_old_id</text>
+</a>
+</g>
+</g>
+<!-- proc~get_r_from_jpl_ephemeris&#45;&gt;proc~spice_id_to_old_id -->
+<g id="proc~~ephemeris_test~~CallsGraph_edge9" class="edge">
+<title>proc~get_r_from_jpl_ephemeris&#45;&gt;proc~spice_id_to_old_id</title>
+<path fill="none" stroke="#000000" d="M368.25,-136.97C384.65,-136.83 400.96,-136.69 415.83,-136.56"/>
+<polygon fill="#000000" stroke="#000000" points="415.91,-140.05 425.88,-136.47 415.85,-133.06 415.91,-140.05"/>
+</g>
+<!-- proc~get_rv_from_jpl_ephemeris&#45;&gt;proc~get_state -->
+<g id="proc~~ephemeris_test~~CallsGraph_edge11" class="edge">
+<title>proc~get_rv_from_jpl_ephemeris&#45;&gt;proc~get_state</title>
+<path fill="none" stroke="#000000" d="M350.8,-108.05C357.83,-110.52 364.64,-113.48 371,-117 391.92,-128.59 386.75,-144.28 407,-157 409.81,-158.77 412.78,-160.39 415.84,-161.88"/>
+<polygon fill="#000000" stroke="#000000" points="414.68,-165.19 425.25,-165.96 417.47,-158.77 414.68,-165.19"/>
+</g>
+<!-- proc~get_rv_from_jpl_ephemeris&#45;&gt;proc~et_to_jd -->
+<g id="proc~~ephemeris_test~~CallsGraph_edge10" class="edge">
+<title>proc~get_rv_from_jpl_ephemeris&#45;&gt;proc~et_to_jd</title>
+<path fill="none" stroke="#000000" d="M371.25,-94.95C397.38,-94.72 423.09,-94.49 442.84,-94.32"/>
+<polygon fill="#000000" stroke="#000000" points="442.91,-97.82 452.88,-94.23 442.84,-90.82 442.91,-97.82"/>
+</g>
+<!-- proc~get_rv_from_jpl_ephemeris&#45;&gt;proc~spice_id_to_old_id -->
+<g id="proc~~ephemeris_test~~CallsGraph_edge12" class="edge">
+<title>proc~get_rv_from_jpl_ephemeris&#45;&gt;proc~spice_id_to_old_id</title>
+<path fill="none" stroke="#000000" d="M320.06,-108.05C336.73,-110.98 354.51,-114.1 371,-117 385.55,-119.56 401.2,-122.31 415.95,-124.91"/>
+<polygon fill="#000000" stroke="#000000" points="415.54,-128.39 425.99,-126.67 416.75,-121.49 415.54,-128.39"/>
+</g>
+<!-- proc~state -->
+<g id="proc~~ephemeris_test~~CallsGraph_node10" class="node">
+<title>proc~state</title>
+<g id="a_proc~~ephemeris_test~~CallsGraph_node10"><a xlink:href="../proc/state.html" xlink:title="jpl_ephemeris%state">
+<polygon fill="#d9534f" stroke="#d9534f" points="713,-190 589,-190 589,-166 713,-166 713,-190"/>
+<text text-anchor="middle" x="651" y="-175.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">jpl_ephemeris%state</text>
+</a>
+</g>
+</g>
+<!-- proc~get_state&#45;&gt;proc~state -->
+<g id="proc~~ephemeris_test~~CallsGraph_edge13" class="edge">
+<title>proc~get_state&#45;&gt;proc~state</title>
+<path fill="none" stroke="#000000" d="M553.16,-178C561.64,-178 570.3,-178 578.77,-178"/>
+<polygon fill="#000000" stroke="#000000" points="578.98,-181.5 588.98,-178 578.98,-174.5 578.98,-181.5"/>
+</g>
+<!-- proc~interp -->
+<g id="proc~~ephemeris_test~~CallsGraph_node11" class="node">
+<title>proc~interp</title>
+<g id="a_proc~~ephemeris_test~~CallsGraph_node11"><a xlink:href="../proc/interp.html" xlink:title="jpl_ephemeris%interp">
+<polygon fill="#d9534f" stroke="#d9534f" points="878,-211 749,-211 749,-187 878,-187 878,-211"/>
+<text text-anchor="middle" x="813.5" y="-196.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">jpl_ephemeris%interp</text>
+</a>
+</g>
+</g>
+<!-- proc~state&#45;&gt;proc~interp -->
+<g id="proc~~ephemeris_test~~CallsGraph_edge14" class="edge">
+<title>proc~state&#45;&gt;proc~interp</title>
+<path fill="none" stroke="#000000" d="M713.14,-186C721.54,-187.1 730.24,-188.24 738.84,-189.36"/>
+<polygon fill="#000000" stroke="#000000" points="738.5,-192.85 748.87,-190.67 739.41,-185.91 738.5,-192.85"/>
+</g>
+<!-- proc~split -->
+<g id="proc~~ephemeris_test~~CallsGraph_node12" class="node">
+<title>proc~split</title>
+<g id="a_proc~~ephemeris_test~~CallsGraph_node12"><a xlink:href="../proc/split.html" xlink:title="split">
+<polygon fill="#d9534f" stroke="#d9534f" points="840.5,-169 786.5,-169 786.5,-145 840.5,-145 840.5,-169"/>
+<text text-anchor="middle" x="813.5" y="-154.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">split</text>
+</a>
+</g>
+</g>
+<!-- proc~state&#45;&gt;proc~split -->
+<g id="proc~~ephemeris_test~~CallsGraph_edge15" class="edge">
+<title>proc~state&#45;&gt;proc~split</title>
+<path fill="none" stroke="#000000" d="M713.14,-170C734.41,-167.22 757.6,-164.18 776.21,-161.75"/>
+<polygon fill="#000000" stroke="#000000" points="776.86,-165.19 786.32,-160.43 775.95,-158.25 776.86,-165.19"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panprocephemeris_testCallsGraph = svgPanZoom('#procephemeris_testCallsGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">ephemeris_test</span><span class="p">()</span>
+
+<span class="w">    </span><span class="k">use </span><span class="n">time_module</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">jd_to_et</span>
+<span class="w">    </span><span class="k">use </span><span class="n">celestial_body_module</span><span class="p">,</span><span class="w"> </span><span class="n">fat_wp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">wp</span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="w">    </span><span class="c">! note: the low-level functions use real64 variables.</span>
+<span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">6</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">nmax</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nams</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">diffrv</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ss</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">nmax</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vals</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nvs</span><span class="p">,</span><span class="n">ntarg</span><span class="p">,</span><span class="n">nctr</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">jpl_ephemeris</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">eph405</span><span class="p">,</span><span class="w"> </span><span class="n">eph421</span>
+<span class="w">    </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">status_ok_405</span><span class="p">,</span><span class="n">status_ok_421</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">jd_64</span><span class="p">,</span><span class="w"> </span><span class="n">rv_64</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="w"> </span><span class="n">rv1_64</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="w"> </span><span class="n">rv2_64</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">fat_wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">et</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">fat_wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">fat_wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rv</span><span class="p">,</span><span class="n">rv1</span><span class="p">,</span><span class="n">rv2</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">fat_wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">jd</span>
+
+<span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ephemeris_file_405</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;./eph/JPLEPH.405&#39;</span><span class="w"> </span><span class="c">!! JPL DE405 ephemeris file</span>
+<span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ephemeris_file_421</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;./eph/JPLEPH.421&#39;</span><span class="w"> </span><span class="c">!! JPL DE421 ephemeris file</span>
+
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;---------------&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39; ephemeris_test&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;---------------&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+
+<span class="w">    </span><span class="c">!initialize:</span>
+<span class="w">    </span><span class="k">call </span><span class="n">eph405</span><span class="p">%</span><span class="n">initialize</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">ephemeris_file_405</span><span class="p">,</span><span class="n">status_ok</span><span class="o">=</span><span class="n">status_ok_405</span><span class="p">)</span>
+<span class="w">    </span><span class="k">call </span><span class="n">eph421</span><span class="p">%</span><span class="n">initialize</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">ephemeris_file_421</span><span class="p">,</span><span class="n">status_ok</span><span class="o">=</span><span class="n">status_ok_421</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status_ok_405</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+
+<span class="w">        </span><span class="c">!get some constants from the file:</span>
+<span class="w">        </span><span class="k">call </span><span class="n">eph405</span><span class="p">%</span><span class="n">get_constants</span><span class="p">(</span><span class="n">nams</span><span class="p">,</span><span class="n">vals</span><span class="p">,</span><span class="n">ss</span><span class="p">,</span><span class="n">nvs</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Ephemeris initialized&#39;</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,1X,F15.3,1X,A,1X,F15.3)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;JD range: &#39;</span><span class="p">,</span><span class="n">ss</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;to &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">ss</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">        </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">nvs</span>
+<span class="w">            </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,1X,D25.16)&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">nams</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">vals</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">        </span><span class="k">end do</span>
+
+<span class="k">        </span><span class="n">jd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">245153</span><span class="mf">6.5_wp</span><span class="w">   </span><span class="c">! julian date</span>
+<span class="w">        </span><span class="n">et</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jd_to_et</span><span class="p">(</span><span class="n">jd</span><span class="p">)</span><span class="w">  </span><span class="c">! ephemeris time</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">jd</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">ss</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">jd</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">ss</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">            </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;error: jed out of bounds.&#39;</span>
+<span class="w">            </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;jed   = &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">jd</span>
+<span class="w">            </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;ss(1) = &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">ss</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">            </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;ss(2) = &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">ss</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">else</span>
+
+<span class="w">            </span><span class="c">!test DE405:</span>
+<span class="w">            </span><span class="k">do </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span>
+
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                    </span><span class="n">ntarg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w">      </span><span class="c">!earth</span>
+<span class="w">                    </span><span class="n">nctr</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">11</span><span class="w">     </span><span class="c">!sun</span>
+<span class="w">                </span><span class="k">else</span>
+<span class="k">                    </span><span class="n">ntarg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w">     </span><span class="c">!moon</span>
+<span class="w">                    </span><span class="n">nctr</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w">      </span><span class="c">!earth</span>
+<span class="w">                </span><span class="k">end if</span>
+
+<span class="k">                write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">                </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;DE405&#39;</span>
+<span class="w">                </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;state of &quot;&#39;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">list_of_bodies</span><span class="p">(</span><span class="n">ntarg</span><span class="p">))</span><span class="o">//</span><span class="p">&amp;</span>
+<span class="w">                            </span><span class="s1">&#39;&quot; wrt &quot;&#39;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">list_of_bodies</span><span class="p">(</span><span class="n">nctr</span><span class="p">))</span><span class="o">//</span><span class="s1">&#39;&quot;&#39;</span>
+
+<span class="w">                </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span>
+<span class="w">                    </span><span class="n">jd_64</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jd</span>
+<span class="w">                    </span><span class="k">call </span><span class="n">eph405</span><span class="p">%</span><span class="n">get_state</span><span class="p">(</span><span class="w"> </span><span class="n">jd_64</span><span class="p">,</span><span class="w"> </span><span class="n">ntarg</span><span class="p">,</span><span class="w"> </span><span class="n">nctr</span><span class="p">,</span><span class="w"> </span><span class="n">rv_64</span><span class="p">,</span><span class="w"> </span><span class="n">status_ok_405</span><span class="p">)</span>
+<span class="w">                    </span><span class="n">rv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rv_64</span>
+<span class="w">                    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(F15.2,1X,*(E25.16,1X))&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">jd</span><span class="p">,</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="n">rv</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)),</span><span class="w"> </span><span class="n">rv</span>
+<span class="w">                    </span><span class="n">jd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jd</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="mf">0.0_wp</span>
+<span class="w">                </span><span class="k">end do</span>
+
+<span class="k">            end do</span>
+<span class="k">        end if</span>
+
+<span class="k">    else</span>
+<span class="k">        write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Error opening DE405 ephemeris file&#39;</span>
+<span class="w">    </span><span class="k">end if</span>
+
+<span class="k">    if</span><span class="w"> </span><span class="p">(</span><span class="n">status_ok_405</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">status_ok_421</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+
+<span class="w">        </span><span class="c">!compare DE405 with DE421</span>
+<span class="w">        </span><span class="k">do </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                </span><span class="n">ntarg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w">      </span><span class="c">!earth</span>
+<span class="w">                </span><span class="n">nctr</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">11</span><span class="w">     </span><span class="c">!sun</span>
+<span class="w">            </span><span class="k">else</span>
+<span class="k">                </span><span class="n">ntarg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w">     </span><span class="c">!moon</span>
+<span class="w">                </span><span class="n">nctr</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w">      </span><span class="c">!earth</span>
+<span class="w">            </span><span class="k">end if</span>
+
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">            </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;DE421 - DE405 Difference&#39;</span>
+<span class="w">            </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;state of &quot;&#39;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">list_of_bodies</span><span class="p">(</span><span class="n">ntarg</span><span class="p">))</span><span class="o">//</span><span class="p">&amp;</span>
+<span class="w">                        </span><span class="s1">&#39;&quot; wrt &quot;&#39;</span><span class="o">//</span><span class="nb">trim</span><span class="p">(</span><span class="n">list_of_bodies</span><span class="p">(</span><span class="n">nctr</span><span class="p">))</span><span class="o">//</span><span class="s1">&#39;&quot;&#39;</span>
+
+<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span>
+<span class="w">                </span><span class="n">jd_64</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jd</span>
+<span class="w">                </span><span class="k">call </span><span class="n">eph405</span><span class="p">%</span><span class="n">get_state</span><span class="p">(</span><span class="w"> </span><span class="n">jd_64</span><span class="p">,</span><span class="w"> </span><span class="n">ntarg</span><span class="p">,</span><span class="w"> </span><span class="n">nctr</span><span class="p">,</span><span class="w"> </span><span class="n">rv1_64</span><span class="p">,</span><span class="w"> </span><span class="n">status_ok_405</span><span class="p">)</span>
+<span class="w">                </span><span class="n">rv1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rv1_64</span>
+<span class="w">                </span><span class="n">jd_64</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jd</span>
+<span class="w">                </span><span class="k">call </span><span class="n">eph421</span><span class="p">%</span><span class="n">get_state</span><span class="p">(</span><span class="w"> </span><span class="n">jd_64</span><span class="p">,</span><span class="w"> </span><span class="n">ntarg</span><span class="p">,</span><span class="w"> </span><span class="n">nctr</span><span class="p">,</span><span class="w"> </span><span class="n">rv2_64</span><span class="p">,</span><span class="w"> </span><span class="n">status_ok_421</span><span class="p">)</span>
+<span class="w">                </span><span class="n">rv2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rv2_64</span>
+<span class="w">                </span><span class="n">diffrv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rv2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">rv1</span>
+<span class="w">                </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(F15.2,1X,*(E25.16,1X))&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">jd</span><span class="p">,</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="n">diffrv</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)),</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="n">diffrv</span><span class="p">(</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">))</span>
+<span class="w">                </span><span class="n">jd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jd</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="mf">0.0_wp</span>
+<span class="w">            </span><span class="k">end do</span>
+
+<span class="k">        end do</span>
+
+<span class="w">        </span><span class="c">! compare get_rv with get_r</span>
+<span class="w">        </span><span class="k">call </span><span class="n">eph405</span><span class="p">%</span><span class="n">get_rv</span><span class="p">(</span><span class="n">et</span><span class="p">,</span><span class="n">body_earth</span><span class="p">,</span><span class="n">body_moon</span><span class="p">,</span><span class="n">rv</span><span class="p">,</span><span class="n">status_ok_405</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">eph405</span><span class="p">%</span><span class="n">get_r</span><span class="p">(</span><span class="n">et</span><span class="p">,</span><span class="n">body_earth</span><span class="p">,</span><span class="n">body_moon</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">status_ok_405</span><span class="p">)</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;r - rv(1:3) = &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">rv</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="k">all</span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">rv</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="p">))</span><span class="w"> </span><span class="k">error stop</span><span class="w"> </span><span class="s1">&#39;error in ephemeris&#39;</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+
+<span class="w">    </span><span class="k">else</span>
+<span class="k">        write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Error opening DE421 ephemeris file&#39;</span>
+<span class="w">    </span><span class="k">end if</span>
+
+<span class="w">    </span><span class="c">!cleanup:</span>
+<span class="w">    </span><span class="k">call </span><span class="n">eph405</span><span class="p">%</span><span class="k">close</span><span class="p">()</span>
+<span class="w">    </span><span class="k">call </span><span class="n">eph421</span><span class="p">%</span><span class="k">close</span><span class="p">()</span>
+
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">ephemeris_test</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,719 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>crtbp_test &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>crtbp_test
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.5% of total for procedures.">72 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/crtbp_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/crtbp_module.f90.html'>crtbp_module.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/crtbp_module.html'>crtbp_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">crtbp_test</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/crtbp_test.html#src">crtbp_test</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public  subroutine crtbp_test()  
+</h2>
+        <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='../module/celestial_body_module.html'>celestial_body_module</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~crtbp_test~~UsesGraph Pages: 1 -->
+<svg id="proccrtbp_testUsesGraph" width="641pt" height="112pt"
+ viewBox="0.00 0.00 641.00 112.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~crtbp_test~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 108)">
+<title>proc~~crtbp_test~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-108 637,-108 637,4 -4,4"/>
+<!-- proc~crtbp_test -->
+<g id="proc~~crtbp_test~~UsesGraph_node1" class="node">
+<title>proc~crtbp_test</title>
+<polygon fill="none" stroke="black" points="633,-64 568,-64 568,-40 633,-40 633,-64"/>
+<text text-anchor="middle" x="600.5" y="-49.6" font-family="Helvetica,sans-Serif" font-size="10.50">crtbp_test</text>
+</g>
+<!-- module~celestial_body_module -->
+<g id="proc~~crtbp_test~~UsesGraph_node2" class="node">
+<title>module~celestial_body_module</title>
+<g id="a_proc~~crtbp_test~~UsesGraph_node2"><a xlink:href="../module/celestial_body_module.html" xlink:title="celestial_body_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="532,-64 398,-64 398,-40 532,-40 532,-64"/>
+<text text-anchor="middle" x="465" y="-49.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">celestial_body_module</text>
+</a>
+</g>
+</g>
+<!-- proc~crtbp_test&#45;&gt;module~celestial_body_module -->
+<g id="proc~~crtbp_test~~UsesGraph_edge1" class="edge">
+<title>proc~crtbp_test&#45;&gt;module~celestial_body_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M567.86,-52C560.02,-52 551.27,-52 542.29,-52"/>
+<polygon fill="#000000" stroke="#000000" points="542.08,-48.5 532.08,-52 542.08,-55.5 542.08,-48.5"/>
+</g>
+<!-- module~base_class_module -->
+<g id="proc~~crtbp_test~~UsesGraph_node3" class="node">
+<title>module~base_class_module</title>
+<g id="a_proc~~crtbp_test~~UsesGraph_node3"><a xlink:href="../module/base_class_module.html" xlink:title="base_class_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="362,-104 247,-104 247,-80 362,-80 362,-104"/>
+<text text-anchor="middle" x="304.5" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">base_class_module</text>
+</a>
+</g>
+</g>
+<!-- module~celestial_body_module&#45;&gt;module~base_class_module -->
+<g id="proc~~crtbp_test~~UsesGraph_edge2" class="edge">
+<title>module~celestial_body_module&#45;&gt;module~base_class_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M416.44,-64C399.75,-68.21 380.81,-72.99 363.37,-77.4"/>
+<polygon fill="#000000" stroke="#000000" points="362.13,-74.1 353.3,-79.94 363.85,-80.88 362.13,-74.1"/>
+</g>
+<!-- module~kind_module -->
+<g id="proc~~crtbp_test~~UsesGraph_node4" class="node">
+<title>module~kind_module</title>
+<g id="a_proc~~crtbp_test~~UsesGraph_node4"><a xlink:href="../module/kind_module.html" xlink:title="kind_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="211,-44 130,-44 130,-20 211,-20 211,-44"/>
+<text text-anchor="middle" x="170.5" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module</text>
+</a>
+</g>
+</g>
+<!-- module~celestial_body_module&#45;&gt;module~kind_module -->
+<g id="proc~~crtbp_test~~UsesGraph_edge3" class="edge">
+<title>module~celestial_body_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M397.99,-47.49C344.35,-43.82 269.85,-38.72 221.17,-35.4"/>
+<polygon fill="#000000" stroke="#000000" points="221.41,-31.9 211.19,-34.71 220.93,-38.89 221.41,-31.9"/>
+</g>
+<!-- module~numbers_module -->
+<g id="proc~~crtbp_test~~UsesGraph_node5" class="node">
+<title>module~numbers_module</title>
+<g id="a_proc~~crtbp_test~~UsesGraph_node5"><a xlink:href="../module/numbers_module.html" xlink:title="numbers_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="357.5,-24 251.5,-24 251.5,0 357.5,0 357.5,-24"/>
+<text text-anchor="middle" x="304.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module</text>
+</a>
+</g>
+</g>
+<!-- module~celestial_body_module&#45;&gt;module~numbers_module -->
+<g id="proc~~crtbp_test~~UsesGraph_edge4" class="edge">
+<title>module~celestial_body_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M416.44,-40C399.75,-35.79 380.81,-31.01 363.37,-26.6"/>
+<polygon fill="#000000" stroke="#000000" points="363.85,-23.12 353.3,-24.06 362.13,-29.9 363.85,-23.12"/>
+</g>
+<!-- iso_fortran_env -->
+<g id="proc~~crtbp_test~~UsesGraph_node6" class="node">
+<title>iso_fortran_env</title>
+<g id="a_proc~~crtbp_test~~UsesGraph_node6"><a xlink:href="http://fortranwiki.org/fortran/show/iso_fortran_env" xlink:title="iso_fortran_env">
+<polygon fill="#337ab7" stroke="#337ab7" points="94,-44 0,-44 0,-20 94,-20 94,-44"/>
+<text text-anchor="middle" x="47" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
+</a>
+</g>
+</g>
+<!-- module~kind_module&#45;&gt;iso_fortran_env -->
+<g id="proc~~crtbp_test~~UsesGraph_edge5" class="edge">
+<title>module~kind_module&#45;&gt;iso_fortran_env</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M129.72,-32C121.56,-32 112.83,-32 104.21,-32"/>
+<polygon fill="#000000" stroke="#000000" points="104.2,-28.5 94.2,-32 104.2,-35.5 104.2,-28.5"/>
+</g>
+<!-- module~numbers_module&#45;&gt;module~kind_module -->
+<g id="proc~~crtbp_test~~UsesGraph_edge6" class="edge">
+<title>module~numbers_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M251.33,-19.9C241.38,-21.41 231,-22.99 221.13,-24.48"/>
+<polygon fill="#000000" stroke="#000000" points="220.44,-21.04 211.08,-26 221.49,-27.97 220.44,-21.04"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panproccrtbp_testUsesGraph = svgPanZoom('#proccrtbp_testUsesGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+
+    <p>Unit tests for CRTBP routines.</p>
+
+
+    <h3>Arguments</h3>
+    <em>None</em>
+    <br>
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~crtbp_test~~CallsGraph Pages: 1 -->
+<svg id="proccrtbp_testCallsGraph" width="558pt" height="238pt"
+ viewBox="0.00 0.00 558.00 238.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~crtbp_test~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 234)">
+<title>proc~~crtbp_test~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-234 554,-234 554,4 -4,4"/>
+<!-- proc~crtbp_test -->
+<g id="proc~~crtbp_test~~CallsGraph_node1" class="node">
+<title>proc~crtbp_test</title>
+<polygon fill="none" stroke="black" points="65,-128 0,-128 0,-104 65,-104 65,-128"/>
+<text text-anchor="middle" x="32.5" y="-113.6" font-family="Helvetica,sans-Serif" font-size="10.50">crtbp_test</text>
+</g>
+<!-- proc~compute_crtpb_parameter -->
+<g id="proc~~crtbp_test~~CallsGraph_node2" class="node">
+<title>proc~compute_crtpb_parameter</title>
+<g id="a_proc~~crtbp_test~~CallsGraph_node2"><a xlink:href="../proc/compute_crtpb_parameter.html" xlink:title="compute_crtpb_parameter">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="261,-230 106,-230 106,-206 261,-206 261,-230"/>
+<text text-anchor="middle" x="183.5" y="-215.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_crtpb_parameter</text>
+</a>
+</g>
+</g>
+<!-- proc~crtbp_test&#45;&gt;proc~compute_crtpb_parameter -->
+<g id="proc~~crtbp_test~~CallsGraph_edge1" class="edge">
+<title>proc~crtbp_test&#45;&gt;proc~compute_crtpb_parameter</title>
+<path fill="none" stroke="#000000" d="M40.28,-128.22C50.85,-146.13 73,-179.28 101,-197 103.78,-198.76 106.7,-200.37 109.71,-201.85"/>
+<polygon fill="#000000" stroke="#000000" points="108.43,-205.1 118.99,-205.88 111.22,-198.68 108.43,-205.1"/>
+</g>
+<!-- proc~compute_jacobi_constant -->
+<g id="proc~~crtbp_test~~CallsGraph_node3" class="node">
+<title>proc~compute_jacobi_constant</title>
+<g id="a_proc~~crtbp_test~~CallsGraph_node3"><a xlink:href="../proc/compute_jacobi_constant.html" xlink:title="compute_jacobi_constant">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="257.5,-188 109.5,-188 109.5,-164 257.5,-164 257.5,-188"/>
+<text text-anchor="middle" x="183.5" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_jacobi_constant</text>
+</a>
+</g>
+</g>
+<!-- proc~crtbp_test&#45;&gt;proc~compute_jacobi_constant -->
+<g id="proc~~crtbp_test~~CallsGraph_edge2" class="edge">
+<title>proc~crtbp_test&#45;&gt;proc~compute_jacobi_constant</title>
+<path fill="none" stroke="#000000" d="M55.28,-128.08C68.31,-135.02 85.33,-143.6 101,-150 110.38,-153.83 120.56,-157.47 130.43,-160.74"/>
+<polygon fill="#000000" stroke="#000000" points="129.57,-164.14 140.17,-163.89 131.73,-157.48 129.57,-164.14"/>
+</g>
+<!-- proc~compute_libration_points -->
+<g id="proc~~crtbp_test~~CallsGraph_node4" class="node">
+<title>proc~compute_libration_points</title>
+<g id="a_proc~~crtbp_test~~CallsGraph_node4"><a xlink:href="../proc/compute_libration_points.html" xlink:title="compute_libration_points">
+<polygon fill="#d9534f" stroke="#d9534f" points="449,-148 302,-148 302,-124 449,-124 449,-148"/>
+<text text-anchor="middle" x="375.5" y="-133.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_libration_points</text>
+</a>
+</g>
+</g>
+<!-- proc~crtbp_test&#45;&gt;proc~compute_libration_points -->
+<g id="proc~~crtbp_test~~CallsGraph_edge3" class="edge">
+<title>proc~crtbp_test&#45;&gt;proc~compute_libration_points</title>
+<path fill="none" stroke="#000000" d="M65.27,-117.86C116.44,-120.86 218.71,-126.86 291.62,-131.14"/>
+<polygon fill="#000000" stroke="#000000" points="291.52,-134.64 301.71,-131.73 291.93,-127.65 291.52,-134.64"/>
+</g>
+<!-- proc~compute_libration_points_v2 -->
+<g id="proc~~crtbp_test~~CallsGraph_node5" class="node">
+<title>proc~compute_libration_points_v2</title>
+<g id="a_proc~~crtbp_test~~CallsGraph_node5"><a xlink:href="../proc/compute_libration_points_v2.html" xlink:title="compute_libration_points_v2">
+<polygon fill="#d9534f" stroke="#d9534f" points="266,-108 101,-108 101,-84 266,-84 266,-108"/>
+<text text-anchor="middle" x="183.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_libration_points_v2</text>
+</a>
+</g>
+</g>
+<!-- proc~crtbp_test&#45;&gt;proc~compute_libration_points_v2 -->
+<g id="proc~~crtbp_test~~CallsGraph_edge4" class="edge">
+<title>proc~crtbp_test&#45;&gt;proc~compute_libration_points_v2</title>
+<path fill="none" stroke="#000000" d="M65.1,-111.76C72.94,-110.71 81.74,-109.52 90.91,-108.29"/>
+<polygon fill="#000000" stroke="#000000" points="91.53,-111.74 100.98,-106.94 90.6,-104.8 91.53,-111.74"/>
+</g>
+<!-- proc~crtbp_derivs -->
+<g id="proc~~crtbp_test~~CallsGraph_node6" class="node">
+<title>proc~crtbp_derivs</title>
+<g id="a_proc~~crtbp_test~~CallsGraph_node6"><a xlink:href="../proc/crtbp_derivs.html" xlink:title="crtbp_derivs">
+<polygon fill="#d9534f" stroke="#d9534f" points="222.5,-66 144.5,-66 144.5,-42 222.5,-42 222.5,-66"/>
+<text text-anchor="middle" x="183.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">crtbp_derivs</text>
+</a>
+</g>
+</g>
+<!-- proc~crtbp_test&#45;&gt;proc~crtbp_derivs -->
+<g id="proc~~crtbp_test~~CallsGraph_edge5" class="edge">
+<title>proc~crtbp_test&#45;&gt;proc~crtbp_derivs</title>
+<path fill="none" stroke="#000000" d="M50.23,-103.92C63.46,-94.85 82.68,-82.72 101,-75 111.62,-70.52 123.44,-66.81 134.7,-63.82"/>
+<polygon fill="#000000" stroke="#000000" points="135.57,-67.21 144.41,-61.37 133.86,-60.42 135.57,-67.21"/>
+</g>
+<!-- proc~crtbp_derivs_with_stm -->
+<g id="proc~~crtbp_test~~CallsGraph_node7" class="node">
+<title>proc~crtbp_derivs_with_stm</title>
+<g id="a_proc~~crtbp_test~~CallsGraph_node7"><a xlink:href="../proc/crtbp_derivs_with_stm.html" xlink:title="crtbp_derivs_with_stm">
+<polygon fill="#d9534f" stroke="#d9534f" points="248.5,-24 118.5,-24 118.5,0 248.5,0 248.5,-24"/>
+<text text-anchor="middle" x="183.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">crtbp_derivs_with_stm</text>
+</a>
+</g>
+</g>
+<!-- proc~crtbp_test&#45;&gt;proc~crtbp_derivs_with_stm -->
+<g id="proc~~crtbp_test~~CallsGraph_edge6" class="edge">
+<title>proc~crtbp_test&#45;&gt;proc~crtbp_derivs_with_stm</title>
+<path fill="none" stroke="#000000" d="M40.03,-103.78C50.43,-85.5 72.54,-51.24 101,-33 103.77,-31.23 106.68,-29.6 109.69,-28.11"/>
+<polygon fill="#000000" stroke="#000000" points="111.2,-31.27 118.95,-24.05 108.39,-24.86 111.2,-31.27"/>
+</g>
+<!-- proc~cube_root -->
+<g id="proc~~crtbp_test~~CallsGraph_node8" class="node">
+<title>proc~cube_root</title>
+<g id="a_proc~~crtbp_test~~CallsGraph_node8"><a xlink:href="../proc/cube_root.html" xlink:title="cube_root">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="550,-128 485,-128 485,-104 550,-104 550,-128"/>
+<text text-anchor="middle" x="517.5" y="-113.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cube_root</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_libration_points&#45;&gt;proc~cube_root -->
+<g id="proc~~crtbp_test~~CallsGraph_edge7" class="edge">
+<title>proc~compute_libration_points&#45;&gt;proc~cube_root</title>
+<path fill="none" stroke="#000000" d="M449.37,-125.59C458.06,-124.35 466.68,-123.12 474.71,-121.97"/>
+<polygon fill="#000000" stroke="#000000" points="475.48,-125.4 484.88,-120.52 474.49,-118.47 475.48,-125.4"/>
+</g>
+<!-- proc~compute_libration_points_v2&#45;&gt;proc~compute_libration_points -->
+<g id="proc~~crtbp_test~~CallsGraph_edge8" class="edge">
+<title>proc~compute_libration_points_v2&#45;&gt;proc~compute_libration_points</title>
+<path fill="none" stroke="#000000" d="M241.51,-108C262.17,-112.35 285.71,-117.31 307.18,-121.83"/>
+<polygon fill="#000000" stroke="#000000" points="306.7,-125.3 317.21,-123.94 308.14,-118.45 306.7,-125.3"/>
+</g>
+<!-- proc~compute_libration_points_v2&#45;&gt;proc~cube_root -->
+<g id="proc~~crtbp_test~~CallsGraph_edge9" class="edge">
+<title>proc~compute_libration_points_v2&#45;&gt;proc~cube_root</title>
+<path fill="none" stroke="#000000" d="M266.14,-100.92C332.24,-104.9 422.65,-110.35 474.78,-113.49"/>
+<polygon fill="#000000" stroke="#000000" points="474.8,-116.99 485,-114.1 475.22,-110.01 474.8,-116.99"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">crtbp_test</span><span class="p">()</span>
+
+<span class="w">    </span><span class="k">use </span><span class="n">celestial_body_module</span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mu_earth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">body_earth</span><span class="p">%</span><span class="n">mu</span><span class="w"> </span><span class="c">!! \( \mu_{Earth} ~ (\mathrm{km}^3/\mathrm{s}^2) \)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mu_moon</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">body_moon</span><span class="p">%</span><span class="n">mu</span><span class="w">  </span><span class="c">!! \( \mu_{Moon}  ~ (\mathrm{km}^3/\mathrm{s}^2) \)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mu_sun</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">body_sun</span><span class="p">%</span><span class="n">mu</span><span class="w">   </span><span class="c">!! \( \mu_{Sun}   ~ (\mathrm{km}^3/\mathrm{s}^2) \)</span>
+
+<span class="w">    </span><span class="c">!&lt; sample state (normalized)</span>
+<span class="w">    </span><span class="c">!&lt; see: [Celestial Mechanics Notes Set 4: The Circular Restricted</span>
+<span class="w">    </span><span class="c">!&lt; Three Body Problem](http://cosweb1.fau.edu/~jmirelesjames/hw4Notes.pdf), p.40.</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w">  </span><span class="mf">0.30910452642073_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                              </span><span class="mf">0.07738174525518_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                              </span><span class="mf">0.0_wp</span><span class="p">,</span><span class="w">              </span><span class="p">&amp;</span>
+<span class="w">                                             </span><span class="o">-</span><span class="mf">0.72560796964234_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                              </span><span class="mf">1.55464233412773_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                              </span><span class="mf">0.0_wp</span><span class="w">               </span><span class="p">]</span>
+
+<span class="w">    </span><span class="kt">integer</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w">       </span><span class="c">!! counter</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">mu</span><span class="w">      </span><span class="c">!! CRTPB parameter</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">mu1</span><span class="w">     </span><span class="c">!! primary body mu</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">mu2</span><span class="w">     </span><span class="c">!! secondary body mu</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">c</span><span class="w">       </span><span class="c">!! Jacobi constant</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">xd</span><span class="w">      </span><span class="c">!! derivative vector: state</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">x_phi</span><span class="w">   </span><span class="c">!! initial state + phi (identity)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">x_phi_d</span><span class="w"> </span><span class="c">!! derivative vector: state + phi</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">eye</span><span class="w">     </span><span class="c">!! 6x6 identity matrix</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">r1</span><span class="w">      </span><span class="c">!! L1 x coordinate (normalized)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">r2</span><span class="w">      </span><span class="c">!! L2 x coordinate (normalized)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">r3</span><span class="w">      </span><span class="c">!! L3 x coordinate (normalized)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">r4</span><span class="w">      </span><span class="c">!! L4 x coordinate (normalized)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">r5</span><span class="w">      </span><span class="c">!! L5 x coordinate (normalized)</span>
+
+<span class="w">    </span><span class="c">!create an identity matrix for stm initial condition:</span>
+<span class="w">    </span><span class="n">eye</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<span class="w">    </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span>
+<span class="w">        </span><span class="n">eye</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span>
+<span class="w">    </span><span class="k">end do</span>
+<span class="k">    </span><span class="n">x_phi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="nb">pack</span><span class="p">(</span><span class="n">eye</span><span class="p">,</span><span class="n">mask</span><span class="o">=</span><span class="p">.</span><span class="n">true</span><span class="p">.)]</span>
+
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;---------------&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39; crtbp_test&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;---------------&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+
+<span class="w">    </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span>
+
+<span class="w">        </span><span class="k">select case</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">        </span><span class="k">case</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">            </span><span class="n">mu1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mu_earth</span>
+<span class="w">            </span><span class="n">mu2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mu_moon</span>
+<span class="w">        </span><span class="k">case</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">            </span><span class="n">mu1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mu_earth</span>
+<span class="w">            </span><span class="n">mu2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mu_earth</span>
+<span class="w">        </span><span class="k">case</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">            </span><span class="n">mu1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mu_earth</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mu_moon</span><span class="o">/</span><span class="n">four</span>
+<span class="w">            </span><span class="n">mu2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mu_earth</span>
+<span class="w">        </span><span class="k">end select</span>
+
+<span class="k">        write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">        </span><span class="n">mu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">compute_crtpb_parameter</span><span class="p">(</span><span class="n">mu1</span><span class="p">,</span><span class="n">mu2</span><span class="p">)</span>
+<span class="w">        </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">compute_jacobi_constant</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">crtbp_derivs</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">xd</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">crtbp_derivs_with_stm</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span><span class="n">x_phi</span><span class="p">,</span><span class="n">x_phi_d</span><span class="p">)</span>
+<span class="w">        </span><span class="k">call </span><span class="n">compute_libration_points</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span><span class="n">r1</span><span class="p">,</span><span class="n">r2</span><span class="p">,</span><span class="n">r3</span><span class="p">,</span><span class="n">r4</span><span class="p">,</span><span class="n">r5</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,1X,*(F30.16,1X))&#39;</span><span class="p">)</span><span class="w">  </span><span class="s1">&#39;mu:         &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">mu</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,1X,*(F30.16,1X))&#39;</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;L1 x:       &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">r1</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,1X,*(F30.16,1X))&#39;</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;L2 x:       &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">r2</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,1X,*(F30.16,1X))&#39;</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;L3 x:       &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">r3</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,1X,*(F30.16,1X))&#39;</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;L4 x:       &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">r4</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,1X,*(F30.16,1X))&#39;</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;L5 x:       &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">r5</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,1X,*(F30.16,1X))&#39;</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;x:          &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,1X,*(F30.16,1X))&#39;</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;c:          &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">c</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,1X,*(F30.16,1X))&#39;</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;xd:         &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">xd</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,1X,*(F30.16,1X))&#39;</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;x+phi:      &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">x_phi</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,1X,*(F30.16,1X))&#39;</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;xd+phi_dot: &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">x_phi_d</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+
+<span class="w">        </span><span class="k">call </span><span class="n">compute_libration_points_v2</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span><span class="n">r1</span><span class="p">,</span><span class="n">r2</span><span class="p">,</span><span class="n">r3</span><span class="p">,</span><span class="n">r4</span><span class="p">,</span><span class="n">r5</span><span class="p">)</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;alternate formulation:&#39;</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,1X,*(F30.16,1X))&#39;</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;L1 x:       &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">r1</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,1X,*(F30.16,1X))&#39;</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;L2 x:       &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">r2</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,1X,*(F30.16,1X))&#39;</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;L3 x:       &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">r3</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,1X,*(F30.16,1X))&#39;</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;L4 x:       &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">r4</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,1X,*(F30.16,1X))&#39;</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;L5 x:       &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">r5</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+
+<span class="w">    </span><span class="k">end do</span>
+
+<span class="k">    end subroutine </span><span class="n">crtbp_test</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,677 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>celestial_body_module.f90 &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>celestial_body_module.f90
+      <small>Source File</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.2% of total for source files.">22 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/celestial_body_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+            <li class="breadcrumb-item active" aria-current="page">celestial_body_module.f90</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#mods-0"
+         aria-expanded="false" aria-controls="mods-0">
+         <h4 class="card-header bg-primary text-white">Modules</h4>
+      </a>
+      <div id="mods-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/celestial_body_module.html">celestial_body_module</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../sourcefile/celestial_body_module.f90.html#src">celestial_body_module.f90</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">This file depends on</h3>
+          </div>
+          <div class="card-body">
+            <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~celestial_body_module.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefilecelestial_body_modulef90EfferentGraph" width="473pt" height="112pt"
+ viewBox="0.00 0.00 473.00 112.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~celestial_body_module.f90~~EfferentGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 108)">
+<title>sourcefile~~celestial_body_module.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-108 469,-108 469,4 -4,4"/>
+<!-- sourcefile~celestial_body_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~EfferentGraph_node1" class="node">
+<title>sourcefile~celestial_body_module.f90</title>
+<polygon fill="none" stroke="black" points="465,-64 311,-64 311,-40 465,-40 465,-64"/>
+<text text-anchor="middle" x="388" y="-49.6" font-family="Helvetica,sans-Serif" font-size="10.50">celestial_body_module.f90</text>
+</g>
+<!-- sourcefile~base_class_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~EfferentGraph_node2" class="node">
+<title>sourcefile~base_class_module.f90</title>
+<g id="a_sourcefile~~celestial_body_module.f90~~EfferentGraph_node2"><a xlink:href="../sourcefile/base_class_module.f90.html" xlink:title="base_class_module.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="275,-104 139,-104 139,-80 275,-80 275,-104"/>
+<text text-anchor="middle" x="207" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">base_class_module.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~celestial_body_module.f90&#45;&gt;sourcefile~base_class_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~EfferentGraph_edge1" class="edge">
+<title>sourcefile~celestial_body_module.f90&#45;&gt;sourcefile~base_class_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M333.29,-64C314,-68.31 292.05,-73.22 271.97,-77.7"/>
+<polygon fill="#000000" stroke="#000000" points="270.97,-74.34 261.98,-79.94 272.5,-81.17 270.97,-74.34"/>
+</g>
+<!-- sourcefile~kind_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~EfferentGraph_node3" class="node">
+<title>sourcefile~kind_module.f90</title>
+<g id="a_sourcefile~~celestial_body_module.f90~~EfferentGraph_node3"><a xlink:href="../sourcefile/kind_module.f90.html" xlink:title="kind_module.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="103,-44 0,-44 0,-20 103,-20 103,-44"/>
+<text text-anchor="middle" x="51.5" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~celestial_body_module.f90&#45;&gt;sourcefile~kind_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~EfferentGraph_edge2" class="edge">
+<title>sourcefile~celestial_body_module.f90&#45;&gt;sourcefile~kind_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M310.68,-47.44C250.78,-43.86 168.51,-38.94 113.08,-35.62"/>
+<polygon fill="#000000" stroke="#000000" points="113.25,-32.13 103.05,-35.02 112.83,-39.11 113.25,-32.13"/>
+</g>
+<!-- sourcefile~numbers_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~EfferentGraph_node4" class="node">
+<title>sourcefile~numbers_module.f90</title>
+<g id="a_sourcefile~~celestial_body_module.f90~~EfferentGraph_node4"><a xlink:href="../sourcefile/numbers_module.f90.html" xlink:title="numbers_module.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="270,-24 144,-24 144,0 270,0 270,-24"/>
+<text text-anchor="middle" x="207" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~celestial_body_module.f90&#45;&gt;sourcefile~numbers_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~EfferentGraph_edge3" class="edge">
+<title>sourcefile~celestial_body_module.f90&#45;&gt;sourcefile~numbers_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M333.29,-40C314,-35.69 292.05,-30.78 271.97,-26.3"/>
+<polygon fill="#000000" stroke="#000000" points="272.5,-22.83 261.98,-24.06 270.97,-29.66 272.5,-22.83"/>
+</g>
+<!-- sourcefile~numbers_module.f90&#45;&gt;sourcefile~kind_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~EfferentGraph_edge4" class="edge">
+<title>sourcefile~numbers_module.f90&#45;&gt;sourcefile~kind_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M143.57,-20.13C133.59,-21.44 123.27,-22.78 113.33,-24.07"/>
+<polygon fill="#000000" stroke="#000000" points="112.6,-20.64 103.13,-25.4 113.5,-27.58 112.6,-20.64"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#EfferentGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="EfferentGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="202pt" height="32pt"
+ viewBox="0.00 0.00 201.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 197.5,-28 197.5,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="193.5,-24 88.5,-24 88.5,0 193.5,0 193.5,-24"/>
+<text text-anchor="middle" x="141" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a file to a file which it depends on. A file
+is dependent upon another if the latter must be compiled before the former
+can be.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Files dependent on this one</h3>
+          </div>
+          <div class="card-body">
+            <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~celestial_body_module.f90~~AfferentGraph Pages: 1 -->
+<svg id="sourcefilecelestial_body_modulef90AfferentGraph" width="641pt" height="160pt"
+ viewBox="0.00 0.00 641.00 160.35" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph" class="graph" transform="scale(0.57 0.57) rotate(0) translate(4 278.42)">
+<title>sourcefile~~celestial_body_module.f90~~AfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-278.42 1125,-278.42 1125,4 -4,4"/>
+<!-- sourcefile~celestial_body_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_node1" class="node">
+<title>sourcefile~celestial_body_module.f90</title>
+<polygon fill="none" stroke="black" points="154,-106.42 0,-106.42 0,-82.42 154,-82.42 154,-106.42"/>
+<text text-anchor="middle" x="77" y="-92.02" font-family="Helvetica,sans-Serif" font-size="10.50">celestial_body_module.f90</text>
+</g>
+<!-- sourcefile~crtbp_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_node2" class="node">
+<title>sourcefile~crtbp_module.f90</title>
+<g id="a_sourcefile~~celestial_body_module.f90~~AfferentGraph_node2"><a xlink:href="../sourcefile/crtbp_module.f90.html" xlink:title="crtbp_module.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="701,-274.42 595,-274.42 595,-250.42 701,-250.42 701,-274.42"/>
+<text text-anchor="middle" x="648" y="-260.02" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">crtbp_module.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~crtbp_module.f90&#45;&gt;sourcefile~celestial_body_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge1" class="edge">
+<title>sourcefile~crtbp_module.f90&#45;&gt;sourcefile~celestial_body_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M610.13,-250.42C570.61,-238.64 505.8,-222.42 448.5,-222.42"/>
+</g>
+<!-- sourcefile~ephemeris_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_node3" class="node">
+<title>sourcefile~ephemeris_module.f90</title>
+<g id="a_sourcefile~~celestial_body_module.f90~~AfferentGraph_node3"><a xlink:href="../sourcefile/ephemeris_module.f90.html" xlink:title="ephemeris_module.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="326,-106.42 190,-106.42 190,-82.42 326,-82.42 326,-106.42"/>
+<text text-anchor="middle" x="258" y="-92.02" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ephemeris_module.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~ephemeris_module.f90&#45;&gt;sourcefile~celestial_body_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge2" class="edge">
+<title>sourcefile~ephemeris_module.f90&#45;&gt;sourcefile~celestial_body_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M189.84,-94.42C181.5,-94.42 172.88,-94.42 164.3,-94.42"/>
+<polygon fill="#000000" stroke="#000000" points="164.26,-90.92 154.26,-94.42 164.26,-97.92 164.26,-90.92"/>
+</g>
+<!-- sourcefile~fortran_astrodynamics_toolkit.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_node4" class="node">
+<title>sourcefile~fortran_astrodynamics_toolkit.f90</title>
+<g id="a_sourcefile~~celestial_body_module.f90~~AfferentGraph_node4"><a xlink:href="../sourcefile/fortran_astrodynamics_toolkit.f90.html" xlink:title="fortran_astrodynamics_toolkit.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="1121,-194.42 931,-194.42 931,-170.42 1121,-170.42 1121,-194.42"/>
+<text text-anchor="middle" x="1026" y="-180.02" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fortran_astrodynamics_toolkit.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~celestial_body_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge3" class="edge">
+<title>sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~celestial_body_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1001.98,-170.29C976.36,-157.11 933.48,-135.97 895,-121.42 866.85,-110.78 859.3,-109.29 830,-102.42"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M828,-102.42C748.99,-83.91 729.26,-78.38 649,-66.42"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M647,-66.42C591.36,-58.13 587.84,-23.96 533,-11.42 413.94,15.8 379.51,-12.57 259,-32.42"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M257,-32.42C204.99,-40.33 148.09,-62.56 112.72,-78.13"/>
+<polygon fill="#000000" stroke="#000000" points="111.03,-75.05 103.33,-82.33 113.89,-81.44 111.03,-75.05"/>
+</g>
+<!-- sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~crtbp_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge10" class="edge">
+<title>sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~crtbp_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M1005.16,-194.54C980.38,-208.98 936.22,-232.55 895,-243.42 833.97,-259.52 761.7,-263.38 711.34,-263.76"/>
+<polygon fill="#000000" stroke="#000000" points="711.25,-260.26 701.26,-263.79 711.27,-267.26 711.25,-260.26"/>
+</g>
+<!-- sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~ephemeris_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge12" class="edge">
+<title>sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~ephemeris_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M647,-66.42C557.23,-53.05 538.97,-121.67 448.5,-114.42"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M446.5,-114.42C410.27,-111.52 370.21,-107.37 336.44,-103.61"/>
+<polygon fill="#000000" stroke="#000000" points="336.5,-100.09 326.18,-102.45 335.72,-107.05 336.5,-100.09"/>
+</g>
+<!-- sourcefile~halo_orbit_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_node5" class="node">
+<title>sourcefile~halo_orbit_module.f90</title>
+<g id="a_sourcefile~~celestial_body_module.f90~~AfferentGraph_node5"><a xlink:href="../sourcefile/halo_orbit_module.f90.html" xlink:title="halo_orbit_module.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="895,-234.42 763,-234.42 763,-210.42 895,-210.42 895,-234.42"/>
+<text text-anchor="middle" x="829" y="-220.02" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">halo_orbit_module.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~halo_orbit_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge18" class="edge">
+<title>sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~halo_orbit_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M966.49,-194.42C945.19,-198.79 920.91,-203.77 898.79,-208.31"/>
+<polygon fill="#000000" stroke="#000000" points="897.89,-204.92 888.8,-210.36 899.3,-211.78 897.89,-204.92"/>
+</g>
+<!-- sourcefile~jpl_ephemeris_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_node6" class="node">
+<title>sourcefile~jpl_ephemeris_module.f90</title>
+<g id="a_sourcefile~~celestial_body_module.f90~~AfferentGraph_node6"><a xlink:href="../sourcefile/jpl_ephemeris_module.f90.html" xlink:title="jpl_ephemeris_module.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="524.5,-185.42 370.5,-185.42 370.5,-161.42 524.5,-161.42 524.5,-185.42"/>
+<text text-anchor="middle" x="447.5" y="-171.02" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">jpl_ephemeris_module.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~jpl_ephemeris_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge19" class="edge">
+<title>sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~jpl_ephemeris_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M828,-102.42C702.15,-78.56 552.72,-129.89 485.04,-157.45"/>
+<polygon fill="#000000" stroke="#000000" points="483.56,-154.27 475.66,-161.33 486.24,-160.74 483.56,-154.27"/>
+</g>
+<!-- sourcefile~lighting_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_node7" class="node">
+<title>sourcefile~lighting_module.f90</title>
+<g id="a_sourcefile~~celestial_body_module.f90~~AfferentGraph_node7"><a xlink:href="../sourcefile/lighting_module.f90.html" xlink:title="lighting_module.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="888,-154.42 770,-154.42 770,-130.42 888,-130.42 888,-154.42"/>
+<text text-anchor="middle" x="829" y="-140.02" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lighting_module.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~lighting_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge21" class="edge">
+<title>sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~lighting_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M966.49,-170.42C944.99,-166.01 920.46,-160.98 898.19,-156.41"/>
+<polygon fill="#000000" stroke="#000000" points="898.63,-152.93 888.13,-154.35 897.22,-159.78 898.63,-152.93"/>
+</g>
+<!-- sourcefile~standish_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_node9" class="node">
+<title>sourcefile~standish_module.f90</title>
+<g id="a_sourcefile~~celestial_body_module.f90~~AfferentGraph_node9"><a xlink:href="../sourcefile/standish_module.f90.html" xlink:title="standish_module.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="509,-44.42 386,-44.42 386,-20.42 509,-20.42 509,-44.42"/>
+<text text-anchor="middle" x="447.5" y="-30.02" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">standish_module.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~standish_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge22" class="edge">
+<title>sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~standish_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M647,-66.42C604.46,-60.09 556.97,-51.99 519.11,-45.29"/>
+<polygon fill="#000000" stroke="#000000" points="519.66,-41.83 509.2,-43.52 518.44,-48.72 519.66,-41.83"/>
+</g>
+<!-- sourcefile~transformation_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_node10" class="node">
+<title>sourcefile~transformation_module.f90</title>
+<g id="a_sourcefile~~celestial_body_module.f90~~AfferentGraph_node10"><a xlink:href="../sourcefile/transformation_module.f90.html" xlink:title="transformation_module.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="727,-194.42 569,-194.42 569,-170.42 727,-170.42 727,-194.42"/>
+<text text-anchor="middle" x="648" y="-180.02" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">transformation_module.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~transformation_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge23" class="edge">
+<title>sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~transformation_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M930.6,-182.42C871.4,-182.42 795.57,-182.42 737.51,-182.42"/>
+<polygon fill="#000000" stroke="#000000" points="737.26,-178.92 727.26,-182.42 737.26,-185.92 737.26,-178.92"/>
+</g>
+<!-- sourcefile~halo_orbit_module.f90&#45;&gt;sourcefile~celestial_body_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge4" class="edge">
+<title>sourcefile~halo_orbit_module.f90&#45;&gt;sourcefile~celestial_body_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M762.77,-219.03C728.76,-218.12 686.53,-218.32 649,-222.42"/>
+</g>
+<!-- sourcefile~halo_orbit_module.f90&#45;&gt;sourcefile~crtbp_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge11" class="edge">
+<title>sourcefile~halo_orbit_module.f90&#45;&gt;sourcefile~crtbp_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M774.29,-234.42C754.38,-238.87 731.64,-243.96 711.05,-248.56"/>
+<polygon fill="#000000" stroke="#000000" points="710.13,-245.18 701.13,-250.77 711.65,-252.01 710.13,-245.18"/>
+</g>
+<!-- sourcefile~jpl_ephemeris_module.f90&#45;&gt;sourcefile~celestial_body_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge5" class="edge">
+<title>sourcefile~jpl_ephemeris_module.f90&#45;&gt;sourcefile~celestial_body_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M415.26,-185.47C370.04,-202.23 288.55,-229.76 259,-222.42"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M257,-222.42C188.25,-205.34 125.18,-145.85 95.63,-114.35"/>
+<polygon fill="#000000" stroke="#000000" points="97.88,-111.62 88.54,-106.62 92.72,-116.35 97.88,-111.62"/>
+</g>
+<!-- sourcefile~jpl_ephemeris_module.f90&#45;&gt;sourcefile~ephemeris_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge13" class="edge">
+<title>sourcefile~jpl_ephemeris_module.f90&#45;&gt;sourcefile~ephemeris_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M417.61,-161.25C385.31,-147.64 332.86,-125.54 297.2,-110.52"/>
+<polygon fill="#000000" stroke="#000000" points="298.19,-107.13 287.61,-106.48 295.47,-113.59 298.19,-107.13"/>
+</g>
+<!-- sourcefile~lighting_module.f90&#45;&gt;sourcefile~celestial_body_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge6" class="edge">
+<title>sourcefile~lighting_module.f90&#45;&gt;sourcefile~celestial_body_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M811.68,-154.44C792.37,-168.13 758.82,-190.3 727,-203.42 694.01,-217.03 684.47,-218.55 649,-222.42"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M647,-222.42C559.3,-232 536.72,-222.42 448.5,-222.42"/>
+</g>
+<!-- sourcefile~lighting_module.f90&#45;&gt;sourcefile~ephemeris_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge14" class="edge">
+<title>sourcefile~lighting_module.f90&#45;&gt;sourcefile~ephemeris_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M769.84,-137.67C695.4,-131.69 562.41,-121.37 448.5,-114.42"/>
+</g>
+<!-- sourcefile~lighting_module.f90&#45;&gt;sourcefile~transformation_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge24" class="edge">
+<title>sourcefile~lighting_module.f90&#45;&gt;sourcefile~transformation_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M774.29,-154.42C755,-158.74 733.05,-163.64 712.97,-168.13"/>
+<polygon fill="#000000" stroke="#000000" points="711.97,-164.76 702.98,-170.36 713.5,-171.6 711.97,-164.76"/>
+</g>
+<!-- sourcefile~spice_ephemeris_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_node8" class="node">
+<title>sourcefile~spice_ephemeris_module.f90</title>
+<g id="a_sourcefile~~celestial_body_module.f90~~AfferentGraph_node8"><a xlink:href="../sourcefile/spice_ephemeris_module.f90.html" xlink:title="spice_ephemeris_module.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="533,-86.42 362,-86.42 362,-62.42 533,-62.42 533,-86.42"/>
+<text text-anchor="middle" x="447.5" y="-72.02" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">spice_ephemeris_module.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~spice_ephemeris_module.f90&#45;&gt;sourcefile~celestial_body_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge7" class="edge">
+<title>sourcefile~spice_ephemeris_module.f90&#45;&gt;sourcefile~celestial_body_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M396.76,-62.31C343.57,-49.51 265.87,-31.29 259,-32.42"/>
+</g>
+<!-- sourcefile~spice_ephemeris_module.f90&#45;&gt;sourcefile~ephemeris_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge15" class="edge">
+<title>sourcefile~spice_ephemeris_module.f90&#45;&gt;sourcefile~ephemeris_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M361.8,-83.46C353.31,-84.36 344.73,-85.28 336.32,-86.17"/>
+<polygon fill="#000000" stroke="#000000" points="335.75,-82.72 326.18,-87.26 336.5,-89.68 335.75,-82.72"/>
+</g>
+<!-- sourcefile~standish_module.f90&#45;&gt;sourcefile~celestial_body_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge8" class="edge">
+<title>sourcefile~standish_module.f90&#45;&gt;sourcefile~celestial_body_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M385.72,-27.44C348.82,-25.65 300.92,-25.52 259,-32.42"/>
+</g>
+<!-- sourcefile~standish_module.f90&#45;&gt;sourcefile~ephemeris_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge16" class="edge">
+<title>sourcefile~standish_module.f90&#45;&gt;sourcefile~ephemeris_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M393.45,-44.44C382.96,-47.14 372.07,-50.18 362,-53.42 339.74,-60.58 315.42,-70.18 296,-78.29"/>
+<polygon fill="#000000" stroke="#000000" points="294.46,-75.14 286.61,-82.25 297.18,-81.59 294.46,-75.14"/>
+</g>
+<!-- sourcefile~transformation_module.f90&#45;&gt;sourcefile~celestial_body_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge9" class="edge">
+<title>sourcefile~transformation_module.f90&#45;&gt;sourcefile~celestial_body_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M610.13,-194.42C570.61,-206.21 505.8,-222.42 448.5,-222.42"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M446.5,-222.42C363.17,-222.42 339.88,-242.51 259,-222.42"/>
+</g>
+<!-- sourcefile~transformation_module.f90&#45;&gt;sourcefile~ephemeris_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge17" class="edge">
+<title>sourcefile~transformation_module.f90&#45;&gt;sourcefile~ephemeris_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M624.6,-170.28C588.68,-151.85 515.4,-118.5 448.5,-114.42"/>
+</g>
+<!-- sourcefile~transformation_module.f90&#45;&gt;sourcefile~jpl_ephemeris_module.f90 -->
+<g id="sourcefile~~celestial_body_module.f90~~AfferentGraph_edge20" class="edge">
+<title>sourcefile~transformation_module.f90&#45;&gt;sourcefile~jpl_ephemeris_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M568.83,-178.88C557.7,-178.37 546.2,-177.85 534.92,-177.34"/>
+<polygon fill="#000000" stroke="#000000" points="534.8,-173.83 524.65,-176.88 534.48,-180.82 534.8,-173.83"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var pansourcefilecelestial_body_modulef90AfferentGraph = svgPanZoom('#sourcefilecelestial_body_modulef90AfferentGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#AfferentGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="AfferentGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="202pt" height="32pt"
+ viewBox="0.00 0.00 201.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 197.5,-28 197.5,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="193.5,-24 88.5,-24 88.5,0 193.5,0 193.5,-24"/>
+<text text-anchor="middle" x="141" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a file to a file which it depends on. A file
+is dependent upon another if the latter must be compiled before the former
+can be.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+<br>
+      <section>
+        <h2><span class="anchor" id="src"></span>Source Code</h2>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="c">!*****************************************************************************************</span>
+<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="c">!&gt; author: Jacob Williams</span>
+<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="c">!</span>
+<a id="ln-4" name="ln-4" href="#ln-4"></a><span class="c">!  Celestial body definitions</span>
+<a id="ln-5" name="ln-5" href="#ln-5"></a>
+<a id="ln-6" name="ln-6" href="#ln-6"></a><span class="w">    </span><span class="k">module </span><span class="n">celestial_body_module</span>
+<a id="ln-7" name="ln-7" href="#ln-7"></a>
+<a id="ln-8" name="ln-8" href="#ln-8"></a><span class="w">    </span><span class="k">use </span><span class="n">kind_module</span>
+<a id="ln-9" name="ln-9" href="#ln-9"></a><span class="w">    </span><span class="k">use </span><span class="n">numbers_module</span>
+<a id="ln-10" name="ln-10" href="#ln-10"></a><span class="w">    </span><span class="k">use </span><span class="n">base_class_module</span>
+<a id="ln-11" name="ln-11" href="#ln-11"></a>
+<a id="ln-12" name="ln-12" href="#ln-12"></a><span class="w">    </span><span class="k">implicit none</span>
+<a id="ln-13" name="ln-13" href="#ln-13"></a>
+<a id="ln-14" name="ln-14" href="#ln-14"></a><span class="k">    type</span><span class="p">,</span><span class="k">extends</span><span class="p">(</span><span class="n">base_class</span><span class="p">),</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">celestial_body</span>
+<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="w">        </span><span class="c">!! A celestial body (Planet, moon, etc.)</span>
+<a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">        </span><span class="c">!! The `ID` from the [[base_class]] is the NAIF SPICE ID code for the body</span>
+<a id="ln-17" name="ln-17" href="#ln-17"></a><span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w">   </span><span class="c">!! gravitational parameter \( \mu \) [\(km^3/s^2\)]</span>
+<a id="ln-18" name="ln-18" href="#ln-18"></a><span class="w">        </span><span class="c">!note: also should add radius, etc.</span>
+<a id="ln-19" name="ln-19" href="#ln-19"></a><span class="w">    </span><span class="k">end type </span><span class="n">celestial_body</span>
+<a id="ln-20" name="ln-20" href="#ln-20"></a>
+<a id="ln-21" name="ln-21" href="#ln-21"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">celestial_body</span><span class="p">),</span><span class="k">parameter</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">body_ssb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-22" name="ln-22" href="#ln-22"></a><span class="w">                    </span><span class="n">celestial_body</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;SSB&#39;</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="c">!! solar-system barycenter [note: don&#39;t have mu defined here yet]</span>
+<a id="ln-23" name="ln-23" href="#ln-23"></a>
+<a id="ln-24" name="ln-24" href="#ln-24"></a><span class="w">    </span><span class="c">!define some bodies:</span>
+<a id="ln-25" name="ln-25" href="#ln-25"></a><span class="w">    </span><span class="c">! MU values from: https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/gm_de431.tpc</span>
+<a id="ln-26" name="ln-26" href="#ln-26"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">celestial_body</span><span class="p">),</span><span class="k">parameter</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">body_sun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-27" name="ln-27" href="#ln-27"></a><span class="w">                    </span><span class="n">celestial_body</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Sun&#39;</span><span class="p">,</span><span class="mf">1.3271244004193938E+11_wp</span><span class="w"> </span><span class="p">)</span>
+<a id="ln-28" name="ln-28" href="#ln-28"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">celestial_body</span><span class="p">),</span><span class="k">parameter</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">body_mercury</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-29" name="ln-29" href="#ln-29"></a><span class="w">                    </span><span class="n">celestial_body</span><span class="p">(</span><span class="mi">199</span><span class="p">,</span><span class="s1">&#39;Mercury&#39;</span><span class="p">,</span><span class="mf">2.2031780000000021E+04_wp</span><span class="w"> </span><span class="p">)</span>
+<a id="ln-30" name="ln-30" href="#ln-30"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">celestial_body</span><span class="p">),</span><span class="k">parameter</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">body_venus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-31" name="ln-31" href="#ln-31"></a><span class="w">                    </span><span class="n">celestial_body</span><span class="p">(</span><span class="mi">299</span><span class="p">,</span><span class="s1">&#39;Venus&#39;</span><span class="p">,</span><span class="mf">3.2485859200000006E+05_wp</span><span class="w"> </span><span class="p">)</span>
+<a id="ln-32" name="ln-32" href="#ln-32"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">celestial_body</span><span class="p">),</span><span class="k">parameter</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">body_earth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-33" name="ln-33" href="#ln-33"></a><span class="w">                    </span><span class="n">celestial_body</span><span class="p">(</span><span class="mi">399</span><span class="p">,</span><span class="s1">&#39;Earth&#39;</span><span class="p">,</span><span class="mf">3.9860043543609598E+05_wp</span><span class="w"> </span><span class="p">)</span>
+<a id="ln-34" name="ln-34" href="#ln-34"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">celestial_body</span><span class="p">),</span><span class="k">parameter</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">body_earth_moon_barycenter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-35" name="ln-35" href="#ln-35"></a><span class="w">                    </span><span class="n">celestial_body</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="s1">&#39;Earth-Moon Barycenter&#39;</span><span class="p">,</span><span class="mf">4.0350323550225981E+05_wp</span><span class="w"> </span><span class="p">)</span>
+<a id="ln-36" name="ln-36" href="#ln-36"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">celestial_body</span><span class="p">),</span><span class="k">parameter</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">body_moon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-37" name="ln-37" href="#ln-37"></a><span class="w">                    </span><span class="n">celestial_body</span><span class="p">(</span><span class="mi">301</span><span class="p">,</span><span class="s1">&#39;Moon&#39;</span><span class="p">,</span><span class="mf">4.9028000661637961E+03_wp</span><span class="w"> </span><span class="p">)</span>
+<a id="ln-38" name="ln-38" href="#ln-38"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">celestial_body</span><span class="p">),</span><span class="k">parameter</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">body_mars</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-39" name="ln-39" href="#ln-39"></a><span class="w">                    </span><span class="n">celestial_body</span><span class="p">(</span><span class="mi">499</span><span class="p">,</span><span class="s1">&#39;Mars&#39;</span><span class="p">,</span><span class="mf">4.282837362069909E+04_wp</span><span class="w">  </span><span class="p">)</span>
+<a id="ln-40" name="ln-40" href="#ln-40"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">celestial_body</span><span class="p">),</span><span class="k">parameter</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">body_jupiter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-41" name="ln-41" href="#ln-41"></a><span class="w">                    </span><span class="n">celestial_body</span><span class="p">(</span><span class="mi">599</span><span class="p">,</span><span class="s1">&#39;Jupiter&#39;</span><span class="p">,</span><span class="mf">1.266865349218008E+08_wp</span><span class="w">  </span><span class="p">)</span>
+<a id="ln-42" name="ln-42" href="#ln-42"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">celestial_body</span><span class="p">),</span><span class="k">parameter</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">body_saturn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-43" name="ln-43" href="#ln-43"></a><span class="w">                    </span><span class="n">celestial_body</span><span class="p">(</span><span class="mi">699</span><span class="p">,</span><span class="s1">&#39;Saturn&#39;</span><span class="p">,</span><span class="mf">3.793120749865224E+07_wp</span><span class="w">  </span><span class="p">)</span>
+<a id="ln-44" name="ln-44" href="#ln-44"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">celestial_body</span><span class="p">),</span><span class="k">parameter</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">body_uranus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-45" name="ln-45" href="#ln-45"></a><span class="w">                    </span><span class="n">celestial_body</span><span class="p">(</span><span class="mi">799</span><span class="p">,</span><span class="s1">&#39;Uranus&#39;</span><span class="p">,</span><span class="mf">5.793951322279009E+06_wp</span><span class="w">  </span><span class="p">)</span>
+<a id="ln-46" name="ln-46" href="#ln-46"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">celestial_body</span><span class="p">),</span><span class="k">parameter</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">body_neptune</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-47" name="ln-47" href="#ln-47"></a><span class="w">                    </span><span class="n">celestial_body</span><span class="p">(</span><span class="mi">899</span><span class="p">,</span><span class="s1">&#39;Neptune&#39;</span><span class="p">,</span><span class="mf">6.835099502439672E+06_wp</span><span class="w">  </span><span class="p">)</span>
+<a id="ln-48" name="ln-48" href="#ln-48"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">celestial_body</span><span class="p">),</span><span class="k">parameter</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">body_pluto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-49" name="ln-49" href="#ln-49"></a><span class="w">                    </span><span class="n">celestial_body</span><span class="p">(</span><span class="mi">999</span><span class="p">,</span><span class="s1">&#39;Pluto&#39;</span><span class="p">,</span><span class="mf">8.696138177608748E+02_wp</span><span class="w">  </span><span class="p">)</span>
+<a id="ln-50" name="ln-50" href="#ln-50"></a>
+<a id="ln-51" name="ln-51" href="#ln-51"></a><span class="c">!*****************************************************************************************</span>
+<a id="ln-52" name="ln-52" href="#ln-52"></a><span class="w">    </span><span class="k">end module </span><span class="n">celestial_body_module</span>
+<a id="ln-53" name="ln-53" href="#ln-53"></a><span class="c">!*****************************************************************************************</span>
+</pre></div>
+
+      </section>
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

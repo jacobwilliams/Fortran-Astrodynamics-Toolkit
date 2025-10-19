@@ -1,0 +1,922 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>brent_module.f90 &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>brent_module.f90
+      <small>Source File</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 1.8% of total for source files.">262 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/brent_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+            <li class="breadcrumb-item active" aria-current="page">brent_module.f90</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#mods-0"
+         aria-expanded="false" aria-controls="mods-0">
+         <h4 class="card-header bg-primary text-white">Modules</h4>
+      </a>
+      <div id="mods-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/brent_module.html">brent_module</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../sourcefile/brent_module.f90.html#src">brent_module.f90</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">This file depends on</h3>
+          </div>
+          <div class="card-body">
+            <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~brent_module.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefilebrent_modulef90EfferentGraph" width="415pt" height="52pt"
+ viewBox="0.00 0.00 415.00 52.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~brent_module.f90~~EfferentGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 48)">
+<title>sourcefile~~brent_module.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-48 411,-48 411,4 -4,4"/>
+<!-- sourcefile~brent_module.f90 -->
+<g id="sourcefile~~brent_module.f90~~EfferentGraph_node1" class="node">
+<title>sourcefile~brent_module.f90</title>
+<polygon fill="none" stroke="black" points="407,-44 301,-44 301,-20 407,-20 407,-44"/>
+<text text-anchor="middle" x="354" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50">brent_module.f90</text>
+</g>
+<!-- sourcefile~kind_module.f90 -->
+<g id="sourcefile~~brent_module.f90~~EfferentGraph_node2" class="node">
+<title>sourcefile~kind_module.f90</title>
+<g id="a_sourcefile~~brent_module.f90~~EfferentGraph_node2"><a xlink:href="../sourcefile/kind_module.f90.html" xlink:title="kind_module.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="103,-44 0,-44 0,-20 103,-20 103,-44"/>
+<text text-anchor="middle" x="51.5" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~brent_module.f90&#45;&gt;sourcefile~kind_module.f90 -->
+<g id="sourcefile~~brent_module.f90~~EfferentGraph_edge1" class="edge">
+<title>sourcefile~brent_module.f90&#45;&gt;sourcefile~kind_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M300.88,-32.69C289.08,-32.82 276.61,-32.93 265,-33 209,-33.32 195,-33.32 139,-33 130.69,-32.95 121.93,-32.88 113.3,-32.79"/>
+<polygon fill="#000000" stroke="#000000" points="113.31,-29.29 103.27,-32.68 113.23,-36.29 113.31,-29.29"/>
+</g>
+<!-- sourcefile~numbers_module.f90 -->
+<g id="sourcefile~~brent_module.f90~~EfferentGraph_node3" class="node">
+<title>sourcefile~numbers_module.f90</title>
+<g id="a_sourcefile~~brent_module.f90~~EfferentGraph_node3"><a xlink:href="../sourcefile/numbers_module.f90.html" xlink:title="numbers_module.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="265,-24 139,-24 139,0 265,0 265,-24"/>
+<text text-anchor="middle" x="202" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~brent_module.f90&#45;&gt;sourcefile~numbers_module.f90 -->
+<g id="sourcefile~~brent_module.f90~~EfferentGraph_edge2" class="edge">
+<title>sourcefile~brent_module.f90&#45;&gt;sourcefile~numbers_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M300.96,-25.06C292.63,-23.95 283.88,-22.78 275.18,-21.62"/>
+<polygon fill="#000000" stroke="#000000" points="275.39,-18.12 265.01,-20.27 274.46,-25.06 275.39,-18.12"/>
+</g>
+<!-- sourcefile~numbers_module.f90&#45;&gt;sourcefile~kind_module.f90 -->
+<g id="sourcefile~~brent_module.f90~~EfferentGraph_edge3" class="edge">
+<title>sourcefile~numbers_module.f90&#45;&gt;sourcefile~kind_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M138.88,-20.37C130.41,-21.51 121.72,-22.68 113.26,-23.82"/>
+<polygon fill="#000000" stroke="#000000" points="112.55,-20.38 103.11,-25.18 113.48,-27.32 112.55,-20.38"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#EfferentGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="EfferentGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="202pt" height="32pt"
+ viewBox="0.00 0.00 201.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 197.5,-28 197.5,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="193.5,-24 88.5,-24 88.5,0 193.5,0 193.5,-24"/>
+<text text-anchor="middle" x="141" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a file to a file which it depends on. A file
+is dependent upon another if the latter must be compiled before the former
+can be.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Files dependent on this one</h3>
+          </div>
+          <div class="card-body">
+            <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~brent_module.f90~~AfferentGraph Pages: 1 -->
+<svg id="sourcefilebrent_modulef90AfferentGraph" width="641pt" height="94pt"
+ viewBox="0.00 0.00 641.00 93.90" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~brent_module.f90~~AfferentGraph" class="graph" transform="scale(0.9 0.9) rotate(0) translate(4 100.01)">
+<title>sourcefile~~brent_module.f90~~AfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-100.01 706,-100.01 706,4 -4,4"/>
+<!-- sourcefile~brent_module.f90 -->
+<g id="sourcefile~~brent_module.f90~~AfferentGraph_node1" class="node">
+<title>sourcefile~brent_module.f90</title>
+<polygon fill="none" stroke="black" points="106,-66 0,-66 0,-42 106,-42 106,-66"/>
+<text text-anchor="middle" x="53" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">brent_module.f90</text>
+</g>
+<!-- sourcefile~fortran_astrodynamics_toolkit.f90 -->
+<g id="sourcefile~~brent_module.f90~~AfferentGraph_node2" class="node">
+<title>sourcefile~fortran_astrodynamics_toolkit.f90</title>
+<g id="a_sourcefile~~brent_module.f90~~AfferentGraph_node2"><a xlink:href="../sourcefile/fortran_astrodynamics_toolkit.f90.html" xlink:title="fortran_astrodynamics_toolkit.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="702,-66 512,-66 512,-42 702,-42 702,-66"/>
+<text text-anchor="middle" x="607" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fortran_astrodynamics_toolkit.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~brent_module.f90 -->
+<g id="sourcefile~~brent_module.f90~~AfferentGraph_edge1" class="edge">
+<title>sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~brent_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M409,-94C290.16,-99.51 259.58,-93.09 142,-75 131.07,-73.32 119.49,-70.97 108.44,-68.45"/>
+<polygon fill="#000000" stroke="#000000" points="109.03,-64.99 98.49,-66.11 107.42,-71.81 109.03,-64.99"/>
+</g>
+<!-- sourcefile~rk_module.f90 -->
+<g id="sourcefile~~brent_module.f90~~AfferentGraph_node3" class="node">
+<title>sourcefile~rk_module.f90</title>
+<g id="a_sourcefile~~brent_module.f90~~AfferentGraph_node3"><a xlink:href="../sourcefile/rk_module.f90.html" xlink:title="rk_module.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="269.5,-66 180.5,-66 180.5,-42 269.5,-42 269.5,-66"/>
+<text text-anchor="middle" x="225" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rk_module.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~rk_module.f90 -->
+<g id="sourcefile~~brent_module.f90~~AfferentGraph_edge4" class="edge">
+<title>sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~rk_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M565.76,-66.09C526.65,-76.92 465.37,-91.48 411,-94"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M409,-94C384.08,-95.15 323.32,-80.56 278.62,-68.68"/>
+<polygon fill="#000000" stroke="#000000" points="279.34,-65.25 268.77,-66.04 277.52,-72.01 279.34,-65.25"/>
+</g>
+<!-- sourcefile~rk_module_variable_step.f90 -->
+<g id="sourcefile~~brent_module.f90~~AfferentGraph_node4" class="node">
+<title>sourcefile~rk_module_variable_step.f90</title>
+<g id="a_sourcefile~~brent_module.f90~~AfferentGraph_node4"><a xlink:href="../sourcefile/rk_module_variable_step.f90.html" xlink:title="rk_module_variable_step.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="308,-24 142,-24 142,0 308,0 308,-24"/>
+<text text-anchor="middle" x="225" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rk_module_variable_step.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~rk_module_variable_step.f90 -->
+<g id="sourcefile~~brent_module.f90~~AfferentGraph_edge6" class="edge">
+<title>sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~rk_module_variable_step.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M537.66,-41.96C517.82,-38.73 496.08,-35.46 476,-33 423.94,-26.62 365.55,-21.59 318.29,-18.06"/>
+<polygon fill="#000000" stroke="#000000" points="318.31,-14.55 308.08,-17.31 317.79,-21.53 318.31,-14.55"/>
+</g>
+<!-- sourcefile~halo_orbit_module.f90 -->
+<g id="sourcefile~~brent_module.f90~~AfferentGraph_node5" class="node">
+<title>sourcefile~halo_orbit_module.f90</title>
+<g id="a_sourcefile~~brent_module.f90~~AfferentGraph_node5"><a xlink:href="../sourcefile/halo_orbit_module.f90.html" xlink:title="halo_orbit_module.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="476,-66 344,-66 344,-42 476,-42 476,-66"/>
+<text text-anchor="middle" x="410" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">halo_orbit_module.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~halo_orbit_module.f90 -->
+<g id="sourcefile~~brent_module.f90~~AfferentGraph_edge7" class="edge">
+<title>sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~halo_orbit_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M511.93,-54C503.34,-54 494.72,-54 486.33,-54"/>
+<polygon fill="#000000" stroke="#000000" points="486.23,-50.5 476.23,-54 486.23,-57.5 486.23,-50.5"/>
+</g>
+<!-- sourcefile~rk_module.f90&#45;&gt;sourcefile~brent_module.f90 -->
+<g id="sourcefile~~brent_module.f90~~AfferentGraph_edge2" class="edge">
+<title>sourcefile~rk_module.f90&#45;&gt;sourcefile~brent_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M180.22,-54C160.78,-54 137.53,-54 116.32,-54"/>
+<polygon fill="#000000" stroke="#000000" points="116.1,-50.5 106.1,-54 116.1,-57.5 116.1,-50.5"/>
+</g>
+<!-- sourcefile~rk_module_variable_step.f90&#45;&gt;sourcefile~brent_module.f90 -->
+<g id="sourcefile~~brent_module.f90~~AfferentGraph_edge3" class="edge">
+<title>sourcefile~rk_module_variable_step.f90&#45;&gt;sourcefile~brent_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M175.28,-24.04C155.72,-28.87 133.01,-34.48 112.56,-39.53"/>
+<polygon fill="#000000" stroke="#000000" points="111.59,-36.17 102.72,-41.96 113.27,-42.96 111.59,-36.17"/>
+</g>
+<!-- sourcefile~halo_orbit_module.f90&#45;&gt;sourcefile~rk_module.f90 -->
+<g id="sourcefile~~brent_module.f90~~AfferentGraph_edge5" class="edge">
+<title>sourcefile~halo_orbit_module.f90&#45;&gt;sourcefile~rk_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M343.97,-54C322.97,-54 299.94,-54 279.84,-54"/>
+<polygon fill="#000000" stroke="#000000" points="279.63,-50.5 269.63,-54 279.63,-57.5 279.63,-50.5"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var pansourcefilebrent_modulef90AfferentGraph = svgPanZoom('#sourcefilebrent_modulef90AfferentGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#AfferentGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="AfferentGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="202pt" height="32pt"
+ viewBox="0.00 0.00 201.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 197.5,-28 197.5,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="193.5,-24 88.5,-24 88.5,0 193.5,0 193.5,-24"/>
+<text text-anchor="middle" x="141" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a file to a file which it depends on. A file
+is dependent upon another if the latter must be compiled before the former
+can be.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+<br>
+      <section>
+        <h2><span class="anchor" id="src"></span>Source Code</h2>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="c">!*****************************************************************************************</span>
+<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="c">!&gt; author: Jacob Williams</span>
+<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="c">!</span>
+<a id="ln-4" name="ln-4" href="#ln-4"></a><span class="c">!  Brent algorithms for minimization and root solving without derivatives.</span>
+<a id="ln-5" name="ln-5" href="#ln-5"></a><span class="c">!</span>
+<a id="ln-6" name="ln-6" href="#ln-6"></a><span class="c">!### See also</span>
+<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="c">!</span>
+<a id="ln-8" name="ln-8" href="#ln-8"></a><span class="c">!  1. R. Brent, &quot;Algorithms for Minimization Without Derivatives&quot;,</span>
+<a id="ln-9" name="ln-9" href="#ln-9"></a><span class="c">!     Prentice-Hall, Inc., 1973.</span>
+<a id="ln-10" name="ln-10" href="#ln-10"></a>
+<a id="ln-11" name="ln-11" href="#ln-11"></a><span class="w">    </span><span class="k">module </span><span class="n">brent_module</span>
+<a id="ln-12" name="ln-12" href="#ln-12"></a>
+<a id="ln-13" name="ln-13" href="#ln-13"></a><span class="w">    </span><span class="k">use </span><span class="n">kind_module</span><span class="p">,</span><span class="w">  </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">wp</span>
+<a id="ln-14" name="ln-14" href="#ln-14"></a><span class="w">    </span><span class="k">use </span><span class="n">numbers_module</span>
+<a id="ln-15" name="ln-15" href="#ln-15"></a>
+<a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">    </span><span class="k">implicit none</span>
+<a id="ln-17" name="ln-17" href="#ln-17"></a>
+<a id="ln-18" name="ln-18" href="#ln-18"></a><span class="k">    private</span>
+<a id="ln-19" name="ln-19" href="#ln-19"></a>
+<a id="ln-20" name="ln-20" href="#ln-20"></a><span class="k">    type</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">brent_class</span>
+<a id="ln-21" name="ln-21" href="#ln-21"></a><span class="w">        </span><span class="c">!! the main class</span>
+<a id="ln-22" name="ln-22" href="#ln-22"></a><span class="w">        </span><span class="k">procedure</span><span class="p">(</span><span class="n">func</span><span class="p">),</span><span class="k">pointer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">null</span><span class="p">()</span><span class="w">  </span><span class="c">!! function to be minimized</span>
+<a id="ln-23" name="ln-23" href="#ln-23"></a><span class="w">    </span><span class="k">contains</span>
+<a id="ln-24" name="ln-24" href="#ln-24"></a><span class="k">        procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">set_function</span>
+<a id="ln-25" name="ln-25" href="#ln-25"></a><span class="w">        </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">minimize</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">fmin</span>
+<a id="ln-26" name="ln-26" href="#ln-26"></a><span class="w">        </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">find_zero</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">zeroin</span>
+<a id="ln-27" name="ln-27" href="#ln-27"></a><span class="w">    </span><span class="k">end type </span><span class="n">brent_class</span>
+<a id="ln-28" name="ln-28" href="#ln-28"></a>
+<a id="ln-29" name="ln-29" href="#ln-29"></a><span class="w">    </span><span class="k">abstract interface</span>
+<a id="ln-30" name="ln-30" href="#ln-30"></a><span class="k">        function </span><span class="n">func</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<a id="ln-31" name="ln-31" href="#ln-31"></a><span class="w">            </span><span class="c">!! Interface to the function to be minimized.</span>
+<a id="ln-32" name="ln-32" href="#ln-32"></a><span class="w">            </span><span class="c">!! It should evaluate f(x) for any x in the interval (ax,bx)</span>
+<a id="ln-33" name="ln-33" href="#ln-33"></a><span class="w">            </span><span class="k">import</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">wp</span><span class="p">,</span><span class="n">brent_class</span>
+<a id="ln-34" name="ln-34" href="#ln-34"></a><span class="w">            </span><span class="k">implicit none</span>
+<a id="ln-35" name="ln-35" href="#ln-35"></a><span class="k">            class</span><span class="p">(</span><span class="n">brent_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span>
+<a id="ln-36" name="ln-36" href="#ln-36"></a><span class="w">            </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span>
+<a id="ln-37" name="ln-37" href="#ln-37"></a><span class="w">            </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">f</span>
+<a id="ln-38" name="ln-38" href="#ln-38"></a><span class="w">        </span><span class="k">end function </span><span class="n">func</span>
+<a id="ln-39" name="ln-39" href="#ln-39"></a><span class="w">    </span><span class="k">end interface</span>
+<a id="ln-40" name="ln-40" href="#ln-40"></a>
+<a id="ln-41" name="ln-41" href="#ln-41"></a><span class="w">    </span><span class="c">!unit test routine:</span>
+<a id="ln-42" name="ln-42" href="#ln-42"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">brent_test</span>
+<a id="ln-43" name="ln-43" href="#ln-43"></a>
+<a id="ln-44" name="ln-44" href="#ln-44"></a><span class="w">    </span><span class="k">contains</span>
+<a id="ln-45" name="ln-45" href="#ln-45"></a><span class="c">!*****************************************************************************************</span>
+<a id="ln-46" name="ln-46" href="#ln-46"></a>
+<a id="ln-47" name="ln-47" href="#ln-47"></a><span class="c">!*****************************************************************************************</span>
+<a id="ln-48" name="ln-48" href="#ln-48"></a><span class="c">!&gt; author: Jacob Williams</span>
+<a id="ln-49" name="ln-49" href="#ln-49"></a><span class="c">!  date: 7/19/2014</span>
+<a id="ln-50" name="ln-50" href="#ln-50"></a><span class="c">!</span>
+<a id="ln-51" name="ln-51" href="#ln-51"></a><span class="c">!  Set the function to be minimized.</span>
+<a id="ln-52" name="ln-52" href="#ln-52"></a>
+<a id="ln-53" name="ln-53" href="#ln-53"></a><span class="w">    </span><span class="k">subroutine </span><span class="n">set_function</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">f</span><span class="p">)</span>
+<a id="ln-54" name="ln-54" href="#ln-54"></a>
+<a id="ln-55" name="ln-55" href="#ln-55"></a><span class="w">    </span><span class="k">implicit none</span>
+<a id="ln-56" name="ln-56" href="#ln-56"></a>
+<a id="ln-57" name="ln-57" href="#ln-57"></a><span class="k">    class</span><span class="p">(</span><span class="n">brent_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span>
+<a id="ln-58" name="ln-58" href="#ln-58"></a><span class="w">    </span><span class="k">procedure</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">f</span>
+<a id="ln-59" name="ln-59" href="#ln-59"></a>
+<a id="ln-60" name="ln-60" href="#ln-60"></a><span class="w">    </span><span class="n">me</span><span class="p">%</span><span class="n">f</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">f</span>
+<a id="ln-61" name="ln-61" href="#ln-61"></a>
+<a id="ln-62" name="ln-62" href="#ln-62"></a><span class="w">    </span><span class="k">end subroutine </span><span class="n">set_function</span>
+<a id="ln-63" name="ln-63" href="#ln-63"></a><span class="c">!*****************************************************************************************</span>
+<a id="ln-64" name="ln-64" href="#ln-64"></a>
+<a id="ln-65" name="ln-65" href="#ln-65"></a><span class="c">!*****************************************************************************************</span>
+<a id="ln-66" name="ln-66" href="#ln-66"></a><span class="c">!&gt;</span>
+<a id="ln-67" name="ln-67" href="#ln-67"></a><span class="c">!  An approximation x to the point where f attains a minimum on</span>
+<a id="ln-68" name="ln-68" href="#ln-68"></a><span class="c">!  the interval (ax,bx) is determined.</span>
+<a id="ln-69" name="ln-69" href="#ln-69"></a><span class="c">!</span>
+<a id="ln-70" name="ln-70" href="#ln-70"></a><span class="c">!  the method used is a combination of golden section search and</span>
+<a id="ln-71" name="ln-71" href="#ln-71"></a><span class="c">!  successive parabolic interpolation. convergence is never much slower</span>
+<a id="ln-72" name="ln-72" href="#ln-72"></a><span class="c">!  than that for a fibonacci search. if f has a continuous second</span>
+<a id="ln-73" name="ln-73" href="#ln-73"></a><span class="c">!  derivative which is positive at the minimum (which is not at ax or</span>
+<a id="ln-74" name="ln-74" href="#ln-74"></a><span class="c">!  bx), then convergence is superlinear, and usually of the order of</span>
+<a id="ln-75" name="ln-75" href="#ln-75"></a><span class="c">!  about 1.324.</span>
+<a id="ln-76" name="ln-76" href="#ln-76"></a><span class="c">!</span>
+<a id="ln-77" name="ln-77" href="#ln-77"></a><span class="c">!  the function f is never evaluated at two points closer together</span>
+<a id="ln-78" name="ln-78" href="#ln-78"></a><span class="c">!  than eps*abs(fmin) + (tol/3), where eps is approximately the square</span>
+<a id="ln-79" name="ln-79" href="#ln-79"></a><span class="c">!  root of the relative machine precision. if f is a unimodal</span>
+<a id="ln-80" name="ln-80" href="#ln-80"></a><span class="c">!  function and the computed values of f are always unimodal when</span>
+<a id="ln-81" name="ln-81" href="#ln-81"></a><span class="c">!  separated by at least eps*abs(x) + (tol/3), then fmin approximates</span>
+<a id="ln-82" name="ln-82" href="#ln-82"></a><span class="c">!  the abcissa of the global minimum of f on the interval ax,bx with</span>
+<a id="ln-83" name="ln-83" href="#ln-83"></a><span class="c">!  an error less than 3*eps*abs(fmin) + tol. if f is not unimodal,</span>
+<a id="ln-84" name="ln-84" href="#ln-84"></a><span class="c">!  then fmin may approximate a local, but perhaps non-global, minimum to</span>
+<a id="ln-85" name="ln-85" href="#ln-85"></a><span class="c">!  the same accuracy.</span>
+<a id="ln-86" name="ln-86" href="#ln-86"></a><span class="c">!</span>
+<a id="ln-87" name="ln-87" href="#ln-87"></a><span class="c">!  this function subprogram is a slightly modified version of the</span>
+<a id="ln-88" name="ln-88" href="#ln-88"></a><span class="c">!  algol 60 procedure localmin given in richard brent, algorithms for</span>
+<a id="ln-89" name="ln-89" href="#ln-89"></a><span class="c">!  minimization without derivatives, prentice - hall, inc. (1973).</span>
+<a id="ln-90" name="ln-90" href="#ln-90"></a><span class="c">!</span>
+<a id="ln-91" name="ln-91" href="#ln-91"></a><span class="c">!### See also</span>
+<a id="ln-92" name="ln-92" href="#ln-92"></a><span class="c">!  [1] http://www.netlib.org/fmm/fmin.f</span>
+<a id="ln-93" name="ln-93" href="#ln-93"></a>
+<a id="ln-94" name="ln-94" href="#ln-94"></a><span class="w">    </span><span class="k">function </span><span class="n">fmin</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">ax</span><span class="p">,</span><span class="n">bx</span><span class="p">,</span><span class="n">tol</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">xmin</span><span class="p">)</span>
+<a id="ln-95" name="ln-95" href="#ln-95"></a>
+<a id="ln-96" name="ln-96" href="#ln-96"></a><span class="w">    </span><span class="k">implicit none</span>
+<a id="ln-97" name="ln-97" href="#ln-97"></a>
+<a id="ln-98" name="ln-98" href="#ln-98"></a><span class="k">    class</span><span class="p">(</span><span class="n">brent_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span>
+<a id="ln-99" name="ln-99" href="#ln-99"></a><span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ax</span><span class="w">   </span><span class="c">!! left endpoint of initial interval</span>
+<a id="ln-100" name="ln-100" href="#ln-100"></a><span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">bx</span><span class="w">   </span><span class="c">!! right endpoint of initial interval</span>
+<a id="ln-101" name="ln-101" href="#ln-101"></a><span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tol</span><span class="w">  </span><span class="c">!! desired length of the interval of</span>
+<a id="ln-102" name="ln-102" href="#ln-102"></a><span class="w">                                </span><span class="c">!! uncertainty of the final result (&gt;=0)</span>
+<a id="ln-103" name="ln-103" href="#ln-103"></a><span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">xmin</span><span class="w"> </span><span class="c">!! abcissa approximating the point where</span>
+<a id="ln-104" name="ln-104" href="#ln-104"></a><span class="w">                                </span><span class="c">!! f attains a minimum</span>
+<a id="ln-105" name="ln-105" href="#ln-105"></a>
+<a id="ln-106" name="ln-106" href="#ln-106"></a><span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="n">xm</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">tol1</span><span class="p">,</span><span class="n">tol2</span><span class="p">,</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">w</span>
+<a id="ln-107" name="ln-107" href="#ln-107"></a><span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fu</span><span class="p">,</span><span class="n">fv</span><span class="p">,</span><span class="n">fw</span><span class="p">,</span><span class="n">fx</span><span class="p">,</span><span class="n">x</span>
+<a id="ln-108" name="ln-108" href="#ln-108"></a><span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">abs</span><span class="p">,</span><span class="nb">sqrt</span><span class="p">,</span><span class="nb">sign</span>
+<a id="ln-109" name="ln-109" href="#ln-109"></a>
+<a id="ln-110" name="ln-110" href="#ln-110"></a><span class="nb">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">three</span><span class="o">-</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">five</span><span class="p">))</span><span class="o">/</span><span class="n">two</span><span class="w">  </span><span class="c">!! squared inverse of golden ratio</span>
+<a id="ln-111" name="ln-111" href="#ln-111"></a><span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">half</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5_wp</span>
+<a id="ln-112" name="ln-112" href="#ln-112"></a><span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">eps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="nb">epsilon</span><span class="p">(</span><span class="n">one</span><span class="p">))</span>
+<a id="ln-113" name="ln-113" href="#ln-113"></a>
+<a id="ln-114" name="ln-114" href="#ln-114"></a><span class="w">    </span><span class="c">! initialization</span>
+<a id="ln-115" name="ln-115" href="#ln-115"></a>
+<a id="ln-116" name="ln-116" href="#ln-116"></a><span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ax</span>
+<a id="ln-117" name="ln-117" href="#ln-117"></a><span class="w">    </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bx</span>
+<a id="ln-118" name="ln-118" href="#ln-118"></a><span class="w">    </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="o">*</span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a</span><span class="p">)</span>
+<a id="ln-119" name="ln-119" href="#ln-119"></a><span class="w">    </span><span class="n">w</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span>
+<a id="ln-120" name="ln-120" href="#ln-120"></a><span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span>
+<a id="ln-121" name="ln-121" href="#ln-121"></a><span class="w">    </span><span class="n">e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<a id="ln-122" name="ln-122" href="#ln-122"></a><span class="w">    </span><span class="n">fx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<a id="ln-123" name="ln-123" href="#ln-123"></a><span class="w">    </span><span class="n">fv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fx</span>
+<a id="ln-124" name="ln-124" href="#ln-124"></a><span class="w">    </span><span class="n">fw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fx</span>
+<a id="ln-125" name="ln-125" href="#ln-125"></a>
+<a id="ln-126" name="ln-126" href="#ln-126"></a><span class="w">    </span><span class="k">do</span><span class="w">    </span><span class="c">!  main loop starts here</span>
+<a id="ln-127" name="ln-127" href="#ln-127"></a>
+<a id="ln-128" name="ln-128" href="#ln-128"></a><span class="w">        </span><span class="n">xm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">half</span><span class="o">*</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span>
+<a id="ln-129" name="ln-129" href="#ln-129"></a><span class="w">        </span><span class="n">tol1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">eps</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tol</span><span class="o">/</span><span class="n">three</span>
+<a id="ln-130" name="ln-130" href="#ln-130"></a><span class="w">        </span><span class="n">tol2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="o">*</span><span class="n">tol1</span>
+<a id="ln-131" name="ln-131" href="#ln-131"></a>
+<a id="ln-132" name="ln-132" href="#ln-132"></a><span class="w">        </span><span class="c">!  check stopping criterion</span>
+<a id="ln-133" name="ln-133" href="#ln-133"></a>
+<a id="ln-134" name="ln-134" href="#ln-134"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">xm</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">(</span><span class="n">tol2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">half</span><span class="o">*</span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a</span><span class="p">)))</span><span class="w"> </span><span class="k">exit</span>
+<a id="ln-135" name="ln-135" href="#ln-135"></a>
+<a id="ln-136" name="ln-136" href="#ln-136"></a><span class="w">        </span><span class="c">! is golden-section necessary</span>
+<a id="ln-137" name="ln-137" href="#ln-137"></a>
+<a id="ln-138" name="ln-138" href="#ln-138"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">tol1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-139" name="ln-139" href="#ln-139"></a>
+<a id="ln-140" name="ln-140" href="#ln-140"></a><span class="w">            </span><span class="c">!  a golden-section step</span>
+<a id="ln-141" name="ln-141" href="#ln-141"></a>
+<a id="ln-142" name="ln-142" href="#ln-142"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">xm</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-143" name="ln-143" href="#ln-143"></a><span class="k">                </span><span class="n">e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span>
+<a id="ln-144" name="ln-144" href="#ln-144"></a><span class="w">            </span><span class="k">else</span>
+<a id="ln-145" name="ln-145" href="#ln-145"></a><span class="k">                </span><span class="n">e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span>
+<a id="ln-146" name="ln-146" href="#ln-146"></a><span class="w">            </span><span class="k">end if</span>
+<a id="ln-147" name="ln-147" href="#ln-147"></a><span class="k">            </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="o">*</span><span class="n">e</span>
+<a id="ln-148" name="ln-148" href="#ln-148"></a>
+<a id="ln-149" name="ln-149" href="#ln-149"></a><span class="w">        </span><span class="k">else</span>
+<a id="ln-150" name="ln-150" href="#ln-150"></a>
+<a id="ln-151" name="ln-151" href="#ln-151"></a><span class="w">            </span><span class="c">!  fit parabola</span>
+<a id="ln-152" name="ln-152" href="#ln-152"></a>
+<a id="ln-153" name="ln-153" href="#ln-153"></a><span class="w">            </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">w</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">fx</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">fv</span><span class="p">)</span>
+<a id="ln-154" name="ln-154" href="#ln-154"></a><span class="w">            </span><span class="n">q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">fx</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">fw</span><span class="p">)</span>
+<a id="ln-155" name="ln-155" href="#ln-155"></a><span class="w">            </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="o">*</span><span class="n">q</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">w</span><span class="p">)</span><span class="o">*</span><span class="n">r</span>
+<a id="ln-156" name="ln-156" href="#ln-156"></a><span class="w">            </span><span class="n">q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">r</span><span class="p">)</span>
+<a id="ln-157" name="ln-157" href="#ln-157"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">q</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">p</span>
+<a id="ln-158" name="ln-158" href="#ln-158"></a><span class="w">            </span><span class="n">q</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="nb">abs</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<a id="ln-159" name="ln-159" href="#ln-159"></a><span class="w">            </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span>
+<a id="ln-160" name="ln-160" href="#ln-160"></a><span class="w">            </span><span class="n">e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d</span>
+<a id="ln-161" name="ln-161" href="#ln-161"></a>
+<a id="ln-162" name="ln-162" href="#ln-162"></a><span class="w">            </span><span class="c">!  is parabola acceptable</span>
+<a id="ln-163" name="ln-163" href="#ln-163"></a>
+<a id="ln-164" name="ln-164" href="#ln-164"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="nb">abs</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">half</span><span class="o">*</span><span class="n">q</span><span class="o">*</span><span class="n">r</span><span class="p">))</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">q</span><span class="o">*</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">))</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">q</span><span class="o">*</span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">)))</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-165" name="ln-165" href="#ln-165"></a>
+<a id="ln-166" name="ln-166" href="#ln-166"></a><span class="w">                </span><span class="c">!  a golden-section step</span>
+<a id="ln-167" name="ln-167" href="#ln-167"></a>
+<a id="ln-168" name="ln-168" href="#ln-168"></a><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">xm</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-169" name="ln-169" href="#ln-169"></a><span class="k">                    </span><span class="n">e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span>
+<a id="ln-170" name="ln-170" href="#ln-170"></a><span class="w">                </span><span class="k">else</span>
+<a id="ln-171" name="ln-171" href="#ln-171"></a><span class="k">                    </span><span class="n">e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span>
+<a id="ln-172" name="ln-172" href="#ln-172"></a><span class="w">                </span><span class="k">end if</span>
+<a id="ln-173" name="ln-173" href="#ln-173"></a><span class="k">                </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="o">*</span><span class="n">e</span>
+<a id="ln-174" name="ln-174" href="#ln-174"></a>
+<a id="ln-175" name="ln-175" href="#ln-175"></a><span class="w">            </span><span class="k">else</span>
+<a id="ln-176" name="ln-176" href="#ln-176"></a>
+<a id="ln-177" name="ln-177" href="#ln-177"></a><span class="w">                </span><span class="c">!  a parabolic interpolation step</span>
+<a id="ln-178" name="ln-178" href="#ln-178"></a>
+<a id="ln-179" name="ln-179" href="#ln-179"></a><span class="w">                </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="o">/</span><span class="n">q</span>
+<a id="ln-180" name="ln-180" href="#ln-180"></a><span class="w">                </span><span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">d</span>
+<a id="ln-181" name="ln-181" href="#ln-181"></a>
+<a id="ln-182" name="ln-182" href="#ln-182"></a><span class="w">                </span><span class="c">!  f must not be evaluated too close to ax or bx</span>
+<a id="ln-183" name="ln-183" href="#ln-183"></a>
+<a id="ln-184" name="ln-184" href="#ln-184"></a><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(((</span><span class="n">u</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tol2</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">((</span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">u</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tol2</span><span class="p">))</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sign</span><span class="p">(</span><span class="n">tol1</span><span class="p">,</span><span class="w"> </span><span class="n">xm</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">)</span>
+<a id="ln-185" name="ln-185" href="#ln-185"></a>
+<a id="ln-186" name="ln-186" href="#ln-186"></a><span class="w">            </span><span class="k">end if</span>
+<a id="ln-187" name="ln-187" href="#ln-187"></a>
+<a id="ln-188" name="ln-188" href="#ln-188"></a><span class="k">        end if</span>
+<a id="ln-189" name="ln-189" href="#ln-189"></a>
+<a id="ln-190" name="ln-190" href="#ln-190"></a><span class="w">        </span><span class="c">!  f must not be evaluated too close to x</span>
+<a id="ln-191" name="ln-191" href="#ln-191"></a>
+<a id="ln-192" name="ln-192" href="#ln-192"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">tol1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-193" name="ln-193" href="#ln-193"></a><span class="k">            </span><span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">d</span>
+<a id="ln-194" name="ln-194" href="#ln-194"></a><span class="w">        </span><span class="k">else</span>
+<a id="ln-195" name="ln-195" href="#ln-195"></a><span class="k">            </span><span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">sign</span><span class="p">(</span><span class="n">tol1</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">)</span>
+<a id="ln-196" name="ln-196" href="#ln-196"></a><span class="w">        </span><span class="k">end if</span>
+<a id="ln-197" name="ln-197" href="#ln-197"></a><span class="k">        </span><span class="n">fu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">f</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+<a id="ln-198" name="ln-198" href="#ln-198"></a>
+<a id="ln-199" name="ln-199" href="#ln-199"></a><span class="w">        </span><span class="c">!  update a, b, v, w, and x</span>
+<a id="ln-200" name="ln-200" href="#ln-200"></a>
+<a id="ln-201" name="ln-201" href="#ln-201"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fu</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">fx</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-202" name="ln-202" href="#ln-202"></a><span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">u</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span>
+<a id="ln-203" name="ln-203" href="#ln-203"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">u</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span>
+<a id="ln-204" name="ln-204" href="#ln-204"></a><span class="w">            </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">w</span>
+<a id="ln-205" name="ln-205" href="#ln-205"></a><span class="w">            </span><span class="n">fv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fw</span>
+<a id="ln-206" name="ln-206" href="#ln-206"></a><span class="w">            </span><span class="n">w</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span>
+<a id="ln-207" name="ln-207" href="#ln-207"></a><span class="w">            </span><span class="n">fw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fx</span>
+<a id="ln-208" name="ln-208" href="#ln-208"></a><span class="w">            </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span>
+<a id="ln-209" name="ln-209" href="#ln-209"></a><span class="w">            </span><span class="n">fx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fu</span>
+<a id="ln-210" name="ln-210" href="#ln-210"></a><span class="w">        </span><span class="k">else</span>
+<a id="ln-211" name="ln-211" href="#ln-211"></a><span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">u</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span>
+<a id="ln-212" name="ln-212" href="#ln-212"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">u</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span>
+<a id="ln-213" name="ln-213" href="#ln-213"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fu</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">fw</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-214" name="ln-214" href="#ln-214"></a><span class="k">                </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">w</span>
+<a id="ln-215" name="ln-215" href="#ln-215"></a><span class="w">                </span><span class="n">fv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fw</span>
+<a id="ln-216" name="ln-216" href="#ln-216"></a><span class="w">                </span><span class="n">w</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span>
+<a id="ln-217" name="ln-217" href="#ln-217"></a><span class="w">                </span><span class="n">fw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fu</span>
+<a id="ln-218" name="ln-218" href="#ln-218"></a><span class="w">            </span><span class="k">else if</span><span class="w"> </span><span class="p">(</span><span class="n">fu</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">fv</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-219" name="ln-219" href="#ln-219"></a><span class="k">                </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">u</span>
+<a id="ln-220" name="ln-220" href="#ln-220"></a><span class="w">                </span><span class="n">fv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fu</span>
+<a id="ln-221" name="ln-221" href="#ln-221"></a><span class="w">            </span><span class="k">end if</span>
+<a id="ln-222" name="ln-222" href="#ln-222"></a><span class="k">        end if</span>
+<a id="ln-223" name="ln-223" href="#ln-223"></a>
+<a id="ln-224" name="ln-224" href="#ln-224"></a><span class="k">    end do</span><span class="w">    </span><span class="c">!  end of main loop</span>
+<a id="ln-225" name="ln-225" href="#ln-225"></a>
+<a id="ln-226" name="ln-226" href="#ln-226"></a><span class="w">    </span><span class="n">xmin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span>
+<a id="ln-227" name="ln-227" href="#ln-227"></a>
+<a id="ln-228" name="ln-228" href="#ln-228"></a><span class="w">    </span><span class="k">end function </span><span class="n">fmin</span>
+<a id="ln-229" name="ln-229" href="#ln-229"></a><span class="c">!*****************************************************************************************</span>
+<a id="ln-230" name="ln-230" href="#ln-230"></a>
+<a id="ln-231" name="ln-231" href="#ln-231"></a><span class="c">!*****************************************************************************************</span>
+<a id="ln-232" name="ln-232" href="#ln-232"></a><span class="c">!&gt;</span>
+<a id="ln-233" name="ln-233" href="#ln-233"></a><span class="c">!  Find a zero of the function \( f(x) \) in the given interval</span>
+<a id="ln-234" name="ln-234" href="#ln-234"></a><span class="c">!  \( [a_x,b_x] \) to within a tolerance \( 4 \epsilon |x| + tol \),</span>
+<a id="ln-235" name="ln-235" href="#ln-235"></a><span class="c">!  where \( \epsilon \) is the relative machine precision defined as</span>
+<a id="ln-236" name="ln-236" href="#ln-236"></a><span class="c">!  the smallest representable number such that \( 1.0 + \epsilon &gt; 1.0 \).</span>
+<a id="ln-237" name="ln-237" href="#ln-237"></a><span class="c">!</span>
+<a id="ln-238" name="ln-238" href="#ln-238"></a><span class="c">!  It is assumed that \( f(a_x) \) and \( f(b_x) \) have opposite signs.</span>
+<a id="ln-239" name="ln-239" href="#ln-239"></a><span class="c">!</span>
+<a id="ln-240" name="ln-240" href="#ln-240"></a><span class="c">!### References</span>
+<a id="ln-241" name="ln-241" href="#ln-241"></a><span class="c">!  * R. P. Brent, &quot;[An algorithm with guaranteed convergence for</span>
+<a id="ln-242" name="ln-242" href="#ln-242"></a><span class="c">!    finding a zero of a function](http://maths-people.anu.edu.au/~brent/pd/rpb005.pdf)&quot;,</span>
+<a id="ln-243" name="ln-243" href="#ln-243"></a><span class="c">!    The Computer Journal, Vol 14, No. 4., 1971.</span>
+<a id="ln-244" name="ln-244" href="#ln-244"></a><span class="c">!  * R. P. Brent, &quot;[Algorithms for minimization without derivatives](http://maths-people.anu.edu.au/~brent/pub/pub011.html)&quot;,</span>
+<a id="ln-245" name="ln-245" href="#ln-245"></a><span class="c">!    Prentice-Hall, Inc., 1973.</span>
+<a id="ln-246" name="ln-246" href="#ln-246"></a><span class="c">!</span>
+<a id="ln-247" name="ln-247" href="#ln-247"></a><span class="c">!### See also</span>
+<a id="ln-248" name="ln-248" href="#ln-248"></a><span class="c">!  1. [zeroin.f](http://www.netlib.org/go/zeroin.f) from Netlib</span>
+<a id="ln-249" name="ln-249" href="#ln-249"></a>
+<a id="ln-250" name="ln-250" href="#ln-250"></a><span class="w">    </span><span class="k">subroutine </span><span class="n">zeroin</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">ax</span><span class="p">,</span><span class="n">bx</span><span class="p">,</span><span class="n">tol</span><span class="p">,</span><span class="n">xzero</span><span class="p">,</span><span class="n">fzero</span><span class="p">,</span><span class="n">iflag</span><span class="p">,</span><span class="n">fax</span><span class="p">,</span><span class="n">fbx</span><span class="p">)</span>
+<a id="ln-251" name="ln-251" href="#ln-251"></a>
+<a id="ln-252" name="ln-252" href="#ln-252"></a><span class="w">    </span><span class="k">use </span><span class="n">iso_fortran_env</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">error_unit</span>
+<a id="ln-253" name="ln-253" href="#ln-253"></a>
+<a id="ln-254" name="ln-254" href="#ln-254"></a><span class="w">    </span><span class="k">implicit none</span>
+<a id="ln-255" name="ln-255" href="#ln-255"></a>
+<a id="ln-256" name="ln-256" href="#ln-256"></a><span class="k">    class</span><span class="p">(</span><span class="n">brent_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span>
+<a id="ln-257" name="ln-257" href="#ln-257"></a><span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">ax</span><span class="w">      </span><span class="c">!! left endpoint of initial interval</span>
+<a id="ln-258" name="ln-258" href="#ln-258"></a><span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">bx</span><span class="w">      </span><span class="c">!! right endpoint of initial interval</span>
+<a id="ln-259" name="ln-259" href="#ln-259"></a><span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">tol</span><span class="w">     </span><span class="c">!! desired length of the interval of uncertainty of the final result (&gt;=0)</span>
+<a id="ln-260" name="ln-260" href="#ln-260"></a><span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">xzero</span><span class="w">   </span><span class="c">!! abscissa approximating a zero of `f` in the interval `ax`,`bx`</span>
+<a id="ln-261" name="ln-261" href="#ln-261"></a><span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">fzero</span><span class="w">   </span><span class="c">!! value of `f` at the root (`f(xzero)`)</span>
+<a id="ln-262" name="ln-262" href="#ln-262"></a><span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">              </span><span class="kd">::</span><span class="w"> </span><span class="n">iflag</span><span class="w">   </span><span class="c">!! status flag (`-1`=error, `0`=root found)</span>
+<a id="ln-263" name="ln-263" href="#ln-263"></a><span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">fax</span><span class="w">     </span><span class="c">!! if `f(ax)` is already known, it can be input here</span>
+<a id="ln-264" name="ln-264" href="#ln-264"></a><span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">fbx</span><span class="w">     </span><span class="c">!! if `f(ax)` is already known, it can be input here</span>
+<a id="ln-265" name="ln-265" href="#ln-265"></a>
+<a id="ln-266" name="ln-266" href="#ln-266"></a><span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">eps</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nb">epsilon</span><span class="p">(</span><span class="n">one</span><span class="p">)</span><span class="w">  </span><span class="c">!! original code had d1mach(4)</span>
+<a id="ln-267" name="ln-267" href="#ln-267"></a><span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="n">fa</span><span class="p">,</span><span class="n">fb</span><span class="p">,</span><span class="n">fc</span><span class="p">,</span><span class="n">tol1</span><span class="p">,</span><span class="n">xm</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">s</span>
+<a id="ln-268" name="ln-268" href="#ln-268"></a>
+<a id="ln-269" name="ln-269" href="#ln-269"></a><span class="w">    </span><span class="n">tol1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">eps</span><span class="o">+</span><span class="n">one</span>
+<a id="ln-270" name="ln-270" href="#ln-270"></a>
+<a id="ln-271" name="ln-271" href="#ln-271"></a><span class="w">    </span><span class="n">a</span><span class="o">=</span><span class="n">ax</span>
+<a id="ln-272" name="ln-272" href="#ln-272"></a><span class="w">    </span><span class="n">b</span><span class="o">=</span><span class="n">bx</span>
+<a id="ln-273" name="ln-273" href="#ln-273"></a>
+<a id="ln-274" name="ln-274" href="#ln-274"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">fax</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-275" name="ln-275" href="#ln-275"></a><span class="k">        </span><span class="n">fa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fax</span>
+<a id="ln-276" name="ln-276" href="#ln-276"></a><span class="w">    </span><span class="k">else</span>
+<a id="ln-277" name="ln-277" href="#ln-277"></a><span class="k">        </span><span class="n">fa</span><span class="o">=</span><span class="n">me</span><span class="p">%</span><span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<a id="ln-278" name="ln-278" href="#ln-278"></a><span class="w">    </span><span class="k">end if</span>
+<a id="ln-279" name="ln-279" href="#ln-279"></a><span class="k">    if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">fbx</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-280" name="ln-280" href="#ln-280"></a><span class="k">        </span><span class="n">fb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fbx</span>
+<a id="ln-281" name="ln-281" href="#ln-281"></a><span class="w">    </span><span class="k">else</span>
+<a id="ln-282" name="ln-282" href="#ln-282"></a><span class="k">        </span><span class="n">fb</span><span class="o">=</span><span class="n">me</span><span class="p">%</span><span class="n">f</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<a id="ln-283" name="ln-283" href="#ln-283"></a><span class="w">    </span><span class="k">end if</span>
+<a id="ln-284" name="ln-284" href="#ln-284"></a>
+<a id="ln-285" name="ln-285" href="#ln-285"></a><span class="w">    </span><span class="c">!check trivial cases first:</span>
+<a id="ln-286" name="ln-286" href="#ln-286"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fa</span><span class="o">==</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-287" name="ln-287" href="#ln-287"></a>
+<a id="ln-288" name="ln-288" href="#ln-288"></a><span class="k">        </span><span class="n">iflag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<a id="ln-289" name="ln-289" href="#ln-289"></a><span class="w">        </span><span class="n">xzero</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
+<a id="ln-290" name="ln-290" href="#ln-290"></a><span class="w">        </span><span class="n">fzero</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fa</span>
+<a id="ln-291" name="ln-291" href="#ln-291"></a>
+<a id="ln-292" name="ln-292" href="#ln-292"></a><span class="w">    </span><span class="k">elseif</span><span class="w"> </span><span class="p">(</span><span class="n">fb</span><span class="o">==</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-293" name="ln-293" href="#ln-293"></a>
+<a id="ln-294" name="ln-294" href="#ln-294"></a><span class="k">        </span><span class="n">iflag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<a id="ln-295" name="ln-295" href="#ln-295"></a><span class="w">        </span><span class="n">xzero</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span>
+<a id="ln-296" name="ln-296" href="#ln-296"></a><span class="w">        </span><span class="n">fzero</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fb</span>
+<a id="ln-297" name="ln-297" href="#ln-297"></a>
+<a id="ln-298" name="ln-298" href="#ln-298"></a><span class="w">    </span><span class="k">elseif</span><span class="w"> </span><span class="p">(</span><span class="n">fa</span><span class="o">*</span><span class="p">(</span><span class="n">fb</span><span class="o">/</span><span class="nb">abs</span><span class="p">(</span><span class="n">fb</span><span class="p">))</span><span class="o">&lt;</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">  </span><span class="c">! check that f(ax) and f(bx) have different signs</span>
+<a id="ln-299" name="ln-299" href="#ln-299"></a>
+<a id="ln-300" name="ln-300" href="#ln-300"></a><span class="w">        </span><span class="n">c</span><span class="o">=</span><span class="n">a</span>
+<a id="ln-301" name="ln-301" href="#ln-301"></a><span class="w">        </span><span class="n">fc</span><span class="o">=</span><span class="n">fa</span>
+<a id="ln-302" name="ln-302" href="#ln-302"></a><span class="w">        </span><span class="n">d</span><span class="o">=</span><span class="n">b</span><span class="o">-</span><span class="n">a</span>
+<a id="ln-303" name="ln-303" href="#ln-303"></a><span class="w">        </span><span class="n">e</span><span class="o">=</span><span class="n">d</span>
+<a id="ln-304" name="ln-304" href="#ln-304"></a>
+<a id="ln-305" name="ln-305" href="#ln-305"></a><span class="w">        </span><span class="k">do</span>
+<a id="ln-306" name="ln-306" href="#ln-306"></a>
+<a id="ln-307" name="ln-307" href="#ln-307"></a><span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">fc</span><span class="p">)</span><span class="o">&lt;</span><span class="nb">abs</span><span class="p">(</span><span class="n">fb</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-308" name="ln-308" href="#ln-308"></a><span class="k">                </span><span class="n">a</span><span class="o">=</span><span class="n">b</span>
+<a id="ln-309" name="ln-309" href="#ln-309"></a><span class="w">                </span><span class="n">b</span><span class="o">=</span><span class="n">c</span>
+<a id="ln-310" name="ln-310" href="#ln-310"></a><span class="w">                </span><span class="n">c</span><span class="o">=</span><span class="n">a</span>
+<a id="ln-311" name="ln-311" href="#ln-311"></a><span class="w">                </span><span class="n">fa</span><span class="o">=</span><span class="n">fb</span>
+<a id="ln-312" name="ln-312" href="#ln-312"></a><span class="w">                </span><span class="n">fb</span><span class="o">=</span><span class="n">fc</span>
+<a id="ln-313" name="ln-313" href="#ln-313"></a><span class="w">                </span><span class="n">fc</span><span class="o">=</span><span class="n">fa</span>
+<a id="ln-314" name="ln-314" href="#ln-314"></a><span class="w">            </span><span class="k">end if</span>
+<a id="ln-315" name="ln-315" href="#ln-315"></a>
+<a id="ln-316" name="ln-316" href="#ln-316"></a><span class="k">            </span><span class="n">tol1</span><span class="o">=</span><span class="n">two</span><span class="o">*</span><span class="n">eps</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">+</span><span class="mf">0.5_wp</span><span class="o">*</span><span class="n">tol</span>
+<a id="ln-317" name="ln-317" href="#ln-317"></a><span class="w">            </span><span class="n">xm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5_wp</span><span class="o">*</span><span class="p">(</span><span class="n">c</span><span class="o">-</span><span class="n">b</span><span class="p">)</span>
+<a id="ln-318" name="ln-318" href="#ln-318"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="nb">abs</span><span class="p">(</span><span class="n">xm</span><span class="p">)</span><span class="o">&lt;=</span><span class="n">tol1</span><span class="p">).</span><span class="nb">or</span><span class="p">.(</span><span class="n">fb</span><span class="o">==</span><span class="n">zero</span><span class="p">))</span><span class="w"> </span><span class="k">exit</span>
+<a id="ln-319" name="ln-319" href="#ln-319"></a>
+<a id="ln-320" name="ln-320" href="#ln-320"></a><span class="w">            </span><span class="c">! see if a bisection is forced</span>
+<a id="ln-321" name="ln-321" href="#ln-321"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="nb">abs</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">&gt;=</span><span class="n">tol1</span><span class="p">).</span><span class="nb">and</span><span class="p">.(</span><span class="nb">abs</span><span class="p">(</span><span class="n">fa</span><span class="p">)</span><span class="o">&gt;</span><span class="nb">abs</span><span class="p">(</span><span class="n">fb</span><span class="p">)))</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-322" name="ln-322" href="#ln-322"></a><span class="k">                </span><span class="n">s</span><span class="o">=</span><span class="n">fb</span><span class="o">/</span><span class="n">fa</span>
+<a id="ln-323" name="ln-323" href="#ln-323"></a><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="o">/=</span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-324" name="ln-324" href="#ln-324"></a><span class="w">                    </span><span class="c">! inverse quadratic interpolation</span>
+<a id="ln-325" name="ln-325" href="#ln-325"></a><span class="w">                    </span><span class="n">q</span><span class="o">=</span><span class="n">fa</span><span class="o">/</span><span class="n">fc</span>
+<a id="ln-326" name="ln-326" href="#ln-326"></a><span class="w">                    </span><span class="n">r</span><span class="o">=</span><span class="n">fb</span><span class="o">/</span><span class="n">fc</span>
+<a id="ln-327" name="ln-327" href="#ln-327"></a><span class="w">                    </span><span class="n">p</span><span class="o">=</span><span class="n">s</span><span class="o">*</span><span class="p">(</span><span class="n">two</span><span class="o">*</span><span class="n">xm</span><span class="o">*</span><span class="n">q</span><span class="o">*</span><span class="p">(</span><span class="n">q</span><span class="o">-</span><span class="n">r</span><span class="p">)</span><span class="o">-</span><span class="p">(</span><span class="n">b</span><span class="o">-</span><span class="n">a</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">r</span><span class="o">-</span><span class="n">one</span><span class="p">))</span>
+<a id="ln-328" name="ln-328" href="#ln-328"></a><span class="w">                    </span><span class="n">q</span><span class="o">=</span><span class="p">(</span><span class="n">q</span><span class="o">-</span><span class="n">one</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">r</span><span class="o">-</span><span class="n">one</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">s</span><span class="o">-</span><span class="n">one</span><span class="p">)</span>
+<a id="ln-329" name="ln-329" href="#ln-329"></a><span class="w">                </span><span class="k">else</span>
+<a id="ln-330" name="ln-330" href="#ln-330"></a><span class="w">                    </span><span class="c">! linear interpolation</span>
+<a id="ln-331" name="ln-331" href="#ln-331"></a><span class="w">                    </span><span class="n">p</span><span class="o">=</span><span class="n">two</span><span class="o">*</span><span class="n">xm</span><span class="o">*</span><span class="n">s</span>
+<a id="ln-332" name="ln-332" href="#ln-332"></a><span class="w">                    </span><span class="n">q</span><span class="o">=</span><span class="n">one</span><span class="o">-</span><span class="n">s</span>
+<a id="ln-333" name="ln-333" href="#ln-333"></a><span class="w">                </span><span class="k">end if</span>
+<a id="ln-334" name="ln-334" href="#ln-334"></a><span class="k">                if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="o">&lt;=</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-335" name="ln-335" href="#ln-335"></a><span class="k">                    </span><span class="n">p</span><span class="o">=-</span><span class="n">p</span>
+<a id="ln-336" name="ln-336" href="#ln-336"></a><span class="w">                </span><span class="k">else</span>
+<a id="ln-337" name="ln-337" href="#ln-337"></a><span class="k">                    </span><span class="n">q</span><span class="o">=-</span><span class="n">q</span>
+<a id="ln-338" name="ln-338" href="#ln-338"></a><span class="w">                </span><span class="k">end if</span>
+<a id="ln-339" name="ln-339" href="#ln-339"></a><span class="k">                </span><span class="n">s</span><span class="o">=</span><span class="n">e</span>
+<a id="ln-340" name="ln-340" href="#ln-340"></a><span class="w">                </span><span class="n">e</span><span class="o">=</span><span class="n">d</span>
+<a id="ln-341" name="ln-341" href="#ln-341"></a><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(((</span><span class="n">two</span><span class="o">*</span><span class="n">p</span><span class="p">)</span><span class="o">&gt;=</span><span class="p">(</span><span class="n">three</span><span class="o">*</span><span class="n">xm</span><span class="o">*</span><span class="n">q</span><span class="o">-</span><span class="nb">abs</span><span class="p">(</span><span class="n">tol1</span><span class="o">*</span><span class="n">q</span><span class="p">)))</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-342" name="ln-342" href="#ln-342"></a><span class="w">                    </span><span class="p">(</span><span class="n">p</span><span class="o">&gt;=</span><span class="nb">abs</span><span class="p">(</span><span class="mf">0.5_wp</span><span class="o">*</span><span class="n">s</span><span class="o">*</span><span class="n">q</span><span class="p">)))</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-343" name="ln-343" href="#ln-343"></a><span class="k">                    </span><span class="n">d</span><span class="o">=</span><span class="n">xm</span>
+<a id="ln-344" name="ln-344" href="#ln-344"></a><span class="w">                    </span><span class="n">e</span><span class="o">=</span><span class="n">d</span>
+<a id="ln-345" name="ln-345" href="#ln-345"></a><span class="w">                </span><span class="k">else</span>
+<a id="ln-346" name="ln-346" href="#ln-346"></a><span class="k">                    </span><span class="n">d</span><span class="o">=</span><span class="n">p</span><span class="o">/</span><span class="n">q</span>
+<a id="ln-347" name="ln-347" href="#ln-347"></a><span class="w">                </span><span class="k">end if</span>
+<a id="ln-348" name="ln-348" href="#ln-348"></a><span class="k">            else</span>
+<a id="ln-349" name="ln-349" href="#ln-349"></a><span class="k">                </span><span class="n">d</span><span class="o">=</span><span class="n">xm</span>
+<a id="ln-350" name="ln-350" href="#ln-350"></a><span class="w">                </span><span class="n">e</span><span class="o">=</span><span class="n">d</span>
+<a id="ln-351" name="ln-351" href="#ln-351"></a><span class="w">            </span><span class="k">end if</span>
+<a id="ln-352" name="ln-352" href="#ln-352"></a>
+<a id="ln-353" name="ln-353" href="#ln-353"></a><span class="k">            </span><span class="n">a</span><span class="o">=</span><span class="n">b</span>
+<a id="ln-354" name="ln-354" href="#ln-354"></a><span class="w">            </span><span class="n">fa</span><span class="o">=</span><span class="n">fb</span>
+<a id="ln-355" name="ln-355" href="#ln-355"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">&lt;=</span><span class="n">tol1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-356" name="ln-356" href="#ln-356"></a><span class="k">                if</span><span class="w"> </span><span class="p">(</span><span class="n">xm</span><span class="o">&lt;=</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-357" name="ln-357" href="#ln-357"></a><span class="k">                    </span><span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="o">-</span><span class="n">tol1</span>
+<a id="ln-358" name="ln-358" href="#ln-358"></a><span class="w">                </span><span class="k">else</span>
+<a id="ln-359" name="ln-359" href="#ln-359"></a><span class="k">                    </span><span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="o">+</span><span class="n">tol1</span>
+<a id="ln-360" name="ln-360" href="#ln-360"></a><span class="w">                </span><span class="k">end if</span>
+<a id="ln-361" name="ln-361" href="#ln-361"></a><span class="k">            else</span>
+<a id="ln-362" name="ln-362" href="#ln-362"></a><span class="k">                </span><span class="n">b</span><span class="o">=</span><span class="n">b</span><span class="o">+</span><span class="n">d</span>
+<a id="ln-363" name="ln-363" href="#ln-363"></a><span class="w">            </span><span class="k">end if</span>
+<a id="ln-364" name="ln-364" href="#ln-364"></a><span class="k">            </span><span class="n">fb</span><span class="o">=</span><span class="n">me</span><span class="p">%</span><span class="n">f</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<a id="ln-365" name="ln-365" href="#ln-365"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">fb</span><span class="o">*</span><span class="p">(</span><span class="n">fc</span><span class="o">/</span><span class="nb">abs</span><span class="p">(</span><span class="n">fc</span><span class="p">)))</span><span class="o">&gt;</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-366" name="ln-366" href="#ln-366"></a><span class="k">                </span><span class="n">c</span><span class="o">=</span><span class="n">a</span>
+<a id="ln-367" name="ln-367" href="#ln-367"></a><span class="w">                </span><span class="n">fc</span><span class="o">=</span><span class="n">fa</span>
+<a id="ln-368" name="ln-368" href="#ln-368"></a><span class="w">                </span><span class="n">d</span><span class="o">=</span><span class="n">b</span><span class="o">-</span><span class="n">a</span>
+<a id="ln-369" name="ln-369" href="#ln-369"></a><span class="w">                </span><span class="n">e</span><span class="o">=</span><span class="n">d</span>
+<a id="ln-370" name="ln-370" href="#ln-370"></a><span class="w">            </span><span class="k">end if</span>
+<a id="ln-371" name="ln-371" href="#ln-371"></a>
+<a id="ln-372" name="ln-372" href="#ln-372"></a><span class="k">        end do</span>
+<a id="ln-373" name="ln-373" href="#ln-373"></a>
+<a id="ln-374" name="ln-374" href="#ln-374"></a><span class="k">        </span><span class="n">iflag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<a id="ln-375" name="ln-375" href="#ln-375"></a><span class="w">        </span><span class="n">xzero</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span>
+<a id="ln-376" name="ln-376" href="#ln-376"></a><span class="w">        </span><span class="n">fzero</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fb</span>
+<a id="ln-377" name="ln-377" href="#ln-377"></a>
+<a id="ln-378" name="ln-378" href="#ln-378"></a><span class="w">    </span><span class="k">else</span>
+<a id="ln-379" name="ln-379" href="#ln-379"></a>
+<a id="ln-380" name="ln-380" href="#ln-380"></a><span class="k">        </span><span class="n">iflag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<a id="ln-381" name="ln-381" href="#ln-381"></a><span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="n">error_unit</span><span class="p">,</span><span class="s1">&#39;(A)&#39;</span><span class="p">)&amp;</span>
+<a id="ln-382" name="ln-382" href="#ln-382"></a><span class="w">            </span><span class="s1">&#39;Error in zeroin: f(ax) and f(bx) do not have different signs.&#39;</span>
+<a id="ln-383" name="ln-383" href="#ln-383"></a>
+<a id="ln-384" name="ln-384" href="#ln-384"></a><span class="w">    </span><span class="k">end if</span>
+<a id="ln-385" name="ln-385" href="#ln-385"></a>
+<a id="ln-386" name="ln-386" href="#ln-386"></a><span class="k">    end subroutine </span><span class="n">zeroin</span>
+<a id="ln-387" name="ln-387" href="#ln-387"></a><span class="c">!*****************************************************************************************</span>
+<a id="ln-388" name="ln-388" href="#ln-388"></a>
+<a id="ln-389" name="ln-389" href="#ln-389"></a><span class="c">!*****************************************************************************************</span>
+<a id="ln-390" name="ln-390" href="#ln-390"></a><span class="c">!&gt; author: Jacob Williams</span>
+<a id="ln-391" name="ln-391" href="#ln-391"></a><span class="c">!  date: 7/16/2014</span>
+<a id="ln-392" name="ln-392" href="#ln-392"></a><span class="c">!</span>
+<a id="ln-393" name="ln-393" href="#ln-393"></a><span class="c">!  Test of the [[fmin]] and [[zeroin]] functions.</span>
+<a id="ln-394" name="ln-394" href="#ln-394"></a>
+<a id="ln-395" name="ln-395" href="#ln-395"></a><span class="w">    </span><span class="k">subroutine </span><span class="n">brent_test</span><span class="p">()</span>
+<a id="ln-396" name="ln-396" href="#ln-396"></a>
+<a id="ln-397" name="ln-397" href="#ln-397"></a><span class="w">    </span><span class="k">implicit none</span>
+<a id="ln-398" name="ln-398" href="#ln-398"></a>
+<a id="ln-399" name="ln-399" href="#ln-399"></a><span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="n">fzero</span>
+<a id="ln-400" name="ln-400" href="#ln-400"></a><span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iflag</span>
+<a id="ln-401" name="ln-401" href="#ln-401"></a>
+<a id="ln-402" name="ln-402" href="#ln-402"></a><span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<a id="ln-403" name="ln-403" href="#ln-403"></a><span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">bx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="o">*</span><span class="n">pi</span>
+<a id="ln-404" name="ln-404" href="#ln-404"></a><span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0e-6_wp</span>
+<a id="ln-405" name="ln-405" href="#ln-405"></a>
+<a id="ln-406" name="ln-406" href="#ln-406"></a><span class="w">    </span><span class="k">type</span><span class="p">,</span><span class="k">extends</span><span class="p">(</span><span class="n">brent_class</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">myfunc_type</span>
+<a id="ln-407" name="ln-407" href="#ln-407"></a><span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w">    </span><span class="c">!! function counter</span>
+<a id="ln-408" name="ln-408" href="#ln-408"></a><span class="w">    </span><span class="k">end type </span><span class="n">myfunc_type</span>
+<a id="ln-409" name="ln-409" href="#ln-409"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">myfunc_type</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">myfunc</span>
+<a id="ln-410" name="ln-410" href="#ln-410"></a>
+<a id="ln-411" name="ln-411" href="#ln-411"></a><span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<a id="ln-412" name="ln-412" href="#ln-412"></a><span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;---------------&#39;</span>
+<a id="ln-413" name="ln-413" href="#ln-413"></a><span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39; brent_test&#39;</span>
+<a id="ln-414" name="ln-414" href="#ln-414"></a><span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;---------------&#39;</span>
+<a id="ln-415" name="ln-415" href="#ln-415"></a><span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<a id="ln-416" name="ln-416" href="#ln-416"></a>
+<a id="ln-417" name="ln-417" href="#ln-417"></a><span class="w">    </span><span class="k">call </span><span class="n">myfunc</span><span class="p">%</span><span class="n">set_function</span><span class="p">(</span><span class="n">sin_func</span><span class="p">)</span><span class="w">    </span><span class="c">!set the function</span>
+<a id="ln-418" name="ln-418" href="#ln-418"></a>
+<a id="ln-419" name="ln-419" href="#ln-419"></a><span class="w">    </span><span class="c">!call fmin:</span>
+<a id="ln-420" name="ln-420" href="#ln-420"></a><span class="w">    </span><span class="c">! [the minimum is at 270 deg]</span>
+<a id="ln-421" name="ln-421" href="#ln-421"></a><span class="w">    </span><span class="n">myfunc</span><span class="p">%</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<a id="ln-422" name="ln-422" href="#ln-422"></a><span class="w">    </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myfunc</span><span class="p">%</span><span class="n">minimize</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">bx</span><span class="p">,</span><span class="n">tol</span><span class="p">)</span>
+<a id="ln-423" name="ln-423" href="#ln-423"></a><span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;minimum of sin(x) at: &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="o">*</span><span class="mi">18</span><span class="mf">0.0_wp</span><span class="o">/</span><span class="n">pi</span><span class="p">,</span><span class="s1">&#39; deg&#39;</span>
+<a id="ln-424" name="ln-424" href="#ln-424"></a><span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;number of function calls: &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">myfunc</span><span class="p">%</span><span class="n">i</span>
+<a id="ln-425" name="ln-425" href="#ln-425"></a>
+<a id="ln-426" name="ln-426" href="#ln-426"></a><span class="w">    </span><span class="c">!call zeroin:</span>
+<a id="ln-427" name="ln-427" href="#ln-427"></a><span class="w">    </span><span class="c">! [the root is at pi]</span>
+<a id="ln-428" name="ln-428" href="#ln-428"></a><span class="w">    </span><span class="n">myfunc</span><span class="p">%</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<a id="ln-429" name="ln-429" href="#ln-429"></a><span class="w">    </span><span class="k">call </span><span class="n">myfunc</span><span class="p">%</span><span class="n">find_zero</span><span class="p">(</span><span class="n">ax</span><span class="o">+</span><span class="mf">0.0001_wp</span><span class="p">,</span><span class="n">bx</span><span class="o">/</span><span class="n">two</span><span class="o">+</span><span class="mf">0.0002</span><span class="p">,</span><span class="n">tol</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">fzero</span><span class="p">,</span><span class="n">iflag</span><span class="p">)</span>
+<a id="ln-430" name="ln-430" href="#ln-430"></a><span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;root of sin(x) at: &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="o">*</span><span class="mi">18</span><span class="mf">0.0_wp</span><span class="o">/</span><span class="n">pi</span><span class="p">,</span><span class="s1">&#39; deg&#39;</span>
+<a id="ln-431" name="ln-431" href="#ln-431"></a><span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;number of function calls: &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">myfunc</span><span class="p">%</span><span class="n">i</span>
+<a id="ln-432" name="ln-432" href="#ln-432"></a>
+<a id="ln-433" name="ln-433" href="#ln-433"></a><span class="w">    </span><span class="k">contains</span>
+<a id="ln-434" name="ln-434" href="#ln-434"></a>
+<a id="ln-435" name="ln-435" href="#ln-435"></a><span class="k">        function </span><span class="n">sin_func</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<a id="ln-436" name="ln-436" href="#ln-436"></a><span class="w">        </span><span class="c">!! Example function to minimize: sin(x)</span>
+<a id="ln-437" name="ln-437" href="#ln-437"></a>
+<a id="ln-438" name="ln-438" href="#ln-438"></a><span class="w">        </span><span class="k">implicit none</span>
+<a id="ln-439" name="ln-439" href="#ln-439"></a>
+<a id="ln-440" name="ln-440" href="#ln-440"></a><span class="k">        class</span><span class="p">(</span><span class="n">brent_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span>
+<a id="ln-441" name="ln-441" href="#ln-441"></a><span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span>
+<a id="ln-442" name="ln-442" href="#ln-442"></a><span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">f</span>
+<a id="ln-443" name="ln-443" href="#ln-443"></a>
+<a id="ln-444" name="ln-444" href="#ln-444"></a><span class="w">        </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<a id="ln-445" name="ln-445" href="#ln-445"></a>
+<a id="ln-446" name="ln-446" href="#ln-446"></a><span class="w">        </span><span class="k">select type</span><span class="w"> </span><span class="p">(</span><span class="n">me</span><span class="p">)</span>
+<a id="ln-447" name="ln-447" href="#ln-447"></a><span class="w">        </span><span class="k">class is</span><span class="w"> </span><span class="p">(</span><span class="n">myfunc_type</span><span class="p">)</span>
+<a id="ln-448" name="ln-448" href="#ln-448"></a><span class="w">            </span><span class="n">me</span><span class="p">%</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="c">!number of function calls</span>
+<a id="ln-449" name="ln-449" href="#ln-449"></a><span class="w">        </span><span class="k">end select</span>
+<a id="ln-450" name="ln-450" href="#ln-450"></a>
+<a id="ln-451" name="ln-451" href="#ln-451"></a><span class="k">        end function </span><span class="n">sin_func</span>
+<a id="ln-452" name="ln-452" href="#ln-452"></a>
+<a id="ln-453" name="ln-453" href="#ln-453"></a><span class="w">    </span><span class="k">end subroutine </span><span class="n">brent_test</span>
+<a id="ln-454" name="ln-454" href="#ln-454"></a><span class="w"> </span><span class="c">!*****************************************************************************************</span>
+<a id="ln-455" name="ln-455" href="#ln-455"></a>
+<a id="ln-456" name="ln-456" href="#ln-456"></a><span class="c">!*****************************************************************************************</span>
+<a id="ln-457" name="ln-457" href="#ln-457"></a><span class="w">    </span><span class="k">end module </span><span class="n">brent_module</span>
+<a id="ln-458" name="ln-458" href="#ln-458"></a><span class="c">!*****************************************************************************************</span>
+</pre></div>
+
+      </section>
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>
