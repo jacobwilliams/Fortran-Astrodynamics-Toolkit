@@ -19,7 +19,6 @@ display: public
          private
 source: true
 graph: true
-exclude: pyplot_module.f90
 exclude_dir: ./tests
 extra_mods: pyplot_module:https://github.com/jacobwilliams/pyplot-fortran
             iso_fortran_env:https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html

@@ -853,7 +853,7 @@ end subroutine philambda_quadrant
     subroutine xyz2philambda(ax, ay, b, x, y, z, phi, lambda)
 
      real(wp),intent(in) :: ax, ay, b, x, y, z
-     real(wp),intent(inout) :: phi, lambda !! input: initial guess, output: refined values
+     real(wp),intent(inout) :: phi, lambda !! input is initial guess, output is refined values
 
      real(wp) :: ee2,ex2,Sphi,Cphi,Slambda,Clambda,&
                  Den,NN,onemee2,onemex2,dndphi,dxdphi,&
