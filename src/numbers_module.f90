@@ -30,8 +30,8 @@
                                                                           !! constant \( km^3/kg-s^2  \)
 
     real(wp),parameter,public :: c_light = 299792.458_wp !! speed of light in km/s
-    real(wp),parameter,public :: solar_luminosity = 3.8275e+26_wp !! solar luminosity (W)
-        !! see: "Resolution B3 on recommended nominal conversion constants for selected solar and planetary properties". IAU. 2015, which has: 3.8274 (+/- 0.0014) x 10^26 W.
+    real(wp),parameter,public :: solar_luminosity = 3.828+26_wp !! nominal solar luminosity (W)
+        !! see: "Resolution B3 on recommended nominal conversion constants for selected solar and planetary properties". IAU. 2015
 
     !> 3x3 identity matrix:
     real(wp),dimension(3,3),parameter,public :: identity_3x3 = reshape(&
