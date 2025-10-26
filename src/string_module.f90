@@ -16,6 +16,7 @@
     public :: replace_char
     public :: reverse
     public :: lchop, rchop
+    public :: strip
 
     contains
 !*****************************************************************************************
@@ -150,6 +151,60 @@
     end if
 
     end function reverse
+!*****************************************************************************************
+
+!*****************************************************************************************
+!>
+!  Strip all occurances of chars from the beginning and end of the string.
+
+    pure function strip(str, chars) result(newstr)
+
+    character(len=*),intent(in) :: str  !! original string
+    character(len=*),intent(in),optional :: chars !! characters to strip
+    character(len=:),allocatable :: newstr !! new string
+
+    integer :: i !! counter
+    integer :: n !! length of str
+    integer :: idx !! for using scan
+    integer :: start_idx, end_idx  !! substring to keep
+
+    if (present(chars)) then
+        if (chars /= '') then
+            ! have to step through manually from beginning and end
+            n = len(str)
+            start_idx = 1
+            end_idx = n
+            ! forward search
+            do i = 1, n
+                idx = scan(str(i:i), chars)
+                if (idx > 0) then
+                    start_idx = start_idx + 1
+                else
+                    exit
+                end if
+            end do
+            ! backward search
+            do i = n, 1, -1
+                idx = scan(str(i:i), chars)
+                if (idx > 0) then
+                    end_idx = end_idx - 1
+                else
+                    exit
+                end if
+            end do
+            if (end_idx <= start_idx) then
+                newstr = ''  ! all stripped
+            else
+                newstr = str(start_idx:end_idx)  ! return substring
+            end if
+            return ! done
+        end if
+    end if
+
+    ! in this case assuming it's a space, so use intrinsic functions
+    newstr = trim(adjustl(str))
+
+    end function strip
 !*****************************************************************************************
 
 !*****************************************************************************************
