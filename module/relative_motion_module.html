@@ -1,0 +1,4762 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>relative_motion_module &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>relative_motion_module
+      <small>Module</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+            <li class="list-inline-item" id="meta-author"><i class="fa fa-pencil"></i> Jacob Williams</li>
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 3.1% of total for modules and submodules.">449 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/relative_motion_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/relative_motion_module.f90.html'>relative_motion_module.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">relative_motion_module</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#inters-0"
+         aria-expanded="false" aria-controls="inters-0">
+         <h4 class="card-header bg-primary text-white">Interfaces</h4>
+      </a>
+      <div id="inters-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/relative_motion_module.html#interface-from_ijk_to_lvlh">from_ijk_to_lvlh</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#interface-from_lvlh_to_ijk">from_lvlh_to_ijk</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#interface-from_ijk_to_rsw">from_ijk_to_rsw</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#interface-from_rsw_to_ijk">from_rsw_to_ijk</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#interface-from_lvlh_to_rsw">from_lvlh_to_rsw</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#interface-from_rsw_to_lvlh">from_rsw_to_lvlh</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#interface-from_ijk_to_vuw">from_ijk_to_vuw</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#interface-from_vuw_to_ijk">from_vuw_to_ijk</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#absints-0"
+         aria-expanded="false" aria-controls="absints-0">
+         <h4 class="card-header bg-primary text-white">Abstract Interfaces</h4>
+      </a>
+      <div id="absints-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/relative_motion_module.html#interface-report_func~2">report_func</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#interface-frame_transform_func">frame_transform_func</a>
+        </div>
+      </div>
+    </div>
+
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/relative_motion_module.html#proc-cw_equations">cw_equations</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/relative_motion_module.html#proc-cw_propagator">cw_propagator</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#proc-from_ijk_to_frame_rv">from_ijk_to_frame_rv</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#proc-from_frame_to_ijk_rv">from_frame_to_ijk_rv</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#proc-from_ijk_to_lvlh_mat">from_ijk_to_lvlh_mat</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#proc-from_ijk_to_lvlh_rv">from_ijk_to_lvlh_rv</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#proc-from_lvlh_to_ijk_mat">from_lvlh_to_ijk_mat</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#proc-from_lvlh_to_ijk_rv">from_lvlh_to_ijk_rv</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#proc-from_ijk_to_vuw_mat">from_ijk_to_vuw_mat</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#proc-from_ijk_to_vuw_rv">from_ijk_to_vuw_rv</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#proc-from_vuw_to_ijk_mat">from_vuw_to_ijk_mat</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#proc-from_vuw_to_ijk_rv">from_vuw_to_ijk_rv</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#proc-from_ijk_to_rsw_mat">from_ijk_to_rsw_mat</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#proc-from_ijk_to_rsw_rv">from_ijk_to_rsw_rv</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#proc-from_rsw_to_ijk_mat">from_rsw_to_ijk_mat</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#proc-from_rsw_to_ijk_rv">from_rsw_to_ijk_rv</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#proc-from_rsw_to_lvlh_rv">from_rsw_to_lvlh_rv</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#proc-from_lvlh_to_rsw_rv">from_lvlh_to_rsw_rv</a>
+            <a class="list-group-item" href="../module/relative_motion_module.html#proc-relative_motion_test">relative_motion_test</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <p>This module contains various routines related to relative motion.</p>
+<h2>Axis systems</h2>
+<p>Three different axis systems are used here.  They are:</p>
+<ul>
+<li>
+<p>The <strong>IJK</strong> frame</p>
+</li>
+<li>
+<p>The <strong>LVLH</strong> frame, defined by:</p>
+<ul>
+<li>x-axis : completes the right handed system
+   (for a perfectly-circular orbit, the x-axis is <script type="math/tex"> \hat{\mathbf{v}} </script>)</li>
+<li>y-axis : <script type="math/tex"> -\hat{\mathbf{h}} </script>
+</li>
+<li>z-axis : <script type="math/tex"> -\hat{\mathbf{r}} </script>
+</li>
+</ul>
+</li>
+<li>
+<p>The <strong>RSW</strong> frame, defined by:</p>
+<ul>
+<li>x-axis : <script type="math/tex"> \hat{\mathbf{r}} </script>
+</li>
+<li>y-axis : completes the right handed system
+   (for a perfectly-circular orbit, the y-axis is <script type="math/tex"> \hat{\mathbf{v}} </script>)</li>
+<li>z-axis : <script type="math/tex"> \hat{\mathbf{h}} </script>
+</li>
+</ul>
+</li>
+<li>
+<p>The <strong>VUW</strong> frame, defined by:</p>
+<ul>
+<li>x-axis : <script type="math/tex"> \hat{\mathbf{v}} </script>
+</li>
+<li>y-axis : completes the right handed system</li>
+<li>z-axis : <script type="math/tex"> \hat{\mathbf{h}} </script>
+</li>
+</ul>
+</li>
+</ul>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='numbers_module.html'>numbers_module</a></li>
+                  <li class="list-inline-item"><a href='kind_module.html'>kind_module</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~relative_motion_module~~UsesGraph Pages: 1 -->
+<svg id="modulerelative_motion_moduleUsesGraph" width="538pt" height="52pt"
+ viewBox="0.00 0.00 538.00 52.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~relative_motion_module~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 48)">
+<title>module~~relative_motion_module~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-48 534,-48 534,4 -4,4"/>
+<!-- module~relative_motion_module -->
+<g id="module~~relative_motion_module~~UsesGraph_node1" class="node">
+<title>module~relative_motion_module</title>
+<polygon fill="none" stroke="black" points="530,-44 389,-44 389,-20 530,-20 530,-44"/>
+<text text-anchor="middle" x="459.5" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50">relative_motion_module</text>
+</g>
+<!-- module~kind_module -->
+<g id="module~~relative_motion_module~~UsesGraph_node2" class="node">
+<title>module~kind_module</title>
+<g id="a_module~~relative_motion_module~~UsesGraph_node2"><a xlink:href="../module/kind_module.html" xlink:title="kind_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="211,-44 130,-44 130,-20 211,-20 211,-44"/>
+<text text-anchor="middle" x="170.5" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module</text>
+</a>
+</g>
+</g>
+<!-- module~relative_motion_module&#45;&gt;module~kind_module -->
+<g id="module~~relative_motion_module~~UsesGraph_edge1" class="edge">
+<title>module~relative_motion_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M388.98,-32.75C376.98,-32.86 364.63,-32.94 353,-33 305.89,-33.22 294.11,-33.31 247,-33 238.71,-32.95 229.9,-32.86 221.34,-32.75"/>
+<polygon fill="#000000" stroke="#000000" points="221.12,-29.25 211.07,-32.62 221.03,-36.25 221.12,-29.25"/>
+</g>
+<!-- module~numbers_module -->
+<g id="module~~relative_motion_module~~UsesGraph_node3" class="node">
+<title>module~numbers_module</title>
+<g id="a_module~~relative_motion_module~~UsesGraph_node3"><a xlink:href="../module/numbers_module.html" xlink:title="numbers_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="353,-24 247,-24 247,0 353,0 353,-24"/>
+<text text-anchor="middle" x="300" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module</text>
+</a>
+</g>
+</g>
+<!-- module~relative_motion_module&#45;&gt;module~numbers_module -->
+<g id="module~~relative_motion_module~~UsesGraph_edge2" class="edge">
+<title>module~relative_motion_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M388.96,-23.17C380.41,-22.08 371.71,-20.98 363.27,-19.91"/>
+<polygon fill="#000000" stroke="#000000" points="363.5,-16.41 353.14,-18.62 362.62,-23.35 363.5,-16.41"/>
+</g>
+<!-- iso_fortran_env -->
+<g id="module~~relative_motion_module~~UsesGraph_node4" class="node">
+<title>iso_fortran_env</title>
+<g id="a_module~~relative_motion_module~~UsesGraph_node4"><a xlink:href="http://fortranwiki.org/fortran/show/iso_fortran_env" xlink:title="iso_fortran_env">
+<polygon fill="#337ab7" stroke="#337ab7" points="94,-44 0,-44 0,-20 94,-20 94,-44"/>
+<text text-anchor="middle" x="47" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
+</a>
+</g>
+</g>
+<!-- module~kind_module&#45;&gt;iso_fortran_env -->
+<g id="module~~relative_motion_module~~UsesGraph_edge3" class="edge">
+<title>module~kind_module&#45;&gt;iso_fortran_env</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M129.72,-32C121.56,-32 112.83,-32 104.21,-32"/>
+<polygon fill="#000000" stroke="#000000" points="104.2,-28.5 94.2,-32 104.2,-35.5 104.2,-28.5"/>
+</g>
+<!-- module~numbers_module&#45;&gt;module~kind_module -->
+<g id="module~~relative_motion_module~~UsesGraph_edge4" class="edge">
+<title>module~numbers_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M246.77,-20.19C238.36,-21.51 229.68,-22.87 221.33,-24.18"/>
+<polygon fill="#000000" stroke="#000000" points="220.68,-20.74 211.35,-25.75 221.77,-27.66 220.68,-20.74"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~relative_motion_module~~UsedByGraph Pages: 1 -->
+<svg id="modulerelative_motion_moduleUsedByGraph" width="355pt" height="32pt"
+ viewBox="0.00 0.00 355.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~relative_motion_module~~UsedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>module~~relative_motion_module~~UsedByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 351,-28 351,4 -4,4"/>
+<!-- module~relative_motion_module -->
+<g id="module~~relative_motion_module~~UsedByGraph_node1" class="node">
+<title>module~relative_motion_module</title>
+<polygon fill="none" stroke="black" points="141,-24 0,-24 0,0 141,0 141,-24"/>
+<text text-anchor="middle" x="70.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">relative_motion_module</text>
+</g>
+<!-- module~fortran_astrodynamics_toolkit -->
+<g id="module~~relative_motion_module~~UsedByGraph_node2" class="node">
+<title>module~fortran_astrodynamics_toolkit</title>
+<g id="a_module~~relative_motion_module~~UsedByGraph_node2"><a xlink:href="../module/fortran_astrodynamics_toolkit.html" xlink:title="fortran_astrodynamics_toolkit">
+<polygon fill="#337ab7" stroke="#337ab7" points="347,-24 177,-24 177,0 347,0 347,-24"/>
+<text text-anchor="middle" x="262" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fortran_astrodynamics_toolkit</text>
+</a>
+</g>
+</g>
+<!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~relative_motion_module -->
+<g id="module~~relative_motion_module~~UsedByGraph_edge1" class="edge">
+<title>module~fortran_astrodynamics_toolkit&#45;&gt;module~relative_motion_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M176.78,-12C168.35,-12 159.8,-12 151.41,-12"/>
+<polygon fill="#000000" stroke="#000000" points="151.28,-8.5 141.28,-12 151.28,-15.5 151.28,-8.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      <br>
+
+
+
+
+        <section>
+          <h2>Interfaces</h2>
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-from_ijk_to_lvlh"></span>
+      <h3>public        interface <a href='../interface/from_ijk_to_lvlh.html'>from_ijk_to_lvlh</a> 
+      </h3>
+    </div>
+      <div class="card-body">
+        <p>Conversion from IJK to LVLH</p>
+      </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/from_ijk_to_lvlh_mat.html'>from_ijk_to_lvlh_mat</a>(mu, r, v, a, c, cdot)  
+
+    </h3>
+        <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>4/19/2014</dd>
+    </dl>
+
+  <p>Compute the transformation matrices to convert IJK to LVLH.</p>
+<h1>See also</h1>
+<ul>
+<li><a href="http://degenerateconic.com/wp-content/uploads/2015/03/lvlh.pdf">LVLH Transformations</a></li>
+</ul>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~47"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~57"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+<p>position vector of target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v~22"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v</strong></td>
+            <td>
+<p>velocity vector of target [km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~42"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+<p>acceleration vector of target [km/s^2]
+(if not present, then a torque-free force model is assumed)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~51"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+<p>C transformation matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot~12"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+<p>CDOT transformation matrix</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/from_ijk_to_lvlh_rv.html'>from_ijk_to_lvlh_rv</a>(mu, rt_ijk, vt_ijk, r_ijk, v_ijk, dr_lvlh, dv_lvlh)  
+
+    </h3>
+        <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>8/23/2014</dd>
+    </dl>
+
+  <p>Transform a position (and optionally velocity) vector from IJK to LVLH.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~48"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rt_ijk~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>rt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vt_ijk~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>vt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r_ijk~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v_ijk~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_lvlh"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_lvlh</strong></td>
+            <td>
+<p>Chaser LVLH position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_lvlh"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_lvlh</strong></td>
+            <td>
+<p>Chaser LVLH position vector relative to target [km]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-from_lvlh_to_ijk"></span>
+      <h3>public        interface <a href='../interface/from_lvlh_to_ijk.html'>from_lvlh_to_ijk</a> 
+      </h3>
+    </div>
+      <div class="card-body">
+        <p>Conversion from LVLH to IJK</p>
+      </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/from_lvlh_to_ijk_mat.html'>from_lvlh_to_ijk_mat</a>(mu, r, v, a, c, cdot)  
+
+    </h3>
+        <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>4/19/2014</dd>
+    </dl>
+
+  <p>Compute the transformation matrices to convert LVLH to IJK.</p>
+<h1>See also</h1>
+<ul>
+<li><a href="http://degenerateconic.com/wp-content/uploads/2015/03/lvlh.pdf">LVLH Transformations</a></li>
+</ul>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~49"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~58"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+<p>position vector of target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v~23"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v</strong></td>
+            <td>
+<p>velocity vector of target [km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~43"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+<p>acceleration vector of target [km/s^2]
+(if not present, then a torque-free force model is assumed)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~52"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+<p>C transformation matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot~13"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+<p>CDOT transformation matrix</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/from_lvlh_to_ijk_rv.html'>from_lvlh_to_ijk_rv</a>(mu, rt_ijk, vt_ijk, dr_lvlh, dv_lvlh, r_ijk, v_ijk)  
+
+    </h3>
+        <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>8/23/2014</dd>
+    </dl>
+
+  <p>Transform a position (and optionally velocity) vector from LVLH to IJK.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~50"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rt_ijk~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>rt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vt_ijk~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>vt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_lvlh~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_lvlh</strong></td>
+            <td>
+<p>Chaser LVLH position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_lvlh~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_lvlh</strong></td>
+            <td>
+<p>Chaser LVLH position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r_ijk~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v_ijk~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-from_ijk_to_rsw"></span>
+      <h3>public        interface <a href='../interface/from_ijk_to_rsw.html'>from_ijk_to_rsw</a> 
+      </h3>
+    </div>
+      <div class="card-body">
+        <p>Conversion from IJK to RSW</p>
+      </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/from_ijk_to_rsw_mat.html'>from_ijk_to_rsw_mat</a>(mu, r, v, a, c, cdot)  
+
+    </h3>
+        <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>4/19/2014</dd>
+    </dl>
+
+  <p>Compute the transformation matrices to convert IJK to RSW.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~55"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~61"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+<p>position vector of target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v~26"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v</strong></td>
+            <td>
+<p>velocity vector of target [km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~46"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+<p>acceleration vector of target [km/s^2]
+(if not present, then a torque-free force model is assumed)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~55"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+<p>C transformation matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot~16"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+<p>CDOT transformation matrix</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/from_ijk_to_rsw_rv.html'>from_ijk_to_rsw_rv</a>(mu, rt_ijk, vt_ijk, r_ijk, v_ijk, dr_rsw, dv_rsw)  
+
+    </h3>
+        <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>8/23/2014</dd>
+    </dl>
+
+  <p>Transform a position (and optionally velocity) vector from IJK to RSW.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~56"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rt_ijk~7"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>rt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vt_ijk~7"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>vt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r_ijk~7"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v_ijk~7"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_rsw"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_rsw</strong></td>
+            <td>
+<p>Chaser RSW position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_rsw"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_rsw</strong></td>
+            <td>
+<p>Chaser RSW position vector relative to target [km]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-from_rsw_to_ijk"></span>
+      <h3>public        interface <a href='../interface/from_rsw_to_ijk.html'>from_rsw_to_ijk</a> 
+      </h3>
+    </div>
+      <div class="card-body">
+        <p>Conversion from RSW to IJK</p>
+      </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/from_rsw_to_ijk_mat.html'>from_rsw_to_ijk_mat</a>(mu, r, v, a, c, cdot)  
+
+    </h3>
+        <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>4/19/2014</dd>
+    </dl>
+
+  <p>Compute the transformation matrices to convert RSW to IJK.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~57"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~62"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+<p>position vector of target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v~27"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v</strong></td>
+            <td>
+<p>velocity vector of target [km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~47"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+<p>acceleration vector of target [km/s^2]
+(if not present, then a torque-free force model is assumed)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~56"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+<p>C transformation matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot~17"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+<p>CDOT transformation matrix</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/from_rsw_to_ijk_rv.html'>from_rsw_to_ijk_rv</a>(mu, rt_ijk, vt_ijk, dr_rsw, dv_rsw, r_ijk, v_ijk)  
+
+    </h3>
+        <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>8/23/2014</dd>
+    </dl>
+
+  <p>Transform a position (and optionally velocity) vector from RSW to IJK.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~58"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rt_ijk~8"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>rt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vt_ijk~8"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>vt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_rsw~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_rsw</strong></td>
+            <td>
+<p>Chaser RSW position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_rsw~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_rsw</strong></td>
+            <td>
+<p>Chaser RSW velocity vector [km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r_ijk~8"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v_ijk~8"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute velocity vector [km/s]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-from_lvlh_to_rsw"></span>
+      <h3>public        interface <a href='../interface/from_lvlh_to_rsw.html'>from_lvlh_to_rsw</a> 
+      </h3>
+    </div>
+      <div class="card-body">
+        <p>Conversion from LVLH to RSW</p>
+      </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/from_lvlh_to_rsw_rv.html'>from_lvlh_to_rsw_rv</a>(dr_lvlh, dv_lvlh, dr_rsw, dv_rsw)  
+
+    </h3>
+        <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>8/23/2014</dd>
+    </dl>
+
+  <p>Transform a position (and optionally velocity) vector from LVLH to RSW.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_lvlh~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_lvlh</strong></td>
+            <td>
+<p>Chaser LVLH position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_lvlh~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_lvlh</strong></td>
+            <td>
+<p>Chaser LVLH position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_rsw~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_rsw</strong></td>
+            <td>
+<p>Chaser RSW position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_rsw~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_rsw</strong></td>
+            <td>
+<p>Chaser RSW velocity vector relative to target [km/s]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-from_rsw_to_lvlh"></span>
+      <h3>public        interface <a href='../interface/from_rsw_to_lvlh.html'>from_rsw_to_lvlh</a> 
+      </h3>
+    </div>
+      <div class="card-body">
+        <p>Conversion from RSW to LVLH</p>
+      </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/from_rsw_to_lvlh_rv.html'>from_rsw_to_lvlh_rv</a>(dr_rsw, dv_rsw, dr_lvlh, dv_lvlh)  
+
+    </h3>
+        <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>8/23/2014</dd>
+    </dl>
+
+  <p>Transform a position (and optionally velocity) vector from RSW to LVLH.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_rsw~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_rsw</strong></td>
+            <td>
+<p>Chaser RSW position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_rsw~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_rsw</strong></td>
+            <td>
+<p>Chaser RSW velocity vector relative to target [km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_lvlh~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_lvlh</strong></td>
+            <td>
+<p>Chaser LVLH position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_lvlh~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_lvlh</strong></td>
+            <td>
+<p>Chaser LVLH position vector relative to target [km]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-from_ijk_to_vuw"></span>
+      <h3>public        interface <a href='../interface/from_ijk_to_vuw.html'>from_ijk_to_vuw</a> 
+      </h3>
+    </div>
+      <div class="card-body">
+        <p>Conversion from IJK to vuw</p>
+      </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/from_ijk_to_vuw_mat.html'>from_ijk_to_vuw_mat</a>(mu, r, v, a, c, cdot)  
+
+    </h3>
+    
+  <p>Compute the transformation matrices to convert IJK to vuw.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~51"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]
+this is used here to assume instantaneous conic motion if <code>a</code> is not present.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~59"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+<p>position vector of target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v~24"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v</strong></td>
+            <td>
+<p>velocity vector of target [km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~44"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+<p>acceleration vector of target [km/s^2]
+(if not present, then a torque-free force model is assumed)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~53"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+<p>C transformation matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot~14"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+<p>CDOT transformation matrix</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/from_ijk_to_vuw_rv.html'>from_ijk_to_vuw_rv</a>(mu, rt_ijk, vt_ijk, r_ijk, v_ijk, dr_vuw, dv_vuw)  
+
+    </h3>
+    
+  <p>Transform a position (and optionally velocity) vector from IJK to VUW.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~52"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rt_ijk~5"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>rt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vt_ijk~5"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>vt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r_ijk~5"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v_ijk~5"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_vuw"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_vuw</strong></td>
+            <td>
+<p>Chaser vuw position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_vuw"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_vuw</strong></td>
+            <td>
+<p>Chaser vuw position vector relative to target [km]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-from_vuw_to_ijk"></span>
+      <h3>public        interface <a href='../interface/from_vuw_to_ijk.html'>from_vuw_to_ijk</a> 
+      </h3>
+    </div>
+      <div class="card-body">
+        <p>Conversion from vuw to IJK</p>
+      </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/from_vuw_to_ijk_mat.html'>from_vuw_to_ijk_mat</a>(mu, r, v, a, c, cdot)  
+
+    </h3>
+    
+  <p>Compute the transformation matrices to convert VUW to IJK.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~53"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~60"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+<p>position vector of target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v~25"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v</strong></td>
+            <td>
+<p>velocity vector of target [km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~45"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+<p>acceleration vector of target [km/s^2]
+(if not present, then a torque-free force model is assumed)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~54"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+<p>C transformation matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot~15"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+<p>CDOT transformation matrix</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/from_vuw_to_ijk_rv.html'>from_vuw_to_ijk_rv</a>(mu, rt_ijk, vt_ijk, dr_vuw, dv_vuw, r_ijk, v_ijk)  
+
+    </h3>
+    
+  <p>Transform a position (and optionally velocity) vector from VUW to IJK.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~54"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rt_ijk~6"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>rt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vt_ijk~6"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>vt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_vuw~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_vuw</strong></td>
+            <td>
+<p>Chaser vuw position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_vuw~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_vuw</strong></td>
+            <td>
+<p>Chaser vuw position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r_ijk~6"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v_ijk~6"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+    </ul>
+  </div>
+
+        </section>
+        <br>
+
+        <section>
+          <h2>Abstract Interfaces</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="interface-report_func~2"></span><h3>abstract interface
+        
+    </h3></div>
+    <ul class="list-group">
+      <li class="list-group-item">
+            <h3>
+    private  subroutine report_func(t, rv)  
+
+    </h3>
+  <p>for reporting the points in the <a href="../proc/cw_propagator.html">cw_propagator</a>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t~39"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>t</strong></td>
+            <td>
+                <p>time [sec]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rv~17"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>rv</strong></td>
+            <td>
+                <p>state [km,km/s]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+      </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="interface-frame_transform_func"></span><h3>abstract interface
+        
+    </h3></div>
+    <ul class="list-group">
+      <li class="list-group-item">
+            <h3>
+    private  subroutine frame_transform_func(mu, r, v, a, c, cdot)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~44"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+                <p>gravitational parameter [km^3/s^2] [not used by all algorithms]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~56"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+                <p>position vector of target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v~21"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v</strong></td>
+            <td>
+                <p>velocity vector of target [km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~41"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+                <p>acceleration vector of target [km/s^2]
+(if not present, then a torque-free force model is assumed)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~48"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+                <p>C transformation matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot~9"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+                <p>CDOT transformation matrix</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+      </li>
+    </ul>
+  </div>
+
+        </section>
+        <br>
+
+
+        <section>
+          <h2>Functions</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-cw_equations"></span> <h3>public  function <a href='../proc/cw_equations.html'>cw_equations</a>(x0, dt, n) result(x)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>6/14/2015</dd>
+    </dl>
+
+  <p>Clohessy-Wiltshire equations for relative motion.</p><a href="../proc/cw_equations.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x0~11"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>x0</strong></td>
+            <td>
+<p>initial state [r,v] of chaser (at t0) [km, km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dt~15"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dt</strong></td>
+            <td>
+<p>elapsed time from t0 [sec]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~67"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+<p>mean motion of target orbit (<code>sqrt(mu/a**3)</code>) [1/sec]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp), dimension(6)</small>
+    </h4>
+    <p>final state [r,v] of chaser [km, km/s]</p>
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+        <section>
+          <h2>Subroutines</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-cw_propagator"></span> <h3>public  subroutine <a href='../proc/cw_propagator.html'>cw_propagator</a>(t0, x0, h, n, tf, xf, report)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>8/23/2015</dd>
+    </dl>
+
+  <p>Clohessy-Wiltshire propagation routine.</p><a href="../proc/cw_propagator.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t0~9"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>t0</strong></td>
+            <td>
+<p>initialize time [sec]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x0~12"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>x0</strong></td>
+            <td>
+<p>initial state in RST coordinates [km,km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-h~24"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>h</strong></td>
+            <td>
+<p>abs(time step) [sec]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~68"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+<p>mean motion of target orbit (<code>sqrt(mu/a**3)</code>) [1/sec]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tf~5"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tf</strong></td>
+            <td>
+<p>final time [sec]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-xf~11"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>xf</strong></td>
+            <td>
+<p>final state in RST coordinates [km,km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-report~4"></span>
+              procedure(<a href='../interface/report_func~2.html'>report_func</a>),
+            </td>
+<td></td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>report</strong></td>
+            <td>
+<p>to report each point</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_ijk_to_frame_rv"></span> <h3>private  subroutine <a href='../proc/from_ijk_to_frame_rv.html'>from_ijk_to_frame_rv</a>(mu, from_ijk_to_frame, rt_ijk, vt_ijk, r_ijk, v_ijk, dr_frame, dv_frame)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Transform a position (and optionally velocity) vector from IJK to a specified relative frame.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~45"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-from_ijk_to_frame"></span>
+              procedure(<a href='../interface/frame_transform_func.html'>frame_transform_func</a>)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>from_ijk_to_frame</strong></td>
+            <td>
+<p>function to compute the transformation matrices</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rt_ijk"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>rt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vt_ijk"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>vt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r_ijk"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v_ijk"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_frame"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_frame</strong></td>
+            <td>
+<p>Chaser frame position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_frame"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_frame</strong></td>
+            <td>
+<p>Chaser frame position vector relative to target [km]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_frame_to_ijk_rv"></span> <h3>private  subroutine <a href='../proc/from_frame_to_ijk_rv.html'>from_frame_to_ijk_rv</a>(mu, from_frame_to_ijk, rt_ijk, vt_ijk, dr_frame, dv_frame, r_ijk, v_ijk)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Transform a position (and optionally velocity) vector from a specified relative frame to IJK.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~46"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-from_frame_to_ijk"></span>
+              procedure(<a href='../interface/frame_transform_func.html'>frame_transform_func</a>)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>from_frame_to_ijk</strong></td>
+            <td>
+<p>function to compute the transformation matrices</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rt_ijk~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>rt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vt_ijk~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>vt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_frame~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_frame</strong></td>
+            <td>
+<p>Chaser frame position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_frame~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_frame</strong></td>
+            <td>
+<p>Chaser frame position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r_ijk~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v_ijk~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_ijk_to_lvlh_mat"></span> <h3>private  subroutine <a href='../proc/from_ijk_to_lvlh_mat.html'>from_ijk_to_lvlh_mat</a>(mu, r, v, a, c, cdot)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>4/19/2014</dd>
+    </dl>
+
+  <p>Compute the transformation matrices to convert IJK to LVLH.</p><a href="../proc/from_ijk_to_lvlh_mat.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~47"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~57"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+<p>position vector of target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v~22"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v</strong></td>
+            <td>
+<p>velocity vector of target [km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~42"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+<p>acceleration vector of target [km/s^2]
+(if not present, then a torque-free force model is assumed)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~51"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+<p>C transformation matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot~12"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+<p>CDOT transformation matrix</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_ijk_to_lvlh_rv"></span> <h3>private  subroutine <a href='../proc/from_ijk_to_lvlh_rv.html'>from_ijk_to_lvlh_rv</a>(mu, rt_ijk, vt_ijk, r_ijk, v_ijk, dr_lvlh, dv_lvlh)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>8/23/2014</dd>
+    </dl>
+
+  <p>Transform a position (and optionally velocity) vector from IJK to LVLH.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~48"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rt_ijk~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>rt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vt_ijk~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>vt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r_ijk~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v_ijk~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_lvlh"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_lvlh</strong></td>
+            <td>
+<p>Chaser LVLH position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_lvlh"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_lvlh</strong></td>
+            <td>
+<p>Chaser LVLH position vector relative to target [km]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_lvlh_to_ijk_mat"></span> <h3>private  subroutine <a href='../proc/from_lvlh_to_ijk_mat.html'>from_lvlh_to_ijk_mat</a>(mu, r, v, a, c, cdot)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>4/19/2014</dd>
+    </dl>
+
+  <p>Compute the transformation matrices to convert LVLH to IJK.</p><a href="../proc/from_lvlh_to_ijk_mat.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~49"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~58"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+<p>position vector of target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v~23"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v</strong></td>
+            <td>
+<p>velocity vector of target [km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~43"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+<p>acceleration vector of target [km/s^2]
+(if not present, then a torque-free force model is assumed)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~52"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+<p>C transformation matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot~13"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+<p>CDOT transformation matrix</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_lvlh_to_ijk_rv"></span> <h3>private  subroutine <a href='../proc/from_lvlh_to_ijk_rv.html'>from_lvlh_to_ijk_rv</a>(mu, rt_ijk, vt_ijk, dr_lvlh, dv_lvlh, r_ijk, v_ijk)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>8/23/2014</dd>
+    </dl>
+
+  <p>Transform a position (and optionally velocity) vector from LVLH to IJK.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~50"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rt_ijk~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>rt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vt_ijk~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>vt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_lvlh~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_lvlh</strong></td>
+            <td>
+<p>Chaser LVLH position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_lvlh~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_lvlh</strong></td>
+            <td>
+<p>Chaser LVLH position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r_ijk~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v_ijk~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_ijk_to_vuw_mat"></span> <h3>private  subroutine <a href='../proc/from_ijk_to_vuw_mat.html'>from_ijk_to_vuw_mat</a>(mu, r, v, a, c, cdot)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Compute the transformation matrices to convert IJK to vuw.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~51"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]
+this is used here to assume instantaneous conic motion if <code>a</code> is not present.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~59"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+<p>position vector of target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v~24"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v</strong></td>
+            <td>
+<p>velocity vector of target [km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~44"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+<p>acceleration vector of target [km/s^2]
+(if not present, then a torque-free force model is assumed)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~53"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+<p>C transformation matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot~14"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+<p>CDOT transformation matrix</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_ijk_to_vuw_rv"></span> <h3>private  subroutine <a href='../proc/from_ijk_to_vuw_rv.html'>from_ijk_to_vuw_rv</a>(mu, rt_ijk, vt_ijk, r_ijk, v_ijk, dr_vuw, dv_vuw)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Transform a position (and optionally velocity) vector from IJK to VUW.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~52"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rt_ijk~5"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>rt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vt_ijk~5"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>vt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r_ijk~5"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v_ijk~5"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_vuw"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_vuw</strong></td>
+            <td>
+<p>Chaser vuw position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_vuw"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_vuw</strong></td>
+            <td>
+<p>Chaser vuw position vector relative to target [km]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_vuw_to_ijk_mat"></span> <h3>private  subroutine <a href='../proc/from_vuw_to_ijk_mat.html'>from_vuw_to_ijk_mat</a>(mu, r, v, a, c, cdot)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Compute the transformation matrices to convert VUW to IJK.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~53"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~60"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+<p>position vector of target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v~25"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v</strong></td>
+            <td>
+<p>velocity vector of target [km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~45"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+<p>acceleration vector of target [km/s^2]
+(if not present, then a torque-free force model is assumed)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~54"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+<p>C transformation matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot~15"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+<p>CDOT transformation matrix</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_vuw_to_ijk_rv"></span> <h3>private  subroutine <a href='../proc/from_vuw_to_ijk_rv.html'>from_vuw_to_ijk_rv</a>(mu, rt_ijk, vt_ijk, dr_vuw, dv_vuw, r_ijk, v_ijk)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Transform a position (and optionally velocity) vector from VUW to IJK.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~54"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rt_ijk~6"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>rt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vt_ijk~6"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>vt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_vuw~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_vuw</strong></td>
+            <td>
+<p>Chaser vuw position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_vuw~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_vuw</strong></td>
+            <td>
+<p>Chaser vuw position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r_ijk~6"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v_ijk~6"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_ijk_to_rsw_mat"></span> <h3>private  subroutine <a href='../proc/from_ijk_to_rsw_mat.html'>from_ijk_to_rsw_mat</a>(mu, r, v, a, c, cdot)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>4/19/2014</dd>
+    </dl>
+
+  <p>Compute the transformation matrices to convert IJK to RSW.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~55"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~61"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+<p>position vector of target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v~26"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v</strong></td>
+            <td>
+<p>velocity vector of target [km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~46"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+<p>acceleration vector of target [km/s^2]
+(if not present, then a torque-free force model is assumed)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~55"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+<p>C transformation matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot~16"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+<p>CDOT transformation matrix</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_ijk_to_rsw_rv"></span> <h3>private  subroutine <a href='../proc/from_ijk_to_rsw_rv.html'>from_ijk_to_rsw_rv</a>(mu, rt_ijk, vt_ijk, r_ijk, v_ijk, dr_rsw, dv_rsw)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>8/23/2014</dd>
+    </dl>
+
+  <p>Transform a position (and optionally velocity) vector from IJK to RSW.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~56"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rt_ijk~7"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>rt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vt_ijk~7"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>vt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r_ijk~7"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v_ijk~7"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_rsw"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_rsw</strong></td>
+            <td>
+<p>Chaser RSW position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_rsw"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_rsw</strong></td>
+            <td>
+<p>Chaser RSW position vector relative to target [km]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_rsw_to_ijk_mat"></span> <h3>private  subroutine <a href='../proc/from_rsw_to_ijk_mat.html'>from_rsw_to_ijk_mat</a>(mu, r, v, a, c, cdot)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>4/19/2014</dd>
+    </dl>
+
+  <p>Compute the transformation matrices to convert RSW to IJK.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~57"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~62"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+<p>position vector of target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v~27"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v</strong></td>
+            <td>
+<p>velocity vector of target [km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~47"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+<p>acceleration vector of target [km/s^2]
+(if not present, then a torque-free force model is assumed)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~56"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+<p>C transformation matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot~17"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+<p>CDOT transformation matrix</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_rsw_to_ijk_rv"></span> <h3>private  subroutine <a href='../proc/from_rsw_to_ijk_rv.html'>from_rsw_to_ijk_rv</a>(mu, rt_ijk, vt_ijk, dr_rsw, dv_rsw, r_ijk, v_ijk)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>8/23/2014</dd>
+    </dl>
+
+  <p>Transform a position (and optionally velocity) vector from RSW to IJK.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~58"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rt_ijk~8"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>rt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vt_ijk~8"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>vt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_rsw~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_rsw</strong></td>
+            <td>
+<p>Chaser RSW position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_rsw~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_rsw</strong></td>
+            <td>
+<p>Chaser RSW velocity vector [km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r_ijk~8"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v_ijk~8"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute velocity vector [km/s]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_rsw_to_lvlh_rv"></span> <h3>private  subroutine <a href='../proc/from_rsw_to_lvlh_rv.html'>from_rsw_to_lvlh_rv</a>(dr_rsw, dv_rsw, dr_lvlh, dv_lvlh)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>8/23/2014</dd>
+    </dl>
+
+  <p>Transform a position (and optionally velocity) vector from RSW to LVLH.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_rsw~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_rsw</strong></td>
+            <td>
+<p>Chaser RSW position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_rsw~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_rsw</strong></td>
+            <td>
+<p>Chaser RSW velocity vector relative to target [km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_lvlh~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_lvlh</strong></td>
+            <td>
+<p>Chaser LVLH position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_lvlh~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_lvlh</strong></td>
+            <td>
+<p>Chaser LVLH position vector relative to target [km]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_lvlh_to_rsw_rv"></span> <h3>private  subroutine <a href='../proc/from_lvlh_to_rsw_rv.html'>from_lvlh_to_rsw_rv</a>(dr_lvlh, dv_lvlh, dr_rsw, dv_rsw)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>8/23/2014</dd>
+    </dl>
+
+  <p>Transform a position (and optionally velocity) vector from LVLH to RSW.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_lvlh~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_lvlh</strong></td>
+            <td>
+<p>Chaser LVLH position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_lvlh~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_lvlh</strong></td>
+            <td>
+<p>Chaser LVLH position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_rsw~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_rsw</strong></td>
+            <td>
+<p>Chaser RSW position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_rsw~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_rsw</strong></td>
+            <td>
+<p>Chaser RSW velocity vector relative to target [km/s]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-relative_motion_test"></span> <h3>public  subroutine <a href='../proc/relative_motion_test.html'>relative_motion_test</a>()  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>8/22/2015</dd>
+    </dl>
+
+  <p>Unit tests for the <a href="../module/relative_motion_module.html">relative_motion_module</a>.</p>
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

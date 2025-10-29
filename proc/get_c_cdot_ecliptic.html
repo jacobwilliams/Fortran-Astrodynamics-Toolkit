@@ -1,0 +1,814 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>get_c_cdot_ecliptic &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>get_c_cdot_ecliptic
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.1% of total for procedures.">17 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/transformation_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/transformation_module.f90.html'>transformation_module.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/transformation_module.html'>transformation_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">get_c_cdot_ecliptic</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/get_c_cdot_ecliptic.html#src">get_c_cdot_ecliptic</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>private  subroutine get_c_cdot_ecliptic(me, eph, to_icrf, c, cdot, status_ok)  
+</h2>
+        <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='../module/obliquity_module.html'>obliquity_module</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~get_c_cdot_ecliptic~~UsesGraph Pages: 1 -->
+<svg id="procget_c_cdot_eclipticUsesGraph" width="641pt" height="47pt"
+ viewBox="0.00 0.00 641.00 47.22" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~get_c_cdot_ecliptic~~UsesGraph" class="graph" transform="scale(0.72 0.72) rotate(0) translate(4 61.48)">
+<title>proc~~get_c_cdot_ecliptic~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-61.48 885,-61.48 885,4 -4,4"/>
+<!-- proc~get_c_cdot_ecliptic -->
+<g id="proc~~get_c_cdot_ecliptic~~UsesGraph_node1" class="node">
+<title>proc~get_c_cdot_ecliptic</title>
+<polygon fill="none" stroke="black" points="881,-24 682,-24 682,0 881,0 881,-24"/>
+<text text-anchor="middle" x="781.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">ecliptic_frame%get_c_cdot_ecliptic</text>
+</g>
+<!-- module~obliquity_module -->
+<g id="proc~~get_c_cdot_ecliptic~~UsesGraph_node2" class="node">
+<title>module~obliquity_module</title>
+<g id="a_proc~~get_c_cdot_ecliptic~~UsesGraph_node2"><a xlink:href="../module/obliquity_module.html" xlink:title="obliquity_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="646,-24 542,-24 542,0 646,0 646,-24"/>
+<text text-anchor="middle" x="594" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">obliquity_module</text>
+</a>
+</g>
+</g>
+<!-- proc~get_c_cdot_ecliptic&#45;&gt;module~obliquity_module -->
+<g id="proc~~get_c_cdot_ecliptic~~UsesGraph_edge1" class="edge">
+<title>proc~get_c_cdot_ecliptic&#45;&gt;module~obliquity_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M681.78,-12C673.14,-12 664.57,-12 656.37,-12"/>
+<polygon fill="#000000" stroke="#000000" points="656.2,-8.5 646.2,-12 656.2,-15.5 656.2,-8.5"/>
+</g>
+<!-- module~conversion_module -->
+<g id="proc~~get_c_cdot_ecliptic~~UsesGraph_node3" class="node">
+<title>module~conversion_module</title>
+<g id="a_proc~~get_c_cdot_ecliptic~~UsesGraph_node3"><a xlink:href="../module/conversion_module.html" xlink:title="conversion_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="506,-44 389,-44 389,-20 506,-20 506,-44"/>
+<text text-anchor="middle" x="447.5" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conversion_module</text>
+</a>
+</g>
+</g>
+<!-- module~obliquity_module&#45;&gt;module~conversion_module -->
+<g id="proc~~get_c_cdot_ecliptic~~UsesGraph_edge2" class="edge">
+<title>module~obliquity_module&#45;&gt;module~conversion_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M541.65,-19.11C533.37,-20.25 524.69,-21.45 516.1,-22.64"/>
+<polygon fill="#000000" stroke="#000000" points="515.51,-19.19 506.08,-24.03 516.47,-26.13 515.51,-19.19"/>
+</g>
+<!-- module~kind_module -->
+<g id="proc~~get_c_cdot_ecliptic~~UsesGraph_node4" class="node">
+<title>module~kind_module</title>
+<g id="a_proc~~get_c_cdot_ecliptic~~UsesGraph_node4"><a xlink:href="../module/kind_module.html" xlink:title="kind_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="211,-44 130,-44 130,-20 211,-20 211,-44"/>
+<text text-anchor="middle" x="170.5" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module</text>
+</a>
+</g>
+</g>
+<!-- module~obliquity_module&#45;&gt;module~kind_module -->
+<g id="proc~~get_c_cdot_ecliptic~~UsesGraph_edge3" class="edge">
+<title>module~obliquity_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M541.99,-7.47C474.24,-2.46 351.01,3.2 247,-11 237.2,-12.34 226.87,-14.61 217.1,-17.18"/>
+<polygon fill="#000000" stroke="#000000" points="215.88,-13.89 207.18,-19.94 217.75,-20.63 215.88,-13.89"/>
+</g>
+<!-- module~conversion_module&#45;&gt;module~kind_module -->
+<g id="proc~~get_c_cdot_ecliptic~~UsesGraph_edge4" class="edge">
+<title>module~conversion_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M402.13,-44.07C386.7,-47.7 369.2,-51.2 353,-53 306.18,-58.19 293.68,-59.37 247,-53 237.2,-51.66 226.87,-49.39 217.1,-46.82"/>
+<polygon fill="#000000" stroke="#000000" points="217.75,-43.37 207.18,-44.06 215.88,-50.11 217.75,-43.37"/>
+</g>
+<!-- module~numbers_module -->
+<g id="proc~~get_c_cdot_ecliptic~~UsesGraph_node6" class="node">
+<title>module~numbers_module</title>
+<g id="a_proc~~get_c_cdot_ecliptic~~UsesGraph_node6"><a xlink:href="../module/numbers_module.html" xlink:title="numbers_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="353,-44 247,-44 247,-20 353,-20 353,-44"/>
+<text text-anchor="middle" x="300" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module</text>
+</a>
+</g>
+</g>
+<!-- module~conversion_module&#45;&gt;module~numbers_module -->
+<g id="proc~~get_c_cdot_ecliptic~~UsesGraph_edge5" class="edge">
+<title>module~conversion_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M388.99,-32C380.64,-32 372,-32 363.55,-32"/>
+<polygon fill="#000000" stroke="#000000" points="363.36,-28.5 353.36,-32 363.36,-35.5 363.36,-28.5"/>
+</g>
+<!-- iso_fortran_env -->
+<g id="proc~~get_c_cdot_ecliptic~~UsesGraph_node5" class="node">
+<title>iso_fortran_env</title>
+<g id="a_proc~~get_c_cdot_ecliptic~~UsesGraph_node5"><a xlink:href="http://fortranwiki.org/fortran/show/iso_fortran_env" xlink:title="iso_fortran_env">
+<polygon fill="#337ab7" stroke="#337ab7" points="94,-44 0,-44 0,-20 94,-20 94,-44"/>
+<text text-anchor="middle" x="47" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
+</a>
+</g>
+</g>
+<!-- module~kind_module&#45;&gt;iso_fortran_env -->
+<g id="proc~~get_c_cdot_ecliptic~~UsesGraph_edge6" class="edge">
+<title>module~kind_module&#45;&gt;iso_fortran_env</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M129.72,-32C121.56,-32 112.83,-32 104.21,-32"/>
+<polygon fill="#000000" stroke="#000000" points="104.2,-28.5 94.2,-32 104.2,-35.5 104.2,-28.5"/>
+</g>
+<!-- module~numbers_module&#45;&gt;module~kind_module -->
+<g id="proc~~get_c_cdot_ecliptic~~UsesGraph_edge7" class="edge">
+<title>module~numbers_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M246.77,-32C238.46,-32 229.87,-32 221.6,-32"/>
+<polygon fill="#000000" stroke="#000000" points="221.35,-28.5 211.35,-32 221.35,-35.5 221.35,-28.5"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panprocget_c_cdot_eclipticUsesGraph = svgPanZoom('#procget_c_cdot_eclipticUsesGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+
+    <p>rotation matrix for ICRF &lt;-&gt; Mean Ecliptic</p>
+
+    <h3>Type Bound</h3>
+    <p><a href='../type/ecliptic_frame.html'>ecliptic_frame</a></p>
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-me~36"></span>
+              class(<a href='../type/ecliptic_frame.html'>ecliptic_frame</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eph~9"></span>
+              class(<a href='../type/ephemeris_class.html'>ephemeris_class</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eph</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-to_icrf~5"></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>to_icrf</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~31"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot~6"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-status_ok~19"></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status_ok</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~get_c_cdot_ecliptic~~CallsGraph Pages: 1 -->
+<svg id="procget_c_cdot_eclipticCallsGraph" width="641pt" height="36pt"
+ viewBox="0.00 0.00 641.00 36.11" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~get_c_cdot_ecliptic~~CallsGraph" class="graph" transform="scale(0.69 0.69) rotate(0) translate(4 48)">
+<title>proc~~get_c_cdot_ecliptic~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-48 919,-48 919,4 -4,4"/>
+<!-- proc~get_c_cdot_ecliptic -->
+<g id="proc~~get_c_cdot_ecliptic~~CallsGraph_node1" class="node">
+<title>proc~get_c_cdot_ecliptic</title>
+<polygon fill="none" stroke="black" points="199,-24 0,-24 0,0 199,0 199,-24"/>
+<text text-anchor="middle" x="99.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">ecliptic_frame%get_c_cdot_ecliptic</text>
+</g>
+<!-- proc~equatorial_to_mean_ecliptic_rotmat -->
+<g id="proc~~get_c_cdot_ecliptic~~CallsGraph_node2" class="node">
+<title>proc~equatorial_to_mean_ecliptic_rotmat</title>
+<g id="a_proc~~get_c_cdot_ecliptic~~CallsGraph_node2"><a xlink:href="../proc/equatorial_to_mean_ecliptic_rotmat.html" xlink:title="equatorial_to_mean_ecliptic_rotmat">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="438,-44 235,-44 235,-20 438,-20 438,-44"/>
+<text text-anchor="middle" x="336.5" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">equatorial_to_mean_ecliptic_rotmat</text>
+</a>
+</g>
+</g>
+<!-- proc~get_c_cdot_ecliptic&#45;&gt;proc~equatorial_to_mean_ecliptic_rotmat -->
+<g id="proc~~get_c_cdot_ecliptic~~CallsGraph_edge1" class="edge">
+<title>proc~get_c_cdot_ecliptic&#45;&gt;proc~equatorial_to_mean_ecliptic_rotmat</title>
+<path fill="none" stroke="#000000" d="M199.14,-20.39C207.63,-21.12 216.25,-21.85 224.82,-22.58"/>
+<polygon fill="#000000" stroke="#000000" points="224.59,-26.07 234.85,-23.43 225.18,-19.1 224.59,-26.07"/>
+</g>
+<!-- proc~mean_ecliptic_to_equatorial_rotmat -->
+<g id="proc~~get_c_cdot_ecliptic~~CallsGraph_node3" class="node">
+<title>proc~mean_ecliptic_to_equatorial_rotmat</title>
+<g id="a_proc~~get_c_cdot_ecliptic~~CallsGraph_node3"><a xlink:href="../proc/mean_ecliptic_to_equatorial_rotmat.html" xlink:title="mean_ecliptic_to_equatorial_rotmat">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="677,-24 474,-24 474,0 677,0 677,-24"/>
+<text text-anchor="middle" x="575.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mean_ecliptic_to_equatorial_rotmat</text>
+</a>
+</g>
+</g>
+<!-- proc~get_c_cdot_ecliptic&#45;&gt;proc~mean_ecliptic_to_equatorial_rotmat -->
+<g id="proc~~get_c_cdot_ecliptic~~CallsGraph_edge2" class="edge">
+<title>proc~get_c_cdot_ecliptic&#45;&gt;proc~mean_ecliptic_to_equatorial_rotmat</title>
+<path fill="none" stroke="#000000" d="M199.3,-11.18C211.32,-11.11 223.44,-11.04 235,-11 325.22,-10.66 347.78,-10.67 438,-11 446.35,-11.03 454.98,-11.07 463.66,-11.12"/>
+<polygon fill="#000000" stroke="#000000" points="463.84,-14.62 473.87,-11.18 463.89,-7.62 463.84,-14.62"/>
+</g>
+<!-- proc~equatorial_to_mean_ecliptic_rotmat&#45;&gt;proc~mean_ecliptic_to_equatorial_rotmat -->
+<g id="proc~~get_c_cdot_ecliptic~~CallsGraph_edge3" class="edge">
+<title>proc~equatorial_to_mean_ecliptic_rotmat&#45;&gt;proc~mean_ecliptic_to_equatorial_rotmat</title>
+<path fill="none" stroke="#000000" d="M438.01,-23.52C446.53,-22.8 455.18,-22.07 463.78,-21.34"/>
+<polygon fill="#000000" stroke="#000000" points="464.16,-24.82 473.83,-20.49 463.58,-17.85 464.16,-24.82"/>
+</g>
+<!-- proc~mean_obliquity_of_ecliptic_iau1980 -->
+<g id="proc~~get_c_cdot_ecliptic~~CallsGraph_node4" class="node">
+<title>proc~mean_obliquity_of_ecliptic_iau1980</title>
+<g id="a_proc~~get_c_cdot_ecliptic~~CallsGraph_node4"><a xlink:href="../proc/mean_obliquity_of_ecliptic_iau1980.html" xlink:title="mean_obliquity_of_ecliptic_iau1980">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="915,-24 713,-24 713,0 915,0 915,-24"/>
+<text text-anchor="middle" x="814" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">mean_obliquity_of_ecliptic_iau1980</text>
+</a>
+</g>
+</g>
+<!-- proc~mean_ecliptic_to_equatorial_rotmat&#45;&gt;proc~mean_obliquity_of_ecliptic_iau1980 -->
+<g id="proc~~get_c_cdot_ecliptic~~CallsGraph_edge4" class="edge">
+<title>proc~mean_ecliptic_to_equatorial_rotmat&#45;&gt;proc~mean_obliquity_of_ecliptic_iau1980</title>
+<path fill="none" stroke="#000000" d="M677.14,-12C685.63,-12 694.25,-12 702.81,-12"/>
+<polygon fill="#000000" stroke="#000000" points="702.83,-15.5 712.83,-12 702.83,-8.5 702.83,-15.5"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panprocget_c_cdot_eclipticCallsGraph = svgPanZoom('#procget_c_cdot_eclipticCallsGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~get_c_cdot_ecliptic~~CalledByGraph Pages: 1 -->
+<svg id="procget_c_cdot_eclipticCalledByGraph" width="406pt" height="32pt"
+ viewBox="0.00 0.00 406.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~get_c_cdot_ecliptic~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>proc~~get_c_cdot_ecliptic~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 402,-28 402,4 -4,4"/>
+<!-- proc~get_c_cdot_ecliptic -->
+<g id="proc~~get_c_cdot_ecliptic~~CalledByGraph_node1" class="node">
+<title>proc~get_c_cdot_ecliptic</title>
+<polygon fill="none" stroke="black" points="398,-24 199,-24 199,0 398,0 398,-24"/>
+<text text-anchor="middle" x="298.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">ecliptic_frame%get_c_cdot_ecliptic</text>
+</g>
+<!-- proc~transformation_module_test -->
+<g id="proc~~get_c_cdot_ecliptic~~CalledByGraph_node2" class="node">
+<title>proc~transformation_module_test</title>
+<g id="a_proc~~get_c_cdot_ecliptic~~CalledByGraph_node2"><a xlink:href="../proc/transformation_module_test.html" xlink:title="transformation_module_test">
+<polygon fill="#d9534f" stroke="#d9534f" points="163,-24 0,-24 0,0 163,0 163,-24"/>
+<text text-anchor="middle" x="81.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">transformation_module_test</text>
+</a>
+</g>
+</g>
+<!-- proc~transformation_module_test&#45;&gt;proc~get_c_cdot_ecliptic -->
+<g id="proc~~get_c_cdot_ecliptic~~CalledByGraph_edge1" class="edge">
+<title>proc~transformation_module_test&#45;&gt;proc~get_c_cdot_ecliptic</title>
+<path fill="none" stroke="#000000" d="M163.17,-12C171.56,-12 180.19,-12 188.82,-12"/>
+<polygon fill="#000000" stroke="#000000" points="188.95,-15.5 198.95,-12 188.95,-8.5 188.95,-15.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">get_c_cdot_ecliptic</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">eph</span><span class="p">,</span><span class="n">to_icrf</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">cdot</span><span class="p">,</span><span class="n">status_ok</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">!! rotation matrix for ICRF &lt;-&gt; Mean Ecliptic</span>
+
+<span class="w">    </span><span class="k">use </span><span class="n">obliquity_module</span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    class</span><span class="p">(</span><span class="n">ecliptic_frame</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span>
+<span class="w">    </span><span class="k">class</span><span class="p">(</span><span class="n">ephemeris_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">eph</span>
+<span class="w">    </span><span class="kt">logical</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                           </span><span class="kd">::</span><span class="w"> </span><span class="n">to_icrf</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">c</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cdot</span>
+<span class="w">    </span><span class="kt">logical</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">                          </span><span class="kd">::</span><span class="w"> </span><span class="n">status_ok</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">to_icrf</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean_ecliptic_to_equatorial_rotmat</span><span class="p">()</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="k">        </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">equatorial_to_mean_ecliptic_rotmat</span><span class="p">()</span>
+<span class="w">    </span><span class="k">end if</span>
+
+<span class="k">    if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">cdot</span><span class="p">))</span><span class="w"> </span><span class="n">cdot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<span class="w">    </span><span class="n">status_ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
+
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">get_c_cdot_ecliptic</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

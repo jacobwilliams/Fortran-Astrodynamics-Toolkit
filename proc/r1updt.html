@@ -1,0 +1,821 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>r1updt &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>r1updt
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.6% of total for procedures.">86 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/minpack_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/minpack_module.f90.html'>minpack_module.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/minpack_module.html'>minpack_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">r1updt</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/r1updt.html#src">r1updt</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public  subroutine r1updt(m, n, s, ls, u, v, w, sing)  
+</h2>
+    
+
+    <p>given an m by n lower trapezoidal matrix s, an m-vector u,
+and an n-vector v, the problem is to determine an
+orthogonal matrix q such that</p>
+<div class="codehilite"><pre><span></span><code>          t
+  (s + u*v )*q
+</code></pre></div>
+
+<p>is again lower trapezoidal.</p>
+<p>this subroutine determines q as the product of 2*(n - 1)
+transformations</p>
+<div class="codehilite"><pre><span></span><code>  gv(n-1)*...*gv(1)*gw(1)*...*gw(n-1)
+</code></pre></div>
+
+<p>where gv(i), gw(i) are givens rotations in the (i,n) plane
+which eliminate elements in the i-th and n-th planes,
+respectively. q itself is not accumulated, rather the
+information to recover the gv, gw rotations is returned.</p>
+<p>the subroutine statement is</p>
+<p>subroutine r1updt(m,n,s,ls,u,v,w,sing)</p>
+<p>where</p>
+<p>m is a positive integer input variable set to the number
+    of rows of s.</p>
+<p>n is a positive integer input variable set to the number
+    of columns of s. n must not exceed m.</p>
+<p>s is an array of length ls. on input s must contain the lower
+    trapezoidal matrix s stored by columns. on output s contains
+    the lower trapezoidal matrix produced as described above.</p>
+<p>ls is a positive integer input variable not less than
+    (n<em>(2</em>m-n+1))/2.</p>
+<p>u is an input array of length m which must contain the
+    vector u.</p>
+<p>v is an array of length n. on input v must contain the vector
+    v. on output v(i) contains the information necessary to
+    recover the givens rotation gv(i) described above.</p>
+<p>w is an output array of length m. w(i) contains information
+    necessary to recover the givens rotation gw(i) described
+    above.</p>
+<p>sing is a logical output variable. sing is set true if any
+    of the diagonal elements of the output s are zero. otherwise
+    sing is set false.</p>
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m~5"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~14"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s~5"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>s</strong>(ls)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ls"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ls</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-u~4"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>u</strong>(m)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v~7"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>v</strong>(n)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-w~5"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>w</strong>(m)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sing~3"></span>
+              logical
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sing</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~r1updt~~CallsGraph Pages: 1 -->
+<svg id="procr1updtCallsGraph" width="153pt" height="32pt"
+ viewBox="0.00 0.00 153.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~r1updt~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>proc~~r1updt~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 149,-28 149,4 -4,4"/>
+<!-- proc~r1updt -->
+<g id="proc~~r1updt~~CallsGraph_node1" class="node">
+<title>proc~r1updt</title>
+<polygon fill="none" stroke="black" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">r1updt</text>
+</g>
+<!-- proc~dpmpar -->
+<g id="proc~~r1updt~~CallsGraph_node2" class="node">
+<title>proc~dpmpar</title>
+<g id="a_proc~~r1updt~~CallsGraph_node2"><a xlink:href="../proc/dpmpar.html" xlink:title="dpmpar">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="145,-24 90,-24 90,0 145,0 145,-24"/>
+<text text-anchor="middle" x="117.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dpmpar</text>
+</a>
+</g>
+</g>
+<!-- proc~r1updt&#45;&gt;proc~dpmpar -->
+<g id="proc~~r1updt~~CallsGraph_edge1" class="edge">
+<title>proc~r1updt&#45;&gt;proc~dpmpar</title>
+<path fill="none" stroke="#000000" d="M54.07,-12C62.12,-12 71.14,-12 79.76,-12"/>
+<polygon fill="#000000" stroke="#000000" points="80,-15.5 90,-12 80,-8.5 80,-15.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~r1updt~~CalledByGraph Pages: 1 -->
+<svg id="procr1updtCalledByGraph" width="390pt" height="74pt"
+ viewBox="0.00 0.00 390.00 74.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~r1updt~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 70)">
+<title>proc~~r1updt~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 386,-70 386,4 -4,4"/>
+<!-- proc~r1updt -->
+<g id="proc~~r1updt~~CalledByGraph_node1" class="node">
+<title>proc~r1updt</title>
+<polygon fill="none" stroke="black" points="382,-45 328,-45 328,-21 382,-21 382,-45"/>
+<text text-anchor="middle" x="355" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">r1updt</text>
+</g>
+<!-- proc~hybrd -->
+<g id="proc~~r1updt~~CalledByGraph_node2" class="node">
+<title>proc~hybrd</title>
+<g id="a_proc~~r1updt~~CalledByGraph_node2"><a xlink:href="../proc/hybrd.html" xlink:title="hybrd">
+<polygon fill="#d9534f" stroke="#d9534f" points="292,-66 238,-66 238,-42 292,-42 292,-66"/>
+<text text-anchor="middle" x="265" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrd</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~r1updt -->
+<g id="proc~~r1updt~~CalledByGraph_edge1" class="edge">
+<title>proc~hybrd&#45;&gt;proc~r1updt</title>
+<path fill="none" stroke="#000000" d="M292.4,-47.7C300.48,-45.77 309.51,-43.62 318.1,-41.57"/>
+<polygon fill="#000000" stroke="#000000" points="319,-44.95 327.92,-39.22 317.38,-38.14 319,-44.95"/>
+</g>
+<!-- proc~hybrj -->
+<g id="proc~~r1updt~~CalledByGraph_node3" class="node">
+<title>proc~hybrj</title>
+<g id="a_proc~~r1updt~~CalledByGraph_node3"><a xlink:href="../proc/hybrj.html" xlink:title="hybrj">
+<polygon fill="#d9534f" stroke="#d9534f" points="292,-24 238,-24 238,0 292,0 292,-24"/>
+<text text-anchor="middle" x="265" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrj</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrj&#45;&gt;proc~r1updt -->
+<g id="proc~~r1updt~~CalledByGraph_edge2" class="edge">
+<title>proc~hybrj&#45;&gt;proc~r1updt</title>
+<path fill="none" stroke="#000000" d="M292.4,-18.3C300.48,-20.23 309.51,-22.38 318.1,-24.43"/>
+<polygon fill="#000000" stroke="#000000" points="317.38,-27.86 327.92,-26.78 319,-21.05 317.38,-27.86"/>
+</g>
+<!-- proc~hybrd1 -->
+<g id="proc~~r1updt~~CalledByGraph_node4" class="node">
+<title>proc~hybrd1</title>
+<g id="a_proc~~r1updt~~CalledByGraph_node4"><a xlink:href="../proc/hybrd1.html" xlink:title="hybrd1">
+<polygon fill="#d9534f" stroke="#d9534f" points="202,-66 148,-66 148,-42 202,-42 202,-66"/>
+<text text-anchor="middle" x="175" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrd1</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd1&#45;&gt;proc~hybrd -->
+<g id="proc~~r1updt~~CalledByGraph_edge3" class="edge">
+<title>proc~hybrd1&#45;&gt;proc~hybrd</title>
+<path fill="none" stroke="#000000" d="M202.4,-54C210.39,-54 219.31,-54 227.82,-54"/>
+<polygon fill="#000000" stroke="#000000" points="227.92,-57.5 237.92,-54 227.92,-50.5 227.92,-57.5"/>
+</g>
+<!-- proc~hybrj1 -->
+<g id="proc~~r1updt~~CalledByGraph_node5" class="node">
+<title>proc~hybrj1</title>
+<g id="a_proc~~r1updt~~CalledByGraph_node5"><a xlink:href="../proc/hybrj1.html" xlink:title="hybrj1">
+<polygon fill="#d9534f" stroke="#d9534f" points="202,-24 148,-24 148,0 202,0 202,-24"/>
+<text text-anchor="middle" x="175" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrj1</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrj1&#45;&gt;proc~hybrj -->
+<g id="proc~~r1updt~~CalledByGraph_edge4" class="edge">
+<title>proc~hybrj1&#45;&gt;proc~hybrj</title>
+<path fill="none" stroke="#000000" d="M202.4,-12C210.39,-12 219.31,-12 227.82,-12"/>
+<polygon fill="#000000" stroke="#000000" points="227.92,-15.5 237.92,-12 227.92,-8.5 227.92,-15.5"/>
+</g>
+<!-- proc~halo_to_rv_diffcorr -->
+<g id="proc~~r1updt~~CalledByGraph_node6" class="node">
+<title>proc~halo_to_rv_diffcorr</title>
+<g id="a_proc~~r1updt~~CalledByGraph_node6"><a xlink:href="../proc/halo_to_rv_diffcorr.html" xlink:title="halo_to_rv_diffcorr">
+<polygon fill="#d9534f" stroke="#d9534f" points="112,-66 0,-66 0,-42 112,-42 112,-66"/>
+<text text-anchor="middle" x="56" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">halo_to_rv_diffcorr</text>
+</a>
+</g>
+</g>
+<!-- proc~halo_to_rv_diffcorr&#45;&gt;proc~hybrd1 -->
+<g id="proc~~r1updt~~CalledByGraph_edge5" class="edge">
+<title>proc~halo_to_rv_diffcorr&#45;&gt;proc~hybrd1</title>
+<path fill="none" stroke="#000000" d="M112.07,-54C120.73,-54 129.48,-54 137.58,-54"/>
+<polygon fill="#000000" stroke="#000000" points="137.77,-57.5 147.77,-54 137.77,-50.5 137.77,-57.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">r1updt</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">sing</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">integer </span><span class="n">m</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">ls</span>
+<span class="w">    </span><span class="kt">logical </span><span class="n">sing</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="n">s</span><span class="p">(</span><span class="n">ls</span><span class="p">)</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+<span class="w">      </span><span class="kt">integer </span><span class="n">i</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">jj</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">nmj</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">nm1</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="nb">cos</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">cotan</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">giant</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="nb">sin</span><span class="w"> </span><span class="p">,</span><span class="w">     </span><span class="p">&amp;</span>
+<span class="w">                     </span><span class="p">&amp;</span><span class="w"> </span><span class="nb">tan</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">tau</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">temp</span>
+
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p5</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mf">5.0e-1_wp</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p25</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.5e-1_wp</span>
+<span class="c">!</span>
+<span class="c">!     giant is the largest magnitude.</span>
+<span class="c">!</span>
+<span class="w">      </span><span class="n">giant</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dpmpar</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="c">!</span>
+<span class="c">!     initialize the diagonal element pointer.</span>
+<span class="c">!</span>
+<span class="w">      </span><span class="n">jj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">m</span><span class="o">-</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="n">n</span><span class="p">)</span>
+<span class="c">!</span>
+<span class="c">!     move the nontrivial part of the last column of s into w.</span>
+<span class="c">!</span>
+<span class="w">      </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jj</span>
+<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">m</span>
+<span class="w">         </span><span class="n">w</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+<span class="w">         </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">      </span><span class="k">enddo</span>
+<span class="c">!</span>
+<span class="c">!     rotate the vector v into a multiple of the n-th unit vector</span>
+<span class="c">!     in such a way that a spike is introduced into w.</span>
+<span class="c">!</span>
+<span class="w">      </span><span class="n">nm1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">nm1</span><span class="o">&gt;=</span><span class="mi">1</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         do </span><span class="n">nmj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">nm1</span>
+<span class="w">            </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">nmj</span>
+<span class="w">            </span><span class="n">jj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jj</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">            </span><span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">/=</span><span class="n">zero</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="c">!</span>
+<span class="c">!        determine a givens rotation which eliminates the</span>
+<span class="c">!        j-th element of v.</span>
+<span class="c">!</span>
+<span class="w">               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">n</span><span class="p">))</span><span class="o">&gt;=</span><span class="nb">abs</span><span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                  </span><span class="nb">tan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">v</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="w">                  </span><span class="nb">cos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p5</span><span class="o">/</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">p25</span><span class="o">+</span><span class="n">p25</span><span class="o">*</span><span class="nb">tan</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">                  </span><span class="nb">sin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">cos</span><span class="o">*</span><span class="nb">tan</span>
+<span class="nb">                  </span><span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sin</span>
+<span class="nb">               </span><span class="k">else</span>
+<span class="k">                  </span><span class="n">cotan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+<span class="w">                  </span><span class="nb">sin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p5</span><span class="o">/</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">p25</span><span class="o">+</span><span class="n">p25</span><span class="o">*</span><span class="n">cotan</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">                  </span><span class="nb">cos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sin</span><span class="o">*</span><span class="n">cotan</span>
+<span class="w">                  </span><span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span>
+<span class="w">                  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="nb">cos</span><span class="p">)</span><span class="o">*</span><span class="n">giant</span><span class="o">&gt;</span><span class="n">one</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="nb">cos</span>
+<span class="nb">               </span><span class="k">endif</span>
+<span class="c">!</span>
+<span class="c">!        apply the transformation to v and store the information</span>
+<span class="c">!        necessary to recover the givens rotation.</span>
+<span class="c">!</span>
+<span class="w">               </span><span class="n">v</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sin</span><span class="o">*</span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">cos</span><span class="o">*</span><span class="n">v</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="w">               </span><span class="n">v</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tau</span>
+<span class="c">!</span>
+<span class="c">!        apply the transformation to s and extend the spike in w.</span>
+<span class="c">!</span>
+<span class="w">               </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jj</span>
+<span class="w">               </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">m</span>
+<span class="w">                  </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">cos</span><span class="o">*</span><span class="n">s</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">sin</span><span class="o">*</span><span class="n">w</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">                  </span><span class="n">w</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sin</span><span class="o">*</span><span class="n">s</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">cos</span><span class="o">*</span><span class="n">w</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">                  </span><span class="n">s</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span>
+<span class="w">                  </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">               </span><span class="k">enddo</span>
+<span class="k">            endif</span>
+<span class="k">         enddo</span>
+<span class="k">      endif</span>
+<span class="c">!</span>
+<span class="c">!     add the spike from the rank 1 update to w.</span>
+<span class="c">!</span>
+<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">m</span>
+<span class="w">         </span><span class="n">w</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">w</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">v</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="n">u</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">      </span><span class="k">enddo</span>
+<span class="c">!</span>
+<span class="c">!     eliminate the spike.</span>
+<span class="c">!</span>
+<span class="w">      </span><span class="n">sing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">nm1</span><span class="o">&gt;=</span><span class="mi">1</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">nm1</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">/=</span><span class="n">zero</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="c">!</span>
+<span class="c">!        determine a givens rotation which eliminates the</span>
+<span class="c">!        j-th element of the spike.</span>
+<span class="c">!</span>
+<span class="w">               </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">s</span><span class="p">(</span><span class="n">jj</span><span class="p">))</span><span class="o">&gt;=</span><span class="nb">abs</span><span class="p">(</span><span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">))</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                  </span><span class="nb">tan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="n">s</span><span class="p">(</span><span class="n">jj</span><span class="p">)</span>
+<span class="w">                  </span><span class="nb">cos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p5</span><span class="o">/</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">p25</span><span class="o">+</span><span class="n">p25</span><span class="o">*</span><span class="nb">tan</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">                  </span><span class="nb">sin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">cos</span><span class="o">*</span><span class="nb">tan</span>
+<span class="nb">                  </span><span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sin</span>
+<span class="nb">               </span><span class="k">else</span>
+<span class="k">                  </span><span class="n">cotan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">(</span><span class="n">jj</span><span class="p">)</span><span class="o">/</span><span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+<span class="w">                  </span><span class="nb">sin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p5</span><span class="o">/</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">p25</span><span class="o">+</span><span class="n">p25</span><span class="o">*</span><span class="n">cotan</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">                  </span><span class="nb">cos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sin</span><span class="o">*</span><span class="n">cotan</span>
+<span class="w">                  </span><span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span>
+<span class="w">                  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="nb">cos</span><span class="p">)</span><span class="o">*</span><span class="n">giant</span><span class="o">&gt;</span><span class="n">one</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="nb">cos</span>
+<span class="nb">               </span><span class="k">endif</span>
+<span class="c">!</span>
+<span class="c">!        apply the transformation to s and reduce the spike in w.</span>
+<span class="c">!</span>
+<span class="w">               </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jj</span>
+<span class="w">               </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">m</span>
+<span class="w">                  </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">cos</span><span class="o">*</span><span class="n">s</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">sin</span><span class="o">*</span><span class="n">w</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">                  </span><span class="n">w</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="nb">sin</span><span class="o">*</span><span class="n">s</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">cos</span><span class="o">*</span><span class="n">w</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">                  </span><span class="n">s</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span>
+<span class="w">                  </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">               </span><span class="k">enddo</span>
+<span class="c">!</span>
+<span class="c">!        store the information necessary to recover the</span>
+<span class="c">!        givens rotation.</span>
+<span class="c">!</span>
+<span class="w">               </span><span class="n">w</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tau</span>
+<span class="w">            </span><span class="k">endif</span>
+<span class="c">!</span>
+<span class="c">!        test for zero diagonal elements in the output s.</span>
+<span class="c">!</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">s</span><span class="p">(</span><span class="n">jj</span><span class="p">)</span><span class="o">==</span><span class="n">zero</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">sing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
+<span class="w">            </span><span class="n">jj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jj</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">         </span><span class="k">enddo</span>
+<span class="k">      endif</span>
+<span class="c">!</span>
+<span class="c">!     move w back into the last column of the output s.</span>
+<span class="c">!</span>
+<span class="w">      </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jj</span>
+<span class="w">      </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">m</span>
+<span class="w">         </span><span class="n">s</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">w</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">         </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">      </span><span class="k">enddo</span>
+<span class="k">      if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">s</span><span class="p">(</span><span class="n">jj</span><span class="p">)</span><span class="o">==</span><span class="n">zero</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">sing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
+
+<span class="w">      </span><span class="k">end subroutine </span><span class="n">r1updt</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

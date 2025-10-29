@@ -1,0 +1,1939 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>standish_module &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>standish_module
+      <small>Module</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 2.0% of total for modules and submodules.">294 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/standish_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/standish_module.f90.html'>standish_module.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">standish_module</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/standish_module.html#variable-obliquity">obliquity</a>
+            <a class="list-group-item" href="../module/standish_module.html#variable-s_sobl">s_sobl</a>
+            <a class="list-group-item" href="../module/standish_module.html#variable-s_cobl">s_cobl</a>
+            <a class="list-group-item" href="../module/standish_module.html#variable-epoch">epoch</a>
+            <a class="list-group-item" href="../module/standish_module.html#variable-eph1">eph1</a>
+            <a class="list-group-item" href="../module/standish_module.html#variable-eph2">eph2</a>
+            <a class="list-group-item" href="../module/standish_module.html#variable-eph_set">eph_set</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#types-0"
+         aria-expanded="false" aria-controls="types-0">
+         <h4 class="card-header bg-primary text-white">Derived Types</h4>
+      </a>
+      <div id="types-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/standish_module.html#type-standish_ephemeris">standish_ephemeris</a>
+            <a class="list-group-item" href="../module/standish_module.html#type-ephem">ephem</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/standish_module.html#proc-spice_id_to_standish_id">spice_id_to_standish_id</a>
+            <a class="list-group-item" href="../module/standish_module.html#proc-kepler">kepler</a>
+            <a class="list-group-item" href="../module/standish_module.html#proc-tbl">tbl</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/standish_module.html#proc-standish_rv_func">standish_rv_func</a>
+            <a class="list-group-item" href="../module/standish_module.html#proc-standish_r_func">standish_r_func</a>
+            <a class="list-group-item" href="../module/standish_module.html#proc-helio">helio</a>
+            <a class="list-group-item" href="../module/standish_module.html#proc-calcelements">calcelements</a>
+            <a class="list-group-item" href="../module/standish_module.html#proc-el2op">el2op</a>
+            <a class="list-group-item" href="../module/standish_module.html#proc-op2ec">op2ec</a>
+            <a class="list-group-item" href="../module/standish_module.html#proc-ec2eq">ec2eq</a>
+            <a class="list-group-item" href="../module/standish_module.html#proc-eq2ec">eq2ec</a>
+            <a class="list-group-item" href="../module/standish_module.html#proc-sphere">sphere</a>
+            <a class="list-group-item" href="../module/standish_module.html#proc-standish_module_test">standish_module_test</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <p>Approximate positions of the major planets.</p>
+<h3>See also</h3>
+<ul>
+<li><a href="../module/analytical_ephemeris_module.html">analytical_ephemeris_module</a> -- analytical ephemeris for Earth's Moon.</li>
+</ul>
+<h3>Reference</h3>
+<ul>
+<li>E.M. Standish, Solar System Dynamics Group, JPL/Caltech,
+    "<a href="http://ssd.jpl.nasa.gov/txt/aprx_pos_planets.pdf">Keplerian Elements for Approximate Positions of the Major Planets</a>"</li>
+</ul>
+<h3>History</h3>
+<ul>
+<li>Original version copyright 2018 <a href="CumuloEpsilon">https://github.com/CumuloEpsilon</a>
+    <a href="https://github.com/CumuloEpsilon/Standish-Ephemeris">BSD License</a>.</li>
+<li>Jacob Williams, extensive refactoring with some modifications,
+    and integration into the FAT ephemeris module.</li>
+</ul>
+<h3>Original license</h3>
+<div class="codehilite"><pre><span></span><code><span class="w">   </span><span class="nt">Copyright</span><span class="w"> </span><span class="o">(</span><span class="nt">c</span><span class="o">)</span><span class="w"> </span><span class="nt">2018</span><span class="o">,</span><span class="w"> </span><span class="nt">CumuloEpsilon</span>
+<span class="w">   </span><span class="nt">All</span><span class="w"> </span><span class="nt">rights</span><span class="w"> </span><span class="nt">reserved</span><span class="o">.</span>
+
+<span class="w">   </span><span class="nt">Redistribution</span><span class="w"> </span><span class="nt">and</span><span class="w"> </span><span class="nt">use</span><span class="w"> </span><span class="nt">in</span><span class="w"> </span><span class="nt">source</span><span class="w"> </span><span class="nt">and</span><span class="w"> </span><span class="nt">binary</span><span class="w"> </span><span class="nt">forms</span><span class="o">,</span><span class="w"> </span><span class="nt">with</span><span class="w"> </span><span class="nt">or</span><span class="w"> </span><span class="nt">without</span>
+<span class="w">   </span><span class="nt">modification</span><span class="o">,</span><span class="w"> </span><span class="nt">are</span><span class="w"> </span><span class="nt">permitted</span><span class="w"> </span><span class="nt">provided</span><span class="w"> </span><span class="nt">that</span><span class="w"> </span><span class="nt">the</span><span class="w"> </span><span class="nt">following</span><span class="w"> </span><span class="nt">conditions</span><span class="w"> </span><span class="nt">are</span><span class="w"> </span><span class="nt">met</span><span class="o">:</span>
+
+<span class="w">   </span><span class="o">*</span><span class="w"> </span><span class="nt">Redistributions</span><span class="w"> </span><span class="nt">of</span><span class="w"> </span><span class="nt">source</span><span class="w"> </span><span class="nt">code</span><span class="w"> </span><span class="nt">must</span><span class="w"> </span><span class="nt">retain</span><span class="w"> </span><span class="nt">the</span><span class="w"> </span><span class="nt">above</span><span class="w"> </span><span class="nt">copyright</span><span class="w"> </span><span class="nt">notice</span><span class="o">,</span><span class="w"> </span><span class="nt">this</span>
+<span class="w">     </span><span class="nt">list</span><span class="w"> </span><span class="nt">of</span><span class="w"> </span><span class="nt">conditions</span><span class="w"> </span><span class="nt">and</span><span class="w"> </span><span class="nt">the</span><span class="w"> </span><span class="nt">following</span><span class="w"> </span><span class="nt">disclaimer</span><span class="o">.</span>
+
+<span class="w">   </span><span class="o">*</span><span class="w"> </span><span class="nt">Redistributions</span><span class="w"> </span><span class="nt">in</span><span class="w"> </span><span class="nt">binary</span><span class="w"> </span><span class="nt">form</span><span class="w"> </span><span class="nt">must</span><span class="w"> </span><span class="nt">reproduce</span><span class="w"> </span><span class="nt">the</span><span class="w"> </span><span class="nt">above</span><span class="w"> </span><span class="nt">copyright</span><span class="w"> </span><span class="nt">notice</span><span class="o">,</span>
+<span class="w">     </span><span class="nt">this</span><span class="w"> </span><span class="nt">list</span><span class="w"> </span><span class="nt">of</span><span class="w"> </span><span class="nt">conditions</span><span class="w"> </span><span class="nt">and</span><span class="w"> </span><span class="nt">the</span><span class="w"> </span><span class="nt">following</span><span class="w"> </span><span class="nt">disclaimer</span><span class="w"> </span><span class="nt">in</span><span class="w"> </span><span class="nt">the</span><span class="w"> </span><span class="nt">documentation</span>
+<span class="w">     </span><span class="nt">and</span><span class="o">/</span><span class="nt">or</span><span class="w"> </span><span class="nt">other</span><span class="w"> </span><span class="nt">materials</span><span class="w"> </span><span class="nt">provided</span><span class="w"> </span><span class="nt">with</span><span class="w"> </span><span class="nt">the</span><span class="w"> </span><span class="nt">distribution</span><span class="o">.</span>
+
+<span class="w">   </span><span class="nt">THIS</span><span class="w"> </span><span class="nt">SOFTWARE</span><span class="w"> </span><span class="nt">IS</span><span class="w"> </span><span class="nt">PROVIDED</span><span class="w"> </span><span class="nt">BY</span><span class="w"> </span><span class="nt">THE</span><span class="w"> </span><span class="nt">COPYRIGHT</span><span class="w"> </span><span class="nt">HOLDERS</span><span class="w"> </span><span class="nt">AND</span><span class="w"> </span><span class="nt">CONTRIBUTORS</span><span class="w"> </span><span class="s2">&quot;AS IS&quot;</span>
+<span class="w">   </span><span class="nt">AND</span><span class="w"> </span><span class="nt">ANY</span><span class="w"> </span><span class="nt">EXPRESS</span><span class="w"> </span><span class="nt">OR</span><span class="w"> </span><span class="nt">IMPLIED</span><span class="w"> </span><span class="nt">WARRANTIES</span><span class="o">,</span><span class="w"> </span><span class="nt">INCLUDING</span><span class="o">,</span><span class="w"> </span><span class="nt">BUT</span><span class="w"> </span><span class="nt">NOT</span><span class="w"> </span><span class="nt">LIMITED</span><span class="w"> </span><span class="nt">TO</span><span class="o">,</span><span class="w"> </span><span class="nt">THE</span>
+<span class="w">   </span><span class="nt">IMPLIED</span><span class="w"> </span><span class="nt">WARRANTIES</span><span class="w"> </span><span class="nt">OF</span><span class="w"> </span><span class="nt">MERCHANTABILITY</span><span class="w"> </span><span class="nt">AND</span><span class="w"> </span><span class="nt">FITNESS</span><span class="w"> </span><span class="nt">FOR</span><span class="w"> </span><span class="nt">A</span><span class="w"> </span><span class="nt">PARTICULAR</span><span class="w"> </span><span class="nt">PURPOSE</span><span class="w"> </span><span class="nt">ARE</span>
+<span class="w">   </span><span class="nt">DISCLAIMED</span><span class="o">.</span><span class="w"> </span><span class="nt">IN</span><span class="w"> </span><span class="nt">NO</span><span class="w"> </span><span class="nt">EVENT</span><span class="w"> </span><span class="nt">SHALL</span><span class="w"> </span><span class="nt">THE</span><span class="w"> </span><span class="nt">COPYRIGHT</span><span class="w"> </span><span class="nt">HOLDER</span><span class="w"> </span><span class="nt">OR</span><span class="w"> </span><span class="nt">CONTRIBUTORS</span><span class="w"> </span><span class="nt">BE</span><span class="w"> </span><span class="nt">LIABLE</span>
+<span class="w">   </span><span class="nt">FOR</span><span class="w"> </span><span class="nt">ANY</span><span class="w"> </span><span class="nt">DIRECT</span><span class="o">,</span><span class="w"> </span><span class="nt">INDIRECT</span><span class="o">,</span><span class="w"> </span><span class="nt">INCIDENTAL</span><span class="o">,</span><span class="w"> </span><span class="nt">SPECIAL</span><span class="o">,</span><span class="w"> </span><span class="nt">EXEMPLARY</span><span class="o">,</span><span class="w"> </span><span class="nt">OR</span><span class="w"> </span><span class="nt">CONSEQUENTIAL</span>
+<span class="w">   </span><span class="nt">DAMAGES</span><span class="w"> </span><span class="o">(</span><span class="nt">INCLUDING</span><span class="o">,</span><span class="w"> </span><span class="nt">BUT</span><span class="w"> </span><span class="nt">NOT</span><span class="w"> </span><span class="nt">LIMITED</span><span class="w"> </span><span class="nt">TO</span><span class="o">,</span><span class="w"> </span><span class="nt">PROCUREMENT</span><span class="w"> </span><span class="nt">OF</span><span class="w"> </span><span class="nt">SUBSTITUTE</span><span class="w"> </span><span class="nt">GOODS</span><span class="w"> </span><span class="nt">OR</span>
+<span class="w">   </span><span class="nt">SERVICES</span><span class="o">;</span><span class="w"> </span><span class="nt">LOSS</span><span class="w"> </span><span class="nt">OF</span><span class="w"> </span><span class="nt">USE</span><span class="o">,</span><span class="w"> </span><span class="nt">DATA</span><span class="o">,</span><span class="w"> </span><span class="nt">OR</span><span class="w"> </span><span class="nt">PROFITS</span><span class="o">;</span><span class="w"> </span><span class="nt">OR</span><span class="w"> </span><span class="nt">BUSINESS</span><span class="w"> </span><span class="nt">INTERRUPTION</span><span class="o">)</span><span class="w"> </span><span class="nt">HOWEVER</span>
+<span class="w">   </span><span class="nt">CAUSED</span><span class="w"> </span><span class="nt">AND</span><span class="w"> </span><span class="nt">ON</span><span class="w"> </span><span class="nt">ANY</span><span class="w"> </span><span class="nt">THEORY</span><span class="w"> </span><span class="nt">OF</span><span class="w"> </span><span class="nt">LIABILITY</span><span class="o">,</span><span class="w"> </span><span class="nt">WHETHER</span><span class="w"> </span><span class="nt">IN</span><span class="w"> </span><span class="nt">CONTRACT</span><span class="o">,</span><span class="w"> </span><span class="nt">STRICT</span><span class="w"> </span><span class="nt">LIABILITY</span><span class="o">,</span>
+<span class="w">   </span><span class="nt">OR</span><span class="w"> </span><span class="nt">TORT</span><span class="w"> </span><span class="o">(</span><span class="nt">INCLUDING</span><span class="w"> </span><span class="nt">NEGLIGENCE</span><span class="w"> </span><span class="nt">OR</span><span class="w"> </span><span class="nt">OTHERWISE</span><span class="o">)</span><span class="w"> </span><span class="nt">ARISING</span><span class="w"> </span><span class="nt">IN</span><span class="w"> </span><span class="nt">ANY</span><span class="w"> </span><span class="nt">WAY</span><span class="w"> </span><span class="nt">OUT</span><span class="w"> </span><span class="nt">OF</span><span class="w"> </span><span class="nt">THE</span><span class="w"> </span><span class="nt">USE</span>
+<span class="w">   </span><span class="nt">OF</span><span class="w"> </span><span class="nt">THIS</span><span class="w"> </span><span class="nt">SOFTWARE</span><span class="o">,</span><span class="w"> </span><span class="nt">EVEN</span><span class="w"> </span><span class="nt">IF</span><span class="w"> </span><span class="nt">ADVISED</span><span class="w"> </span><span class="nt">OF</span><span class="w"> </span><span class="nt">THE</span><span class="w"> </span><span class="nt">POSSIBILITY</span><span class="w"> </span><span class="nt">OF</span><span class="w"> </span><span class="nt">SUCH</span><span class="w"> </span><span class="nt">DAMAGE</span><span class="o">.</span>
+</code></pre></div>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='kind_module.html'>kind_module</a></li>
+                  <li class="list-inline-item"><a href='time_module.html'>time_module</a></li>
+                  <li class="list-inline-item"><a href='numbers_module.html'>numbers_module</a></li>
+                  <li class="list-inline-item"><a href='conversion_module.html'>conversion_module</a></li>
+                  <li class="list-inline-item"><a href='celestial_body_module.html'>celestial_body_module</a></li>
+                  <li class="list-inline-item"><a href='ephemeris_module.html'>ephemeris_module</a></li>
+                  <li class="list-inline-item"><a href='base_class_module.html'>base_class_module</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~standish_module~~UsesGraph Pages: 1 -->
+<svg id="modulestandish_moduleUsesGraph" width="641pt" height="178pt"
+ viewBox="0.00 0.00 641.00 177.72" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~standish_module~~UsesGraph" class="graph" transform="scale(0.77 0.77) rotate(0) translate(4 226.12)">
+<title>module~~standish_module~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-226.12 826,-226.12 826,4 -4,4"/>
+<!-- module~standish_module -->
+<g id="module~~standish_module~~UsesGraph_node1" class="node">
+<title>module~standish_module</title>
+<polygon fill="none" stroke="black" points="822,-162 719,-162 719,-138 822,-138 822,-162"/>
+<text text-anchor="middle" x="770.5" y="-147.6" font-family="Helvetica,sans-Serif" font-size="10.50">standish_module</text>
+</g>
+<!-- module~base_class_module -->
+<g id="module~~standish_module~~UsesGraph_node2" class="node">
+<title>module~base_class_module</title>
+<g id="a_module~~standish_module~~UsesGraph_node2"><a xlink:href="../module/base_class_module.html" xlink:title="base_class_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="362,-162 247,-162 247,-138 362,-138 362,-162"/>
+<text text-anchor="middle" x="304.5" y="-147.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">base_class_module</text>
+</a>
+</g>
+</g>
+<!-- module~standish_module&#45;&gt;module~base_class_module -->
+<g id="module~~standish_module~~UsesGraph_edge1" class="edge">
+<title>module~standish_module&#45;&gt;module~base_class_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M624.5,-170C537.2,-170.57 436.71,-162.89 372.23,-156.88"/>
+<polygon fill="#000000" stroke="#000000" points="372.48,-153.39 362.19,-155.93 371.82,-160.35 372.48,-153.39"/>
+</g>
+<!-- module~celestial_body_module -->
+<g id="module~~standish_module~~UsesGraph_node3" class="node">
+<title>module~celestial_body_module</title>
+<g id="a_module~~standish_module~~UsesGraph_node3"><a xlink:href="../module/celestial_body_module.html" xlink:title="celestial_body_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="532,-142 398,-142 398,-118 532,-118 532,-142"/>
+<text text-anchor="middle" x="465" y="-127.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">celestial_body_module</text>
+</a>
+</g>
+</g>
+<!-- module~standish_module&#45;&gt;module~celestial_body_module -->
+<g id="module~~standish_module~~UsesGraph_edge2" class="edge">
+<title>module~standish_module&#45;&gt;module~celestial_body_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M718.78,-160.42C691.55,-165.17 657.33,-169.8 626.5,-170"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M624.5,-170C582.63,-170.27 536.38,-156.95 504.7,-145.61"/>
+<polygon fill="#000000" stroke="#000000" points="505.55,-142.19 494.95,-142.01 503.12,-148.75 505.55,-142.19"/>
+</g>
+<!-- module~conversion_module -->
+<g id="module~~standish_module~~UsesGraph_node4" class="node">
+<title>module~conversion_module</title>
+<g id="a_module~~standish_module~~UsesGraph_node4"><a xlink:href="../module/conversion_module.html" xlink:title="conversion_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="523.5,-24 406.5,-24 406.5,0 523.5,0 523.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conversion_module</text>
+</a>
+</g>
+</g>
+<!-- module~standish_module&#45;&gt;module~conversion_module -->
+<g id="module~~standish_module~~UsesGraph_edge3" class="edge">
+<title>module~standish_module&#45;&gt;module~conversion_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M756.56,-137.83C732.87,-116.35 680.04,-72.1 626.5,-52"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M624.5,-52C595.39,-41.07 562.15,-32.17 533.67,-25.56"/>
+<polygon fill="#000000" stroke="#000000" points="534.33,-22.12 523.8,-23.32 532.78,-28.95 534.33,-22.12"/>
+</g>
+<!-- module~ephemeris_module -->
+<g id="module~~standish_module~~UsesGraph_node5" class="node">
+<title>module~ephemeris_module</title>
+<g id="a_module~~standish_module~~UsesGraph_node5"><a xlink:href="../module/ephemeris_module.html" xlink:title="ephemeris_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="683,-142 568,-142 568,-118 683,-118 683,-142"/>
+<text text-anchor="middle" x="625.5" y="-127.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ephemeris_module</text>
+</a>
+</g>
+</g>
+<!-- module~standish_module&#45;&gt;module~ephemeris_module -->
+<g id="module~~standish_module~~UsesGraph_edge4" class="edge">
+<title>module~standish_module&#45;&gt;module~ephemeris_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M718.68,-142.89C710.49,-141.75 701.9,-140.55 693.4,-139.36"/>
+<polygon fill="#000000" stroke="#000000" points="693.87,-135.89 683.48,-137.97 692.9,-142.82 693.87,-135.89"/>
+</g>
+<!-- module~kind_module -->
+<g id="module~~standish_module~~UsesGraph_node6" class="node">
+<title>module~kind_module</title>
+<g id="a_module~~standish_module~~UsesGraph_node6"><a xlink:href="../module/kind_module.html" xlink:title="kind_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="211,-82 130,-82 130,-58 211,-58 211,-82"/>
+<text text-anchor="middle" x="170.5" y="-67.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module</text>
+</a>
+</g>
+</g>
+<!-- module~standish_module&#45;&gt;module~kind_module -->
+<g id="module~~standish_module~~UsesGraph_edge5" class="edge">
+<title>module~standish_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M464,-52C391.67,-56.04 377.66,-96.41 305.5,-90"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M303.5,-90C276.23,-87.58 246.02,-83.13 221.39,-79.05"/>
+<polygon fill="#000000" stroke="#000000" points="221.65,-75.54 211.2,-77.32 220.48,-82.44 221.65,-75.54"/>
+</g>
+<!-- module~numbers_module -->
+<g id="module~~standish_module~~UsesGraph_node7" class="node">
+<title>module~numbers_module</title>
+<g id="a_module~~standish_module~~UsesGraph_node7"><a xlink:href="../module/numbers_module.html" xlink:title="numbers_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="357.5,-62 251.5,-62 251.5,-38 357.5,-38 357.5,-62"/>
+<text text-anchor="middle" x="304.5" y="-47.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module</text>
+</a>
+</g>
+</g>
+<!-- module~standish_module&#45;&gt;module~numbers_module -->
+<g id="module~~standish_module~~UsesGraph_edge6" class="edge">
+<title>module~standish_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M624.5,-52C558.55,-27.24 536.33,-48.07 466,-52"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M464,-52C432.29,-53.77 396.97,-53.54 367.72,-52.75"/>
+<polygon fill="#000000" stroke="#000000" points="367.75,-49.25 357.65,-52.45 367.54,-56.25 367.75,-49.25"/>
+</g>
+<!-- module~time_module -->
+<g id="module~~standish_module~~UsesGraph_node8" class="node">
+<title>module~time_module</title>
+<g id="a_module~~standish_module~~UsesGraph_node8"><a xlink:href="../module/time_module.html" xlink:title="time_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="666.5,-222 584.5,-222 584.5,-198 666.5,-198 666.5,-222"/>
+<text text-anchor="middle" x="625.5" y="-207.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">time_module</text>
+</a>
+</g>
+</g>
+<!-- module~standish_module&#45;&gt;module~time_module -->
+<g id="module~~standish_module~~UsesGraph_edge7" class="edge">
+<title>module~standish_module&#45;&gt;module~time_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M740.56,-162.14C718.76,-171.29 688.65,-183.92 664.84,-193.91"/>
+<polygon fill="#000000" stroke="#000000" points="663.26,-190.78 655.4,-197.88 665.97,-197.23 663.26,-190.78"/>
+</g>
+<!-- module~celestial_body_module&#45;&gt;module~base_class_module -->
+<g id="module~~standish_module~~UsesGraph_edge8" class="edge">
+<title>module~celestial_body_module&#45;&gt;module~base_class_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M397.7,-138.37C389.38,-139.42 380.86,-140.49 372.53,-141.54"/>
+<polygon fill="#000000" stroke="#000000" points="371.96,-138.09 362.48,-142.81 372.84,-145.03 371.96,-138.09"/>
+</g>
+<!-- module~celestial_body_module&#45;&gt;module~kind_module -->
+<g id="module~~standish_module~~UsesGraph_edge9" class="edge">
+<title>module~celestial_body_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M430.55,-118C398.85,-107.49 349.64,-93.37 305.5,-90"/>
+</g>
+<!-- module~celestial_body_module&#45;&gt;module~numbers_module -->
+<g id="module~~standish_module~~UsesGraph_edge10" class="edge">
+<title>module~celestial_body_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M441.9,-117.84C421.36,-106.66 389.84,-89.76 362,-76 355.63,-72.85 348.79,-69.6 342.16,-66.51"/>
+<polygon fill="#000000" stroke="#000000" points="343.21,-63.14 332.66,-62.13 340.27,-69.49 343.21,-63.14"/>
+</g>
+<!-- module~conversion_module&#45;&gt;module~kind_module -->
+<g id="module~~standish_module~~UsesGraph_edge11" class="edge">
+<title>module~conversion_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M406.16,-10.04C361.75,-10.08 299.36,-13.5 247,-29 229.4,-34.21 211.28,-43.88 197.2,-52.53"/>
+<polygon fill="#000000" stroke="#000000" points="195.15,-49.69 188.58,-58 198.9,-55.59 195.15,-49.69"/>
+</g>
+<!-- module~conversion_module&#45;&gt;module~numbers_module -->
+<g id="module~~standish_module~~UsesGraph_edge12" class="edge">
+<title>module~conversion_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M413.85,-24.02C398.45,-27.71 381.35,-31.81 365.38,-35.65"/>
+<polygon fill="#000000" stroke="#000000" points="364.5,-32.25 355.6,-37.99 366.14,-39.06 364.5,-32.25"/>
+</g>
+<!-- module~ephemeris_module&#45;&gt;module~celestial_body_module -->
+<g id="module~~standish_module~~UsesGraph_edge13" class="edge">
+<title>module~ephemeris_module&#45;&gt;module~celestial_body_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M567.73,-130C559.43,-130 550.77,-130 542.16,-130"/>
+<polygon fill="#000000" stroke="#000000" points="542.1,-126.5 532.1,-130 542.1,-133.5 542.1,-126.5"/>
+</g>
+<!-- module~ephemeris_module&#45;&gt;module~kind_module -->
+<g id="module~~standish_module~~UsesGraph_edge14" class="edge">
+<title>module~ephemeris_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M577.21,-117.93C562.78,-114.61 546.81,-111.29 532,-109 432.17,-93.56 406.23,-97.69 305.5,-90"/>
+</g>
+<!-- iso_fortran_env -->
+<g id="module~~standish_module~~UsesGraph_node9" class="node">
+<title>iso_fortran_env</title>
+<g id="a_module~~standish_module~~UsesGraph_node9"><a xlink:href="http://fortranwiki.org/fortran/show/iso_fortran_env" xlink:title="iso_fortran_env">
+<polygon fill="#337ab7" stroke="#337ab7" points="94,-82 0,-82 0,-58 94,-58 94,-82"/>
+<text text-anchor="middle" x="47" y="-67.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
+</a>
+</g>
+</g>
+<!-- module~kind_module&#45;&gt;iso_fortran_env -->
+<g id="module~~standish_module~~UsesGraph_edge15" class="edge">
+<title>module~kind_module&#45;&gt;iso_fortran_env</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M129.72,-70C121.56,-70 112.83,-70 104.21,-70"/>
+<polygon fill="#000000" stroke="#000000" points="104.2,-66.5 94.2,-70 104.2,-73.5 104.2,-66.5"/>
+</g>
+<!-- module~numbers_module&#45;&gt;module~kind_module -->
+<g id="module~~standish_module~~UsesGraph_edge16" class="edge">
+<title>module~numbers_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M251.33,-57.9C241.38,-59.41 231,-60.99 221.13,-62.48"/>
+<polygon fill="#000000" stroke="#000000" points="220.44,-59.04 211.08,-64 221.49,-65.97 220.44,-59.04"/>
+</g>
+<!-- module~time_module&#45;&gt;module~kind_module -->
+<g id="module~~standish_module~~UsesGraph_edge17" class="edge">
+<title>module~time_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M584.45,-215.81C511.91,-224.28 356.18,-232.92 247,-171 215.17,-152.95 192.73,-115.42 180.97,-91.54"/>
+<polygon fill="#000000" stroke="#000000" points="184.02,-89.8 176.6,-82.24 177.69,-92.78 184.02,-89.8"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panmodulestandish_moduleUsesGraph = svgPanZoom('#modulestandish_moduleUsesGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~standish_module~~UsedByGraph Pages: 1 -->
+<svg id="modulestandish_moduleUsedByGraph" width="317pt" height="32pt"
+ viewBox="0.00 0.00 317.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~standish_module~~UsedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>module~~standish_module~~UsedByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 313,-28 313,4 -4,4"/>
+<!-- module~standish_module -->
+<g id="module~~standish_module~~UsedByGraph_node1" class="node">
+<title>module~standish_module</title>
+<polygon fill="none" stroke="black" points="103,-24 0,-24 0,0 103,0 103,-24"/>
+<text text-anchor="middle" x="51.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">standish_module</text>
+</g>
+<!-- module~fortran_astrodynamics_toolkit -->
+<g id="module~~standish_module~~UsedByGraph_node2" class="node">
+<title>module~fortran_astrodynamics_toolkit</title>
+<g id="a_module~~standish_module~~UsedByGraph_node2"><a xlink:href="../module/fortran_astrodynamics_toolkit.html" xlink:title="fortran_astrodynamics_toolkit">
+<polygon fill="#337ab7" stroke="#337ab7" points="309,-24 139,-24 139,0 309,0 309,-24"/>
+<text text-anchor="middle" x="224" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fortran_astrodynamics_toolkit</text>
+</a>
+</g>
+</g>
+<!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~standish_module -->
+<g id="module~~standish_module~~UsedByGraph_edge1" class="edge">
+<title>module~fortran_astrodynamics_toolkit&#45;&gt;module~standish_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M138.75,-12C130.25,-12 121.75,-12 113.56,-12"/>
+<polygon fill="#000000" stroke="#000000" points="113.4,-8.5 103.4,-12 113.4,-15.5 113.4,-8.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      <br>
+
+
+        <section>
+          <h2>Variables</h2>
+            <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-obliquity"></span>
+              real(kind=wp),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>obliquity</strong></td>
+<td> =</td>
+                <td>23.43928_wp</td>
+            <td>
+                <p>obliquity at J2000 [deg]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s_sobl"></span>
+              real(kind=wp),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>s_sobl</strong></td>
+<td> =</td>
+                <td>sin(obliquity*deg2rad)</td>
+            <td>
+                <p>sin of j2000 obliquity</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s_cobl"></span>
+              real(kind=wp),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>s_cobl</strong></td>
+<td> =</td>
+                <td>cos(obliquity*deg2rad)</td>
+            <td>
+                <p>cos of j2000 obliquity</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-epoch"></span>
+              real(kind=wp),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>epoch</strong></td>
+<td> =</td>
+                <td>2451545.0_wp</td>
+            <td>
+                <p>Julian date of J2000 epoch</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eph1"></span>
+              type(<a href='../type/ephem.html'>ephem</a>),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>eph1</strong></td>
+<td> =</td>
+                <td>ephem(1, &#39;Keplerian Elements Valid 1800AD-2050AD&#39;, [2378497.0_wp, 2470172.0_wp], reshape([0.38709927_wp, 0.20563594_wp, 0.12225995_wp, 4.4025989_wp, 1.3518935_wp, 0.84353095_wp, 3.70000009e-07_wp, 1.90600003e-05_wp, -1.03803286e-04_wp, 2608.7903_wp, 2.80085020e-03_wp, -2.18760967e-03_wp, 0.0_wp, 0.0_wp, 0.0_wp, 0.0_wp, 0.72333568_wp, 6.77671982e-03_wp, 5.92482723e-02_wp, 3.1761343_wp, 2.2968962_wp, 1.3383157_wp, 3.90000014e-06_wp, -4.10700013e-05_wp, -1.37689030e-05_wp, 1021.3286_wp, 4.68322469e-05_wp, -4.84667765e-03_wp, 0.0_wp, 0.0_wp, 0.0_wp, 0.0_wp, 1.0000026_wp, 1.67112295e-02_wp, -2.67209913e-07_wp, 1.7534375_wp, 1.7966015_wp, 0.0_wp, 5.62000014e-06_wp, -4.39200012e-05_wp, -2.25962198e-04_wp, 628.30756_wp, 5.64218918e-03_wp, 0.0_wp, 0.0_wp, 0.0_wp, 0.0_wp, 0.0_wp, 1.5237104_wp, 9.33941007e-02_wp, 3.22832055e-02_wp, -7.94723779e-02_wp, -0.41789517_wp, 0.86497712_wp, 1.84700002e-05_wp, 7.88199977e-05_wp, -1.41918135e-04_wp, 334.06131_wp, 7.75643345e-03_wp, -5.10636950e-03_wp, 0.0_wp, 0.0_wp, 0.0_wp, 0.0_wp, 5.2028871_wp, 4.83862385e-02_wp, 2.27660220e-02_wp, 0.60033119_wp, 0.25706047_wp, 1.7536005_wp, -1.16069998e-04_wp, -1.32529996e-04_wp, -3.20641411e-05_wp, 52.966312_wp, 3.70929041e-03_wp, 3.57253314e-03_wp, 0.0_wp, 0.0_wp, 0.0_wp, 0.0_wp, 9.5366764_wp, 5.38617894e-02_wp, 4.33887430e-02_wp, 0.87186599_wp, 1.6161553_wp, 1.9837835_wp, -1.25059998e-03_wp, -5.09909994e-04_wp, 3.37911442e-05_wp, 21.336540_wp, -7.31244357e-03_wp, -5.03838016e-03_wp, 0.0_wp, 0.0_wp, 0.0_wp, 0.0_wp, 19.189165_wp, 4.72574383e-02_wp, 1.34850740e-02_wp, 5.4670362_wp, 2.9837148_wp, 1.2918390_wp, -1.96175999e-03_wp, -4.39700016e-05_wp, -4.24008576e-05_wp, 7.4784222_wp, 7.12186471e-03_wp, 7.40122399e-04_wp, 0.0_wp, 0.0_wp, 0.0_wp, 0.0_wp, 30.069923_wp, 8.59048031e-03_wp, 3.08930874e-02_wp, -0.96202600_wp, 0.78478318_wp, 2.3000686_wp, 2.62910005e-04_wp, 5.10499995e-05_wp, 6.17357864e-06_wp, 3.8128369_wp, -5.62719675e-03_wp, -8.87786155e-05_wp, 0.0_wp, 0.0_wp, 0.0_wp, 0.0_wp, 39.482117_wp, 0.24882729_wp, 0.29914966_wp, 4.1700983_wp, 3.9107401_wp, 1.9251670_wp, -3.15960002e-04_wp, 5.17000008e-05_wp, 8.40899645e-07_wp, 2.5343544_wp, -7.09117157e-04_wp, -2.06556579e-04_wp, 0.0_wp, 0.0_wp, 0.0_wp, 0.0_wp], [16, 9]))</td>
+            <td>
+                <p>The first ephemeris data table (this is standish's table 1).
+keplerian elements valid 1800 ad - 2050 ad</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eph2"></span>
+              type(<a href='../type/ephem.html'>ephem</a>),
+            </td>
+              <td>private,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>eph2</strong></td>
+<td> =</td>
+                <td>ephem(2, &#39;Keplerian Elements Valid 3000BC-3000AD&#39;, [625674.0_wp, 2816788.0_wp], reshape([0.38709843_wp, 0.20563661_wp, 0.12227069_wp, 4.4026222_wp, 1.3518922_wp, 0.84368551_wp, 0.0_wp, 2.12300001e-05_wp, -1.03002007e-04_wp, 2608.7903_wp, 2.78205727e-03_wp, -2.13177688e-03_wp, 0.0_wp, 0.0_wp, 0.0_wp, 0.0_wp, 0.72332102_wp, 6.76399004e-03_wp, 5.93023673e-02_wp, 3.1761451_wp, 2.2997777_wp, 1.3381896_wp, -2.60000007e-07_wp, -5.10700011e-05_wp, 7.59113527e-06_wp, 1021.3286_wp, 9.91285546e-04_wp, -4.76024114e-03_wp, 0.0_wp, 0.0_wp, 0.0_wp, 0.0_wp, 1.0000002_wp, 1.67316291e-02_wp, -9.48516663e-06_wp, 1.7534785_wp, 1.7964685_wp, -8.92317668e-02_wp, -2.99999989e-08_wp, -3.66099994e-05_wp, -2.33381579e-04_wp, 628.30762_wp, 5.54932002e-03_wp, -4.21040738e-03_wp, 0.0_wp, 0.0_wp, 0.0_wp, 0.0_wp, 1.5237124_wp, 9.33651105e-02_wp, 3.23203318e-02_wp, -7.97289312e-02_wp, -0.41743821_wp, 0.86765921_wp, 9.69999974e-07_wp, 9.14900011e-05_wp, -1.26493964e-04_wp, 334.06125_wp, 7.89301097e-03_wp, -4.68663359e-03_wp, 0.0_wp, 0.0_wp, 0.0_wp, 0.0_wp, 5.2024803_wp, 4.85358983e-02_wp, 2.26650927e-02_wp, 0.59925520_wp, 0.24914493_wp, 1.7504400_wp, -2.86400009e-05_wp, 1.80260002e-04_wp, -5.63216017e-05_wp, 52.969063_wp, 3.17635899e-03_wp, 2.27322499e-03_wp, -2.17328397e-06_wp, 1.05837814e-03_wp, -6.21955749e-03_wp, 0.66935557_wp, 9.5414991_wp, 5.55082485e-02_wp, 4.35327180e-02_wp, 0.87398607_wp, 1.6207365_wp, 1.9833919_wp, -3.06500006e-05_wp, -3.20440013e-04_wp, 7.88834659e-05_wp, 21.329931_wp, 9.45610274e-03_wp, -4.36594151e-03_wp, 4.52022823e-06_wp, -2.34475732e-03_wp, 1.52402408e-02_wp, 0.66935557_wp, 19.187979_wp, 4.68574017e-02_wp, 1.34910680e-02_wp, 5.4838729_wp, 3.0095420_wp, 1.2908891_wp, -2.04550000e-04_wp, -1.54999998e-05_wp, -3.14429781e-05_wp, 7.4786506_wp, 1.61739404e-03_wp, 1.00176642e-03_wp, 1.01806800e-05_wp, -1.70574244e-02_wp, 3.08735552e-03_wp, 0.13387112_wp, 30.069527_wp, 8.95438995e-03_wp, 3.08932904e-02_wp, 5.3096914_wp, 0.81474739_wp, 2.3001058_wp, 6.44699976e-05_wp, 8.17999990e-06_wp, 3.90953755e-06_wp, 3.8129361_wp, 1.76267436e-04_wp, -1.05819658e-04_wp, -7.21658762e-06_wp, 1.19286822e-02_wp, -1.77369907e-03_wp, 0.13387112_wp, 39.486862_wp, 0.24885239_wp, 0.29916763_wp, 4.1707320_wp, 3.9112310_wp, 1.9251275_wp, 4.49750992e-03_wp, 6.01600004e-05_wp, 8.74410020e-08_wp, 2.5338767_wp, -1.69092222e-04_wp, -1.41368364e-04_wp, -2.20386923e-04_wp, 0.0_wp, 0.0_wp, 0.0_wp], [16, 9]))</td>
+            <td>
+                <p>The first ephemeris data table (this is standish's table 2).
+keplerian elements valid 3000 bc - 3000 ad</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eph_set"></span>
+              type(<a href='../type/ephem.html'>ephem</a>),
+            </td>
+              <td>private,</td>
+            <td>
+parameter,               dimension(2)
+            </td>
+            <td>::</td>
+            <td><strong>eph_set</strong></td>
+<td> =</td>
+                <td>[eph1, eph2]</td>
+            <td>
+                <p>the set of <a href="../type/ephem.html">ephem</a> options
+that are available.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+        </section>
+        <br>
+
+
+
+
+        <section>
+          <h2>Derived Types</h2>
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-standish_ephemeris"></span>
+      <h3>
+        type, public, extends(<a href='../type/ephemeris_class.html'>ephemeris_class</a>)&nbsp;::&nbsp;
+        <a href='../type/standish_ephemeris.html'>standish_ephemeris</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Standish ephemeris class for computing the
+approximate positions of the major planets.</p>
+
+
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/standish_ephemeris.html#boundprocedure-get_rv'>get_rv</a></strong> => <a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/proc/standish_rv_func.html'>standish_rv_func</a></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/standish_ephemeris.html#boundprocedure-get_r'>get_r</a></strong> => <a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/proc/standish_r_func.html'>standish_r_func</a></td>
+                  <td></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-ephem"></span>
+      <h3>
+        type, private, extends(<a href='../type/base_class.html'>base_class</a>)&nbsp;::&nbsp;
+        <a href='../type/ephem.html'>ephem</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>an ephemeris defined using a date range
+and a set of elements from the reference.</p><a href="../type/ephem.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-id"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>id</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+<p>a unique ID code that distinguishes a
+variable from other variables of the same type.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-name~3"></span>
+              character(len=name_len),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>name</strong></td>
+<td> =</td>
+                <td>&#39;&#39;</td>
+            <td>
+<p>the variable name</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-jd_range"></span>
+              real(kind=wp),
+            </td>
+              <td>public,</td>
+            <td>
+              dimension(2)
+            </td>
+            <td>::</td>
+            <td><strong>jd_range</strong></td>
+<td> =</td>
+                <td>zero</td>
+            <td>
+<p>valid julian date range</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-o"></span>
+              real(kind=wp),
+            </td>
+              <td>public,</td>
+            <td>
+              dimension (16, 9)
+            </td>
+            <td>::</td>
+            <td><strong>o</strong></td>
+<td> =</td>
+                <td>zero</td>
+            <td>
+<p>keplerian elements terms</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>  generic, public ::
+  <strong><a href='../type/ephem.html#boundprocedure-operator%28%3D%3D%29~3'>operator(==)</a></strong> => <a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/type/base_class.html#boundprocedure-base_class_equal'>base_class_equal</a></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  generic, public ::
+  <strong><a href='../type/ephem.html#boundprocedure-operator%28SLASH%3D%29~3'>operator(/=)</a></strong> => <a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/type/base_class.html#boundprocedure-base_class_not_equal'>base_class_not_equal</a></td>
+                  <td></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+        <section>
+          <h2>Functions</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-spice_id_to_standish_id"></span> <h3>private pure function <a href='../proc/spice_id_to_standish_id.html'>spice_id_to_standish_id</a>(spice_id) result(old_id)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>3/4/2018</dd>
+    </dl>
+
+  <p>Convert the NAIF SPICE ID code to the one used by the standish ephemeris.
+  Returns <code>0</code> if the body was not found.</p><a href="../proc/spice_id_to_standish_id.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-spice_id"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>spice_id</strong></td>
+            <td>
+<p>the ID code used by SPICE</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    <p>the ID code used by this module</p>
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-kepler"></span> <h3>private pure function <a href='../proc/kepler.html'>kepler</a>(ma, ec)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>solve kepler's equation ma = ea + ec*sin(ea)</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ma"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ma</strong></td>
+            <td>
+<p>eccentricity</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ec"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ec</strong></td>
+            <td>
+<p>mean anomaly in rad</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-tbl"></span> <h3>private pure function <a href='../proc/tbl.html'>tbl</a>(jd) result(itbl)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Determine which data set to use for highest accuracy for the given julian date.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-jd~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>jd</strong></td>
+            <td>
+<p>julian date (eg 2451545.0)</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    <p>Which data set to use:</p>
+<ul>
+<li>itbl=1 jd in range of table 1
+  (1800ad-2050ad) - highest accuracy</li>
+<li>itbl=2 jd outside range of table 1
+  but in range of table 2 (3000bc-3000ad)</li>
+<li>itbl=0 3000bc<jd or jd>3000ad  julian
+  date out of range for ephemeris.</li>
+</ul>
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+        <section>
+          <h2>Subroutines</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-standish_rv_func"></span> <h3>private  subroutine <a href='../proc/standish_rv_func.html'>standish_rv_func</a>(me, et, targ, obs, rv, status_ok)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>3/4/2018</dd>
+    </dl>
+
+  <p>Return the state of the <code>targ</code> body relative to
+the <code>obs</code> body, in the inertial frame [ICRF].</p><a href="../proc/standish_rv_func.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-me"></span>
+              class(<a href='../type/standish_ephemeris.html'>standish_ephemeris</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-et"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>et</strong></td>
+            <td>
+<p>ephemeris time [sec]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-targ"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>targ</strong></td>
+            <td>
+<p>target body</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-obs"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>obs</strong></td>
+            <td>
+<p>observer body</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rv"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>rv</strong></td>
+            <td>
+<p>state of targ w.r.t. obs [km, km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-status_ok"></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status_ok</strong></td>
+            <td>
+<p>true if there were no problems</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-standish_r_func"></span> <h3>private  subroutine <a href='../proc/standish_r_func.html'>standish_r_func</a>(me, et, targ, obs, r, status_ok)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Return the position of the <code>targ</code> body relative to
+ the <code>obs</code> body, in the inertial frame [ICRF].</p><a href="../proc/standish_r_func.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-me~2"></span>
+              class(<a href='../type/standish_ephemeris.html'>standish_ephemeris</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-et~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>et</strong></td>
+            <td>
+<p>ephemeris time [sec]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-targ~2"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>targ</strong></td>
+            <td>
+<p>target body</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-obs~2"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>obs</strong></td>
+            <td>
+<p>observer body</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+<p>position of targ w.r.t. obs [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-status_ok~2"></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status_ok</strong></td>
+            <td>
+<p>true if there were no problems</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-helio"></span> <h3>private pure subroutine <a href='../proc/helio.html'>helio</a>(np, jd, p, itbl)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>For planet np and julian date jd and using using table <code>itbl</code>,
+return j2000 ecliptic position (au) and velocity (au/yr).
+in cartesian coordinates (p(1)-p(6)).</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-np"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>np</strong></td>
+            <td>
+<p>planet 1-9</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-jd~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>jd</strong></td>
+            <td>
+<p>julian date</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-p"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>p</strong></td>
+            <td>
+<p>position (au)/velocity (au/yr)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-itbl"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>itbl</strong></td>
+            <td>
+<p>table used or error if zero</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-calcelements"></span> <h3>private pure subroutine <a href='../proc/calcelements.html'>calcelements</a>(np, jd, itbl, z)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Calculate current elements <code>z(jd)</code> for planet <code>j</code> from jpl data</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-np~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>np</strong></td>
+            <td>
+<p>planet number (1-9)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-jd~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>jd</strong></td>
+            <td>
+<p>julian date</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-itbl~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>itbl</strong></td>
+            <td>
+<p>which table to use (1-2)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-z~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(8)
+            </td>
+            <td>::</td>
+            <td><strong>z</strong></td>
+            <td>
+<p>elements for <code>jd</code></p><a href="../proc/calcelements.html#variable-z~2" class="pull-right"><emph>Read more&hellip;</emph></a>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-el2op"></span> <h3>private pure subroutine <a href='../proc/el2op.html'>el2op</a>(z, po)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>heliocentric coordinates for orbital plane from elements</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-z~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(8)
+            </td>
+            <td>::</td>
+            <td><strong>z</strong></td>
+            <td>
+<p>elements [a,e,i,l,w,o,ma,ea]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-po~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>po</strong></td>
+            <td>
+<p>coordinates and velocities</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-op2ec"></span> <h3>private pure subroutine <a href='../proc/op2ec.html'>op2ec</a>(z, po, pe)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>heliocentric coordinates j2000 ecliptic plane from orbital plane</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-z~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(8)
+            </td>
+            <td>::</td>
+            <td><strong>z</strong></td>
+            <td>
+<p>elements a,e,i,l,w,o,ma,ea</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-po~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>po</strong></td>
+            <td>
+<p>orbital plane coordinates</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pe"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>pe</strong></td>
+            <td>
+<p>j2000 ecliptic plane coordinates</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-ec2eq"></span> <h3>private pure subroutine <a href='../proc/ec2eq.html'>ec2eq</a>(pe, pq)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>converts cartesian heliocentric j2000 ecliptic to equatorial</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pe~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>pe</strong></td>
+            <td>
+<p>ecliptic</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pq"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>pq</strong></td>
+            <td>
+<p>equatorial</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-eq2ec"></span> <h3>private pure subroutine <a href='../proc/eq2ec.html'>eq2ec</a>(pq, pe)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>converts cartesian heliocentric equatorial to ecliptic</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pq~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>pq</strong></td>
+            <td>
+<p>equatorial</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pe~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>pe</strong></td>
+            <td>
+<p>ecliptic</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-sphere"></span> <h3>private pure subroutine <a href='../proc/sphere.html'>sphere</a>(x, y, z, rho, theta, phi)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>cartesian to spherical coordinates (angles in radians)</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+<p>x = r cos(phi) cos (theta)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-y"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>y</strong></td>
+            <td>
+<p>y = r cos(phi) sin(theta)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-z~5"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>z</strong></td>
+            <td>
+<p>z = r sin(phi)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rho"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rho</strong></td>
+            <td>
+<p>distance</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-theta"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>theta</strong></td>
+            <td>
+<p>longitude</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-phi"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>phi</strong></td>
+            <td>
+<p>latitude</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-standish_module_test"></span> <h3>public  subroutine <a href='../proc/standish_module_test.html'>standish_module_test</a>()  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>3/4/2018</dd>
+    </dl>
+
+  <p>Test routine for the standish_module routines.</p>
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

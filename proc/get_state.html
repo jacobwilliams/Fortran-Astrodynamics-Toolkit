@@ -1,0 +1,814 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>get_state &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>get_state
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.8% of total for procedures.">105 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/jpl_ephemeris_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/jpl_ephemeris_module.f90.html'>jpl_ephemeris_module.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/jpl_ephemeris_module.html'>jpl_ephemeris_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">get_state</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/get_state.html#src">get_state</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>private  subroutine get_state(me, jd, ntarg, ncent, rrd, status_ok, pos_only)  
+</h2>
+    
+
+    <p>This subroutine reads the JPL planetary ephemeris
+  and gives the position and velocity of the point <code>ntarg</code>
+  with respect to <code>ncent</code>.</p>
+<h3>Notes</h3>
+<p>The numbering convention for <code>ntarg</code> and <code>ncent</code> is:</p>
+<div class="codehilite"><pre><span></span><code><span class="mf">1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mercury</span><span class="w">      </span><span class="mf">8</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">neptune</span>
+<span class="mf">2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">venus</span><span class="w">        </span><span class="mf">9</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pluto</span>
+<span class="mf">3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">earth</span><span class="w">       </span><span class="mf">10</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moon</span>
+<span class="mf">4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mars</span><span class="w">        </span><span class="mf">11</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sun</span>
+<span class="mf">5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jupiter</span><span class="w">     </span><span class="mf">12</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">solar</span><span class="o">-</span><span class="kr">sys</span><span class="n">tem</span><span class="w"> </span><span class="n">barycenter</span>
+<span class="mf">6</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">saturn</span><span class="w">      </span><span class="mf">13</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">earth</span><span class="o">-</span><span class="n">moon</span><span class="w"> </span><span class="n">barycenter</span>
+<span class="mf">7</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">uranus</span><span class="w">      </span><span class="mf">14</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nutations</span><span class="w"> </span><span class="p">(</span><span class="n">longitude</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">obliq</span><span class="p">)</span>
+<span class="w">                </span><span class="mf">15</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">librations</span><span class="p">,</span><span class="w"> </span><span class="kr">if</span><span class="w"> </span><span class="kr">on</span><span class="w"> </span><span class="n">eph</span><span class="w"> </span><span class="n">file</span>
+</code></pre></div>
+
+<p>(if nutations are wanted, set ntarg = 14.
+  for librations, set ntarg = 15. set ncent=0.)</p>
+
+    <h3>Type Bound</h3>
+    <p><a href='../type/jpl_ephemeris.html'>jpl_ephemeris</a></p>
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-me~41"></span>
+              class(<a href='../type/jpl_ephemeris.html'>jpl_ephemeris</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-jd~9"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>jd</strong></td>
+            <td>
+                <p>d.p. Julian ephemeris date at which interpolation is wanted.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ntarg~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ntarg</strong></td>
+            <td>
+                <p>integer number of 'target' point.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ncent~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ncent</strong></td>
+            <td>
+                <p>integer number of 'center' point.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rrd"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>rrd</strong></td>
+            <td>
+                <p>output 6-word d.p. array containing position and velocity
+of point <code>ntarg</code> relative to <code>ncent</code>.
+the units are AU and AU/day (or km and km/sec if <code>me%km=.true.</code>).
+For librations the units are radians and radians
+per day. In the case of nutations the first four words of
+<code>rrd</code> will be set to nutations and rates, having units of
+radians and radians/day.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-status_ok~28"></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status_ok</strong></td>
+            <td>
+                <p>true if there were no problems</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pos_only"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pos_only</strong></td>
+            <td>
+                <p>if .true. only the position components are returned, not the velocity. [doesn't work yet]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~get_state~~CallsGraph Pages: 1 -->
+<svg id="procget_stateCallsGraph" width="479pt" height="74pt"
+ viewBox="0.00 0.00 479.00 74.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~get_state~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 70)">
+<title>proc~~get_state~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 475,-70 475,4 -4,4"/>
+<!-- proc~get_state -->
+<g id="proc~~get_state~~CallsGraph_node1" class="node">
+<title>proc~get_state</title>
+<polygon fill="none" stroke="black" points="146,-45 0,-45 0,-21 146,-21 146,-45"/>
+<text text-anchor="middle" x="73" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">jpl_ephemeris%get_state</text>
+</g>
+<!-- proc~state -->
+<g id="proc~~get_state~~CallsGraph_node2" class="node">
+<title>proc~state</title>
+<g id="a_proc~~get_state~~CallsGraph_node2"><a xlink:href="../proc/state.html" xlink:title="jpl_ephemeris%state">
+<polygon fill="#d9534f" stroke="#d9534f" points="306,-45 182,-45 182,-21 306,-21 306,-45"/>
+<text text-anchor="middle" x="244" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">jpl_ephemeris%state</text>
+</a>
+</g>
+</g>
+<!-- proc~get_state&#45;&gt;proc~state -->
+<g id="proc~~get_state~~CallsGraph_edge1" class="edge">
+<title>proc~get_state&#45;&gt;proc~state</title>
+<path fill="none" stroke="#000000" d="M146.16,-33C154.64,-33 163.3,-33 171.77,-33"/>
+<polygon fill="#000000" stroke="#000000" points="171.98,-36.5 181.98,-33 171.98,-29.5 171.98,-36.5"/>
+</g>
+<!-- proc~interp -->
+<g id="proc~~get_state~~CallsGraph_node3" class="node">
+<title>proc~interp</title>
+<g id="a_proc~~get_state~~CallsGraph_node3"><a xlink:href="../proc/interp.html" xlink:title="jpl_ephemeris%interp">
+<polygon fill="#d9534f" stroke="#d9534f" points="471,-66 342,-66 342,-42 471,-42 471,-66"/>
+<text text-anchor="middle" x="406.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">jpl_ephemeris%interp</text>
+</a>
+</g>
+</g>
+<!-- proc~state&#45;&gt;proc~interp -->
+<g id="proc~~get_state~~CallsGraph_edge2" class="edge">
+<title>proc~state&#45;&gt;proc~interp</title>
+<path fill="none" stroke="#000000" d="M306.14,-41C314.54,-42.1 323.24,-43.24 331.84,-44.36"/>
+<polygon fill="#000000" stroke="#000000" points="331.5,-47.85 341.87,-45.67 332.41,-40.91 331.5,-47.85"/>
+</g>
+<!-- proc~split -->
+<g id="proc~~get_state~~CallsGraph_node4" class="node">
+<title>proc~split</title>
+<g id="a_proc~~get_state~~CallsGraph_node4"><a xlink:href="../proc/split.html" xlink:title="split">
+<polygon fill="#d9534f" stroke="#d9534f" points="433.5,-24 379.5,-24 379.5,0 433.5,0 433.5,-24"/>
+<text text-anchor="middle" x="406.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">split</text>
+</a>
+</g>
+</g>
+<!-- proc~state&#45;&gt;proc~split -->
+<g id="proc~~get_state~~CallsGraph_edge3" class="edge">
+<title>proc~state&#45;&gt;proc~split</title>
+<path fill="none" stroke="#000000" d="M306.14,-25C327.41,-22.22 350.6,-19.18 369.21,-16.75"/>
+<polygon fill="#000000" stroke="#000000" points="369.86,-20.19 379.32,-15.43 368.95,-13.25 369.86,-20.19"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~get_state~~CalledByGraph Pages: 1 -->
+<svg id="procget_stateCalledByGraph" width="561pt" height="92pt"
+ viewBox="0.00 0.00 561.00 92.07" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~get_state~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 88.07)">
+<title>proc~~get_state~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-88.07 557,-88.07 557,4 -4,4"/>
+<!-- proc~get_state -->
+<g id="proc~~get_state~~CalledByGraph_node1" class="node">
+<title>proc~get_state</title>
+<polygon fill="none" stroke="black" points="553,-66 407,-66 407,-42 553,-42 553,-66"/>
+<text text-anchor="middle" x="480" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">jpl_ephemeris%get_state</text>
+</g>
+<!-- proc~ephemeris_test -->
+<g id="proc~~get_state~~CalledByGraph_node2" class="node">
+<title>proc~ephemeris_test</title>
+<g id="a_proc~~get_state~~CalledByGraph_node2"><a xlink:href="../proc/ephemeris_test.html" xlink:title="ephemeris_test">
+<polygon fill="#d9534f" stroke="#d9534f" points="94,-66 0,-66 0,-42 94,-42 94,-66"/>
+<text text-anchor="middle" x="47" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ephemeris_test</text>
+</a>
+</g>
+</g>
+<!-- proc~ephemeris_test&#45;&gt;proc~get_state -->
+<g id="proc~~get_state~~CalledByGraph_edge1" class="edge">
+<title>proc~ephemeris_test&#45;&gt;proc~get_state</title>
+<path fill="none" stroke="#000000" d="M86.82,-66.07C100.35,-69.7 115.71,-73.2 130,-75 236.27,-88.39 264.38,-85.27 371,-75 386.36,-73.52 402.79,-70.88 418.07,-67.97"/>
+<polygon fill="#000000" stroke="#000000" points="418.8,-71.39 427.93,-66.02 417.44,-64.52 418.8,-71.39"/>
+</g>
+<!-- proc~get_r_from_jpl_ephemeris -->
+<g id="proc~~get_state~~CalledByGraph_node3" class="node">
+<title>proc~get_r_from_jpl_ephemeris</title>
+<g id="a_proc~~get_state~~CalledByGraph_node3"><a xlink:href="../proc/get_r_from_jpl_ephemeris.html" xlink:title="jpl_ephemeris%get_r_from_jpl_ephemeris">
+<polygon fill="#d9534f" stroke="#d9534f" points="368,-66 133,-66 133,-42 368,-42 368,-66"/>
+<text text-anchor="middle" x="250.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">jpl_ephemeris%get_r_from_jpl_ephemeris</text>
+</a>
+</g>
+</g>
+<!-- proc~ephemeris_test&#45;&gt;proc~get_r_from_jpl_ephemeris -->
+<g id="proc~~get_state~~CalledByGraph_edge4" class="edge">
+<title>proc~ephemeris_test&#45;&gt;proc~get_r_from_jpl_ephemeris</title>
+<path fill="none" stroke="#000000" d="M94.23,-54C103.03,-54 112.63,-54 122.59,-54"/>
+<polygon fill="#000000" stroke="#000000" points="122.66,-57.5 132.66,-54 122.66,-50.5 122.66,-57.5"/>
+</g>
+<!-- proc~get_rv_from_jpl_ephemeris -->
+<g id="proc~~get_state~~CalledByGraph_node4" class="node">
+<title>proc~get_rv_from_jpl_ephemeris</title>
+<g id="a_proc~~get_state~~CalledByGraph_node4"><a xlink:href="../proc/get_rv_from_jpl_ephemeris.html" xlink:title="jpl_ephemeris%get_rv_from_jpl_ephemeris">
+<polygon fill="#d9534f" stroke="#d9534f" points="371,-24 130,-24 130,0 371,0 371,-24"/>
+<text text-anchor="middle" x="250.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">jpl_ephemeris%get_rv_from_jpl_ephemeris</text>
+</a>
+</g>
+</g>
+<!-- proc~ephemeris_test&#45;&gt;proc~get_rv_from_jpl_ephemeris -->
+<g id="proc~~get_state~~CalledByGraph_edge5" class="edge">
+<title>proc~ephemeris_test&#45;&gt;proc~get_rv_from_jpl_ephemeris</title>
+<path fill="none" stroke="#000000" d="M92.54,-41.93C104.65,-38.83 117.79,-35.63 130,-33 141.5,-30.52 153.67,-28.12 165.68,-25.89"/>
+<polygon fill="#000000" stroke="#000000" points="166.49,-29.3 175.7,-24.05 165.23,-22.41 166.49,-29.3"/>
+</g>
+<!-- proc~get_r_from_jpl_ephemeris&#45;&gt;proc~get_state -->
+<g id="proc~~get_state~~CalledByGraph_edge2" class="edge">
+<title>proc~get_r_from_jpl_ephemeris&#45;&gt;proc~get_state</title>
+<path fill="none" stroke="#000000" d="M368.25,-54C377.94,-54 387.61,-54 396.96,-54"/>
+<polygon fill="#000000" stroke="#000000" points="396.98,-57.5 406.98,-54 396.98,-50.5 396.98,-57.5"/>
+</g>
+<!-- proc~get_rv_from_jpl_ephemeris&#45;&gt;proc~get_state -->
+<g id="proc~~get_state~~CalledByGraph_edge3" class="edge">
+<title>proc~get_rv_from_jpl_ephemeris&#45;&gt;proc~get_state</title>
+<path fill="none" stroke="#000000" d="M321.05,-24C337.44,-26.89 354.84,-30.01 371,-33 383.08,-35.24 395.9,-37.67 408.34,-40.07"/>
+<polygon fill="#000000" stroke="#000000" points="407.72,-43.52 418.21,-41.98 409.05,-36.64 407.72,-43.52"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">get_state</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">jd</span><span class="p">,</span><span class="n">ntarg</span><span class="p">,</span><span class="n">ncent</span><span class="p">,</span><span class="n">rrd</span><span class="p">,</span><span class="n">status_ok</span><span class="p">,</span><span class="n">pos_only</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    class</span><span class="p">(</span><span class="n">jpl_ephemeris</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">jd</span><span class="w">         </span><span class="c">!! d.p. Julian ephemeris date at which interpolation is wanted.</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">ntarg</span><span class="w">      </span><span class="c">!! integer number of &#39;target&#39; point.</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">ncent</span><span class="w">      </span><span class="c">!! integer number of &#39;center&#39; point.</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">rrd</span><span class="w">        </span><span class="c">!! output 6-word d.p. array containing position and velocity</span>
+<span class="w">                                                     </span><span class="c">!! of point `ntarg` relative to `ncent`.</span>
+<span class="w">                                                     </span><span class="c">!! the units are AU and AU/day (or km and km/sec if `me%km=.true.`).</span>
+<span class="w">                                                     </span><span class="c">!! For librations the units are radians and radians</span>
+<span class="w">                                                     </span><span class="c">!! per day. In the case of nutations the first four words of</span>
+<span class="w">                                                     </span><span class="c">!! `rrd` will be set to nutations and rates, having units of</span>
+<span class="w">                                                     </span><span class="c">!! radians and radians/day.</span>
+<span class="w">    </span><span class="kt">logical</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">status_ok</span><span class="w">  </span><span class="c">!! true if there were no problems</span>
+<span class="w">    </span><span class="kt">logical</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">pos_only</span><span class="w">    </span><span class="c">!! if .true. only the position components are returned, not the velocity. [doesn&#39;t work yet]</span>
+
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">et2</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">13</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">pv</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">pvst</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">pnut</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">dimension</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">list</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span>
+<span class="w">    </span><span class="kt">logical</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">bsave</span>
+<span class="w">    </span><span class="kt">logical</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">full_state</span><span class="w"> </span><span class="c">!! if .true. then we return the full state, otherwise only the position</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">ilist</span><span class="w"> </span><span class="c">!! for the `list` array</span>
+
+<span class="w">    </span><span class="n">status_ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">pos_only</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        </span><span class="n">full_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">pos_only</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="k">        </span><span class="n">full_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
+<span class="w">    </span><span class="k">end if</span>
+<span class="w">    </span><span class="c">! if (.not. full_state) then</span>
+<span class="w">    </span><span class="c">!     ilist = 1   ! only return the position</span>
+<span class="w">    </span><span class="c">! else</span>
+<span class="w">    </span><span class="c">!     ilist = 2   ! return position and velocity</span>
+<span class="w">    </span><span class="c">! end if</span>
+<span class="w">    </span><span class="n">ilist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="c">! note: setting to 1 doesn&#39;t seem to work. need to figure out why.</span>
+<span class="w">              </span><span class="c">! for now, will always interpolate the full state.</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">initialized</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+
+<span class="w">        </span><span class="c">! initialize et2 for &#39;state&#39; and set up component count</span>
+<span class="w">        </span><span class="n">et2</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jd</span>
+<span class="w">        </span><span class="n">et2</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span>
+<span class="w">        </span><span class="n">list</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="n">rrd</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ntarg</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">ncent</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+
+<span class="k">            select case</span><span class="w"> </span><span class="p">(</span><span class="n">ntarg</span><span class="p">)</span>
+
+<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="mi">14</span><span class="p">)</span><span class="w">    </span><span class="c">!nutation</span>
+
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">ipt</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">            </span><span class="c">!me%ipt(35)</span>
+<span class="w">                    </span><span class="n">list</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">                    </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">state</span><span class="p">(</span><span class="n">et2</span><span class="p">,</span><span class="n">list</span><span class="p">,</span><span class="n">pvst</span><span class="p">,</span><span class="n">pnut</span><span class="p">,</span><span class="n">status_ok</span><span class="p">)</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">status_ok</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                        write</span><span class="p">(</span><span class="n">error_unit</span><span class="p">,</span><span class="s1">&#39;(A)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;error interpolating nutations in get_state.&#39;</span>
+<span class="w">                        </span><span class="k">return</span>
+<span class="k">                    end if</span>
+<span class="k">                    </span><span class="n">rrd</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pnut</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">)</span>
+<span class="w">                    </span><span class="n">rrd</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span>
+<span class="w">                    </span><span class="n">rrd</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span>
+<span class="w">                    </span><span class="k">return</span>
+<span class="k">                else</span>
+<span class="k">                    </span><span class="n">rrd</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span>
+<span class="w">                    </span><span class="k">write</span><span class="p">(</span><span class="n">error_unit</span><span class="p">,</span><span class="s1">&#39;(A)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;error in get_state: the ephemeris file does not contain nutations.&#39;</span>
+<span class="w">                    </span><span class="k">return</span>
+<span class="k">                endif</span>
+
+<span class="k">            case</span><span class="w"> </span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="w">    </span><span class="c">!librations</span>
+
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">ipt</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">13</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">            </span><span class="c">!me%ipt(38)</span>
+<span class="w">                    </span><span class="n">list</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">                    </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">state</span><span class="p">(</span><span class="n">et2</span><span class="p">,</span><span class="n">list</span><span class="p">,</span><span class="n">pvst</span><span class="p">,</span><span class="n">pnut</span><span class="p">,</span><span class="n">status_ok</span><span class="p">)</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">status_ok</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                        write</span><span class="p">(</span><span class="n">error_unit</span><span class="p">,</span><span class="s1">&#39;(A)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;error interpolating librations in get_state.&#39;</span>
+<span class="w">                        </span><span class="k">return</span>
+<span class="k">                    end if</span>
+<span class="k">                    </span><span class="n">rrd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pvst</span><span class="p">(:,</span><span class="mi">11</span><span class="p">)</span>
+<span class="w">                    </span><span class="k">return</span>
+<span class="k">                else</span>
+<span class="k">                    write</span><span class="p">(</span><span class="n">error_unit</span><span class="p">,</span><span class="s1">&#39;(A)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;error in get_state: the ephemeris file does not contain librations.&#39;</span>
+<span class="w">                    </span><span class="k">return</span>
+<span class="k">                endif</span>
+
+<span class="k">            case </span><span class="n">default</span>
+
+<span class="w">                </span><span class="c">! force barycentric output by &#39;state&#39;</span>
+
+<span class="w">                </span><span class="n">bsave</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">bary</span>
+<span class="w">                </span><span class="n">me</span><span class="p">%</span><span class="n">bary</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
+
+<span class="w">                </span><span class="c">! set up proper entries in &#39;list&#39; array for state call</span>
+
+<span class="w">                </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                        </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ntarg</span>
+<span class="w">                    </span><span class="k">else</span>
+<span class="k">                        </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ncent</span>
+<span class="w">                    </span><span class="k">end if</span>
+<span class="k">                    if</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="n">list</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">ilist</span><span class="w">  </span><span class="c">! can we set all these to 1 for position only? doesn&#39;t seem to work?</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="n">list</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">ilist</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w">  </span><span class="n">list</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ilist</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">13</span><span class="p">)</span><span class="w"> </span><span class="n">list</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">ilist</span>
+<span class="w">                </span><span class="k">enddo</span>
+
+<span class="w">                </span><span class="c">! make call to state</span>
+
+<span class="w">                </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">state</span><span class="p">(</span><span class="n">et2</span><span class="p">,</span><span class="n">list</span><span class="p">,</span><span class="n">pvst</span><span class="p">,</span><span class="n">pnut</span><span class="p">,</span><span class="n">status_ok</span><span class="p">)</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">status_ok</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                    write</span><span class="p">(</span><span class="n">error_unit</span><span class="p">,</span><span class="s1">&#39;(A)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;error interpolating state in get_state.&#39;</span>
+<span class="w">                    </span><span class="k">return</span>
+<span class="k">                end if</span>
+<span class="k">                do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span>
+<span class="w">                    </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span>
+<span class="w">                        </span><span class="n">pv</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pvst</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+<span class="w">                    </span><span class="k">end do</span>
+<span class="k">                enddo</span>
+
+<span class="k">                if</span><span class="w"> </span><span class="p">(</span><span class="n">ntarg</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">11</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">ncent</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">11</span><span class="p">)</span><span class="w"> </span><span class="n">pv</span><span class="p">(:,</span><span class="mi">11</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">pvsun</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ntarg</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">ncent</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">12</span><span class="p">)</span><span class="w"> </span><span class="n">pv</span><span class="p">(:,</span><span class="mi">12</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ntarg</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">13</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">ncent</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">13</span><span class="p">)</span><span class="w"> </span><span class="n">pv</span><span class="p">(:,</span><span class="mi">13</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pvst</span><span class="p">(:,</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ntarg</span><span class="o">*</span><span class="n">ncent</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">ntarg</span><span class="o">+</span><span class="n">ncent</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">13</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                    </span><span class="n">pv</span><span class="p">(:,</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span>
+<span class="w">                </span><span class="k">else</span>
+<span class="k">                    if</span><span class="w"> </span><span class="p">(</span><span class="n">list</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">  </span><span class="n">pv</span><span class="p">(:,</span><span class="mi">3</span><span class="p">)</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">pvst</span><span class="p">(:,</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">pvst</span><span class="p">(:,</span><span class="mi">10</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">1.0_wp</span><span class="o">+</span><span class="n">me</span><span class="p">%</span><span class="n">emrat</span><span class="p">)</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">list</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="n">pv</span><span class="p">(:,</span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pv</span><span class="p">(:,</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">pvst</span><span class="p">(:,</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">                </span><span class="k">end if</span>
+
+<span class="k">                </span><span class="n">rrd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pv</span><span class="p">(:,</span><span class="n">ntarg</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">pv</span><span class="p">(:,</span><span class="n">ncent</span><span class="p">)</span>
+
+<span class="w">                </span><span class="n">me</span><span class="p">%</span><span class="n">bary</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bsave</span>
+
+<span class="w">            </span><span class="k">end select</span>
+
+<span class="k">        end if</span>
+
+<span class="k">        </span><span class="n">status_ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
+
+<span class="w">    </span><span class="k">else</span>
+<span class="k">        write</span><span class="p">(</span><span class="n">error_unit</span><span class="p">,</span><span class="s1">&#39;(A)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;error in get_state: the ephemeris is not initialized.&#39;</span>
+<span class="w">    </span><span class="k">end if</span>
+
+<span class="k">    end subroutine </span><span class="n">get_state</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,2964 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>minpack_module &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>minpack_module
+      <small>Module</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 6.0% of total for modules and submodules.">863 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/minpack_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/minpack_module.f90.html'>minpack_module.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">minpack_module</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#absints-0"
+         aria-expanded="false" aria-controls="absints-0">
+         <h4 class="card-header bg-primary text-white">Abstract Interfaces</h4>
+      </a>
+      <div id="absints-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/minpack_module.html#interface-fcn_hybrd">fcn_hybrd</a>
+            <a class="list-group-item" href="../module/minpack_module.html#interface-fcn_hybrj">fcn_hybrj</a>
+        </div>
+      </div>
+    </div>
+
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/minpack_module.html#proc-dpmpar">dpmpar</a>
+            <a class="list-group-item" href="../module/minpack_module.html#proc-enorm">enorm</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/minpack_module.html#proc-dogleg">dogleg</a>
+            <a class="list-group-item" href="../module/minpack_module.html#proc-fdjac1">fdjac1</a>
+            <a class="list-group-item" href="../module/minpack_module.html#proc-hybrd">hybrd</a>
+            <a class="list-group-item" href="../module/minpack_module.html#proc-hybrd1">hybrd1</a>
+            <a class="list-group-item" href="../module/minpack_module.html#proc-hybrj">hybrj</a>
+            <a class="list-group-item" href="../module/minpack_module.html#proc-hybrj1">hybrj1</a>
+            <a class="list-group-item" href="../module/minpack_module.html#proc-qform">qform</a>
+            <a class="list-group-item" href="../module/minpack_module.html#proc-qrfac">qrfac</a>
+            <a class="list-group-item" href="../module/minpack_module.html#proc-r1mpyq">r1mpyq</a>
+            <a class="list-group-item" href="../module/minpack_module.html#proc-r1updt">r1updt</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <p>Minpack routines for solving a set of nonlinear equations.
+  The two main routines here are <a href="../proc/hybrj.html">hybrj</a> (user-provided Jacobian) and
+  <a href="../proc/hybrd.html">hybrd</a> (estimates the Jacobian using finite differences).</p>
+<h3>License</h3>
+<p>*** Original Minpack License ***</p>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="n">Minpack</span><span class="w"> </span><span class="n">Copyright</span><span class="w"> </span><span class="n">Notice</span><span class="w"> </span><span class="p">(</span><span class="mi">1999</span><span class="p">)</span><span class="w"> </span><span class="n">University</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">Chicago</span><span class="p">.</span><span class="w">  </span><span class="k">All</span><span class="w"> </span><span class="n">rights</span><span class="w"> </span><span class="n">reserved</span>
+
+<span class="w"> </span><span class="n">Redistribution</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">source</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">binary</span><span class="w"> </span><span class="n">forms</span><span class="p">,</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="k">or</span>
+<span class="w"> </span><span class="n">without</span><span class="w"> </span><span class="n">modification</span><span class="p">,</span><span class="w"> </span><span class="k">are</span><span class="w"> </span><span class="n">permitted</span><span class="w"> </span><span class="n">provided</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">the</span>
+<span class="w"> </span><span class="k">following</span><span class="w"> </span><span class="n">conditions</span><span class="w"> </span><span class="k">are</span><span class="w"> </span><span class="n">met</span><span class="err">:</span>
+
+<span class="w"> </span><span class="mf">1.</span><span class="w"> </span><span class="n">Redistributions</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="k">source</span><span class="w"> </span><span class="n">code</span><span class="w"> </span><span class="n">must</span><span class="w"> </span><span class="n">retain</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">above</span>
+<span class="w"> </span><span class="n">copyright</span><span class="w"> </span><span class="n">notice</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">conditions</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">following</span>
+<span class="w"> </span><span class="n">disclaimer</span><span class="p">.</span>
+
+<span class="w"> </span><span class="mf">2.</span><span class="w"> </span><span class="n">Redistributions</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">binary</span><span class="w"> </span><span class="n">form</span><span class="w"> </span><span class="n">must</span><span class="w"> </span><span class="n">reproduce</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">above</span>
+<span class="w"> </span><span class="n">copyright</span><span class="w"> </span><span class="n">notice</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">conditions</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">following</span>
+<span class="w"> </span><span class="n">disclaimer</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">documentation</span><span class="w"> </span><span class="k">and</span><span class="o">/</span><span class="k">or</span><span class="w"> </span><span class="n">other</span><span class="w"> </span><span class="n">materials</span>
+<span class="w"> </span><span class="n">provided</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">distribution</span><span class="p">.</span>
+
+<span class="w"> </span><span class="mf">3.</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="k">end</span><span class="o">-</span><span class="n">user</span><span class="w"> </span><span class="n">documentation</span><span class="w"> </span><span class="n">included</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">the</span>
+<span class="w"> </span><span class="n">redistribution</span><span class="p">,</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">any</span><span class="p">,</span><span class="w"> </span><span class="n">must</span><span class="w"> </span><span class="k">include</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">following</span>
+<span class="w"> </span><span class="n">acknowledgment</span><span class="err">:</span>
+
+<span class="w">    </span><span class="s2">&quot;This product includes software developed by the</span>
+<span class="s2">    University of Chicago, as Operator of Argonne National</span>
+<span class="s2">    Laboratory.</span>
+
+<span class="s2"> Alternately, this acknowledgment may appear in the software</span>
+<span class="s2"> itself, if and wherever such third-party acknowledgments</span>
+<span class="s2"> normally appear.</span>
+
+<span class="s2"> 4. WARRANTY DISCLAIMER. THE SOFTWARE IS SUPPLIED &quot;</span><span class="k">AS</span><span class="w"> </span><span class="k">IS</span><span class="s2">&quot;</span>
+<span class="s2"> WITHOUT WARRANTY OF ANY KIND. THE COPYRIGHT HOLDER, THE</span>
+<span class="s2"> UNITED STATES, THE UNITED STATES DEPARTMENT OF ENERGY, AND</span>
+<span class="s2"> THEIR EMPLOYEES: (1) DISCLAIM ANY WARRANTIES, EXPRESS OR</span>
+<span class="s2"> IMPLIED, INCLUDING BUT NOT LIMITED TO ANY IMPLIED WARRANTIES</span>
+<span class="s2"> OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE</span>
+<span class="s2"> OR NON-INFRINGEMENT, (2) DO NOT ASSUME ANY LEGAL LIABILITY</span>
+<span class="s2"> OR RESPONSIBILITY FOR THE ACCURACY, COMPLETENESS, OR</span>
+<span class="s2"> USEFULNESS OF THE SOFTWARE, (3) DO NOT REPRESENT THAT USE OF</span>
+<span class="s2"> THE SOFTWARE WOULD NOT INFRINGE PRIVATELY OWNED RIGHTS, (4)</span>
+<span class="s2"> DO NOT WARRANT THAT THE SOFTWARE WILL FUNCTION</span>
+<span class="s2"> UNINTERRUPTED, THAT IT IS ERROR-FREE OR THAT ANY ERRORS WILL</span>
+<span class="s2"> BE CORRECTED.</span>
+
+<span class="s2"> 5. LIMITATION OF LIABILITY. IN NO EVENT WILL THE COPYRIGHT</span>
+<span class="s2"> HOLDER, THE UNITED STATES, THE UNITED STATES DEPARTMENT OF</span>
+<span class="s2"> ENERGY, OR THEIR EMPLOYEES: BE LIABLE FOR ANY INDIRECT,</span>
+<span class="s2"> INCIDENTAL, CONSEQUENTIAL, SPECIAL OR PUNITIVE DAMAGES OF</span>
+<span class="s2"> ANY KIND OR NATURE, INCLUDING BUT NOT LIMITED TO LOSS OF</span>
+<span class="s2"> PROFITS OR LOSS OF DATA, FOR ANY REASON WHATSOEVER, WHETHER</span>
+<span class="s2"> SUCH LIABILITY IS ASSERTED ON THE BASIS OF CONTRACT, TORT</span>
+<span class="s2"> (INCLUDING NEGLIGENCE OR STRICT LIABILITY), OR OTHERWISE,</span>
+<span class="s2"> EVEN IF ANY OF SAID PARTIES HAS BEEN WARNED OF THE</span>
+<span class="s2"> POSSIBILITY OF SUCH LOSS OR DAMAGES.</span>
+</code></pre></div>
+
+<p>*** Modifications ***</p>
+<p>Modifications for the Fortran Astrodynamics Toolkit are covered
+  under the <a href="https://github.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/blob/master/LICENSE">following license</a>.</p>
+<h3>History</h3>
+<ul>
+<li>Argonne National Laboratory. minpack project. march 1980.
+    burton s. garbow, kenneth e. hillstrom, jorge j. more, john l. nazareth</li>
+<li>Jacob Williams, Jan 2016, extensive refactoring into modern Fortran.</li>
+</ul>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='numbers_module.html'>numbers_module</a></li>
+                  <li class="list-inline-item"><a href='kind_module.html'>kind_module</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~minpack_module~~UsesGraph Pages: 1 -->
+<svg id="moduleminpack_moduleUsesGraph" width="501pt" height="52pt"
+ viewBox="0.00 0.00 501.00 52.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~minpack_module~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 48)">
+<title>module~~minpack_module~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-48 497,-48 497,4 -4,4"/>
+<!-- module~minpack_module -->
+<g id="module~~minpack_module~~UsesGraph_node1" class="node">
+<title>module~minpack_module</title>
+<polygon fill="none" stroke="black" points="493,-44 389,-44 389,-20 493,-20 493,-44"/>
+<text text-anchor="middle" x="441" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50">minpack_module</text>
+</g>
+<!-- module~kind_module -->
+<g id="module~~minpack_module~~UsesGraph_node2" class="node">
+<title>module~kind_module</title>
+<g id="a_module~~minpack_module~~UsesGraph_node2"><a xlink:href="../module/kind_module.html" xlink:title="kind_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="211,-44 130,-44 130,-20 211,-20 211,-44"/>
+<text text-anchor="middle" x="170.5" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module</text>
+</a>
+</g>
+</g>
+<!-- module~minpack_module&#45;&gt;module~kind_module -->
+<g id="module~~minpack_module~~UsesGraph_edge1" class="edge">
+<title>module~minpack_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M388.94,-32.68C377.14,-32.82 364.63,-32.93 353,-33 305.89,-33.27 294.11,-33.31 247,-33 238.71,-32.95 229.9,-32.86 221.34,-32.75"/>
+<polygon fill="#000000" stroke="#000000" points="221.12,-29.25 211.07,-32.62 221.03,-36.25 221.12,-29.25"/>
+</g>
+<!-- module~numbers_module -->
+<g id="module~~minpack_module~~UsesGraph_node3" class="node">
+<title>module~numbers_module</title>
+<g id="a_module~~minpack_module~~UsesGraph_node3"><a xlink:href="../module/numbers_module.html" xlink:title="numbers_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="353,-24 247,-24 247,0 353,0 353,-24"/>
+<text text-anchor="middle" x="300" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module</text>
+</a>
+</g>
+</g>
+<!-- module~minpack_module&#45;&gt;module~numbers_module -->
+<g id="module~~minpack_module~~UsesGraph_edge2" class="edge">
+<title>module~minpack_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M388.64,-24.61C380.3,-23.41 371.59,-22.16 363.03,-20.92"/>
+<polygon fill="#000000" stroke="#000000" points="363.48,-17.45 353.08,-19.49 362.48,-24.38 363.48,-17.45"/>
+</g>
+<!-- iso_fortran_env -->
+<g id="module~~minpack_module~~UsesGraph_node4" class="node">
+<title>iso_fortran_env</title>
+<g id="a_module~~minpack_module~~UsesGraph_node4"><a xlink:href="http://fortranwiki.org/fortran/show/iso_fortran_env" xlink:title="iso_fortran_env">
+<polygon fill="#337ab7" stroke="#337ab7" points="94,-44 0,-44 0,-20 94,-20 94,-44"/>
+<text text-anchor="middle" x="47" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
+</a>
+</g>
+</g>
+<!-- module~kind_module&#45;&gt;iso_fortran_env -->
+<g id="module~~minpack_module~~UsesGraph_edge3" class="edge">
+<title>module~kind_module&#45;&gt;iso_fortran_env</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M129.72,-32C121.56,-32 112.83,-32 104.21,-32"/>
+<polygon fill="#000000" stroke="#000000" points="104.2,-28.5 94.2,-32 104.2,-35.5 104.2,-28.5"/>
+</g>
+<!-- module~numbers_module&#45;&gt;module~kind_module -->
+<g id="module~~minpack_module~~UsesGraph_edge4" class="edge">
+<title>module~numbers_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M246.77,-20.19C238.36,-21.51 229.68,-22.87 221.33,-24.18"/>
+<polygon fill="#000000" stroke="#000000" points="220.68,-20.74 211.35,-25.75 221.77,-27.66 220.68,-20.74"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~minpack_module~~UsedByGraph Pages: 1 -->
+<svg id="moduleminpack_moduleUsedByGraph" width="318pt" height="74pt"
+ viewBox="0.00 0.00 318.00 74.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~minpack_module~~UsedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 70)">
+<title>module~~minpack_module~~UsedByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 314,-70 314,4 -4,4"/>
+<!-- module~minpack_module -->
+<g id="module~~minpack_module~~UsedByGraph_node1" class="node">
+<title>module~minpack_module</title>
+<polygon fill="none" stroke="black" points="104,-45 0,-45 0,-21 104,-21 104,-45"/>
+<text text-anchor="middle" x="52" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">minpack_module</text>
+</g>
+<!-- module~fortran_astrodynamics_toolkit -->
+<g id="module~~minpack_module~~UsedByGraph_node2" class="node">
+<title>module~fortran_astrodynamics_toolkit</title>
+<g id="a_module~~minpack_module~~UsedByGraph_node2"><a xlink:href="../module/fortran_astrodynamics_toolkit.html" xlink:title="fortran_astrodynamics_toolkit">
+<polygon fill="#337ab7" stroke="#337ab7" points="310,-66 140,-66 140,-42 310,-42 310,-66"/>
+<text text-anchor="middle" x="225" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fortran_astrodynamics_toolkit</text>
+</a>
+</g>
+</g>
+<!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~minpack_module -->
+<g id="module~~minpack_module~~UsedByGraph_edge1" class="edge">
+<title>module~fortran_astrodynamics_toolkit&#45;&gt;module~minpack_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M139.75,-43.65C131.12,-42.59 122.47,-41.53 114.16,-40.51"/>
+<polygon fill="#000000" stroke="#000000" points="114.56,-37.03 104.21,-39.29 113.71,-43.98 114.56,-37.03"/>
+</g>
+<!-- proc~halo_to_rv_diffcorr -->
+<g id="module~~minpack_module~~UsedByGraph_node3" class="node">
+<title>proc~halo_to_rv_diffcorr</title>
+<g id="a_module~~minpack_module~~UsedByGraph_node3"><a xlink:href="../proc/halo_to_rv_diffcorr.html" xlink:title="halo_to_rv_diffcorr">
+<polygon fill="#d9534f" stroke="#d9534f" points="281,-24 169,-24 169,0 281,0 281,-24"/>
+<text text-anchor="middle" x="225" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">halo_to_rv_diffcorr</text>
+</a>
+</g>
+</g>
+<!-- proc~halo_to_rv_diffcorr&#45;&gt;module~minpack_module -->
+<g id="module~~minpack_module~~UsedByGraph_edge2" class="edge">
+<title>proc~halo_to_rv_diffcorr&#45;&gt;module~minpack_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M168.95,-18.76C151.57,-20.9 132.25,-23.27 114.45,-25.45"/>
+<polygon fill="#000000" stroke="#000000" points="113.67,-22.02 104.17,-26.72 114.52,-28.97 113.67,-22.02"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      <br>
+
+
+
+
+
+        <section>
+          <h2>Abstract Interfaces</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="interface-fcn_hybrd"></span><h3>abstract interface
+        
+    </h3></div>
+    <ul class="list-group">
+      <li class="list-group-item">
+            <h3>
+    public  subroutine fcn_hybrd(n, x, fvec, iflag)  
+
+    </h3>
+  <p>function for <a href="../proc/hybrd.html">hybrd</a>.
+calculate the functions at <code>x</code> and
+return this vector in <code>fvec</code>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~22"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(n)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fvec"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(n)
+            </td>
+            <td>::</td>
+            <td><strong>fvec</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iflag~2"></span>
+              integer,
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>iflag</strong></td>
+            <td>
+                <p>the value of <code>iflag</code> should not be changed by fcn unless
+the user wants to terminate execution of <a href="../proc/hybrd.html">hybrd</a>.
+in this case set <code>iflag</code> to a negative integer.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+      </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="interface-fcn_hybrj"></span><h3>abstract interface
+        
+    </h3></div>
+    <ul class="list-group">
+      <li class="list-group-item">
+            <h3>
+    public  subroutine fcn_hybrj(n, x, fvec, fjac, ldfjac, iflag)  
+
+    </h3>
+  <p>function for <a href="../proc/hybrj.html">hybrj</a></p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~23"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(n)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fvec~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(n)
+            </td>
+            <td>::</td>
+            <td><strong>fvec</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fjac"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(ldfjac,n)
+            </td>
+            <td>::</td>
+            <td><strong>fjac</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ldfjac"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ldfjac</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iflag~3"></span>
+              integer,
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>iflag</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+      </li>
+    </ul>
+  </div>
+
+        </section>
+        <br>
+
+
+        <section>
+          <h2>Functions</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dpmpar"></span> <h3>public  function <a href='../proc/dpmpar.html'>dpmpar</a>(i)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Replacement for the original Minpack routine.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-i~14"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>i</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-enorm"></span> <h3>public  function <a href='../proc/enorm.html'>enorm</a>(n, x)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>given an n-vector x, this function calculates the
+euclidean norm of x.</p><a href="../proc/enorm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~5"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+<p>size of <code>x</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~25"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(n)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+<p>input array</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+        <section>
+          <h2>Subroutines</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dogleg"></span> <h3>public  subroutine <a href='../proc/dogleg.html'>dogleg</a>(n, r, lr, diag, qtb, delta, x, wa1, wa2)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>given an m by n matrix a, an n by n nonsingular diagonal
+matrix d, an m-vector b, and a positive number delta, the
+problem is to determine the convex combination x of the
+gauss-newton and scaled gradient directions that minimizes
+(a<em>x - b) in the least squares sense, subject to the
+restriction that the euclidean norm of d</em>x be at most delta.</p><a href="../proc/dogleg.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~4"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~15"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>r</strong>(lr)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lr"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lr</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diag"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diag</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-qtb"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>qtb</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-delta"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>delta</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~24"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wa1"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>wa1</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wa2"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>wa2</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-fdjac1"></span> <h3>public  subroutine <a href='../proc/fdjac1.html'>fdjac1</a>(fcn, n, x, fvec, fjac, ldfjac, iflag, ml, mu, epsfcn, wa1, wa2)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>this subroutine computes a forward-difference approximation
+to the n by n jacobian matrix associated with a specified
+problem of n functions in n variables. if the jacobian has
+a banded form, then function evaluations are saved by only
+approximating the nonzero terms.</p><a href="../proc/fdjac1.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fcn"></span>
+              procedure(<a href='../interface/fcn_hybrd.html'>fcn_hybrd</a>)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fcn</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~6"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~26"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fvec~3"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fvec</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fjac~2"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fjac</strong>(ldfjac,n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ldfjac~2"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ldfjac</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iflag~4"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>iflag</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ml"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ml</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~8"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-epsfcn"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>epsfcn</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wa1~2"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>wa1</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wa2~2"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>wa2</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-hybrd"></span> <h3>public  subroutine <a href='../proc/hybrd.html'>hybrd</a>(fcn, n, x, fvec, xtol, maxfev, ml, mu, epsfcn, diag, mode, factor, nprint, info, nfev, fjac, ldfjac, r, lr, qtf, wa1, wa2, wa3, wa4)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>The purpose of hybrd is to find a zero of a system of
+  n nonlinear functions in n variables by a modification
+  of the powell hybrid method. the user must provide a
+  subroutine which calculates the functions. the jacobian is
+  then calculated by a forward-difference approximation.</p><a href="../proc/hybrd.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fcn~2"></span>
+              procedure(<a href='../interface/fcn_hybrd.html'>fcn_hybrd</a>)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fcn</strong></td>
+            <td>
+<p>user-supplied subroutine which calculates the functions</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~7"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+<p>a positive integer input variable set to the number
+of functions and variables.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~27"></span>
+              real(kind=wp),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(n)</td>
+            <td>
+<p>array of length n. on input <code>x</code> must contain
+an initial estimate of the solution vector. on output <code>x</code>
+contains the final estimate of the solution vector.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fvec~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fvec</strong>(n)</td>
+            <td>
+<p>an output array of length <code>n</code> which contains
+the functions evaluated at the output <code>x</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-xtol~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>xtol</strong></td>
+            <td>
+<p>a nonnegative input variable. termination
+occurs when the relative error between two consecutive
+iterates is at most <code>xtol</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-maxfev"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>maxfev</strong></td>
+            <td>
+<p>a positive integer input variable. termination
+occurs when the number of calls to <code>fcn</code> is at least <code>maxfev</code>
+by the end of an iteration.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ml~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ml</strong></td>
+            <td>
+<p>a nonnegative integer input variable which specifies
+the number of subdiagonals within the band of the
+jacobian matrix. if the jacobian is not banded, set
+<code>ml</code> to at least <code>n - 1</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~9"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>a nonnegative integer input variable which specifies
+the number of superdiagonals within the band of the
+jacobian matrix. if the jacobian is not banded, set
+<code>mu</code> to at least<code>n - 1</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-epsfcn~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>epsfcn</strong></td>
+            <td>
+<p>an input variable used in determining a suitable
+step length for the forward-difference approximation. this
+approximation assumes that the relative errors in the
+functions are of the order of <code>epsfcn</code>. if <code>epsfcn</code> is less
+than the machine precision, it is assumed that the relative
+errors in the functions are of the order of the machine
+precision.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diag~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diag</strong>(n)</td>
+            <td>
+<p>an array of length <code>n</code>. if <code>mode = 1</code> (see
+below), <code>diag</code> is internally set. if <code>mode = 2</code>, <code>diag</code>
+must contain positive entries that serve as
+multiplicative scale factors for the variables.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mode"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mode</strong></td>
+            <td>
+<p>if <code>mode = 1</code>, the
+variables will be scaled internally. if <code>mode = 2</code>,
+the scaling is specified by the input <code>diag</code>. other
+values of <code>mode</code> are equivalent to <code>mode = 1</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-factor"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>factor</strong></td>
+            <td>
+<p>a positive input variable used in determining the
+initial step bound. this bound is set to the product of
+<code>factor</code> and the euclidean norm of <code>diag*x</code> if nonzero, or else
+to <code>factor</code> itself. in most cases factor should lie in the
+interval (.1,100.). 100. is a generally recommended value.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nprint"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nprint</strong></td>
+            <td>
+<p>an integer input variable that enables controlled
+printing of iterates if it is positive. in this case,
+<code>fcn</code> is called with <code>iflag = 0</code> at the beginning of the first
+iteration and every <code>nprint</code> iterations thereafter and
+immediately prior to return, with <code>x</code> and <code>fvec</code> available
+for printing. if <code>nprint</code> is not positive, no special calls
+of <code>fcn</code> with <code>iflag = 0</code> are made.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+<p>an integer output variable. if the user has
+terminated execution, <code>info</code> is set to the (negative)
+value of <code>iflag</code>. see description of <code>fcn</code>. otherwise,
+<code>info</code> is set as follows:
+ * <strong><em>info = 0</em></strong> improper input parameters.
+ * <strong><em>info = 1</em></strong> relative error between two consecutive iterates
+   is at most <code>xtol</code>.
+ * <strong><em>info = 2</em></strong> number of calls to <code>fcn</code> has reached or exceeded
+   <code>maxfev</code>.
+ * <strong><em>info = 3</em></strong> <code>xtol</code> is too small. no further improvement in
+   the approximate solution <code>x</code> is possible.
+ * <strong><em>info = 4</em></strong> iteration is not making good progress, as
+   measured by the improvement from the last
+   five jacobian evaluations.
+ * <strong><em>info = 5</em></strong> iteration is not making good progress, as
+   measured by the improvement from the last
+   ten iterations.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nfev"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nfev</strong></td>
+            <td>
+<p>output variable set to the number of calls to <code>fcn</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fjac~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fjac</strong>(ldfjac,n)</td>
+            <td>
+<p>array which contains the
+orthogonal matrix <code>q</code> produced by the QR factorization
+of the final approximate jacobian.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ldfjac~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ldfjac</strong></td>
+            <td>
+<p>a positive integer input variable not less than <code>n</code>
+which specifies the leading dimension of the array <code>fjac</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~16"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>r</strong>(lr)</td>
+            <td>
+<p>an output array which contains the
+upper triangular matrix produced by the QR factorization
+of the final approximate jacobian, stored rowwise.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lr~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lr</strong></td>
+            <td>
+<p>a positive integer input variable not less than <code>(n*(n+1))/2</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-qtf"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>qtf</strong>(n)</td>
+            <td>
+<p>an output array of length <code>n</code> which contains
+the vector <code>(q transpose)*fvec</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wa1~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>wa1</strong>(n)</td>
+            <td>
+<p>work array</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wa2~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>wa2</strong>(n)</td>
+            <td>
+<p>work array</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wa3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>wa3</strong>(n)</td>
+            <td>
+<p>work array</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wa4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>wa4</strong>(n)</td>
+            <td>
+<p>work array</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-hybrd1"></span> <h3>public  subroutine <a href='../proc/hybrd1.html'>hybrd1</a>(fcn, n, x, fvec, tol, info)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>the purpose of <code>hybrd1</code> is to find a zero of a system of
+<code>n</code> nonlinear functions in <code>n</code> variables by a modification
+of the powell hybrid method. this is done by using the
+more general nonlinear equation solver <a href="../proc/hybrd.html">hybrd</a>. the user
+must provide a subroutine which calculates the functions.
+the jacobian is then calculated by a forward-difference
+approximation.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fcn~3"></span>
+              procedure(<a href='../interface/fcn_hybrd.html'>fcn_hybrd</a>)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fcn</strong></td>
+            <td>
+<p>user-supplied subroutine which calculates the functions</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~8"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+<p>a positive integer input variable set to the number
+of functions and variables.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~28"></span>
+              real(kind=wp),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              dimension(n)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+<p>an array of length <code>n</code>. on input <code>x</code> must contain
+an initial estimate of the solution vector. on output <code>x</code>
+contains the final estimate of the solution vector.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fvec~5"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(n)
+            </td>
+            <td>::</td>
+            <td><strong>fvec</strong></td>
+            <td>
+<p>an output array of length <code>n</code> which contains
+the functions evaluated at the output <code>x</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tol~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tol</strong></td>
+            <td>
+<p>a nonnegative input variable. termination occurs
+when the algorithm estimates that the relative error
+between <code>x</code> and the solution is at most <code>tol</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~2"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+<p>an integer output variable. if the user has
+terminated execution, info is set to the (negative)
+value of <code>iflag</code>. see description of <code>fcn</code>. otherwise,
+<code>info</code> is set as follows:
+ <strong><em>info = 0</em></strong> improper input parameters.
+ <strong><em>info = 1</em></strong> algorithm estimates that the relative error
+ between <code>x</code> and the solution is at most <code>tol</code>.
+ <strong><em>info = 2</em></strong> number of calls to <code>fcn</code> has reached or exceeded
+ <code>200*(n+1)</code>.
+ <strong><em>info = 3</em></strong> <code>tol</code> is too small. no further improvement in
+ the approximate solution <code>x</code> is possible.
+ <strong><em>info = 4</em></strong> iteration is not making good progress.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-hybrj"></span> <h3>public  subroutine <a href='../proc/hybrj.html'>hybrj</a>(fcn, n, x, fvec, fjac, ldfjac, xtol, maxfev, diag, mode, factor, nprint, info, nfev, njev, r, lr, qtf, wa1, wa2, wa3, wa4)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>the purpose of hybrj is to find a zero of a system of
+  n nonlinear functions in n variables by a modification
+  of the powell hybrid method. the user must provide a
+  subroutine which calculates the functions and the jacobian.</p><a href="../proc/hybrj.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fcn~4"></span>
+              procedure(<a href='../interface/fcn_hybrj.html'>fcn_hybrj</a>)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fcn</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~9"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~29"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fvec~6"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fvec</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fjac~4"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fjac</strong>(ldfjac,n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ldfjac~4"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ldfjac</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-xtol~4"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>xtol</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-maxfev~3"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>maxfev</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diag~4"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diag</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mode~3"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mode</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-factor~3"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>factor</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nprint~3"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nprint</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~3"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nfev~3"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nfev</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-njev"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>njev</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~17"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>r</strong>(lr)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lr~4"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lr</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-qtf~2"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>qtf</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wa1~4"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>wa1</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wa2~4"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>wa2</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wa3~2"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>wa3</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wa4~2"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>wa4</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-hybrj1"></span> <h3>public  subroutine <a href='../proc/hybrj1.html'>hybrj1</a>(fcn, n, x, fvec, fjac, ldfjac, tol, info, wa, lwa)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>the purpose of hybrj1 is to find a zero of a system of
+n nonlinear functions in n variables by a modification
+of the powell hybrid method. this is done by using the
+more general nonlinear equation solver hybrj. the user
+must provide a subroutine which calculates the functions
+and the jacobian.</p><a href="../proc/hybrj1.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fcn~5"></span>
+              procedure(<a href='../interface/fcn_hybrj.html'>fcn_hybrj</a>)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fcn</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~10"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~30"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fvec~7"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fvec</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fjac~5"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fjac</strong>(ldfjac,n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ldfjac~5"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ldfjac</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tol~3"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tol</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~4"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wa~2"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>wa</strong>(lwa)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lwa~2"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lwa</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-qform"></span> <h3>public  subroutine <a href='../proc/qform.html'>qform</a>(m, n, q, ldq, wa)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>this subroutine proceeds from the computed qr factorization of
+an m by n matrix a to accumulate the m by m orthogonal matrix
+q from its factored form.</p><a href="../proc/qform.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m~2"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~11"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-q~2"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>q</strong>(ldq,m)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ldq"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ldq</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wa~3"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>wa</strong>(m)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-qrfac"></span> <h3>public  subroutine <a href='../proc/qrfac.html'>qrfac</a>(m, n, a, lda, pivot, ipvt, lipvt, rdiag, acnorm, wa)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>this subroutine uses householder transformations with column
+pivoting (optional) to compute a qr factorization of the
+m by n matrix a. that is, qrfac determines an orthogonal
+matrix q, a permutation matrix p, and an upper trapezoidal
+matrix r with diagonal elements of nonincreasing magnitude,
+such that a<em>p = q</em>r. the householder transformation for
+column k, k = 1,2,...,min(m,n), is of the form</p><a href="../proc/qrfac.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m~3"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~12"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~8"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(lda,n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lda"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lda</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pivot"></span>
+              logical
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pivot</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ipvt"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ipvt</strong>(lipvt)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lipvt"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lipvt</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rdiag"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rdiag</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-acnorm"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>acnorm</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wa~4"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>wa</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-r1mpyq"></span> <h3>public  subroutine <a href='../proc/r1mpyq.html'>r1mpyq</a>(m, n, a, lda, v, w)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>given an m by n matrix a, this subroutine computes a<em>q where
+q is the product of 2</em>(n - 1) transformations</p><a href="../proc/r1mpyq.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m~4"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~13"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~9"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(lda,n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lda~2"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lda</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v~6"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>v</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-w~4"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>w</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-r1updt"></span> <h3>public  subroutine <a href='../proc/r1updt.html'>r1updt</a>(m, n, s, ls, u, v, w, sing)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>given an m by n lower trapezoidal matrix s, an m-vector u,
+and an n-vector v, the problem is to determine an
+orthogonal matrix q such that</p><a href="../proc/r1updt.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m~5"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~14"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s~5"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>s</strong>(ls)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ls"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ls</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-u~4"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>u</strong>(m)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v~7"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>v</strong>(n)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-w~5"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>w</strong>(m)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sing~3"></span>
+              logical
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sing</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,1073 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>c_interface_module &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>c_interface_module
+      <small>Module</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+            <li class="list-inline-item" id="meta-author"><i class="fa fa-pencil"></i> Jacob Williams</li>
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.8% of total for modules and submodules.">122 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/c_interface_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/c_interface_module.f90.html'>c_interface_module.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">c_interface_module</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#inters-0"
+         aria-expanded="false" aria-controls="inters-0">
+         <h4 class="card-header bg-primary text-white">Interfaces</h4>
+      </a>
+      <div id="inters-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/c_interface_module.html#interface-strlen">strlen</a>
+        </div>
+      </div>
+    </div>
+
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#types-0"
+         aria-expanded="false" aria-controls="types-0">
+         <h4 class="card-header bg-primary text-white">Derived Types</h4>
+      </a>
+      <div id="types-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/c_interface_module.html#type-container">container</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/c_interface_module.html#proc-initialize_geopotential_model">initialize_geopotential_model</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/c_interface_module.html#proc-destroy_geopotential_model~2">destroy_geopotential_model</a>
+            <a class="list-group-item" href="../module/c_interface_module.html#proc-get_acceleration">get_acceleration</a>
+            <a class="list-group-item" href="../module/c_interface_module.html#proc-c_ptr_to_f_string">c_ptr_to_f_string</a>
+            <a class="list-group-item" href="../module/c_interface_module.html#proc-f_string_to_c_ptr">f_string_to_c_ptr</a>
+            <a class="list-group-item" href="../module/c_interface_module.html#proc-return_a_string">return_a_string</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <p>C interfaces to some of the routines.
+This is an experiment to be able to call them from Python.
+(see the <code>python_test.py</code> file in <code>tests</code>)</p>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='kind_module.html'>kind_module</a></li>
+                  <li class="list-inline-item"><a href='geopotential_module.html'>geopotential_module</a></li>
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_c_binding'>iso_c_binding</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~c_interface_module~~UsesGraph Pages: 1 -->
+<svg id="modulec_interface_moduleUsesGraph" width="641pt" height="89pt"
+ viewBox="0.00 0.00 641.00 89.12" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~c_interface_module~~UsesGraph" class="graph" transform="scale(0.95 0.95) rotate(0) translate(4 90.13)">
+<title>module~~c_interface_module~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-90.13 673,-90.13 673,4 -4,4"/>
+<!-- module~c_interface_module -->
+<g id="module~~c_interface_module~~UsesGraph_node1" class="node">
+<title>module~c_interface_module</title>
+<polygon fill="none" stroke="black" points="669,-44.13 551,-44.13 551,-20.13 669,-20.13 669,-44.13"/>
+<text text-anchor="middle" x="610" y="-29.73" font-family="Helvetica,sans-Serif" font-size="10.50">c_interface_module</text>
+</g>
+<!-- iso_c_binding -->
+<g id="module~~c_interface_module~~UsesGraph_node2" class="node">
+<title>iso_c_binding</title>
+<g id="a_module~~c_interface_module~~UsesGraph_node2"><a xlink:href="http://fortranwiki.org/fortran/show/iso_c_binding" xlink:title="iso_c_binding">
+<polygon fill="#337ab7" stroke="#337ab7" points="494,-86.13 410,-86.13 410,-62.13 494,-62.13 494,-86.13"/>
+<text text-anchor="middle" x="452" y="-71.73" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_c_binding</text>
+</a>
+</g>
+</g>
+<!-- module~c_interface_module&#45;&gt;iso_c_binding -->
+<g id="module~~c_interface_module~~UsesGraph_edge1" class="edge">
+<title>module~c_interface_module&#45;&gt;iso_c_binding</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M564.3,-44.16C545.51,-49.22 523.56,-55.13 504.13,-60.36"/>
+<polygon fill="#000000" stroke="#000000" points="502.98,-57.05 494.24,-63.03 504.8,-63.81 502.98,-57.05"/>
+</g>
+<!-- module~geopotential_module -->
+<g id="module~~c_interface_module~~UsesGraph_node3" class="node">
+<title>module~geopotential_module</title>
+<g id="a_module~~c_interface_module~~UsesGraph_node3"><a xlink:href="../module/geopotential_module.html" xlink:title="geopotential_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="515,-44.13 389,-44.13 389,-20.13 515,-20.13 515,-44.13"/>
+<text text-anchor="middle" x="452" y="-29.73" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geopotential_module</text>
+</a>
+</g>
+</g>
+<!-- module~c_interface_module&#45;&gt;module~geopotential_module -->
+<g id="module~~c_interface_module~~UsesGraph_edge2" class="edge">
+<title>module~c_interface_module&#45;&gt;module~geopotential_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M550.91,-32.13C542.51,-32.13 533.77,-32.13 525.13,-32.13"/>
+<polygon fill="#000000" stroke="#000000" points="525.06,-28.63 515.06,-32.13 525.06,-35.63 525.06,-28.63"/>
+</g>
+<!-- module~kind_module -->
+<g id="module~~c_interface_module~~UsesGraph_node4" class="node">
+<title>module~kind_module</title>
+<g id="a_module~~c_interface_module~~UsesGraph_node4"><a xlink:href="../module/kind_module.html" xlink:title="kind_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="211,-44.13 130,-44.13 130,-20.13 211,-20.13 211,-44.13"/>
+<text text-anchor="middle" x="170.5" y="-29.73" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module</text>
+</a>
+</g>
+</g>
+<!-- module~c_interface_module&#45;&gt;module~kind_module -->
+<g id="module~~c_interface_module~~UsesGraph_edge3" class="edge">
+<title>module~c_interface_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M564.39,-20.06C548.88,-16.43 531.29,-12.93 515,-11.13 396.61,1.93 365.02,4.98 247,-11.13 237.2,-12.47 226.87,-14.74 217.1,-17.31"/>
+<polygon fill="#000000" stroke="#000000" points="215.88,-14.02 207.18,-20.07 217.75,-20.76 215.88,-14.02"/>
+</g>
+<!-- module~geopotential_module&#45;&gt;module~kind_module -->
+<g id="module~~c_interface_module~~UsesGraph_edge4" class="edge">
+<title>module~geopotential_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M404.47,-44.2C388.29,-47.83 369.96,-51.33 353,-53.13 306.15,-58.09 293.68,-59.5 247,-53.13 237.2,-51.79 226.87,-49.52 217.1,-46.95"/>
+<polygon fill="#000000" stroke="#000000" points="217.75,-43.5 207.18,-44.19 215.88,-50.24 217.75,-43.5"/>
+</g>
+<!-- module~numbers_module -->
+<g id="module~~c_interface_module~~UsesGraph_node6" class="node">
+<title>module~numbers_module</title>
+<g id="a_module~~c_interface_module~~UsesGraph_node6"><a xlink:href="../module/numbers_module.html" xlink:title="numbers_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="353,-44.13 247,-44.13 247,-20.13 353,-20.13 353,-44.13"/>
+<text text-anchor="middle" x="300" y="-29.73" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module</text>
+</a>
+</g>
+</g>
+<!-- module~geopotential_module&#45;&gt;module~numbers_module -->
+<g id="module~~c_interface_module~~UsesGraph_edge5" class="edge">
+<title>module~geopotential_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M388.69,-32.13C380.33,-32.13 371.76,-32.13 363.41,-32.13"/>
+<polygon fill="#000000" stroke="#000000" points="363.35,-28.63 353.35,-32.13 363.35,-35.63 363.35,-28.63"/>
+</g>
+<!-- iso_fortran_env -->
+<g id="module~~c_interface_module~~UsesGraph_node5" class="node">
+<title>iso_fortran_env</title>
+<g id="a_module~~c_interface_module~~UsesGraph_node5"><a xlink:href="http://fortranwiki.org/fortran/show/iso_fortran_env" xlink:title="iso_fortran_env">
+<polygon fill="#337ab7" stroke="#337ab7" points="94,-44.13 0,-44.13 0,-20.13 94,-20.13 94,-44.13"/>
+<text text-anchor="middle" x="47" y="-29.73" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
+</a>
+</g>
+</g>
+<!-- module~kind_module&#45;&gt;iso_fortran_env -->
+<g id="module~~c_interface_module~~UsesGraph_edge6" class="edge">
+<title>module~kind_module&#45;&gt;iso_fortran_env</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M129.72,-32.13C121.56,-32.13 112.83,-32.13 104.21,-32.13"/>
+<polygon fill="#000000" stroke="#000000" points="104.2,-28.63 94.2,-32.13 104.2,-35.63 104.2,-28.63"/>
+</g>
+<!-- module~numbers_module&#45;&gt;module~kind_module -->
+<g id="module~~c_interface_module~~UsesGraph_edge7" class="edge">
+<title>module~numbers_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M246.77,-32.13C238.46,-32.13 229.87,-32.13 221.6,-32.13"/>
+<polygon fill="#000000" stroke="#000000" points="221.35,-28.63 211.35,-32.13 221.35,-35.63 221.35,-28.63"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panmodulec_interface_moduleUsesGraph = svgPanZoom('#modulec_interface_moduleUsesGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~c_interface_module~~UsedByGraph Pages: 1 -->
+<svg id="modulec_interface_moduleUsedByGraph" width="332pt" height="32pt"
+ viewBox="0.00 0.00 332.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~c_interface_module~~UsedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>module~~c_interface_module~~UsedByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 328,-28 328,4 -4,4"/>
+<!-- module~c_interface_module -->
+<g id="module~~c_interface_module~~UsedByGraph_node1" class="node">
+<title>module~c_interface_module</title>
+<polygon fill="none" stroke="black" points="118,-24 0,-24 0,0 118,0 118,-24"/>
+<text text-anchor="middle" x="59" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">c_interface_module</text>
+</g>
+<!-- module~fortran_astrodynamics_toolkit -->
+<g id="module~~c_interface_module~~UsedByGraph_node2" class="node">
+<title>module~fortran_astrodynamics_toolkit</title>
+<g id="a_module~~c_interface_module~~UsedByGraph_node2"><a xlink:href="../module/fortran_astrodynamics_toolkit.html" xlink:title="fortran_astrodynamics_toolkit">
+<polygon fill="#337ab7" stroke="#337ab7" points="324,-24 154,-24 154,0 324,0 324,-24"/>
+<text text-anchor="middle" x="239" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fortran_astrodynamics_toolkit</text>
+</a>
+</g>
+</g>
+<!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~c_interface_module -->
+<g id="module~~c_interface_module~~UsedByGraph_edge1" class="edge">
+<title>module~fortran_astrodynamics_toolkit&#45;&gt;module~c_interface_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M153.95,-12C145.31,-12 136.61,-12 128.17,-12"/>
+<polygon fill="#000000" stroke="#000000" points="128.04,-8.5 118.04,-12 128.04,-15.5 128.04,-8.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      <br>
+
+
+
+
+        <section>
+          <h2>Interfaces</h2>
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-strlen"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    private  function strlen(str) result(isize) bind(C, name='strlen')  
+
+    </h3>
+  <p>C string length</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-str~10"></span>
+              type(c_ptr),
+            </td>
+<td></td>
+              <td></td>            <td>
+              value
+            </td>
+            <td>::</td>
+            <td><strong>str</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer(kind=c_int)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+        </section>
+        <br>
+
+
+        <section>
+          <h2>Derived Types</h2>
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-container"></span>
+      <h3>
+        type, private&nbsp;::&nbsp;
+        <a href='../type/container.html'>container</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>a container for data that is
+to be passed to C. We include
+it here so that we can use <code>c_loc()</code></p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data"></span>
+              class(*),
+            </td>
+              <td>private,</td>
+            <td>
+              pointer
+            </td>
+            <td>::</td>
+            <td><strong>data</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+        <section>
+          <h2>Functions</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-initialize_geopotential_model"></span> <h3>private  function <a href='../proc/initialize_geopotential_model.html'>initialize_geopotential_model</a>(itype, gravfile, n, m) result(cp) bind(c,name='initialize_geopotential_model')  
+</h3></div>
+    <div class="card-body">
+          
+  <p>mueller method</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-itype"></span>
+              integer(kind=c_int),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              value
+            </td>
+            <td>::</td>
+            <td><strong>itype</strong></td>
+            <td>
+<p>mode :</p><a href="../proc/initialize_geopotential_model.html#variable-itype" class="pull-right"><emph>Read more&hellip;</emph></a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gravfile~2"></span>
+              type(c_ptr),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              value
+            </td>
+            <td>::</td>
+            <td><strong>gravfile</strong></td>
+            <td>
+<p>gravity coefficient file name</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~57"></span>
+              integer(kind=c_int),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              value
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+<p>degree</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m~33"></span>
+              integer(kind=c_int),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              value
+            </td>
+            <td>::</td>
+            <td><strong>m</strong></td>
+            <td>
+<p>order</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(c_ptr)</small>
+    </h4>
+    <p>pointer to a <a href="../type/container.html">container</a>
+containing a <a href="../type/geopotential_model.html">geopotential_model</a></p>
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+        <section>
+          <h2>Subroutines</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-destroy_geopotential_model~2"></span> <h3>private  subroutine <a href='../proc/destroy_geopotential_model~2.html'>destroy_geopotential_model</a>(cp) bind(c,name='destroy_geopotential_model')  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cp~2"></span>
+              type(c_ptr),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              value
+            </td>
+            <td>::</td>
+            <td><strong>cp</strong></td>
+            <td>
+<p>pointer to a <a href="../type/container.html">container</a>
+containing a <a href="../type/geopotential_model.html">geopotential_model</a></p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-get_acceleration"></span> <h3>private  subroutine <a href='../proc/get_acceleration.html'>get_acceleration</a>(cp, n, m, rvec, acc) bind(c,name='get_acceleration')  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cp~3"></span>
+              type(c_ptr),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              value
+            </td>
+            <td>::</td>
+            <td><strong>cp</strong></td>
+            <td>
+<p>pointer to a <a href="../type/container.html">container</a>
+containing a <a href="../type/geopotential_model.html">geopotential_model</a></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~58"></span>
+              integer(kind=c_int),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              value
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+<p>degree</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m~34"></span>
+              integer(kind=c_int),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              value
+            </td>
+            <td>::</td>
+            <td><strong>m</strong></td>
+            <td>
+<p>order</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rvec~4"></span>
+              real(kind=c_double),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>rvec</strong></td>
+            <td>
+<p>position vector</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-acc~5"></span>
+              real(kind=c_double),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>acc</strong></td>
+            <td>
+<p>acceleration vector</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-c_ptr_to_f_string"></span> <h3>private  subroutine <a href='../proc/c_ptr_to_f_string.html'>c_ptr_to_f_string</a>(cp, fstr)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Convert a <code>c_ptr</code> to a string into a Fortran string.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cp~4"></span>
+              type(c_ptr),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>cp</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fstr"></span>
+              character(len=:),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>fstr</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-f_string_to_c_ptr"></span> <h3>private  subroutine <a href='../proc/f_string_to_c_ptr.html'>f_string_to_c_ptr</a>(fstr, buffer)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Convert a Fortran string to a <code>c_ptr</code> to a string.
+(the C string must already have been allocated to a fixed size)</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fstr~2"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fstr</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-buffer"></span>
+              type(c_ptr),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>buffer</strong></td>
+            <td>
+<p>a preallocated string buffer</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-return_a_string"></span> <h3>private  subroutine <a href='../proc/return_a_string.html'>return_a_string</a>(ival, buffer) bind(c,name='return_a_string')  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Just a test of <a href="../proc/f_string_to_c_ptr.html">f_string_to_c_ptr</a>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ival"></span>
+              integer(kind=c_int),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              value
+            </td>
+            <td>::</td>
+            <td><strong>ival</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-buffer~2"></span>
+              type(c_ptr),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>buffer</strong></td>
+            <td>
+<p>a preallocated string buffer</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

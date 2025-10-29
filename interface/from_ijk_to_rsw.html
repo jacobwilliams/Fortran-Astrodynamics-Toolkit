@@ -1,0 +1,792 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>from_ijk_to_rsw &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>from_ijk_to_rsw
+      <small>Interface</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 51 statements,  0.4% of total for procedures.">4 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/relative_motion_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/relative_motion_module.f90.html'>relative_motion_module.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/relative_motion_module.html'>relative_motion_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">from_ijk_to_rsw</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#modprocs-0"
+         aria-expanded="false" aria-controls="modprocs-0">
+         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      </a>
+      <div id="modprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../interface/from_ijk_to_rsw.html#moduleprocedure-from_ijk_to_rsw_mat">from_ijk_to_rsw_mat</a>
+            <a class="list-group-item" href="../interface/from_ijk_to_rsw.html#moduleprocedure-from_ijk_to_rsw_rv">from_ijk_to_rsw_rv</a>
+        </div>
+      </div>
+    </div>
+
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <h2>public interface from_ijk_to_rsw</h2>
+      <p>Conversion from IJK to RSW</p>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Calls</h3>
+          </div>
+          <div class="card-body">
+            <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: interface~~from_ijk_to_rsw~~CallsGraph Pages: 1 -->
+<svg id="interfacefrom_ijk_to_rswCallsGraph" width="418pt" height="158pt"
+ viewBox="0.00 0.00 418.00 158.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="interface~~from_ijk_to_rsw~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 154)">
+<title>interface~~from_ijk_to_rsw~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-154 414,-154 414,4 -4,4"/>
+<!-- interface~from_ijk_to_rsw -->
+<g id="interface~~from_ijk_to_rsw~~CallsGraph_node1" class="node">
+<title>interface~from_ijk_to_rsw</title>
+<polygon fill="none" stroke="black" points="94,-66 0,-66 0,-42 94,-42 94,-66"/>
+<text text-anchor="middle" x="47" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">from_ijk_to_rsw</text>
+</g>
+<!-- proc~from_ijk_to_rsw_mat -->
+<g id="interface~~from_ijk_to_rsw~~CallsGraph_node2" class="node">
+<title>proc~from_ijk_to_rsw_mat</title>
+<g id="a_interface~~from_ijk_to_rsw~~CallsGraph_node2"><a xlink:href="../proc/from_ijk_to_rsw_mat.html" xlink:title="from_ijk_to_rsw_mat">
+<polygon fill="#d9534f" stroke="#d9534f" points="250,-97 130,-97 130,-73 250,-73 250,-97"/>
+<text text-anchor="middle" x="190" y="-82.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_ijk_to_rsw_mat</text>
+</a>
+</g>
+</g>
+<!-- interface~from_ijk_to_rsw&#45;&gt;proc~from_ijk_to_rsw_mat -->
+<g id="interface~~from_ijk_to_rsw~~CallsGraph_edge1" class="edge">
+<title>interface~from_ijk_to_rsw&#45;&gt;proc~from_ijk_to_rsw_mat</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M94.17,-64.15C103.81,-66.27 114.14,-68.54 124.3,-70.78"/>
+<polygon fill="#000000" stroke="#000000" points="123.87,-74.26 134.38,-72.99 125.37,-67.43 123.87,-74.26"/>
+</g>
+<!-- proc~from_ijk_to_rsw_rv -->
+<g id="interface~~from_ijk_to_rsw~~CallsGraph_node3" class="node">
+<title>proc~from_ijk_to_rsw_rv</title>
+<g id="a_interface~~from_ijk_to_rsw~~CallsGraph_node3"><a xlink:href="../proc/from_ijk_to_rsw_rv.html" xlink:title="from_ijk_to_rsw_rv">
+<polygon fill="#d9534f" stroke="#d9534f" points="244.5,-45 135.5,-45 135.5,-21 244.5,-21 244.5,-45"/>
+<text text-anchor="middle" x="190" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_ijk_to_rsw_rv</text>
+</a>
+</g>
+</g>
+<!-- interface~from_ijk_to_rsw&#45;&gt;proc~from_ijk_to_rsw_rv -->
+<g id="interface~~from_ijk_to_rsw~~CallsGraph_edge2" class="edge">
+<title>interface~from_ijk_to_rsw&#45;&gt;proc~from_ijk_to_rsw_rv</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M94.17,-47.12C104.15,-45.64 114.87,-44.04 125.39,-42.47"/>
+<polygon fill="#000000" stroke="#000000" points="126,-45.92 135.38,-40.99 124.97,-39 126,-45.92"/>
+</g>
+<!-- proc~cross -->
+<g id="interface~~from_ijk_to_rsw~~CallsGraph_node4" class="node">
+<title>proc~cross</title>
+<g id="a_interface~~from_ijk_to_rsw~~CallsGraph_node4"><a xlink:href="../proc/cross.html" xlink:title="cross">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="375,-150 321,-150 321,-126 375,-126 375,-150"/>
+<text text-anchor="middle" x="348" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cross</text>
+</a>
+</g>
+</g>
+<!-- proc~from_ijk_to_rsw_mat&#45;&gt;proc~cross -->
+<g id="interface~~from_ijk_to_rsw~~CallsGraph_edge3" class="edge">
+<title>proc~from_ijk_to_rsw_mat&#45;&gt;proc~cross</title>
+<path fill="none" stroke="#000000" d="M226.4,-97.03C251.79,-105.65 285.88,-117.24 311.34,-125.88"/>
+<polygon fill="#000000" stroke="#000000" points="310.38,-129.26 320.98,-129.16 312.63,-122.63 310.38,-129.26"/>
+</g>
+<!-- proc~uhat_dot -->
+<g id="interface~~from_ijk_to_rsw~~CallsGraph_node6" class="node">
+<title>proc~uhat_dot</title>
+<g id="a_interface~~from_ijk_to_rsw~~CallsGraph_node6"><a xlink:href="../proc/uhat_dot.html" xlink:title="uhat_dot">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="377.5,-108 318.5,-108 318.5,-84 377.5,-84 377.5,-108"/>
+<text text-anchor="middle" x="348" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">uhat_dot</text>
+</a>
+</g>
+</g>
+<!-- proc~from_ijk_to_rsw_mat&#45;&gt;proc~uhat_dot -->
+<g id="interface~~from_ijk_to_rsw~~CallsGraph_edge4" class="edge">
+<title>proc~from_ijk_to_rsw_mat&#45;&gt;proc~uhat_dot</title>
+<path fill="none" stroke="#000000" d="M250.42,-89.19C269.67,-90.55 290.53,-92.02 307.92,-93.24"/>
+<polygon fill="#000000" stroke="#000000" points="308.03,-96.76 318.25,-93.97 308.52,-89.78 308.03,-96.76"/>
+</g>
+<!-- proc~unit -->
+<g id="interface~~from_ijk_to_rsw~~CallsGraph_node7" class="node">
+<title>proc~unit</title>
+<g id="a_interface~~from_ijk_to_rsw~~CallsGraph_node7"><a xlink:href="../proc/unit.html" xlink:title="unit">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="375,-66 321,-66 321,-42 375,-42 375,-66"/>
+<text text-anchor="middle" x="348" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">unit</text>
+</a>
+</g>
+</g>
+<!-- proc~from_ijk_to_rsw_mat&#45;&gt;proc~unit -->
+<g id="interface~~from_ijk_to_rsw~~CallsGraph_edge5" class="edge">
+<title>proc~from_ijk_to_rsw_mat&#45;&gt;proc~unit</title>
+<path fill="none" stroke="#000000" d="M250.42,-73.19C270.72,-69.16 292.8,-64.77 310.72,-61.21"/>
+<polygon fill="#000000" stroke="#000000" points="311.62,-64.6 320.74,-59.22 310.25,-57.73 311.62,-64.6"/>
+</g>
+<!-- proc~from_ijk_to_frame_rv -->
+<g id="interface~~from_ijk_to_rsw~~CallsGraph_node5" class="node">
+<title>proc~from_ijk_to_frame_rv</title>
+<g id="a_interface~~from_ijk_to_rsw~~CallsGraph_node5"><a xlink:href="../proc/from_ijk_to_frame_rv.html" xlink:title="from_ijk_to_frame_rv">
+<polygon fill="#d9534f" stroke="#d9534f" points="410,-24 286,-24 286,0 410,0 410,-24"/>
+<text text-anchor="middle" x="348" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_ijk_to_frame_rv</text>
+</a>
+</g>
+</g>
+<!-- proc~from_ijk_to_rsw_rv&#45;&gt;proc~from_ijk_to_frame_rv -->
+<g id="interface~~from_ijk_to_rsw~~CallsGraph_edge6" class="edge">
+<title>proc~from_ijk_to_rsw_rv&#45;&gt;proc~from_ijk_to_frame_rv</title>
+<path fill="none" stroke="#000000" d="M244.69,-25.77C254.77,-24.42 265.46,-22.98 275.98,-21.56"/>
+<polygon fill="#000000" stroke="#000000" points="276.54,-25.02 285.98,-20.21 275.61,-18.08 276.54,-25.02"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Called by</h3>
+          </div>
+          <div class="card-body">
+            <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: interface~~from_ijk_to_rsw~~CalledByGraph Pages: 1 -->
+<svg id="interfacefrom_ijk_to_rswCalledByGraph" width="388pt" height="74pt"
+ viewBox="0.00 0.00 388.00 74.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="interface~~from_ijk_to_rsw~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 70)">
+<title>interface~~from_ijk_to_rsw~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 384,-70 384,4 -4,4"/>
+<!-- interface~from_ijk_to_rsw -->
+<g id="interface~~from_ijk_to_rsw~~CalledByGraph_node1" class="node">
+<title>interface~from_ijk_to_rsw</title>
+<polygon fill="none" stroke="black" points="380,-45 286,-45 286,-21 380,-21 380,-45"/>
+<text text-anchor="middle" x="333" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">from_ijk_to_rsw</text>
+</g>
+<!-- proc~from_rsw_to_ijk_mat -->
+<g id="interface~~from_ijk_to_rsw~~CalledByGraph_node2" class="node">
+<title>proc~from_rsw_to_ijk_mat</title>
+<g id="a_interface~~from_ijk_to_rsw~~CalledByGraph_node2"><a xlink:href="../proc/from_rsw_to_ijk_mat.html" xlink:title="from_rsw_to_ijk_mat">
+<polygon fill="#d9534f" stroke="#d9534f" points="250,-66 130,-66 130,-42 250,-42 250,-66"/>
+<text text-anchor="middle" x="190" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_rsw_to_ijk_mat</text>
+</a>
+</g>
+</g>
+<!-- proc~from_rsw_to_ijk_mat&#45;&gt;interface~from_ijk_to_rsw -->
+<g id="interface~~from_ijk_to_rsw~~CalledByGraph_edge1" class="edge">
+<title>proc~from_rsw_to_ijk_mat&#45;&gt;interface~from_ijk_to_rsw</title>
+<path fill="none" stroke="#000000" d="M250.39,-45.15C258.84,-43.9 267.51,-42.6 275.9,-41.35"/>
+<polygon fill="#000000" stroke="#000000" points="276.59,-44.79 285.96,-39.86 275.55,-37.87 276.59,-44.79"/>
+</g>
+<!-- proc~relative_motion_test -->
+<g id="interface~~from_ijk_to_rsw~~CalledByGraph_node3" class="node">
+<title>proc~relative_motion_test</title>
+<g id="a_interface~~from_ijk_to_rsw~~CalledByGraph_node3"><a xlink:href="../proc/relative_motion_test.html" xlink:title="relative_motion_test">
+<polygon fill="#d9534f" stroke="#d9534f" points="250,-24 130,-24 130,0 250,0 250,-24"/>
+<text text-anchor="middle" x="190" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">relative_motion_test</text>
+</a>
+</g>
+</g>
+<!-- proc~relative_motion_test&#45;&gt;interface~from_ijk_to_rsw -->
+<g id="interface~~from_ijk_to_rsw~~CalledByGraph_edge2" class="edge">
+<title>proc~relative_motion_test&#45;&gt;interface~from_ijk_to_rsw</title>
+<path fill="none" stroke="#000000" d="M250.39,-20.85C258.84,-22.1 267.51,-23.4 275.9,-24.65"/>
+<polygon fill="#000000" stroke="#000000" points="275.55,-28.13 285.96,-26.14 276.59,-21.21 275.55,-28.13"/>
+</g>
+<!-- interface~from_rsw_to_ijk -->
+<g id="interface~~from_ijk_to_rsw~~CalledByGraph_node4" class="node">
+<title>interface~from_rsw_to_ijk</title>
+<g id="a_interface~~from_ijk_to_rsw~~CalledByGraph_node4"><a xlink:href="../interface/from_rsw_to_ijk.html" xlink:title="from_rsw_to_ijk">
+<polygon fill="#a7506f" stroke="#a7506f" points="94,-66 0,-66 0,-42 94,-42 94,-66"/>
+<text text-anchor="middle" x="47" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_rsw_to_ijk</text>
+</a>
+</g>
+</g>
+<!-- interface~from_rsw_to_ijk&#45;&gt;proc~from_rsw_to_ijk_mat -->
+<g id="interface~~from_ijk_to_rsw~~CalledByGraph_edge3" class="edge">
+<title>interface~from_rsw_to_ijk&#45;&gt;proc~from_rsw_to_ijk_mat</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M94.17,-54C102.37,-54 111.06,-54 119.74,-54"/>
+<polygon fill="#000000" stroke="#000000" points="119.87,-57.5 129.87,-54 119.87,-50.5 119.87,-57.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+<br>
+
+
+        <h2>Module Procedures</h2>
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_ijk_to_rsw_mat"></span> <h3>private  subroutine <a href='../proc/from_ijk_to_rsw_mat.html'>from_ijk_to_rsw_mat</a>(mu, r, v, a, c, cdot)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>4/19/2014</dd>
+    </dl>
+
+  <p>Compute the transformation matrices to convert IJK to RSW.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~55"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~61"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+<p>position vector of target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v~26"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v</strong></td>
+            <td>
+<p>velocity vector of target [km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~46"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+<p>acceleration vector of target [km/s^2]
+(if not present, then a torque-free force model is assumed)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~55"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+<p>C transformation matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot~16"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+<p>CDOT transformation matrix</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_ijk_to_rsw_rv"></span> <h3>private  subroutine <a href='../proc/from_ijk_to_rsw_rv.html'>from_ijk_to_rsw_rv</a>(mu, rt_ijk, vt_ijk, r_ijk, v_ijk, dr_rsw, dv_rsw)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+        <dt>Date</dt><dd>8/23/2014</dd>
+    </dl>
+
+  <p>Transform a position (and optionally velocity) vector from IJK to RSW.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~56"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>gravitational parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rt_ijk~7"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>rt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vt_ijk~7"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>vt_ijk</strong></td>
+            <td>
+<p>Target IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r_ijk~7"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v_ijk~7"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v_ijk</strong></td>
+            <td>
+<p>Chaser IJK absolute position vector [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dr_rsw"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dr_rsw</strong></td>
+            <td>
+<p>Chaser RSW position vector relative to target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dv_rsw"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>dv_rsw</strong></td>
+            <td>
+<p>Chaser RSW position vector relative to target [km]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+</div>
+  </div>
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

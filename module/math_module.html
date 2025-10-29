@@ -1,0 +1,736 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>math_module &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>math_module
+      <small>Module</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+            <li class="list-inline-item" id="meta-author"><i class="fa fa-pencil"></i> Jacob Williams</li>
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.3% of total for modules and submodules.">44 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/math_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/math_module.f90.html'>math_module.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">math_module</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/math_module.html#proc-magnitude">magnitude</a>
+            <a class="list-group-item" href="../module/math_module.html#proc-wrap_angle">wrap_angle</a>
+            <a class="list-group-item" href="../module/math_module.html#proc-cube_root">cube_root</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <p>General math routines</p>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='numbers_module.html'>numbers_module</a></li>
+                  <li class="list-inline-item"><a href='kind_module.html'>kind_module</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~math_module~~UsesGraph Pages: 1 -->
+<svg id="modulemath_moduleUsesGraph" width="483pt" height="52pt"
+ viewBox="0.00 0.00 483.00 52.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~math_module~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 48)">
+<title>module~~math_module~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-48 479,-48 479,4 -4,4"/>
+<!-- module~math_module -->
+<g id="module~~math_module~~UsesGraph_node1" class="node">
+<title>module~math_module</title>
+<polygon fill="none" stroke="black" points="475,-44 389,-44 389,-20 475,-20 475,-44"/>
+<text text-anchor="middle" x="432" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50">math_module</text>
+</g>
+<!-- module~kind_module -->
+<g id="module~~math_module~~UsesGraph_node2" class="node">
+<title>module~kind_module</title>
+<g id="a_module~~math_module~~UsesGraph_node2"><a xlink:href="../module/kind_module.html" xlink:title="kind_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="211,-44 130,-44 130,-20 211,-20 211,-44"/>
+<text text-anchor="middle" x="170.5" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module</text>
+</a>
+</g>
+</g>
+<!-- module~math_module&#45;&gt;module~kind_module -->
+<g id="module~~math_module~~UsesGraph_edge1" class="edge">
+<title>module~math_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M388.9,-32.64C377.27,-32.79 364.65,-32.93 353,-33 305.89,-33.3 294.11,-33.31 247,-33 238.71,-32.95 229.9,-32.86 221.34,-32.75"/>
+<polygon fill="#000000" stroke="#000000" points="221.12,-29.25 211.07,-32.62 221.03,-36.25 221.12,-29.25"/>
+</g>
+<!-- module~numbers_module -->
+<g id="module~~math_module~~UsesGraph_node3" class="node">
+<title>module~numbers_module</title>
+<g id="a_module~~math_module~~UsesGraph_node3"><a xlink:href="../module/numbers_module.html" xlink:title="numbers_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="353,-24 247,-24 247,0 353,0 353,-24"/>
+<text text-anchor="middle" x="300" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module</text>
+</a>
+</g>
+</g>
+<!-- module~math_module&#45;&gt;module~numbers_module -->
+<g id="module~~math_module~~UsesGraph_edge2" class="edge">
+<title>module~math_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M388.79,-25.51C380.69,-24.26 372.05,-22.93 363.47,-21.61"/>
+<polygon fill="#000000" stroke="#000000" points="363.88,-18.13 353.46,-20.07 362.81,-25.05 363.88,-18.13"/>
+</g>
+<!-- iso_fortran_env -->
+<g id="module~~math_module~~UsesGraph_node4" class="node">
+<title>iso_fortran_env</title>
+<g id="a_module~~math_module~~UsesGraph_node4"><a xlink:href="http://fortranwiki.org/fortran/show/iso_fortran_env" xlink:title="iso_fortran_env">
+<polygon fill="#337ab7" stroke="#337ab7" points="94,-44 0,-44 0,-20 94,-20 94,-44"/>
+<text text-anchor="middle" x="47" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
+</a>
+</g>
+</g>
+<!-- module~kind_module&#45;&gt;iso_fortran_env -->
+<g id="module~~math_module~~UsesGraph_edge3" class="edge">
+<title>module~kind_module&#45;&gt;iso_fortran_env</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M129.72,-32C121.56,-32 112.83,-32 104.21,-32"/>
+<polygon fill="#000000" stroke="#000000" points="104.2,-28.5 94.2,-32 104.2,-35.5 104.2,-28.5"/>
+</g>
+<!-- module~numbers_module&#45;&gt;module~kind_module -->
+<g id="module~~math_module~~UsesGraph_edge4" class="edge">
+<title>module~numbers_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M246.77,-20.19C238.36,-21.51 229.68,-22.87 221.33,-24.18"/>
+<polygon fill="#000000" stroke="#000000" points="220.68,-20.74 211.35,-25.75 221.77,-27.66 220.68,-20.74"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~math_module~~UsedByGraph Pages: 1 -->
+<svg id="modulemath_moduleUsedByGraph" width="501pt" height="227pt"
+ viewBox="0.00 0.00 501.00 227.28" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~math_module~~UsedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 223.28)">
+<title>module~~math_module~~UsedByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-223.28 497,-223.28 497,4 -4,4"/>
+<!-- module~math_module -->
+<g id="module~~math_module~~UsedByGraph_node1" class="node">
+<title>module~math_module</title>
+<polygon fill="none" stroke="black" points="86,-129 0,-129 0,-105 86,-105 86,-129"/>
+<text text-anchor="middle" x="43" y="-114.6" font-family="Helvetica,sans-Serif" font-size="10.50">math_module</text>
+</g>
+<!-- module~fortran_astrodynamics_toolkit -->
+<g id="module~~math_module~~UsedByGraph_node2" class="node">
+<title>module~fortran_astrodynamics_toolkit</title>
+<g id="a_module~~math_module~~UsedByGraph_node2"><a xlink:href="../module/fortran_astrodynamics_toolkit.html" xlink:title="fortran_astrodynamics_toolkit">
+<polygon fill="#337ab7" stroke="#337ab7" points="493,-192 323,-192 323,-168 493,-168 493,-192"/>
+<text text-anchor="middle" x="408" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fortran_astrodynamics_toolkit</text>
+</a>
+</g>
+</g>
+<!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~math_module -->
+<g id="module~~math_module~~UsedByGraph_edge1" class="edge">
+<title>module~fortran_astrodynamics_toolkit&#45;&gt;module~math_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M373.7,-192.13C318.71,-210.09 206.59,-237.89 122,-201 92.58,-188.17 69.27,-158.16 56.05,-137.71"/>
+<polygon fill="#000000" stroke="#000000" points="58.94,-135.74 50.7,-129.09 52.99,-139.43 58.94,-135.74"/>
+</g>
+<!-- module~lighting_module -->
+<g id="module~~math_module~~UsedByGraph_node3" class="node">
+<title>module~lighting_module</title>
+<g id="a_module~~math_module~~UsedByGraph_node3"><a xlink:href="../module/lighting_module.html" xlink:title="lighting_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="253.5,-192 155.5,-192 155.5,-168 253.5,-168 253.5,-192"/>
+<text text-anchor="middle" x="204.5" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lighting_module</text>
+</a>
+</g>
+</g>
+<!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~lighting_module -->
+<g id="module~~math_module~~UsedByGraph_edge7" class="edge">
+<title>module~fortran_astrodynamics_toolkit&#45;&gt;module~lighting_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M322.71,-180C302.88,-180 282.17,-180 263.77,-180"/>
+<polygon fill="#000000" stroke="#000000" points="263.52,-176.5 253.52,-180 263.52,-183.5 263.52,-176.5"/>
+</g>
+<!-- module~orbital_mechanics_module -->
+<g id="module~~math_module~~UsedByGraph_node4" class="node">
+<title>module~orbital_mechanics_module</title>
+<g id="a_module~~math_module~~UsedByGraph_node4"><a xlink:href="../module/orbital_mechanics_module.html" xlink:title="orbital_mechanics_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="282.5,-150 126.5,-150 126.5,-126 282.5,-126 282.5,-150"/>
+<text text-anchor="middle" x="204.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">orbital_mechanics_module</text>
+</a>
+</g>
+</g>
+<!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~orbital_mechanics_module -->
+<g id="module~~math_module~~UsedByGraph_edge8" class="edge">
+<title>module~fortran_astrodynamics_toolkit&#45;&gt;module~orbital_mechanics_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M349.26,-167.96C325.54,-163.02 297.92,-157.26 273.26,-152.12"/>
+<polygon fill="#000000" stroke="#000000" points="273.75,-148.65 263.25,-150.04 272.33,-155.5 273.75,-148.65"/>
+</g>
+<!-- module~lighting_module&#45;&gt;module~math_module -->
+<g id="module~~math_module~~UsedByGraph_edge2" class="edge">
+<title>module~lighting_module&#45;&gt;module~math_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M155.48,-169.69C144.32,-166.73 132.61,-163.15 122,-159 104.85,-152.29 86.67,-142.66 72.19,-134.32"/>
+<polygon fill="#000000" stroke="#000000" points="73.64,-131.12 63.25,-129.07 70.09,-137.15 73.64,-131.12"/>
+</g>
+<!-- module~orbital_mechanics_module&#45;&gt;module~math_module -->
+<g id="module~~math_module~~UsedByGraph_edge3" class="edge">
+<title>module~orbital_mechanics_module&#45;&gt;module~math_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M126.09,-127.81C115.94,-126.47 105.75,-125.13 96.17,-123.87"/>
+<polygon fill="#000000" stroke="#000000" points="96.4,-120.37 86.03,-122.53 95.49,-127.31 96.4,-120.37"/>
+</g>
+<!-- proc~compute_libration_points -->
+<g id="module~~math_module~~UsedByGraph_node5" class="node">
+<title>proc~compute_libration_points</title>
+<g id="a_module~~math_module~~UsedByGraph_node5"><a xlink:href="../proc/compute_libration_points.html" xlink:title="compute_libration_points">
+<polygon fill="#d9534f" stroke="#d9534f" points="278,-108 131,-108 131,-84 278,-84 278,-108"/>
+<text text-anchor="middle" x="204.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_libration_points</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_libration_points&#45;&gt;module~math_module -->
+<g id="module~~math_module~~UsedByGraph_edge4" class="edge">
+<title>proc~compute_libration_points&#45;&gt;module~math_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M130.75,-105.58C119.05,-107.12 107.15,-108.69 96.06,-110.15"/>
+<polygon fill="#000000" stroke="#000000" points="95.59,-106.68 86.14,-111.45 96.51,-113.62 95.59,-106.68"/>
+</g>
+<!-- proc~compute_libration_points_v2 -->
+<g id="module~~math_module~~UsedByGraph_node6" class="node">
+<title>proc~compute_libration_points_v2</title>
+<g id="a_module~~math_module~~UsedByGraph_node6"><a xlink:href="../proc/compute_libration_points_v2.html" xlink:title="compute_libration_points_v2">
+<polygon fill="#d9534f" stroke="#d9534f" points="287,-66 122,-66 122,-42 287,-42 287,-66"/>
+<text text-anchor="middle" x="204.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_libration_points_v2</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_libration_points_v2&#45;&gt;module~math_module -->
+<g id="module~~math_module~~UsedByGraph_edge5" class="edge">
+<title>proc~compute_libration_points_v2&#45;&gt;module~math_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M148.99,-66.09C139.86,-68.67 130.57,-71.64 122,-75 104.85,-81.71 86.67,-91.34 72.19,-99.68"/>
+<polygon fill="#000000" stroke="#000000" points="70.09,-96.85 63.25,-104.93 73.64,-102.88 70.09,-96.85"/>
+</g>
+<!-- proc~halo_to_rv_diffcorr -->
+<g id="module~~math_module~~UsedByGraph_node7" class="node">
+<title>proc~halo_to_rv_diffcorr</title>
+<g id="a_module~~math_module~~UsedByGraph_node7"><a xlink:href="../proc/halo_to_rv_diffcorr.html" xlink:title="halo_to_rv_diffcorr">
+<polygon fill="#d9534f" stroke="#d9534f" points="260.5,-24 148.5,-24 148.5,0 260.5,0 260.5,-24"/>
+<text text-anchor="middle" x="204.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">halo_to_rv_diffcorr</text>
+</a>
+</g>
+</g>
+<!-- proc~halo_to_rv_diffcorr&#45;&gt;module~math_module -->
+<g id="module~~math_module~~UsedByGraph_edge6" class="edge">
+<title>proc~halo_to_rv_diffcorr&#45;&gt;module~math_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M148.29,-21.64C139.14,-24.51 130.03,-28.21 122,-33 94.99,-49.09 71.61,-77.31 57.67,-96.56"/>
+<polygon fill="#000000" stroke="#000000" points="54.66,-94.76 51.78,-104.95 60.39,-98.78 54.66,-94.76"/>
+</g>
+<!-- proc~rk_test_variable_step -->
+<g id="module~~math_module~~UsedByGraph_node8" class="node">
+<title>proc~rk_test_variable_step</title>
+<g id="a_module~~math_module~~UsedByGraph_node8"><a xlink:href="../proc/rk_test_variable_step.html" xlink:title="rk_test_variable_step">
+<polygon fill="#d9534f" stroke="#d9534f" points="470,-150 346,-150 346,-126 470,-126 470,-150"/>
+<text text-anchor="middle" x="408" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rk_test_variable_step</text>
+</a>
+</g>
+</g>
+<!-- proc~rk_test_variable_step&#45;&gt;module~orbital_mechanics_module -->
+<g id="module~~math_module~~UsedByGraph_edge9" class="edge">
+<title>proc~rk_test_variable_step&#45;&gt;module~orbital_mechanics_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M346,-138C329.34,-138 310.96,-138 293.14,-138"/>
+<polygon fill="#000000" stroke="#000000" points="292.73,-134.5 282.73,-138 292.73,-141.5 292.73,-134.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      <br>
+
+
+
+
+
+
+
+        <section>
+          <h2>Functions</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-magnitude"></span> <h3>public pure elemental function <a href='../proc/magnitude.html'>magnitude</a>(a, mina) result(m)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Returns a positive number the same magnitude as the input,
+  with only one significant digit.</p><a href="../proc/magnitude.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~6"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mina"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mina</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-wrap_angle"></span> <h3>public pure elemental function <a href='../proc/wrap_angle.html'>wrap_angle</a>(a) result(r)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Wrap an angle (in rad) from -pi to pi.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~7"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-cube_root"></span> <h3>public pure elemental function <a href='../proc/cube_root.html'>cube_root</a>(x) result(y)  
+</h3></div>
+    <div class="card-body">
+              <dl class="dl-horizontal">
+        <dt>Author</dt><dd>Jacob Williams</dd>
+    </dl>
+
+  <p>Cube root of a number (real solution only).</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~21"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

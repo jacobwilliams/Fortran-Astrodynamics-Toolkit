@@ -1,0 +1,732 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>hstart &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>hstart
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.7% of total for procedures.">100 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/rk_module_variable_step.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/rk_module_variable_step.f90.html'>rk_module_variable_step.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/rk_module_variable_step.html'>rk_module_variable_step</a></li>
+            <li class="breadcrumb-item active" aria-current="page">hstart</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/hstart.html#src">hstart</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>private  subroutine hstart(me, a, b, y, yprime, etol, h)  
+</h2>
+    
+
+    <p>Computes a starting step size to be used in solving initial
+  value problems in ordinary differential equations.</p>
+<p>It is based on an estimate of the local lipschitz constant for the
+  differential equation (lower bound on a norm of the jacobian) ,
+  a bound on the differential equation (first derivative), and
+  a bound on the partial derivative of the equation with respect to
+  the independent variable. (all approximated near the initial point a)</p>
+<div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="k">function</span><span class="w"> </span><span class="nf">for</span><span class="w"> </span><span class="n">computing</span><span class="w"> </span><span class="n">vector</span><span class="w"> </span><span class="n">norms</span>
+</code></pre></div>
+
+<h1>History</h1>
+<ul>
+<li>820301  date written -- watts, h. a., (snla)</li>
+<li>890531  changed all specific intrinsics to generic.  (wrb)</li>
+<li>890831  modified array declarations.  (wrb)</li>
+<li>890911  removed unnecessary intrinsics.  (wrb)</li>
+<li>891024  changed references from dvnorm to dhvnrm.  (wrb)</li>
+<li>891214  prologue converted to version 4.0 format.  (bab)</li>
+<li>900328  added type section.  (wrb)</li>
+<li>910722  updated author section.  (als)</li>
+<li>December, 2015 : Refactored this routine (jw)</li>
+<li>April 2016 : Some modifications for the variable-step RK module (jw)</li>
+</ul>
+
+    <h3>Type Bound</h3>
+    <p><a href='../type/rk_variable_step_class.html'>rk_variable_step_class</a></p>
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-me~76"></span>
+              class(<a href='../type/rk_variable_step_class.html'>rk_variable_step_class</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~61"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+                <p>the initial point of integration.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~35"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+                <p>a value of the independent variable used to define
+the direction of integration. a reasonable choice is to
+set <code>b</code> to the first point at which a solution is desired.
+you can also use <code>b</code>, if necessary, to restrict the length
+of the first integration step because the algorithm will
+not compute a starting step length which is bigger than
+<code>abs(b-a)</code>, unless <code>b</code> has been chosen too close to <code>a</code>.
+(it is presumed that hstart has been called with <code>b</code>
+different from <code>a</code> on the machine being used. also see the
+discussion about the parameter <code>small</code>.)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-y~32"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(me%n)
+            </td>
+            <td>::</td>
+            <td><strong>y</strong></td>
+            <td>
+                <p>the vector of initial values of the <code>neq</code> solution
+components at the initial point <code>a</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-yprime"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(me%n)
+            </td>
+            <td>::</td>
+            <td><strong>yprime</strong></td>
+            <td>
+                <p>the vector of derivatives of the <code>neq</code>
+solution components at the initial point <code>a</code>.
+(defined by the differential equations in subroutine <code>me%f</code>)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-etol~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(me%n)
+            </td>
+            <td>::</td>
+            <td><strong>etol</strong></td>
+            <td>
+                <p>the vector of error tolerances corresponding to
+the <code>neq</code> solution components. it is assumed that all
+elements are positive. following the first integration
+step, the tolerances are expected to be used by the
+integrator in an error test which roughly requires that
+<code>abs(local error) &lt;= etol</code> for each vector component.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-h~46"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>h</strong></td>
+            <td>
+                <p>appropriate starting step size to be attempted by the
+differential equation method.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~hstart~~CalledByGraph Pages: 1 -->
+<svg id="prochstartCalledByGraph" width="617pt" height="74pt"
+ viewBox="0.00 0.00 617.00 74.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~hstart~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 70)">
+<title>proc~~hstart~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 613,-70 613,4 -4,4"/>
+<!-- proc~hstart -->
+<g id="proc~~hstart~~CalledByGraph_node1" class="node">
+<title>proc~hstart</title>
+<polygon fill="none" stroke="black" points="609,-45 437,-45 437,-21 609,-21 609,-45"/>
+<text text-anchor="middle" x="523" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">rk_variable_step_class%hstart</text>
+</g>
+<!-- proc~integrate_to_event~2 -->
+<g id="proc~~hstart~~CalledByGraph_node2" class="node">
+<title>proc~integrate_to_event~2</title>
+<g id="a_proc~~hstart~~CalledByGraph_node2"><a xlink:href="../proc/integrate_to_event~2.html" xlink:title="rk_variable_step_class%integrate_to_event">
+<polygon fill="#d9534f" stroke="#d9534f" points="401,-66 160,-66 160,-42 401,-42 401,-66"/>
+<text text-anchor="middle" x="280.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rk_variable_step_class%integrate_to_event</text>
+</a>
+</g>
+</g>
+<!-- proc~integrate_to_event~2&#45;&gt;proc~hstart -->
+<g id="proc~~hstart~~CalledByGraph_edge1" class="edge">
+<title>proc~integrate_to_event~2&#45;&gt;proc~hstart</title>
+<path fill="none" stroke="#000000" d="M401.05,-43.56C409.59,-42.82 418.15,-42.07 426.53,-41.34"/>
+<polygon fill="#000000" stroke="#000000" points="427.01,-44.81 436.67,-40.45 426.4,-37.83 427.01,-44.81"/>
+</g>
+<!-- proc~integrate~2 -->
+<g id="proc~~hstart~~CalledByGraph_node3" class="node">
+<title>proc~integrate~2</title>
+<g id="a_proc~~hstart~~CalledByGraph_node3"><a xlink:href="../proc/integrate~2.html" xlink:title="rk_variable_step_class%integrate">
+<polygon fill="#d9534f" stroke="#d9534f" points="375.5,-24 185.5,-24 185.5,0 375.5,0 375.5,-24"/>
+<text text-anchor="middle" x="280.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rk_variable_step_class%integrate</text>
+</a>
+</g>
+</g>
+<!-- proc~integrate~2&#45;&gt;proc~hstart -->
+<g id="proc~~hstart~~CalledByGraph_edge2" class="edge">
+<title>proc~integrate~2&#45;&gt;proc~hstart</title>
+<path fill="none" stroke="#000000" d="M375.52,-20.21C392.21,-21.67 409.61,-23.19 426.35,-24.65"/>
+<polygon fill="#000000" stroke="#000000" points="426.4,-28.17 436.67,-25.55 427.01,-21.19 426.4,-28.17"/>
+</g>
+<!-- proc~rk_test_variable_step -->
+<g id="proc~~hstart~~CalledByGraph_node4" class="node">
+<title>proc~rk_test_variable_step</title>
+<g id="a_proc~~hstart~~CalledByGraph_node4"><a xlink:href="../proc/rk_test_variable_step.html" xlink:title="rk_test_variable_step">
+<polygon fill="#d9534f" stroke="#d9534f" points="124,-45 0,-45 0,-21 124,-21 124,-45"/>
+<text text-anchor="middle" x="62" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rk_test_variable_step</text>
+</a>
+</g>
+</g>
+<!-- proc~rk_test_variable_step&#45;&gt;proc~integrate_to_event~2 -->
+<g id="proc~~hstart~~CalledByGraph_edge3" class="edge">
+<title>proc~rk_test_variable_step&#45;&gt;proc~integrate_to_event~2</title>
+<path fill="none" stroke="#000000" d="M124.17,-38.93C132.35,-39.73 140.97,-40.56 149.79,-41.42"/>
+<polygon fill="#000000" stroke="#000000" points="149.53,-44.91 159.82,-42.39 150.2,-37.94 149.53,-44.91"/>
+</g>
+<!-- proc~rk_test_variable_step&#45;&gt;proc~integrate~2 -->
+<g id="proc~~hstart~~CalledByGraph_edge4" class="edge">
+<title>proc~rk_test_variable_step&#45;&gt;proc~integrate~2</title>
+<path fill="none" stroke="#000000" d="M124.17,-27.07C140.06,-25.53 157.63,-23.82 175.07,-22.13"/>
+<polygon fill="#000000" stroke="#000000" points="175.69,-25.59 185.3,-21.14 175.01,-18.62 175.69,-25.59"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">hstart</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">yprime</span><span class="p">,</span><span class="n">etol</span><span class="p">,</span><span class="n">h</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    class</span><span class="p">(</span><span class="n">rk_variable_step_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w">         </span><span class="c">!! the initial point of integration.</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="w">         </span><span class="c">!! a value of the independent variable used to define</span>
+<span class="w">                                                    </span><span class="c">!! the direction of integration. a reasonable choice is to</span>
+<span class="w">                                                    </span><span class="c">!! set `b` to the first point at which a solution is desired.</span>
+<span class="w">                                                    </span><span class="c">!! you can also use `b`, if necessary, to restrict the length</span>
+<span class="w">                                                    </span><span class="c">!! of the first integration step because the algorithm will</span>
+<span class="w">                                                    </span><span class="c">!! not compute a starting step length which is bigger than</span>
+<span class="w">                                                    </span><span class="c">!! `abs(b-a)`, unless `b` has been chosen too close to `a`.</span>
+<span class="w">                                                    </span><span class="c">!! (it is presumed that hstart has been called with `b`</span>
+<span class="w">                                                    </span><span class="c">!! different from `a` on the machine being used. also see the</span>
+<span class="w">                                                    </span><span class="c">!! discussion about the parameter `small`.)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">n</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">y</span><span class="w">        </span><span class="c">!! the vector of initial values of the `neq` solution</span>
+<span class="w">                                                    </span><span class="c">!! components at the initial point `a`.</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">n</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">yprime</span><span class="w">   </span><span class="c">!! the vector of derivatives of the `neq`</span>
+<span class="w">                                                    </span><span class="c">!! solution components at the initial point `a`.</span>
+<span class="w">                                                    </span><span class="c">!! (defined by the differential equations in subroutine `me%f`)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">n</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">etol</span><span class="w">     </span><span class="c">!! the vector of error tolerances corresponding to</span>
+<span class="w">                                                    </span><span class="c">!! the `neq` solution components. it is assumed that all</span>
+<span class="w">                                                    </span><span class="c">!! elements are positive. following the first integration</span>
+<span class="w">                                                    </span><span class="c">!! step, the tolerances are expected to be used by the</span>
+<span class="w">                                                    </span><span class="c">!! integrator in an error test which roughly requires that</span>
+<span class="w">                                                    </span><span class="c">!! `abs(local error) &lt;= etol` for each vector component.</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">h</span><span class="w">       </span><span class="c">!! appropriate starting step size to be attempted by the</span>
+<span class="w">                                    </span><span class="c">!! differential equation method.</span>
+
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">spy</span><span class="w">  </span><span class="c">!! work array which provide the routine with needed storage space.</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">pv</span><span class="w">   </span><span class="c">!! work array which provide the routine with needed storage space.</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">yp</span><span class="w">   </span><span class="c">!! work array which provide the routine with needed storage space.</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sf</span><span class="w">   </span><span class="c">!! work array which provide the routine with needed storage space.</span>
+
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">small</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nb">epsilon</span><span class="p">(</span><span class="n">one</span><span class="p">)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">big</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="nb">huge</span><span class="p">(</span><span class="n">one</span><span class="p">)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">relper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">small</span><span class="o">**</span><span class="mf">0.375_wp</span>
+
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">lk</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">absdx</span><span class="p">,</span><span class="w"> </span><span class="n">da</span><span class="p">,</span><span class="w"> </span><span class="n">delf</span><span class="p">,</span><span class="w"> </span><span class="n">dely</span><span class="p">,&amp;</span>
+<span class="w">                </span><span class="n">dfdub</span><span class="p">,</span><span class="w"> </span><span class="n">dfdxb</span><span class="p">,&amp;</span>
+<span class="w">                </span><span class="n">dx</span><span class="p">,</span><span class="w"> </span><span class="n">dy</span><span class="p">,</span><span class="w"> </span><span class="n">fbnd</span><span class="p">,&amp;</span>
+<span class="w">                </span><span class="n">srydpb</span><span class="p">,</span><span class="w"> </span><span class="n">tolexp</span><span class="p">,</span><span class="w"> </span><span class="n">tolmin</span><span class="p">,</span><span class="w"> </span><span class="n">tolp</span><span class="p">,</span><span class="w"> </span><span class="n">tolsum</span><span class="p">,</span><span class="w"> </span><span class="n">ydpb</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">morder</span><span class="w">    </span><span class="c">!! the order of the formula which will be used by</span>
+<span class="w">                         </span><span class="c">!! the initial value method for taking the first integration</span>
+<span class="w">                         </span><span class="c">!! step.</span>
+
+<span class="w">    </span><span class="n">morder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">p</span>
+<span class="w">    </span><span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a</span>
+<span class="w">    </span><span class="n">absdx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">dx</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">! compute an approximate bound (dfdxb) on the partial</span>
+<span class="w">    </span><span class="c">! derivative of the equation with respect to the</span>
+<span class="w">    </span><span class="c">! independent variable. protect against an overflow.</span>
+<span class="w">    </span><span class="c">! also compute a bound (fbnd) on the first derivative</span>
+<span class="w">    </span><span class="c">! locally.</span>
+
+<span class="w">    </span><span class="n">da</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sign</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">relper</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="n">absdx</span><span class="p">),</span><span class="mi">10</span><span class="mf">0.0_wp</span><span class="o">*</span><span class="n">small</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">a</span><span class="p">)),</span><span class="n">dx</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">da</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">da</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">relper</span><span class="o">*</span><span class="n">dx</span>
+<span class="w">    </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">da</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">sf</span><span class="p">)</span>
+<span class="w">    </span><span class="n">yp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sf</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">yprime</span>
+<span class="w">    </span><span class="n">delf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">stepsize_method</span><span class="p">%</span><span class="n">norm</span><span class="p">(</span><span class="n">yp</span><span class="p">)</span>
+<span class="w">    </span><span class="n">dfdxb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">big</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">delf</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">big</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">da</span><span class="p">))</span><span class="w"> </span><span class="n">dfdxb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">delf</span><span class="o">/</span><span class="nb">abs</span><span class="p">(</span><span class="n">da</span><span class="p">)</span>
+<span class="w">    </span><span class="n">fbnd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">stepsize_method</span><span class="p">%</span><span class="n">norm</span><span class="p">(</span><span class="n">sf</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">! compute an estimate (dfdub) of the local lipschitz</span>
+<span class="w">    </span><span class="c">! constant for the system of differential equations. this</span>
+<span class="w">    </span><span class="c">! also represents an estimate of the norm of the jacobian</span>
+<span class="w">    </span><span class="c">! locally.  three iterations (two when neq=1) are used to</span>
+<span class="w">    </span><span class="c">! estimate the lipschitz constant by numerical differences.</span>
+<span class="w">    </span><span class="c">! the first perturbation vector is based on the initial</span>
+<span class="w">    </span><span class="c">! derivatives and direction of integration. the second</span>
+<span class="w">    </span><span class="c">! perturbation vector is formed using another evaluation of</span>
+<span class="w">    </span><span class="c">! the differential equation.  the third perturbation vector</span>
+<span class="w">    </span><span class="c">! is formed using perturbations based only on the initial</span>
+<span class="w">    </span><span class="c">! values. components that are zero are always changed to</span>
+<span class="w">    </span><span class="c">! non-zero values (except on the first iteration). when</span>
+<span class="w">    </span><span class="c">! information is available, care is taken to ensure that</span>
+<span class="w">    </span><span class="c">! components of the perturbation vector have signs which are</span>
+<span class="w">    </span><span class="c">! consistent with the slopes of local solution curves.</span>
+<span class="w">    </span><span class="c">! also choose the largest bound (fbnd) for the first</span>
+<span class="w">    </span><span class="c">! derivative.</span>
+<span class="w">    </span><span class="c">!</span>
+<span class="w">    </span><span class="c">! perturbation vector size is held</span>
+<span class="w">    </span><span class="c">! constant for all iterations. compute</span>
+<span class="w">    </span><span class="c">! this change from the</span>
+<span class="w">    </span><span class="c">! size of the vector of initial</span>
+<span class="w">    </span><span class="c">! values.</span>
+
+<span class="w">    </span><span class="n">dely</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">relper</span><span class="o">*</span><span class="n">me</span><span class="p">%</span><span class="n">stepsize_method</span><span class="p">%</span><span class="n">norm</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dely</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">dely</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">relper</span>
+<span class="w">    </span><span class="n">dely</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sign</span><span class="p">(</span><span class="n">dely</span><span class="p">,</span><span class="n">dx</span><span class="p">)</span>
+<span class="w">    </span><span class="n">delf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">stepsize_method</span><span class="p">%</span><span class="n">norm</span><span class="p">(</span><span class="n">yprime</span><span class="p">)</span>
+<span class="w">    </span><span class="n">fbnd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">fbnd</span><span class="p">,</span><span class="n">delf</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">delf</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="c">! cannot have a null perturbation vector</span>
+<span class="w">        </span><span class="n">spy</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<span class="w">        </span><span class="n">yp</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">one</span>
+<span class="w">        </span><span class="n">delf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">stepsize_method</span><span class="p">%</span><span class="n">norm</span><span class="p">(</span><span class="n">yp</span><span class="p">)</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="c">! use initial derivatives for first perturbation</span>
+<span class="w">        </span><span class="n">spy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">yprime</span>
+<span class="w">        </span><span class="n">yp</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">yprime</span>
+<span class="w">    </span><span class="k">end if</span>
+
+<span class="k">    </span><span class="n">dfdub</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<span class="w">    </span><span class="n">lk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">min</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">    </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">lk</span>
+<span class="w">        </span><span class="c">! define perturbed vector of initial values</span>
+<span class="w">        </span><span class="n">pv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">yp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">dely</span><span class="o">/</span><span class="n">delf</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="c">! use a shifted value of the independent variable</span>
+<span class="w">            </span><span class="c">! in computing one estimate</span>
+<span class="w">            </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">da</span><span class="p">,</span><span class="n">pv</span><span class="p">,</span><span class="n">yp</span><span class="p">)</span>
+<span class="w">            </span><span class="n">pv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">yp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">sf</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="c">! evaluate derivatives associated with perturbed</span>
+<span class="w">            </span><span class="c">! vector and compute corresponding differences</span>
+<span class="w">            </span><span class="k">call </span><span class="n">me</span><span class="p">%</span><span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">pv</span><span class="p">,</span><span class="n">yp</span><span class="p">)</span>
+<span class="w">            </span><span class="n">pv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">yp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">yprime</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="w">        </span><span class="c">! choose largest bounds on the first derivative</span>
+<span class="w">        </span><span class="c">! and a local lipschitz constant</span>
+<span class="w">        </span><span class="n">fbnd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">fbnd</span><span class="p">,</span><span class="n">me</span><span class="p">%</span><span class="n">stepsize_method</span><span class="p">%</span><span class="n">norm</span><span class="p">(</span><span class="n">yp</span><span class="p">))</span>
+<span class="w">        </span><span class="n">delf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">stepsize_method</span><span class="p">%</span><span class="n">norm</span><span class="p">(</span><span class="n">pv</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">delf</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">big</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">dely</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="c">! protect against an overflow</span>
+<span class="w">            </span><span class="n">dfdub</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">big</span>
+<span class="w">            </span><span class="k">exit</span>
+<span class="k">        end if</span>
+<span class="k">        </span><span class="n">dfdub</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">dfdub</span><span class="p">,</span><span class="n">delf</span><span class="o">/</span><span class="nb">abs</span><span class="p">(</span><span class="n">dely</span><span class="p">))</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">lk</span><span class="p">)</span><span class="w"> </span><span class="k">exit</span>
+
+<span class="w">        </span><span class="c">! choose next perturbation vector</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">delf</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">delf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span>
+<span class="w">        </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">n</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                </span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dy</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dely</span><span class="o">/</span><span class="n">relper</span>
+<span class="w">            </span><span class="k">else</span>
+<span class="k">                </span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">pv</span><span class="p">(</span><span class="n">j</span><span class="p">))</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dy</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">delf</span>
+<span class="w">            </span><span class="k">end if</span>
+<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="n">spy</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">spy</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">yp</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">spy</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sign</span><span class="p">(</span><span class="n">dy</span><span class="p">,</span><span class="n">spy</span><span class="p">(</span><span class="n">j</span><span class="p">))</span>
+<span class="w">            </span><span class="n">yp</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dy</span>
+<span class="w">        </span><span class="k">end do</span>
+<span class="k">        </span><span class="n">delf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">stepsize_method</span><span class="p">%</span><span class="n">norm</span><span class="p">(</span><span class="n">yp</span><span class="p">)</span>
+<span class="w">    </span><span class="k">end do</span>
+
+<span class="w">    </span><span class="c">! compute a bound (ydpb) on the norm of the second derivative</span>
+
+<span class="w">    </span><span class="n">ydpb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dfdxb</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dfdub</span><span class="o">*</span><span class="n">fbnd</span>
+
+<span class="w">    </span><span class="c">! define the tolerance parameter upon which the starting step</span>
+<span class="w">    </span><span class="c">! size is to be based.  a value in the middle of the error</span>
+<span class="w">    </span><span class="c">! tolerance range is selected.</span>
+
+<span class="w">    </span><span class="n">tolmin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">big</span>
+<span class="w">    </span><span class="n">tolsum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<span class="w">    </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">me</span><span class="p">%</span><span class="n">n</span>
+<span class="w">        </span><span class="n">tolexp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log10</span><span class="p">(</span><span class="n">etol</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+<span class="w">        </span><span class="n">tolmin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">min</span><span class="p">(</span><span class="n">tolmin</span><span class="p">,</span><span class="n">tolexp</span><span class="p">)</span>
+<span class="w">        </span><span class="n">tolsum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tolsum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tolexp</span>
+<span class="w">    </span><span class="k">end do</span>
+<span class="k">    </span><span class="n">tolp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="mf">0.0_wp</span><span class="o">**</span><span class="p">(</span><span class="mf">0.5_wp</span><span class="o">*</span><span class="p">(</span><span class="n">tolsum</span><span class="o">/</span><span class="n">me</span><span class="p">%</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tolmin</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">morder</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="w">    </span><span class="c">! compute a starting step size based on the above first and</span>
+<span class="w">    </span><span class="c">! second derivative information</span>
+<span class="w">    </span><span class="c">!</span>
+<span class="w">    </span><span class="c">! restrict the step length to be not bigger</span>
+<span class="w">    </span><span class="c">! than abs(b-a). (unless b is too close to a)</span>
+
+<span class="w">    </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">absdx</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ydpb</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">fbnd</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="c">! both first derivative term (fbnd) and second</span>
+<span class="w">        </span><span class="c">! derivative term (ydpb) are zero</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tolp</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">one</span><span class="p">)</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">absdx</span><span class="o">*</span><span class="n">tolp</span>
+<span class="w">    </span><span class="k">elseif</span><span class="w"> </span><span class="p">(</span><span class="n">ydpb</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="c">! only second derivative term (ydpb) is zero</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tolp</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">fbnd</span><span class="o">*</span><span class="n">absdx</span><span class="p">)</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tolp</span><span class="o">/</span><span class="n">fbnd</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="c">! second derivative term (ydpb) is non-zero</span>
+<span class="w">        </span><span class="n">srydpb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="mf">0.5_wp</span><span class="o">*</span><span class="n">ydpb</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tolp</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">srydpb</span><span class="o">*</span><span class="n">absdx</span><span class="p">)</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tolp</span><span class="o">/</span><span class="n">srydpb</span>
+<span class="w">    </span><span class="k">end if</span>
+
+<span class="w">    </span><span class="c">! further restrict the step length to be not bigger than  1/dfdub</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="o">*</span><span class="n">dfdub</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">one</span><span class="p">)</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="n">dfdub</span>
+
+<span class="w">    </span><span class="c">! finally, restrict the step length to be not</span>
+<span class="w">    </span><span class="c">! smaller than 100*small*abs(a). however, if</span>
+<span class="w">    </span><span class="c">! a=0. and the computed h underflowed to zero,</span>
+<span class="w">    </span><span class="c">! the algorithm returns small*abs(b) for the step length.</span>
+<span class="w">    </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="mi">10</span><span class="mf">0.0_wp</span><span class="o">*</span><span class="n">small</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">h</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">small</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">! now set direction of integration</span>
+<span class="w">    </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sign</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">dx</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">hstart</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

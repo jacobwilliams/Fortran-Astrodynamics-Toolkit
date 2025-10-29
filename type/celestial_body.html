@@ -1,0 +1,779 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>celestial_body &ndash; fortran-astrodynamics-toolkit </title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>celestial_body
+      <small>Derived Type</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title="<p> 1.1% of total for derived types.</p>Including implementation: 3 statements,  0.0% of total for derived types.">3 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/celestial_body_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/celestial_body_module.f90.html'>celestial_body_module.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/celestial_body_module.html'>celestial_body_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">celestial_body</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/celestial_body.html#variable-id">id</a>
+            <a class="list-group-item" href="../type/celestial_body.html#variable-name~3">name</a>
+            <a class="list-group-item" href="../type/celestial_body.html#variable-mu~60">mu</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#boundprocs-0"
+         aria-expanded="false" aria-controls="boundprocs-0">
+         <h4 class="card-header bg-primary text-white">Type-Bound Procedures</h4>
+      </a>
+      <div id="boundprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/celestial_body.html#boundprocedure-operator%28%3D%3D%29~2">operator(==)</a>
+            <a class="list-group-item" href="../type/celestial_body.html#boundprocedure-operator%28SLASH%3D%29~2">operator(/=)</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../type/celestial_body.html#src">celestial_body</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+      <h2 id="type-def-statement">
+        type, public, extends(<a href='base_class.html'>base_class</a>) :: celestial_body</h2>
+    <p>A celestial body (Planet, moon, etc.)
+The <code>ID</code> from the <a href="../type/base_class.html">base_class</a> is the NAIF SPICE ID code for the body</p>
+<br>      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Inherits</h3>
+        </div>
+        <div class="card-body">
+          <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: type~~celestial_body~~InheritsGraph Pages: 1 -->
+<svg id="typecelestial_bodyInheritsGraph" width="202pt" height="32pt"
+ viewBox="0.00 0.00 202.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="type~~celestial_body~~InheritsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>type~~celestial_body~~InheritsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 198,-28 198,4 -4,4"/>
+<!-- type~celestial_body -->
+<g id="type~~celestial_body~~InheritsGraph_node1" class="node">
+<title>type~celestial_body</title>
+<polygon fill="none" stroke="black" points="194,-24 106,-24 106,0 194,0 194,-24"/>
+<text text-anchor="middle" x="150" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">celestial_body</text>
+</g>
+<!-- type~base_class -->
+<g id="type~~celestial_body~~InheritsGraph_node2" class="node">
+<title>type~base_class</title>
+<g id="a_type~~celestial_body~~InheritsGraph_node2"><a xlink:href="../type/base_class.html" xlink:title="base_class">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">base_class</text>
+</a>
+</g>
+</g>
+<!-- type~celestial_body&#45;&gt;type~base_class -->
+<g id="type~~celestial_body~~InheritsGraph_edge1" class="edge">
+<title>type~celestial_body&#45;&gt;type~base_class</title>
+<path fill="none" stroke="#000000" d="M105.96,-12C97.53,-12 88.68,-12 80.22,-12"/>
+<polygon fill="#000000" stroke="#000000" points="80.14,-8.5 70.14,-12 80.14,-15.5 80.14,-8.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#InheritsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="InheritsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="186pt" height="32pt"
+ viewBox="0.00 0.00 185.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 181.5,-28 181.5,4 -4,4"/>
+<!-- Type -->
+<g id="node1" class="node">
+<title>Type</title>
+<polygon fill="#5cb85c" stroke="#5cb85c" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="177.5,-24 72.5,-24 72.5,0 177.5,0 177.5,-24"/>
+<text text-anchor="middle" x="125" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a derived type to the parent type which it
+extends. Dashed arrows point from a derived type to the other
+types it contains as a components, with a label listing the name(s) of
+said component(s).
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Inherited by</h3>
+        </div>
+        <div class="card-body">
+          <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: type~~celestial_body~~InheritedByGraph Pages: 1 -->
+<svg id="typecelestial_bodyInheritedByGraph" width="641pt" height="134pt"
+ viewBox="0.00 0.00 641.00 133.96" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="type~~celestial_body~~InheritedByGraph" class="graph" transform="scale(0.67 0.67) rotate(0) translate(4 196)">
+<title>type~~celestial_body~~InheritedByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-196 953,-196 953,4 -4,4"/>
+<!-- type~celestial_body -->
+<g id="type~~celestial_body~~InheritedByGraph_node1" class="node">
+<title>type~celestial_body</title>
+<polygon fill="none" stroke="black" points="88,-128 0,-128 0,-104 88,-104 88,-128"/>
+<text text-anchor="middle" x="44" y="-113.6" font-family="Helvetica,sans-Serif" font-size="10.50">celestial_body</text>
+</g>
+<!-- type~reference_frame -->
+<g id="type~~celestial_body~~InheritedByGraph_node2" class="node">
+<title>type~reference_frame</title>
+<g id="a_type~~celestial_body~~InheritedByGraph_node2"><a xlink:href="../type/reference_frame.html" xlink:title="reference_frame">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="290,-158 189,-158 189,-134 290,-134 290,-158"/>
+<text text-anchor="middle" x="239.5" y="-143.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">reference_frame</text>
+</a>
+</g>
+</g>
+<!-- type~reference_frame&#45;&gt;type~celestial_body -->
+<g id="type~~celestial_body~~InheritedByGraph_edge1" class="edge">
+<title>type~reference_frame&#45;&gt;type~celestial_body</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M188.92,-138.31C161.2,-134.01 126.63,-128.66 98.32,-124.27"/>
+<polygon fill="#000000" stroke="#000000" points="98.62,-120.77 88.2,-122.7 97.55,-127.69 98.62,-120.77"/>
+<text text-anchor="middle" x="138.5" y="-137.4" font-family="Helvetica,sans-Serif" font-size="9.50">primary_body</text>
+</g>
+<!-- type~two_body_rotating_frame -->
+<g id="type~~celestial_body~~InheritedByGraph_node3" class="node">
+<title>type~two_body_rotating_frame</title>
+<g id="a_type~~celestial_body~~InheritedByGraph_node3"><a xlink:href="../type/two_body_rotating_frame.html" xlink:title="two_body_rotating_frame">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="711,-108 564,-108 564,-84 711,-84 711,-108"/>
+<text text-anchor="middle" x="637.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">two_body_rotating_frame</text>
+</a>
+</g>
+</g>
+<!-- type~two_body_rotating_frame&#45;&gt;type~celestial_body -->
+<g id="type~~celestial_body~~InheritedByGraph_edge2" class="edge">
+<title>type~two_body_rotating_frame&#45;&gt;type~celestial_body</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M563.79,-94.44C557.76,-94.78 551.77,-95.29 546,-96"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M545,-96C383.31,-115.9 190.21,-117.38 98.48,-116.75"/>
+<polygon fill="#000000" stroke="#000000" points="98.36,-113.24 88.33,-116.66 98.3,-120.24 98.36,-113.24"/>
+<text text-anchor="middle" x="347" y="-115.4" font-family="Helvetica,sans-Serif" font-size="9.50">secondary_body</text>
+</g>
+<!-- type~rotating_frame_class -->
+<g id="type~~celestial_body~~InheritedByGraph_node5" class="node">
+<title>type~rotating_frame_class</title>
+<g id="a_type~~celestial_body~~InheritedByGraph_node5"><a xlink:href="../type/rotating_frame_class.html" xlink:title="rotating_frame_class">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="527,-148 404,-148 404,-124 527,-124 527,-148"/>
+<text text-anchor="middle" x="465.5" y="-133.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rotating_frame_class</text>
+</a>
+</g>
+</g>
+<!-- type~two_body_rotating_frame&#45;&gt;type~rotating_frame_class -->
+<g id="type~~celestial_body~~InheritedByGraph_edge8" class="edge">
+<title>type~two_body_rotating_frame&#45;&gt;type~rotating_frame_class</title>
+<path fill="none" stroke="#000000" d="M545,-96C534.94,-97.24 535.73,-104.85 527,-110 521.05,-113.52 514.53,-116.82 508.05,-119.82"/>
+<polygon fill="#000000" stroke="#000000" points="506.38,-116.73 498.65,-123.98 509.21,-123.13 506.38,-116.73"/>
+</g>
+<!-- type~inertial_frame_class -->
+<g id="type~~celestial_body~~InheritedByGraph_node4" class="node">
+<title>type~inertial_frame_class</title>
+<g id="a_type~~celestial_body~~InheritedByGraph_node4"><a xlink:href="../type/inertial_frame_class.html" xlink:title="inertial_frame_class">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="525,-190 406,-190 406,-166 525,-166 525,-190"/>
+<text text-anchor="middle" x="465.5" y="-175.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">inertial_frame_class</text>
+</a>
+</g>
+</g>
+<!-- type~inertial_frame_class&#45;&gt;type~reference_frame -->
+<g id="type~~celestial_body~~InheritedByGraph_edge4" class="edge">
+<title>type~inertial_frame_class&#45;&gt;type~reference_frame</title>
+<path fill="none" stroke="#000000" d="M413.79,-165.96C393.47,-161.9 369.76,-158.11 348,-157"/>
+</g>
+<!-- type~rotating_frame_class&#45;&gt;type~reference_frame -->
+<g id="type~~celestial_body~~InheritedByGraph_edge3" class="edge">
+<title>type~rotating_frame_class&#45;&gt;type~reference_frame</title>
+<path fill="none" stroke="#000000" d="M423.82,-148.03C401.58,-153.41 373.45,-158.3 348,-157"/>
+<path fill="none" stroke="#000000" d="M346,-157C331.13,-156.24 315.13,-154.86 300.2,-153.34"/>
+<polygon fill="#000000" stroke="#000000" points="300.37,-149.84 290.06,-152.26 299.63,-156.8 300.37,-149.84"/>
+</g>
+<!-- type~two_body_rotating_pulsating_frame -->
+<g id="type~~celestial_body~~InheritedByGraph_node6" class="node">
+<title>type~two_body_rotating_pulsating_frame</title>
+<g id="a_type~~celestial_body~~InheritedByGraph_node6"><a xlink:href="../type/two_body_rotating_pulsating_frame.html" xlink:title="two_body_rotating_pulsating_frame">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="949,-108 748,-108 748,-84 949,-84 949,-108"/>
+<text text-anchor="middle" x="848.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">two_body_rotating_pulsating_frame</text>
+</a>
+</g>
+</g>
+<!-- type~two_body_rotating_pulsating_frame&#45;&gt;type~two_body_rotating_frame -->
+<g id="type~~celestial_body~~InheritedByGraph_edge5" class="edge">
+<title>type~two_body_rotating_pulsating_frame&#45;&gt;type~two_body_rotating_frame</title>
+<path fill="none" stroke="#000000" d="M747.9,-96C738.98,-96 730.02,-96 721.26,-96"/>
+<polygon fill="#000000" stroke="#000000" points="721.1,-92.5 711.1,-96 721.1,-99.5 721.1,-92.5"/>
+</g>
+<!-- type~ecliptic_frame -->
+<g id="type~~celestial_body~~InheritedByGraph_node7" class="node">
+<title>type~ecliptic_frame</title>
+<g id="a_type~~celestial_body~~InheritedByGraph_node7"><a xlink:href="../type/ecliptic_frame.html" xlink:title="ecliptic_frame">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="681.5,-192 593.5,-192 593.5,-168 681.5,-168 681.5,-192"/>
+<text text-anchor="middle" x="637.5" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ecliptic_frame</text>
+</a>
+</g>
+</g>
+<!-- type~ecliptic_frame&#45;&gt;type~inertial_frame_class -->
+<g id="type~~celestial_body~~InheritedByGraph_edge7" class="edge">
+<title>type~ecliptic_frame&#45;&gt;type~inertial_frame_class</title>
+<path fill="none" stroke="#000000" d="M593.14,-177.56C578.17,-177.23 561.32,-177.45 546,-179"/>
+</g>
+<!-- type~iau_rotating_frame_class -->
+<g id="type~~celestial_body~~InheritedByGraph_node8" class="node">
+<title>type~iau_rotating_frame_class</title>
+<g id="a_type~~celestial_body~~InheritedByGraph_node8"><a xlink:href="../type/iau_rotating_frame_class.html" xlink:title="iau_rotating_frame_class">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="710,-66 565,-66 565,-42 710,-42 710,-66"/>
+<text text-anchor="middle" x="637.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iau_rotating_frame_class</text>
+</a>
+</g>
+</g>
+<!-- type~iau_rotating_frame_class&#45;&gt;type~rotating_frame_class -->
+<g id="type~~celestial_body~~InheritedByGraph_edge9" class="edge">
+<title>type~iau_rotating_frame_class&#45;&gt;type~rotating_frame_class</title>
+<path fill="none" stroke="#000000" d="M593.02,-66.05C583.43,-68.86 573.34,-71.93 564,-75 555.45,-77.81 552.99,-77.86 545,-82 525.48,-92.11 505.06,-106.28 489.95,-117.57"/>
+<polygon fill="#000000" stroke="#000000" points="487.56,-114.99 481.71,-123.83 491.79,-120.56 487.56,-114.99"/>
+</g>
+<!-- type~icrf_frame -->
+<g id="type~~celestial_body~~InheritedByGraph_node9" class="node">
+<title>type~icrf_frame</title>
+<g id="a_type~~celestial_body~~InheritedByGraph_node9"><a xlink:href="../type/icrf_frame.html" xlink:title="icrf_frame">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="671,-150 604,-150 604,-126 671,-126 671,-150"/>
+<text text-anchor="middle" x="637.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">icrf_frame</text>
+</a>
+</g>
+</g>
+<!-- type~icrf_frame&#45;&gt;type~inertial_frame_class -->
+<g id="type~~celestial_body~~InheritedByGraph_edge6" class="edge">
+<title>type~icrf_frame&#45;&gt;type~inertial_frame_class</title>
+<path fill="none" stroke="#000000" d="M603.85,-143.4C590.77,-146.57 575.99,-151.48 564,-159 553.87,-165.35 557.9,-177.8 546,-179"/>
+<path fill="none" stroke="#000000" d="M545,-179C541.91,-179.31 538.75,-179.56 535.56,-179.76"/>
+<polygon fill="#000000" stroke="#000000" points="535.13,-176.27 525.29,-180.2 535.43,-183.26 535.13,-176.27"/>
+</g>
+<!-- type~iau_earth_rotating_frame -->
+<g id="type~~celestial_body~~InheritedByGraph_node10" class="node">
+<title>type~iau_earth_rotating_frame</title>
+<g id="a_type~~celestial_body~~InheritedByGraph_node10"><a xlink:href="../type/iau_earth_rotating_frame.html" xlink:title="iau_earth_rotating_frame">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="922,-66 775,-66 775,-42 922,-42 922,-66"/>
+<text text-anchor="middle" x="848.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iau_earth_rotating_frame</text>
+</a>
+</g>
+</g>
+<!-- type~iau_earth_rotating_frame&#45;&gt;type~iau_rotating_frame_class -->
+<g id="type~~celestial_body~~InheritedByGraph_edge10" class="edge">
+<title>type~iau_earth_rotating_frame&#45;&gt;type~iau_rotating_frame_class</title>
+<path fill="none" stroke="#000000" d="M774.71,-52.02C759.89,-52.17 744.43,-52.74 730,-54"/>
+</g>
+<!-- type~iau_moon_rotating_frame -->
+<g id="type~~celestial_body~~InheritedByGraph_node11" class="node">
+<title>type~iau_moon_rotating_frame</title>
+<g id="a_type~~celestial_body~~InheritedByGraph_node11"><a xlink:href="../type/iau_moon_rotating_frame.html" xlink:title="iau_moon_rotating_frame">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="923,-24 774,-24 774,0 923,0 923,-24"/>
+<text text-anchor="middle" x="848.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iau_moon_rotating_frame</text>
+</a>
+</g>
+</g>
+<!-- type~iau_moon_rotating_frame&#45;&gt;type~iau_rotating_frame_class -->
+<g id="type~~celestial_body~~InheritedByGraph_edge11" class="edge">
+<title>type~iau_moon_rotating_frame&#45;&gt;type~iau_rotating_frame_class</title>
+<path fill="none" stroke="#000000" d="M773.95,-21.75C764.86,-24.6 755.97,-28.27 748,-33 737.43,-39.27 742.25,-52.93 730,-54"/>
+<path fill="none" stroke="#000000" d="M729,-54C726.14,-54.25 723.22,-54.47 720.28,-54.65"/>
+<polygon fill="#000000" stroke="#000000" points="719.99,-51.16 710.18,-55.15 720.34,-58.15 719.99,-51.16"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var pantypecelestial_bodyInheritedByGraph = svgPanZoom('#typecelestial_bodyInheritedByGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#InheritedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="InheritedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="186pt" height="32pt"
+ viewBox="0.00 0.00 185.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 181.5,-28 181.5,4 -4,4"/>
+<!-- Type -->
+<g id="node1" class="node">
+<title>Type</title>
+<polygon fill="#5cb85c" stroke="#5cb85c" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="177.5,-24 72.5,-24 72.5,0 177.5,0 177.5,-24"/>
+<text text-anchor="middle" x="125" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a derived type to the parent type which it
+extends. Dashed arrows point from a derived type to the other
+types it contains as a components, with a label listing the name(s) of
+said component(s).
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    <br>
+
+    <section>
+    <h2>Components</h2>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-id"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>id</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+                <p>a unique ID code that distinguishes a
+variable from other variables of the same type.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-name~3"></span>
+              character(len=name_len),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>name</strong></td>
+<td> =</td>
+                <td>&#39;&#39;</td>
+            <td>
+                <p>the variable name</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~60"></span>
+              real(kind=wp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+<td> =</td>
+                <td>zero</td>
+            <td>
+                <p>gravitational parameter <script type="math/tex"> \mu </script> [<script type="math/tex">km^3/s^2</script>]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    </section>
+    <br>
+    
+
+
+      <section>
+        <h2>Type-Bound Procedures</h2>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-operator%28%3D%3D%29~2"></span>
+      <h3>
+          generic, public ::
+  <strong>operator(==)</strong> => <a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/type/base_class.html#boundprocedure-base_class_equal'>base_class_equal</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    public pure elemental function <a href='../proc/base_class_equal.html'>base_class_equal</a>(b1, b2) result(is_equal)  
+</h3>
+    
+
+  <p><code>==</code> operator for <a href="../type/base_class.html">base_class</a> variables.
+To be equal, they must be the same type and have the same <code>ID</code>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='base_class.html'>base_class</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b1</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='base_class.html'>base_class</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b2</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-operator%28SLASH%3D%29~2"></span>
+      <h3>
+          generic, public ::
+  <strong>operator(/=)</strong> => <a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/type/base_class.html#boundprocedure-base_class_not_equal'>base_class_not_equal</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    public pure elemental function <a href='../proc/base_class_not_equal.html'>base_class_not_equal</a>(b1, b2) result(not_equal)  
+</h3>
+    
+
+  <p><code>/=</code> operator for <a href="../type/base_class.html">base_class</a> variables.
+To be equal, they must be the same type and have the same <code>ID</code>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='base_class.html'>base_class</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b1</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='base_class.html'>base_class</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b2</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>logical</small>
+    </h4>
+    
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+      </section>
+
+    <section>
+    <h3><span class="anchor" id="src"></span>Source Code</h3>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">type</span><span class="p">,</span><span class="k">extends</span><span class="p">(</span><span class="n">base_class</span><span class="p">),</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">celestial_body</span>
+<span class="w">        </span><span class="c">!! A celestial body (Planet, moon, etc.)</span>
+<span class="w">        </span><span class="c">!! The `ID` from the [[base_class]] is the NAIF SPICE ID code for the body</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="w">   </span><span class="c">!! gravitational parameter \( \mu \) [\(km^3/s^2\)]</span>
+<span class="w">        </span><span class="c">!note: also should add radius, etc.</span>
+<span class="w">    </span><span class="k">end type </span><span class="n">celestial_body</span>
+</pre></div>
+
+    </section>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

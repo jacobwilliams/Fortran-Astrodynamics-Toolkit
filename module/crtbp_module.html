@@ -1,0 +1,1358 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>crtbp_module &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>crtbp_module
+      <small>Module</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+            <li class="list-inline-item" id="meta-author"><i class="fa fa-pencil"></i> Jacob Williams</li>
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 2.3% of total for modules and submodules.">335 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/crtbp_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/crtbp_module.f90.html'>crtbp_module.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">crtbp_module</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/crtbp_module.html#proc-compute_crtpb_parameter">compute_crtpb_parameter</a>
+            <a class="list-group-item" href="../module/crtbp_module.html#proc-compute_jacobi_constant">compute_jacobi_constant</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/crtbp_module.html#proc-normalize_variables">normalize_variables</a>
+            <a class="list-group-item" href="../module/crtbp_module.html#proc-unnormalize_variables">unnormalize_variables</a>
+            <a class="list-group-item" href="../module/crtbp_module.html#proc-compute_libration_points">compute_libration_points</a>
+            <a class="list-group-item" href="../module/crtbp_module.html#proc-compute_libration_points_v2">compute_libration_points_v2</a>
+            <a class="list-group-item" href="../module/crtbp_module.html#proc-crtbp_derivs">crtbp_derivs</a>
+            <a class="list-group-item" href="../module/crtbp_module.html#proc-crtbp_derivs_with_stm">crtbp_derivs_with_stm</a>
+            <a class="list-group-item" href="../module/crtbp_module.html#proc-crtbp_test">crtbp_test</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <p>This module contains various routines related to the
+Circular Restricted Three-Body Problem (CRTBP).</p>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='numbers_module.html'>numbers_module</a></li>
+                  <li class="list-inline-item"><a href='kind_module.html'>kind_module</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~crtbp_module~~UsesGraph Pages: 1 -->
+<svg id="modulecrtbp_moduleUsesGraph" width="483pt" height="52pt"
+ viewBox="0.00 0.00 483.00 52.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~crtbp_module~~UsesGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 48)">
+<title>module~~crtbp_module~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-48 479,-48 479,4 -4,4"/>
+<!-- module~crtbp_module -->
+<g id="module~~crtbp_module~~UsesGraph_node1" class="node">
+<title>module~crtbp_module</title>
+<polygon fill="none" stroke="black" points="475,-44 389,-44 389,-20 475,-20 475,-44"/>
+<text text-anchor="middle" x="432" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50">crtbp_module</text>
+</g>
+<!-- module~kind_module -->
+<g id="module~~crtbp_module~~UsesGraph_node2" class="node">
+<title>module~kind_module</title>
+<g id="a_module~~crtbp_module~~UsesGraph_node2"><a xlink:href="../module/kind_module.html" xlink:title="kind_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="211,-44 130,-44 130,-20 211,-20 211,-44"/>
+<text text-anchor="middle" x="170.5" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module</text>
+</a>
+</g>
+</g>
+<!-- module~crtbp_module&#45;&gt;module~kind_module -->
+<g id="module~~crtbp_module~~UsesGraph_edge1" class="edge">
+<title>module~crtbp_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M388.9,-32.64C377.27,-32.79 364.65,-32.93 353,-33 305.89,-33.3 294.11,-33.31 247,-33 238.71,-32.95 229.9,-32.86 221.34,-32.75"/>
+<polygon fill="#000000" stroke="#000000" points="221.12,-29.25 211.07,-32.62 221.03,-36.25 221.12,-29.25"/>
+</g>
+<!-- module~numbers_module -->
+<g id="module~~crtbp_module~~UsesGraph_node3" class="node">
+<title>module~numbers_module</title>
+<g id="a_module~~crtbp_module~~UsesGraph_node3"><a xlink:href="../module/numbers_module.html" xlink:title="numbers_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="353,-24 247,-24 247,0 353,0 353,-24"/>
+<text text-anchor="middle" x="300" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module</text>
+</a>
+</g>
+</g>
+<!-- module~crtbp_module&#45;&gt;module~numbers_module -->
+<g id="module~~crtbp_module~~UsesGraph_edge2" class="edge">
+<title>module~crtbp_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M388.79,-25.51C380.69,-24.26 372.05,-22.93 363.47,-21.61"/>
+<polygon fill="#000000" stroke="#000000" points="363.88,-18.13 353.46,-20.07 362.81,-25.05 363.88,-18.13"/>
+</g>
+<!-- iso_fortran_env -->
+<g id="module~~crtbp_module~~UsesGraph_node4" class="node">
+<title>iso_fortran_env</title>
+<g id="a_module~~crtbp_module~~UsesGraph_node4"><a xlink:href="http://fortranwiki.org/fortran/show/iso_fortran_env" xlink:title="iso_fortran_env">
+<polygon fill="#337ab7" stroke="#337ab7" points="94,-44 0,-44 0,-20 94,-20 94,-44"/>
+<text text-anchor="middle" x="47" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
+</a>
+</g>
+</g>
+<!-- module~kind_module&#45;&gt;iso_fortran_env -->
+<g id="module~~crtbp_module~~UsesGraph_edge3" class="edge">
+<title>module~kind_module&#45;&gt;iso_fortran_env</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M129.72,-32C121.56,-32 112.83,-32 104.21,-32"/>
+<polygon fill="#000000" stroke="#000000" points="104.2,-28.5 94.2,-32 104.2,-35.5 104.2,-28.5"/>
+</g>
+<!-- module~numbers_module&#45;&gt;module~kind_module -->
+<g id="module~~crtbp_module~~UsesGraph_edge4" class="edge">
+<title>module~numbers_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M246.77,-20.19C238.36,-21.51 229.68,-22.87 221.33,-24.18"/>
+<polygon fill="#000000" stroke="#000000" points="220.68,-20.74 211.35,-25.75 221.77,-27.66 220.68,-20.74"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~crtbp_module~~UsedByGraph Pages: 1 -->
+<svg id="modulecrtbp_moduleUsedByGraph" width="448pt" height="52pt"
+ viewBox="0.00 0.00 448.00 52.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~crtbp_module~~UsedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 48)">
+<title>module~~crtbp_module~~UsedByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-48 444,-48 444,4 -4,4"/>
+<!-- module~crtbp_module -->
+<g id="module~~crtbp_module~~UsedByGraph_node1" class="node">
+<title>module~crtbp_module</title>
+<polygon fill="none" stroke="black" points="86,-44 0,-44 0,-20 86,-20 86,-44"/>
+<text text-anchor="middle" x="43" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50">crtbp_module</text>
+</g>
+<!-- module~fortran_astrodynamics_toolkit -->
+<g id="module~~crtbp_module~~UsedByGraph_node2" class="node">
+<title>module~fortran_astrodynamics_toolkit</title>
+<g id="a_module~~crtbp_module~~UsedByGraph_node2"><a xlink:href="../module/fortran_astrodynamics_toolkit.html" xlink:title="fortran_astrodynamics_toolkit">
+<polygon fill="#337ab7" stroke="#337ab7" points="440,-44 270,-44 270,-20 440,-20 440,-44"/>
+<text text-anchor="middle" x="355" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fortran_astrodynamics_toolkit</text>
+</a>
+</g>
+</g>
+<!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~crtbp_module -->
+<g id="module~~crtbp_module~~UsedByGraph_edge1" class="edge">
+<title>module~fortran_astrodynamics_toolkit&#45;&gt;module~crtbp_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M269.97,-32.8C225.91,-33.1 171.04,-33.31 122,-33 113.63,-32.95 104.75,-32.86 96.1,-32.76"/>
+<polygon fill="#000000" stroke="#000000" points="96.14,-29.26 86.1,-32.64 96.06,-36.26 96.14,-29.26"/>
+</g>
+<!-- module~halo_orbit_module -->
+<g id="module~~crtbp_module~~UsedByGraph_node3" class="node">
+<title>module~halo_orbit_module</title>
+<g id="a_module~~crtbp_module~~UsedByGraph_node3"><a xlink:href="../module/halo_orbit_module.html" xlink:title="halo_orbit_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="234,-24 122,-24 122,0 234,0 234,-24"/>
+<text text-anchor="middle" x="178" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">halo_orbit_module</text>
+</a>
+</g>
+</g>
+<!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~halo_orbit_module -->
+<g id="module~~crtbp_module~~UsedByGraph_edge3" class="edge">
+<title>module~fortran_astrodynamics_toolkit&#45;&gt;module~halo_orbit_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M269.83,-22.38C261.24,-21.4 252.61,-20.41 244.26,-19.46"/>
+<polygon fill="#000000" stroke="#000000" points="244.58,-15.97 234.25,-18.31 243.79,-22.93 244.58,-15.97"/>
+</g>
+<!-- module~halo_orbit_module&#45;&gt;module~crtbp_module -->
+<g id="module~~crtbp_module~~UsedByGraph_edge2" class="edge">
+<title>module~halo_orbit_module&#45;&gt;module~crtbp_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M121.75,-20.31C113.33,-21.57 104.66,-22.88 96.3,-24.14"/>
+<polygon fill="#000000" stroke="#000000" points="95.67,-20.69 86.3,-25.64 96.71,-27.61 95.67,-20.69"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      <br>
+
+
+
+
+
+
+
+        <section>
+          <h2>Functions</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-compute_crtpb_parameter"></span> <h3>public pure function <a href='../proc/compute_crtpb_parameter.html'>compute_crtpb_parameter</a>(mu1, mu2) result(mu)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Compute <script type="math/tex"> \mu </script>, the normalized CRTBP parameter.
+It is equal to <script type="math/tex"> M_2 / (M_1 + M_2) </script>.</p><a href="../proc/compute_crtpb_parameter.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu1~5"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu1</strong></td>
+            <td>
+<p>grav param for body 1 <script type="math/tex">[km^3/s^2]</script>
+</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu2~5"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu2</strong></td>
+            <td>
+<p>grav param for body 2 <script type="math/tex">[km^3/s^2]</script>
+</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp)</small>
+    </h4>
+    <p>CRTBP parameter <script type="math/tex">\mu</script>
+</p>
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-compute_jacobi_constant"></span> <h3>public pure function <a href='../proc/compute_jacobi_constant.html'>compute_jacobi_constant</a>(mu, x) result(c)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Compute the CRTBP Jacobi constant, given the state.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~37"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>CRTBP parameter (See <a href="../proc/compute_crtpb_parameter.html">compute_crtpb_parameter</a>)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~73"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+<p>normalized state vector</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp)</small>
+    </h4>
+    <p>Jacobi constant</p>
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+        <section>
+          <h2>Subroutines</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-normalize_variables"></span> <h3>public  subroutine <a href='../proc/normalize_variables.html'>normalize_variables</a>(mu1, mu2, d12, x, m, t, x_crtbp, m_crtbp, t_crtbp)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Convert state in km, km/s units to normalized CRTBP state.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu1~6"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu1</strong></td>
+            <td>
+<p>grav. param. of body 1 <script type="math/tex"> [\mathrm{km}^3/\mathrm{s}^2] </script>
+</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu2~6"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu2</strong></td>
+            <td>
+<p>grav. param. of body 2 <script type="math/tex"> [\mathrm{km}^3/\mathrm{s}^2] </script>
+</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-d12"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>d12</strong></td>
+            <td>
+<p>distance between body 1 and body 2 [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~71"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+<p>unnormalized state w.r.t. barycenter [km,km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m~37"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m</strong></td>
+            <td>
+<p>unnormalized mass [kg]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t~34"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>t</strong></td>
+            <td>
+<p>unnormalized time [sec]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x_crtbp"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>x_crtbp</strong></td>
+            <td>
+<p>CRTBP normalized state</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m_crtbp"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m_crtbp</strong></td>
+            <td>
+<p>CRTBP normalized mass</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t_crtbp"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>t_crtbp</strong></td>
+            <td>
+<p>CRTBP normalized time</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-unnormalize_variables"></span> <h3>public  subroutine <a href='../proc/unnormalize_variables.html'>unnormalize_variables</a>(mu1, mu2, d12, x_crtbp, m_crtbp, t_crtbp, x, m, t)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Convert normalized CRTBP state to km, km/s units.</p><a href="../proc/unnormalize_variables.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu1~7"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu1</strong></td>
+            <td>
+<p>grav. param. of body 1 <script type="math/tex"> [\mathrm{km}^3/\mathrm{s}^2] </script>
+</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu2~7"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu2</strong></td>
+            <td>
+<p>grav. param. of body 2 <script type="math/tex"> [\mathrm{km}^3/\mathrm{s}^2] </script>
+</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-d12~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>d12</strong></td>
+            <td>
+<p>distance between body 1 and body 2 [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x_crtbp~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>x_crtbp</strong></td>
+            <td>
+<p>CRTBP normalized state</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m_crtbp~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m_crtbp</strong></td>
+            <td>
+<p>CRTBP normalized mass</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t_crtbp~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>t_crtbp</strong></td>
+            <td>
+<p>CRTBP normalized time</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~72"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+<p>unnormalized state w.r.t. barycenter [km,km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m~38"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m</strong></td>
+            <td>
+<p>unnormalized mass [kg]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t~35"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>t</strong></td>
+            <td>
+<p>unnormalized time [sec]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-compute_libration_points"></span> <h3>public  subroutine <a href='../proc/compute_libration_points.html'>compute_libration_points</a>(mu, r1, r2, r3, r4, r5)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Compute the coordinates of the libration points (L1,L2,L3,L4,L5).
+L1-L3 are computed using Newton's method. L4-L5 are known analytically.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~38"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>CRTBP parameter</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r1~10"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>r1</strong></td>
+            <td>
+<p>L1 x coordinate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r2~8"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>r2</strong></td>
+            <td>
+<p>L2 x coordinate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>r3</strong></td>
+            <td>
+<p>L3 x coordinate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(2)
+            </td>
+            <td>::</td>
+            <td><strong>r4</strong></td>
+            <td>
+<p>L4 [x,y] coordinates</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r5"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(2)
+            </td>
+            <td>::</td>
+            <td><strong>r5</strong></td>
+            <td>
+<p>L5 [x,y] coordinates</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-compute_libration_points_v2"></span> <h3>public  subroutine <a href='../proc/compute_libration_points_v2.html'>compute_libration_points_v2</a>(mu, r1, r2, r3, r4, r5)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Compute the coordinates of the libration points (L1,L2,L3,L4,L5).</p><a href="../proc/compute_libration_points_v2.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~39"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>CRTBP parameter</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r1~11"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>r1</strong></td>
+            <td>
+<p>L1 x coordinate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r2~9"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>r2</strong></td>
+            <td>
+<p>L2 x coordinate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r3~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>r3</strong></td>
+            <td>
+<p>L3 x coordinate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r4~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(2)
+            </td>
+            <td>::</td>
+            <td><strong>r4</strong></td>
+            <td>
+<p>L4 [x,y] coordinates</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r5~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(2)
+            </td>
+            <td>::</td>
+            <td><strong>r5</strong></td>
+            <td>
+<p>L5 [x,y] coordinates</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-crtbp_derivs"></span> <h3>public  subroutine <a href='../proc/crtbp_derivs.html'>crtbp_derivs</a>(mu, x, dx)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>CRTBP derivatives: state only.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~40"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>CRTBP parameter (See <a href="../proc/compute_crtpb_parameter.html">compute_crtpb_parameter</a>)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~75"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+<p>normalized state <script type="math/tex">[\mathbf{r},\mathbf{v}]</script>
+</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dx"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>dx</strong></td>
+            <td>
+<p>normalized state derivative <script type="math/tex">[\dot{\mathbf{r}},\dot{\mathbf{v}}]</script>
+</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-crtbp_derivs_with_stm"></span> <h3>public  subroutine <a href='../proc/crtbp_derivs_with_stm.html'>crtbp_derivs_with_stm</a>(mu, x, dx)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>CRTBP derivatives: state + state transition matrix.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~41"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+<p>CRTBP parameter (See <a href="../proc/compute_crtpb_parameter.html">compute_crtpb_parameter</a>)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~76"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(42)
+            </td>
+            <td>::</td>
+            <td><strong>x</strong></td>
+            <td>
+<p>normalized state and STM <script type="math/tex">[\mathbf{r},\mathbf{v},\mathbf{\Phi}]</script>
+</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dx~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(42)
+            </td>
+            <td>::</td>
+            <td><strong>dx</strong></td>
+            <td>
+<p>normalized state and STM derivative <script type="math/tex">[\dot{\mathbf{r}},\dot{\mathbf{v}},\dot{\mathbf{\Phi}}]</script>
+</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-crtbp_test"></span> <h3>public  subroutine <a href='../proc/crtbp_test.html'>crtbp_test</a>()  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Unit tests for CRTBP routines.</p>
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

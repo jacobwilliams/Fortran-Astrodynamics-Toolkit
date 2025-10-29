@@ -1,0 +1,621 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>ekepl &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>ekepl
+      <small>Function</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.3% of total for procedures.">36 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/gooding_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/gooding_module.f90.html'>gooding_module.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/gooding_module.html'>gooding_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">ekepl</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/ekepl.html#src">ekepl</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public pure function ekepl(em, e1)  
+</h2>
+    
+
+    <p>Kepler's equation, <code>em = ekepl - (1 - e1)*sin(ekepl)</code>,
+with <code>e1</code> in range 1 to 0 inclusive, solved accurately
+(based on ekepl3, but entering <code>e1</code>, not <code>e</code>)</p>
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-em"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>em</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-e1~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>e1</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <h3>Return Value
+        <small>
+          <span class="anchor" id="variable-ekepl"></span>
+          real(kind=wp)
+        </small>
+      </h3>
+      
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~ekepl~~CallsGraph Pages: 1 -->
+<svg id="procekeplCallsGraph" width="242pt" height="74pt"
+ viewBox="0.00 0.00 242.00 74.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~ekepl~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 70)">
+<title>proc~~ekepl~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 238,-70 238,4 -4,4"/>
+<!-- proc~ekepl -->
+<g id="proc~~ekepl~~CallsGraph_node1" class="node">
+<title>proc~ekepl</title>
+<polygon fill="none" stroke="black" points="54,-45 0,-45 0,-21 54,-21 54,-45"/>
+<text text-anchor="middle" x="27" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">ekepl</text>
+</g>
+<!-- proc~dcbsol -->
+<g id="proc~~ekepl~~CallsGraph_node2" class="node">
+<title>proc~dcbsol</title>
+<g id="a_proc~~ekepl~~CallsGraph_node2"><a xlink:href="../proc/dcbsol.html" xlink:title="dcbsol">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="144,-66 90,-66 90,-42 144,-42 144,-66"/>
+<text text-anchor="middle" x="117" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dcbsol</text>
+</a>
+</g>
+</g>
+<!-- proc~ekepl&#45;&gt;proc~dcbsol -->
+<g id="proc~~ekepl~~CallsGraph_edge1" class="edge">
+<title>proc~ekepl&#45;&gt;proc~dcbsol</title>
+<path fill="none" stroke="#000000" d="M54.4,-39.3C62.48,-41.23 71.51,-43.38 80.1,-45.43"/>
+<polygon fill="#000000" stroke="#000000" points="79.38,-48.86 89.92,-47.78 81,-42.05 79.38,-48.86"/>
+</g>
+<!-- proc~emkep -->
+<g id="proc~~ekepl~~CallsGraph_node3" class="node">
+<title>proc~emkep</title>
+<g id="a_proc~~ekepl~~CallsGraph_node3"><a xlink:href="../proc/emkep.html" xlink:title="emkep">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="144,-24 90,-24 90,0 144,0 144,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">emkep</text>
+</a>
+</g>
+</g>
+<!-- proc~ekepl&#45;&gt;proc~emkep -->
+<g id="proc~~ekepl~~CallsGraph_edge2" class="edge">
+<title>proc~ekepl&#45;&gt;proc~emkep</title>
+<path fill="none" stroke="#000000" d="M54.4,-26.7C62.48,-24.77 71.51,-22.62 80.1,-20.57"/>
+<polygon fill="#000000" stroke="#000000" points="81,-23.95 89.92,-18.22 79.38,-17.14 81,-23.95"/>
+</g>
+<!-- proc~dcubrt -->
+<g id="proc~~ekepl~~CallsGraph_node4" class="node">
+<title>proc~dcubrt</title>
+<g id="a_proc~~ekepl~~CallsGraph_node4"><a xlink:href="../proc/dcubrt.html" xlink:title="dcubrt">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="234,-66 180,-66 180,-42 234,-42 234,-66"/>
+<text text-anchor="middle" x="207" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dcubrt</text>
+</a>
+</g>
+</g>
+<!-- proc~dcbsol&#45;&gt;proc~dcubrt -->
+<g id="proc~~ekepl~~CallsGraph_edge3" class="edge">
+<title>proc~dcbsol&#45;&gt;proc~dcubrt</title>
+<path fill="none" stroke="#000000" d="M144.4,-54C152.39,-54 161.31,-54 169.82,-54"/>
+<polygon fill="#000000" stroke="#000000" points="169.92,-57.5 179.92,-54 169.92,-50.5 169.92,-57.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~ekepl~~CalledByGraph Pages: 1 -->
+<svg id="procekeplCalledByGraph" width="345pt" height="32pt"
+ viewBox="0.00 0.00 345.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~ekepl~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>proc~~ekepl~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 341,-28 341,4 -4,4"/>
+<!-- proc~ekepl -->
+<g id="proc~~ekepl~~CalledByGraph_node1" class="node">
+<title>proc~ekepl</title>
+<polygon fill="none" stroke="black" points="337,-24 283,-24 283,0 337,0 337,-24"/>
+<text text-anchor="middle" x="310" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">ekepl</text>
+</g>
+<!-- proc~els2pv -->
+<g id="proc~~ekepl~~CalledByGraph_node2" class="node">
+<title>proc~els2pv</title>
+<g id="a_proc~~ekepl~~CalledByGraph_node2"><a xlink:href="../proc/els2pv.html" xlink:title="els2pv">
+<polygon fill="#d9534f" stroke="#d9534f" points="247,-24 193,-24 193,0 247,0 247,-24"/>
+<text text-anchor="middle" x="220" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">els2pv</text>
+</a>
+</g>
+</g>
+<!-- proc~els2pv&#45;&gt;proc~ekepl -->
+<g id="proc~~ekepl~~CalledByGraph_edge1" class="edge">
+<title>proc~els2pv&#45;&gt;proc~ekepl</title>
+<path fill="none" stroke="#000000" d="M247.4,-12C255.39,-12 264.31,-12 272.82,-12"/>
+<polygon fill="#000000" stroke="#000000" points="272.92,-15.5 282.92,-12 272.92,-8.5 272.92,-15.5"/>
+</g>
+<!-- proc~els3pv -->
+<g id="proc~~ekepl~~CalledByGraph_node3" class="node">
+<title>proc~els3pv</title>
+<g id="a_proc~~ekepl~~CalledByGraph_node3"><a xlink:href="../proc/els3pv.html" xlink:title="els3pv">
+<polygon fill="#d9534f" stroke="#d9534f" points="157,-24 103,-24 103,0 157,0 157,-24"/>
+<text text-anchor="middle" x="130" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">els3pv</text>
+</a>
+</g>
+</g>
+<!-- proc~els3pv&#45;&gt;proc~els2pv -->
+<g id="proc~~ekepl~~CalledByGraph_edge2" class="edge">
+<title>proc~els3pv&#45;&gt;proc~els2pv</title>
+<path fill="none" stroke="#000000" d="M157.4,-12C165.39,-12 174.31,-12 182.82,-12"/>
+<polygon fill="#000000" stroke="#000000" points="182.92,-15.5 192.92,-12 182.92,-8.5 182.92,-15.5"/>
+</g>
+<!-- proc~propagate -->
+<g id="proc~~ekepl~~CalledByGraph_node4" class="node">
+<title>proc~propagate</title>
+<g id="a_proc~~ekepl~~CalledByGraph_node4"><a xlink:href="../proc/propagate.html" xlink:title="propagate">
+<polygon fill="#d9534f" stroke="#d9534f" points="67,-24 0,-24 0,0 67,0 67,-24"/>
+<text text-anchor="middle" x="33.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">propagate</text>
+</a>
+</g>
+</g>
+<!-- proc~propagate&#45;&gt;proc~els3pv -->
+<g id="proc~~ekepl~~CalledByGraph_edge3" class="edge">
+<title>proc~propagate&#45;&gt;proc~els3pv</title>
+<path fill="none" stroke="#000000" d="M67.02,-12C75.37,-12 84.4,-12 92.92,-12"/>
+<polygon fill="#000000" stroke="#000000" points="92.98,-15.5 102.98,-12 92.98,-8.5 92.98,-15.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">pure function </span><span class="n">ekepl</span><span class="p">(</span><span class="n">em</span><span class="p">,</span><span class="w"> </span><span class="n">e1</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ekepl</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">em</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">e1</span>
+
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">emr</span><span class="p">,</span><span class="n">ee</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">fdd</span><span class="p">,</span><span class="n">fddd</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">fd</span><span class="p">,</span><span class="n">dee</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">iter</span>
+
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.25_wp</span>
+
+<span class="w">    </span><span class="c">!range-reduce em to lie in range -pi to pi</span>
+<span class="w">    </span><span class="n">emr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">mod</span><span class="p">(</span><span class="n">em</span><span class="p">,</span><span class="n">twopi</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">emr</span><span class="o">&lt;</span><span class="n">pineg</span><span class="p">)</span><span class="w"> </span><span class="n">emr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">emr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">twopi</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">emr</span><span class="o">&gt;</span><span class="n">pi</span><span class="p">)</span><span class="w"> </span><span class="n">emr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">emr</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">twopi</span>
+<span class="w">    </span><span class="n">ee</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">emr</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ee</span><span class="o">/=</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+
+<span class="k">        if</span><span class="w"> </span><span class="p">(</span><span class="n">ee</span><span class="o">&lt;</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">ee</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">ee</span>
+
+<span class="w">        </span><span class="c">!(emr is range-reduced em &amp; ee is absolute value of emr)</span>
+<span class="w">        </span><span class="c">!starter by first solving cubic equation</span>
+<span class="w">        </span><span class="n">e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">e1</span>
+<span class="w">         </span><span class="n">w</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dcbsol</span><span class="p">(</span><span class="n">e</span><span class="p">,</span><span class="n">two</span><span class="o">*</span><span class="n">e1</span><span class="p">,</span><span class="w"> </span><span class="n">three</span><span class="o">*</span><span class="n">ee</span><span class="p">)</span>
+
+<span class="w">        </span><span class="c">!effectively interpolate in emr (absolute value)</span>
+<span class="w">        </span><span class="n">ee</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ee</span><span class="o">*</span><span class="n">ee</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">pi</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ee</span><span class="p">)</span><span class="o">*</span><span class="n">w</span><span class="p">)</span><span class="o">/</span><span class="n">pi</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">emr</span><span class="o">&lt;</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">ee</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">ee</span>
+
+<span class="w">        </span><span class="c">!do two iterations of halley, each followed by newton</span>
+<span class="w">        </span><span class="k">do </span><span class="n">iter</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span>
+<span class="w">            </span><span class="n">fdd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span><span class="o">*</span><span class="nb">sin</span><span class="p">(</span><span class="n">ee</span><span class="p">)</span>
+<span class="w">            </span><span class="n">fddd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span><span class="o">*</span><span class="nb">cos</span><span class="p">(</span><span class="n">ee</span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ee</span><span class="o">*</span><span class="n">ee</span><span class="o">/</span><span class="n">six</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">e1</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">sw</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ee</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">fdd</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">emr</span>
+<span class="w">                </span><span class="n">fd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">fddd</span>
+<span class="w">            </span><span class="k">else</span>
+<span class="k">                </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">emkep</span><span class="p">(</span><span class="n">e1</span><span class="p">,</span><span class="n">ee</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">emr</span>
+<span class="w">                </span><span class="n">fd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="o">*</span><span class="n">e</span><span class="o">*</span><span class="nb">sin</span><span class="p">(</span><span class="n">half</span><span class="o">*</span><span class="n">ee</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">e1</span>
+<span class="w">            </span><span class="k">end if</span>
+<span class="k">            </span><span class="n">dee</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="o">*</span><span class="n">fd</span><span class="o">/</span><span class="p">(</span><span class="n">half</span><span class="o">*</span><span class="n">f</span><span class="o">*</span><span class="n">fdd</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">fd</span><span class="o">*</span><span class="n">fd</span><span class="p">)</span>
+<span class="w">            </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dee</span><span class="o">*</span><span class="p">(</span><span class="n">fd</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">half</span><span class="o">*</span><span class="n">dee</span><span class="o">*</span><span class="p">(</span><span class="n">fdd</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">athird</span><span class="o">*</span><span class="n">dee</span><span class="o">*</span><span class="n">fddd</span><span class="p">))</span>
+<span class="w">            </span><span class="c">!to reduce the danger of underflow replace the last line by</span>
+<span class="w">            </span><span class="c">!    w = fd + half*dee*(fdd + athird*dee*fddd)</span>
+<span class="w">            </span><span class="n">fd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fd</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dee</span><span class="o">*</span><span class="p">(</span><span class="n">fdd</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">half</span><span class="o">*</span><span class="n">dee</span><span class="o">*</span><span class="n">fddd</span><span class="p">)</span>
+<span class="w">            </span><span class="n">ee</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ee</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dee</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">f</span><span class="o">/</span><span class="n">fd</span>
+<span class="w">            </span><span class="c">!if replacing as above, then also replace the last line by</span>
+<span class="w">            </span><span class="c">!ee = ee - (f - dee*(fd - w))/fd</span>
+<span class="w">        </span><span class="k">end do</span>
+
+<span class="k">    end if</span>
+
+<span class="w">    </span><span class="c">!range-expand</span>
+<span class="w">    </span><span class="n">ekepl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ee</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">em</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">emr</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">end function </span><span class="n">ekepl</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

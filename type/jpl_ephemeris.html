@@ -1,0 +1,1882 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>jpl_ephemeris &ndash; fortran-astrodynamics-toolkit </title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>jpl_ephemeris
+      <small>Derived Type</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title="<p>12.7% of total for derived types.</p>Including implementation: 410 statements,  5.8% of total for derived types.">35 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/jpl_ephemeris_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/jpl_ephemeris_module.f90.html'>jpl_ephemeris_module.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/jpl_ephemeris_module.html'>jpl_ephemeris_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">jpl_ephemeris</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-namfil">namfil</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-ksize">ksize</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-ipt">ipt</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-cval">cval</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-ss">ss</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-au">au</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-emrat">emrat</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-ncon">ncon</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-numde">numde</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-pvsun">pvsun</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-km">km</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-bary">bary</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-ttl">ttl</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-cnam">cnam</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-initialized">initialized</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-nrfile">nrfile</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-nrl">nrl</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-ncoeffs">ncoeffs</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-buf">buf</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-pc">pc</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-vc">vc</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-np~4">np</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-nv">nv</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#variable-twot">twot</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#boundprocs-0"
+         aria-expanded="false" aria-controls="boundprocs-0">
+         <h4 class="card-header bg-primary text-white">Type-Bound Procedures</h4>
+      </a>
+      <div id="boundprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#boundprocedure-get_rv~3">get_rv</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#boundprocedure-get_r~3">get_r</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#boundprocedure-initialize~4">initialize</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#boundprocedure-get_state">get_state</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#boundprocedure-get_constants">get_constants</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#boundprocedure-close~2">close</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#boundprocedure-interp">interp</a>
+            <a class="list-group-item" href="../type/jpl_ephemeris.html#boundprocedure-state">state</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../type/jpl_ephemeris.html#src">jpl_ephemeris</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+      <h2 id="type-def-statement">
+        type, public, extends(<a href='ephemeris_class.html'>ephemeris_class</a>) :: jpl_ephemeris</h2>
+    <p>Main class for accessing a JPL ephemeris file.</p>
+<br>      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Inherits</h3>
+        </div>
+        <div class="card-body">
+          <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: type~~jpl_ephemeris~~InheritsGraph Pages: 1 -->
+<svg id="typejpl_ephemerisInheritsGraph" width="233pt" height="32pt"
+ viewBox="0.00 0.00 233.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="type~~jpl_ephemeris~~InheritsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>type~~jpl_ephemeris~~InheritsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 229,-28 229,4 -4,4"/>
+<!-- type~jpl_ephemeris -->
+<g id="type~~jpl_ephemeris~~InheritsGraph_node1" class="node">
+<title>type~jpl_ephemeris</title>
+<polygon fill="none" stroke="black" points="225,-24 137,-24 137,0 225,0 225,-24"/>
+<text text-anchor="middle" x="181" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">jpl_ephemeris</text>
+</g>
+<!-- type~ephemeris_class -->
+<g id="type~~jpl_ephemeris~~InheritsGraph_node2" class="node">
+<title>type~ephemeris_class</title>
+<g id="a_type~~jpl_ephemeris~~InheritsGraph_node2"><a xlink:href="../type/ephemeris_class.html" xlink:title="ephemeris_class">
+<polygon fill="#5cb85c" stroke="#5cb85c" points="101,-24 0,-24 0,0 101,0 101,-24"/>
+<text text-anchor="middle" x="50.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ephemeris_class</text>
+</a>
+</g>
+</g>
+<!-- type~jpl_ephemeris&#45;&gt;type~ephemeris_class -->
+<g id="type~~jpl_ephemeris~~InheritsGraph_edge1" class="edge">
+<title>type~jpl_ephemeris&#45;&gt;type~ephemeris_class</title>
+<path fill="none" stroke="#000000" d="M136.85,-12C128.77,-12 120.18,-12 111.69,-12"/>
+<polygon fill="#000000" stroke="#000000" points="111.41,-8.5 101.41,-12 111.41,-15.5 111.41,-8.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#InheritsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="InheritsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="186pt" height="32pt"
+ viewBox="0.00 0.00 185.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 181.5,-28 181.5,4 -4,4"/>
+<!-- Type -->
+<g id="node1" class="node">
+<title>Type</title>
+<polygon fill="#5cb85c" stroke="#5cb85c" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="177.5,-24 72.5,-24 72.5,0 177.5,0 177.5,-24"/>
+<text text-anchor="middle" x="125" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a derived type to the parent type which it
+extends. Dashed arrows point from a derived type to the other
+types it contains as a components, with a label listing the name(s) of
+said component(s).
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    <br>
+
+    <section>
+    <h2>Components</h2>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-namfil"></span>
+              character(len=:),
+            </td>
+              <td>public,</td>
+            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>namfil</strong></td>
+                <td></td>
+                <td></td>
+            <td>
+                <p>name of the binary ephemeris file</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ksize"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ksize</strong></td>
+<td> =</td>
+                <td>2036</td>
+            <td>
+                <p>ksize must be set by the user according to the ephemeris to be read:
+  for <strong><em>de200</em></strong>, set <code>ksize=1652</code>,
+  for <strong><em>de405</em></strong>, set <code>ksize=2036</code>,
+  for <strong><em>de406</em></strong>, set <code>ksize=1456</code>,
+  for <strong><em>de414</em></strong>, set <code>ksize=2036</code>,
+  for <strong><em>de418</em></strong>, set <code>ksize=2036</code>,
+  for <strong><em>de421</em></strong>, set <code>ksize=2036</code>,
+  for <strong><em>de422</em></strong>, set <code>ksize=2036</code>,
+  for <strong><em>de423</em></strong>, set <code>ksize=2036</code>,
+  for <strong><em>de424</em></strong>, set <code>ksize=2036</code>,
+  for <strong><em>de430</em></strong>, set <code>ksize=2036</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ipt"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+              dimension(3,13)
+            </td>
+            <td>::</td>
+            <td><strong>ipt</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+                <p>ipt(39)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cval"></span>
+              real(kind=wp),
+            </td>
+              <td>public,</td>
+            <td>
+              dimension(nmax)
+            </td>
+            <td>::</td>
+            <td><strong>cval</strong></td>
+<td> =</td>
+                <td>0.0_wp</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ss"></span>
+              real(kind=wp),
+            </td>
+              <td>public,</td>
+            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>ss</strong></td>
+<td> =</td>
+                <td>0.0_wp</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-au"></span>
+              real(kind=wp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>au</strong></td>
+<td> =</td>
+                <td>0.0_wp</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-emrat"></span>
+              real(kind=wp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>emrat</strong></td>
+<td> =</td>
+                <td>0.0_wp</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ncon"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ncon</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-numde"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>numde</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pvsun"></span>
+              real(kind=wp),
+            </td>
+              <td>public,</td>
+            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>pvsun</strong></td>
+<td> =</td>
+                <td>0.0_wp</td>
+            <td>
+                <p>dp 6-word array containing the barycentric position and
+velocity of the sun.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-km"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>km</strong></td>
+<td> =</td>
+                <td>.true.</td>
+            <td>
+                <p>logical flag defining physical units of the output states.
+  km = .true.  : km and km/sec
+  km = .false. : au and au/day
+for nutations and librations.  angle unit is always radians.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-bary"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>bary</strong></td>
+<td> =</td>
+                <td>.false.</td>
+            <td>
+                <p>logical flag defining output center.
+only the 9 planets are affected.
+  bary = .true.  : center is solar-system barycenter
+  bary = .false. : center is sun</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ttl"></span>
+              character(len=6),
+            </td>
+              <td>public,</td>
+            <td>
+              dimension(14,3)
+            </td>
+            <td>::</td>
+            <td><strong>ttl</strong></td>
+<td> =</td>
+                <td>&#39;&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cnam"></span>
+              character(len=6),
+            </td>
+              <td>public,</td>
+            <td>
+              dimension(nmax)
+            </td>
+            <td>::</td>
+            <td><strong>cnam</strong></td>
+<td> =</td>
+                <td>&#39;&#39;</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-initialized"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>initialized</strong></td>
+<td> =</td>
+                <td>.false.</td>
+            <td>
+                <p>is the ephemeris initialized?</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nrfile"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nrfile</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+                <p>file unit for the ephemeris file</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nrl"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nrl</strong></td>
+<td> =</td>
+                <td>-1</td>
+            <td>
+                <p>this was formerly in state</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ncoeffs"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ncoeffs</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-buf"></span>
+              real(kind=wp),
+            </td>
+              <td>public,</td>
+            <td>
+              dimension(1500)
+            </td>
+            <td>::</td>
+            <td><strong>buf</strong></td>
+<td> =</td>
+                <td>0.0_wp</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-pc"></span>
+              real(kind=wp),
+            </td>
+              <td>public,</td>
+            <td>
+              dimension(18)
+            </td>
+            <td>::</td>
+            <td><strong>pc</strong></td>
+<td> =</td>
+                <td>0.0_wp</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vc"></span>
+              real(kind=wp),
+            </td>
+              <td>public,</td>
+            <td>
+              dimension(18)
+            </td>
+            <td>::</td>
+            <td><strong>vc</strong></td>
+<td> =</td>
+                <td>0.0_wp</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-np~4"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>np</strong></td>
+<td> =</td>
+                <td>2</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nv"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nv</strong></td>
+<td> =</td>
+                <td>3</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-twot"></span>
+              real(kind=wp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>twot</strong></td>
+<td> =</td>
+                <td>0.0_wp</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    </section>
+    <br>
+    
+
+
+      <section>
+        <h2>Type-Bound Procedures</h2>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_rv~3"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_rv</strong> => <a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/proc/get_rv_from_jpl_ephemeris.html'>get_rv_from_jpl_ephemeris</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  subroutine <a href='../proc/get_rv_from_jpl_ephemeris.html'>get_rv_from_jpl_ephemeris</a>(me, et, targ, obs, rv, status_ok)  
+</h3>
+    
+
+  <p>Interface for the <a href="../module/ephemeris_module.html">ephemeris_module</a>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='jpl_ephemeris.html'>jpl_ephemeris</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=fat_wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>et</strong></td>
+            <td>
+<p>ephemeris time [sec]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>targ</strong></td>
+            <td>
+<p>target body</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>obs</strong></td>
+            <td>
+<p>observer body</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=fat_wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>rv</strong></td>
+            <td>
+<p>state of targ w.r.t. obs [km,km/s] in ICRF frame</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status_ok</strong></td>
+            <td>
+<p>true if there were no problems</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_r~3"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_r</strong> => <a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/proc/get_r_from_jpl_ephemeris.html'>get_r_from_jpl_ephemeris</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  subroutine <a href='../proc/get_r_from_jpl_ephemeris.html'>get_r_from_jpl_ephemeris</a>(me, et, targ, obs, r, status_ok)  
+</h3>
+    
+
+  <p>Interface for the <a href="../module/ephemeris_module.html">ephemeris_module</a>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='jpl_ephemeris.html'>jpl_ephemeris</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=fat_wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>et</strong></td>
+            <td>
+<p>ephemeris time [sec]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>targ</strong></td>
+            <td>
+<p>target body</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              type(<a href='celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>obs</strong></td>
+            <td>
+<p>observer body</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=fat_wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+<p>position of targ w.r.t. obs [km] in ICRF frame</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status_ok</strong></td>
+            <td>
+<p>true if there were no problems</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-initialize~4"></span>
+      <h3>
+          procedure, public ::
+  <strong>initialize</strong> => <a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/proc/initialize_ephemeris.html'>initialize_ephemeris</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  subroutine <a href='../proc/initialize_ephemeris.html'>initialize_ephemeris</a>(me, filename, ksize, km, bary, status_ok)  
+</h3>
+    
+
+  <p>Initialize the ephemeris.
+  This routine may be called to load a different ephemeris file.
+  Otherwise, it is called on the first call to get_state, and loads
+  the file specified in the module header.</p><a href="../proc/initialize_ephemeris.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='jpl_ephemeris.html'>jpl_ephemeris</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>filename</strong></td>
+            <td>
+<p>ephemeris file name</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ksize</strong></td>
+            <td>
+<p>corresponding <code>ksize</code></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>km</strong></td>
+            <td>
+<p>defining physical units of the output states.
+<code>km = .true.</code>  : km and km/sec [default],
+<code>km = .false.</code> : au and au/day.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>bary</strong></td>
+            <td>
+<p>logical flag defining output center.
+only the 9 planets are affected.
+<code>bary = .true.</code>  : center is solar-system barycenter,
+<code>bary = .false.</code> : center is sun [default].</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status_ok</strong></td>
+            <td>
+<p>true if there were not problems.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_state"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_state</strong>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  subroutine <a href='../proc/get_state.html'>get_state</a>(me, jd, ntarg, ncent, rrd, status_ok, pos_only)  
+</h3>
+    
+
+  <p>This subroutine reads the JPL planetary ephemeris
+  and gives the position and velocity of the point <code>ntarg</code>
+  with respect to <code>ncent</code>.</p><a href="../proc/get_state.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='jpl_ephemeris.html'>jpl_ephemeris</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>jd</strong></td>
+            <td>
+<p>d.p. Julian ephemeris date at which interpolation is wanted.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ntarg</strong></td>
+            <td>
+<p>integer number of 'target' point.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ncent</strong></td>
+            <td>
+<p>integer number of 'center' point.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>rrd</strong></td>
+            <td>
+<p>output 6-word d.p. array containing position and velocity
+of point <code>ntarg</code> relative to <code>ncent</code>.
+the units are AU and AU/day (or km and km/sec if <code>me%km=.true.</code>).
+For librations the units are radians and radians
+per day. In the case of nutations the first four words of
+<code>rrd</code> will be set to nutations and rates, having units of
+radians and radians/day.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status_ok</strong></td>
+            <td>
+<p>true if there were no problems</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>pos_only</strong></td>
+            <td>
+<p>if .true. only the position components are returned, not the velocity. [doesn't work yet]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-get_constants"></span>
+      <h3>
+          procedure, public ::
+  <strong>get_constants</strong>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  subroutine <a href='../proc/get_constants.html'>get_constants</a>(me, nam, val, sss, n)  
+</h3>
+    
+
+  <p>Obtain the constants from the ephemeris file.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='jpl_ephemeris.html'>jpl_ephemeris</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              character(len=6),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>nam</strong></td>
+            <td>
+<p>array of constant names</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(:)
+            </td>
+            <td>::</td>
+            <td><strong>val</strong></td>
+            <td>
+<p>array of values of constants</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>sss</strong></td>
+            <td>
+<p>jd start, jd stop, step of ephemeris</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+<p>number of entries in <code>nam</code> and <code>val</code> arrays</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-close~2"></span>
+      <h3>
+          procedure, public ::
+  <strong>close</strong> => <a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/proc/close_ephemeris.html'>close_ephemeris</a>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  subroutine <a href='../proc/close_ephemeris.html'>close_ephemeris</a>(me)  
+</h3>
+    
+
+  <p>Close the ephemeris.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='jpl_ephemeris.html'>jpl_ephemeris</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-interp"></span>
+      <h3>
+          procedure, public ::
+  <strong>interp</strong>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  subroutine <a href='../proc/interp.html'>interp</a>(me, buf, t, ncf, ncm, na, ifl, pv)  
+</h3>
+    
+
+  <p>this subroutine differentiates and interpolates a
+set of chebyshev coefficients to give position and velocity.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='jpl_ephemeris.html'>jpl_ephemeris</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=wp),
+            </td>
+<td></td>
+              <td></td>            <td>
+              dimension(ncf,ncm,*)
+            </td>
+            <td>::</td>
+            <td><strong>buf</strong></td>
+            <td>
+<p>1st location of array of d.p. chebyshev coefficients of position</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(2)
+            </td>
+            <td>::</td>
+            <td><strong>t</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ncf</strong></td>
+            <td>
+<a href="../proc/interp.html#variable-ncf" class="pull-right"><emph>Read more&hellip;</emph></a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ncm</strong></td>
+            <td>
+<a href="../proc/interp.html#variable-ncm" class="pull-right"><emph>Read more&hellip;</emph></a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>na</strong></td>
+            <td>
+<p>(i.e., # of sub-intervals in full interval)</p><a href="../proc/interp.html#variable-na~3" class="pull-right"><emph>Read more&hellip;</emph></a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ifl</strong></td>
+            <td>
+<p>integer flag
+= 1 for positions only
+= 2 for pos and vel</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=wp),
+            </td>
+<td></td>
+              <td></td>            <td>
+              dimension(ncm,*)
+            </td>
+            <td>::</td>
+            <td><strong>pv</strong></td>
+            <td>
+<p>interpolated quantities requested.  dimension
+expected is pv(ncm,ifl), dp.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+          <div class="row">
+              <div class="card mt-3">
+    <div class="card-header codesum">
+      <span class="anchor" id="boundprocedure-state"></span>
+      <h3>
+          procedure, public ::
+  <strong>state</strong>
+        
+      </h3>
+    </div>
+      <ul class="list-group">
+          <li class="list-group-item">
+                    <h3>
+    private  subroutine <a href='../proc/state.html'>state</a>(me, et2, list, pv, pnut, status_ok)  
+</h3>
+    
+
+  <p>This subroutine reads and interpolates the JPL planetary ephemeris file.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              class(<a href='jpl_ephemeris.html'>jpl_ephemeris</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(2)
+            </td>
+            <td>::</td>
+            <td><strong>et2</strong></td>
+            <td>
+<p>2-word Julian ephemeris epoch at which interpolation
+is wanted.  any combination of <code>et2(1)+et2(2)</code> which falls
+within the time span on the file is a permissible epoch.</p><a href="../proc/state.html#variable-et2~2" class="pull-right"><emph>Read more&hellip;</emph></a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(12)
+            </td>
+            <td>::</td>
+            <td><strong>list</strong></td>
+            <td>
+<p>12-word integer array specifying what interpolation
+is wanted for each of the bodies on the file.
+   <strong><em>list(i) = 0</em></strong> : no interpolation for body i,
+   <strong><em>list(i) = 1</em></strong> : position only,
+   <strong><em>list(i) = 2</em></strong> : position and velocity.</p><a href="../proc/state.html#variable-list~2" class="pull-right"><emph>Read more&hellip;</emph></a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(6,11)
+            </td>
+            <td>::</td>
+            <td><strong>pv</strong></td>
+            <td>
+<p>dp 6 x 11 array that will contain requested interpolated
+quantities (other than nutation, stored in <code>pnut</code>).
+the body specified by <code>list(i)</code> will have its
+state in the array starting at <code>pv(1,i)</code>.
+(on any given call, only those words in <code>pv</code> which are
+affected by the first 10 <code>list</code> entries, and by <code>list(12)</code>
+if librations are on the file, are set.
+the rest of the <code>pv</code> array is untouched.)
+the order of components starting in <code>pv(1,i)</code> is:
+<code>x</code>,<code>y</code>,<code>z</code>,<code>dx</code>,<code>dy</code>,<code>dz</code>.</p><a href="../proc/state.html#variable-pv~6" class="pull-right"><emph>Read more&hellip;</emph></a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(4)
+            </td>
+            <td>::</td>
+            <td><strong>pnut</strong></td>
+            <td>
+<p>dp 4-word array that will contain nutations and rates,
+depending on the setting of <code>list(11)</code>.  the order of
+quantities in <code>pnut</code> is:</p><a href="../proc/state.html#variable-pnut~2" class="pull-right"><emph>Read more&hellip;</emph></a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" ></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status_ok</strong></td>
+            <td>
+<p>true if there were no problems</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+      </ul>
+  </div>
+
+          </div>
+      </section>
+
+    <section>
+    <h3><span class="anchor" id="src"></span>Source Code</h3>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">type</span><span class="p">,</span><span class="k">extends</span><span class="p">(</span><span class="n">ephemeris_class</span><span class="p">),</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">jpl_ephemeris</span>
+
+<span class="w">        </span><span class="c">!! Main class for accessing a JPL ephemeris file.</span>
+
+<span class="w">        </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="p">:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">namfil</span><span class="w">  </span><span class="c">!! name of the binary ephemeris file</span>
+
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ksize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2036</span><span class="w">  </span><span class="c">!! ksize must be set by the user according to the ephemeris to be read:</span>
+<span class="w">                                 </span><span class="c">!!   for ***de200***, set `ksize=1652`,</span>
+<span class="w">                                 </span><span class="c">!!   for ***de405***, set `ksize=2036`,</span>
+<span class="w">                                 </span><span class="c">!!   for ***de406***, set `ksize=1456`,</span>
+<span class="w">                                 </span><span class="c">!!   for ***de414***, set `ksize=2036`,</span>
+<span class="w">                                 </span><span class="c">!!   for ***de418***, set `ksize=2036`,</span>
+<span class="w">                                 </span><span class="c">!!   for ***de421***, set `ksize=2036`,</span>
+<span class="w">                                 </span><span class="c">!!   for ***de422***, set `ksize=2036`,</span>
+<span class="w">                                 </span><span class="c">!!   for ***de423***, set `ksize=2036`,</span>
+<span class="w">                                 </span><span class="c">!!   for ***de424***, set `ksize=2036`,</span>
+<span class="w">                                 </span><span class="c">!!   for ***de430***, set `ksize=2036`.</span>
+
+<span class="w">        </span><span class="c">!ephhdr</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">13</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">ipt</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w">       </span><span class="c">!! ipt(39)</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">nmax</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cval</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">ss</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">au</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">emrat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">ncon</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">numde</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+
+<span class="w">        </span><span class="c">!stcomx</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">pvsun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w">   </span><span class="c">!! dp 6-word array containing the barycentric position and</span>
+<span class="w">                                                  </span><span class="c">!! velocity of the sun.</span>
+<span class="w">        </span><span class="kt">logical</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">km</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w">   </span><span class="c">!! logical flag defining physical units of the output states.</span>
+<span class="w">                                                  </span><span class="c">!!   km = .true.  : km and km/sec</span>
+<span class="w">                                                  </span><span class="c">!!   km = .false. : au and au/day</span>
+<span class="w">                                                  </span><span class="c">!! for nutations and librations.  angle unit is always radians.</span>
+<span class="w">        </span><span class="kt">logical</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">bary</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span><span class="w">  </span><span class="c">!! logical flag defining output center.</span>
+<span class="w">                                                  </span><span class="c">!! only the 9 planets are affected.</span>
+<span class="w">                                                  </span><span class="c">!!   bary = .true.  : center is solar-system barycenter</span>
+<span class="w">                                                  </span><span class="c">!!   bary = .false. : center is sun</span>
+
+<span class="w">        </span><span class="c">!chrhdr</span>
+<span class="w">        </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">6</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ttl</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">        </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">6</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">nmax</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cnam</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+
+<span class="w">        </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">initialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span><span class="w">  </span><span class="c">!! is the ephemeris initialized?</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nrfile</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w">        </span><span class="c">!! file unit for the ephemeris file</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nrl</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w">       </span><span class="c">!! this was formerly in state</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ncoeffs</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+
+<span class="w">        </span><span class="c">! formerly in state:</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">1500</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">buf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span>
+
+<span class="w">        </span><span class="c">! formerly in interp:</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">18</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">pc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">18</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">np</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">nv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">twot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span>
+
+<span class="w">    </span><span class="k">contains</span>
+
+<span class="k">        procedure</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">get_rv</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">get_rv_from_jpl_ephemeris</span>
+<span class="w">        </span><span class="k">procedure</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">get_r</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">get_r_from_jpl_ephemeris</span>
+
+<span class="w">        </span><span class="k">procedure</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">initialize</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">initialize_ephemeris</span>
+<span class="w">        </span><span class="k">procedure</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">get_state</span>
+<span class="w">        </span><span class="k">procedure</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">get_constants</span>
+<span class="w">        </span><span class="k">procedure</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">close</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">close_ephemeris</span>
+
+<span class="w">        </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">interp</span>
+<span class="w">        </span><span class="k">procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">state</span>
+
+<span class="w">    </span><span class="k">end type </span><span class="n">jpl_ephemeris</span>
+</pre></div>
+
+    </section>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

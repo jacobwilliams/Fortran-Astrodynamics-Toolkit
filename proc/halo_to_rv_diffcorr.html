@@ -1,0 +1,1246 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>halo_to_rv_diffcorr &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>halo_to_rv_diffcorr
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.7% of total for procedures.">94 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/halo_orbit_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/halo_orbit_module.f90.html'>halo_orbit_module.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/halo_orbit_module.html'>halo_orbit_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">halo_to_rv_diffcorr</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/halo_to_rv_diffcorr.html#src">halo_to_rv_diffcorr</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public  subroutine halo_to_rv_diffcorr(libpoint, mu1, mu2, dist, A_z, n, t1, rv, info, period)  
+</h2>
+        <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='../module/math_module.html'>math_module</a></li>
+                  <li class="list-inline-item"><a href='../module/rk_module.html'>rk_module</a></li>
+                  <li class="list-inline-item"><a href='../module/minpack_module.html'>minpack_module</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~halo_to_rv_diffcorr~~UsesGraph Pages: 1 -->
+<svg id="prochalo_to_rv_diffcorrUsesGraph" width="641pt" height="115pt"
+ viewBox="0.00 0.00 641.00 114.57" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~halo_to_rv_diffcorr~~UsesGraph" class="graph" transform="scale(0.99 0.99) rotate(0) translate(4 112)">
+<title>proc~~halo_to_rv_diffcorr~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 645,-112 645,4 -4,4"/>
+<!-- proc~halo_to_rv_diffcorr -->
+<g id="proc~~halo_to_rv_diffcorr~~UsesGraph_node1" class="node">
+<title>proc~halo_to_rv_diffcorr</title>
+<polygon fill="none" stroke="black" points="641,-66 529,-66 529,-42 641,-42 641,-66"/>
+<text text-anchor="middle" x="585" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">halo_to_rv_diffcorr</text>
+</g>
+<!-- module~math_module -->
+<g id="proc~~halo_to_rv_diffcorr~~UsesGraph_node2" class="node">
+<title>module~math_module</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~UsesGraph_node2"><a xlink:href="../module/math_module.html" xlink:title="math_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="484,-108 398,-108 398,-84 484,-84 484,-108"/>
+<text text-anchor="middle" x="441" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">math_module</text>
+</a>
+</g>
+</g>
+<!-- proc~halo_to_rv_diffcorr&#45;&gt;module~math_module -->
+<g id="proc~~halo_to_rv_diffcorr~~UsesGraph_edge1" class="edge">
+<title>proc~halo_to_rv_diffcorr&#45;&gt;module~math_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M543.31,-66.04C527.41,-70.74 509.03,-76.18 492.31,-81.12"/>
+<polygon fill="#000000" stroke="#000000" points="491.29,-77.77 482.7,-83.96 493.28,-84.48 491.29,-77.77"/>
+</g>
+<!-- module~minpack_module -->
+<g id="proc~~halo_to_rv_diffcorr~~UsesGraph_node3" class="node">
+<title>module~minpack_module</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~UsesGraph_node3"><a xlink:href="../module/minpack_module.html" xlink:title="minpack_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="493,-66 389,-66 389,-42 493,-42 493,-66"/>
+<text text-anchor="middle" x="441" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">minpack_module</text>
+</a>
+</g>
+</g>
+<!-- proc~halo_to_rv_diffcorr&#45;&gt;module~minpack_module -->
+<g id="proc~~halo_to_rv_diffcorr~~UsesGraph_edge2" class="edge">
+<title>proc~halo_to_rv_diffcorr&#45;&gt;module~minpack_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M528.69,-54C520.39,-54 511.78,-54 503.36,-54"/>
+<polygon fill="#000000" stroke="#000000" points="503.21,-50.5 493.21,-54 503.21,-57.5 503.21,-50.5"/>
+</g>
+<!-- module~rk_module -->
+<g id="proc~~halo_to_rv_diffcorr~~UsesGraph_node4" class="node">
+<title>module~rk_module</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~UsesGraph_node4"><a xlink:href="../module/rk_module.html" xlink:title="rk_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="475.5,-24 406.5,-24 406.5,0 475.5,0 475.5,-24"/>
+<text text-anchor="middle" x="441" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rk_module</text>
+</a>
+</g>
+</g>
+<!-- proc~halo_to_rv_diffcorr&#45;&gt;module~rk_module -->
+<g id="proc~~halo_to_rv_diffcorr~~UsesGraph_edge3" class="edge">
+<title>proc~halo_to_rv_diffcorr&#45;&gt;module~rk_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M543.31,-41.96C525.11,-36.58 503.64,-30.23 485.15,-24.76"/>
+<polygon fill="#000000" stroke="#000000" points="486.1,-21.39 475.52,-21.91 484.11,-28.11 486.1,-21.39"/>
+</g>
+<!-- module~kind_module -->
+<g id="proc~~halo_to_rv_diffcorr~~UsesGraph_node5" class="node">
+<title>module~kind_module</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~UsesGraph_node5"><a xlink:href="../module/kind_module.html" xlink:title="kind_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="211,-66 130,-66 130,-42 211,-42 211,-66"/>
+<text text-anchor="middle" x="170.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module</text>
+</a>
+</g>
+</g>
+<!-- module~math_module&#45;&gt;module~kind_module -->
+<g id="proc~~halo_to_rv_diffcorr~~UsesGraph_edge4" class="edge">
+<title>module~math_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M397.96,-97.35C370.35,-97.83 333.47,-97.7 301,-95"/>
+</g>
+<!-- module~numbers_module -->
+<g id="proc~~halo_to_rv_diffcorr~~UsesGraph_node6" class="node">
+<title>module~numbers_module</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~UsesGraph_node6"><a xlink:href="../module/numbers_module.html" xlink:title="numbers_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="353,-66 247,-66 247,-42 353,-42 353,-66"/>
+<text text-anchor="middle" x="300" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module</text>
+</a>
+</g>
+</g>
+<!-- module~math_module&#45;&gt;module~numbers_module -->
+<g id="proc~~halo_to_rv_diffcorr~~UsesGraph_edge5" class="edge">
+<title>module~math_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M400.17,-83.96C384.76,-79.31 366.95,-73.93 350.71,-69.02"/>
+<polygon fill="#000000" stroke="#000000" points="351.42,-65.58 340.84,-66.04 349.4,-72.28 351.42,-65.58"/>
+</g>
+<!-- module~minpack_module&#45;&gt;module~kind_module -->
+<g id="proc~~halo_to_rv_diffcorr~~UsesGraph_edge6" class="edge">
+<title>module~minpack_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M408.87,-66.05C374.71,-78.76 321.94,-96.74 301,-95"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M299,-95C266.68,-92.32 231.73,-80.38 206.61,-70.08"/>
+<polygon fill="#000000" stroke="#000000" points="207.73,-66.75 197.15,-66.09 205,-73.2 207.73,-66.75"/>
+</g>
+<!-- module~minpack_module&#45;&gt;module~numbers_module -->
+<g id="proc~~halo_to_rv_diffcorr~~UsesGraph_edge7" class="edge">
+<title>module~minpack_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M388.64,-54C380.39,-54 371.78,-54 363.31,-54"/>
+<polygon fill="#000000" stroke="#000000" points="363.08,-50.5 353.08,-54 363.08,-57.5 363.08,-50.5"/>
+</g>
+<!-- module~rk_module&#45;&gt;module~kind_module -->
+<g id="proc~~halo_to_rv_diffcorr~~UsesGraph_edge8" class="edge">
+<title>module~rk_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M406.28,-14C367.57,-16.68 302.28,-22.38 247,-33 238.17,-34.7 228.86,-36.92 219.91,-39.28"/>
+<polygon fill="#000000" stroke="#000000" points="218.73,-35.97 210.01,-41.99 220.58,-42.73 218.73,-35.97"/>
+</g>
+<!-- module~rk_module&#45;&gt;module~numbers_module -->
+<g id="proc~~halo_to_rv_diffcorr~~UsesGraph_edge9" class="edge">
+<title>module~rk_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M406.35,-22.17C389.6,-27.23 369.02,-33.45 350.5,-39.04"/>
+<polygon fill="#000000" stroke="#000000" points="349.32,-35.74 340.76,-41.99 351.34,-42.45 349.32,-35.74"/>
+</g>
+<!-- iso_fortran_env -->
+<g id="proc~~halo_to_rv_diffcorr~~UsesGraph_node7" class="node">
+<title>iso_fortran_env</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~UsesGraph_node7"><a xlink:href="http://fortranwiki.org/fortran/show/iso_fortran_env" xlink:title="iso_fortran_env">
+<polygon fill="#337ab7" stroke="#337ab7" points="94,-66 0,-66 0,-42 94,-42 94,-66"/>
+<text text-anchor="middle" x="47" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
+</a>
+</g>
+</g>
+<!-- module~kind_module&#45;&gt;iso_fortran_env -->
+<g id="proc~~halo_to_rv_diffcorr~~UsesGraph_edge10" class="edge">
+<title>module~kind_module&#45;&gt;iso_fortran_env</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M129.72,-54C121.56,-54 112.83,-54 104.21,-54"/>
+<polygon fill="#000000" stroke="#000000" points="104.2,-50.5 94.2,-54 104.2,-57.5 104.2,-50.5"/>
+</g>
+<!-- module~numbers_module&#45;&gt;module~kind_module -->
+<g id="proc~~halo_to_rv_diffcorr~~UsesGraph_edge11" class="edge">
+<title>module~numbers_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M246.77,-54C238.46,-54 229.87,-54 221.6,-54"/>
+<polygon fill="#000000" stroke="#000000" points="221.35,-50.5 211.35,-54 221.35,-57.5 221.35,-50.5"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panprochalo_to_rv_diffcorrUsesGraph = svgPanZoom('#prochalo_to_rv_diffcorrUsesGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+
+    <p>Compute the state vector for a halo orbit.
+This uses the approximation, which is retargeted in the
+real CR3BP system to produce a periodic orbit.</p>
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-libpoint"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>libpoint</strong></td>
+            <td>
+                <p>Libration point number: [1,2,3]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu1"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu1</strong></td>
+            <td>
+                <p>grav param for primary body [km3/s2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu2</strong></td>
+            <td>
+                <p>grav param for secondary body [km3/s2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dist~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dist</strong></td>
+            <td>
+                <p>distance between bodies [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a_z"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>A_z</strong></td>
+            <td>
+                <p>halo z amplitude [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~21"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                <p>halo family: 1, 3</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-t1~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>t1</strong></td>
+            <td>
+                <p>tau1 [rad]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rv~6"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>rv</strong></td>
+            <td>
+                <p>cr3bp normalized state vector
+[wrt barycenter]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~5"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+                <p>status code (1=no errors)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-period"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>period</strong></td>
+            <td>
+                <p>period of halo (normalized time units)</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~halo_to_rv_diffcorr~~CallsGraph Pages: 1 -->
+<svg id="prochalo_to_rv_diffcorrCallsGraph" width="641pt" height="332pt"
+ viewBox="0.00 0.00 641.00 331.90" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph" class="graph" transform="scale(0.91 0.91) rotate(0) translate(4 360)">
+<title>proc~~halo_to_rv_diffcorr~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-360 699,-360 699,4 -4,4"/>
+<!-- proc~halo_to_rv_diffcorr -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node1" class="node">
+<title>proc~halo_to_rv_diffcorr</title>
+<polygon fill="none" stroke="black" points="112,-150 0,-150 0,-126 112,-126 112,-150"/>
+<text text-anchor="middle" x="56" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50">halo_to_rv_diffcorr</text>
+</g>
+<!-- proc~compute_crtpb_parameter -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node2" class="node">
+<title>proc~compute_crtpb_parameter</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~CallsGraph_node2"><a xlink:href="../proc/compute_crtpb_parameter.html" xlink:title="compute_crtpb_parameter">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="503,-276 348,-276 348,-252 503,-252 503,-276"/>
+<text text-anchor="middle" x="425.5" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_crtpb_parameter</text>
+</a>
+</g>
+</g>
+<!-- proc~halo_to_rv_diffcorr&#45;&gt;proc~compute_crtpb_parameter -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge1" class="edge">
+<title>proc~halo_to_rv_diffcorr&#45;&gt;proc~compute_crtpb_parameter</title>
+<path fill="none" stroke="#000000" d="M63.27,-150.14C75.81,-173.02 106.41,-222.07 148,-243 206.52,-272.45 280.95,-276.52 337.85,-273.88"/>
+<polygon fill="#000000" stroke="#000000" points="338.1,-277.37 347.9,-273.33 337.72,-270.38 338.1,-277.37"/>
+</g>
+<!-- proc~halo_to_rv -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node3" class="node">
+<title>proc~halo_to_rv</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~CallsGraph_node3"><a xlink:href="../proc/halo_to_rv.html" xlink:title="halo_to_rv">
+<polygon fill="#d9534f" stroke="#d9534f" points="263.5,-234 196.5,-234 196.5,-210 263.5,-210 263.5,-234"/>
+<text text-anchor="middle" x="230" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">halo_to_rv</text>
+</a>
+</g>
+</g>
+<!-- proc~halo_to_rv_diffcorr&#45;&gt;proc~halo_to_rv -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge2" class="edge">
+<title>proc~halo_to_rv_diffcorr&#45;&gt;proc~halo_to_rv</title>
+<path fill="none" stroke="#000000" d="M71.16,-150.2C88.28,-164.35 118.48,-187.47 148,-201 159.98,-206.49 173.65,-210.73 186.3,-213.91"/>
+<polygon fill="#000000" stroke="#000000" points="185.64,-217.35 196.17,-216.24 187.24,-210.54 185.64,-217.35"/>
+</g>
+<!-- proc~hybrd1 -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node4" class="node">
+<title>proc~hybrd1</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~CallsGraph_node4"><a xlink:href="../proc/hybrd1.html" xlink:title="hybrd1">
+<polygon fill="#d9534f" stroke="#d9534f" points="257,-192 203,-192 203,-168 257,-168 257,-192"/>
+<text text-anchor="middle" x="230" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrd1</text>
+</a>
+</g>
+</g>
+<!-- proc~halo_to_rv_diffcorr&#45;&gt;proc~hybrd1 -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge3" class="edge">
+<title>proc~halo_to_rv_diffcorr&#45;&gt;proc~hybrd1</title>
+<path fill="none" stroke="#000000" d="M106.29,-150.04C133.86,-156.77 167.63,-165.01 192.75,-171.15"/>
+<polygon fill="#000000" stroke="#000000" points="192.07,-174.58 202.61,-173.56 193.73,-167.78 192.07,-174.58"/>
+</g>
+<!-- proc~initialize -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node5" class="node">
+<title>proc~initialize</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~CallsGraph_node5"><a xlink:href="../proc/initialize.html" xlink:title="rk_class%initialize">
+<polygon fill="#d9534f" stroke="#d9534f" points="284.5,-150 175.5,-150 175.5,-126 284.5,-126 284.5,-150"/>
+<text text-anchor="middle" x="230" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rk_class%initialize</text>
+</a>
+</g>
+</g>
+<!-- proc~halo_to_rv_diffcorr&#45;&gt;proc~initialize -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge4" class="edge">
+<title>proc~halo_to_rv_diffcorr&#45;&gt;proc~initialize</title>
+<path fill="none" stroke="#000000" d="M112.37,-138C129.28,-138 148.01,-138 165.42,-138"/>
+<polygon fill="#000000" stroke="#000000" points="165.5,-141.5 175.5,-138 165.5,-134.5 165.5,-141.5"/>
+</g>
+<!-- proc~integrate -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node6" class="node">
+<title>proc~integrate</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~CallsGraph_node6"><a xlink:href="../proc/integrate.html" xlink:title="rk_class%integrate">
+<polygon fill="#d9534f" stroke="#d9534f" points="286.5,-108 173.5,-108 173.5,-84 286.5,-84 286.5,-108"/>
+<text text-anchor="middle" x="230" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rk_class%integrate</text>
+</a>
+</g>
+</g>
+<!-- proc~halo_to_rv_diffcorr&#45;&gt;proc~integrate -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge5" class="edge">
+<title>proc~halo_to_rv_diffcorr&#45;&gt;proc~integrate</title>
+<path fill="none" stroke="#000000" d="M106.29,-125.96C126.08,-121.13 149.07,-115.52 169.76,-110.47"/>
+<polygon fill="#000000" stroke="#000000" points="170.82,-113.81 179.7,-108.04 169.16,-107.01 170.82,-113.81"/>
+</g>
+<!-- proc~integrate_to_event -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node7" class="node">
+<title>proc~integrate_to_event</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~CallsGraph_node7"><a xlink:href="../proc/integrate_to_event.html" xlink:title="rk_class%integrate_to_event">
+<polygon fill="#d9534f" stroke="#d9534f" points="312,-66 148,-66 148,-42 312,-42 312,-66"/>
+<text text-anchor="middle" x="230" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rk_class%integrate_to_event</text>
+</a>
+</g>
+</g>
+<!-- proc~halo_to_rv_diffcorr&#45;&gt;proc~integrate_to_event -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge6" class="edge">
+<title>proc~halo_to_rv_diffcorr&#45;&gt;proc~integrate_to_event</title>
+<path fill="none" stroke="#000000" d="M71.16,-125.8C88.28,-111.65 118.48,-88.53 148,-75 152.59,-72.9 157.42,-70.98 162.35,-69.23"/>
+<polygon fill="#000000" stroke="#000000" points="163.5,-72.54 171.91,-66.09 161.31,-65.89 163.5,-72.54"/>
+</g>
+<!-- proc~wrap_angle -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node8" class="node">
+<title>proc~wrap_angle</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~CallsGraph_node8"><a xlink:href="../proc/wrap_angle.html" xlink:title="wrap_angle">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="267,-24 193,-24 193,0 267,0 267,-24"/>
+<text text-anchor="middle" x="230" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">wrap_angle</text>
+</a>
+</g>
+</g>
+<!-- proc~halo_to_rv_diffcorr&#45;&gt;proc~wrap_angle -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge7" class="edge">
+<title>proc~halo_to_rv_diffcorr&#45;&gt;proc~wrap_angle</title>
+<path fill="none" stroke="#000000" d="M64.05,-125.83C77.46,-103.78 108.85,-57.29 148,-33 158.51,-26.48 170.99,-21.97 182.97,-18.86"/>
+<polygon fill="#000000" stroke="#000000" points="183.91,-22.24 192.86,-16.56 182.33,-15.42 183.91,-22.24"/>
+</g>
+<!-- proc~halo_to_rv&#45;&gt;proc~compute_crtpb_parameter -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge8" class="edge">
+<title>proc~halo_to_rv&#45;&gt;proc~compute_crtpb_parameter</title>
+<path fill="none" stroke="#000000" d="M263.82,-229.12C289.91,-234.79 327.23,-242.89 359.34,-249.86"/>
+<polygon fill="#000000" stroke="#000000" points="358.6,-253.28 369.11,-251.98 360.08,-246.44 358.6,-253.28"/>
+</g>
+<!-- proc~compute_libration_points -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node9" class="node">
+<title>proc~compute_libration_points</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~CallsGraph_node9"><a xlink:href="../proc/compute_libration_points.html" xlink:title="compute_libration_points">
+<polygon fill="#d9534f" stroke="#d9534f" points="499,-234 352,-234 352,-210 499,-210 499,-234"/>
+<text text-anchor="middle" x="425.5" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">compute_libration_points</text>
+</a>
+</g>
+</g>
+<!-- proc~halo_to_rv&#45;&gt;proc~compute_libration_points -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge9" class="edge">
+<title>proc~halo_to_rv&#45;&gt;proc~compute_libration_points</title>
+<path fill="none" stroke="#000000" d="M263.82,-222C285.24,-222 314.22,-222 341.67,-222"/>
+<polygon fill="#000000" stroke="#000000" points="341.7,-225.5 351.7,-222 341.7,-218.5 341.7,-225.5"/>
+</g>
+<!-- proc~hybrd -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node11" class="node">
+<title>proc~hybrd</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~CallsGraph_node11"><a xlink:href="../proc/hybrd.html" xlink:title="hybrd">
+<polygon fill="#d9534f" stroke="#d9534f" points="452.5,-192 398.5,-192 398.5,-168 452.5,-168 452.5,-192"/>
+<text text-anchor="middle" x="425.5" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrd</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd1&#45;&gt;proc~hybrd -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge10" class="edge">
+<title>proc~hybrd1&#45;&gt;proc~hybrd</title>
+<path fill="none" stroke="#000000" d="M257.1,-180C290.85,-180 349.84,-180 388.02,-180"/>
+<polygon fill="#000000" stroke="#000000" points="388.2,-183.5 398.2,-180 388.2,-176.5 388.2,-183.5"/>
+</g>
+<!-- proc~destroy -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node10" class="node">
+<title>proc~destroy</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~CallsGraph_node10"><a xlink:href="../proc/destroy.html" xlink:title="rk_class%destroy">
+<polygon fill="#d9534f" stroke="#d9534f" points="477,-150 374,-150 374,-126 477,-126 477,-150"/>
+<text text-anchor="middle" x="425.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">rk_class%destroy</text>
+</a>
+</g>
+</g>
+<!-- proc~initialize&#45;&gt;proc~destroy -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge11" class="edge">
+<title>proc~initialize&#45;&gt;proc~destroy</title>
+<path fill="none" stroke="#000000" d="M284.64,-138C309.12,-138 338.23,-138 363.53,-138"/>
+<polygon fill="#000000" stroke="#000000" points="363.75,-141.5 373.75,-138 363.75,-134.5 363.75,-141.5"/>
+</g>
+<!-- step -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node14" class="node">
+<title>step</title>
+<polygon fill="#777777" stroke="#777777" points="452.5,-108 398.5,-108 398.5,-84 452.5,-84 452.5,-108"/>
+<text text-anchor="middle" x="425.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">step</text>
+</g>
+<!-- proc~integrate&#45;&gt;step -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge12" class="edge">
+<title>proc~integrate&#45;&gt;step</title>
+<path fill="none" stroke="#000000" d="M286.71,-96C319.28,-96 359.47,-96 388.02,-96"/>
+<polygon fill="#000000" stroke="#000000" points="388.35,-99.5 398.35,-96 388.35,-92.5 388.35,-99.5"/>
+</g>
+<!-- proc~set_function -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node12" class="node">
+<title>proc~set_function</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~CallsGraph_node12"><a xlink:href="../proc/set_function.html" xlink:title="brent_class%set_function">
+<polygon fill="#d9534f" stroke="#d9534f" points="498.5,-24 352.5,-24 352.5,0 498.5,0 498.5,-24"/>
+<text text-anchor="middle" x="425.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">brent_class%set_function</text>
+</a>
+</g>
+</g>
+<!-- proc~integrate_to_event&#45;&gt;proc~set_function -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge13" class="edge">
+<title>proc~integrate_to_event&#45;&gt;proc~set_function</title>
+<path fill="none" stroke="#000000" d="M286.45,-41.96C309.12,-37.04 335.51,-31.31 359.12,-26.19"/>
+<polygon fill="#000000" stroke="#000000" points="360.01,-29.58 369.04,-24.04 358.53,-22.74 360.01,-29.58"/>
+</g>
+<!-- proc~zeroin -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node13" class="node">
+<title>proc~zeroin</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~CallsGraph_node13"><a xlink:href="../proc/zeroin.html" xlink:title="brent_class%zeroin">
+<polygon fill="#d9534f" stroke="#d9534f" points="482.5,-66 368.5,-66 368.5,-42 482.5,-42 482.5,-66"/>
+<text text-anchor="middle" x="425.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">brent_class%zeroin</text>
+</a>
+</g>
+</g>
+<!-- proc~integrate_to_event&#45;&gt;proc~zeroin -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge14" class="edge">
+<title>proc~integrate_to_event&#45;&gt;proc~zeroin</title>
+<path fill="none" stroke="#000000" d="M312.22,-54C327.6,-54 343.51,-54 358.36,-54"/>
+<polygon fill="#000000" stroke="#000000" points="358.44,-57.5 368.44,-54 358.44,-50.5 358.44,-57.5"/>
+</g>
+<!-- proc~integrate_to_event&#45;&gt;step -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge15" class="edge">
+<title>proc~integrate_to_event&#45;&gt;step</title>
+<path fill="none" stroke="#000000" d="M286.45,-66.04C319.17,-73.14 359.66,-81.93 388.3,-88.14"/>
+<polygon fill="#000000" stroke="#000000" points="387.77,-91.61 398.28,-90.31 389.25,-84.77 387.77,-91.61"/>
+</g>
+<!-- proc~cube_root -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node15" class="node">
+<title>proc~cube_root</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~CallsGraph_node15"><a xlink:href="../proc/cube_root.html" xlink:title="cube_root">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="604,-356 539,-356 539,-332 604,-332 604,-356"/>
+<text text-anchor="middle" x="571.5" y="-341.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cube_root</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_libration_points&#45;&gt;proc~cube_root -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge16" class="edge">
+<title>proc~compute_libration_points&#45;&gt;proc~cube_root</title>
+<path fill="none" stroke="#000000" d="M488.95,-234.08C494,-236.53 498.77,-239.47 503,-243 531.38,-266.69 516.21,-288.88 539,-318 540.88,-320.41 543.03,-322.74 545.29,-324.96"/>
+<polygon fill="#000000" stroke="#000000" points="543.42,-327.98 553.23,-331.99 548.06,-322.74 543.42,-327.98"/>
+</g>
+<!-- proc~dogleg -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node16" class="node">
+<title>proc~dogleg</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~CallsGraph_node16"><a xlink:href="../proc/dogleg.html" xlink:title="dogleg">
+<polygon fill="#d9534f" stroke="#d9534f" points="598.5,-66 544.5,-66 544.5,-42 598.5,-42 598.5,-66"/>
+<text text-anchor="middle" x="571.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dogleg</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~dogleg -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge17" class="edge">
+<title>proc~hybrd&#45;&gt;proc~dogleg</title>
+<path fill="none" stroke="#000000" d="M452.58,-178.5C468.78,-176.31 489.09,-171.13 503,-159 533.62,-132.31 513.03,-106.23 539,-75 539.69,-74.17 540.43,-73.35 541.2,-72.56"/>
+<polygon fill="#000000" stroke="#000000" points="543.49,-75.2 548.79,-66.02 538.93,-69.9 543.49,-75.2"/>
+</g>
+<!-- proc~dpmpar -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node17" class="node">
+<title>proc~dpmpar</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~CallsGraph_node17"><a xlink:href="../proc/dpmpar.html" xlink:title="dpmpar">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="695,-150 640,-150 640,-126 695,-126 695,-150"/>
+<text text-anchor="middle" x="667.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dpmpar</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~dpmpar -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge18" class="edge">
+<title>proc~hybrd&#45;&gt;proc~dpmpar</title>
+<path fill="none" stroke="#000000" d="M452.58,-181.5C468.78,-183.69 489.09,-188.87 503,-201 533.62,-227.69 505.09,-262.64 539,-285 563.12,-300.9 579.91,-300.94 604,-285 646.18,-257.1 659.98,-194.34 664.43,-160.55"/>
+<polygon fill="#000000" stroke="#000000" points="667.95,-160.63 665.61,-150.3 660.99,-159.84 667.95,-160.63"/>
+</g>
+<!-- proc~enorm -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node18" class="node">
+<title>proc~enorm</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~CallsGraph_node18"><a xlink:href="../proc/enorm.html" xlink:title="enorm">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="694.5,-66 640.5,-66 640.5,-42 694.5,-42 694.5,-66"/>
+<text text-anchor="middle" x="667.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">enorm</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~enorm -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge19" class="edge">
+<title>proc~hybrd&#45;&gt;proc~enorm</title>
+<path fill="none" stroke="#000000" d="M452.76,-179.13C469.23,-177.2 489.78,-172.08 503,-159 544.4,-118.03 492.5,-68.07 539,-33 567.04,-11.85 608.46,-24.42 636.42,-37.38"/>
+<polygon fill="#000000" stroke="#000000" points="635.18,-40.67 645.7,-41.92 638.26,-34.38 635.18,-40.67"/>
+</g>
+<!-- proc~fdjac1 -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node19" class="node">
+<title>proc~fdjac1</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~CallsGraph_node19"><a xlink:href="../proc/fdjac1.html" xlink:title="fdjac1">
+<polygon fill="#d9534f" stroke="#d9534f" points="598.5,-192 544.5,-192 544.5,-168 598.5,-168 598.5,-192"/>
+<text text-anchor="middle" x="571.5" y="-177.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fdjac1</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~fdjac1 -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge20" class="edge">
+<title>proc~hybrd&#45;&gt;proc~fdjac1</title>
+<path fill="none" stroke="#000000" d="M452.58,-180C475.37,-180 508.71,-180 534.12,-180"/>
+<polygon fill="#000000" stroke="#000000" points="534.13,-183.5 544.13,-180 534.13,-176.5 534.13,-183.5"/>
+</g>
+<!-- proc~qform -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node20" class="node">
+<title>proc~qform</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~CallsGraph_node20"><a xlink:href="../proc/qform.html" xlink:title="qform">
+<polygon fill="#d9534f" stroke="#d9534f" points="598.5,-276 544.5,-276 544.5,-252 598.5,-252 598.5,-276"/>
+<text text-anchor="middle" x="571.5" y="-261.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qform</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~qform -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge21" class="edge">
+<title>proc~hybrd&#45;&gt;proc~qform</title>
+<path fill="none" stroke="#000000" d="M452.51,-183.22C468.09,-186.07 487.76,-191.34 503,-201 523.76,-214.16 520.6,-226.69 539,-243 540.11,-243.98 541.26,-244.95 542.45,-245.91"/>
+<polygon fill="#000000" stroke="#000000" points="540.44,-248.78 550.56,-251.91 544.61,-243.15 540.44,-248.78"/>
+</g>
+<!-- proc~qrfac -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node21" class="node">
+<title>proc~qrfac</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~CallsGraph_node21"><a xlink:href="../proc/qrfac.html" xlink:title="qrfac">
+<polygon fill="#d9534f" stroke="#d9534f" points="598.5,-108 544.5,-108 544.5,-84 598.5,-84 598.5,-108"/>
+<text text-anchor="middle" x="571.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">qrfac</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~qrfac -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge22" class="edge">
+<title>proc~hybrd&#45;&gt;proc~qrfac</title>
+<path fill="none" stroke="#000000" d="M452.51,-176.78C468.09,-173.93 487.76,-168.66 503,-159 523.76,-145.84 520.6,-133.31 539,-117 540.11,-116.02 541.26,-115.05 542.45,-114.09"/>
+<polygon fill="#000000" stroke="#000000" points="544.61,-116.85 550.56,-108.09 540.44,-111.22 544.61,-116.85"/>
+</g>
+<!-- proc~r1mpyq -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node22" class="node">
+<title>proc~r1mpyq</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~CallsGraph_node22"><a xlink:href="../proc/r1mpyq.html" xlink:title="r1mpyq">
+<polygon fill="#d9534f" stroke="#d9534f" points="598.5,-234 544.5,-234 544.5,-210 598.5,-210 598.5,-234"/>
+<text text-anchor="middle" x="571.5" y="-219.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">r1mpyq</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~r1mpyq -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge23" class="edge">
+<title>proc~hybrd&#45;&gt;proc~r1mpyq</title>
+<path fill="none" stroke="#000000" d="M452.76,-186.97C467.55,-190.96 486.35,-196.12 503,-201 513.25,-204 524.33,-207.39 534.49,-210.55"/>
+<polygon fill="#000000" stroke="#000000" points="533.69,-213.97 544.28,-213.62 535.78,-207.29 533.69,-213.97"/>
+</g>
+<!-- proc~r1updt -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_node23" class="node">
+<title>proc~r1updt</title>
+<g id="a_proc~~halo_to_rv_diffcorr~~CallsGraph_node23"><a xlink:href="../proc/r1updt.html" xlink:title="r1updt">
+<polygon fill="#d9534f" stroke="#d9534f" points="598.5,-150 544.5,-150 544.5,-126 598.5,-126 598.5,-150"/>
+<text text-anchor="middle" x="571.5" y="-135.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">r1updt</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~r1updt -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge24" class="edge">
+<title>proc~hybrd&#45;&gt;proc~r1updt</title>
+<path fill="none" stroke="#000000" d="M452.76,-173.03C467.55,-169.04 486.35,-163.88 503,-159 513.25,-156 524.33,-152.61 534.49,-149.45"/>
+<polygon fill="#000000" stroke="#000000" points="535.78,-152.71 544.28,-146.38 533.69,-146.03 535.78,-152.71"/>
+</g>
+<!-- proc~dogleg&#45;&gt;proc~dpmpar -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge25" class="edge">
+<title>proc~dogleg&#45;&gt;proc~dpmpar</title>
+<path fill="none" stroke="#000000" d="M591.93,-66.06C596.03,-68.85 600.24,-71.91 604,-75 620.16,-88.3 636.76,-105.22 648.79,-118.17"/>
+<polygon fill="#000000" stroke="#000000" points="646.31,-120.65 655.64,-125.66 651.47,-115.92 646.31,-120.65"/>
+</g>
+<!-- proc~dogleg&#45;&gt;proc~enorm -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge26" class="edge">
+<title>proc~dogleg&#45;&gt;proc~enorm</title>
+<path fill="none" stroke="#000000" d="M598.68,-54C608.46,-54 619.75,-54 630.27,-54"/>
+<polygon fill="#000000" stroke="#000000" points="630.46,-57.5 640.46,-54 630.46,-50.5 630.46,-57.5"/>
+</g>
+<!-- proc~fdjac1&#45;&gt;proc~dpmpar -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge27" class="edge">
+<title>proc~fdjac1&#45;&gt;proc~dpmpar</title>
+<path fill="none" stroke="#000000" d="M598.68,-168.3C608.5,-163.91 619.83,-158.85 630.39,-154.13"/>
+<polygon fill="#000000" stroke="#000000" points="632.1,-157.2 639.8,-149.93 629.25,-150.81 632.1,-157.2"/>
+</g>
+<!-- proc~qrfac&#45;&gt;proc~dpmpar -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge28" class="edge">
+<title>proc~qrfac&#45;&gt;proc~dpmpar</title>
+<path fill="none" stroke="#000000" d="M598.68,-107.7C608.5,-112.09 619.83,-117.15 630.39,-121.87"/>
+<polygon fill="#000000" stroke="#000000" points="629.25,-125.19 639.8,-126.07 632.1,-118.8 629.25,-125.19"/>
+</g>
+<!-- proc~qrfac&#45;&gt;proc~enorm -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge29" class="edge">
+<title>proc~qrfac&#45;&gt;proc~enorm</title>
+<path fill="none" stroke="#000000" d="M598.68,-84.3C608.77,-79.8 620.45,-74.57 631.25,-69.75"/>
+<polygon fill="#000000" stroke="#000000" points="632.75,-72.91 640.46,-65.64 629.9,-66.52 632.75,-72.91"/>
+</g>
+<!-- proc~r1updt&#45;&gt;proc~dpmpar -->
+<g id="proc~~halo_to_rv_diffcorr~~CallsGraph_edge30" class="edge">
+<title>proc~r1updt&#45;&gt;proc~dpmpar</title>
+<path fill="none" stroke="#000000" d="M598.68,-138C608.3,-138 619.37,-138 629.74,-138"/>
+<polygon fill="#000000" stroke="#000000" points="629.8,-141.5 639.8,-138 629.8,-134.5 629.8,-141.5"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panprochalo_to_rv_diffcorrCallsGraph = svgPanZoom('#prochalo_to_rv_diffcorrCallsGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">halo_to_rv_diffcorr</span><span class="p">(</span><span class="n">libpoint</span><span class="p">,</span><span class="n">mu1</span><span class="p">,</span><span class="n">mu2</span><span class="p">,</span><span class="n">dist</span><span class="p">,</span><span class="n">A_z</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">t1</span><span class="p">,</span><span class="n">rv</span><span class="p">,</span><span class="n">info</span><span class="p">,</span><span class="n">period</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">use </span><span class="n">rk_module</span>
+<span class="w">    </span><span class="k">use </span><span class="n">minpack_module</span>
+<span class="w">    </span><span class="k">use </span><span class="n">math_module</span><span class="p">,</span><span class="w">     </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">wrap_angle</span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">libpoint</span><span class="w">         </span><span class="c">!! Libration point number: [1,2,3]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mu1</span><span class="w">              </span><span class="c">!! grav param for primary body [km3/s2]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mu2</span><span class="w">              </span><span class="c">!! grav param for secondary body [km3/s2]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dist</span><span class="w">             </span><span class="c">!! distance between bodies [km]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">A_z</span><span class="w">              </span><span class="c">!! halo z amplitude [km]</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w">                </span><span class="c">!! halo family: 1, 3</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">t1</span><span class="w">               </span><span class="c">!! tau1 [rad]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rv</span><span class="w"> </span><span class="c">!! cr3bp normalized state vector</span>
+<span class="w">                                            </span><span class="c">!! [wrt barycenter]</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">info</span><span class="w">             </span><span class="c">!! status code (1=no errors)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">period</span><span class="w"> </span><span class="c">!! period of halo (normalized time units)</span>
+
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">n_state_vars</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="w">         </span><span class="c">!! number of state variables in the equations of motion</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">n_opt_vars</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w">         </span><span class="c">!! number of variables in the targeting problem</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">t0</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0_wp</span><span class="w">    </span><span class="c">!! initial time (normalized) (epoch doesn&#39;t matter for cr3bp)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tol</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0e-8_wp</span><span class="w"> </span><span class="c">!! tolerance for event finding</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">xtol</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0e-6_wp</span><span class="w"> </span><span class="c">!! tolerance for [[hybrd]]</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">maxfev</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="w">      </span><span class="c">!! max number of function evaluations for [[hybrd]]</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">n_steps_per_rev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="w">       </span><span class="c">!! number of integration steps per orbit rev</span>
+
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">rk8_10_class</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">prop</span><span class="w">   </span><span class="c">!! integrator</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">n_opt_vars</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">x_vy0</span><span class="w">  </span><span class="c">!! variables in the targeting problem (x0 and vy0)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">n_opt_vars</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">vx_vzf</span><span class="w"> </span><span class="c">!! constraints in the targeting problem (vxf and vzf)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">n_state_vars</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x0</span><span class="w">     </span><span class="c">!! halo initial guess from richardson approximation</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">n_state_vars</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">xf</span><span class="w">     </span><span class="c">!! state after 1/2 rev (to get the period)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tf_actual</span><span class="w">     </span><span class="c">!! 1/2 period for retargeted orbit (normalized time)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">actual_period</span><span class="w"> </span><span class="c">!! actual halo orbit period for retargeted orbit (normalized time)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">approx_period</span><span class="w"> </span><span class="c">!! period approximation (normalized time)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dt_to_t1</span><span class="w">      </span><span class="c">!! time from `t1=0` to input `t1`</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">gf</span><span class="w">            </span><span class="c">!! function value after 1/2 rev (y-coordinate)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tau</span><span class="w">           </span><span class="c">!! `t1` wrapped from \(- \pi \) to \( \pi \)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dt</span><span class="w">            </span><span class="c">!! time step (normalized)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tmax</span><span class="w">          </span><span class="c">!! max final time for event finding integration</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">mu</span><span class="w">            </span><span class="c">!! CRTBP parameter</span>
+
+<span class="w">    </span><span class="c">! compute the CRTBP mu parameter:</span>
+<span class="w">    </span><span class="n">mu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">compute_crtpb_parameter</span><span class="p">(</span><span class="n">mu1</span><span class="p">,</span><span class="n">mu2</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">! first we get the halo state approximation at tau1=0:</span>
+<span class="w">    </span><span class="k">call </span><span class="n">halo_to_rv</span><span class="p">(</span><span class="n">libpoint</span><span class="p">,</span><span class="n">mu1</span><span class="p">,</span><span class="n">mu2</span><span class="p">,</span><span class="n">dist</span><span class="p">,</span><span class="n">A_z</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">zero</span><span class="p">,</span><span class="n">x0</span><span class="p">,</span><span class="n">approx_period</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">! for now, fixed number of integration steps per period:</span>
+<span class="w">    </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">approx_period</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="kt">real</span><span class="p">(</span><span class="n">n_steps_per_rev</span><span class="p">,</span><span class="n">wp</span><span class="p">)</span>
+<span class="w">    </span><span class="n">tmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">approx_period</span><span class="w"> </span><span class="c">! should be enough to find the x-z crossing</span>
+
+<span class="w">    </span><span class="c">! initialize the integrator:</span>
+<span class="w">    </span><span class="k">call </span><span class="n">prop</span><span class="p">%</span><span class="n">initialize</span><span class="p">(</span><span class="n">n_state_vars</span><span class="p">,</span><span class="n">func</span><span class="p">,</span><span class="n">g</span><span class="o">=</span><span class="n">xz_plane_crossing</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">! now, solve for a halo:</span>
+<span class="w">    </span><span class="n">x_vy0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">x0</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="n">x0</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span><span class="w">  </span><span class="c">! x0 and vy0</span>
+<span class="w">    </span><span class="k">call </span><span class="n">hybrd1</span><span class="p">(</span><span class="n">halo_fcn</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">x_vy0</span><span class="p">,</span><span class="n">vx_vzf</span><span class="p">,</span><span class="n">tol</span><span class="o">=</span><span class="n">xtol</span><span class="p">,</span><span class="n">info</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">info</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="c">! solution converged</span>
+
+<span class="w">        </span><span class="c">! now have the solution at t1=0:</span>
+<span class="w">        </span><span class="n">x0</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x_vy0</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">        </span><span class="n">x0</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x_vy0</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="w">        </span><span class="c">! this is the t1 we want:</span>
+<span class="w">        </span><span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wrap_angle</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>
+
+<span class="w">        </span><span class="c">! if we need the period:</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">period</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">tau</span><span class="o">/=</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="c">! integrate to the first x-axis crossings (one half rev):</span>
+<span class="w">            </span><span class="c">! [need to check output...]</span>
+<span class="w">            </span><span class="k">call </span><span class="n">prop</span><span class="p">%</span><span class="n">integrate_to_event</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span><span class="n">x0</span><span class="p">,</span><span class="n">dt</span><span class="p">,</span><span class="n">tmax</span><span class="p">,</span><span class="n">tol</span><span class="p">,</span><span class="n">tf_actual</span><span class="p">,</span><span class="n">xf</span><span class="p">,</span><span class="n">gf</span><span class="p">)</span>
+<span class="w">            </span><span class="n">actual_period</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">tf_actual</span><span class="w"> </span><span class="c">! normalized period</span>
+<span class="w">        </span><span class="k">end if</span>
+
+<span class="w">        </span><span class="c">! now we want to propagate to the input tau1</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tau</span><span class="o">==</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="c">! already have the solution</span>
+<span class="w">            </span><span class="n">rv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x0</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="c">! now, integrate from t1=0 to input t1 to get rv:</span>
+<span class="w">            </span><span class="n">dt_to_t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">actual_period</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">tau</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">twopi</span><span class="p">)</span>
+<span class="w">            </span><span class="k">call </span><span class="n">prop</span><span class="p">%</span><span class="n">integrate</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span><span class="n">x0</span><span class="p">,</span><span class="n">dt</span><span class="p">,</span><span class="n">dt_to_t1</span><span class="p">,</span><span class="n">rv</span><span class="p">)</span>
+<span class="w">        </span><span class="k">end if</span>
+
+<span class="k">        if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">period</span><span class="p">))</span><span class="w"> </span><span class="n">period</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">actual_period</span>
+
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="c">! there was an error</span>
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="n">error_unit</span><span class="p">,</span><span class="s1">&#39;(A)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Error: the halo targeting problem did not converge.&#39;</span>
+<span class="w">        </span><span class="n">rv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x0</span>
+<span class="w">    </span><span class="k">end if</span>
+
+<span class="w">    </span><span class="c">!call prop%destroy()</span>
+
+<span class="w">    </span><span class="k">contains</span>
+<span class="c">!*******************************************************************************</span>
+
+<span class="w">    </span><span class="c">!***************************************************************************</span>
+<span class="w">        </span><span class="k">subroutine </span><span class="n">halo_fcn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">xvec</span><span class="p">,</span><span class="n">fvec</span><span class="p">,</span><span class="n">iflag</span><span class="p">)</span>
+<span class="w">        </span><span class="c">!! Halo function for [[hybrd1]]</span>
+
+<span class="w">        </span><span class="k">implicit none</span>
+
+<span class="k">        </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="w">      </span><span class="c">!! `n=2` in this case</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">xvec</span><span class="w">   </span><span class="c">!! x_vy0</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">fvec</span><span class="w">   </span><span class="c">!! [vxf,vzf]</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">iflag</span><span class="w">  </span><span class="c">!! status flag (set negative</span>
+<span class="w">                                                    </span><span class="c">!! to terminate solver)</span>
+
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">gf</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="n">x1</span><span class="p">,</span><span class="n">xf</span>
+
+<span class="w">        </span><span class="n">x</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">x0</span><span class="w">      </span><span class="c">! initial guess state (z is held fixed)</span>
+<span class="w">        </span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xvec</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="c">! x0</span>
+<span class="w">        </span><span class="n">x</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xvec</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="c">! vy0</span>
+
+<span class="w">        </span><span class="c">!integrate to the next x-z-plane crossing:</span>
+<span class="w">        </span><span class="k">call </span><span class="n">prop</span><span class="p">%</span><span class="n">integrate_to_event</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">dt</span><span class="p">,</span><span class="n">tmax</span><span class="p">,</span><span class="n">tol</span><span class="p">,</span><span class="n">tf_actual</span><span class="p">,</span><span class="n">xf</span><span class="p">,</span><span class="n">gf</span><span class="p">)</span>
+
+<span class="w">        </span><span class="c">!want x and z-velocity at the x-z-plane crossing to be zero:</span>
+<span class="w">        </span><span class="n">fvec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">xf</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="n">xf</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span>
+
+<span class="w">        </span><span class="k">end subroutine </span><span class="n">halo_fcn</span>
+<span class="w">    </span><span class="c">!***************************************************************************</span>
+
+<span class="w">    </span><span class="c">!***************************************************************************</span>
+<span class="w">        </span><span class="k">subroutine </span><span class="n">func</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">xdot</span><span class="p">)</span>
+<span class="w">        </span><span class="c">!! CRTBP derivative function</span>
+<span class="w">        </span><span class="k">implicit none</span>
+<span class="k">        class</span><span class="p">(</span><span class="n">rk_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">t</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">n</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">n</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">xdot</span>
+
+<span class="w">        </span><span class="k">call </span><span class="n">crtbp_derivs</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">xdot</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">end subroutine </span><span class="n">func</span>
+<span class="w">    </span><span class="c">!**************************************************************************</span>
+
+<span class="w">    </span><span class="c">!***************************************************************************</span>
+<span class="w">        </span><span class="k">subroutine </span><span class="n">xz_plane_crossing</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">g</span><span class="p">)</span>
+<span class="w">        </span><span class="c">!! x-z-plane crossing event function</span>
+<span class="w">        </span><span class="k">implicit none</span>
+<span class="k">        class</span><span class="p">(</span><span class="n">rk_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">t</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="n">me</span><span class="p">%</span><span class="n">n</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span>
+
+<span class="w">        </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w">  </span><span class="c">! y = 0 at x-z-plane crossing</span>
+
+<span class="w">        </span><span class="k">end subroutine </span><span class="n">xz_plane_crossing</span>
+<span class="w">    </span><span class="c">!***************************************************************************</span>
+
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">halo_to_rv_diffcorr</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,341 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>great_circle_distance &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>great_circle_distance
+      <small>Function</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+            <li class="list-inline-item" id="meta-author"><i class="fa fa-pencil"></i> Jacob Williams</li>
+            <li class="list-inline-item" id="meta-date"><i class="fa fa-calendar-o"></i> 7/13/2014</li>
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.1% of total for procedures.">18 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/geodesy_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/geodesy_module.f90.html'>geodesy_module.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/geodesy_module.html'>geodesy_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">great_circle_distance</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/great_circle_distance.html#src">great_circle_distance</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public pure function great_circle_distance(r, long1, lat1, long2, lat2) result(d)  
+</h2>
+    
+
+    <p>Great circle distance on a spherical body, using the Vincenty algorithm.</p>
+<h1>References</h1>
+<ul>
+<li>T. Vincenty, "<a href="http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf">Direct and Inverse Solutions of Geodesics on the Ellipsoid
+    with Application of Nested Equations</a>",
+    Survey Review XXII. 176, April 1975.</li>
+</ul>
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~70"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+                <p>radius of the body [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-long1"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>long1</strong></td>
+            <td>
+                <p>longitude of first site [rad]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lat1"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lat1</strong></td>
+            <td>
+                <p>latitude of the first site [rad]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-long2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>long2</strong></td>
+            <td>
+                <p>longitude of the second site [rad]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lat2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lat2</strong></td>
+            <td>
+                <p>latitude of the second site [rad]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+      <h3>Return Value
+        <small>
+          <span class="anchor" id="variable-d~24"></span>
+          real(kind=wp)
+        </small>
+      </h3>
+      <p>great circle distance from 1 to 2 [km]</p>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">pure function </span><span class="n">great_circle_distance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">long1</span><span class="p">,</span><span class="n">lat1</span><span class="p">,</span><span class="n">long2</span><span class="p">,</span><span class="n">lat2</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">d</span><span class="w">        </span><span class="c">!! great circle distance from 1 to 2 [km]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span><span class="w">        </span><span class="c">!! radius of the body [km]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">long1</span><span class="w">    </span><span class="c">!! longitude of first site [rad]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lat1</span><span class="w">     </span><span class="c">!! latitude of the first site [rad]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">long2</span><span class="w">    </span><span class="c">!! longitude of the second site [rad]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lat2</span><span class="w">     </span><span class="c">!! latitude of the second site [rad]</span>
+
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">c1</span><span class="p">,</span><span class="n">s1</span><span class="p">,</span><span class="n">c2</span><span class="p">,</span><span class="n">s2</span><span class="p">,</span><span class="n">dlon</span><span class="p">,</span><span class="n">clon</span><span class="p">,</span><span class="n">slon</span>
+
+<span class="w">    </span><span class="c">!Compute aux variables:</span>
+<span class="w">    </span><span class="n">c1</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="nb">cos</span><span class="p">(</span><span class="n">lat1</span><span class="p">)</span>
+<span class="w">    </span><span class="n">s1</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="nb">sin</span><span class="p">(</span><span class="n">lat1</span><span class="p">)</span>
+<span class="w">    </span><span class="n">c2</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="nb">cos</span><span class="p">(</span><span class="n">lat2</span><span class="p">)</span>
+<span class="w">    </span><span class="n">s2</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="nb">sin</span><span class="p">(</span><span class="n">lat2</span><span class="p">)</span>
+<span class="w">    </span><span class="n">dlon</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">long1</span><span class="o">-</span><span class="n">long2</span>
+<span class="w">    </span><span class="n">clon</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nb">cos</span><span class="p">(</span><span class="n">dlon</span><span class="p">)</span>
+<span class="w">    </span><span class="n">slon</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nb">sin</span><span class="p">(</span><span class="n">dlon</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="o">*</span><span class="n">atan2</span><span class="p">(</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">((</span><span class="n">c2</span><span class="o">*</span><span class="n">slon</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="n">c1</span><span class="o">*</span><span class="n">s2</span><span class="o">-</span><span class="n">s1</span><span class="o">*</span><span class="n">c2</span><span class="o">*</span><span class="n">clon</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="n">s1</span><span class="o">*</span><span class="n">s2</span><span class="o">+</span><span class="n">c1</span><span class="o">*</span><span class="n">c2</span><span class="o">*</span><span class="n">clon</span><span class="p">)</span><span class="w"> </span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">end function </span><span class="n">great_circle_distance</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

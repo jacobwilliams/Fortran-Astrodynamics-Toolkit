@@ -1,0 +1,553 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>qform &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>qform
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.3% of total for procedures.">45 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/minpack_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/minpack_module.f90.html'>minpack_module.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/minpack_module.html'>minpack_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">qform</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/qform.html#src">qform</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public  subroutine qform(m, n, q, ldq, wa)  
+</h2>
+    
+
+    <p>this subroutine proceeds from the computed qr factorization of
+an m by n matrix a to accumulate the m by m orthogonal matrix
+q from its factored form.</p>
+<p>the subroutine statement is</p>
+<p>subroutine qform(m,n,q,ldq,wa)</p>
+<p>where</p>
+<p>m is a positive integer input variable set to the number
+    of rows of a and the order of q.</p>
+<p>n is a positive integer input variable set to the number
+    of columns of a.</p>
+<p>q is an m by m array. on input the full lower trapezoid in
+    the first min(m,n) columns of q contains the factored form.
+    on output q has been accumulated into a square matrix.</p>
+<p>ldq is a positive integer input variable not less than m
+    which specifies the leading dimension of the array q.</p>
+<p>wa is a work array of length m.</p>
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m~2"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~11"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-q~2"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>q</strong>(ldq,m)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ldq"></span>
+              integer
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ldq</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wa~3"></span>
+              real(kind=wp)
+            </td>
+<td></td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>wa</strong>(m)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~qform~~CalledByGraph Pages: 1 -->
+<svg id="procqformCalledByGraph" width="390pt" height="74pt"
+ viewBox="0.00 0.00 390.00 74.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~qform~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 70)">
+<title>proc~~qform~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 386,-70 386,4 -4,4"/>
+<!-- proc~qform -->
+<g id="proc~~qform~~CalledByGraph_node1" class="node">
+<title>proc~qform</title>
+<polygon fill="none" stroke="black" points="382,-45 328,-45 328,-21 382,-21 382,-45"/>
+<text text-anchor="middle" x="355" y="-30.6" font-family="Helvetica,sans-Serif" font-size="10.50">qform</text>
+</g>
+<!-- proc~hybrd -->
+<g id="proc~~qform~~CalledByGraph_node2" class="node">
+<title>proc~hybrd</title>
+<g id="a_proc~~qform~~CalledByGraph_node2"><a xlink:href="../proc/hybrd.html" xlink:title="hybrd">
+<polygon fill="#d9534f" stroke="#d9534f" points="292,-66 238,-66 238,-42 292,-42 292,-66"/>
+<text text-anchor="middle" x="265" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrd</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd&#45;&gt;proc~qform -->
+<g id="proc~~qform~~CalledByGraph_edge1" class="edge">
+<title>proc~hybrd&#45;&gt;proc~qform</title>
+<path fill="none" stroke="#000000" d="M292.4,-47.7C300.48,-45.77 309.51,-43.62 318.1,-41.57"/>
+<polygon fill="#000000" stroke="#000000" points="319,-44.95 327.92,-39.22 317.38,-38.14 319,-44.95"/>
+</g>
+<!-- proc~hybrj -->
+<g id="proc~~qform~~CalledByGraph_node3" class="node">
+<title>proc~hybrj</title>
+<g id="a_proc~~qform~~CalledByGraph_node3"><a xlink:href="../proc/hybrj.html" xlink:title="hybrj">
+<polygon fill="#d9534f" stroke="#d9534f" points="292,-24 238,-24 238,0 292,0 292,-24"/>
+<text text-anchor="middle" x="265" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrj</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrj&#45;&gt;proc~qform -->
+<g id="proc~~qform~~CalledByGraph_edge2" class="edge">
+<title>proc~hybrj&#45;&gt;proc~qform</title>
+<path fill="none" stroke="#000000" d="M292.4,-18.3C300.48,-20.23 309.51,-22.38 318.1,-24.43"/>
+<polygon fill="#000000" stroke="#000000" points="317.38,-27.86 327.92,-26.78 319,-21.05 317.38,-27.86"/>
+</g>
+<!-- proc~hybrd1 -->
+<g id="proc~~qform~~CalledByGraph_node4" class="node">
+<title>proc~hybrd1</title>
+<g id="a_proc~~qform~~CalledByGraph_node4"><a xlink:href="../proc/hybrd1.html" xlink:title="hybrd1">
+<polygon fill="#d9534f" stroke="#d9534f" points="202,-66 148,-66 148,-42 202,-42 202,-66"/>
+<text text-anchor="middle" x="175" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrd1</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrd1&#45;&gt;proc~hybrd -->
+<g id="proc~~qform~~CalledByGraph_edge3" class="edge">
+<title>proc~hybrd1&#45;&gt;proc~hybrd</title>
+<path fill="none" stroke="#000000" d="M202.4,-54C210.39,-54 219.31,-54 227.82,-54"/>
+<polygon fill="#000000" stroke="#000000" points="227.92,-57.5 237.92,-54 227.92,-50.5 227.92,-57.5"/>
+</g>
+<!-- proc~hybrj1 -->
+<g id="proc~~qform~~CalledByGraph_node5" class="node">
+<title>proc~hybrj1</title>
+<g id="a_proc~~qform~~CalledByGraph_node5"><a xlink:href="../proc/hybrj1.html" xlink:title="hybrj1">
+<polygon fill="#d9534f" stroke="#d9534f" points="202,-24 148,-24 148,0 202,0 202,-24"/>
+<text text-anchor="middle" x="175" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">hybrj1</text>
+</a>
+</g>
+</g>
+<!-- proc~hybrj1&#45;&gt;proc~hybrj -->
+<g id="proc~~qform~~CalledByGraph_edge4" class="edge">
+<title>proc~hybrj1&#45;&gt;proc~hybrj</title>
+<path fill="none" stroke="#000000" d="M202.4,-12C210.39,-12 219.31,-12 227.82,-12"/>
+<polygon fill="#000000" stroke="#000000" points="227.92,-15.5 237.92,-12 227.92,-8.5 227.92,-15.5"/>
+</g>
+<!-- proc~halo_to_rv_diffcorr -->
+<g id="proc~~qform~~CalledByGraph_node6" class="node">
+<title>proc~halo_to_rv_diffcorr</title>
+<g id="a_proc~~qform~~CalledByGraph_node6"><a xlink:href="../proc/halo_to_rv_diffcorr.html" xlink:title="halo_to_rv_diffcorr">
+<polygon fill="#d9534f" stroke="#d9534f" points="112,-66 0,-66 0,-42 112,-42 112,-66"/>
+<text text-anchor="middle" x="56" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">halo_to_rv_diffcorr</text>
+</a>
+</g>
+</g>
+<!-- proc~halo_to_rv_diffcorr&#45;&gt;proc~hybrd1 -->
+<g id="proc~~qform~~CalledByGraph_edge5" class="edge">
+<title>proc~halo_to_rv_diffcorr&#45;&gt;proc~hybrd1</title>
+<path fill="none" stroke="#000000" d="M112.07,-54C120.73,-54 129.48,-54 137.58,-54"/>
+<polygon fill="#000000" stroke="#000000" points="137.77,-57.5 147.77,-54 137.77,-50.5 137.77,-57.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">qform</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="n">ldq</span><span class="p">,</span><span class="n">wa</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">integer </span><span class="n">m</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">ldq</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="n">q</span><span class="p">(</span><span class="n">ldq</span><span class="p">,</span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">wa</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+<span class="w">      </span><span class="kt">integer </span><span class="n">i</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">jm1</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">minmn</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">np1</span>
+<span class="w">      </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="nb">sum</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">temp</span>
+<span class="c">!</span>
+<span class="c">!     zero out upper triangle of q in the first min(m,n) columns.</span>
+<span class="c">!</span>
+<span class="w">      </span><span class="n">minmn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">min</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">minmn</span><span class="o">&gt;=</span><span class="mi">2</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">minmn</span>
+<span class="w">            </span><span class="n">jm1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">jm1</span>
+<span class="w">               </span><span class="n">q</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<span class="w">            </span><span class="k">enddo</span>
+<span class="k">         enddo</span>
+<span class="k">      endif</span>
+<span class="c">!</span>
+<span class="c">!     initialize remaining columns to those of the identity matrix.</span>
+<span class="c">!</span>
+<span class="w">      </span><span class="n">np1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">m</span><span class="o">&gt;=</span><span class="n">np1</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">         do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np1</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">m</span>
+<span class="w">            </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">m</span>
+<span class="w">               </span><span class="n">q</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<span class="w">            </span><span class="k">enddo</span>
+<span class="k">            </span><span class="n">q</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span>
+<span class="w">         </span><span class="k">enddo</span>
+<span class="k">      endif</span>
+<span class="c">!</span>
+<span class="c">!     accumulate q from its factored form.</span>
+<span class="c">!</span>
+<span class="w">      </span><span class="k">do </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">minmn</span>
+<span class="w">         </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">minmn</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">         </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">m</span>
+<span class="w">            </span><span class="n">wa</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">q</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
+<span class="w">            </span><span class="n">q</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<span class="w">         </span><span class="k">enddo</span>
+<span class="k">         </span><span class="n">q</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span>
+<span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">wa</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">/=</span><span class="n">zero</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">m</span>
+<span class="w">               </span><span class="nb">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<span class="w">               </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">m</span>
+<span class="w">                  </span><span class="nb">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">q</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="o">*</span><span class="n">wa</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">               </span><span class="k">enddo</span>
+<span class="k">               </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sum</span><span class="o">/</span><span class="n">wa</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<span class="w">               </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">m</span>
+<span class="w">                  </span><span class="n">q</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">q</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">temp</span><span class="o">*</span><span class="n">wa</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">               </span><span class="k">enddo</span>
+<span class="k">            enddo</span>
+<span class="k">         endif</span>
+<span class="k">      enddo</span>
+
+<span class="k">      end subroutine </span><span class="n">qform</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

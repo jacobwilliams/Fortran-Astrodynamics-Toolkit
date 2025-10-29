@@ -1,0 +1,604 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>ephemeris_module.f90 &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>ephemeris_module.f90
+      <small>Source File</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.2% of total for source files.">35 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/ephemeris_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+            <li class="breadcrumb-item active" aria-current="page">ephemeris_module.f90</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#mods-0"
+         aria-expanded="false" aria-controls="mods-0">
+         <h4 class="card-header bg-primary text-white">Modules</h4>
+      </a>
+      <div id="mods-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/ephemeris_module.html">ephemeris_module</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../sourcefile/ephemeris_module.f90.html#src">ephemeris_module.f90</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">This file depends on</h3>
+          </div>
+          <div class="card-body">
+            <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~ephemeris_module.f90~~EfferentGraph Pages: 1 -->
+<svg id="sourcefileephemeris_modulef90EfferentGraph" width="641pt" height="114pt"
+ viewBox="0.00 0.00 641.00 113.85" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~ephemeris_module.f90~~EfferentGraph" class="graph" transform="scale(0.99 0.99) rotate(0) translate(4 110.56)">
+<title>sourcefile~~ephemeris_module.f90~~EfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-110.56 641,-110.56 641,4 -4,4"/>
+<!-- sourcefile~ephemeris_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~EfferentGraph_node1" class="node">
+<title>sourcefile~ephemeris_module.f90</title>
+<polygon fill="none" stroke="black" points="637,-24 501,-24 501,0 637,0 637,-24"/>
+<text text-anchor="middle" x="569" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">ephemeris_module.f90</text>
+</g>
+<!-- sourcefile~celestial_body_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~EfferentGraph_node2" class="node">
+<title>sourcefile~celestial_body_module.f90</title>
+<g id="a_sourcefile~~ephemeris_module.f90~~EfferentGraph_node2"><a xlink:href="../sourcefile/celestial_body_module.f90.html" xlink:title="celestial_body_module.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="465,-65 311,-65 311,-41 465,-41 465,-65"/>
+<text text-anchor="middle" x="388" y="-50.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">celestial_body_module.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~ephemeris_module.f90&#45;&gt;sourcefile~celestial_body_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~EfferentGraph_edge1" class="edge">
+<title>sourcefile~ephemeris_module.f90&#45;&gt;sourcefile~celestial_body_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M515.26,-24.08C495.32,-28.65 472.43,-33.89 451.67,-38.65"/>
+<polygon fill="#000000" stroke="#000000" points="450.64,-35.29 441.67,-40.94 452.2,-42.11 450.64,-35.29"/>
+</g>
+<!-- sourcefile~kind_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~EfferentGraph_node3" class="node">
+<title>sourcefile~kind_module.f90</title>
+<g id="a_sourcefile~~ephemeris_module.f90~~EfferentGraph_node3"><a xlink:href="../sourcefile/kind_module.f90.html" xlink:title="kind_module.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="103,-44 0,-44 0,-20 103,-20 103,-44"/>
+<text text-anchor="middle" x="51.5" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~ephemeris_module.f90&#45;&gt;sourcefile~kind_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~EfferentGraph_edge2" class="edge">
+<title>sourcefile~ephemeris_module.f90&#45;&gt;sourcefile~kind_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M500.83,-6.83C416.13,-1.46 266.2,4.22 139,-11 127.37,-12.39 115.04,-14.8 103.45,-17.5"/>
+<polygon fill="#000000" stroke="#000000" points="102.38,-14.16 93.49,-19.93 104.04,-20.96 102.38,-14.16"/>
+</g>
+<!-- sourcefile~celestial_body_module.f90&#45;&gt;sourcefile~kind_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~EfferentGraph_edge4" class="edge">
+<title>sourcefile~celestial_body_module.f90&#45;&gt;sourcefile~kind_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M362.38,-65.17C340.16,-75.44 306.26,-89.33 275,-95 215.53,-105.78 196.48,-113.71 139,-95 112.58,-86.4 87.52,-66.35 71.23,-51.16"/>
+<polygon fill="#000000" stroke="#000000" points="73.61,-48.59 63.98,-44.17 68.75,-53.63 73.61,-48.59"/>
+</g>
+<!-- sourcefile~base_class_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~EfferentGraph_node4" class="node">
+<title>sourcefile~base_class_module.f90</title>
+<g id="a_sourcefile~~ephemeris_module.f90~~EfferentGraph_node4"><a xlink:href="../sourcefile/base_class_module.f90.html" xlink:title="base_class_module.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="275,-86 139,-86 139,-62 275,-62 275,-86"/>
+<text text-anchor="middle" x="207" y="-71.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">base_class_module.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~celestial_body_module.f90&#45;&gt;sourcefile~base_class_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~EfferentGraph_edge3" class="edge">
+<title>sourcefile~celestial_body_module.f90&#45;&gt;sourcefile~base_class_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M310.83,-61.94C302.28,-62.94 293.56,-63.96 285,-64.97"/>
+<polygon fill="#000000" stroke="#000000" points="284.57,-61.49 275.05,-66.13 285.39,-68.44 284.57,-61.49"/>
+</g>
+<!-- sourcefile~numbers_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~EfferentGraph_node5" class="node">
+<title>sourcefile~numbers_module.f90</title>
+<g id="a_sourcefile~~ephemeris_module.f90~~EfferentGraph_node5"><a xlink:href="../sourcefile/numbers_module.f90.html" xlink:title="numbers_module.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="270,-44 144,-44 144,-20 270,-20 270,-44"/>
+<text text-anchor="middle" x="207" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~celestial_body_module.f90&#45;&gt;sourcefile~numbers_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~EfferentGraph_edge5" class="edge">
+<title>sourcefile~celestial_body_module.f90&#45;&gt;sourcefile~numbers_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M310.83,-44.06C300.62,-42.87 290.18,-41.64 280.05,-40.45"/>
+<polygon fill="#000000" stroke="#000000" points="280.38,-36.97 270.04,-39.28 279.57,-43.92 280.38,-36.97"/>
+</g>
+<!-- sourcefile~numbers_module.f90&#45;&gt;sourcefile~kind_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~EfferentGraph_edge6" class="edge">
+<title>sourcefile~numbers_module.f90&#45;&gt;sourcefile~kind_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M143.57,-32C133.59,-32 123.27,-32 113.33,-32"/>
+<polygon fill="#000000" stroke="#000000" points="113.13,-28.5 103.13,-32 113.13,-35.5 113.13,-28.5"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var pansourcefileephemeris_modulef90EfferentGraph = svgPanZoom('#sourcefileephemeris_modulef90EfferentGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#EfferentGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="EfferentGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="202pt" height="32pt"
+ viewBox="0.00 0.00 201.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 197.5,-28 197.5,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="193.5,-24 88.5,-24 88.5,0 193.5,0 193.5,-24"/>
+<text text-anchor="middle" x="141" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a file to a file which it depends on. A file
+is dependent upon another if the latter must be compiled before the former
+can be.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Files dependent on this one</h3>
+          </div>
+          <div class="card-body">
+            <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: sourcefile~~ephemeris_module.f90~~AfferentGraph Pages: 1 -->
+<svg id="sourcefileephemeris_modulef90AfferentGraph" width="641pt" height="100pt"
+ viewBox="0.00 0.00 641.00 99.56" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="sourcefile~~ephemeris_module.f90~~AfferentGraph" class="graph" transform="scale(0.69 0.69) rotate(0) translate(4 139.68)">
+<title>sourcefile~~ephemeris_module.f90~~AfferentGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-139.68 921,-139.68 921,4 -4,4"/>
+<!-- sourcefile~ephemeris_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~AfferentGraph_node1" class="node">
+<title>sourcefile~ephemeris_module.f90</title>
+<polygon fill="none" stroke="black" points="136,-84 0,-84 0,-60 136,-60 136,-84"/>
+<text text-anchor="middle" x="68" y="-69.6" font-family="Helvetica,sans-Serif" font-size="10.50">ephemeris_module.f90</text>
+</g>
+<!-- sourcefile~fortran_astrodynamics_toolkit.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~AfferentGraph_node2" class="node">
+<title>sourcefile~fortran_astrodynamics_toolkit.f90</title>
+<g id="a_sourcefile~~ephemeris_module.f90~~AfferentGraph_node2"><a xlink:href="../sourcefile/fortran_astrodynamics_toolkit.f90.html" xlink:title="fortran_astrodynamics_toolkit.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="917,-94 727,-94 727,-70 917,-70 917,-94"/>
+<text text-anchor="middle" x="822" y="-79.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fortran_astrodynamics_toolkit.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~ephemeris_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~AfferentGraph_edge1" class="edge">
+<title>sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~ephemeris_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M457,-132C330.21,-125.69 295.81,-141.04 172,-113 147.96,-107.56 122.2,-97.3 102.46,-88.41"/>
+<polygon fill="#000000" stroke="#000000" points="103.83,-85.19 93.28,-84.18 100.9,-91.54 103.83,-85.19"/>
+</g>
+<!-- sourcefile~jpl_ephemeris_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~AfferentGraph_node3" class="node">
+<title>sourcefile~jpl_ephemeris_module.f90</title>
+<g id="a_sourcefile~~ephemeris_module.f90~~AfferentGraph_node3"><a xlink:href="../sourcefile/jpl_ephemeris_module.f90.html" xlink:title="jpl_ephemeris_module.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="334.5,-104 180.5,-104 180.5,-80 334.5,-80 334.5,-104"/>
+<text text-anchor="middle" x="257.5" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">jpl_ephemeris_module.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~jpl_ephemeris_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~AfferentGraph_edge7" class="edge">
+<title>sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~jpl_ephemeris_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M631,-132C554.75,-137.46 535.35,-135.8 459,-132"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M457,-132C406.18,-129.47 349.38,-117.02 309.6,-106.67"/>
+<polygon fill="#000000" stroke="#000000" points="310.43,-103.27 299.87,-104.09 308.64,-110.03 310.43,-103.27"/>
+</g>
+<!-- sourcefile~lighting_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~AfferentGraph_node4" class="node">
+<title>sourcefile~lighting_module.f90</title>
+<g id="a_sourcefile~~ephemeris_module.f90~~AfferentGraph_node4"><a xlink:href="../sourcefile/lighting_module.f90.html" xlink:title="lighting_module.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="691,-94 573,-94 573,-70 691,-70 691,-94"/>
+<text text-anchor="middle" x="632" y="-79.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lighting_module.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~lighting_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~AfferentGraph_edge9" class="edge">
+<title>sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~lighting_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M726.72,-82C718.06,-82 709.4,-82 701.04,-82"/>
+<polygon fill="#000000" stroke="#000000" points="701.01,-78.5 691.01,-82 701.01,-85.5 701.01,-78.5"/>
+</g>
+<!-- sourcefile~standish_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~AfferentGraph_node6" class="node">
+<title>sourcefile~standish_module.f90</title>
+<g id="a_sourcefile~~ephemeris_module.f90~~AfferentGraph_node6"><a xlink:href="../sourcefile/standish_module.f90.html" xlink:title="standish_module.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="519.5,-24 396.5,-24 396.5,0 519.5,0 519.5,-24"/>
+<text text-anchor="middle" x="458" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">standish_module.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~standish_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~AfferentGraph_edge10" class="edge">
+<title>sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~standish_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M758.77,-69.97C695.03,-57.64 596.1,-38.51 529.51,-25.63"/>
+<polygon fill="#000000" stroke="#000000" points="530,-22.16 519.52,-23.7 528.67,-29.04 530,-22.16"/>
+</g>
+<!-- sourcefile~transformation_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~AfferentGraph_node7" class="node">
+<title>sourcefile~transformation_module.f90</title>
+<g id="a_sourcefile~~ephemeris_module.f90~~AfferentGraph_node7"><a xlink:href="../sourcefile/transformation_module.f90.html" xlink:title="transformation_module.f90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="537,-104 379,-104 379,-80 537,-80 537,-104"/>
+<text text-anchor="middle" x="458" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">transformation_module.f90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~transformation_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~AfferentGraph_edge11" class="edge">
+<title>sourcefile~fortran_astrodynamics_toolkit.f90&#45;&gt;sourcefile~transformation_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M790.02,-94.11C753.25,-107.56 689.76,-127.94 633,-132"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M631,-132C607.5,-133.68 550.23,-118.93 508.21,-106.87"/>
+<polygon fill="#000000" stroke="#000000" points="509,-103.45 498.42,-104.03 507.05,-110.18 509,-103.45"/>
+</g>
+<!-- sourcefile~jpl_ephemeris_module.f90&#45;&gt;sourcefile~ephemeris_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~AfferentGraph_edge2" class="edge">
+<title>sourcefile~jpl_ephemeris_module.f90&#45;&gt;sourcefile~ephemeris_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M180.24,-83.87C169.06,-82.67 157.54,-81.44 146.34,-80.25"/>
+<polygon fill="#000000" stroke="#000000" points="146.48,-76.74 136.16,-79.16 145.73,-83.7 146.48,-76.74"/>
+</g>
+<!-- sourcefile~lighting_module.f90&#45;&gt;sourcefile~ephemeris_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~AfferentGraph_edge3" class="edge">
+<title>sourcefile~lighting_module.f90&#45;&gt;sourcefile~ephemeris_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M573,-72.54C499.78,-61.69 369.94,-46.14 258.5,-52"/>
+</g>
+<!-- sourcefile~lighting_module.f90&#45;&gt;sourcefile~transformation_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~AfferentGraph_edge12" class="edge">
+<title>sourcefile~lighting_module.f90&#45;&gt;sourcefile~transformation_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M572.77,-85.39C564.57,-85.86 556,-86.36 547.4,-86.86"/>
+<polygon fill="#000000" stroke="#000000" points="547.08,-83.37 537.3,-87.45 547.49,-90.36 547.08,-83.37"/>
+</g>
+<!-- sourcefile~spice_ephemeris_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~AfferentGraph_node5" class="node">
+<title>sourcefile~spice_ephemeris_module.f90</title>
+<g id="a_sourcefile~~ephemeris_module.f90~~AfferentGraph_node5"><a xlink:href="../sourcefile/spice_ephemeris_module.f90.html" xlink:title="spice_ephemeris_module.F90">
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="343,-24 172,-24 172,0 343,0 343,-24"/>
+<text text-anchor="middle" x="257.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">spice_ephemeris_module.F90</text>
+</a>
+</g>
+</g>
+<!-- sourcefile~spice_ephemeris_module.f90&#45;&gt;sourcefile~ephemeris_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~AfferentGraph_edge4" class="edge">
+<title>sourcefile~spice_ephemeris_module.f90&#45;&gt;sourcefile~ephemeris_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M216.9,-24C202.72,-28.35 186.62,-33.34 172,-38 153.23,-43.99 132.6,-50.76 114.76,-56.67"/>
+<polygon fill="#000000" stroke="#000000" points="113.55,-53.39 105.17,-59.86 115.76,-60.03 113.55,-53.39"/>
+</g>
+<!-- sourcefile~standish_module.f90&#45;&gt;sourcefile~ephemeris_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~AfferentGraph_edge5" class="edge">
+<title>sourcefile~standish_module.f90&#45;&gt;sourcefile~ephemeris_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M415.63,-24.02C375.79,-34.71 313.62,-49.1 258.5,-52"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M256.5,-52C220.21,-53.91 180.13,-57.92 146.38,-61.86"/>
+<polygon fill="#000000" stroke="#000000" points="145.64,-58.42 136.12,-63.08 146.46,-65.37 145.64,-58.42"/>
+</g>
+<!-- sourcefile~transformation_module.f90&#45;&gt;sourcefile~ephemeris_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~AfferentGraph_edge6" class="edge">
+<title>sourcefile~transformation_module.f90&#45;&gt;sourcefile~ephemeris_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M423.67,-79.97C384.53,-67.09 317.48,-48.9 258.5,-52"/>
+</g>
+<!-- sourcefile~transformation_module.f90&#45;&gt;sourcefile~jpl_ephemeris_module.f90 -->
+<g id="sourcefile~~ephemeris_module.f90~~AfferentGraph_edge8" class="edge">
+<title>sourcefile~transformation_module.f90&#45;&gt;sourcefile~jpl_ephemeris_module.f90</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M378.83,-92C367.7,-92 356.2,-92 344.92,-92"/>
+<polygon fill="#000000" stroke="#000000" points="344.65,-88.5 334.65,-92 344.65,-95.5 344.65,-88.5"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var pansourcefileephemeris_modulef90AfferentGraph = svgPanZoom('#sourcefileephemeris_modulef90AfferentGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#AfferentGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="AfferentGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="202pt" height="32pt"
+ viewBox="0.00 0.00 201.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 197.5,-28 197.5,4 -4,4"/>
+<!-- Source File -->
+<g id="node1" class="node">
+<title>Source File</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Source File</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node2" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="193.5,-24 88.5,-24 88.5,0 193.5,0 193.5,-24"/>
+<text text-anchor="middle" x="141" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a file to a file which it depends on. A file
+is dependent upon another if the latter must be compiled before the former
+can be.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+<br>
+      <section>
+        <h2><span class="anchor" id="src"></span>Source Code</h2>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="c">!*****************************************************************************************</span>
+<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="c">!&gt;</span>
+<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="c">!  Abstract class for celestial body ephemerides.</span>
+<a id="ln-4" name="ln-4" href="#ln-4"></a>
+<a id="ln-5" name="ln-5" href="#ln-5"></a><span class="w">    </span><span class="k">module </span><span class="n">ephemeris_module</span>
+<a id="ln-6" name="ln-6" href="#ln-6"></a>
+<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="w">    </span><span class="k">use </span><span class="n">kind_module</span>
+<a id="ln-8" name="ln-8" href="#ln-8"></a><span class="w">    </span><span class="k">use </span><span class="n">celestial_body_module</span>
+<a id="ln-9" name="ln-9" href="#ln-9"></a>
+<a id="ln-10" name="ln-10" href="#ln-10"></a><span class="w">    </span><span class="k">implicit none</span>
+<a id="ln-11" name="ln-11" href="#ln-11"></a>
+<a id="ln-12" name="ln-12" href="#ln-12"></a><span class="k">    private</span>
+<a id="ln-13" name="ln-13" href="#ln-13"></a>
+<a id="ln-14" name="ln-14" href="#ln-14"></a><span class="k">    type</span><span class="p">,</span><span class="k">abstract</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ephemeris_class</span>
+<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="w">        </span><span class="c">!! abstract class for interfacing with ephemeris systems.</span>
+<a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">        </span><span class="k">private</span>
+<a id="ln-17" name="ln-17" href="#ln-17"></a><span class="k">    contains</span>
+<a id="ln-18" name="ln-18" href="#ln-18"></a><span class="k">        private</span>
+<a id="ln-19" name="ln-19" href="#ln-19"></a><span class="k">        procedure</span><span class="p">(</span><span class="n">rv_func</span><span class="p">),</span><span class="k">deferred</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">get_rv</span><span class="w">  </span><span class="c">!! get the state of one body w.r.t. another body.</span>
+<a id="ln-20" name="ln-20" href="#ln-20"></a><span class="w">        </span><span class="k">procedure</span><span class="p">(</span><span class="n">r_func</span><span class="p">),</span><span class="k">deferred</span><span class="p">,</span><span class="k">public</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">get_r</span><span class="w">  </span><span class="c">!! get the position of one body w.r.t. another body.</span>
+<a id="ln-21" name="ln-21" href="#ln-21"></a><span class="w">    </span><span class="k">end type </span><span class="n">ephemeris_class</span>
+<a id="ln-22" name="ln-22" href="#ln-22"></a>
+<a id="ln-23" name="ln-23" href="#ln-23"></a><span class="w">    </span><span class="k">abstract interface</span>
+<a id="ln-24" name="ln-24" href="#ln-24"></a><span class="k">        subroutine </span><span class="n">rv_func</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">et</span><span class="p">,</span><span class="n">targ</span><span class="p">,</span><span class="n">obs</span><span class="p">,</span><span class="n">rv</span><span class="p">,</span><span class="n">status_ok</span><span class="p">)</span>
+<a id="ln-25" name="ln-25" href="#ln-25"></a><span class="w">        </span><span class="c">!! function to return the state of the `targ` body relative to</span>
+<a id="ln-26" name="ln-26" href="#ln-26"></a><span class="w">        </span><span class="c">!! the `obs` body, in the inertial frame [ICRF].</span>
+<a id="ln-27" name="ln-27" href="#ln-27"></a><span class="w">        </span><span class="k">import</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">wp</span><span class="p">,</span><span class="n">ephemeris_class</span><span class="p">,</span><span class="n">celestial_body</span>
+<a id="ln-28" name="ln-28" href="#ln-28"></a><span class="w">        </span><span class="k">implicit none</span>
+<a id="ln-29" name="ln-29" href="#ln-29"></a><span class="k">        class</span><span class="p">(</span><span class="n">ephemeris_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span>
+<a id="ln-30" name="ln-30" href="#ln-30"></a><span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">et</span><span class="w">         </span><span class="c">!! ephemeris time [sec]</span>
+<a id="ln-31" name="ln-31" href="#ln-31"></a><span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">celestial_body</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">targ</span><span class="w">       </span><span class="c">!! target body</span>
+<a id="ln-32" name="ln-32" href="#ln-32"></a><span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">celestial_body</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">obs</span><span class="w">        </span><span class="c">!! observer body</span>
+<a id="ln-33" name="ln-33" href="#ln-33"></a><span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">rv</span><span class="w">         </span><span class="c">!! state of targ w.r.t. obs</span>
+<a id="ln-34" name="ln-34" href="#ln-34"></a><span class="w">        </span><span class="kt">logical</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">status_ok</span><span class="w">  </span><span class="c">!! true if there were no problems</span>
+<a id="ln-35" name="ln-35" href="#ln-35"></a><span class="w">        </span><span class="k">end subroutine </span><span class="n">rv_func</span>
+<a id="ln-36" name="ln-36" href="#ln-36"></a><span class="w">        </span><span class="k">subroutine </span><span class="n">r_func</span><span class="p">(</span><span class="n">me</span><span class="p">,</span><span class="n">et</span><span class="p">,</span><span class="n">targ</span><span class="p">,</span><span class="n">obs</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">status_ok</span><span class="p">)</span>
+<a id="ln-37" name="ln-37" href="#ln-37"></a><span class="w">        </span><span class="c">!! function to return the position of the `targ` body relative to</span>
+<a id="ln-38" name="ln-38" href="#ln-38"></a><span class="w">        </span><span class="c">!! the `obs` body, in the inertial frame [ICRF].</span>
+<a id="ln-39" name="ln-39" href="#ln-39"></a><span class="w">        </span><span class="k">import</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">wp</span><span class="p">,</span><span class="n">ephemeris_class</span><span class="p">,</span><span class="n">celestial_body</span>
+<a id="ln-40" name="ln-40" href="#ln-40"></a><span class="w">        </span><span class="k">implicit none</span>
+<a id="ln-41" name="ln-41" href="#ln-41"></a><span class="k">        class</span><span class="p">(</span><span class="n">ephemeris_class</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">me</span>
+<a id="ln-42" name="ln-42" href="#ln-42"></a><span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">et</span><span class="w">         </span><span class="c">!! ephemeris time [sec]</span>
+<a id="ln-43" name="ln-43" href="#ln-43"></a><span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">celestial_body</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">targ</span><span class="w">       </span><span class="c">!! target body</span>
+<a id="ln-44" name="ln-44" href="#ln-44"></a><span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">celestial_body</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">obs</span><span class="w">        </span><span class="c">!! observer body</span>
+<a id="ln-45" name="ln-45" href="#ln-45"></a><span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span><span class="w">          </span><span class="c">!! position vector of targ w.r.t. obs</span>
+<a id="ln-46" name="ln-46" href="#ln-46"></a><span class="w">        </span><span class="kt">logical</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">status_ok</span><span class="w">  </span><span class="c">!! true if there were no problems</span>
+<a id="ln-47" name="ln-47" href="#ln-47"></a><span class="w">        </span><span class="k">end subroutine </span><span class="n">r_func</span>
+<a id="ln-48" name="ln-48" href="#ln-48"></a><span class="w">    </span><span class="k">end interface</span>
+<a id="ln-49" name="ln-49" href="#ln-49"></a>
+<a id="ln-50" name="ln-50" href="#ln-50"></a><span class="c">!*****************************************************************************************</span>
+<a id="ln-51" name="ln-51" href="#ln-51"></a><span class="w">    </span><span class="k">end module </span><span class="n">ephemeris_module</span>
+<a id="ln-52" name="ln-52" href="#ln-52"></a><span class="c">!*****************************************************************************************</span>
+</pre></div>
+
+      </section>
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

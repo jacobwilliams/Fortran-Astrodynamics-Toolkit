@@ -1,0 +1,773 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>els2pv &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>els2pv
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.4% of total for procedures.">48 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/gooding_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/gooding_module.f90.html'>gooding_module.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/gooding_module.html'>gooding_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">els2pv</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/els2pv.html#src">els2pv</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>private pure subroutine els2pv(gm, al, q, om, tau, r, u, vr, vt)  
+</h2>
+    
+
+    <p>Algorithm for two-dimensional conversion
+from orbital elements to position and velocity.</p>
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gm~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gm</strong></td>
+            <td>
+                <p>grav. parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-al~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>al</strong></td>
+            <td>
+                <p>alpha [km^2/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-q~13"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>q</strong></td>
+            <td>
+                <p>periapsis distance [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-om"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>om</strong></td>
+            <td>
+                <p>argument of periapsis relative to assumed reference direction [rad]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tau~7"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tau</strong></td>
+            <td>
+                <p>time from periapsis [sec]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~48"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+                <p>radial distance [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-u~10"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>u</strong></td>
+            <td>
+                <p>angle from reference direction [rad]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vr~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>vr</strong></td>
+            <td>
+                <p>radial velocity [km/2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vt~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>vt</strong></td>
+            <td>
+                <p>transverse velocity &gt;=0 [km/s]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~els2pv~~CallsGraph Pages: 1 -->
+<svg id="procels2pvCallsGraph" width="333pt" height="154pt"
+ viewBox="0.00 0.00 333.00 154.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~els2pv~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 150)">
+<title>proc~~els2pv~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-150 329,-150 329,4 -4,4"/>
+<!-- proc~els2pv -->
+<g id="proc~~els2pv~~CallsGraph_node1" class="node">
+<title>proc~els2pv</title>
+<polygon fill="none" stroke="black" points="54,-106 0,-106 0,-82 54,-82 54,-106"/>
+<text text-anchor="middle" x="27" y="-91.6" font-family="Helvetica,sans-Serif" font-size="10.50">els2pv</text>
+</g>
+<!-- proc~dcbsol -->
+<g id="proc~~els2pv~~CallsGraph_node2" class="node">
+<title>proc~dcbsol</title>
+<g id="a_proc~~els2pv~~CallsGraph_node2"><a xlink:href="../proc/dcbsol.html" xlink:title="dcbsol">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="234.5,-146 180.5,-146 180.5,-122 234.5,-122 234.5,-146"/>
+<text text-anchor="middle" x="207.5" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dcbsol</text>
+</a>
+</g>
+</g>
+<!-- proc~els2pv&#45;&gt;proc~dcbsol -->
+<g id="proc~~els2pv~~CallsGraph_edge1" class="edge">
+<title>proc~els2pv&#45;&gt;proc~dcbsol</title>
+<path fill="none" stroke="#000000" d="M54.26,-103.97C65.19,-107.83 78.09,-112.03 90,-115 116.56,-121.61 147.11,-126.5 170.26,-129.66"/>
+<polygon fill="#000000" stroke="#000000" points="169.97,-133.15 180.34,-130.99 170.88,-126.21 169.97,-133.15"/>
+</g>
+<!-- proc~ekepl -->
+<g id="proc~~els2pv~~CallsGraph_node3" class="node">
+<title>proc~ekepl</title>
+<g id="a_proc~~els2pv~~CallsGraph_node3"><a xlink:href="../proc/ekepl.html" xlink:title="ekepl">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="144,-106 90,-106 90,-82 144,-82 144,-106"/>
+<text text-anchor="middle" x="117" y="-91.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ekepl</text>
+</a>
+</g>
+</g>
+<!-- proc~els2pv&#45;&gt;proc~ekepl -->
+<g id="proc~~els2pv~~CallsGraph_edge2" class="edge">
+<title>proc~els2pv&#45;&gt;proc~ekepl</title>
+<path fill="none" stroke="#000000" d="M54.4,-94C62.39,-94 71.31,-94 79.82,-94"/>
+<polygon fill="#000000" stroke="#000000" points="79.92,-97.5 89.92,-94 79.92,-90.5 79.92,-97.5"/>
+</g>
+<!-- proc~shkepl -->
+<g id="proc~~els2pv~~CallsGraph_node4" class="node">
+<title>proc~shkepl</title>
+<g id="a_proc~~els2pv~~CallsGraph_node4"><a xlink:href="../proc/shkepl.html" xlink:title="shkepl">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="144,-64 90,-64 90,-40 144,-40 144,-64"/>
+<text text-anchor="middle" x="117" y="-49.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">shkepl</text>
+</a>
+</g>
+</g>
+<!-- proc~els2pv&#45;&gt;proc~shkepl -->
+<g id="proc~~els2pv~~CallsGraph_edge3" class="edge">
+<title>proc~els2pv&#45;&gt;proc~shkepl</title>
+<path fill="none" stroke="#000000" d="M53.45,-81.85C62.21,-77.67 72.17,-72.92 81.52,-68.46"/>
+<polygon fill="#000000" stroke="#000000" points="83.09,-71.59 90.6,-64.12 80.07,-65.27 83.09,-71.59"/>
+</g>
+<!-- proc~dcubrt -->
+<g id="proc~~els2pv~~CallsGraph_node5" class="node">
+<title>proc~dcubrt</title>
+<g id="a_proc~~els2pv~~CallsGraph_node5"><a xlink:href="../proc/dcubrt.html" xlink:title="dcubrt">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="325,-105 271,-105 271,-81 325,-81 325,-105"/>
+<text text-anchor="middle" x="298" y="-90.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">dcubrt</text>
+</a>
+</g>
+</g>
+<!-- proc~dcbsol&#45;&gt;proc~dcubrt -->
+<g id="proc~~els2pv~~CallsGraph_edge4" class="edge">
+<title>proc~dcbsol&#45;&gt;proc~dcubrt</title>
+<path fill="none" stroke="#000000" d="M234.57,-121.92C243.05,-117.99 252.6,-113.57 261.64,-109.38"/>
+<polygon fill="#000000" stroke="#000000" points="263.2,-112.51 270.81,-105.13 260.26,-106.16 263.2,-112.51"/>
+</g>
+<!-- proc~ekepl&#45;&gt;proc~dcbsol -->
+<g id="proc~~els2pv~~CallsGraph_edge5" class="edge">
+<title>proc~ekepl&#45;&gt;proc~dcbsol</title>
+<path fill="none" stroke="#000000" d="M144.07,-105.78C152.55,-109.62 162.1,-113.93 171.14,-118.02"/>
+<polygon fill="#000000" stroke="#000000" points="169.75,-121.23 180.31,-122.16 172.64,-114.85 169.75,-121.23"/>
+</g>
+<!-- proc~emkep -->
+<g id="proc~~els2pv~~CallsGraph_node6" class="node">
+<title>proc~emkep</title>
+<g id="a_proc~~els2pv~~CallsGraph_node6"><a xlink:href="../proc/emkep.html" xlink:title="emkep">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="234.5,-104 180.5,-104 180.5,-80 234.5,-80 234.5,-104"/>
+<text text-anchor="middle" x="207.5" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">emkep</text>
+</a>
+</g>
+</g>
+<!-- proc~ekepl&#45;&gt;proc~emkep -->
+<g id="proc~~els2pv~~CallsGraph_edge6" class="edge">
+<title>proc~ekepl&#45;&gt;proc~emkep</title>
+<path fill="none" stroke="#000000" d="M144.07,-93.41C152.28,-93.23 161.5,-93.02 170.28,-92.82"/>
+<polygon fill="#000000" stroke="#000000" points="170.39,-96.32 180.31,-92.59 170.23,-89.32 170.39,-96.32"/>
+</g>
+<!-- proc~shkepl&#45;&gt;proc~dcubrt -->
+<g id="proc~~els2pv~~CallsGraph_edge7" class="edge">
+<title>proc~shkepl&#45;&gt;proc~dcubrt</title>
+<path fill="none" stroke="#000000" d="M144.3,-54.9C168.2,-57.85 204.3,-63.13 235,-71 243.59,-73.2 252.67,-76.09 261.15,-79.05"/>
+<polygon fill="#000000" stroke="#000000" points="260.18,-82.42 270.77,-82.51 262.55,-75.83 260.18,-82.42"/>
+</g>
+<!-- proc~shmkep -->
+<g id="proc~~els2pv~~CallsGraph_node7" class="node">
+<title>proc~shmkep</title>
+<g id="a_proc~~els2pv~~CallsGraph_node7"><a xlink:href="../proc/shmkep.html" xlink:title="shmkep">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="235,-24 180,-24 180,0 235,0 235,-24"/>
+<text text-anchor="middle" x="207.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">shmkep</text>
+</a>
+</g>
+</g>
+<!-- proc~shkepl&#45;&gt;proc~shmkep -->
+<g id="proc~~els2pv~~CallsGraph_edge8" class="edge">
+<title>proc~shkepl&#45;&gt;proc~shmkep</title>
+<path fill="none" stroke="#000000" d="M144.07,-40.22C152.39,-36.46 161.73,-32.23 170.62,-28.22"/>
+<polygon fill="#000000" stroke="#000000" points="172.33,-31.29 180,-23.98 169.45,-24.91 172.33,-31.29"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~els2pv~~CalledByGraph Pages: 1 -->
+<svg id="procels2pvCalledByGraph" width="255pt" height="32pt"
+ viewBox="0.00 0.00 255.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~els2pv~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>proc~~els2pv~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 251,-28 251,4 -4,4"/>
+<!-- proc~els2pv -->
+<g id="proc~~els2pv~~CalledByGraph_node1" class="node">
+<title>proc~els2pv</title>
+<polygon fill="none" stroke="black" points="247,-24 193,-24 193,0 247,0 247,-24"/>
+<text text-anchor="middle" x="220" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">els2pv</text>
+</g>
+<!-- proc~els3pv -->
+<g id="proc~~els2pv~~CalledByGraph_node2" class="node">
+<title>proc~els3pv</title>
+<g id="a_proc~~els2pv~~CalledByGraph_node2"><a xlink:href="../proc/els3pv.html" xlink:title="els3pv">
+<polygon fill="#d9534f" stroke="#d9534f" points="157,-24 103,-24 103,0 157,0 157,-24"/>
+<text text-anchor="middle" x="130" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">els3pv</text>
+</a>
+</g>
+</g>
+<!-- proc~els3pv&#45;&gt;proc~els2pv -->
+<g id="proc~~els2pv~~CalledByGraph_edge1" class="edge">
+<title>proc~els3pv&#45;&gt;proc~els2pv</title>
+<path fill="none" stroke="#000000" d="M157.4,-12C165.39,-12 174.31,-12 182.82,-12"/>
+<polygon fill="#000000" stroke="#000000" points="182.92,-15.5 192.92,-12 182.92,-8.5 182.92,-15.5"/>
+</g>
+<!-- proc~propagate -->
+<g id="proc~~els2pv~~CalledByGraph_node3" class="node">
+<title>proc~propagate</title>
+<g id="a_proc~~els2pv~~CalledByGraph_node3"><a xlink:href="../proc/propagate.html" xlink:title="propagate">
+<polygon fill="#d9534f" stroke="#d9534f" points="67,-24 0,-24 0,0 67,0 67,-24"/>
+<text text-anchor="middle" x="33.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">propagate</text>
+</a>
+</g>
+</g>
+<!-- proc~propagate&#45;&gt;proc~els3pv -->
+<g id="proc~~els2pv~~CalledByGraph_edge2" class="edge">
+<title>proc~propagate&#45;&gt;proc~els3pv</title>
+<path fill="none" stroke="#000000" d="M67.02,-12C75.37,-12 84.4,-12 92.92,-12"/>
+<polygon fill="#000000" stroke="#000000" points="92.98,-15.5 102.98,-12 92.98,-8.5 92.98,-15.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">pure subroutine </span><span class="n">els2pv</span><span class="w"> </span><span class="p">(</span><span class="n">gm</span><span class="p">,</span><span class="w"> </span><span class="n">al</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">om</span><span class="p">,</span><span class="w"> </span><span class="n">tau</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">vr</span><span class="p">,</span><span class="w"> </span><span class="n">vt</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">gm</span><span class="w">    </span><span class="c">!! grav. parameter [km^3/s^2]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">al</span><span class="w">    </span><span class="c">!! alpha [km^2/s^2]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">q</span><span class="w">     </span><span class="c">!! periapsis distance [km]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">om</span><span class="w">    </span><span class="c">!! argument of periapsis relative to assumed reference direction [rad]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">tau</span><span class="w">   </span><span class="c">!! time from periapsis [sec]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span><span class="w">     </span><span class="c">!! radial distance [km]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">u</span><span class="w">     </span><span class="c">!! angle from reference direction [rad]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vr</span><span class="w">    </span><span class="c">!! radial velocity [km/2]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">vt</span><span class="w">    </span><span class="c">!! transverse velocity &gt;=0 [km/s]</span>
+
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">e1</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="n">ep1</span><span class="p">,</span><span class="n">alp</span><span class="p">,</span><span class="n">rtal</span><span class="p">,</span><span class="n">em</span><span class="p">,</span><span class="n">ee2</span><span class="p">,</span><span class="n">s2</span><span class="p">,</span><span class="n">c2</span><span class="p">,</span><span class="n">emv</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">c</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">al</span><span class="o">==</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+
+<span class="w">        </span><span class="c">!(parabola - gm cannot be zero)</span>
+
+<span class="w">        </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dcbsol</span><span class="p">(</span><span class="n">half</span><span class="o">/</span><span class="n">gm</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="mf">1.5_wp</span><span class="o">*</span><span class="n">gm</span><span class="o">*</span><span class="n">tau</span><span class="p">)</span>
+<span class="w">        </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">q</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">half</span><span class="o">*</span><span class="n">d</span><span class="o">*</span><span class="n">d</span><span class="o">/</span><span class="n">gm</span>
+<span class="w">        </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">two</span><span class="o">*</span><span class="n">gm</span><span class="o">*</span><span class="n">q</span><span class="p">)</span>
+<span class="w">        </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="o">*</span><span class="n">atan2</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">h</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">else</span>
+
+<span class="w">        </span><span class="c">!(ellipse or hyperbola)</span>
+
+<span class="w">        </span><span class="n">e1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">al</span><span class="o">*</span><span class="n">q</span>
+<span class="w">        </span><span class="n">e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gm</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">e1</span>
+<span class="w">        </span><span class="n">ep1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">e</span>
+<span class="w">        </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">q</span><span class="o">*</span><span class="n">ep1</span><span class="p">)</span>
+<span class="w">        </span><span class="n">alp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">al</span><span class="p">)</span>
+<span class="w">        </span><span class="n">rtal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">alp</span><span class="p">)</span>
+<span class="w">        </span><span class="c">!(last 6 items could be saved if repeating gm, al &amp; q)</span>
+
+<span class="w">        </span><span class="n">em</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tau</span><span class="o">*</span><span class="n">alp</span><span class="o">*</span><span class="n">rtal</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">al</span><span class="o">&gt;</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+
+<span class="w">            </span><span class="c">!(ellipse - gm cannot be zero)</span>
+<span class="w">            </span><span class="c">! make sure e1 argument to ekepl is between [0,1]</span>
+<span class="w">            </span><span class="n">ee2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">half</span><span class="o">*</span><span class="n">ekepl</span><span class="p">(</span><span class="n">em</span><span class="o">/</span><span class="n">gm</span><span class="p">,</span><span class="w"> </span><span class="nb">max</span><span class="p">(</span><span class="n">zero</span><span class="p">,</span><span class="nb">min</span><span class="p">(</span><span class="n">one</span><span class="p">,</span><span class="n">e1</span><span class="o">/</span><span class="n">gm</span><span class="p">)))</span>
+<span class="w">            </span><span class="n">s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sin</span><span class="p">(</span><span class="n">ee2</span><span class="p">)</span>
+<span class="w">            </span><span class="n">c2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">cos</span><span class="p">(</span><span class="n">ee2</span><span class="p">)</span>
+<span class="w">            </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">q</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">two</span><span class="o">*</span><span class="n">e</span><span class="o">*</span><span class="n">s2</span><span class="o">*</span><span class="n">s2</span><span class="o">/</span><span class="n">al</span>
+<span class="w">            </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="o">*</span><span class="n">e</span><span class="o">*</span><span class="n">s2</span><span class="o">*</span><span class="n">c2</span><span class="o">/</span><span class="n">rtal</span>
+<span class="w">            </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="o">*</span><span class="n">atan2</span><span class="p">(</span><span class="n">ep1</span><span class="o">*</span><span class="n">s2</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="o">*</span><span class="n">rtal</span><span class="o">*</span><span class="n">c2</span><span class="p">)</span>
+<span class="w">            </span><span class="n">emv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">em</span><span class="o">/</span><span class="n">gm</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">v</span>
+<span class="w">            </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fourpi</span><span class="o">*</span><span class="nb">sign</span><span class="p">(</span><span class="kt">real</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">emv</span><span class="o">/</span><span class="n">fourpi</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">half</span><span class="p">),</span><span class="n">wp</span><span class="p">),</span><span class="w"> </span><span class="n">emv</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">else</span>
+
+<span class="w">            </span><span class="c">!(hyperbola)</span>
+<span class="w">            </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">shkepl</span><span class="p">(</span><span class="n">em</span><span class="o">/</span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">e1</span><span class="o">/</span><span class="n">e</span><span class="p">)</span>
+<span class="w">            </span><span class="n">s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="o">*</span><span class="n">s</span>
+<span class="w">            </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">one</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s2</span><span class="p">)</span>
+<span class="w">            </span><span class="n">s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s2</span><span class="o">/</span><span class="p">(</span><span class="n">c</span><span class="o">+</span><span class="n">one</span><span class="p">)</span>
+<span class="w">            </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">q</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">e</span><span class="o">*</span><span class="n">s2</span><span class="o">/</span><span class="n">al</span>
+<span class="w">            </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span><span class="o">*</span><span class="n">s</span><span class="o">/</span><span class="n">rtal</span>
+<span class="w">            </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atan2</span><span class="p">(</span><span class="n">s</span><span class="o">*</span><span class="n">h</span><span class="o">*</span><span class="n">rtal</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">gm</span><span class="o">*</span><span class="n">s2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">e1</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">end if</span>
+
+<span class="k">    end if</span>
+
+<span class="w">    </span><span class="c">!(all orbits)</span>
+<span class="w">    </span><span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">om</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">v</span>
+<span class="w">    </span><span class="n">vr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d</span><span class="o">/</span><span class="n">r</span>
+<span class="w">    </span><span class="n">vt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">h</span><span class="o">/</span><span class="n">r</span>
+
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">els2pv</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

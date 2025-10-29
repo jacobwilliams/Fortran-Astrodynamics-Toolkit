@@ -1,0 +1,1007 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>solve_lambert_izzo &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>solve_lambert_izzo
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 1.6% of total for procedures.">212 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/lambert_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/lambert_module.f90.html'>lambert_module.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/lambert_module.html'>lambert_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">solve_lambert_izzo</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/solve_lambert_izzo.html#src">solve_lambert_izzo</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public  subroutine solve_lambert_izzo(r1, r2, tof, mu, long_way, multi_revs, v1, v2, status_ok)  
+</h2>
+    
+
+    <p>Solve Lambert's problem using Izzo's method.</p>
+<h1>References</h1>
+<ol>
+<li>D. Izzo, <a href="http://arxiv-web3.library.cornell.edu/abs/1403.2705">Revisiting Lambert's Problem</a>
+     [v2] Tue, 24 Jun 2014 13:08:37 GMT (606kb,D)</li>
+<li><a href="https://github.com/esa/pykep">PyKEP</a></li>
+<li>R. A. Battin, "An Introduction to the Mathematics and Methods of
+     Astrodynamics (Revised Edition)", AIAA Education Series, 1999.</li>
+</ol>
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r1~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r1</strong></td>
+            <td>
+                <p>first cartesian position [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r2</strong></td>
+            <td>
+                <p>second cartesian position [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tof"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>tof</strong></td>
+            <td>
+                <p>time of flight [sec]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~11"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+                <p>gravity parameter [km^3/s^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-long_way"></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>long_way</strong></td>
+            <td>
+                <p>when true, do "long way" (&gt;pi) transfers</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-multi_revs"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>multi_revs</strong></td>
+            <td>
+                <p>maximum number of multi-rev solutions to compute</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v1~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(:,:), allocatable
+            </td>
+            <td>::</td>
+            <td><strong>v1</strong></td>
+            <td>
+                <p>vector containing 3d arrays with the cartesian components of the velocities at r1</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v2~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(:,:), allocatable
+            </td>
+            <td>::</td>
+            <td><strong>v2</strong></td>
+            <td>
+                <p>vector containing 3d arrays with the cartesian components of the velocities at r2</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-status_ok~4"></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status_ok</strong></td>
+            <td>
+                <p>true if everything is OK</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~solve_lambert_izzo~~CallsGraph Pages: 1 -->
+<svg id="procsolve_lambert_izzoCallsGraph" width="301pt" height="74pt"
+ viewBox="0.00 0.00 301.00 74.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~solve_lambert_izzo~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 70)">
+<title>proc~~solve_lambert_izzo~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-70 297,-70 297,4 -4,4"/>
+<!-- proc~solve_lambert_izzo -->
+<g id="proc~~solve_lambert_izzo~~CallsGraph_node1" class="node">
+<title>proc~solve_lambert_izzo</title>
+<polygon fill="none" stroke="black" points="113,-46 0,-46 0,-22 113,-22 113,-46"/>
+<text text-anchor="middle" x="56.5" y="-31.6" font-family="Helvetica,sans-Serif" font-size="10.50">solve_lambert_izzo</text>
+</g>
+<!-- proc~ucross -->
+<g id="proc~~solve_lambert_izzo~~CallsGraph_node2" class="node">
+<title>proc~ucross</title>
+<g id="a_proc~~solve_lambert_izzo~~CallsGraph_node2"><a xlink:href="../proc/ucross.html" xlink:title="ucross">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="203,-26 149,-26 149,-2 203,-2 203,-26"/>
+<text text-anchor="middle" x="176" y="-11.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ucross</text>
+</a>
+</g>
+</g>
+<!-- proc~solve_lambert_izzo&#45;&gt;proc~ucross -->
+<g id="proc~~solve_lambert_izzo~~CallsGraph_edge1" class="edge">
+<title>proc~solve_lambert_izzo&#45;&gt;proc~ucross</title>
+<path fill="none" stroke="#000000" d="M113.15,-24.53C121.91,-23.04 130.76,-21.53 138.92,-20.14"/>
+<polygon fill="#000000" stroke="#000000" points="139.56,-23.58 148.83,-18.45 138.39,-16.68 139.56,-23.58"/>
+</g>
+<!-- proc~unit -->
+<g id="proc~~solve_lambert_izzo~~CallsGraph_node3" class="node">
+<title>proc~unit</title>
+<g id="a_proc~~solve_lambert_izzo~~CallsGraph_node3"><a xlink:href="../proc/unit.html" xlink:title="unit">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="293,-66 239,-66 239,-42 293,-42 293,-66"/>
+<text text-anchor="middle" x="266" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">unit</text>
+</a>
+</g>
+</g>
+<!-- proc~solve_lambert_izzo&#45;&gt;proc~unit -->
+<g id="proc~~solve_lambert_izzo~~CallsGraph_edge2" class="edge">
+<title>proc~solve_lambert_izzo&#45;&gt;proc~unit</title>
+<path fill="none" stroke="#000000" d="M113.11,-39.36C149.78,-42.89 196.76,-47.42 228.69,-50.5"/>
+<polygon fill="#000000" stroke="#000000" points="228.62,-54.01 238.91,-51.49 229.29,-47.04 228.62,-54.01"/>
+</g>
+<!-- proc~ucross&#45;&gt;proc~unit -->
+<g id="proc~~solve_lambert_izzo~~CallsGraph_edge4" class="edge">
+<title>proc~ucross&#45;&gt;proc~unit</title>
+<path fill="none" stroke="#000000" d="M203.4,-26C211.66,-29.75 220.9,-33.95 229.66,-37.94"/>
+<polygon fill="#000000" stroke="#000000" points="228.37,-41.19 238.92,-42.14 231.26,-34.82 228.37,-41.19"/>
+</g>
+<!-- proc~cross -->
+<g id="proc~~solve_lambert_izzo~~CallsGraph_node4" class="node">
+<title>proc~cross</title>
+<g id="a_proc~~solve_lambert_izzo~~CallsGraph_node4"><a xlink:href="../proc/cross.html" xlink:title="cross">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="293,-24 239,-24 239,0 293,0 293,-24"/>
+<text text-anchor="middle" x="266" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cross</text>
+</a>
+</g>
+</g>
+<!-- proc~ucross&#45;&gt;proc~cross -->
+<g id="proc~~solve_lambert_izzo~~CallsGraph_edge3" class="edge">
+<title>proc~ucross&#45;&gt;proc~cross</title>
+<path fill="none" stroke="#000000" d="M203.4,-13.4C211.39,-13.22 220.31,-13.02 228.82,-12.82"/>
+<polygon fill="#000000" stroke="#000000" points="229,-16.32 238.92,-12.59 228.84,-9.32 229,-16.32"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~solve_lambert_izzo~~CalledByGraph Pages: 1 -->
+<svg id="procsolve_lambert_izzoCalledByGraph" width="236pt" height="32pt"
+ viewBox="0.00 0.00 236.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~solve_lambert_izzo~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>proc~~solve_lambert_izzo~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 232,-28 232,4 -4,4"/>
+<!-- proc~solve_lambert_izzo -->
+<g id="proc~~solve_lambert_izzo~~CalledByGraph_node1" class="node">
+<title>proc~solve_lambert_izzo</title>
+<polygon fill="none" stroke="black" points="228,-24 115,-24 115,0 228,0 228,-24"/>
+<text text-anchor="middle" x="171.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">solve_lambert_izzo</text>
+</g>
+<!-- proc~lambert_test -->
+<g id="proc~~solve_lambert_izzo~~CalledByGraph_node2" class="node">
+<title>proc~lambert_test</title>
+<g id="a_proc~~solve_lambert_izzo~~CalledByGraph_node2"><a xlink:href="../proc/lambert_test.html" xlink:title="lambert_test">
+<polygon fill="#d9534f" stroke="#d9534f" points="79,-24 0,-24 0,0 79,0 79,-24"/>
+<text text-anchor="middle" x="39.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lambert_test</text>
+</a>
+</g>
+</g>
+<!-- proc~lambert_test&#45;&gt;proc~solve_lambert_izzo -->
+<g id="proc~~solve_lambert_izzo~~CalledByGraph_edge1" class="edge">
+<title>proc~lambert_test&#45;&gt;proc~solve_lambert_izzo</title>
+<path fill="none" stroke="#000000" d="M79.15,-12C87.22,-12 95.94,-12 104.68,-12"/>
+<polygon fill="#000000" stroke="#000000" points="104.92,-15.5 114.92,-12 104.92,-8.5 104.92,-15.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">solve_lambert_izzo</span><span class="p">(</span><span class="n">r1</span><span class="p">,</span><span class="n">r2</span><span class="p">,</span><span class="n">tof</span><span class="p">,</span><span class="n">mu</span><span class="p">,</span><span class="n">long_way</span><span class="p">,</span><span class="n">multi_revs</span><span class="p">,</span><span class="n">v1</span><span class="p">,</span><span class="n">v2</span><span class="p">,</span><span class="n">status_ok</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">r1</span><span class="w">            </span><span class="c">!! first cartesian position [km]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">r2</span><span class="w">            </span><span class="c">!! second cartesian position [km]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                             </span><span class="kd">::</span><span class="w"> </span><span class="n">tof</span><span class="w">           </span><span class="c">!! time of flight [sec]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                             </span><span class="kd">::</span><span class="w"> </span><span class="n">mu</span><span class="w">            </span><span class="c">!! gravity parameter [km^3/s^2]</span>
+<span class="w">    </span><span class="kt">logical</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                              </span><span class="kd">::</span><span class="w"> </span><span class="n">long_way</span><span class="w">      </span><span class="c">!! when true, do &quot;long way&quot; (&gt;pi) transfers</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                              </span><span class="kd">::</span><span class="w"> </span><span class="n">multi_revs</span><span class="w">    </span><span class="c">!! maximum number of multi-rev solutions to compute</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:,:),</span><span class="k">allocatable</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">v1</span><span class="w">            </span><span class="c">!! vector containing 3d arrays with the cartesian components of the velocities at r1</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:,:),</span><span class="k">allocatable</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">v2</span><span class="w">            </span><span class="c">!! vector containing 3d arrays with the cartesian components of the velocities at r2</span>
+<span class="w">    </span><span class="kt">logical</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">                             </span><span class="kd">::</span><span class="w"> </span><span class="n">status_ok</span><span class="w">     </span><span class="c">!! true if everything is OK</span>
+
+<span class="w">    </span><span class="c">!local variables:</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(:),</span><span class="k">allocatable</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">r1_hat</span><span class="p">,</span><span class="n">r2_hat</span><span class="p">,</span><span class="n">h_hat</span><span class="p">,</span><span class="n">it1</span><span class="p">,</span><span class="n">it2</span><span class="p">,</span><span class="n">c</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">s</span><span class="p">,</span><span class="n">cmag</span><span class="p">,</span><span class="n">lambda2</span><span class="p">,</span><span class="n">lambda3</span><span class="p">,</span><span class="n">lambda5</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">t00</span><span class="p">,</span><span class="n">t0</span><span class="p">,</span><span class="n">t1</span><span class="p">,</span><span class="n">r1mag</span><span class="p">,</span><span class="n">r2mag</span><span class="p">,&amp;</span>
+<span class="w">                </span><span class="n">d3t</span><span class="p">,</span><span class="n">d2t</span><span class="p">,</span><span class="n">dt</span><span class="p">,</span><span class="n">err</span><span class="p">,</span><span class="n">t_min</span><span class="p">,</span><span class="n">x_old</span><span class="p">,</span><span class="n">x_new</span><span class="p">,</span><span class="n">term</span><span class="p">,</span><span class="n">lambda</span><span class="p">,&amp;</span>
+<span class="w">                </span><span class="nb">gamma</span><span class="p">,</span><span class="n">rho</span><span class="p">,</span><span class="n">sigma</span><span class="p">,</span><span class="n">vr1</span><span class="p">,</span><span class="n">vt1</span><span class="p">,</span><span class="n">vr2</span><span class="p">,</span><span class="n">vt2</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">vt</span><span class="p">,</span><span class="n">ly</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n_solutions</span><span class="p">,</span><span class="n">it</span><span class="p">,</span><span class="n">m_nmax</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">iter</span>
+
+<span class="w">    </span><span class="c">!tolerances are from [2]</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">max_halley_iters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="w">         </span><span class="c">!! for halley iterations</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">halley_tol</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="mf">1e-13_wp</span><span class="w">   </span><span class="c">!! for halley iterations</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">htol_singlerev</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mf">1e-5_wp</span><span class="w">    </span><span class="c">!! for householder iterations</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">htol_multirev</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mf">1e-8_wp</span><span class="w">    </span><span class="c">!! for householder iterations</span>
+
+<span class="w">    </span><span class="c">!======= Begin Algorithm 1 in [1] =======</span>
+
+<span class="w">    </span><span class="n">r1mag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="n">r1</span><span class="p">)</span>
+<span class="w">    </span><span class="n">r2mag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="n">r2</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">!check for valid inputs:</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tof</span><span class="o">&lt;=</span><span class="n">zero</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">mu</span><span class="o">&lt;=</span><span class="n">zero</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">r1mag</span><span class="o">==</span><span class="n">zero</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">r2mag</span><span class="o">==</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Error in solve_lambert_izzo: invalid input&#39;</span>
+<span class="w">        </span><span class="n">status_ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="k">    end if</span>
+
+<span class="k">    </span><span class="n">status_ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
+
+<span class="w">    </span><span class="n">c</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">r2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">r1</span>
+<span class="w">    </span><span class="n">cmag</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="w">    </span><span class="n">s</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">cmag</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">r1mag</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">r2mag</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">two</span>
+<span class="w">    </span><span class="n">t</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">two</span><span class="o">*</span><span class="n">mu</span><span class="o">/</span><span class="p">(</span><span class="n">s</span><span class="o">*</span><span class="n">s</span><span class="o">*</span><span class="n">s</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">tof</span>
+<span class="w">    </span><span class="n">r1_hat</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">unit</span><span class="p">(</span><span class="n">r1</span><span class="p">)</span>
+<span class="w">    </span><span class="n">r2_hat</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">unit</span><span class="p">(</span><span class="n">r2</span><span class="p">)</span>
+<span class="w">    </span><span class="n">h_hat</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">ucross</span><span class="p">(</span><span class="n">r1_hat</span><span class="p">,</span><span class="n">r2_hat</span><span class="p">)</span>
+<span class="w">    </span><span class="n">lambda2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">cmag</span><span class="o">/</span><span class="n">s</span>
+<span class="w">    </span><span class="n">lambda</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">lambda2</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="k">all</span><span class="p">(</span><span class="n">h_hat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Warning: pi transfer in solve_lambert_izzo&#39;</span>
+<span class="w">        </span><span class="c">!arbitrarily choose the transfer plane:</span>
+<span class="w">        </span><span class="n">h_hat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">zero</span><span class="p">,</span><span class="n">zero</span><span class="p">,</span><span class="n">one</span><span class="p">]</span>
+<span class="w">    </span><span class="k">end if</span>
+
+<span class="k">    </span><span class="n">it1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ucross</span><span class="p">(</span><span class="n">h_hat</span><span class="p">,</span><span class="n">r1_hat</span><span class="p">)</span>
+<span class="w">    </span><span class="n">it2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ucross</span><span class="p">(</span><span class="n">h_hat</span><span class="p">,</span><span class="n">r2_hat</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">long_way</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">        </span><span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">lambda</span>
+<span class="w">        </span><span class="n">it1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">it1</span>
+<span class="w">        </span><span class="n">it2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">it2</span>
+<span class="w">    </span><span class="k">end if</span>
+
+<span class="k">    </span><span class="n">lambda3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lambda</span><span class="o">*</span><span class="n">lambda2</span>
+<span class="w">    </span><span class="n">lambda5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lambda2</span><span class="o">*</span><span class="n">lambda3</span>
+<span class="w">    </span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two_third</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lambda3</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">!======= Begin Algorithm 2 in [1] =======</span>
+<span class="w">    </span><span class="c">![xlist, ylist] = findxy(lambda, tof)</span>
+
+<span class="w">    </span><span class="c">! maximum number of revolutions for which a solution exists:</span>
+<span class="w">    </span><span class="n">m_nmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">floor</span><span class="p">(</span><span class="n">t</span><span class="o">/</span><span class="n">pi</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">t00</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">acos</span><span class="p">(</span><span class="n">lambda</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lambda</span><span class="o">*</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">one</span><span class="o">-</span><span class="n">lambda2</span><span class="p">)</span>
+<span class="w">    </span><span class="n">t0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t00</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">m_nmax</span><span class="o">*</span><span class="n">pi</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">t0</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">m_nmax</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">    </span><span class="c">! Compute xm and tm using Halley</span>
+
+<span class="w">        </span><span class="n">dt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<span class="w">        </span><span class="n">d2t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<span class="w">        </span><span class="n">d3t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<span class="w">        </span><span class="n">it</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">        </span><span class="n">err</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span>
+<span class="w">        </span><span class="n">t_min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t0</span>
+<span class="w">        </span><span class="n">x_old</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<span class="w">        </span><span class="n">x_new</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+
+<span class="w">        </span><span class="k">do</span>
+
+<span class="k">            call </span><span class="n">dtdx</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span><span class="n">d2t</span><span class="p">,</span><span class="n">d3t</span><span class="p">,</span><span class="n">x_old</span><span class="p">,</span><span class="n">t_min</span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dt</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">x_new</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x_old</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dt</span><span class="o">*</span><span class="n">d2t</span><span class="o">/</span><span class="p">(</span><span class="n">d2t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">d2t</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">d3t</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">two</span><span class="p">)</span>
+<span class="w">            </span><span class="n">err</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">x_old</span><span class="o">-</span><span class="n">x_new</span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="o">&lt;</span><span class="n">halley_tol</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="n">it</span><span class="o">&gt;</span><span class="n">max_halley_iters</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">exit</span>
+<span class="k">            call </span><span class="n">compute_tof</span><span class="p">(</span><span class="n">x_new</span><span class="p">,</span><span class="n">m_nmax</span><span class="p">,</span><span class="n">t_min</span><span class="p">)</span>
+<span class="w">            </span><span class="n">x_old</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x_new</span>
+<span class="w">            </span><span class="n">it</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">        </span><span class="k">end do</span>
+
+<span class="k">        if</span><span class="w"> </span><span class="p">(</span><span class="n">t_min</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="n">m_nmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_nmax</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">    </span><span class="k">end if</span>
+<span class="w">    </span><span class="c">!======= End Algorithm 2 =======</span>
+
+<span class="w">    </span><span class="c">!mmax is the maximum number of revolutions.</span>
+<span class="w">    </span><span class="c">!Truncate to user-input multi_revs value if it is larger.</span>
+<span class="w">    </span><span class="n">m_nmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">min</span><span class="p">(</span><span class="n">multi_revs</span><span class="p">,</span><span class="n">m_nmax</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">!the number of solutions to the problem:</span>
+<span class="w">    </span><span class="n">n_solutions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_nmax</span><span class="o">*</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="w">    </span><span class="c">!allocate output arrays:</span>
+<span class="w">    </span><span class="k">allocate</span><span class="p">(</span><span class="n">v1</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">n_solutions</span><span class="p">))</span>
+<span class="w">    </span><span class="k">allocate</span><span class="p">(</span><span class="n">v2</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">n_solutions</span><span class="p">))</span>
+<span class="w">    </span><span class="k">allocate</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="n">n_solutions</span><span class="p">))</span>
+
+<span class="w">    </span><span class="c">! Find the x value for each solution:</span>
+
+<span class="w">    </span><span class="c">! initial guess for 0 rev solution:</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">t</span><span class="o">&gt;=</span><span class="n">t00</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+
+<span class="k">        </span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="n">t00</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="n">t00</span><span class="o">+</span><span class="n">four</span><span class="p">)</span><span class="w">                        </span><span class="c">!from [2]</span>
+
+<span class="w">    </span><span class="k">elseif</span><span class="w"> </span><span class="p">(</span><span class="n">t</span><span class="o">&lt;=</span><span class="n">t1</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+
+<span class="k">        </span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">five_half</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">t1</span><span class="o">*</span><span class="p">(</span><span class="n">t1</span><span class="o">-</span><span class="n">t</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">t</span><span class="o">*</span><span class="p">(</span><span class="n">one</span><span class="o">-</span><span class="n">lambda5</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">one</span>
+
+<span class="w">    </span><span class="k">else</span>
+
+<span class="k">        </span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">t</span><span class="o">/</span><span class="n">t00</span><span class="p">)</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">log2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nb">log</span><span class="p">(</span><span class="n">t1</span><span class="o">/</span><span class="n">t00</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">one</span><span class="w">      </span><span class="c">!from [2]</span>
+
+<span class="w">    </span><span class="k">end if</span>
+
+<span class="w">    </span><span class="c">! 0 rev solution:</span>
+
+<span class="w">    </span><span class="n">iter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">householder</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">htol_singlerev</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c">! multi-rev solutions:</span>
+
+<span class="w">    </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">m_nmax</span>
+
+<span class="w">        </span><span class="c">!Eqn 31:</span>
+
+<span class="w">        </span><span class="c">! left solution:</span>
+<span class="w">        </span><span class="n">term</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">i</span><span class="o">*</span><span class="n">pi</span><span class="o">+</span><span class="n">pi</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">eight</span><span class="o">*</span><span class="n">t</span><span class="p">))</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="n">two_third</span>
+<span class="w">        </span><span class="n">x</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="p">)</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">term</span><span class="o">-</span><span class="n">one</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">term</span><span class="o">+</span><span class="n">one</span><span class="p">)</span>
+<span class="w">        </span><span class="n">iter</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">householder</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">htol_multirev</span><span class="p">)</span>
+
+<span class="w">        </span><span class="c">! right solution:</span>
+<span class="w">        </span><span class="n">term</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">eight</span><span class="o">*</span><span class="n">t</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">pi</span><span class="p">))</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="n">two_third</span>
+<span class="w">        </span><span class="n">x</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">term</span><span class="o">-</span><span class="n">one</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">term</span><span class="o">+</span><span class="n">one</span><span class="p">)</span>
+<span class="w">        </span><span class="n">iter</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">householder</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">htol_multirev</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">end do</span>
+
+<span class="w">    </span><span class="c">! construct terminal velocity vectors using each x:</span>
+
+<span class="w">    </span><span class="nb">gamma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">mu</span><span class="o">*</span><span class="n">s</span><span class="o">/</span><span class="n">two</span><span class="p">)</span>
+<span class="w">    </span><span class="n">rho</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">r1mag</span><span class="o">-</span><span class="n">r2mag</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">cmag</span>
+<span class="w">    </span><span class="n">sigma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">one</span><span class="o">-</span><span class="n">rho</span><span class="o">*</span><span class="n">rho</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">n_solutions</span>
+
+<span class="w">        </span><span class="n">y</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lambda2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lambda2</span><span class="o">*</span><span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+<span class="w">        </span><span class="n">ly</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">lambda</span><span class="o">*</span><span class="n">y</span>
+<span class="w">        </span><span class="n">vr1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">gamma</span><span class="o">*</span><span class="p">((</span><span class="n">ly</span><span class="o">-</span><span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">-</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="n">ly</span><span class="o">+</span><span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span><span class="o">/</span><span class="n">r1mag</span>
+<span class="w">        </span><span class="n">vr2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="nb">gamma</span><span class="o">*</span><span class="p">((</span><span class="n">ly</span><span class="o">-</span><span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">+</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="n">ly</span><span class="o">+</span><span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span><span class="o">/</span><span class="n">r2mag</span>
+<span class="w">        </span><span class="n">vt</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nb">gamma</span><span class="o">*</span><span class="n">sigma</span><span class="o">*</span><span class="p">(</span><span class="n">y</span><span class="o">+</span><span class="n">lambda</span><span class="o">*</span><span class="n">x</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+<span class="w">        </span><span class="n">vt1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vt</span><span class="o">/</span><span class="n">r1mag</span>
+<span class="w">        </span><span class="n">vt2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vt</span><span class="o">/</span><span class="n">r2mag</span>
+
+<span class="w">        </span><span class="n">v1</span><span class="p">(:,</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vr1</span><span class="o">*</span><span class="n">r1_hat</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">vt1</span><span class="o">*</span><span class="n">it1</span><span class="w">   </span><span class="c">!terminal velocity vectors</span>
+<span class="w">        </span><span class="n">v2</span><span class="p">(:,</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vr2</span><span class="o">*</span><span class="n">r2_hat</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">vt2</span><span class="o">*</span><span class="n">it2</span><span class="w">   </span><span class="c">!</span>
+
+<span class="w">    </span><span class="k">end do</span>
+
+<span class="k">    deallocate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">contains</span>
+<span class="c">!*****************************************************************************************</span>
+
+<span class="w">    </span><span class="c">!*************************************************************************************</span>
+<span class="w">        </span><span class="k">function </span><span class="n">householder</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">eps</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+
+<span class="w">        </span><span class="c">!! Householder root solver for x.</span>
+
+<span class="w">        </span><span class="k">implicit none</span>
+
+<span class="k">        </span><span class="kt">integer</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">it</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">t</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span><span class="w">    </span><span class="c">!! input is initial guess</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">eps</span>
+
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">xnew</span><span class="p">,</span><span class="n">tof</span><span class="p">,</span><span class="n">delta</span><span class="p">,</span><span class="n">dt</span><span class="p">,</span><span class="n">d2t</span><span class="p">,</span><span class="n">d3t</span><span class="p">,</span><span class="n">dt2</span><span class="p">,</span><span class="n">term</span>
+
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">max_iters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">15</span>
+
+<span class="w">        </span><span class="k">do </span><span class="n">it</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">max_iters</span>
+
+<span class="w">            </span><span class="k">call </span><span class="n">compute_tof</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">tof</span><span class="p">)</span>
+<span class="w">            </span><span class="k">call </span><span class="n">dtdx</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span><span class="n">d2t</span><span class="p">,</span><span class="n">d3t</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">tof</span><span class="p">)</span>
+
+<span class="w">            </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tof</span><span class="o">-</span><span class="n">t</span>
+<span class="w">            </span><span class="n">dt2</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">dt</span><span class="o">*</span><span class="n">dt</span>
+<span class="w">            </span><span class="n">term</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">delta</span><span class="o">*</span><span class="p">(</span><span class="n">dt2</span><span class="o">-</span><span class="n">delta</span><span class="o">*</span><span class="n">d2t</span><span class="o">/</span><span class="n">two</span><span class="p">)</span><span class="o">/</span><span class="p">&amp;</span>
+<span class="w">                    </span><span class="p">(</span><span class="n">dt</span><span class="o">*</span><span class="p">(</span><span class="n">dt2</span><span class="o">-</span><span class="n">delta</span><span class="o">*</span><span class="n">d2t</span><span class="p">)</span><span class="o">+</span><span class="n">d3t</span><span class="o">*</span><span class="n">delta</span><span class="o">*</span><span class="n">delta</span><span class="o">/</span><span class="n">six</span><span class="p">)</span>
+<span class="w">            </span><span class="n">xnew</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">term</span><span class="w">    </span><span class="c">! Ref. [1], p. 12.</span>
+<span class="w">            </span><span class="n">x</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">xnew</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">term</span><span class="p">)</span><span class="o">&lt;=</span><span class="n">eps</span><span class="p">)</span><span class="w"> </span><span class="k">exit</span>
+
+<span class="k">        end do</span>
+
+<span class="k">        end function </span><span class="n">householder</span>
+<span class="w">    </span><span class="c">!*************************************************************************************</span>
+
+<span class="w">    </span><span class="c">!*************************************************************************************</span>
+<span class="w">        </span><span class="k">subroutine </span><span class="n">dtdx</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span><span class="n">d2t</span><span class="p">,</span><span class="n">d3t</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">t</span><span class="p">)</span>
+
+<span class="w">        </span><span class="c">!! Compute 1st-3rd derivatives for the Householder iterations.</span>
+
+<span class="w">        </span><span class="k">implicit none</span>
+
+<span class="k">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">dt</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">d2t</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">d3t</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">t</span>
+
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">umx2</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">y2</span><span class="p">,</span><span class="n">y3</span><span class="p">,</span><span class="n">y5</span><span class="p">,</span><span class="n">umx2_inv</span>
+
+<span class="w">        </span><span class="n">umx2</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="o">-</span><span class="n">x</span><span class="o">*</span><span class="n">x</span>
+<span class="w">        </span><span class="n">umx2_inv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="o">/</span><span class="n">umx2</span>
+<span class="w">        </span><span class="n">y</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">one</span><span class="o">-</span><span class="n">lambda2</span><span class="o">*</span><span class="n">umx2</span><span class="p">)</span><span class="w">    </span><span class="c">!Ref [1], p. 6</span>
+<span class="w">        </span><span class="n">y2</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="o">*</span><span class="n">y</span>
+<span class="w">        </span><span class="n">y3</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">y2</span><span class="o">*</span><span class="n">y</span>
+<span class="w">        </span><span class="n">y5</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">y3</span><span class="o">*</span><span class="n">y2</span>
+
+<span class="w">        </span><span class="c">!Ref [1], Eqn. 22:</span>
+
+<span class="w">        </span><span class="n">dt</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="n">umx2_inv</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">three</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">two</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">two</span><span class="o">*</span><span class="n">lambda3</span><span class="o">*</span><span class="n">x</span><span class="o">/</span><span class="n">y</span><span class="p">)</span>
+<span class="w">        </span><span class="n">d2t</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">umx2_inv</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">three</span><span class="o">*</span><span class="n">t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">five</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">dt</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">two</span><span class="o">*</span><span class="p">(</span><span class="n">one</span><span class="o">-</span><span class="n">lambda2</span><span class="p">)</span><span class="o">*</span><span class="n">lambda3</span><span class="o">/</span><span class="n">y3</span><span class="p">)</span>
+<span class="w">        </span><span class="n">d3t</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">umx2_inv</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">seven</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">d2t</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">eight</span><span class="o">*</span><span class="n">dt</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">six</span><span class="o">*</span><span class="p">(</span><span class="n">one</span><span class="o">-</span><span class="n">lambda2</span><span class="p">)</span><span class="o">*</span><span class="n">lambda5</span><span class="o">*</span><span class="n">x</span><span class="o">/</span><span class="n">y5</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">end subroutine </span><span class="n">dtdx</span>
+<span class="w">    </span><span class="c">!*************************************************************************************</span>
+
+<span class="w">    </span><span class="c">!*************************************************************************************</span>
+<span class="w">        </span><span class="k">subroutine </span><span class="n">compute_tof</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">tof</span><span class="p">)</span>
+
+<span class="w">        </span><span class="c">!!  Compute time of flight from x</span>
+
+<span class="w">        </span><span class="k">implicit none</span>
+
+<span class="k">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">tof</span>
+
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">battin</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mf">0.01_wp</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lagrange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.2_wp</span>
+
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dist</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="n">rho</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">eta</span><span class="p">,</span><span class="n">s1</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">l</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="n">beta</span>
+
+<span class="w">        </span><span class="n">dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">one</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dist</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">lagrange</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">dist</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">battin</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">    </span><span class="c">!use lagrange tof expression</span>
+
+<span class="w">            </span><span class="c">!See Ref. [1], Eqn. 9</span>
+
+<span class="w">            </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">one</span><span class="o">-</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="o">&gt;</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">   </span><span class="c">!ellipse</span>
+
+<span class="w">                </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">acos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">                </span><span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">asin</span><span class="p">(</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">lambda2</span><span class="o">/</span><span class="n">a</span><span class="p">))</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">lambda</span><span class="o">&lt;</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">beta</span>
+<span class="w">                </span><span class="n">tof</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">a</span><span class="o">*</span><span class="nb">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">*</span><span class="p">((</span><span class="n">alpha</span><span class="o">-</span><span class="nb">sin</span><span class="p">(</span><span class="n">alpha</span><span class="p">))</span><span class="o">-</span><span class="p">(</span><span class="n">beta</span><span class="o">-</span><span class="nb">sin</span><span class="p">(</span><span class="n">beta</span><span class="p">))</span><span class="o">+</span><span class="n">two</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="n">n</span><span class="p">))</span><span class="o">/</span><span class="n">two</span><span class="p">)</span>
+
+<span class="w">            </span><span class="k">else</span><span class="w">   </span><span class="c">!hyperbola</span>
+
+<span class="w">                </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">acosh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">                </span><span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">two</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">asinh</span><span class="p">(</span><span class="nb">sqrt</span><span class="p">(</span><span class="o">-</span><span class="n">lambda2</span><span class="o">/</span><span class="n">a</span><span class="p">))</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">lambda</span><span class="o">&lt;</span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">beta</span>
+<span class="w">                </span><span class="n">tof</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="o">-</span><span class="n">a</span><span class="o">*</span><span class="nb">sqrt</span><span class="p">(</span><span class="o">-</span><span class="n">a</span><span class="p">)</span><span class="o">*</span><span class="p">((</span><span class="n">beta</span><span class="o">-</span><span class="nb">sinh</span><span class="p">(</span><span class="n">beta</span><span class="p">))</span><span class="o">-</span><span class="p">(</span><span class="n">alpha</span><span class="o">-</span><span class="nb">sinh</span><span class="p">(</span><span class="n">alpha</span><span class="p">)))</span><span class="o">/</span><span class="n">two</span><span class="p">)</span>
+
+<span class="w">            </span><span class="k">end if</span>
+
+<span class="k">        else</span>
+
+<span class="k">            </span><span class="n">k</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">lambda2</span>
+<span class="w">            </span><span class="n">e</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">one</span>
+<span class="w">            </span><span class="n">rho</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nb">abs</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="w">            </span><span class="n">z</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">one</span><span class="o">+</span><span class="n">k</span><span class="o">*</span><span class="n">e</span><span class="p">)</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dist</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">battin</span><span class="p">)</span><span class="w"> </span><span class="k">then</span><span class="w">  </span><span class="c">! use battin series tof expression</span>
+
+<span class="w">                </span><span class="c">!Equation 20 in [1]:</span>
+<span class="w">                </span><span class="c">!</span>
+<span class="w">                </span><span class="c">!See also: Ref. [3], Eqn. 7.30, p. 304.</span>
+
+<span class="w">                </span><span class="n">eta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lambda</span><span class="o">*</span><span class="n">x</span>
+<span class="w">                </span><span class="n">s1</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">one</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lambda</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="o">*</span><span class="n">eta</span><span class="p">)</span><span class="o">/</span><span class="n">two</span>
+<span class="w">                </span><span class="n">q</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">four_third</span><span class="o">*</span><span class="n">hypergeo</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span>
+<span class="w">                </span><span class="n">tof</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">eta</span><span class="o">*</span><span class="n">eta</span><span class="o">*</span><span class="n">eta</span><span class="o">*</span><span class="n">q</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">four</span><span class="o">*</span><span class="n">lambda</span><span class="o">*</span><span class="n">eta</span><span class="p">)</span><span class="o">/</span><span class="n">two</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">n</span><span class="o">*</span><span class="n">pi</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">rho</span><span class="o">**</span><span class="n">three_half</span><span class="p">)</span>
+
+<span class="w">            </span><span class="k">else</span><span class="w">  </span><span class="c">! use lancaster tof expresion</span>
+
+<span class="w">                </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">sqrt</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span>
+<span class="w">                </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">*</span><span class="n">z</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lambda</span><span class="o">*</span><span class="n">e</span>
+<span class="w">                </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">zero</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                    </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">acos</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="w">                    </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="o">*</span><span class="n">pi</span><span class="o">+</span><span class="n">l</span>
+<span class="w">                </span><span class="k">else</span>
+<span class="k">                    </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="o">*</span><span class="p">(</span><span class="n">z</span><span class="o">-</span><span class="n">lambda</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+<span class="w">                    </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">log</span><span class="p">(</span><span class="n">f</span><span class="o">+</span><span class="n">g</span><span class="p">)</span>
+<span class="w">                </span><span class="k">end if</span>
+<span class="k">                </span><span class="n">tof</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">lambda</span><span class="o">*</span><span class="n">z</span><span class="o">-</span><span class="n">d</span><span class="o">/</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">e</span>
+
+<span class="w">            </span><span class="k">end if</span>
+
+<span class="k">        end if</span>
+
+<span class="k">        end subroutine </span><span class="n">compute_tof</span>
+<span class="w">    </span><span class="c">!*************************************************************************************</span>
+
+<span class="w">    </span><span class="c">!*************************************************************************************</span>
+<span class="w">        </span><span class="k">pure function </span><span class="n">hypergeo</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="w">        </span><span class="c">!!  Evaluate the Gaussian (or ordinary) hypergeometric function: F(3,1,5/2,x)</span>
+<span class="w">        </span><span class="c">!!  See Ref. [3], p. 34.</span>
+
+<span class="w">        </span><span class="k">implicit none</span>
+
+<span class="k">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">f</span>
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">x</span>
+
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">term</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span>
+
+<span class="w">        </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e-11_wp</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w">  </span><span class="kd">::</span><span class="w"> </span><span class="n">max_iters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10000</span>
+
+<span class="w">        </span><span class="c">!initialize:</span>
+<span class="w">        </span><span class="n">f</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">one</span>
+<span class="w">        </span><span class="n">term</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">one</span>
+
+<span class="w">        </span><span class="c">!compute the series until the last term is within convergence tolerance:</span>
+<span class="w">        </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">max_iters</span>
+
+<span class="w">            </span><span class="n">term</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">term</span><span class="o">*</span><span class="p">(</span><span class="n">three</span><span class="o">+</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">one</span><span class="o">+</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">five_half</span><span class="o">+</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="n">one</span><span class="p">)</span>
+<span class="w">            </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">term</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">term</span><span class="p">)</span><span class="o">&lt;=</span><span class="n">tol</span><span class="p">)</span><span class="w"> </span><span class="k">exit</span>
+
+<span class="k">        end do</span>
+
+<span class="k">        end function </span><span class="n">hypergeo</span>
+<span class="w">    </span><span class="c">!*************************************************************************************</span>
+
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">solve_lambert_izzo</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

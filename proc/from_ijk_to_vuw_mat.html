@@ -1,0 +1,844 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>from_ijk_to_vuw_mat &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>from_ijk_to_vuw_mat
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.3% of total for procedures.">40 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/relative_motion_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/relative_motion_module.f90.html'>relative_motion_module.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/relative_motion_module.html'>relative_motion_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">from_ijk_to_vuw_mat</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/from_ijk_to_vuw_mat.html#src">from_ijk_to_vuw_mat</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>private  subroutine from_ijk_to_vuw_mat(mu, r, v, a, c, cdot)  
+</h2>
+        <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='../module/vector_module.html'>vector_module</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~from_ijk_to_vuw_mat~~UsesGraph Pages: 1 -->
+<svg id="procfrom_ijk_to_vuw_matUsesGraph" width="641pt" height="51pt"
+ viewBox="0.00 0.00 641.00 51.44" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~from_ijk_to_vuw_mat~~UsesGraph" class="graph" transform="scale(0.99 0.99) rotate(0) translate(4 48)">
+<title>proc~~from_ijk_to_vuw_mat~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-48 644,-48 644,4 -4,4"/>
+<!-- proc~from_ijk_to_vuw_mat -->
+<g id="proc~~from_ijk_to_vuw_mat~~UsesGraph_node1" class="node">
+<title>proc~from_ijk_to_vuw_mat</title>
+<polygon fill="none" stroke="black" points="640,-44 517,-44 517,-20 640,-20 640,-44"/>
+<text text-anchor="middle" x="578.5" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50">from_ijk_to_vuw_mat</text>
+</g>
+<!-- module~vector_module -->
+<g id="proc~~from_ijk_to_vuw_mat~~UsesGraph_node2" class="node">
+<title>module~vector_module</title>
+<g id="a_proc~~from_ijk_to_vuw_mat~~UsesGraph_node2"><a xlink:href="../module/vector_module.html" xlink:title="vector_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="481,-44 389,-44 389,-20 481,-20 481,-44"/>
+<text text-anchor="middle" x="435" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_module</text>
+</a>
+</g>
+</g>
+<!-- proc~from_ijk_to_vuw_mat&#45;&gt;module~vector_module -->
+<g id="proc~~from_ijk_to_vuw_mat~~UsesGraph_edge1" class="edge">
+<title>proc~from_ijk_to_vuw_mat&#45;&gt;module~vector_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M516.67,-32C508.35,-32 499.84,-32 491.62,-32"/>
+<polygon fill="#000000" stroke="#000000" points="491.39,-28.5 481.39,-32 491.39,-35.5 491.39,-28.5"/>
+</g>
+<!-- module~kind_module -->
+<g id="proc~~from_ijk_to_vuw_mat~~UsesGraph_node3" class="node">
+<title>module~kind_module</title>
+<g id="a_proc~~from_ijk_to_vuw_mat~~UsesGraph_node3"><a xlink:href="../module/kind_module.html" xlink:title="kind_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="211,-44 130,-44 130,-20 211,-20 211,-44"/>
+<text text-anchor="middle" x="170.5" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module</text>
+</a>
+</g>
+</g>
+<!-- module~vector_module&#45;&gt;module~kind_module -->
+<g id="proc~~from_ijk_to_vuw_mat~~UsesGraph_edge2" class="edge">
+<title>module~vector_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M388.59,-32.66C376.99,-32.8 364.53,-32.93 353,-33 305.89,-33.29 294.11,-33.31 247,-33 238.71,-32.95 229.9,-32.86 221.34,-32.75"/>
+<polygon fill="#000000" stroke="#000000" points="221.12,-29.25 211.07,-32.62 221.03,-36.25 221.12,-29.25"/>
+</g>
+<!-- module~numbers_module -->
+<g id="proc~~from_ijk_to_vuw_mat~~UsesGraph_node4" class="node">
+<title>module~numbers_module</title>
+<g id="a_proc~~from_ijk_to_vuw_mat~~UsesGraph_node4"><a xlink:href="../module/numbers_module.html" xlink:title="numbers_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="353,-24 247,-24 247,0 353,0 353,-24"/>
+<text text-anchor="middle" x="300" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module</text>
+</a>
+</g>
+</g>
+<!-- module~vector_module&#45;&gt;module~numbers_module -->
+<g id="proc~~from_ijk_to_vuw_mat~~UsesGraph_edge3" class="edge">
+<title>module~vector_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M388.97,-25.23C380.74,-23.99 372.01,-22.68 363.38,-21.38"/>
+<polygon fill="#000000" stroke="#000000" points="363.74,-17.89 353.33,-19.87 362.69,-24.82 363.74,-17.89"/>
+</g>
+<!-- iso_fortran_env -->
+<g id="proc~~from_ijk_to_vuw_mat~~UsesGraph_node5" class="node">
+<title>iso_fortran_env</title>
+<g id="a_proc~~from_ijk_to_vuw_mat~~UsesGraph_node5"><a xlink:href="http://fortranwiki.org/fortran/show/iso_fortran_env" xlink:title="iso_fortran_env">
+<polygon fill="#337ab7" stroke="#337ab7" points="94,-44 0,-44 0,-20 94,-20 94,-44"/>
+<text text-anchor="middle" x="47" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
+</a>
+</g>
+</g>
+<!-- module~kind_module&#45;&gt;iso_fortran_env -->
+<g id="proc~~from_ijk_to_vuw_mat~~UsesGraph_edge4" class="edge">
+<title>module~kind_module&#45;&gt;iso_fortran_env</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M129.72,-32C121.56,-32 112.83,-32 104.21,-32"/>
+<polygon fill="#000000" stroke="#000000" points="104.2,-28.5 94.2,-32 104.2,-35.5 104.2,-28.5"/>
+</g>
+<!-- module~numbers_module&#45;&gt;module~kind_module -->
+<g id="proc~~from_ijk_to_vuw_mat~~UsesGraph_edge5" class="edge">
+<title>module~numbers_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M246.77,-20.19C238.36,-21.51 229.68,-22.87 221.33,-24.18"/>
+<polygon fill="#000000" stroke="#000000" points="220.68,-20.74 211.35,-25.75 221.77,-27.66 220.68,-20.74"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panprocfrom_ijk_to_vuw_matUsesGraph = svgPanZoom('#procfrom_ijk_to_vuw_matUsesGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+
+    <p>Compute the transformation matrices to convert IJK to vuw.</p>
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mu~51"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>mu</strong></td>
+            <td>
+                <p>gravitational parameter [km^3/s^2]
+this is used here to assume instantaneous conic motion if <code>a</code> is not present.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~59"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+                <p>position vector of target [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-v~24"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>v</strong></td>
+            <td>
+                <p>velocity vector of target [km/s]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~44"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional,</td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+                <p>acceleration vector of target [km/s^2]
+(if not present, then a torque-free force model is assumed)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~53"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+                <p>C transformation matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot~14"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+                <p>CDOT transformation matrix</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~from_ijk_to_vuw_mat~~CallsGraph Pages: 1 -->
+<svg id="procfrom_ijk_to_vuw_matCallsGraph" width="226pt" height="116pt"
+ viewBox="0.00 0.00 226.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~from_ijk_to_vuw_mat~~CallsGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>proc~~from_ijk_to_vuw_mat~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 222,-112 222,4 -4,4"/>
+<!-- proc~from_ijk_to_vuw_mat -->
+<g id="proc~~from_ijk_to_vuw_mat~~CallsGraph_node1" class="node">
+<title>proc~from_ijk_to_vuw_mat</title>
+<polygon fill="none" stroke="black" points="123,-66 0,-66 0,-42 123,-42 123,-66"/>
+<text text-anchor="middle" x="61.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50">from_ijk_to_vuw_mat</text>
+</g>
+<!-- proc~cross -->
+<g id="proc~~from_ijk_to_vuw_mat~~CallsGraph_node2" class="node">
+<title>proc~cross</title>
+<g id="a_proc~~from_ijk_to_vuw_mat~~CallsGraph_node2"><a xlink:href="../proc/cross.html" xlink:title="cross">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="215.5,-108 161.5,-108 161.5,-84 215.5,-84 215.5,-108"/>
+<text text-anchor="middle" x="188.5" y="-93.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cross</text>
+</a>
+</g>
+</g>
+<!-- proc~from_ijk_to_vuw_mat&#45;&gt;proc~cross -->
+<g id="proc~~from_ijk_to_vuw_mat~~CallsGraph_edge1" class="edge">
+<title>proc~from_ijk_to_vuw_mat&#45;&gt;proc~cross</title>
+<path fill="none" stroke="#000000" d="M98.32,-66.04C114.93,-71.62 134.63,-78.24 151.29,-83.83"/>
+<polygon fill="#000000" stroke="#000000" points="150.62,-87.3 161.21,-87.17 152.85,-80.66 150.62,-87.3"/>
+</g>
+<!-- proc~uhat_dot -->
+<g id="proc~~from_ijk_to_vuw_mat~~CallsGraph_node3" class="node">
+<title>proc~uhat_dot</title>
+<g id="a_proc~~from_ijk_to_vuw_mat~~CallsGraph_node3"><a xlink:href="../proc/uhat_dot.html" xlink:title="uhat_dot">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="218,-66 159,-66 159,-42 218,-42 218,-66"/>
+<text text-anchor="middle" x="188.5" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">uhat_dot</text>
+</a>
+</g>
+</g>
+<!-- proc~from_ijk_to_vuw_mat&#45;&gt;proc~uhat_dot -->
+<g id="proc~~from_ijk_to_vuw_mat~~CallsGraph_edge2" class="edge">
+<title>proc~from_ijk_to_vuw_mat&#45;&gt;proc~uhat_dot</title>
+<path fill="none" stroke="#000000" d="M123.17,-54C131.82,-54 140.52,-54 148.6,-54"/>
+<polygon fill="#000000" stroke="#000000" points="148.81,-57.5 158.81,-54 148.81,-50.5 148.81,-57.5"/>
+</g>
+<!-- proc~unit -->
+<g id="proc~~from_ijk_to_vuw_mat~~CallsGraph_node4" class="node">
+<title>proc~unit</title>
+<g id="a_proc~~from_ijk_to_vuw_mat~~CallsGraph_node4"><a xlink:href="../proc/unit.html" xlink:title="unit">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="215.5,-24 161.5,-24 161.5,0 215.5,0 215.5,-24"/>
+<text text-anchor="middle" x="188.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">unit</text>
+</a>
+</g>
+</g>
+<!-- proc~from_ijk_to_vuw_mat&#45;&gt;proc~unit -->
+<g id="proc~~from_ijk_to_vuw_mat~~CallsGraph_edge3" class="edge">
+<title>proc~from_ijk_to_vuw_mat&#45;&gt;proc~unit</title>
+<path fill="none" stroke="#000000" d="M98.32,-41.96C114.93,-36.38 134.63,-29.76 151.29,-24.17"/>
+<polygon fill="#000000" stroke="#000000" points="152.85,-27.34 161.21,-20.83 150.62,-20.7 152.85,-27.34"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Called by</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~from_ijk_to_vuw_mat~~CalledByGraph Pages: 1 -->
+<svg id="procfrom_ijk_to_vuw_matCalledByGraph" width="556pt" height="32pt"
+ viewBox="0.00 0.00 556.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~from_ijk_to_vuw_mat~~CalledByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>proc~~from_ijk_to_vuw_mat~~CalledByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 552,-28 552,4 -4,4"/>
+<!-- proc~from_ijk_to_vuw_mat -->
+<g id="proc~~from_ijk_to_vuw_mat~~CalledByGraph_node1" class="node">
+<title>proc~from_ijk_to_vuw_mat</title>
+<polygon fill="none" stroke="black" points="548,-24 425,-24 425,0 548,0 548,-24"/>
+<text text-anchor="middle" x="486.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">from_ijk_to_vuw_mat</text>
+</g>
+<!-- interface~from_ijk_to_vuw -->
+<g id="proc~~from_ijk_to_vuw_mat~~CalledByGraph_node2" class="node">
+<title>interface~from_ijk_to_vuw</title>
+<g id="a_proc~~from_ijk_to_vuw_mat~~CalledByGraph_node2"><a xlink:href="../interface/from_ijk_to_vuw.html" xlink:title="from_ijk_to_vuw">
+<polygon fill="#a7506f" stroke="#a7506f" points="389,-24 292,-24 292,0 389,0 389,-24"/>
+<text text-anchor="middle" x="340.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_ijk_to_vuw</text>
+</a>
+</g>
+</g>
+<!-- interface~from_ijk_to_vuw&#45;&gt;proc~from_ijk_to_vuw_mat -->
+<g id="proc~~from_ijk_to_vuw_mat~~CalledByGraph_edge1" class="edge">
+<title>interface~from_ijk_to_vuw&#45;&gt;proc~from_ijk_to_vuw_mat</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M389.05,-12C397.29,-12 406.02,-12 414.73,-12"/>
+<polygon fill="#000000" stroke="#000000" points="414.9,-15.5 424.9,-12 414.9,-8.5 414.9,-15.5"/>
+</g>
+<!-- proc~from_vuw_to_ijk_mat -->
+<g id="proc~~from_ijk_to_vuw_mat~~CalledByGraph_node3" class="node">
+<title>proc~from_vuw_to_ijk_mat</title>
+<g id="a_proc~~from_ijk_to_vuw_mat~~CalledByGraph_node3"><a xlink:href="../proc/from_vuw_to_ijk_mat.html" xlink:title="from_vuw_to_ijk_mat">
+<polygon fill="#d9534f" stroke="#d9534f" points="256,-24 133,-24 133,0 256,0 256,-24"/>
+<text text-anchor="middle" x="194.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_vuw_to_ijk_mat</text>
+</a>
+</g>
+</g>
+<!-- proc~from_vuw_to_ijk_mat&#45;&gt;interface~from_ijk_to_vuw -->
+<g id="proc~~from_ijk_to_vuw_mat~~CalledByGraph_edge2" class="edge">
+<title>proc~from_vuw_to_ijk_mat&#45;&gt;interface~from_ijk_to_vuw</title>
+<path fill="none" stroke="#000000" d="M256.15,-12C264.57,-12 273.19,-12 281.56,-12"/>
+<polygon fill="#000000" stroke="#000000" points="281.6,-15.5 291.6,-12 281.6,-8.5 281.6,-15.5"/>
+</g>
+<!-- interface~from_vuw_to_ijk -->
+<g id="proc~~from_ijk_to_vuw_mat~~CalledByGraph_node4" class="node">
+<title>interface~from_vuw_to_ijk</title>
+<g id="a_proc~~from_ijk_to_vuw_mat~~CalledByGraph_node4"><a xlink:href="../interface/from_vuw_to_ijk.html" xlink:title="from_vuw_to_ijk">
+<polygon fill="#a7506f" stroke="#a7506f" points="97,-24 0,-24 0,0 97,0 97,-24"/>
+<text text-anchor="middle" x="48.5" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">from_vuw_to_ijk</text>
+</a>
+</g>
+</g>
+<!-- interface~from_vuw_to_ijk&#45;&gt;proc~from_vuw_to_ijk_mat -->
+<g id="proc~~from_ijk_to_vuw_mat~~CalledByGraph_edge3" class="edge">
+<title>interface~from_vuw_to_ijk&#45;&gt;proc~from_vuw_to_ijk_mat</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M97.05,-12C105.29,-12 114.02,-12 122.73,-12"/>
+<polygon fill="#000000" stroke="#000000" points="122.9,-15.5 132.9,-12 122.9,-8.5 122.9,-15.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CalledByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CalledByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">from_ijk_to_vuw_mat</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">cdot</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">use </span><span class="n">vector_module</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">unit</span><span class="p">,</span><span class="w"> </span><span class="n">cross</span><span class="p">,</span><span class="w"> </span><span class="n">uhat_dot</span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                          </span><span class="kd">::</span><span class="w"> </span><span class="n">mu</span><span class="w">     </span><span class="c">!! gravitational parameter [km^3/s^2]</span>
+<span class="w">                                                           </span><span class="c">!! this is used here to assume instantaneous conic motion if `a` is not present.</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span><span class="w">      </span><span class="c">!! position vector of target [km]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">v</span><span class="w">      </span><span class="c">!! velocity vector of target [km/s]</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="k">optional</span><span class="w">    </span><span class="kd">::</span><span class="w"> </span><span class="n">a</span><span class="w">      </span><span class="c">!! acceleration vector of target [km/s^2]</span>
+<span class="w">                                                           </span><span class="c">!! (if not present, then a torque-free force model is assumed)</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">c</span><span class="w">      </span><span class="c">!! C transformation matrix</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">),</span><span class="k">optional</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">cdot</span><span class="w">   </span><span class="c">!! CDOT transformation matrix</span>
+
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ex_hat</span><span class="p">,</span><span class="n">ex_hat_dot</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ey_hat</span><span class="p">,</span><span class="n">ey_hat_dot</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ez_hat</span><span class="p">,</span><span class="n">ez_hat_dot</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="n">h_hat</span><span class="p">,</span><span class="n">h_dot</span><span class="p">,</span><span class="n">v_hat</span><span class="p">,</span><span class="n">a_conic</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rmag</span><span class="w"> </span><span class="c">!! position vector magniude</span>
+
+<span class="w">    </span><span class="n">h</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">cross</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">v</span><span class="p">)</span>
+<span class="w">    </span><span class="n">h_hat</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">unit</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+<span class="w">    </span><span class="n">v_hat</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">unit</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">ex_hat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v_hat</span>
+<span class="w">    </span><span class="n">ez_hat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">h_hat</span>
+<span class="w">    </span><span class="n">ey_hat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cross</span><span class="p">(</span><span class="n">ez_hat</span><span class="p">,</span><span class="n">ex_hat</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">c</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ex_hat</span>
+<span class="w">    </span><span class="n">c</span><span class="p">(</span><span class="mi">2</span><span class="p">,:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ey_hat</span>
+<span class="w">    </span><span class="n">c</span><span class="p">(</span><span class="mi">3</span><span class="p">,:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ez_hat</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">cdot</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+
+<span class="k">        if</span><span class="w"> </span><span class="p">(</span><span class="nb">present</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
+<span class="k">            </span><span class="n">ex_hat_dot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">uhat_dot</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="n">a</span><span class="p">)</span>
+<span class="w">            </span><span class="n">h_dot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cross</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">a</span><span class="p">)</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="k">            </span><span class="n">rmag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<span class="w">            </span><span class="c">! is this as simple as we can make this?</span>
+<span class="w">            </span><span class="c">! here we assume instantaneous conic motion</span>
+<span class="w">            </span><span class="n">a_conic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">mu</span><span class="o">/</span><span class="n">rmag</span><span class="o">**</span><span class="mi">3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">r</span><span class="w">  </span><span class="c">! accceleration for conic motion</span>
+<span class="w">            </span><span class="n">ex_hat_dot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">uhat_dot</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="n">a_conic</span><span class="p">)</span>
+<span class="w">            </span><span class="n">h_dot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<span class="w">        </span><span class="k">end if</span>
+<span class="k">        </span><span class="n">ez_hat_dot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">uhat_dot</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">h_dot</span><span class="p">)</span>
+<span class="w">        </span><span class="n">ey_hat_dot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cross</span><span class="p">(</span><span class="n">ez_hat_dot</span><span class="p">,</span><span class="n">ex_hat</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cross</span><span class="p">(</span><span class="n">ez_hat</span><span class="p">,</span><span class="n">ex_hat_dot</span><span class="p">)</span>
+
+<span class="w">        </span><span class="n">cdot</span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ex_hat_dot</span>
+<span class="w">        </span><span class="n">cdot</span><span class="p">(</span><span class="mi">2</span><span class="p">,:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ey_hat_dot</span>
+<span class="w">        </span><span class="n">cdot</span><span class="p">(</span><span class="mi">3</span><span class="p">,:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ez_hat_dot</span>
+
+<span class="w">    </span><span class="k">end if</span>
+
+<span class="k">    end subroutine </span><span class="n">from_ijk_to_vuw_mat</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

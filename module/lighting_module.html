@@ -1,0 +1,1753 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>lighting_module &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>lighting_module
+      <small>Module</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+            <li class="list-inline-item" id="meta-author"><i class="fa fa-pencil"></i> Jacob Williams</li>
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 2.8% of total for modules and submodules.">402 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/lighting_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/lighting_module.f90.html'>lighting_module.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">lighting_module</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/lighting_module.html#proc-solar_radiation_pressure">solar_radiation_pressure</a>
+            <a class="list-group-item" href="../module/lighting_module.html#proc-get_sun_fraction">get_sun_fraction</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/lighting_module.html#proc-solar_fraction">solar_fraction</a>
+            <a class="list-group-item" href="../module/lighting_module.html#proc-from_j2000body_to_j2000ssb">from_j2000body_to_j2000ssb</a>
+            <a class="list-group-item" href="../module/lighting_module.html#proc-apparent_position">apparent_position</a>
+            <a class="list-group-item" href="../module/lighting_module.html#proc-cubic_shadow_model">cubic_shadow_model</a>
+            <a class="list-group-item" href="../module/lighting_module.html#proc-solar_fraction_alt">solar_fraction_alt</a>
+            <a class="list-group-item" href="../module/lighting_module.html#proc-solar_fraction_alt2">solar_fraction_alt2</a>
+            <a class="list-group-item" href="../module/lighting_module.html#proc-lighting_module_test">lighting_module_test</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <p>Routines for computing solar fraction, lighting, eclipses, etc.</p>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='math_module.html'>math_module</a></li>
+                  <li class="list-inline-item"><a href='kind_module.html'>kind_module</a></li>
+                  <li class="list-inline-item"><a href='numbers_module.html'>numbers_module</a></li>
+                  <li class="list-inline-item"><a href='conversion_module.html'>conversion_module</a></li>
+                  <li class="list-inline-item"><a href='transformation_module.html'>transformation_module</a></li>
+                  <li class="list-inline-item"><a href='celestial_body_module.html'>celestial_body_module</a></li>
+                  <li class="list-inline-item"><a href='ephemeris_module.html'>ephemeris_module</a></li>
+                  <li class="list-inline-item"><a href='vector_module.html'>vector_module</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~lighting_module~~UsesGraph Pages: 1 -->
+<svg id="modulelighting_moduleUsesGraph" width="641pt" height="251pt"
+ viewBox="0.00 0.00 641.00 250.97" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~lighting_module~~UsesGraph" class="graph" transform="scale(0.63 0.63) rotate(0) translate(4 396.53)">
+<title>module~~lighting_module~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-396.53 1019,-396.53 1019,4 -4,4"/>
+<!-- module~lighting_module -->
+<g id="module~~lighting_module~~UsesGraph_node1" class="node">
+<title>module~lighting_module</title>
+<polygon fill="none" stroke="black" points="1015,-148 917,-148 917,-124 1015,-124 1015,-148"/>
+<text text-anchor="middle" x="966" y="-133.6" font-family="Helvetica,sans-Serif" font-size="10.50">lighting_module</text>
+</g>
+<!-- module~celestial_body_module -->
+<g id="module~~lighting_module~~UsesGraph_node2" class="node">
+<title>module~celestial_body_module</title>
+<g id="a_module~~lighting_module~~UsesGraph_node2"><a xlink:href="../module/celestial_body_module.html" xlink:title="celestial_body_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="532,-266 398,-266 398,-242 532,-242 532,-266"/>
+<text text-anchor="middle" x="465" y="-251.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">celestial_body_module</text>
+</a>
+</g>
+</g>
+<!-- module~lighting_module&#45;&gt;module~celestial_body_module -->
+<g id="module~~lighting_module~~UsesGraph_edge1" class="edge">
+<title>module~lighting_module&#45;&gt;module~celestial_body_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M957.69,-148.24C938.52,-179.03 883.39,-259.53 813,-292"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M811,-292C768.18,-311.75 753.73,-277.34 707,-271 652.21,-263.57 589.94,-259.28 542.42,-256.87"/>
+<polygon fill="#000000" stroke="#000000" points="542.37,-253.37 532.21,-256.37 542.03,-260.36 542.37,-253.37"/>
+</g>
+<!-- module~conversion_module -->
+<g id="module~~lighting_module~~UsesGraph_node3" class="node">
+<title>module~conversion_module</title>
+<g id="a_module~~lighting_module~~UsesGraph_node3"><a xlink:href="../module/conversion_module.html" xlink:title="conversion_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="523.5,-66 406.5,-66 406.5,-42 523.5,-42 523.5,-66"/>
+<text text-anchor="middle" x="465" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conversion_module</text>
+</a>
+</g>
+</g>
+<!-- module~lighting_module&#45;&gt;module~conversion_module -->
+<g id="module~~lighting_module~~UsesGraph_edge2" class="edge">
+<title>module~lighting_module&#45;&gt;module~conversion_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M811,-58C735.36,-45.47 715.08,-54.46 638.5,-58"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M636.5,-58C602.75,-59.56 565.22,-58.94 533.97,-57.76"/>
+<polygon fill="#000000" stroke="#000000" points="533.77,-54.25 523.63,-57.35 533.49,-61.25 533.77,-54.25"/>
+</g>
+<!-- module~ephemeris_module -->
+<g id="module~~lighting_module~~UsesGraph_node4" class="node">
+<title>module~ephemeris_module</title>
+<g id="a_module~~lighting_module~~UsesGraph_node4"><a xlink:href="../module/ephemeris_module.html" xlink:title="ephemeris_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="695,-304 580,-304 580,-280 695,-280 695,-304"/>
+<text text-anchor="middle" x="637.5" y="-289.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ephemeris_module</text>
+</a>
+</g>
+</g>
+<!-- module~lighting_module&#45;&gt;module~ephemeris_module -->
+<g id="module~~lighting_module~~UsesGraph_edge3" class="edge">
+<title>module~lighting_module&#45;&gt;module~ephemeris_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M811,-292C778.35,-307.06 738.37,-307.99 705.13,-304.74"/>
+<polygon fill="#000000" stroke="#000000" points="705.37,-301.24 695.05,-303.6 704.59,-308.2 705.37,-301.24"/>
+</g>
+<!-- module~kind_module -->
+<g id="module~~lighting_module~~UsesGraph_node5" class="node">
+<title>module~kind_module</title>
+<g id="a_module~~lighting_module~~UsesGraph_node5"><a xlink:href="../module/kind_module.html" xlink:title="kind_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="211,-186 130,-186 130,-162 211,-162 211,-186"/>
+<text text-anchor="middle" x="170.5" y="-171.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module</text>
+</a>
+</g>
+</g>
+<!-- module~lighting_module&#45;&gt;module~kind_module -->
+<g id="module~~lighting_module~~UsesGraph_edge4" class="edge">
+<title>module~lighting_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M811,-292C669.01,-359.46 623,-378.03 466,-370"/>
+</g>
+<!-- module~math_module -->
+<g id="module~~lighting_module~~UsesGraph_node6" class="node">
+<title>module~math_module</title>
+<g id="a_module~~lighting_module~~UsesGraph_node6"><a xlink:href="../module/math_module.html" xlink:title="math_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="508,-186 422,-186 422,-162 508,-162 508,-186"/>
+<text text-anchor="middle" x="465" y="-171.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">math_module</text>
+</a>
+</g>
+</g>
+<!-- module~lighting_module&#45;&gt;module~math_module -->
+<g id="module~~lighting_module~~UsesGraph_edge5" class="edge">
+<title>module~lighting_module&#45;&gt;module~math_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M811,-58C772.06,-51.77 771.04,-87.27 743,-115 725.52,-132.29 728.96,-145.95 707,-157 647.59,-186.9 569.31,-186.28 518.33,-181.48"/>
+<polygon fill="#000000" stroke="#000000" points="518.51,-177.98 508.2,-180.44 517.79,-184.94 518.51,-177.98"/>
+</g>
+<!-- module~numbers_module -->
+<g id="module~~lighting_module~~UsesGraph_node7" class="node">
+<title>module~numbers_module</title>
+<g id="a_module~~lighting_module~~UsesGraph_node7"><a xlink:href="../module/numbers_module.html" xlink:title="numbers_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="357.5,-106 251.5,-106 251.5,-82 357.5,-82 357.5,-106"/>
+<text text-anchor="middle" x="304.5" y="-91.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module</text>
+</a>
+</g>
+</g>
+<!-- module~lighting_module&#45;&gt;module~numbers_module -->
+<g id="module~~lighting_module~~UsesGraph_edge6" class="edge">
+<title>module~lighting_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M636.5,-58C559.13,-61.58 543.39,-91.09 466,-94"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M464,-94C432.27,-95.19 396.94,-95.31 367.7,-95.08"/>
+<polygon fill="#000000" stroke="#000000" points="367.66,-91.58 357.63,-94.99 367.6,-98.58 367.66,-91.58"/>
+</g>
+<!-- module~transformation_module -->
+<g id="module~~lighting_module~~UsesGraph_node8" class="node">
+<title>module~transformation_module</title>
+<g id="a_module~~lighting_module~~UsesGraph_node8"><a xlink:href="../module/transformation_module.html" xlink:title="transformation_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="881,-148 743,-148 743,-124 881,-124 881,-148"/>
+<text text-anchor="middle" x="812" y="-133.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">transformation_module</text>
+</a>
+</g>
+</g>
+<!-- module~lighting_module&#45;&gt;module~transformation_module -->
+<g id="module~~lighting_module~~UsesGraph_edge7" class="edge">
+<title>module~lighting_module&#45;&gt;module~transformation_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M916.91,-136C908.72,-136 900.03,-136 891.29,-136"/>
+<polygon fill="#000000" stroke="#000000" points="891.05,-132.5 881.05,-136 891.05,-139.5 891.05,-132.5"/>
+</g>
+<!-- module~vector_module -->
+<g id="module~~lighting_module~~UsesGraph_node9" class="node">
+<title>module~vector_module</title>
+<g id="a_module~~lighting_module~~UsesGraph_node9"><a xlink:href="../module/vector_module.html" xlink:title="vector_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="511,-24 419,-24 419,0 511,0 511,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_module</text>
+</a>
+</g>
+</g>
+<!-- module~lighting_module&#45;&gt;module~vector_module -->
+<g id="module~~lighting_module~~UsesGraph_edge8" class="edge">
+<title>module~lighting_module&#45;&gt;module~vector_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M949.33,-123.72C923,-104.11 867.43,-67.02 813,-58"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M811,-58C733.55,-45.17 714.92,-37.97 638.5,-20"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M636.5,-20C598.72,-11.12 554.98,-9.23 521.26,-9.5"/>
+<polygon fill="#000000" stroke="#000000" points="521.08,-6.01 511.14,-9.65 521.19,-13 521.08,-6.01"/>
+</g>
+<!-- module~celestial_body_module&#45;&gt;module~kind_module -->
+<g id="module~~lighting_module~~UsesGraph_edge10" class="edge">
+<title>module~celestial_body_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M420.15,-241.93C388.45,-233.44 344.52,-222.2 305.5,-214"/>
+</g>
+<!-- module~celestial_body_module&#45;&gt;module~numbers_module -->
+<g id="module~~lighting_module~~UsesGraph_edge11" class="edge">
+<title>module~celestial_body_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M417.8,-241.88C410.47,-238.35 403.51,-233.81 398,-228 363.19,-191.28 395.77,-157.68 362,-120 359,-116.65 355.48,-113.71 351.69,-111.12"/>
+<polygon fill="#000000" stroke="#000000" points="353.45,-108.09 343.07,-106.01 349.89,-114.12 353.45,-108.09"/>
+</g>
+<!-- module~base_class_module -->
+<g id="module~~lighting_module~~UsesGraph_node11" class="node">
+<title>module~base_class_module</title>
+<g id="a_module~~lighting_module~~UsesGraph_node11"><a xlink:href="../module/base_class_module.html" xlink:title="base_class_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="362,-266 247,-266 247,-242 362,-242 362,-266"/>
+<text text-anchor="middle" x="304.5" y="-251.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">base_class_module</text>
+</a>
+</g>
+</g>
+<!-- module~celestial_body_module&#45;&gt;module~base_class_module -->
+<g id="module~~lighting_module~~UsesGraph_edge9" class="edge">
+<title>module~celestial_body_module&#45;&gt;module~base_class_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M397.7,-254C389.38,-254 380.86,-254 372.53,-254"/>
+<polygon fill="#000000" stroke="#000000" points="372.48,-250.5 362.48,-254 372.48,-257.5 372.48,-250.5"/>
+</g>
+<!-- module~conversion_module&#45;&gt;module~kind_module -->
+<g id="module~~lighting_module~~UsesGraph_edge12" class="edge">
+<title>module~conversion_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M406.15,-42.69C374.98,-39.32 336.64,-39.71 305.5,-54"/>
+</g>
+<!-- module~conversion_module&#45;&gt;module~numbers_module -->
+<g id="module~~lighting_module~~UsesGraph_edge13" class="edge">
+<title>module~conversion_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M416.44,-66C399.75,-70.21 380.81,-74.99 363.37,-79.4"/>
+<polygon fill="#000000" stroke="#000000" points="362.13,-76.1 353.3,-81.94 363.85,-82.88 362.13,-76.1"/>
+</g>
+<!-- module~ephemeris_module&#45;&gt;module~celestial_body_module -->
+<g id="module~~lighting_module~~UsesGraph_edge14" class="edge">
+<title>module~ephemeris_module&#45;&gt;module~celestial_body_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M582.55,-279.98C565.83,-276.25 547.25,-272.11 529.92,-268.25"/>
+<polygon fill="#000000" stroke="#000000" points="530.41,-264.77 519.89,-266.01 528.89,-271.6 530.41,-264.77"/>
+</g>
+<!-- module~ephemeris_module&#45;&gt;module~kind_module -->
+<g id="module~~lighting_module~~UsesGraph_edge15" class="edge">
+<title>module~ephemeris_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M602.41,-304.11C591.33,-308.26 579.05,-313.1 568,-318 521.48,-338.61 516.57,-364.35 466,-370"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M464,-370C359.37,-381.68 329.47,-340.44 247,-275 218.79,-252.61 195.66,-217.29 182.73,-194.91"/>
+<polygon fill="#000000" stroke="#000000" points="185.78,-193.18 177.83,-186.18 179.67,-196.61 185.78,-193.18"/>
+</g>
+<!-- iso_fortran_env -->
+<g id="module~~lighting_module~~UsesGraph_node10" class="node">
+<title>iso_fortran_env</title>
+<g id="a_module~~lighting_module~~UsesGraph_node10"><a xlink:href="http://fortranwiki.org/fortran/show/iso_fortran_env" xlink:title="iso_fortran_env">
+<polygon fill="#337ab7" stroke="#337ab7" points="94,-303 0,-303 0,-279 94,-279 94,-303"/>
+<text text-anchor="middle" x="47" y="-288.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
+</a>
+</g>
+</g>
+<!-- module~kind_module&#45;&gt;iso_fortran_env -->
+<g id="module~~lighting_module~~UsesGraph_edge16" class="edge">
+<title>module~kind_module&#45;&gt;iso_fortran_env</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M156.95,-186.08C135.86,-206.4 93.1,-247.57 67.88,-271.86"/>
+<polygon fill="#000000" stroke="#000000" points="65.43,-269.35 60.66,-278.81 70.29,-274.39 65.43,-269.35"/>
+</g>
+<!-- module~math_module&#45;&gt;module~kind_module -->
+<g id="module~~lighting_module~~UsesGraph_edge17" class="edge">
+<title>module~math_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M427.71,-161.92C388.65,-149.44 328.97,-132.05 305.5,-134"/>
+</g>
+<!-- module~math_module&#45;&gt;module~numbers_module -->
+<g id="module~~lighting_module~~UsesGraph_edge18" class="edge">
+<title>module~math_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M427.86,-161.91C417.91,-158.01 407.31,-153.31 398,-148 380.39,-137.96 379.32,-130.53 362,-120 356.49,-116.65 350.48,-113.45 344.49,-110.51"/>
+<polygon fill="#000000" stroke="#000000" points="345.73,-107.22 335.19,-106.12 342.74,-113.55 345.73,-107.22"/>
+</g>
+<!-- module~numbers_module&#45;&gt;module~kind_module -->
+<g id="module~~lighting_module~~UsesGraph_edge19" class="edge">
+<title>module~numbers_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M274.51,-106.07C265.52,-110.15 255.68,-114.96 247,-120 228.59,-130.69 209.08,-144.72 194.51,-155.8"/>
+<polygon fill="#000000" stroke="#000000" points="192.33,-153.06 186.54,-161.94 196.6,-158.61 192.33,-153.06"/>
+</g>
+<!-- module~transformation_module&#45;&gt;module~celestial_body_module -->
+<g id="module~~lighting_module~~UsesGraph_edge21" class="edge">
+<title>module~transformation_module&#45;&gt;module~celestial_body_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M636.5,-214C602.24,-223.4 563.73,-232.56 531.99,-239.73"/>
+<polygon fill="#000000" stroke="#000000" points="530.93,-236.38 521.94,-241.99 532.46,-243.21 530.93,-236.38"/>
+</g>
+<!-- module~transformation_module&#45;&gt;module~ephemeris_module -->
+<g id="module~~lighting_module~~UsesGraph_edge22" class="edge">
+<title>module~transformation_module&#45;&gt;module~ephemeris_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M797.46,-148.24C767.49,-175.35 695.31,-240.62 659.45,-273.05"/>
+<polygon fill="#000000" stroke="#000000" points="657.04,-270.51 651.97,-279.82 661.74,-275.7 657.04,-270.51"/>
+</g>
+<!-- module~transformation_module&#45;&gt;module~kind_module -->
+<g id="module~~lighting_module~~UsesGraph_edge24" class="edge">
+<title>module~transformation_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M464,-214C393.69,-209.64 374.44,-228.48 305.5,-214"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M303.5,-214C273.5,-207.7 240.5,-197.7 215,-189.27"/>
+<polygon fill="#000000" stroke="#000000" points="215.86,-185.87 205.26,-186.01 213.64,-192.51 215.86,-185.87"/>
+</g>
+<!-- module~transformation_module&#45;&gt;module~numbers_module -->
+<g id="module~~lighting_module~~UsesGraph_edge25" class="edge">
+<title>module~transformation_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M758.3,-123.94C690.81,-109.8 570.11,-88.88 466,-94"/>
+</g>
+<!-- module~transformation_module&#45;&gt;module~vector_module -->
+<g id="module~~lighting_module~~UsesGraph_edge27" class="edge">
+<title>module~transformation_module&#45;&gt;module~vector_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M798.49,-123.82C775.48,-101.61 726.96,-55.71 707,-44 679.18,-27.67 669.9,-27.38 638.5,-20"/>
+</g>
+<!-- module~transformation_module&#45;&gt;iso_fortran_env -->
+<g id="module~~lighting_module~~UsesGraph_edge20" class="edge">
+<title>module~transformation_module&#45;&gt;iso_fortran_env</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M807.01,-148.13C796.05,-179.64 762.56,-265 707,-313 643.48,-367.87 614.38,-367.92 532,-384 364.28,-416.73 163.69,-341.8 83.59,-307.26"/>
+<polygon fill="#000000" stroke="#000000" points="84.55,-303.86 73.98,-303.06 81.74,-310.27 84.55,-303.86"/>
+</g>
+<!-- module~iau_orientation_module -->
+<g id="module~~lighting_module~~UsesGraph_node12" class="node">
+<title>module~iau_orientation_module</title>
+<g id="a_module~~lighting_module~~UsesGraph_node12"><a xlink:href="../module/iau_orientation_module.html" xlink:title="iau_orientation_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="707,-148 568,-148 568,-124 707,-124 707,-148"/>
+<text text-anchor="middle" x="637.5" y="-133.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iau_orientation_module</text>
+</a>
+</g>
+</g>
+<!-- module~transformation_module&#45;&gt;module~iau_orientation_module -->
+<g id="module~~lighting_module~~UsesGraph_edge23" class="edge">
+<title>module~transformation_module&#45;&gt;module~iau_orientation_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M742.82,-136C734.36,-136 725.66,-136 717.06,-136"/>
+<polygon fill="#000000" stroke="#000000" points="717.03,-132.5 707.03,-136 717.03,-139.5 717.03,-132.5"/>
+</g>
+<!-- module~time_module -->
+<g id="module~~lighting_module~~UsesGraph_node13" class="node">
+<title>module~time_module</title>
+<g id="a_module~~lighting_module~~UsesGraph_node13"><a xlink:href="../module/time_module.html" xlink:title="time_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="345.5,-186 263.5,-186 263.5,-162 345.5,-162 345.5,-186"/>
+<text text-anchor="middle" x="304.5" y="-171.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">time_module</text>
+</a>
+</g>
+</g>
+<!-- module~transformation_module&#45;&gt;module~time_module -->
+<g id="module~~lighting_module~~UsesGraph_edge26" class="edge">
+<title>module~transformation_module&#45;&gt;module~time_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M790.03,-148.11C758.35,-165.78 695.87,-198.25 638.5,-214"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M636.5,-214C563.43,-234.06 541.63,-218.69 466,-214"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M464,-214C423.87,-211.51 379.62,-199.53 348.09,-189.32"/>
+<polygon fill="#000000" stroke="#000000" points="348.92,-185.91 338.33,-186.08 346.72,-192.55 348.92,-185.91"/>
+</g>
+<!-- module~vector_module&#45;&gt;module~kind_module -->
+<g id="module~~lighting_module~~UsesGraph_edge28" class="edge">
+<title>module~vector_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M418.87,-19.68C386.36,-26.22 341.98,-37.26 305.5,-54"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M303.5,-54C279.42,-65.05 268.46,-57.46 247,-73 217.67,-94.23 194.73,-130.18 182.16,-152.97"/>
+<polygon fill="#000000" stroke="#000000" points="179.04,-151.38 177.42,-161.85 185.22,-154.68 179.04,-151.38"/>
+</g>
+<!-- module~vector_module&#45;&gt;module~numbers_module -->
+<g id="module~~lighting_module~~UsesGraph_edge29" class="edge">
+<title>module~vector_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M418.76,-23.3C411.56,-25.96 404.4,-29.17 398,-33 378.86,-44.47 380.4,-55.38 362,-68 357.04,-71.4 351.56,-74.56 346.02,-77.41"/>
+<polygon fill="#000000" stroke="#000000" points="344.2,-74.4 336.73,-81.92 347.26,-80.7 344.2,-74.4"/>
+</g>
+<!-- module~iau_orientation_module&#45;&gt;module~conversion_module -->
+<g id="module~~lighting_module~~UsesGraph_edge30" class="edge">
+<title>module~iau_orientation_module&#45;&gt;module~conversion_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M615.65,-123.9C594.82,-112.02 561.7,-93.75 532,-80 524.45,-76.51 516.29,-73.04 508.37,-69.84"/>
+<polygon fill="#000000" stroke="#000000" points="509.47,-66.51 498.88,-66.08 506.89,-73.02 509.47,-66.51"/>
+</g>
+<!-- module~iau_orientation_module&#45;&gt;module~kind_module -->
+<g id="module~~lighting_module~~UsesGraph_edge31" class="edge">
+<title>module~iau_orientation_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M464,-134C393.72,-129.23 375.7,-128.16 305.5,-134"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M303.5,-134C270.49,-136.75 234.61,-148.21 208.61,-158.16"/>
+<polygon fill="#000000" stroke="#000000" points="207.17,-154.96 199.15,-161.88 209.74,-161.47 207.17,-154.96"/>
+</g>
+<!-- module~iau_orientation_module&#45;&gt;module~numbers_module -->
+<g id="module~~lighting_module~~UsesGraph_edge32" class="edge">
+<title>module~iau_orientation_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M567.99,-136.95C536.83,-136.93 499.52,-136.28 466,-134"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M464,-134C424.01,-131.29 379.91,-119.39 348.4,-109.28"/>
+<polygon fill="#000000" stroke="#000000" points="349.23,-105.86 338.64,-106.07 347.04,-112.51 349.23,-105.86"/>
+</g>
+<!-- module~time_module&#45;&gt;module~kind_module -->
+<g id="module~~lighting_module~~UsesGraph_edge33" class="edge">
+<title>module~time_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M263.18,-174C250.01,-174 235.22,-174 221.43,-174"/>
+<polygon fill="#000000" stroke="#000000" points="221.12,-170.5 211.12,-174 221.12,-177.5 221.12,-170.5"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panmodulelighting_moduleUsesGraph = svgPanZoom('#modulelighting_moduleUsesGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~lighting_module~~UsedByGraph Pages: 1 -->
+<svg id="modulelighting_moduleUsedByGraph" width="312pt" height="32pt"
+ viewBox="0.00 0.00 312.00 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~lighting_module~~UsedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>module~~lighting_module~~UsedByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 308,-28 308,4 -4,4"/>
+<!-- module~lighting_module -->
+<g id="module~~lighting_module~~UsedByGraph_node1" class="node">
+<title>module~lighting_module</title>
+<polygon fill="none" stroke="black" points="98,-24 0,-24 0,0 98,0 98,-24"/>
+<text text-anchor="middle" x="49" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">lighting_module</text>
+</g>
+<!-- module~fortran_astrodynamics_toolkit -->
+<g id="module~~lighting_module~~UsedByGraph_node2" class="node">
+<title>module~fortran_astrodynamics_toolkit</title>
+<g id="a_module~~lighting_module~~UsedByGraph_node2"><a xlink:href="../module/fortran_astrodynamics_toolkit.html" xlink:title="fortran_astrodynamics_toolkit">
+<polygon fill="#337ab7" stroke="#337ab7" points="304,-24 134,-24 134,0 304,0 304,-24"/>
+<text text-anchor="middle" x="219" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fortran_astrodynamics_toolkit</text>
+</a>
+</g>
+</g>
+<!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~lighting_module -->
+<g id="module~~lighting_module~~UsedByGraph_edge1" class="edge">
+<title>module~fortran_astrodynamics_toolkit&#45;&gt;module~lighting_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M133.51,-12C125,-12 116.51,-12 108.37,-12"/>
+<polygon fill="#000000" stroke="#000000" points="108.27,-8.5 98.27,-12 108.27,-15.5 108.27,-8.5"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      <br>
+
+
+
+
+
+
+
+        <section>
+          <h2>Functions</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-solar_radiation_pressure"></span> <h3>public  function <a href='../proc/solar_radiation_pressure.html'>solar_radiation_pressure</a>(area, cr, r_sc_sun, sunfrac) result(srp)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Compute the solar radiation pressure force vector on a spacecraft.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-area~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>area</strong></td>
+            <td>
+<p>cross-sectional area of spacecraft [m^2]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cr~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>cr</strong></td>
+            <td>
+<p>coefficient of reflectivity</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r_sc_sun"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r_sc_sun</strong></td>
+            <td>
+<p>vector from spacecraft to sun [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sunfrac"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sunfrac</strong></td>
+            <td>
+<p>sun fraction [0=total eclipse, 1=no eclipse]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp), dimension(3)</small>
+    </h4>
+    <p>solar radiation pressure force vector [N]</p>
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-get_sun_fraction"></span> <h3>public  function <a href='../proc/get_sun_fraction.html'>get_sun_fraction</a>(b, rad_body, rad_sun, eph, et, rv, model, rbubble, use_geometric, info) result(phi)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Compute the "sun fraction" using the selected shadow model.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~19"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+<p>eclipsing body</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rad_body"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rad_body</strong></td>
+            <td>
+<p>radius of the eclipsing body [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rad_sun"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rad_sun</strong></td>
+            <td>
+<p>radius of the Sun [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eph~12"></span>
+              class(<a href='../type/ephemeris_class.html'>ephemeris_class</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eph</strong></td>
+            <td>
+<p>the ephemeris to use for sun and ssb (if necessary)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-et~21"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>et</strong></td>
+            <td>
+<p>observer ephemeris time (sec)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rv~13"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>rv</strong></td>
+            <td>
+<p>state of the spacecraft (j2000-body frame)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-model"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>model</strong></td>
+            <td>
+<p>algorithm to use:</p><a href="../proc/get_sun_fraction.html#variable-model" class="pull-right"><emph>Read more&hellip;</emph></a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rbubble"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rbubble</strong></td>
+            <td>
+<p>eclipse bubble [km]. see the reference.
+if rbubble=0, then no bubble is used.
+only used if model=1</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-use_geometric"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>use_geometric</strong></td>
+            <td>
+<p>if true, use geometric positions
+(no light time or stellar aberration correction)
+default = false</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~6"></span>
+              character(len=:),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+<p>info string</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=wp)</small>
+    </h4>
+    <p>solar fraction returned:</p>
+<ul>
+<li>if <code>model=1</code>, circular cubic sun frac value:<ul>
+<li><code>&gt;0</code> no eclipse</li>
+<li><code>&lt;0</code> eclipse</li>
+<li><code>=0</code> on the eclipse line</li>
+</ul>
+</li>
+<li>if <code>model=2</code>, true solar fraction value [0=total eclipse, 1=no eclipse],
+   with model of umbra/penumbra/antumbra (Wertz, 1978)</li>
+<li>if <code>model=3</code>, alternate version of solar fraction (Montenbruck and Gill)</li>
+<li>if <code>model=4</code>, alternate version of solar fraction (nyxspace)</li>
+</ul>
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+        <section>
+          <h2>Subroutines</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-solar_fraction"></span> <h3>public  subroutine <a href='../proc/solar_fraction.html'>solar_fraction</a>(d_s, rs, d_p, rp, fraction, info)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Compute the solar fraction visible due to an eclipse by another body.</p><a href="../proc/solar_fraction.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-d_s"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>d_s</strong></td>
+            <td>
+<p>vector from the spacecraft to the Sun</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rs"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rs</strong></td>
+            <td>
+<p>radius of the Sun</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-d_p"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>d_p</strong></td>
+            <td>
+<p>vector from the spacecraft to the planet</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rp~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rp</strong></td>
+            <td>
+<p>radius of the planet</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fraction"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fraction</strong></td>
+            <td>
+<p>fraction of the Sun visible [0=total eclipse, 1=no eclipse]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~7"></span>
+              character(len=:),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+<p>info string</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_j2000body_to_j2000ssb"></span> <h3>public  subroutine <a href='../proc/from_j2000body_to_j2000ssb.html'>from_j2000body_to_j2000ssb</a>(b, eph, et, rv, rv_ssb)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>convert from a j2000-body frame to a j2000-ssb frame.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~20"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+<p>eclipsing body</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eph~13"></span>
+              class(<a href='../type/ephemeris_class.html'>ephemeris_class</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eph</strong></td>
+            <td>
+<p>the ephemeris to use for body and ssb</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-et~22"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>et</strong></td>
+            <td>
+<p>ephemeris time (sec)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rv~14"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>rv</strong></td>
+            <td>
+<p>j2000-body state (km, km/s)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rv_ssb~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>rv_ssb</strong></td>
+            <td>
+<p>j2000-ssb state (km, km/s)</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-apparent_position"></span> <h3>public  subroutine <a href='../proc/apparent_position.html'>apparent_position</a>(eph, b_target, et, rv_obs_ssb, r_target, status_ok)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Return the position of a target body relative to an observer,
+corrected for light time and stellar aberration.</p><a href="../proc/apparent_position.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eph~14"></span>
+              class(<a href='../type/ephemeris_class.html'>ephemeris_class</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eph</strong></td>
+            <td>
+<p>the ephemeris</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b_target"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b_target</strong></td>
+            <td>
+<p>target body</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-et~23"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>et</strong></td>
+            <td>
+<p>observer ephemeris time (sec)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rv_obs_ssb"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>rv_obs_ssb</strong></td>
+            <td>
+<p>state of the observer
+(j2000 frame w.r.t. solar system barycenter)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r_target"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r_target</strong></td>
+            <td>
+<p>apparant state of the target (j2000 frame)
+Corrected for one-way light time and stellar aberration</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-status_ok~25"></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status_ok</strong></td>
+            <td>
+<p>true if no problems</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-cubic_shadow_model"></span> <h3>public  subroutine <a href='../proc/cubic_shadow_model.html'>cubic_shadow_model</a>(rsun, radsun, rplanet, radplanet, sunfrac, rbubble)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>The "circular cubic" shadow model.</p><a href="../proc/cubic_shadow_model.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rsun"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>rsun</strong></td>
+            <td>
+<p>apparent position vector of sun wrt spacecraft [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-radsun"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>radsun</strong></td>
+            <td>
+<p>radius of sun [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rplanet"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>rplanet</strong></td>
+            <td>
+<p>apparent position vector of eclipsing body wrt spacecraft [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-radplanet"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>radplanet</strong></td>
+            <td>
+<p>radius of the eclipsing body [km]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sunfrac~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sunfrac</strong></td>
+            <td>
+<p>value of the function (&gt;0 no eclipse,
+&lt;0 eclipse, =0 on the shadow line)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rbubble~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rbubble</strong></td>
+            <td>
+<p>eclipse bubble radius. if present, then <code>sunfrac</code> is
+the value along an arc length of <code>rbubble</code>
+in the direction of the max eclipse line.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-solar_fraction_alt"></span> <h3>public  subroutine <a href='../proc/solar_fraction_alt.html'>solar_fraction_alt</a>(d_s, rs, d_p, rp, percentsun, info)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Another eclipse model, using circular area assumptions.</p><a href="../proc/solar_fraction_alt.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-d_s~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>d_s</strong></td>
+            <td>
+<p>vector from the spacecraft to the Sun</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rs~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rs</strong></td>
+            <td>
+<p>radius of the Sun</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-d_p~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>d_p</strong></td>
+            <td>
+<p>vector from the spacecraft to the planet</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rp~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rp</strong></td>
+            <td>
+<p>radius of the planet</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-percentsun"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>percentsun</strong></td>
+            <td>
+<p>fraction of the Sun visible [0=total eclipse, 1=no eclipse]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~8"></span>
+              character(len=:),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+<p>info string</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-solar_fraction_alt2"></span> <h3>public  subroutine <a href='../proc/solar_fraction_alt2.html'>solar_fraction_alt2</a>(r_l, Rl, r_e, Re, percentsun, info)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Another eclipse model, using circular area assumptions,
+  coded up based on the nixspace documentation.
+  The results are very similar to <code>solar_fraction_alt</code>.</p><a href="../proc/solar_fraction_alt2.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r_l"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r_l</strong></td>
+            <td>
+<p>vector from the spacecraft to the Sun</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rl"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Rl</strong></td>
+            <td>
+<p>radius of the Sun</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r_e"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>r_e</strong></td>
+            <td>
+<p>vector from the spacecraft to the planet</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-re"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Re</strong></td>
+            <td>
+<p>radius of the planet</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-percentsun~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>percentsun</strong></td>
+            <td>
+<p>fraction of the Sun visible [0=total eclipse, 1=no eclipse]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~9"></span>
+              character(len=:),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              allocatable
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+<p>info string</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-lighting_module_test"></span> <h3>public  subroutine <a href='../proc/lighting_module_test.html'>lighting_module_test</a>()  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Unit tests for the listing module.</p>
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

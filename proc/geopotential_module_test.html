@@ -1,0 +1,946 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>geopotential_module_test &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>geopotential_module_test
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+            <li class="list-inline-item" id="meta-author"><i class="fa fa-pencil"></i> Jacob Williams</li>
+            <li class="list-inline-item" id="meta-date"><i class="fa fa-calendar-o"></i> 9/20/2014</li>
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 1.1% of total for procedures.">142 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/geopotential_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/geopotential_module.f90.html'>geopotential_module.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/geopotential_module.html'>geopotential_module</a></li>
+            <li class="breadcrumb-item active" aria-current="page">geopotential_module_test</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/geopotential_module_test.html#src">geopotential_module_test</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public  subroutine geopotential_module_test()  
+</h2>
+        <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='../module/conversion_module.html'>conversion_module</a></li>
+                  <li class="list-inline-item"><a href='../module/random_module.html'>random_module</a></li>
+                  <li class="list-inline-item"><a href='../module/vector_module.html'>vector_module</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~geopotential_module_test~~UsesGraph Pages: 1 -->
+<svg id="procgeopotential_module_testUsesGraph" width="641pt" height="117pt"
+ viewBox="0.00 0.00 641.00 116.88" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~geopotential_module_test~~UsesGraph" class="graph" transform="scale(0.91 0.91) rotate(0) translate(4 123.82)">
+<title>proc~~geopotential_module_test~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-123.82 697,-123.82 697,4 -4,4"/>
+<!-- proc~geopotential_module_test -->
+<g id="proc~~geopotential_module_test~~UsesGraph_node1" class="node">
+<title>proc~geopotential_module_test</title>
+<polygon fill="none" stroke="black" points="693,-64 542,-64 542,-40 693,-40 693,-64"/>
+<text text-anchor="middle" x="617.5" y="-49.6" font-family="Helvetica,sans-Serif" font-size="10.50">geopotential_module_test</text>
+</g>
+<!-- module~conversion_module -->
+<g id="proc~~geopotential_module_test~~UsesGraph_node2" class="node">
+<title>module~conversion_module</title>
+<g id="a_proc~~geopotential_module_test~~UsesGraph_node2"><a xlink:href="../module/conversion_module.html" xlink:title="conversion_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="506,-106 389,-106 389,-82 506,-82 506,-106"/>
+<text text-anchor="middle" x="447.5" y="-91.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conversion_module</text>
+</a>
+</g>
+</g>
+<!-- proc~geopotential_module_test&#45;&gt;module~conversion_module -->
+<g id="proc~~geopotential_module_test~~UsesGraph_edge1" class="edge">
+<title>proc~geopotential_module_test&#45;&gt;module~conversion_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M568.36,-64.04C549.03,-68.87 526.58,-74.48 506.37,-79.53"/>
+<polygon fill="#000000" stroke="#000000" points="505.5,-76.14 496.65,-81.96 507.2,-82.93 505.5,-76.14"/>
+</g>
+<!-- module~random_module -->
+<g id="proc~~geopotential_module_test~~UsesGraph_node3" class="node">
+<title>module~random_module</title>
+<g id="a_proc~~geopotential_module_test~~UsesGraph_node3"><a xlink:href="../module/random_module.html" xlink:title="random_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="350,-24 250,-24 250,0 350,0 350,-24"/>
+<text text-anchor="middle" x="300" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">random_module</text>
+</a>
+</g>
+</g>
+<!-- proc~geopotential_module_test&#45;&gt;module~random_module -->
+<g id="proc~~geopotential_module_test~~UsesGraph_edge2" class="edge">
+<title>proc~geopotential_module_test&#45;&gt;module~random_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M558.75,-39.95C541.81,-36.7 523.21,-33.43 506,-31 457.06,-24.1 401.18,-19.11 360.13,-15.98"/>
+<polygon fill="#000000" stroke="#000000" points="360.26,-12.48 350.03,-15.22 359.74,-19.46 360.26,-12.48"/>
+</g>
+<!-- module~vector_module -->
+<g id="proc~~geopotential_module_test~~UsesGraph_node4" class="node">
+<title>module~vector_module</title>
+<g id="a_proc~~geopotential_module_test~~UsesGraph_node4"><a xlink:href="../module/vector_module.html" xlink:title="vector_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="493.5,-64 401.5,-64 401.5,-40 493.5,-40 493.5,-64"/>
+<text text-anchor="middle" x="447.5" y="-49.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_module</text>
+</a>
+</g>
+</g>
+<!-- proc~geopotential_module_test&#45;&gt;module~vector_module -->
+<g id="proc~~geopotential_module_test~~UsesGraph_edge3" class="edge">
+<title>proc~geopotential_module_test&#45;&gt;module~vector_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M541.83,-52C528.96,-52 515.8,-52 503.56,-52"/>
+<polygon fill="#000000" stroke="#000000" points="503.53,-48.5 493.53,-52 503.53,-55.5 503.53,-48.5"/>
+</g>
+<!-- module~kind_module -->
+<g id="proc~~geopotential_module_test~~UsesGraph_node5" class="node">
+<title>module~kind_module</title>
+<g id="a_proc~~geopotential_module_test~~UsesGraph_node5"><a xlink:href="../module/kind_module.html" xlink:title="kind_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="211,-84 130,-84 130,-60 211,-60 211,-84"/>
+<text text-anchor="middle" x="170.5" y="-69.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module</text>
+</a>
+</g>
+</g>
+<!-- module~conversion_module&#45;&gt;module~kind_module -->
+<g id="proc~~geopotential_module_test~~UsesGraph_edge4" class="edge">
+<title>module~conversion_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M404.99,-106.08C364.19,-116.06 300.45,-126.58 247,-113 228.97,-108.42 210.6,-98.58 196.49,-89.68"/>
+<polygon fill="#000000" stroke="#000000" points="198.16,-86.59 187.88,-84.04 194.32,-92.45 198.16,-86.59"/>
+</g>
+<!-- module~numbers_module -->
+<g id="proc~~geopotential_module_test~~UsesGraph_node6" class="node">
+<title>module~numbers_module</title>
+<g id="a_proc~~geopotential_module_test~~UsesGraph_node6"><a xlink:href="../module/numbers_module.html" xlink:title="numbers_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="353,-104 247,-104 247,-80 353,-80 353,-104"/>
+<text text-anchor="middle" x="300" y="-89.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module</text>
+</a>
+</g>
+</g>
+<!-- module~conversion_module&#45;&gt;module~numbers_module -->
+<g id="proc~~geopotential_module_test~~UsesGraph_edge5" class="edge">
+<title>module~conversion_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M388.99,-93.21C380.64,-93.09 372,-92.98 363.55,-92.86"/>
+<polygon fill="#000000" stroke="#000000" points="363.41,-89.36 353.36,-92.72 363.31,-96.36 363.41,-89.36"/>
+</g>
+<!-- module~random_module&#45;&gt;module~kind_module -->
+<g id="proc~~geopotential_module_test~~UsesGraph_edge6" class="edge">
+<title>module~random_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M273.2,-24.14C254.02,-33.17 227.63,-45.59 206.54,-55.51"/>
+<polygon fill="#000000" stroke="#000000" points="204.82,-52.45 197.26,-59.88 207.8,-58.79 204.82,-52.45"/>
+</g>
+<!-- module~vector_module&#45;&gt;module~kind_module -->
+<g id="proc~~geopotential_module_test~~UsesGraph_edge7" class="edge">
+<title>module~vector_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M401.4,-55.28C351.93,-58.88 272.77,-64.63 221.46,-68.37"/>
+<polygon fill="#000000" stroke="#000000" points="220.99,-64.89 211.27,-69.11 221.49,-71.87 220.99,-64.89"/>
+</g>
+<!-- module~vector_module&#45;&gt;module~numbers_module -->
+<g id="proc~~geopotential_module_test~~UsesGraph_edge8" class="edge">
+<title>module~vector_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M402.85,-64C387.66,-68.17 370.46,-72.9 354.57,-77.27"/>
+<polygon fill="#000000" stroke="#000000" points="353.59,-73.91 344.88,-79.94 355.45,-80.66 353.59,-73.91"/>
+</g>
+<!-- iso_fortran_env -->
+<g id="proc~~geopotential_module_test~~UsesGraph_node7" class="node">
+<title>iso_fortran_env</title>
+<g id="a_proc~~geopotential_module_test~~UsesGraph_node7"><a xlink:href="http://fortranwiki.org/fortran/show/iso_fortran_env" xlink:title="iso_fortran_env">
+<polygon fill="#337ab7" stroke="#337ab7" points="94,-84 0,-84 0,-60 94,-60 94,-84"/>
+<text text-anchor="middle" x="47" y="-69.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
+</a>
+</g>
+</g>
+<!-- module~kind_module&#45;&gt;iso_fortran_env -->
+<g id="proc~~geopotential_module_test~~UsesGraph_edge9" class="edge">
+<title>module~kind_module&#45;&gt;iso_fortran_env</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M129.72,-72C121.56,-72 112.83,-72 104.21,-72"/>
+<polygon fill="#000000" stroke="#000000" points="104.2,-68.5 94.2,-72 104.2,-75.5 104.2,-68.5"/>
+</g>
+<!-- module~numbers_module&#45;&gt;module~kind_module -->
+<g id="proc~~geopotential_module_test~~UsesGraph_edge10" class="edge">
+<title>module~numbers_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M246.77,-83.81C238.36,-82.49 229.68,-81.13 221.33,-79.82"/>
+<polygon fill="#000000" stroke="#000000" points="221.77,-76.34 211.35,-78.25 220.68,-83.26 221.77,-76.34"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panprocgeopotential_module_testUsesGraph = svgPanZoom('#procgeopotential_module_testUsesGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+
+    <p>Unit test routine for geopotential_module</p>
+
+
+    <h3>Arguments</h3>
+    <em>None</em>
+    <br>
+    <br>
+    <div class="card">
+      <div class="card-header">
+  <h3 class="card-title">Calls</h3>
+      </div>
+      <div class="card-body">
+  <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: proc~~geopotential_module_test~~CallsGraph Pages: 1 -->
+<svg id="procgeopotential_module_testCallsGraph" width="641pt" height="264pt"
+ viewBox="0.00 0.00 641.00 264.48" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="proc~~geopotential_module_test~~CallsGraph" class="graph" transform="scale(0.65 0.65) rotate(0) translate(4 402)">
+<title>proc~~geopotential_module_test~~CallsGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-402 980,-402 980,4 -4,4"/>
+<!-- proc~geopotential_module_test -->
+<g id="proc~~geopotential_module_test~~CallsGraph_node1" class="node">
+<title>proc~geopotential_module_test</title>
+<polygon fill="none" stroke="black" points="151,-272 0,-272 0,-248 151,-248 151,-272"/>
+<text text-anchor="middle" x="75.5" y="-257.6" font-family="Helvetica,sans-Serif" font-size="10.50">geopotential_module_test</text>
+</g>
+<!-- proc~compute_gravity_acceleration_mueller -->
+<g id="proc~~geopotential_module_test~~CallsGraph_node2" class="node">
+<title>proc~compute_gravity_acceleration_mueller</title>
+<g id="a_proc~~geopotential_module_test~~CallsGraph_node2"><a xlink:href="../proc/compute_gravity_acceleration_mueller.html" xlink:title="geopotential_model_mueller%compute_gravity_acceleration_mueller">
+<polygon fill="#d9534f" stroke="#d9534f" points="570,-393 187,-393 187,-369 570,-369 570,-393"/>
+<text text-anchor="middle" x="378.5" y="-378.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geopotential_model_mueller%compute_gravity_acceleration_mueller</text>
+</a>
+</g>
+</g>
+<!-- proc~geopotential_module_test&#45;&gt;proc~compute_gravity_acceleration_mueller -->
+<g id="proc~~geopotential_module_test~~CallsGraph_edge1" class="edge">
+<title>proc~geopotential_module_test&#45;&gt;proc~compute_gravity_acceleration_mueller</title>
+<path fill="none" stroke="#000000" d="M87.35,-272.28C105.71,-292.17 145.02,-331.13 187,-350 202.52,-356.98 219.38,-362.4 236.44,-366.62"/>
+<polygon fill="#000000" stroke="#000000" points="235.96,-370.11 246.49,-368.97 237.55,-363.29 235.96,-370.11"/>
+</g>
+<!-- proc~destroy_geopotential_model -->
+<g id="proc~~geopotential_module_test~~CallsGraph_node3" class="node">
+<title>proc~destroy_geopotential_model</title>
+<g id="a_proc~~geopotential_module_test~~CallsGraph_node3"><a xlink:href="../proc/destroy_geopotential_model.html" xlink:title="geopotential_model%destroy_geopotential_model">
+<polygon fill="#d9534f" stroke="#d9534f" points="886,-356 606,-356 606,-332 886,-332 886,-356"/>
+<text text-anchor="middle" x="746" y="-341.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geopotential_model%destroy_geopotential_model</text>
+</a>
+</g>
+</g>
+<!-- proc~geopotential_module_test&#45;&gt;proc~destroy_geopotential_model -->
+<g id="proc~~geopotential_module_test~~CallsGraph_edge2" class="edge">
+<title>proc~geopotential_module_test&#45;&gt;proc~destroy_geopotential_model</title>
+<path fill="none" stroke="#000000" d="M111.92,-272.11C133.39,-278.99 161.49,-287.16 187,-292 324.1,-318 482.72,-331.19 595.72,-337.76"/>
+<polygon fill="#000000" stroke="#000000" points="595.64,-341.26 605.82,-338.34 596.04,-334.27 595.64,-341.26"/>
+</g>
+<!-- proc~get_random_number -->
+<g id="proc~~geopotential_module_test~~CallsGraph_node4" class="node">
+<title>proc~get_random_number</title>
+<g id="a_proc~~geopotential_module_test~~CallsGraph_node4"><a xlink:href="../proc/get_random_number.html" xlink:title="get_random_number">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="440.5,-199 316.5,-199 316.5,-175 440.5,-175 440.5,-199"/>
+<text text-anchor="middle" x="378.5" y="-184.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_random_number</text>
+</a>
+</g>
+</g>
+<!-- proc~geopotential_module_test&#45;&gt;proc~get_random_number -->
+<g id="proc~~geopotential_module_test~~CallsGraph_edge3" class="edge">
+<title>proc~geopotential_module_test&#45;&gt;proc~get_random_number</title>
+<path fill="none" stroke="#000000" d="M96.88,-247.89C118.47,-235.67 153.94,-217.32 187,-208 225.64,-197.11 270.17,-191.82 306.46,-189.27"/>
+<polygon fill="#000000" stroke="#000000" points="306.71,-192.76 316.47,-188.62 306.26,-185.77 306.71,-192.76"/>
+</g>
+<!-- proc~number_of_coefficients -->
+<g id="proc~~geopotential_module_test~~CallsGraph_node5" class="node">
+<title>proc~number_of_coefficients</title>
+<g id="a_proc~~geopotential_module_test~~CallsGraph_node5"><a xlink:href="../proc/number_of_coefficients.html" xlink:title="number_of_coefficients">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="814.5,-314 677.5,-314 677.5,-290 814.5,-290 814.5,-314"/>
+<text text-anchor="middle" x="746" y="-299.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">number_of_coefficients</text>
+</a>
+</g>
+</g>
+<!-- proc~geopotential_module_test&#45;&gt;proc~number_of_coefficients -->
+<g id="proc~~geopotential_module_test~~CallsGraph_edge4" class="edge">
+<title>proc~geopotential_module_test&#45;&gt;proc~number_of_coefficients</title>
+<path fill="none" stroke="#000000" d="M151.24,-264.7C278.79,-272.71 537.25,-288.95 667,-297.1"/>
+<polygon fill="#000000" stroke="#000000" points="667.05,-300.61 677.25,-297.74 667.49,-293.62 667.05,-300.61"/>
+</g>
+<!-- proc~read_geopotential_file -->
+<g id="proc~~geopotential_module_test~~CallsGraph_node6" class="node">
+<title>proc~read_geopotential_file</title>
+<g id="a_proc~~geopotential_module_test~~CallsGraph_node6"><a xlink:href="../proc/read_geopotential_file.html" xlink:title="geopotential_model%read_geopotential_file">
+<polygon fill="#d9534f" stroke="#d9534f" points="502,-241 255,-241 255,-217 502,-217 502,-241"/>
+<text text-anchor="middle" x="378.5" y="-226.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geopotential_model%read_geopotential_file</text>
+</a>
+</g>
+</g>
+<!-- proc~geopotential_module_test&#45;&gt;proc~read_geopotential_file -->
+<g id="proc~~geopotential_module_test~~CallsGraph_edge5" class="edge">
+<title>proc~geopotential_module_test&#45;&gt;proc~read_geopotential_file</title>
+<path fill="none" stroke="#000000" d="M151.29,-252.3C181.4,-249.2 216.98,-245.53 250.89,-242.04"/>
+<polygon fill="#000000" stroke="#000000" points="251.29,-245.52 260.88,-241.01 250.57,-238.55 251.29,-245.52"/>
+</g>
+<!-- proc~spherical_to_cartesian -->
+<g id="proc~~geopotential_module_test~~CallsGraph_node7" class="node">
+<title>proc~spherical_to_cartesian</title>
+<g id="a_proc~~geopotential_module_test~~CallsGraph_node7"><a xlink:href="../proc/spherical_to_cartesian.html" xlink:title="spherical_to_cartesian">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="444.5,-157 312.5,-157 312.5,-133 444.5,-133 444.5,-157"/>
+<text text-anchor="middle" x="378.5" y="-142.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">spherical_to_cartesian</text>
+</a>
+</g>
+</g>
+<!-- proc~geopotential_module_test&#45;&gt;proc~spherical_to_cartesian -->
+<g id="proc~~geopotential_module_test~~CallsGraph_edge6" class="edge">
+<title>proc~geopotential_module_test&#45;&gt;proc~spherical_to_cartesian</title>
+<path fill="none" stroke="#000000" d="M86.26,-247.93C103.89,-227.11 143.29,-184.86 187,-166 223.02,-150.46 266.28,-144.78 302.46,-143.17"/>
+<polygon fill="#000000" stroke="#000000" points="302.59,-146.67 312.46,-142.82 302.35,-139.67 302.59,-146.67"/>
+</g>
+<!-- proc~geopot -->
+<g id="proc~~geopotential_module_test~~CallsGraph_node12" class="node">
+<title>proc~geopot</title>
+<g id="a_proc~~geopotential_module_test~~CallsGraph_node12"><a xlink:href="../proc/geopot.html" xlink:title="geopot">
+<polygon fill="#d9534f" stroke="#d9534f" points="773,-398 719,-398 719,-374 773,-374 773,-398"/>
+<text text-anchor="middle" x="746" y="-383.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">geopot</text>
+</a>
+</g>
+</g>
+<!-- proc~compute_gravity_acceleration_mueller&#45;&gt;proc~geopot -->
+<g id="proc~~geopotential_module_test~~CallsGraph_edge7" class="edge">
+<title>proc~compute_gravity_acceleration_mueller&#45;&gt;proc~geopot</title>
+<path fill="none" stroke="#000000" d="M570.01,-383.61C623.17,-384.33 675.45,-385.05 708.82,-385.51"/>
+<polygon fill="#000000" stroke="#000000" points="708.92,-389.01 718.97,-385.64 709.02,-382.01 708.92,-389.01"/>
+</g>
+<!-- proc~read_geopotential_file&#45;&gt;proc~destroy_geopotential_model -->
+<g id="proc~~geopotential_module_test~~CallsGraph_edge11" class="edge">
+<title>proc~read_geopotential_file&#45;&gt;proc~destroy_geopotential_model</title>
+<path fill="none" stroke="#000000" d="M403.28,-241.15C443.8,-261.33 529.3,-301.64 606,-323 615.43,-325.63 625.32,-327.95 635.3,-329.99"/>
+<polygon fill="#000000" stroke="#000000" points="634.8,-333.46 645.29,-331.94 636.14,-326.59 634.8,-333.46"/>
+</g>
+<!-- proc~read_geopotential_file&#45;&gt;proc~number_of_coefficients -->
+<g id="proc~~geopotential_module_test~~CallsGraph_edge14" class="edge">
+<title>proc~read_geopotential_file&#45;&gt;proc~number_of_coefficients</title>
+<path fill="none" stroke="#000000" d="M427,-241.01C472.68,-252.3 543.77,-269.17 606,-281 625.79,-284.76 647.28,-288.28 667.3,-291.32"/>
+<polygon fill="#000000" stroke="#000000" points="666.9,-294.8 677.31,-292.82 667.94,-287.88 666.9,-294.8"/>
+</g>
+<!-- c -->
+<g id="proc~~geopotential_module_test~~CallsGraph_node8" class="node">
+<title>c</title>
+<polygon fill="#777777" stroke="#777777" points="773,-188 719,-188 719,-164 773,-164 773,-188"/>
+<text text-anchor="middle" x="746" y="-173.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">c</text>
+</g>
+<!-- proc~read_geopotential_file&#45;&gt;c -->
+<g id="proc~~geopotential_module_test~~CallsGraph_edge8" class="edge">
+<title>proc~read_geopotential_file&#45;&gt;c</title>
+<path fill="none" stroke="#000000" d="M502.24,-218.89C524.89,-216.05 548.25,-212.48 570,-208 586.39,-204.62 589.68,-200.7 606,-197 640.51,-189.17 680.51,-183.47 708.72,-180"/>
+<polygon fill="#000000" stroke="#000000" points="709.4,-183.45 718.91,-178.78 708.57,-176.5 709.4,-183.45"/>
+</g>
+<!-- cnm -->
+<g id="proc~~geopotential_module_test~~CallsGraph_node9" class="node">
+<title>cnm</title>
+<polygon fill="#777777" stroke="#777777" points="773,-146 719,-146 719,-122 773,-122 773,-146"/>
+<text text-anchor="middle" x="746" y="-131.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">cnm</text>
+</g>
+<!-- proc~read_geopotential_file&#45;&gt;cnm -->
+<g id="proc~~geopotential_module_test~~CallsGraph_edge9" class="edge">
+<title>proc~read_geopotential_file&#45;&gt;cnm</title>
+<path fill="none" stroke="#000000" d="M502.46,-231.04C526.1,-227.23 549.76,-220.19 570,-208 594.4,-193.31 581.9,-170.18 606,-155 636.72,-135.66 678.66,-131.7 708.42,-131.78"/>
+<polygon fill="#000000" stroke="#000000" points="708.72,-135.29 718.79,-131.97 708.85,-128.29 708.72,-135.29"/>
+</g>
+<!-- proc~convert -->
+<g id="proc~~geopotential_module_test~~CallsGraph_node10" class="node">
+<title>proc~convert</title>
+<g id="a_proc~~geopotential_module_test~~CallsGraph_node10"><a xlink:href="../proc/convert.html" xlink:title="convert">
+<polygon fill="#d9534f" stroke="#d9534f" points="773,-66 719,-66 719,-42 773,-42 773,-66"/>
+<text text-anchor="middle" x="746" y="-51.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">convert</text>
+</a>
+</g>
+</g>
+<!-- proc~read_geopotential_file&#45;&gt;proc~convert -->
+<g id="proc~~geopotential_module_test~~CallsGraph_edge10" class="edge">
+<title>proc~read_geopotential_file&#45;&gt;proc~convert</title>
+<path fill="none" stroke="#000000" d="M502.48,-236.47C527.06,-232.51 551.09,-224.03 570,-208 615.08,-169.78 562.39,-119.88 606,-80 633.67,-54.69 677.8,-50.33 708.9,-50.93"/>
+<polygon fill="#000000" stroke="#000000" points="708.78,-54.42 718.91,-51.3 709.04,-47.43 708.78,-54.42"/>
+</g>
+<!-- proc~fl -->
+<g id="proc~~geopotential_module_test~~CallsGraph_node11" class="node">
+<title>proc~fl</title>
+<g id="a_proc~~geopotential_module_test~~CallsGraph_node11"><a xlink:href="../proc/fl.html" xlink:title="FL">
+<polygon fill="#d94e8f" stroke="#d94e8f" points="976,-86 922,-86 922,-62 976,-62 976,-86"/>
+<text text-anchor="middle" x="949" y="-71.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">FL</text>
+</a>
+</g>
+</g>
+<!-- proc~read_geopotential_file&#45;&gt;proc~fl -->
+<g id="proc~~geopotential_module_test~~CallsGraph_edge12" class="edge">
+<title>proc~read_geopotential_file&#45;&gt;proc~fl</title>
+<path fill="none" stroke="#000000" d="M502.43,-235.04C526.73,-231.09 550.67,-222.98 570,-208 605.69,-180.35 570.36,-140.72 606,-113 629.81,-94.48 828.72,-80.92 911.78,-76.01"/>
+<polygon fill="#000000" stroke="#000000" points="912,-79.5 921.78,-75.43 911.6,-72.52 912,-79.5"/>
+</g>
+<!-- proc~get_format_statement -->
+<g id="proc~~geopotential_module_test~~CallsGraph_node13" class="node">
+<title>proc~get_format_statement</title>
+<g id="a_proc~~geopotential_module_test~~CallsGraph_node13"><a xlink:href="../proc/get_format_statement.html" xlink:title="get_format_statement">
+<polygon fill="#d9534f" stroke="#d9534f" points="811,-24 681,-24 681,0 811,0 811,-24"/>
+<text text-anchor="middle" x="746" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">get_format_statement</text>
+</a>
+</g>
+</g>
+<!-- proc~read_geopotential_file&#45;&gt;proc~get_format_statement -->
+<g id="proc~~geopotential_module_test~~CallsGraph_edge13" class="edge">
+<title>proc~read_geopotential_file&#45;&gt;proc~get_format_statement</title>
+<path fill="none" stroke="#000000" d="M502.37,-237.63C527.24,-233.68 551.43,-224.92 570,-208 628.7,-154.52 548.38,-87.64 606,-33 623.12,-16.76 647.14,-9.79 670.4,-7.41"/>
+<polygon fill="#000000" stroke="#000000" points="670.94,-10.88 680.65,-6.64 670.42,-3.9 670.94,-10.88"/>
+</g>
+<!-- s -->
+<g id="proc~~geopotential_module_test~~CallsGraph_node14" class="node">
+<title>s</title>
+<polygon fill="#777777" stroke="#777777" points="773,-272 719,-272 719,-248 773,-248 773,-272"/>
+<text text-anchor="middle" x="746" y="-257.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">s</text>
+</g>
+<!-- proc~read_geopotential_file&#45;&gt;s -->
+<g id="proc~~geopotential_module_test~~CallsGraph_edge15" class="edge">
+<title>proc~read_geopotential_file&#45;&gt;s</title>
+<path fill="none" stroke="#000000" d="M502.22,-239.41C574.52,-245.54 660.93,-252.87 708.71,-256.92"/>
+<polygon fill="#000000" stroke="#000000" points="708.6,-260.43 718.86,-257.78 709.19,-253.45 708.6,-260.43"/>
+</g>
+<!-- snm -->
+<g id="proc~~geopotential_module_test~~CallsGraph_node15" class="node">
+<title>snm</title>
+<polygon fill="#777777" stroke="#777777" points="773,-230 719,-230 719,-206 773,-206 773,-230"/>
+<text text-anchor="middle" x="746" y="-215.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">snm</text>
+</g>
+<!-- proc~read_geopotential_file&#45;&gt;snm -->
+<g id="proc~~geopotential_module_test~~CallsGraph_edge16" class="edge">
+<title>proc~read_geopotential_file&#45;&gt;snm</title>
+<path fill="none" stroke="#000000" d="M502.22,-225.31C574.52,-223.13 660.93,-220.53 708.71,-219.09"/>
+<polygon fill="#000000" stroke="#000000" points="708.97,-222.59 718.86,-218.79 708.76,-215.59 708.97,-222.59"/>
+</g>
+<!-- proc~convert&#45;&gt;proc~fl -->
+<g id="proc~~geopotential_module_test~~CallsGraph_edge17" class="edge">
+<title>proc~convert&#45;&gt;proc~fl</title>
+<path fill="none" stroke="#000000" d="M773.28,-56.61C808.64,-60.13 871.7,-66.41 911.61,-70.38"/>
+<polygon fill="#000000" stroke="#000000" points="911.42,-73.88 921.72,-71.38 912.11,-66.91 911.42,-73.88"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panprocgeopotential_module_testCallsGraph = svgPanZoom('#procgeopotential_module_testCallsGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#CallsGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="CallsGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="641pt" height="28pt"
+ viewBox="0.00 0.00 641.00 27.51" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(0.86 0.86) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 741.5,-28 741.5,4 -4,4"/>
+<!-- Subroutine -->
+<g id="node1" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="70,-24 0,-24 0,0 70,0 70,-24"/>
+<text text-anchor="middle" x="35" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node2" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="146,-24 88,-24 88,0 146,0 146,-24"/>
+<text text-anchor="middle" x="117" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Interface -->
+<g id="node3" class="node">
+<title>Interface</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="225.5,-24 164.5,-24 164.5,0 225.5,0 225.5,-24"/>
+<text text-anchor="middle" x="195" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Interface</text>
+</g>
+<!-- Type Bound Procedure -->
+<g id="node4" class="node">
+<title>Type Bound Procedure</title>
+<polygon fill="#a7506f" stroke="#a7506f" points="374,-24 244,-24 244,0 374,0 374,-24"/>
+<text text-anchor="middle" x="309" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Type Bound Procedure</text>
+</g>
+<!-- Unknown Procedure Type -->
+<g id="node5" class="node">
+<title>Unknown Procedure Type</title>
+<polygon fill="#777777" stroke="#777777" points="537.5,-24 392.5,-24 392.5,0 537.5,0 537.5,-24"/>
+<text text-anchor="middle" x="465" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Unknown Procedure Type</text>
+</g>
+<!-- Program -->
+<g id="node6" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="614,-24 556,-24 556,0 614,0 614,-24"/>
+<text text-anchor="middle" x="585" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node7" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="737.5,-24 632.5,-24 632.5,0 737.5,0 737.5,-24"/>
+<text text-anchor="middle" x="685" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a procedure to one which it calls. Dashed 
+arrows point from an interface to procedures which implement that interface.
+This could include the module procedures in a generic interface or the
+implementation in a submodule of an interface in a parent module.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">    </span><span class="k">subroutine </span><span class="n">geopotential_module_test</span><span class="p">()</span>
+
+<span class="w">    </span><span class="k">use </span><span class="n">conversion_module</span>
+<span class="w">    </span><span class="k">use </span><span class="n">vector_module</span><span class="p">,</span><span class="w">  </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">spherical_to_cartesian</span>
+<span class="w">    </span><span class="k">use </span><span class="n">random_module</span><span class="p">,</span><span class="w">  </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">get_random_number</span>
+
+<span class="w">    </span><span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">gravfile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;./grav/GGM03C.GEO&#39;</span><span class="w">  </span><span class="c">!! the coefficient file</span>
+
+<span class="w">    </span><span class="k">class</span><span class="p">(</span><span class="n">geopotential_model</span><span class="p">),</span><span class="k">pointer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">geopotential_model_mueller</span><span class="p">)</span><span class="w">          </span><span class="p">,</span><span class="k">target</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g_mueller</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">geopotential_model_lear</span><span class="p">)</span><span class="w">             </span><span class="p">,</span><span class="k">target</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g_lear</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">geopotential_model_pines</span><span class="p">)</span><span class="w">            </span><span class="p">,</span><span class="k">target</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g_pines</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">geopotential_model_normalized_pines</span><span class="p">)</span><span class="w"> </span><span class="p">,</span><span class="k">target</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g_normalized_pines</span>
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">geopotential_model_kuga_carrara</span><span class="p">),</span><span class="k">target</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">g_kuga_carrara</span>
+
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">a1</span><span class="p">,</span><span class="n">a2</span><span class="p">,</span><span class="n">a3</span><span class="p">,</span><span class="n">a4</span><span class="p">,</span><span class="n">a5</span><span class="p">,</span><span class="n">rvec</span>
+<span class="w">    </span><span class="kt">logical</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">status_ok</span>
+<span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lat</span><span class="p">,</span><span class="n">lon</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">nmax</span><span class="p">,</span><span class="n">mmax</span>
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="n">err1</span><span class="p">,</span><span class="n">err2</span><span class="p">,</span><span class="n">err3</span><span class="p">,</span><span class="n">err4</span><span class="p">,</span><span class="n">rlon</span><span class="p">,</span><span class="n">rlat</span><span class="p">,</span><span class="n">tmp</span>
+<span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">name</span>
+<span class="w">    </span><span class="kt">real</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tstart</span><span class="p">,</span><span class="w"> </span><span class="n">tstop</span>
+
+<span class="w">    </span><span class="kt">real</span><span class="p">(</span><span class="n">wp</span><span class="p">),</span><span class="k">dimension</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">0.1275627320e+05_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                           </span><span class="mf">0.1275627320e+05_wp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                           </span><span class="mf">0.1275627320e+05_wp</span><span class="w"> </span><span class="p">]</span><span class="w">   </span><span class="c">!! test case [km]</span>
+
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="mi">9</span><span class="w">    </span><span class="c">!! degree</span>
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">m</span><span class="o">=</span><span class="mi">9</span><span class="w">    </span><span class="c">!! order</span>
+
+<span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">n_repeat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000000</span><span class="w">  </span><span class="c">!! number of time to repeat speed test</span>
+
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;---------------&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39; geopotential_module_test&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;---------------&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;*** number_of_coefficients routine ***&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+
+<span class="w">    </span><span class="c">!tests:</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="n">number_of_coefficients</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span><span class="w">    </span><span class="c">! 25</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">number_of_coefficients</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w">    </span><span class="c">! 6</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">number_of_coefficients</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="w">    </span><span class="c">! 8</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">number_of_coefficients</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w">    </span><span class="c">! 9</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">number_of_coefficients</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="w">    </span><span class="c">! -99 (error)</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;*** test case for the four methods ***&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;reading file: &#39;</span><span class="o">//</span><span class="n">gravfile</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,*(E30.16,1X))&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;r =&#39;</span><span class="p">,</span><span class="n">r</span>
+
+<span class="w">    </span><span class="k">call </span><span class="n">g_mueller</span><span class="p">%</span><span class="n">initialize</span><span class="p">(</span><span class="n">gravfile</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">status_ok</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">status_ok</span><span class="p">)</span><span class="w"> </span><span class="k">stop</span><span class="w"> </span><span class="s1">&#39;Error&#39;</span>
+<span class="w">    </span><span class="k">call </span><span class="n">g_mueller</span><span class="p">%</span><span class="n">get_acc</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">a1</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">call </span><span class="n">g_lear</span><span class="p">%</span><span class="n">initialize</span><span class="p">(</span><span class="n">gravfile</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">status_ok</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">status_ok</span><span class="p">)</span><span class="w"> </span><span class="k">stop</span><span class="w"> </span><span class="s1">&#39;Error&#39;</span>
+<span class="w">    </span><span class="k">call </span><span class="n">g_lear</span><span class="p">%</span><span class="n">get_acc</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">a2</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">call </span><span class="n">g_pines</span><span class="p">%</span><span class="n">initialize</span><span class="p">(</span><span class="n">gravfile</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">status_ok</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">status_ok</span><span class="p">)</span><span class="w"> </span><span class="k">stop</span><span class="w"> </span><span class="s1">&#39;Error&#39;</span>
+<span class="w">    </span><span class="k">call </span><span class="n">g_pines</span><span class="p">%</span><span class="n">get_acc</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">a3</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">call </span><span class="n">g_kuga_carrara</span><span class="p">%</span><span class="n">initialize</span><span class="p">(</span><span class="n">gravfile</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">status_ok</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">status_ok</span><span class="p">)</span><span class="w"> </span><span class="k">stop</span><span class="w"> </span><span class="s1">&#39;Error&#39;</span>
+<span class="w">    </span><span class="k">call </span><span class="n">g_kuga_carrara</span><span class="p">%</span><span class="n">get_acc</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">a4</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">call </span><span class="n">g_normalized_pines</span><span class="p">%</span><span class="n">initialize</span><span class="p">(</span><span class="n">gravfile</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">status_ok</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">status_ok</span><span class="p">)</span><span class="w"> </span><span class="k">stop</span><span class="w"> </span><span class="s1">&#39;Error&#39;</span>
+<span class="w">    </span><span class="k">call </span><span class="n">g_normalized_pines</span><span class="p">%</span><span class="n">get_acc</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">a5</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,*(E30.16,1X))&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;mueller      =&#39;</span><span class="p">,</span><span class="n">a1</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,*(E30.16,1X))&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;lear         =&#39;</span><span class="p">,</span><span class="n">a2</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,*(E30.16,1X))&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;pines        =&#39;</span><span class="p">,</span><span class="n">a3</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,*(E30.16,1X))&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;kuga_carrara =&#39;</span><span class="p">,</span><span class="n">a4</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,*(E30.16,1X))&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;norm_pines   =&#39;</span><span class="p">,</span><span class="n">a3</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,*(E30.16,1X))&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;mueller-lear difference      =&#39;</span><span class="p">,</span><span class="nb">norm2</span><span class="p">(</span><span class="n">a1</span><span class="o">-</span><span class="n">a2</span><span class="p">)</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,*(E30.16,1X))&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;mueller-pines difference     =&#39;</span><span class="p">,</span><span class="nb">norm2</span><span class="p">(</span><span class="n">a1</span><span class="o">-</span><span class="n">a3</span><span class="p">)</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,*(E30.16,1X))&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;mueller-normpines difference =&#39;</span><span class="p">,</span><span class="nb">norm2</span><span class="p">(</span><span class="n">a1</span><span class="o">-</span><span class="n">a5</span><span class="p">)</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,*(E30.16,1X))&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;lear-pines difference        =&#39;</span><span class="p">,</span><span class="nb">norm2</span><span class="p">(</span><span class="n">a2</span><span class="o">-</span><span class="n">a3</span><span class="p">)</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A,*(E30.16,1X))&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;lear-kuga_carrara difference =&#39;</span><span class="p">,</span><span class="nb">norm2</span><span class="p">(</span><span class="n">a2</span><span class="o">-</span><span class="n">a4</span><span class="p">)</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;*** accuracy test ***&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+
+<span class="w">    </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">677</span><span class="mf">8.0_wp</span><span class="w">    </span><span class="c">!radius magnitude</span>
+<span class="w">    </span><span class="n">status_ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
+<span class="w">    </span><span class="k">do </span><span class="n">lat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">90</span><span class="p">,</span><span class="w"> </span><span class="mi">90</span>
+<span class="w">        </span><span class="k">do </span><span class="n">lon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">360</span>
+
+<span class="w">            </span><span class="n">rvec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">spherical_to_cartesian</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">lon</span><span class="o">*</span><span class="n">deg2rad</span><span class="p">,</span><span class="n">lat</span><span class="o">*</span><span class="n">deg2rad</span><span class="p">)</span>
+
+<span class="w">            </span><span class="k">call </span><span class="n">g_mueller</span><span class="p">%</span><span class="n">get_acc</span><span class="p">(</span><span class="n">rvec</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">a1</span><span class="p">)</span><span class="w">          </span><span class="c">! mueller</span>
+<span class="w">            </span><span class="k">call </span><span class="n">g_lear</span><span class="p">%</span><span class="n">get_acc</span><span class="p">(</span><span class="n">rvec</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">a2</span><span class="p">)</span><span class="w">             </span><span class="c">! lear</span>
+<span class="w">            </span><span class="k">call </span><span class="n">g_pines</span><span class="p">%</span><span class="n">get_acc</span><span class="p">(</span><span class="n">rvec</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">a3</span><span class="p">)</span><span class="w">            </span><span class="c">! pines</span>
+<span class="w">            </span><span class="k">call </span><span class="n">g_normalized_pines</span><span class="p">%</span><span class="n">get_acc</span><span class="p">(</span><span class="n">rvec</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">a5</span><span class="p">)</span><span class="w"> </span><span class="c">! normalized pines</span>
+<span class="w">            </span><span class="k">call </span><span class="n">g_kuga_carrara</span><span class="p">%</span><span class="n">get_acc</span><span class="p">(</span><span class="n">rvec</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">a4</span><span class="p">)</span><span class="w">     </span><span class="c">! kuga/carrara</span>
+
+<span class="w">            </span><span class="n">err1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="w"> </span><span class="n">a2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a1</span><span class="w"> </span><span class="p">)</span>
+<span class="w">            </span><span class="n">err2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="w"> </span><span class="n">a3</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a2</span><span class="w"> </span><span class="p">)</span>
+<span class="w">            </span><span class="n">err3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="w"> </span><span class="n">a4</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a1</span><span class="w"> </span><span class="p">)</span>
+<span class="w">            </span><span class="n">err4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="w"> </span><span class="n">a5</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a1</span><span class="w"> </span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err2</span><span class="o">&gt;</span><span class="mf">1.0e-15_wp</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">err1</span><span class="o">&gt;</span><span class="mf">1.0e-15_wp</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">err3</span><span class="o">&gt;</span><span class="mf">1.0e-15_wp</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">err4</span><span class="o">&gt;</span><span class="mf">1.0e-15_wp</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<span class="k">                write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">lat</span><span class="p">,</span><span class="n">lon</span><span class="p">,</span><span class="nb">norm2</span><span class="p">(</span><span class="n">a1</span><span class="p">),</span><span class="nb">norm2</span><span class="p">(</span><span class="n">a2</span><span class="p">),</span><span class="nb">norm2</span><span class="p">(</span><span class="n">a2</span><span class="p">),</span><span class="nb">norm2</span><span class="p">(</span><span class="n">a3</span><span class="p">),</span><span class="n">err1</span><span class="p">,</span><span class="n">err2</span><span class="p">,</span><span class="n">err3</span><span class="p">,</span><span class="n">err4</span>
+<span class="w">                </span><span class="n">status_ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
+<span class="w">            </span><span class="k">end if</span>
+<span class="k">            if</span><span class="w"> </span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span><span class="o">==</span><span class="mi">90</span><span class="p">)</span><span class="w"> </span><span class="k">exit</span><span class="w">    </span><span class="c">!only do poles once</span>
+
+<span class="w">        </span><span class="k">end do</span>
+<span class="k">    end do</span>
+<span class="k">    call </span><span class="n">g_mueller</span><span class="p">%</span><span class="n">destroy</span><span class="p">()</span>
+<span class="w">    </span><span class="k">call </span><span class="n">g_lear</span><span class="p">%</span><span class="n">destroy</span><span class="p">()</span>
+<span class="w">    </span><span class="k">call </span><span class="n">g_pines</span><span class="p">%</span><span class="n">destroy</span><span class="p">()</span>
+<span class="w">    </span><span class="k">call </span><span class="n">g_normalized_pines</span><span class="p">%</span><span class="n">destroy</span><span class="p">()</span>
+<span class="w">    </span><span class="k">call </span><span class="n">g_kuga_carrara</span><span class="p">%</span><span class="n">destroy</span><span class="p">()</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status_ok</span><span class="p">)</span><span class="w"> </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;All tests passed.&#39;</span>
+
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;*** speed test ***&#39;</span>
+<span class="w">    </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;&#39;</span>
+
+<span class="w">    </span><span class="n">nmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span>
+<span class="w">    </span><span class="n">mmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span>
+
+<span class="w">    </span><span class="k">do </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span>
+
+<span class="w">        </span><span class="k">select case</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">        </span><span class="k">case</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">            </span><span class="n">g</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">g_mueller</span>
+<span class="w">            </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Mueller&#39;</span>
+<span class="w">        </span><span class="k">case</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">            </span><span class="n">g</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">g_lear</span>
+<span class="w">            </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Lear&#39;</span>
+<span class="w">        </span><span class="k">case</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">            </span><span class="n">g</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">g_pines</span>
+<span class="w">            </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Pines&#39;</span>
+<span class="w">        </span><span class="k">case</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="w">            </span><span class="n">g</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">g_kuga_carrara</span>
+<span class="w">            </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Kuga/Carrara&#39;</span>
+<span class="w">        </span><span class="k">case</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="w">            </span><span class="n">g</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">g_normalized_pines</span>
+<span class="w">            </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Normalized Pines&#39;</span>
+<span class="w">        </span><span class="k">end select</span>
+<span class="k">        call </span><span class="n">g</span><span class="p">%</span><span class="n">initialize</span><span class="p">(</span><span class="n">gravfile</span><span class="p">,</span><span class="n">nmax</span><span class="p">,</span><span class="n">mmax</span><span class="p">,</span><span class="n">status_ok</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">status_ok</span><span class="p">)</span><span class="w"> </span><span class="k">stop</span><span class="w"> </span><span class="s1">&#39;Error&#39;</span>
+
+<span class="w">        </span><span class="k">call </span><span class="nb">random_seed</span><span class="p">()</span>
+<span class="w">        </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span>
+<span class="w">        </span><span class="k">call </span><span class="nb">cpu_time</span><span class="p">(</span><span class="n">tstart</span><span class="p">)</span>
+<span class="w">        </span><span class="k">do </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">n_repeat</span>
+
+<span class="w">             </span><span class="n">h</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">get_random_number</span><span class="p">(</span><span class="mi">677</span><span class="mf">8.0_wp</span><span class="p">,</span><span class="w"> </span><span class="mi">1000</span><span class="mf">0.0_wp</span><span class="p">)</span>
+<span class="w">             </span><span class="n">rlon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_random_number</span><span class="p">(</span><span class="mf">0.0_wp</span><span class="p">,</span><span class="w"> </span><span class="mi">36</span><span class="mf">0.0_wp</span><span class="p">)</span>
+<span class="w">             </span><span class="n">rlat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_random_number</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="mf">0.0_wp</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="mf">0.0_wp</span><span class="p">)</span>
+
+<span class="w">             </span><span class="n">rvec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">spherical_to_cartesian</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">rlon</span><span class="o">*</span><span class="n">deg2rad</span><span class="p">,</span><span class="n">rlat</span><span class="o">*</span><span class="n">deg2rad</span><span class="p">)</span>
+<span class="w">             </span><span class="k">call </span><span class="n">g</span><span class="p">%</span><span class="n">get_acc</span><span class="p">(</span><span class="n">rvec</span><span class="p">,</span><span class="n">nmax</span><span class="p">,</span><span class="n">mmax</span><span class="p">,</span><span class="n">a1</span><span class="p">)</span>
+<span class="w">             </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">norm2</span><span class="p">(</span><span class="n">a1</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">end do</span>
+<span class="k">        call </span><span class="nb">cpu_time</span><span class="p">(</span><span class="n">tstop</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">call </span><span class="n">g</span><span class="p">%</span><span class="n">destroy</span><span class="p">()</span>
+
+<span class="w">        </span><span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="s1">&#39;(A10,1X,E30.16,1X,F13.6,1X,A)&#39;</span><span class="p">)</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">name</span><span class="p">),</span><span class="w"> </span><span class="n">tmp</span><span class="p">,</span><span class="w"> </span><span class="n">tstop</span><span class="o">-</span><span class="n">tstart</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;sec&#39;</span>
+
+<span class="w">    </span><span class="k">end do</span>
+
+<span class="k">    end subroutine </span><span class="n">geopotential_module_test</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,3637 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A modern Fortran library for Astrodynamics">
+    <meta name="author" content="Jacob Williams" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>transformation_module &ndash; fortran-astrodynamics-toolkit</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">fortran-astrodynamics-toolkit </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>transformation_module
+      <small>Module</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+            <li class="list-inline-item" id="meta-author"><i class="fa fa-pencil"></i> Jacob Williams</li>
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 3.0% of total for modules and submodules.">431 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/transformation_module.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/transformation_module.f90.html'>transformation_module.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">transformation_module</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/transformation_module.html#variable-center_at_primary_body">center_at_primary_body</a>
+            <a class="list-group-item" href="../module/transformation_module.html#variable-center_at_secondary_body">center_at_secondary_body</a>
+            <a class="list-group-item" href="../module/transformation_module.html#variable-center_at_barycenter">center_at_barycenter</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#inters-0"
+         aria-expanded="false" aria-controls="inters-0">
+         <h4 class="card-header bg-primary text-white">Interfaces</h4>
+      </a>
+      <div id="inters-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/transformation_module.html#interface-two_body_rotating_frame">two_body_rotating_frame</a>
+            <a class="list-group-item" href="../module/transformation_module.html#interface-two_body_rotating_pulsating_frame">two_body_rotating_pulsating_frame</a>
+            <a class="list-group-item" href="../module/transformation_module.html#interface-iau_earth_rotating_frame">iau_earth_rotating_frame</a>
+            <a class="list-group-item" href="../module/transformation_module.html#interface-iau_moon_rotating_frame">iau_moon_rotating_frame</a>
+            <a class="list-group-item" href="../module/transformation_module.html#interface-icrf_frame">icrf_frame</a>
+            <a class="list-group-item" href="../module/transformation_module.html#interface-ecliptic_frame">ecliptic_frame</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#absints-0"
+         aria-expanded="false" aria-controls="absints-0">
+         <h4 class="card-header bg-primary text-white">Abstract Interfaces</h4>
+      </a>
+      <div id="absints-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/transformation_module.html#interface-c_cdot_func">c_cdot_func</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#types-0"
+         aria-expanded="false" aria-controls="types-0">
+         <h4 class="card-header bg-primary text-white">Derived Types</h4>
+      </a>
+      <div id="types-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/transformation_module.html#type-reference_frame">reference_frame</a>
+            <a class="list-group-item" href="../module/transformation_module.html#type-inertial_frame_class">inertial_frame_class</a>
+            <a class="list-group-item" href="../module/transformation_module.html#type-rotating_frame_class">rotating_frame_class</a>
+            <a class="list-group-item" href="../module/transformation_module.html#type-iau_rotating_frame_class">iau_rotating_frame_class</a>
+            <a class="list-group-item" href="../module/transformation_module.html#type-two_body_rotating_frame">two_body_rotating_frame</a>
+            <a class="list-group-item" href="../module/transformation_module.html#type-two_body_rotating_pulsating_frame">two_body_rotating_pulsating_frame</a>
+            <a class="list-group-item" href="../module/transformation_module.html#type-iau_earth_rotating_frame">iau_earth_rotating_frame</a>
+            <a class="list-group-item" href="../module/transformation_module.html#type-iau_moon_rotating_frame">iau_moon_rotating_frame</a>
+            <a class="list-group-item" href="../module/transformation_module.html#type-icrf_frame">icrf_frame</a>
+            <a class="list-group-item" href="../module/transformation_module.html#type-ecliptic_frame">ecliptic_frame</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
+      </a>
+      <div id="funcs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/transformation_module.html#proc-two_body_rotating_frame_constructor">two_body_rotating_frame_constructor</a>
+            <a class="list-group-item" href="../module/transformation_module.html#proc-two_body_rotating_pulsating_frame_constructor">two_body_rotating_pulsating_frame_constructor</a>
+            <a class="list-group-item" href="../module/transformation_module.html#proc-iau_earth_rotating_frame_constructor">iau_earth_rotating_frame_constructor</a>
+            <a class="list-group-item" href="../module/transformation_module.html#proc-iau_moon_rotating_frame_constructor">iau_moon_rotating_frame_constructor</a>
+            <a class="list-group-item" href="../module/transformation_module.html#proc-icrf_frame_constructor">icrf_frame_constructor</a>
+            <a class="list-group-item" href="../module/transformation_module.html#proc-ecliptic_frame_constructor">ecliptic_frame_constructor</a>
+        </div>
+      </div>
+    </div>
+
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
+      </a>
+      <div id="subs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/transformation_module.html#proc-transform">transform</a>
+            <a class="list-group-item" href="../module/transformation_module.html#proc-rvcto_rvcfrom_icrf">rvcto_rvcfrom_icrf</a>
+            <a class="list-group-item" href="../module/transformation_module.html#proc-from_primary_to_center">from_primary_to_center</a>
+            <a class="list-group-item" href="../module/transformation_module.html#proc-get_c_cdot_two_body_rotating">get_c_cdot_two_body_rotating</a>
+            <a class="list-group-item" href="../module/transformation_module.html#proc-get_c_cdot_two_body_rotating_pulsating">get_c_cdot_two_body_rotating_pulsating</a>
+            <a class="list-group-item" href="../module/transformation_module.html#proc-get_c_cdot_icrf">get_c_cdot_icrf</a>
+            <a class="list-group-item" href="../module/transformation_module.html#proc-get_c_cdot_ecliptic">get_c_cdot_ecliptic</a>
+            <a class="list-group-item" href="../module/transformation_module.html#proc-get_c_cdot_iau_earth">get_c_cdot_iau_earth</a>
+            <a class="list-group-item" href="../module/transformation_module.html#proc-get_c_cdot_iau_moon">get_c_cdot_iau_moon</a>
+            <a class="list-group-item" href="../module/transformation_module.html#proc-transformation_module_test">transformation_module_test</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <p>Coordinate transformations.</p>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='kind_module.html'>kind_module</a></li>
+                  <li class="list-inline-item"><a href='time_module.html'>time_module</a></li>
+                  <li class="list-inline-item"><a href='numbers_module.html'>numbers_module</a></li>
+                  <li class="list-inline-item"><a href='iau_orientation_module.html'>iau_orientation_module</a></li>
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
+                  <li class="list-inline-item"><a href='celestial_body_module.html'>celestial_body_module</a></li>
+                  <li class="list-inline-item"><a href='ephemeris_module.html'>ephemeris_module</a></li>
+                  <li class="list-inline-item"><a href='vector_module.html'>vector_module</a></li>
+              </ul>
+            </li>
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~transformation_module~~UsesGraph Pages: 1 -->
+<svg id="moduletransformation_moduleUsesGraph" width="641pt" height="231pt"
+ viewBox="0.00 0.00 641.00 230.93" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~transformation_module~~UsesGraph" class="graph" transform="scale(0.72 0.72) rotate(0) translate(4 316.27)">
+<title>module~~transformation_module~~UsesGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-316.27 885,-316.27 885,4 -4,4"/>
+<!-- module~transformation_module -->
+<g id="module~~transformation_module~~UsesGraph_node1" class="node">
+<title>module~transformation_module</title>
+<polygon fill="none" stroke="black" points="881,-152.2 743,-152.2 743,-128.2 881,-128.2 881,-152.2"/>
+<text text-anchor="middle" x="812" y="-137.8" font-family="Helvetica,sans-Serif" font-size="10.50">transformation_module</text>
+</g>
+<!-- iso_fortran_env -->
+<g id="module~~transformation_module~~UsesGraph_node2" class="node">
+<title>iso_fortran_env</title>
+<g id="a_module~~transformation_module~~UsesGraph_node2"><a xlink:href="http://fortranwiki.org/fortran/show/iso_fortran_env" xlink:title="iso_fortran_env">
+<polygon fill="#337ab7" stroke="#337ab7" points="94,-253.2 0,-253.2 0,-229.2 94,-229.2 94,-253.2"/>
+<text text-anchor="middle" x="47" y="-238.8" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iso_fortran_env</text>
+</a>
+</g>
+</g>
+<!-- module~transformation_module&#45;&gt;iso_fortran_env -->
+<g id="module~~transformation_module~~UsesGraph_edge1" class="edge">
+<title>module~transformation_module&#45;&gt;iso_fortran_env</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M303.5,-302.2C231.39,-291.54 149.72,-270.41 98.54,-256.04"/>
+<polygon fill="#000000" stroke="#000000" points="99.3,-252.62 88.72,-253.26 97.39,-259.36 99.3,-252.62"/>
+</g>
+<!-- module~celestial_body_module -->
+<g id="module~~transformation_module~~UsesGraph_node3" class="node">
+<title>module~celestial_body_module</title>
+<g id="a_module~~transformation_module~~UsesGraph_node3"><a xlink:href="../module/celestial_body_module.html" xlink:title="celestial_body_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="532,-232.2 398,-232.2 398,-208.2 532,-208.2 532,-232.2"/>
+<text text-anchor="middle" x="465" y="-217.8" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">celestial_body_module</text>
+</a>
+</g>
+</g>
+<!-- module~transformation_module&#45;&gt;module~celestial_body_module -->
+<g id="module~~transformation_module~~UsesGraph_edge2" class="edge">
+<title>module~transformation_module&#45;&gt;module~celestial_body_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M804.09,-152.37C783.96,-186.2 721.54,-280.34 638.5,-302.2"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M636.5,-302.2C577.89,-317.63 515.2,-268.22 484.75,-239.42"/>
+<polygon fill="#000000" stroke="#000000" points="486.99,-236.72 477.39,-232.26 482.11,-241.74 486.99,-236.72"/>
+</g>
+<!-- module~ephemeris_module -->
+<g id="module~~transformation_module~~UsesGraph_node4" class="node">
+<title>module~ephemeris_module</title>
+<g id="a_module~~transformation_module~~UsesGraph_node4"><a xlink:href="../module/ephemeris_module.html" xlink:title="ephemeris_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="695,-192.2 580,-192.2 580,-168.2 695,-168.2 695,-192.2"/>
+<text text-anchor="middle" x="637.5" y="-177.8" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">ephemeris_module</text>
+</a>
+</g>
+</g>
+<!-- module~transformation_module&#45;&gt;module~ephemeris_module -->
+<g id="module~~transformation_module~~UsesGraph_edge3" class="edge">
+<title>module~transformation_module&#45;&gt;module~ephemeris_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M759.24,-152.2C740.74,-156.49 719.69,-161.37 700.41,-165.84"/>
+<polygon fill="#000000" stroke="#000000" points="699.47,-162.47 690.52,-168.14 701.05,-169.29 699.47,-162.47"/>
+</g>
+<!-- module~iau_orientation_module -->
+<g id="module~~transformation_module~~UsesGraph_node5" class="node">
+<title>module~iau_orientation_module</title>
+<g id="a_module~~transformation_module~~UsesGraph_node5"><a xlink:href="../module/iau_orientation_module.html" xlink:title="iau_orientation_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="707,-72.2 568,-72.2 568,-48.2 707,-48.2 707,-72.2"/>
+<text text-anchor="middle" x="637.5" y="-57.8" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">iau_orientation_module</text>
+</a>
+</g>
+</g>
+<!-- module~transformation_module&#45;&gt;module~iau_orientation_module -->
+<g id="module~~transformation_module~~UsesGraph_edge4" class="edge">
+<title>module~transformation_module&#45;&gt;module~iau_orientation_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M789.45,-128.07C768.66,-116.6 736.15,-99.25 707,-86.2 699.07,-82.65 690.5,-79.15 682.19,-75.92"/>
+<polygon fill="#000000" stroke="#000000" points="683.2,-72.56 672.61,-72.26 680.71,-79.1 683.2,-72.56"/>
+</g>
+<!-- module~kind_module -->
+<g id="module~~transformation_module~~UsesGraph_node6" class="node">
+<title>module~kind_module</title>
+<g id="a_module~~transformation_module~~UsesGraph_node6"><a xlink:href="../module/kind_module.html" xlink:title="kind_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="211,-233.2 130,-233.2 130,-209.2 211,-209.2 211,-233.2"/>
+<text text-anchor="middle" x="170.5" y="-218.8" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">kind_module</text>
+</a>
+</g>
+</g>
+<!-- module~transformation_module&#45;&gt;module~kind_module -->
+<g id="module~~transformation_module~~UsesGraph_edge5" class="edge">
+<title>module~transformation_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M464,-302.2C393.69,-297.84 375.19,-312.5 305.5,-302.2"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M303.5,-302.2C277.29,-298.33 270.17,-296.04 247,-283.2 225.97,-271.55 205.08,-253.79 190.62,-240.26"/>
+<polygon fill="#000000" stroke="#000000" points="192.94,-237.63 183.3,-233.25 188.1,-242.69 192.94,-237.63"/>
+</g>
+<!-- module~numbers_module -->
+<g id="module~~transformation_module~~UsesGraph_node7" class="node">
+<title>module~numbers_module</title>
+<g id="a_module~~transformation_module~~UsesGraph_node7"><a xlink:href="../module/numbers_module.html" xlink:title="numbers_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="357.5,-152.2 251.5,-152.2 251.5,-128.2 357.5,-128.2 357.5,-152.2"/>
+<text text-anchor="middle" x="304.5" y="-137.8" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">numbers_module</text>
+</a>
+</g>
+</g>
+<!-- module~transformation_module&#45;&gt;module~numbers_module -->
+<g id="module~~transformation_module~~UsesGraph_edge6" class="edge">
+<title>module~transformation_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M775.51,-128.17C741,-117.39 686.85,-102.86 638.5,-100.2"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M636.5,-100.2C560.84,-96.04 540.56,-86.65 466,-100.2"/>
+</g>
+<!-- module~time_module -->
+<g id="module~~transformation_module~~UsesGraph_node8" class="node">
+<title>module~time_module</title>
+<g id="a_module~~transformation_module~~UsesGraph_node8"><a xlink:href="../module/time_module.html" xlink:title="time_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="345.5,-274.2 263.5,-274.2 263.5,-250.2 345.5,-250.2 345.5,-274.2"/>
+<text text-anchor="middle" x="304.5" y="-259.8" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">time_module</text>
+</a>
+</g>
+</g>
+<!-- module~transformation_module&#45;&gt;module~time_module -->
+<g id="module~~transformation_module~~UsesGraph_edge7" class="edge">
+<title>module~transformation_module&#45;&gt;module~time_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M636.5,-302.2C563.22,-321.5 541.63,-306.9 466,-302.2"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M464,-302.2C423.87,-299.71 379.62,-287.73 348.09,-277.52"/>
+<polygon fill="#000000" stroke="#000000" points="348.92,-274.11 338.33,-274.28 346.72,-280.75 348.92,-274.11"/>
+</g>
+<!-- module~vector_module -->
+<g id="module~~transformation_module~~UsesGraph_node9" class="node">
+<title>module~vector_module</title>
+<g id="a_module~~transformation_module~~UsesGraph_node9"><a xlink:href="../module/vector_module.html" xlink:title="vector_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="511,-152.2 419,-152.2 419,-128.2 511,-128.2 511,-152.2"/>
+<text text-anchor="middle" x="465" y="-137.8" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">vector_module</text>
+</a>
+</g>
+</g>
+<!-- module~transformation_module&#45;&gt;module~vector_module -->
+<g id="module~~transformation_module~~UsesGraph_edge8" class="edge">
+<title>module~transformation_module&#45;&gt;module~vector_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M636.5,-100.2C590.22,-97.66 538.59,-112.33 504.4,-124.61"/>
+<polygon fill="#000000" stroke="#000000" points="502.97,-121.41 494.81,-128.16 505.4,-127.98 502.97,-121.41"/>
+</g>
+<!-- module~celestial_body_module&#45;&gt;module~kind_module -->
+<g id="module~~transformation_module~~UsesGraph_edge10" class="edge">
+<title>module~celestial_body_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M429.4,-208.14C390.33,-195.11 329.15,-176.66 305.5,-180.2"/>
+</g>
+<!-- module~celestial_body_module&#45;&gt;module~numbers_module -->
+<g id="module~~transformation_module~~UsesGraph_edge11" class="edge">
+<title>module~celestial_body_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M441.9,-208.04C421.36,-196.86 389.84,-179.96 362,-166.2 355.63,-163.05 348.79,-159.8 342.16,-156.71"/>
+<polygon fill="#000000" stroke="#000000" points="343.21,-153.34 332.66,-152.33 340.27,-159.7 343.21,-153.34"/>
+</g>
+<!-- module~base_class_module -->
+<g id="module~~transformation_module~~UsesGraph_node10" class="node">
+<title>module~base_class_module</title>
+<g id="a_module~~transformation_module~~UsesGraph_node10"><a xlink:href="../module/base_class_module.html" xlink:title="base_class_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="362,-232.2 247,-232.2 247,-208.2 362,-208.2 362,-232.2"/>
+<text text-anchor="middle" x="304.5" y="-217.8" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">base_class_module</text>
+</a>
+</g>
+</g>
+<!-- module~celestial_body_module&#45;&gt;module~base_class_module -->
+<g id="module~~transformation_module~~UsesGraph_edge9" class="edge">
+<title>module~celestial_body_module&#45;&gt;module~base_class_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M397.7,-220.2C389.38,-220.2 380.86,-220.2 372.53,-220.2"/>
+<polygon fill="#000000" stroke="#000000" points="372.48,-216.7 362.48,-220.2 372.48,-223.7 372.48,-216.7"/>
+</g>
+<!-- module~ephemeris_module&#45;&gt;module~celestial_body_module -->
+<g id="module~~transformation_module~~UsesGraph_edge12" class="edge">
+<title>module~ephemeris_module&#45;&gt;module~celestial_body_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M585.34,-192.2C567.05,-196.49 546.25,-201.37 527.2,-205.84"/>
+<polygon fill="#000000" stroke="#000000" points="526.35,-202.45 517.41,-208.14 527.95,-209.26 526.35,-202.45"/>
+</g>
+<!-- module~ephemeris_module&#45;&gt;module~kind_module -->
+<g id="module~~transformation_module~~UsesGraph_edge13" class="edge">
+<title>module~ephemeris_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M579.9,-175.14C513.69,-170.38 400.98,-165.92 305.5,-180.2"/>
+</g>
+<!-- module~iau_orientation_module&#45;&gt;module~kind_module -->
+<g id="module~~transformation_module~~UsesGraph_edge15" class="edge">
+<title>module~iau_orientation_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M610.59,-48.19C552.86,-23.27 410.49,27.88 305.5,-20.2"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M303.5,-20.2C229.52,-55.47 191.38,-154.85 177.62,-199.27"/>
+<polygon fill="#000000" stroke="#000000" points="174.2,-198.49 174.7,-209.07 180.91,-200.48 174.2,-198.49"/>
+</g>
+<!-- module~iau_orientation_module&#45;&gt;module~numbers_module -->
+<g id="module~~transformation_module~~UsesGraph_edge16" class="edge">
+<title>module~iau_orientation_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M590.81,-72.25C556.63,-80.94 508.63,-92.45 466,-100.2"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M464,-100.2C427.72,-106.8 387.43,-117 356.56,-125.45"/>
+<polygon fill="#000000" stroke="#000000" points="355.59,-122.09 346.88,-128.13 357.45,-128.84 355.59,-122.09"/>
+</g>
+<!-- module~conversion_module -->
+<g id="module~~transformation_module~~UsesGraph_node11" class="node">
+<title>module~conversion_module</title>
+<g id="a_module~~transformation_module~~UsesGraph_node11"><a xlink:href="../module/conversion_module.html" xlink:title="conversion_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="523.5,-72.2 406.5,-72.2 406.5,-48.2 523.5,-48.2 523.5,-72.2"/>
+<text text-anchor="middle" x="465" y="-57.8" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">conversion_module</text>
+</a>
+</g>
+</g>
+<!-- module~iau_orientation_module&#45;&gt;module~conversion_module -->
+<g id="module~~transformation_module~~UsesGraph_edge14" class="edge">
+<title>module~iau_orientation_module&#45;&gt;module~conversion_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M567.64,-60.2C556.46,-60.2 544.89,-60.2 533.74,-60.2"/>
+<polygon fill="#000000" stroke="#000000" points="533.64,-56.7 523.64,-60.2 533.64,-63.7 533.64,-56.7"/>
+</g>
+<!-- module~kind_module&#45;&gt;iso_fortran_env -->
+<g id="module~~transformation_module~~UsesGraph_edge17" class="edge">
+<title>module~kind_module&#45;&gt;iso_fortran_env</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M129.72,-227.75C121.56,-229.09 112.83,-230.53 104.21,-231.95"/>
+<polygon fill="#000000" stroke="#000000" points="103.5,-228.52 94.2,-233.6 104.64,-235.43 103.5,-228.52"/>
+</g>
+<!-- module~numbers_module&#45;&gt;module~kind_module -->
+<g id="module~~transformation_module~~UsesGraph_edge18" class="edge">
+<title>module~numbers_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M274.49,-152.22C265.49,-156.3 255.66,-161.12 247,-166.2 228.41,-177.11 208.77,-191.51 194.18,-202.85"/>
+<polygon fill="#000000" stroke="#000000" points="191.91,-200.18 186.22,-209.12 196.25,-205.68 191.91,-200.18"/>
+</g>
+<!-- module~time_module&#45;&gt;module~kind_module -->
+<g id="module~~transformation_module~~UsesGraph_edge19" class="edge">
+<title>module~time_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M264.61,-250.12C250.77,-245.82 235,-240.93 220.43,-236.4"/>
+<polygon fill="#000000" stroke="#000000" points="221.16,-232.96 210.57,-233.34 219.08,-239.65 221.16,-232.96"/>
+</g>
+<!-- module~vector_module&#45;&gt;module~kind_module -->
+<g id="module~~transformation_module~~UsesGraph_edge20" class="edge">
+<title>module~vector_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M425.35,-152.24C393.53,-161.59 347.04,-173.99 305.5,-180.2"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M303.5,-180.2C271.41,-185 236.39,-196.17 210.49,-205.64"/>
+<polygon fill="#000000" stroke="#000000" points="209.18,-202.39 201.03,-209.17 211.63,-208.95 209.18,-202.39"/>
+</g>
+<!-- module~vector_module&#45;&gt;module~numbers_module -->
+<g id="module~~transformation_module~~UsesGraph_edge21" class="edge">
+<title>module~vector_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M418.58,-140.2C402.82,-140.2 384.87,-140.2 367.98,-140.2"/>
+<polygon fill="#000000" stroke="#000000" points="367.63,-136.7 357.63,-140.2 367.63,-143.7 367.63,-136.7"/>
+</g>
+<!-- module~conversion_module&#45;&gt;module~kind_module -->
+<g id="module~~transformation_module~~UsesGraph_edge22" class="edge">
+<title>module~conversion_module&#45;&gt;module~kind_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M434.56,-48.14C395.36,-32.87 328.34,-9.74 305.5,-20.2"/>
+</g>
+<!-- module~conversion_module&#45;&gt;module~numbers_module -->
+<g id="module~~transformation_module~~UsesGraph_edge23" class="edge">
+<title>module~conversion_module&#45;&gt;module~numbers_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M430.33,-72.32C419.83,-76.4 408.3,-81.2 398,-86.2 375.49,-97.13 351.09,-111.48 333.01,-122.65"/>
+<polygon fill="#000000" stroke="#000000" points="330.8,-119.9 324.17,-128.16 334.5,-125.84 330.8,-119.9"/>
+</g>
+</g>
+</svg>
+</div>                <script>
+                  var panmoduletransformation_moduleUsesGraph = svgPanZoom('#moduletransformation_moduleUsesGraph',
+                    {zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true,}
+                  );
+                </script>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsesGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsesGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="depgraph"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: module~~transformation_module~~UsedByGraph Pages: 1 -->
+<svg id="moduletransformation_moduleUsedByGraph" width="486pt" height="52pt"
+ viewBox="0.00 0.00 486.00 52.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="module~~transformation_module~~UsedByGraph" class="graph" transform="scale(1 1) rotate(0) translate(4 48)">
+<title>module~~transformation_module~~UsedByGraph</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-48 482,-48 482,4 -4,4"/>
+<!-- module~transformation_module -->
+<g id="module~~transformation_module~~UsedByGraph_node1" class="node">
+<title>module~transformation_module</title>
+<polygon fill="none" stroke="black" points="138,-44 0,-44 0,-20 138,-20 138,-44"/>
+<text text-anchor="middle" x="69" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50">transformation_module</text>
+</g>
+<!-- module~fortran_astrodynamics_toolkit -->
+<g id="module~~transformation_module~~UsedByGraph_node2" class="node">
+<title>module~fortran_astrodynamics_toolkit</title>
+<g id="a_module~~transformation_module~~UsedByGraph_node2"><a xlink:href="../module/fortran_astrodynamics_toolkit.html" xlink:title="fortran_astrodynamics_toolkit">
+<polygon fill="#337ab7" stroke="#337ab7" points="478,-44 308,-44 308,-20 478,-20 478,-44"/>
+<text text-anchor="middle" x="393" y="-29.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">fortran_astrodynamics_toolkit</text>
+</a>
+</g>
+</g>
+<!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~transformation_module -->
+<g id="module~~transformation_module~~UsedByGraph_edge1" class="edge">
+<title>module~fortran_astrodynamics_toolkit&#45;&gt;module~transformation_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M307.75,-32.79C295.75,-32.88 283.56,-32.95 272,-33 228.44,-33.18 217.56,-33.21 174,-33 165.69,-32.96 157.02,-32.9 148.37,-32.83"/>
+<polygon fill="#000000" stroke="#000000" points="148.28,-29.33 138.25,-32.75 148.22,-36.33 148.28,-29.33"/>
+</g>
+<!-- module~lighting_module -->
+<g id="module~~transformation_module~~UsedByGraph_node3" class="node">
+<title>module~lighting_module</title>
+<g id="a_module~~transformation_module~~UsedByGraph_node3"><a xlink:href="../module/lighting_module.html" xlink:title="lighting_module">
+<polygon fill="#337ab7" stroke="#337ab7" points="272,-24 174,-24 174,0 272,0 272,-24"/>
+<text text-anchor="middle" x="223" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">lighting_module</text>
+</a>
+</g>
+</g>
+<!-- module~fortran_astrodynamics_toolkit&#45;&gt;module~lighting_module -->
+<g id="module~~transformation_module~~UsedByGraph_edge3" class="edge">
+<title>module~fortran_astrodynamics_toolkit&#45;&gt;module~lighting_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M307.51,-21.94C299,-20.93 290.51,-19.92 282.37,-18.95"/>
+<polygon fill="#000000" stroke="#000000" points="282.62,-15.45 272.27,-17.75 281.79,-22.4 282.62,-15.45"/>
+</g>
+<!-- module~lighting_module&#45;&gt;module~transformation_module -->
+<g id="module~~transformation_module~~UsedByGraph_edge2" class="edge">
+<title>module~lighting_module&#45;&gt;module~transformation_module</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M173.91,-18.33C165.63,-19.42 156.84,-20.57 148.01,-21.74"/>
+<polygon fill="#000000" stroke="#000000" points="147.51,-18.27 138.05,-23.05 148.42,-25.21 147.51,-18.27"/>
+</g>
+</g>
+</svg>
+</div>          <div>
+            <a type="button" class="graph-help" data-bs-toggle="modal" href="#UsedByGraph-help-text">Help</a>
+          </div>
+          <div class="modal fade" id="UsedByGraph-help-text" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="-graph-help-label">Graph Key</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+<p>Nodes of different colours represent the following: </p>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.43.0 (0)
+ -->
+<!-- Title: Graph Key Pages: 1 -->
+<svg width="518pt" height="32pt"
+ viewBox="0.00 0.00 517.50 32.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 28)">
+<title>Graph Key</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-28 513.5,-28 513.5,4 -4,4"/>
+<!-- Module -->
+<g id="node1" class="node">
+<title>Module</title>
+<polygon fill="#337ab7" stroke="#337ab7" points="54,-24 0,-24 0,0 54,0 54,-24"/>
+<text text-anchor="middle" x="27" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Module</text>
+</g>
+<!-- Submodule -->
+<g id="node2" class="node">
+<title>Submodule</title>
+<polygon fill="#5bc0de" stroke="#5bc0de" points="145.5,-24 72.5,-24 72.5,0 145.5,0 145.5,-24"/>
+<text text-anchor="middle" x="109" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Submodule</text>
+</g>
+<!-- Subroutine -->
+<g id="node3" class="node">
+<title>Subroutine</title>
+<polygon fill="#d9534f" stroke="#d9534f" points="234,-24 164,-24 164,0 234,0 234,-24"/>
+<text text-anchor="middle" x="199" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Subroutine</text>
+</g>
+<!-- Function -->
+<g id="node4" class="node">
+<title>Function</title>
+<polygon fill="#d94e8f" stroke="#d94e8f" points="310,-24 252,-24 252,0 310,0 310,-24"/>
+<text text-anchor="middle" x="281" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Function</text>
+</g>
+<!-- Program -->
+<g id="node5" class="node">
+<title>Program</title>
+<polygon fill="#f0ad4e" stroke="#f0ad4e" points="386,-24 328,-24 328,0 386,0 386,-24"/>
+<text text-anchor="middle" x="357" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50" fill="white">Program</text>
+</g>
+<!-- This Page&#39;s Entity -->
+<g id="node6" class="node">
+<title>This Page&#39;s Entity</title>
+<polygon fill="none" stroke="black" points="509.5,-24 404.5,-24 404.5,0 509.5,0 509.5,-24"/>
+<text text-anchor="middle" x="457" y="-9.6" font-family="Helvetica,sans-Serif" font-size="10.50">This Page&#39;s Entity</text>
+</g>
+</g>
+</svg>
+
+<p>Solid arrows point from a submodule to the (sub)module which it is
+descended from. Dashed arrows point from a module or program unit to 
+modules which it uses.
+</p>
+ </div>
+            </div>
+          </div>
+        </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      <br>
+
+
+        <section>
+          <h2>Variables</h2>
+            <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-center_at_primary_body"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>center_at_primary_body</strong></td>
+<td> =</td>
+                <td>1</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-center_at_secondary_body"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>center_at_secondary_body</strong></td>
+<td> =</td>
+                <td>2</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-center_at_barycenter"></span>
+              integer,
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>center_at_barycenter</strong></td>
+<td> =</td>
+                <td>3</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+        </section>
+        <br>
+
+
+        <section>
+          <h2>Interfaces</h2>
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-two_body_rotating_frame"></span>
+      <h3>public        interface <a href='../interface/two_body_rotating_frame.html'>two_body_rotating_frame</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private pure function <a href='../proc/two_body_rotating_frame_constructor.html'>two_body_rotating_frame_constructor</a>(primary_body, secondary_body, center, et, inertial) result(f)  
+
+    </h3>
+    
+  <p>Constructor for a <a href="../type/two_body_rotating_frame.html">two_body_rotating_frame</a></p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-primary_body~2"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>primary_body</strong></td>
+            <td>
+<p>the primary body of
+the frame</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-secondary_body~2"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>secondary_body</strong></td>
+            <td>
+<p>the secondary body used
+to construct the frame</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-center~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>center</strong></td>
+            <td>
+<p>the frame center (can
+be <code>primary_body</code>,
+<code>secondary_body</code>, or
+<code>barycenter</code>)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-et~13"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>et</strong></td>
+            <td>
+<p>epoch at which the
+frame is defined [sec]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-inertial~2"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>inertial</strong></td>
+            <td>
+<p>if true, it's a quasi-inertial frame
+[default is false]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/two_body_rotating_frame.html'>two_body_rotating_frame</a>)</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-two_body_rotating_pulsating_frame"></span>
+      <h3>public        interface <a href='../interface/two_body_rotating_pulsating_frame.html'>two_body_rotating_pulsating_frame</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private pure function <a href='../proc/two_body_rotating_pulsating_frame_constructor.html'>two_body_rotating_pulsating_frame_constructor</a>(primary_body, secondary_body, center, scale, et) result(f)  
+
+    </h3>
+    
+  <p>Constructor for a <a href="../type/two_body_rotating_pulsating_frame.html">two_body_rotating_pulsating_frame</a></p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-primary_body~3"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>primary_body</strong></td>
+            <td>
+<p>the primary body of
+the frame</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-secondary_body~3"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>secondary_body</strong></td>
+            <td>
+<p>the secondary body used
+to construct the frame</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-center~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>center</strong></td>
+            <td>
+<p>the frame center (can
+be <code>primary_body</code>,
+<code>secondary_body</code>, or
+<code>barycenter</code>)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-scale~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>scale</strong></td>
+            <td>
+<p>scale factor</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-et~14"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>et</strong></td>
+            <td>
+<p>epoch at which the
+frame is defined [sec]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/two_body_rotating_pulsating_frame.html'>two_body_rotating_pulsating_frame</a>)</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-iau_earth_rotating_frame"></span>
+      <h3>public        interface <a href='../interface/iau_earth_rotating_frame.html'>iau_earth_rotating_frame</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private pure function <a href='../proc/iau_earth_rotating_frame_constructor.html'>iau_earth_rotating_frame_constructor</a>(b, et) result(f)  
+
+    </h3>
+    
+  <p>Constructor for a <a href="../type/iau_earth_rotating_frame.html">iau_earth_rotating_frame</a></p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~11"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+<p>the central body</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-et~15"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>et</strong></td>
+            <td>
+<p>epoch at which the
+frame is defined [sec]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/iau_earth_rotating_frame.html'>iau_earth_rotating_frame</a>)</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-iau_moon_rotating_frame"></span>
+      <h3>public        interface <a href='../interface/iau_moon_rotating_frame.html'>iau_moon_rotating_frame</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private pure function <a href='../proc/iau_moon_rotating_frame_constructor.html'>iau_moon_rotating_frame_constructor</a>(b, et) result(f)  
+
+    </h3>
+    
+  <p>Constructor for a <a href="../type/iau_moon_rotating_frame.html">iau_moon_rotating_frame</a></p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~12"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+<p>the central body</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-et~16"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>et</strong></td>
+            <td>
+<p>epoch at which the
+frame is defined [sec]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/iau_earth_rotating_frame.html'>iau_earth_rotating_frame</a>)</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-icrf_frame"></span>
+      <h3>public        interface <a href='../interface/icrf_frame.html'>icrf_frame</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private pure function <a href='../proc/icrf_frame_constructor.html'>icrf_frame_constructor</a>(b) result(f)  
+
+    </h3>
+    
+  <p>Constructor for a <a href="../type/icrf_frame.html">icrf_frame</a></p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~13"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+<p>the central body</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/icrf_frame.html'>icrf_frame</a>)</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-ecliptic_frame"></span>
+      <h3>public        interface <a href='../interface/ecliptic_frame.html'>ecliptic_frame</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private pure function <a href='../proc/ecliptic_frame_constructor.html'>ecliptic_frame_constructor</a>(b) result(f)  
+
+    </h3>
+    
+  <p>Constructor for a <a href="../type/ecliptic_frame.html">ecliptic_frame</a></p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~14"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+<p>the central body</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/ecliptic_frame.html'>ecliptic_frame</a>)</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+        </section>
+        <br>
+
+        <section>
+          <h2>Abstract Interfaces</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="interface-c_cdot_func"></span><h3>abstract interface
+        
+    </h3></div>
+    <ul class="list-group">
+      <li class="list-group-item">
+            <h3>
+    private  subroutine c_cdot_func(me, eph, to_icrf, c, cdot, status_ok)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-me~31"></span>
+              class(<a href='../type/reference_frame.html'>reference_frame</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eph~2"></span>
+              class(<a href='../type/ephemeris_class.html'>ephemeris_class</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eph</strong></td>
+            <td>
+                <p>for ephemeris computations
+(assumed to have already
+been initialized)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-to_icrf"></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>to_icrf</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~26"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-status_ok~12"></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status_ok</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+      </li>
+    </ul>
+  </div>
+
+        </section>
+        <br>
+
+        <section>
+          <h2>Derived Types</h2>
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-reference_frame"></span>
+      <h3>
+        type, public, abstract&nbsp;::&nbsp;
+        <a href='../type/reference_frame.html'>reference_frame</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>a reference frame defines an orientation at
+a specified frame center at a specified epoch.
+Usually, the center is the <code>primary_body</code> of the
+frame, but can be otherwise for a
+<a href="../type/two_body_rotating_frame.html">two_body_rotating_frame</a>.</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-primary_body"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>primary_body</strong></td>
+<td> =</td>
+                <td>body_earth</td>
+            <td>
+<p>the primary body of the frame</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-et~12"></span>
+              real(kind=wp),
+            </td>
+              <td>private</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>et</strong></td>
+<td> =</td>
+                <td>zero</td>
+            <td>
+<p>epoch at which the frame is defined [sec]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>  procedure, public, pass(from) ::
+  <strong><a href='../type/reference_frame.html#boundprocedure-transform'>transform</a></strong></td>
+                  <td><p>coordinate transformation routine</p></td>
+              </tr>
+              <tr>
+                <td>  procedure(<a href='../interface/c_cdot_func.html'>c_cdot_func</a>), private, deferred ::
+  <strong><a href='../type/reference_frame.html#boundprocedure-get_c_cdot'>get_c_cdot</a></strong></td>
+                  <td><p>to get the rotating matrix for the frame orientation</p></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-inertial_frame_class"></span>
+      <h3>
+        type, public, abstract, extends(<a href='../type/reference_frame.html'>reference_frame</a>)&nbsp;::&nbsp;
+        <a href='../type/inertial_frame_class.html'>inertial_frame_class</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>a non-rotating frame (a frame where the orientation axes are time invariant)</p>
+
+
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>  procedure, public, pass(from) ::
+  <strong><a href='../type/reference_frame.html#boundprocedure-transform'>transform</a></strong></td>
+                  <td><p>coordinate transformation routine</p></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-rotating_frame_class"></span>
+      <h3>
+        type, public, abstract, extends(<a href='../type/reference_frame.html'>reference_frame</a>)&nbsp;::&nbsp;
+        <a href='../type/rotating_frame_class.html'>rotating_frame_class</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>a rotating frame (a frame where the orientation axes vary with time)</p>
+
+
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>  procedure, public, pass(from) ::
+  <strong><a href='../type/reference_frame.html#boundprocedure-transform'>transform</a></strong></td>
+                  <td><p>coordinate transformation routine</p></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-iau_rotating_frame_class"></span>
+      <h3>
+        type, public, abstract, extends(<a href='../type/rotating_frame_class.html'>rotating_frame_class</a>)&nbsp;::&nbsp;
+        <a href='../type/iau_rotating_frame_class.html'>iau_rotating_frame_class</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>frame defined by the orientation of a celestial body using the IAU models.</p>
+
+
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>  procedure, public, pass(from) ::
+  <strong><a href='../type/reference_frame.html#boundprocedure-transform'>transform</a></strong></td>
+                  <td><p>coordinate transformation routine</p></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-two_body_rotating_frame"></span>
+      <h3>
+        type, public, extends(<a href='../type/rotating_frame_class.html'>rotating_frame_class</a>)&nbsp;::&nbsp;
+        <a href='../type/two_body_rotating_frame.html'>two_body_rotating_frame</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>The two-body rotating frame is constructed from the states
+of two celestial bodies.</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-secondary_body"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>secondary_body</strong></td>
+<td> =</td>
+                <td>body_moon</td>
+            <td>
+<p>the secondary body used to construct the frame</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-center"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>center</strong></td>
+<td> =</td>
+                <td>center_at_barycenter</td>
+            <td>
+<p>the frame center (can be primary_body,secondary_body, or barycenter)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rv12"></span>
+              real(kind=wp),
+            </td>
+              <td>public,</td>
+            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>rv12</strong></td>
+<td> =</td>
+                <td>zero</td>
+            <td>
+<p>[r,v] of secondary body w.r.t. primary body</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-inertial"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>inertial</strong></td>
+<td> =</td>
+                <td>.false.</td>
+            <td>
+<p>to make it a quasi-inertial frame (cdot is zero)</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        <h4>Constructor</h4>
+          
+        <table class="table table-striped varlist">
+          <tbody>
+                <tr>
+                  <td>
+                        private
+
+                    pure
+                    function
+                    <strong><a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/proc/two_body_rotating_frame_constructor.html'>two_body_rotating_frame_constructor</a></strong>
+                    (primary_body, secondary_body, center, et, inertial)
+                  </td>
+                  <td><p>Constructor for a <a href="../type/two_body_rotating_frame.html">two_body_rotating_frame</a></p></td>
+                </tr>
+          </tbody>
+        </table>
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>  procedure, public, pass(from) ::
+  <strong><a href='../type/reference_frame.html#boundprocedure-transform'>transform</a></strong></td>
+                  <td><p>coordinate transformation routine</p></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/two_body_rotating_frame.html#boundprocedure-from_primary_to_center'>from_primary_to_center</a></strong></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/two_body_rotating_frame.html#boundprocedure-get_c_cdot~2'>get_c_cdot</a></strong> => <a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/proc/get_c_cdot_two_body_rotating.html'>get_c_cdot_two_body_rotating</a></td>
+                  <td></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-two_body_rotating_pulsating_frame"></span>
+      <h3>
+        type, public, extends(<a href='../type/two_body_rotating_frame.html'>two_body_rotating_frame</a>)&nbsp;::&nbsp;
+        <a href='../type/two_body_rotating_pulsating_frame.html'>two_body_rotating_pulsating_frame</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>This frame is an extension of the two-body rotating frame, where
+a scale factor is used to scale the position and velocity of the state
+based on the distance between the primary and secondary bodies.</p>
+
+        <h4>Components</h4>
+          <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-secondary_body"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>secondary_body</strong></td>
+<td> =</td>
+                <td>body_moon</td>
+            <td>
+<p>the secondary body used to construct the frame</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-center"></span>
+              integer,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>center</strong></td>
+<td> =</td>
+                <td>center_at_barycenter</td>
+            <td>
+<p>the frame center (can be primary_body,secondary_body, or barycenter)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rv12"></span>
+              real(kind=wp),
+            </td>
+              <td>public,</td>
+            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>rv12</strong></td>
+<td> =</td>
+                <td>zero</td>
+            <td>
+<p>[r,v] of secondary body w.r.t. primary body</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-inertial"></span>
+              logical,
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>inertial</strong></td>
+<td> =</td>
+                <td>.false.</td>
+            <td>
+<p>to make it a quasi-inertial frame (cdot is zero)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-scale"></span>
+              real(kind=wp),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>scale</strong></td>
+<td> =</td>
+                <td>zero</td>
+            <td>
+<p>scale factor</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        <h4>Constructor</h4>
+          
+        <table class="table table-striped varlist">
+          <tbody>
+                <tr>
+                  <td>
+                        private
+
+                    pure
+                    function
+                    <strong><a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/proc/two_body_rotating_pulsating_frame_constructor.html'>two_body_rotating_pulsating_frame_constructor</a></strong>
+                    (primary_body, secondary_body, center, scale, et)
+                  </td>
+                  <td><p>Constructor for a <a href="../type/two_body_rotating_pulsating_frame.html">two_body_rotating_pulsating_frame</a></p></td>
+                </tr>
+          </tbody>
+        </table>
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>  procedure, public, pass(from) ::
+  <strong><a href='../type/reference_frame.html#boundprocedure-transform'>transform</a></strong></td>
+                  <td><p>coordinate transformation routine</p></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/two_body_rotating_frame.html#boundprocedure-from_primary_to_center'>from_primary_to_center</a></strong></td>
+                  <td></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/two_body_rotating_pulsating_frame.html#boundprocedure-get_c_cdot~3'>get_c_cdot</a></strong> => <a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/proc/get_c_cdot_two_body_rotating_pulsating.html'>get_c_cdot_two_body_rotating_pulsating</a></td>
+                  <td></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-iau_earth_rotating_frame"></span>
+      <h3>
+        type, public, extends(<a href='../type/iau_rotating_frame_class.html'>iau_rotating_frame_class</a>)&nbsp;::&nbsp;
+        <a href='../type/iau_earth_rotating_frame.html'>iau_earth_rotating_frame</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>IAU Earth frame</p>
+
+
+        <h4>Constructor</h4>
+          
+        <table class="table table-striped varlist">
+          <tbody>
+                <tr>
+                  <td>
+                        private
+
+                    pure
+                    function
+                    <strong><a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/proc/iau_earth_rotating_frame_constructor.html'>iau_earth_rotating_frame_constructor</a></strong>
+                    (b, et)
+                  </td>
+                  <td><p>Constructor for a <a href="../type/iau_earth_rotating_frame.html">iau_earth_rotating_frame</a></p></td>
+                </tr>
+          </tbody>
+        </table>
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>  procedure, public, pass(from) ::
+  <strong><a href='../type/reference_frame.html#boundprocedure-transform'>transform</a></strong></td>
+                  <td><p>coordinate transformation routine</p></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/iau_earth_rotating_frame.html#boundprocedure-get_c_cdot~4'>get_c_cdot</a></strong> => <a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/proc/get_c_cdot_iau_earth.html'>get_c_cdot_iau_earth</a></td>
+                  <td></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-iau_moon_rotating_frame"></span>
+      <h3>
+        type, public, extends(<a href='../type/iau_rotating_frame_class.html'>iau_rotating_frame_class</a>)&nbsp;::&nbsp;
+        <a href='../type/iau_moon_rotating_frame.html'>iau_moon_rotating_frame</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>IAU Moon frame</p>
+
+
+        <h4>Constructor</h4>
+          
+        <table class="table table-striped varlist">
+          <tbody>
+                <tr>
+                  <td>
+                        private
+
+                    pure
+                    function
+                    <strong><a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/proc/iau_moon_rotating_frame_constructor.html'>iau_moon_rotating_frame_constructor</a></strong>
+                    (b, et)
+                  </td>
+                  <td><p>Constructor for a <a href="../type/iau_moon_rotating_frame.html">iau_moon_rotating_frame</a></p></td>
+                </tr>
+          </tbody>
+        </table>
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>  procedure, public, pass(from) ::
+  <strong><a href='../type/reference_frame.html#boundprocedure-transform'>transform</a></strong></td>
+                  <td><p>coordinate transformation routine</p></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/iau_moon_rotating_frame.html#boundprocedure-get_c_cdot~5'>get_c_cdot</a></strong> => <a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/proc/get_c_cdot_iau_moon.html'>get_c_cdot_iau_moon</a></td>
+                  <td></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-icrf_frame"></span>
+      <h3>
+        type, public, extends(<a href='../type/inertial_frame_class.html'>inertial_frame_class</a>)&nbsp;::&nbsp;
+        <a href='../type/icrf_frame.html'>icrf_frame</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>the fundamental inertial frame
+for the ephemeris (i.e., J2000).</p>
+
+
+        <h4>Constructor</h4>
+          
+        <table class="table table-striped varlist">
+          <tbody>
+                <tr>
+                  <td>
+                        private
+
+                    pure
+                    function
+                    <strong><a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/proc/icrf_frame_constructor.html'>icrf_frame_constructor</a></strong>
+                    (b)
+                  </td>
+                  <td><p>Constructor for a <a href="../type/icrf_frame.html">icrf_frame</a></p></td>
+                </tr>
+          </tbody>
+        </table>
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>  procedure, public, pass(from) ::
+  <strong><a href='../type/reference_frame.html#boundprocedure-transform'>transform</a></strong></td>
+                  <td><p>coordinate transformation routine</p></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/icrf_frame.html#boundprocedure-get_c_cdot~6'>get_c_cdot</a></strong> => <a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/proc/get_c_cdot_icrf.html'>get_c_cdot_icrf</a></td>
+                  <td></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum">
+      <span class="anchor" id="type-ecliptic_frame"></span>
+      <h3>
+        type, public, extends(<a href='../type/inertial_frame_class.html'>inertial_frame_class</a>)&nbsp;::&nbsp;
+        <a href='../type/ecliptic_frame.html'>ecliptic_frame</a>
+        
+      </h3>
+    </div>
+    <div class="card-body">
+      <p>Mean ecliptic frame.</p>
+
+
+        <h4>Constructor</h4>
+          
+        <table class="table table-striped varlist">
+          <tbody>
+                <tr>
+                  <td>
+                        private
+
+                    pure
+                    function
+                    <strong><a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/proc/ecliptic_frame_constructor.html'>ecliptic_frame_constructor</a></strong>
+                    (b)
+                  </td>
+                  <td><p>Constructor for a <a href="../type/ecliptic_frame.html">ecliptic_frame</a></p></td>
+                </tr>
+          </tbody>
+        </table>
+
+
+        <h4>Type-Bound Procedures</h4>
+        <table class="table table-striped varlist">
+          <tbody>
+              <tr>
+                <td>  procedure, public, pass(from) ::
+  <strong><a href='../type/reference_frame.html#boundprocedure-transform'>transform</a></strong></td>
+                  <td><p>coordinate transformation routine</p></td>
+              </tr>
+              <tr>
+                <td>  procedure, public ::
+  <strong><a href='../type/ecliptic_frame.html#boundprocedure-get_c_cdot~7'>get_c_cdot</a></strong> => <a href='/home/runner/work/Fortran-Astrodynamics-Toolkit/Fortran-Astrodynamics-Toolkit/doc/proc/get_c_cdot_ecliptic.html'>get_c_cdot_ecliptic</a></td>
+                  <td></td>
+              </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+        <section>
+          <h2>Functions</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-two_body_rotating_frame_constructor"></span> <h3>private pure function <a href='../proc/two_body_rotating_frame_constructor.html'>two_body_rotating_frame_constructor</a>(primary_body, secondary_body, center, et, inertial) result(f)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Constructor for a <a href="../type/two_body_rotating_frame.html">two_body_rotating_frame</a></p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-primary_body~2"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>primary_body</strong></td>
+            <td>
+<p>the primary body of
+the frame</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-secondary_body~2"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>secondary_body</strong></td>
+            <td>
+<p>the secondary body used
+to construct the frame</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-center~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>center</strong></td>
+            <td>
+<p>the frame center (can
+be <code>primary_body</code>,
+<code>secondary_body</code>, or
+<code>barycenter</code>)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-et~13"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>et</strong></td>
+            <td>
+<p>epoch at which the
+frame is defined [sec]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-inertial~2"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>inertial</strong></td>
+            <td>
+<p>if true, it's a quasi-inertial frame
+[default is false]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/two_body_rotating_frame.html'>two_body_rotating_frame</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-two_body_rotating_pulsating_frame_constructor"></span> <h3>private pure function <a href='../proc/two_body_rotating_pulsating_frame_constructor.html'>two_body_rotating_pulsating_frame_constructor</a>(primary_body, secondary_body, center, scale, et) result(f)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Constructor for a <a href="../type/two_body_rotating_pulsating_frame.html">two_body_rotating_pulsating_frame</a></p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-primary_body~3"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>primary_body</strong></td>
+            <td>
+<p>the primary body of
+the frame</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-secondary_body~3"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>secondary_body</strong></td>
+            <td>
+<p>the secondary body used
+to construct the frame</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-center~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>center</strong></td>
+            <td>
+<p>the frame center (can
+be <code>primary_body</code>,
+<code>secondary_body</code>, or
+<code>barycenter</code>)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-scale~2"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>scale</strong></td>
+            <td>
+<p>scale factor</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-et~14"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>et</strong></td>
+            <td>
+<p>epoch at which the
+frame is defined [sec]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/two_body_rotating_pulsating_frame.html'>two_body_rotating_pulsating_frame</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-iau_earth_rotating_frame_constructor"></span> <h3>private pure function <a href='../proc/iau_earth_rotating_frame_constructor.html'>iau_earth_rotating_frame_constructor</a>(b, et) result(f)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Constructor for a <a href="../type/iau_earth_rotating_frame.html">iau_earth_rotating_frame</a></p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~11"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+<p>the central body</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-et~15"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>et</strong></td>
+            <td>
+<p>epoch at which the
+frame is defined [sec]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/iau_earth_rotating_frame.html'>iau_earth_rotating_frame</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-iau_moon_rotating_frame_constructor"></span> <h3>private pure function <a href='../proc/iau_moon_rotating_frame_constructor.html'>iau_moon_rotating_frame_constructor</a>(b, et) result(f)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Constructor for a <a href="../type/iau_moon_rotating_frame.html">iau_moon_rotating_frame</a></p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~12"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+<p>the central body</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-et~16"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>et</strong></td>
+            <td>
+<p>epoch at which the
+frame is defined [sec]</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/iau_earth_rotating_frame.html'>iau_earth_rotating_frame</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-icrf_frame_constructor"></span> <h3>private pure function <a href='../proc/icrf_frame_constructor.html'>icrf_frame_constructor</a>(b) result(f)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Constructor for a <a href="../type/icrf_frame.html">icrf_frame</a></p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~13"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+<p>the central body</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/icrf_frame.html'>icrf_frame</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-ecliptic_frame_constructor"></span> <h3>private pure function <a href='../proc/ecliptic_frame_constructor.html'>ecliptic_frame_constructor</a>(b) result(f)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Constructor for a <a href="../type/ecliptic_frame.html">ecliptic_frame</a></p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~14"></span>
+              type(<a href='../type/celestial_body.html'>celestial_body</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+<p>the central body</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>type(<a href='../type/ecliptic_frame.html'>ecliptic_frame</a>)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+        <section>
+          <h2>Subroutines</h2>
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-transform"></span> <h3>private  subroutine <a href='../proc/transform.html'>transform</a>(from, rv, to, et, eph, rv_out, status_ok)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Transform a Cartesian state from one reference frame to another at
+a specified epoch. The <code>from</code> and <code>to</code> <a href="../type/reference_frame.html">reference_frame</a>s may each
+be defined at a different epoch. The <code>et</code> ephemeris time is the time
+the transformation is to be done, and accounts for the motion of the two
+frame centers from <code>from%et</code> and <code>to%et</code> to <code>et</code>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-from"></span>
+              class(<a href='../type/reference_frame.html'>reference_frame</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>from</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rv~12"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>rv</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-to"></span>
+              class(<a href='../type/reference_frame.html'>reference_frame</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>to</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-et~17"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>et</strong></td>
+            <td>
+<p>the time of the transformation [sec]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eph~3"></span>
+              class(<a href='../type/ephemeris_class.html'>ephemeris_class</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eph</strong></td>
+            <td>
+<p>for ephemeris computations (assumed to have already been initialized)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rv_out"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>rv_out</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-status_ok~13"></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status_ok</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-rvcto_rvcfrom_icrf"></span> <h3>private  subroutine <a href='../proc/rvcto_rvcfrom_icrf.html'>rvcto_rvcfrom_icrf</a>(from, to, eph, et, rc21, vc21, status_ok)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Returns the state of the <code>from</code> frame center w.r.t. the <code>to</code> frame center,
+at the specified ephemeris time <code>et</code>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-from~2"></span>
+              class(<a href='../type/reference_frame.html'>reference_frame</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>from</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-to~2"></span>
+              class(<a href='../type/reference_frame.html'>reference_frame</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>to</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eph~4"></span>
+              class(<a href='../type/ephemeris_class.html'>ephemeris_class</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eph</strong></td>
+            <td>
+<p>for ephemeris computations (assumed to have already been initialized)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-et~18"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>et</strong></td>
+            <td>
+<p>ephemeris time [sec]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rc21"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>rc21</strong></td>
+            <td>
+<p>position of <code>from</code> frame center w.r.t. <code>to</code> frame center</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-vc21"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3)
+            </td>
+            <td>::</td>
+            <td><strong>vc21</strong></td>
+            <td>
+<p>velocity of <code>from</code> frame center w.r.t. <code>to</code> frame center</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-status_ok~14"></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status_ok</strong></td>
+            <td>
+<p>true if there were no errors</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-from_primary_to_center"></span> <h3>private  subroutine <a href='../proc/from_primary_to_center.html'>from_primary_to_center</a>(me, eph, et, rc, status_ok)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>returns the state of the frame center w.r.t. the frame primary body.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-me~32"></span>
+              class(<a href='../type/two_body_rotating_frame.html'>two_body_rotating_frame</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eph~5"></span>
+              class(<a href='../type/ephemeris_class.html'>ephemeris_class</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eph</strong></td>
+            <td>
+<p>for ephemeris computations (assumed to have already been initialized)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-et~19"></span>
+              real(kind=wp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>et</strong></td>
+            <td>
+<p>ephemeris time [sec]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rc"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(6)
+            </td>
+            <td>::</td>
+            <td><strong>rc</strong></td>
+            <td>
+<p>state of frame center w.r.t. primary body [inertial]</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-status_ok~15"></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status_ok</strong></td>
+            <td>
+<p>true if no errors.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-get_c_cdot_two_body_rotating"></span> <h3>private  subroutine <a href='../proc/get_c_cdot_two_body_rotating.html'>get_c_cdot_two_body_rotating</a>(me, eph, to_icrf, c, cdot, status_ok)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>rotation matrix for ROTATING &lt;-&gt; ICRF</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-me~33"></span>
+              class(<a href='../type/two_body_rotating_frame.html'>two_body_rotating_frame</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eph~6"></span>
+              class(<a href='../type/ephemeris_class.html'>ephemeris_class</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eph</strong></td>
+            <td>
+<p>for ephemeris computations (assumed to have already been initialized)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-to_icrf~2"></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>to_icrf</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~28"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot~3"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-status_ok~16"></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status_ok</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-get_c_cdot_two_body_rotating_pulsating"></span> <h3>private  subroutine <a href='../proc/get_c_cdot_two_body_rotating_pulsating.html'>get_c_cdot_two_body_rotating_pulsating</a>(me, eph, to_icrf, c, cdot, status_ok)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>rotation matrix for ROTATING_PULSATING &lt;-&gt; ICRF</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-me~34"></span>
+              class(<a href='../type/two_body_rotating_pulsating_frame.html'>two_body_rotating_pulsating_frame</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eph~7"></span>
+              class(<a href='../type/ephemeris_class.html'>ephemeris_class</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eph</strong></td>
+            <td>
+<p>for ephemeris computations (assumed to have already been initialized)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-to_icrf~3"></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>to_icrf</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~29"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot~4"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-status_ok~17"></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status_ok</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-get_c_cdot_icrf"></span> <h3>private  subroutine <a href='../proc/get_c_cdot_icrf.html'>get_c_cdot_icrf</a>(me, eph, to_icrf, c, cdot, status_ok)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>rotation matrix for ICRF &lt;-&gt; ICRF</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-me~35"></span>
+              class(<a href='../type/icrf_frame.html'>icrf_frame</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eph~8"></span>
+              class(<a href='../type/ephemeris_class.html'>ephemeris_class</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eph</strong></td>
+            <td>
+<p>for ephemeris computations (assumed to have already been initialized)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-to_icrf~4"></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>to_icrf</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~30"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot~5"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-status_ok~18"></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status_ok</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-get_c_cdot_ecliptic"></span> <h3>private  subroutine <a href='../proc/get_c_cdot_ecliptic.html'>get_c_cdot_ecliptic</a>(me, eph, to_icrf, c, cdot, status_ok)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>rotation matrix for ICRF &lt;-&gt; Mean Ecliptic</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-me~36"></span>
+              class(<a href='../type/ecliptic_frame.html'>ecliptic_frame</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eph~9"></span>
+              class(<a href='../type/ephemeris_class.html'>ephemeris_class</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eph</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-to_icrf~5"></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>to_icrf</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~31"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot~6"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-status_ok~19"></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status_ok</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-get_c_cdot_iau_earth"></span> <h3>private  subroutine <a href='../proc/get_c_cdot_iau_earth.html'>get_c_cdot_iau_earth</a>(me, eph, to_icrf, c, cdot, status_ok)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>rotation matrix for IAU_EARTH &lt;-&gt; ICRF</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-me~37"></span>
+              class(<a href='../type/iau_earth_rotating_frame.html'>iau_earth_rotating_frame</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eph~10"></span>
+              class(<a href='../type/ephemeris_class.html'>ephemeris_class</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eph</strong></td>
+            <td>
+<p>for ephemeris computations (assumed to have already been initialized)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-to_icrf~6"></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>to_icrf</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~32"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot~7"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-status_ok~20"></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status_ok</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-get_c_cdot_iau_moon"></span> <h3>private  subroutine <a href='../proc/get_c_cdot_iau_moon.html'>get_c_cdot_iau_moon</a>(me, eph, to_icrf, c, cdot, status_ok)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>rotation matrix for IAU_MOON &lt;-&gt; ICRF</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-me~38"></span>
+              class(<a href='../type/iau_moon_rotating_frame.html'>iau_moon_rotating_frame</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>me</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-eph~11"></span>
+              class(<a href='../type/ephemeris_class.html'>ephemeris_class</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>eph</strong></td>
+            <td>
+<p>for ephemeris computations (assumed to have already been initialized)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-to_icrf~7"></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>to_icrf</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~33"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cdot~8"></span>
+              real(kind=wp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              dimension(3,3)
+            </td>
+            <td>::</td>
+            <td><strong>cdot</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-status_ok~21"></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>status_ok</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-transformation_module_test"></span> <h3>public  subroutine <a href='../proc/transformation_module_test.html'>transformation_module_test</a>()  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Transformation units test</p>
+
+  <h4>Arguments</h4>
+    <em>None</em>
+
+    </div>
+  </div>
+
+        </section>
+        <br>
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              fortran-astrodynamics-toolkit
+ was developed by Jacob Williams<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>
