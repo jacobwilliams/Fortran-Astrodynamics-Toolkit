@@ -6,7 +6,7 @@
 [![codecov](https://codecov.io/gh/jacobwilliams/Fortran-Astrodynamics-Toolkit/branch/master/graph/badge.svg?token=BHtd51oUTE)](https://codecov.io/gh/jacobwilliams/Fortran-Astrodynamics-Toolkit)
 [![DOI](https://zenodo.org/badge/21782788.svg)](https://zenodo.org/badge/latestdoi/21782788)
 
-![Image](https://raw.githubusercontent.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/master/tests/pork_chop/pork_chop.png)
+![Image](https://raw.githubusercontent.com/jacobwilliams/Fortran-Astrodynamics-Toolkit/master/test/pork_chop.png)
 
 ## Overview
 
