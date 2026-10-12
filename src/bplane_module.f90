@@ -187,7 +187,7 @@
         bdott    = dot_product(bvec, tvec)
         bdotr    = dot_product(bvec, rvec)
         bmag     = sqrt(bdott*bdott + bdotr*bdotr)
-        theta    = atan(bdotr, bdott)
+        theta    = atan2(bdotr, bdott)
     end if
 
     end subroutine calculate_bplane_data
