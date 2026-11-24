@@ -236,10 +236,21 @@
     integer,intent(out)  :: min
     real(wp),intent(out) :: sec
 
-    integer :: i,j,k,l,n,jd
-    real(wp) :: frac_day
+    integer :: i,j,k,l,n,jd,isod
+    real(wp) :: sod
 
-    jd = int(julian_date)
+    ! julian days begin at noon, so the civil date is that of the
+    ! julian day number at julian_date + 0.5 (valid for julian_date > -0.5).
+    jd = int(julian_date + 0.5_wp)
+
+    ! seconds of the (civil) day, rounded to the nearest millisecond
+    ! to avoid truncation errors like 05:59:59.99996 [double precision
+    ! julian dates only resolve ~4e-5 sec]
+    sod = anint((julian_date + 0.5_wp - real(jd,wp)) * 86400000.0_wp) / 1000.0_wp
+    if (sod >= 86400.0_wp) then  ! rounded up to the next day
+        sod = sod - 86400.0_wp
+        jd  = jd + 1
+    end if
 
     l = jd+68569
     n = 4*l/146097
@@ -256,21 +267,10 @@
     month = j
     day   = k
 
-    frac_day = julian_date - real(jd,wp) + 0.5_wp
-
-    hrs = int(frac_day*24.0_wp)
-    min = int((frac_day - hrs/24.0_wp) * 1440.0_wp)
-    sec = (frac_day - hrs/24.0_wp - min/1440.0_wp) * 86400.0_wp
-
-    if (sec == 60.0_wp) then
-        sec = 0.0_wp
-        min = min + 1
-     end if
-
-     if (min == 60) then
-        min = 0
-        hrs = hrs + 1
-     end if
+    isod = int(sod)
+    hrs  = isod / 3600
+    min  = mod(isod, 3600) / 60
+    sec  = sod - real(hrs*3600 + min*60, wp)
 
     end subroutine calendar_date_realsec
 !*****************************************************************************************
@@ -375,6 +375,15 @@
     if (min/=0)      error stop 'error: incorrect min'
     if (sec/=0.0_wp) error stop 'error: incorrect sec'
 
+    ! round trip tests, including times before noon (see issue #45):
+    call check(2026,1,1,6,0,0.0_wp)       ! JD 2461041.75
+    call check(2026,1,1,0,0,0.0_wp)       ! midnight
+    call check(2026,1,1,18,0,0.0_wp)
+    call check(2044,4,27,8,27,49.0_wp)
+    call check(2025,12,31,23,59,59.0_wp)
+    call check(2024,2,29,11,59,30.5_wp)   ! leap day
+    call check(1999,12,31,23,59,59.999_wp)
+
     ! compare two ways to convert calendar date to ephemeris time:
     ! et1 should be more accurate since it doesn't go through jd
     write(*,*) ''
@@ -386,6 +395,21 @@
 
     write(*,*) ''
     write(*,*) 'PASSED'
+
+    contains
+
+        subroutine check(y,mo,d,h,mi,s)
+        !! convert calendar date -> jd -> calendar date and verify
+        integer,intent(in)  :: y,mo,d,h,mi
+        real(wp),intent(in) :: s
+        integer :: y2,mo2,d2,h2,mi2
+        real(wp) :: s2
+        call calendar_date_realsec(julian_date(y,mo,d,h,mi,s),y2,mo2,d2,h2,mi2,s2)
+        write(*,'(A,I5,4(1X,I2),1X,F7.3,A,I5,4(1X,I2),1X,F7.3)') &
+            ' ', y,mo,d,h,mi,s, '  ->  ', y2,mo2,d2,h2,mi2,s2
+        if (y2/=y .or. mo2/=mo .or. d2/=d .or. h2/=h .or. mi2/=mi .or. abs(s2-s)>1.0e-3_wp) &
+            error stop 'error: calendar_date_realsec round trip failed'
+        end subroutine check
 
     end subroutine time_module_test
 !*****************************************************************************************
